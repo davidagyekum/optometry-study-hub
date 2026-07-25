@@ -43,7 +43,7 @@ The version-1 store contains:
 - one active quiz attempt per module;
 - up to 20 recent submitted results per module.
 
-Active attempts preserve question order, option order, answers, flags, and the current index. Invalid or malformed stored JSON falls back to an empty store. There is no account, backend database, analytics feed, or cross-device sync.
+Active attempts preserve question order, option order, answers, flags, and the current index. JSON parsing failures and values without version 1 fall back to the empty store. Version-1 objects are not yet schema-validated, so structurally malformed version-1 data may still be accepted. There is no account, backend database, analytics feed, or cross-device sync.
 
 ## Strengths
 

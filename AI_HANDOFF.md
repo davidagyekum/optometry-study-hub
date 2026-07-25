@@ -112,6 +112,27 @@ The unanswered-question submission warning appeared correctly. The Chrome extens
 - Local `vinext start` preview asset routing requires follow-up outside this baseline-only PR; Sites production deployment is unchanged and was not requested.
 - The local GitHub CLI credential is stale; Git push uses the authenticated Git credential path and draft PR creation uses the connected GitHub app.
 
+## PR 1 review follow-up
+
+The review correction remains documentation- and repository-quality-only; application behavior is unchanged.
+
+- Corrected `docs/CURRENT_STATE.md` to state that JSON parsing failures and values without version 1 fall back to the empty store, while structurally malformed version-1 objects may still be accepted because version-1 data is not schema-validated.
+- Added a final LF newline to every newly added or modified PR 1 text and Markdown file that lacked one.
+- Added `.github/workflows/quality.yml` to run `npm ci` and `npm run check` with Node.js 22.13.0 for pull requests and pushes to `main`.
+
+### Follow-up validation
+
+All local commands were rerun with the bundled supported Node runtime after the review correction:
+
+| Command | Result |
+|---|---|
+| `npm run lint` | PASS with the same four accepted existing `<img>` warnings |
+| `npm run typecheck` | PASS |
+| `npm run test` | PASS — 3 files, 5 tests |
+| `npm run build` | PASS |
+| `npm run check` | PASS — lint, typecheck, tests, and production build |
+| GitHub Actions `Quality` | PENDING — first pull-request run begins after this follow-up is pushed |
+
 ## Recommended next step
 
 Review and merge PR 1. Begin PR 2 only after the merge gate is satisfied; do not start it automatically.
