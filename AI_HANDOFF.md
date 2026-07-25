@@ -2,11 +2,11 @@
 
 ## Pull request
 
-- PR: Draft PR to be created after the validated branch is pushed.
+- PR: [#3 — Introduce the assessment schema, validation tooling, and storage migration](https://github.com/davidagyekum/optometry-study-hub/pull/3)
 - Branch: `codex/pr3-assessment-domain`
 - Base branch: `main`
 - Base commit: `5b1762c20dcaaabd0505081b972586f0c3b283ab`
-- Head commit: Recorded in the draft PR and final Codex report because a committed file cannot contain its own resulting commit hash.
+- Implementation commit: `75e172d7914de15aea71b3f823498b7eceeadc37`. The final documentation-only head is recorded in the draft PR and final Codex report because a committed file cannot contain its own resulting commit hash.
 - Status: DRAFT
 
 ## Objective completed
@@ -141,7 +141,7 @@ After the unanswered confirmation was accepted, Chrome control stalled before th
 - No multi-format renderer, assessment assembler, adaptive mastery, spaced repetition, AIKEN export, Aiken’s V calculation, account, backend, or cloud storage was added.
 - Four existing `<img>` lint warnings remain.
 - npm reports 23 existing dependency advisories (4 moderate, 19 high); remediation is outside this PR.
-- GitHub Actions status will be recorded after the branch push; the repository has an existing external account restriction that previously prevented jobs from starting.
+- GitHub Actions `Quality` run [30173040423](https://github.com/davidagyekum/optometry-study-hub/actions/runs/30173040423) failed with zero job steps and no repository commands executed, consistent with the existing external account restriction.
 
 ## Recommended next step
 
