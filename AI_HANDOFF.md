@@ -2,137 +2,148 @@
 
 ## Pull request
 
-- PR: https://github.com/davidagyekum/optometry-study-hub/pull/1
-- Branch: `codex/pr1-baseline-quality`
+- Repository: `davidagyekum/optometry-study-hub`
+- Branch: `codex/pr2-modularise-legacy-app`
 - Base branch: `main`
-- Base commit: `18ba5aebdef82402e26c1937d4e2bb1638a7a116`
-- Head commit: See draft PR head and final Codex report
-- Status: DRAFT
+- Exact base commit: `4194f69530766314015a921c49210478ffa10a6c`
+- Final head commit: Recorded in the draft pull request and final Codex report. A committed file cannot contain the hash produced by its own commit.
+- Status: Draft pending review
 
 ## Objective completed
 
-Establish a reproducible npm-based quality baseline, repository-integrity tests, strict TypeScript checking, and project documentation without intentionally changing the public student experience.
+Modularise the existing Optometry Study Hub application without changing its routes, educational content, legacy question output, quiz behavior, progress calculations, version-1 device storage, styling, or public deployment.
 
-## Initial baseline results
+PR 3 has not been started.
 
-| Command or check | Initial result |
-|---|---|
-| `git status -sb` | `main` matched `origin/main`; local lecture, extraction, starter, test, and build-support files were untracked |
-| `git log -1 --oneline` | `18ba5ae Expand review site to five optometry courses` |
-| `node --version` | `v22.11.0` — below the declared `>=22.13.0` floor |
-| `npm --version` | `10.9.0` |
-| `npm ci` | FAIL — no `package-lock.json` or npm shrinkwrap existed |
-| `npm run lint` | PASS with four existing `@next/next/no-img-element` warnings |
-| `npm run build` | PASS only in the local workspace because `build/sites-vite-plugin.ts` was untracked; a clean checkout was incomplete |
-| `npm test` | FAIL — two obsolete starter-render assertions failed in an untracked test |
-| direct `tsc --noEmit` | FAIL — missing Cloudflare `cloudflare:workers`, `Fetcher`, and `D1Database` types |
+## Files moved and created
 
-## Files changed
+### Legacy content
 
-### Source and configuration
+- `content/legacy/courseCatalog.ts` contains the five course summaries in their existing order.
+- `content/legacy/additionalModules.ts` contains the five newer course modules moved from `app/additionalCourses.ts`.
+- `content/legacy/opt376Modules.ts` contains the three original OPT 376 modules moved from `app/StudyApp.tsx`.
+- `content/legacy/imageCatalog.ts` contains the shared OPT 376 figure metadata.
+- `content/legacy/moduleCatalog.ts` combines the two module sources and exposes the existing module lookup map.
+- `app/additionalCourses.ts` is removed after its content and imports were moved.
 
-- npm scripts and lockfile
-- Vitest configuration
-- Cloudflare Worker ambient types
-- tracked Sites packaging helper and Vite import
-- narrow ignore rules for local source material and obsolete starter artifacts
+### Legacy domain and pure logic
+
+- `lib/legacy/types.ts` provides named legacy type exports.
+- `lib/legacy/questionGenerator.ts` preserves the positional distractor generator and cache with an explicit legacy-only warning.
+- `lib/legacy/attempts.ts` contains shuffle, attempt creation, scoring, and unanswered-result helpers. An injected random function supports deterministic tests while production still uses `Math.random`.
+- `lib/legacy/progress.ts` contains the existing reading and score calculations as pure helpers.
+
+### Navigation and storage
+
+- `lib/navigation/clientRoute.ts` parses and builds the five existing client route shapes.
+- `hooks/useClientRoute.ts` owns pushState, popstate, direct-path hydration, and the existing smooth scroll-to-top behavior.
+- `lib/storage/legacyStore.ts` owns the unchanged key, empty store, version-1 loading, saving, and parsing fallback.
+- `hooks/useLegacyStore.ts` owns React hydration and persistence integration.
+
+### Components
+
+- `components/layout/SiteHeader.tsx`
+- `components/layout/SiteFooter.tsx`
+- `components/home/HomeView.tsx`
+- `components/course/CourseView.tsx`
+- `components/study/StudyView.tsx`
+- `components/study/FigureDialog.tsx`
+- `components/quiz/LegacyQuizView.tsx`
+- `components/results/LegacyResultsView.tsx`
+
+`app/StudyApp.tsx` is now the orchestration layer for route resolution, store actions, reset confirmations, quiz creation, and view selection.
 
 ### Tests
 
-- package-script and Node-engine checks
-- critical repository-file checks
-- referenced educational image checks
+- `tests/content/legacy-content-integrity.test.ts`
+- `tests/legacy/question-generator.test.ts`
+- `tests/legacy/attempts.test.ts`
+- `tests/legacy/progress.test.ts`
+- `tests/navigation/client-route.test.ts`
+- `tests/storage/legacy-store.test.ts`
 
-### Documentation
+The PR 1 smoke tests and Vitest alias configuration were updated for the new tracked paths.
 
-- project README
-- current-state baseline
-- assessment redesign roadmap
-- content review policy
-- contribution guide
-- pull-request template
-- complete PRs 1–3 implementation handoff
+## Preserved baseline proof
 
-### Dependencies
+| Invariant | Verified result |
+|---|---:|
+| Courses | 5 |
+| Modules | 8 |
+| Study sections | 39 |
+| Generated legacy questions | 400 |
+| Questions per module | 50 |
+| Options per generated question | 4 entries |
+| Storage key | `opt376-study-state:v1` |
+| Storage version | 1 |
 
-- Vitest
-- Cloudflare Workers runtime types compatible with the existing Wrangler version
+Tests also verify unique course and module IDs, course-to-module resolution, section-local ID uniqueness, fact-to-section references, image-file existence, generated question IDs/order/content, deterministic attempt structure, score behavior, progress formulas, route parsing/building, and version-1 storage round trips.
 
-## Behaviour
+## Storage impact
 
-- Intended user-visible changes: None.
-- Confirmed preserved behaviour: Homepage, course page, study notes, figure dialog, reading progress, quiz start, answering, flagging, refresh/resume, and back/forward navigation passed in Chrome.
-- Storage impact: None; `opt376-study-state:v1` is unchanged.
-- Content impact: None; course notes, questions, images, attribution, and metadata are unchanged.
+None.
 
-## Validation
+- The key remains exactly `opt376-study-state:v1`.
+- The stored shape and version remain unchanged.
+- Existing reading progress, active attempts, flags, answers, result history, and timestamps remain readable.
+- No schema validation or migration was introduced.
+- JSON failures and non-version-1 values retain the existing empty-store fallback behavior.
 
-All commands were run with the bundled Node 24 runtime.
+## User-visible impact
+
+No intentional user-visible change.
+
+Visible wording, course/module/section order, IDs, questions, distractor behavior, image paths, source credits, CSS classes, confirmation prompts, quiz navigation, result review, and route shapes are preserved. No CSS, metadata, educational claims, public deployment, or production data were changed.
+
+## Automated validation
+
+All final validation used the bundled Node.js `v24.14.0` runtime.
 
 | Command | Result |
 |---|---|
-| `npm ci` | PASS locally and from a temporary clean source checkout |
-| `npm run lint` | PASS with four accepted existing `<img>` warnings |
-| `npm run typecheck` | PASS |
-| `npm run test` | PASS — 3 files, 5 tests |
-| `npm run questions:validate` | N/A |
-| `npm run questions:report` | N/A |
-| `npm run build` | PASS |
-| `npm run check` | PASS locally and from a temporary clean source checkout |
+| `npm ci` | Pass; 528 packages installed. npm reported the repository's current dependency advisories and two non-fatal Windows cleanup warnings. |
+| `npm run lint` | Pass with the same four accepted `@next/next/no-img-element` warnings. |
+| `npm run typecheck` | Pass. |
+| `npm run test` | Pass: 9 files, 34 tests. |
+| `npm run build` | Pass. |
+| `npm run check` | Pass; reran lint, typecheck, all tests, and the production build. |
 
-The asset-integrity suite extracts every local `/images/` reference from the current content sources and reports missing paths as a sorted, actionable list.
+The first clean-install attempt was blocked by stale repository-local vinext/Worker validation processes left from earlier work. After stopping only those identified processes, the required Node 24 clean install passed.
 
-## Manual verification
+## Chrome-only manual regression
 
-Chrome-only checks passed for:
+Passed in Chrome on the local `vinext dev` server:
 
-- homepage, course page, and study-note navigation;
-- educational image loading, captions, source text, and alternative text;
-- figure enlargement, initial focus, focus trapping, close button, Escape, and focus restoration;
-- reading-progress persistence after refresh;
-- quiz start, answer selection, flagging, and identical active-attempt resume after refresh;
-- back and forward navigation;
-- desktop (1440 × 900), tablet (1024 × 768), and mobile (390 × 844) responsive checks with no horizontal overflow;
-- browser console health on the interactive development server.
+- homepage content and all five course cards;
+- all five course dashboards and all eight module cards;
+- all eight study-note modules, section counts, source figures, captions, and no desktop horizontal overflow;
+- figure-dialog initial focus, focus trap, Escape close, backdrop close, body-scroll lock, and focus restoration;
+- reading completion and refresh persistence;
+- quiz start, 50-question navigator, answer selection, flagging, Previous/Next, save-and-exit, resume, and refresh persistence with identical question/option order;
+- unanswered-submission warning dismissal and acceptance;
+- score totals, unanswered/incorrect counts, answer review, explanations, and related-note navigation;
+- shuffled retake and active-attempt restart dismissal/acceptance;
+- browser back and forward behavior.
 
-The unanswered-question submission warning appeared correctly. The Chrome extension became blocked while the native confirmation dialog was open, so completed results-page review was not repeated in this PR 1 pass. This is a browser-control limitation, not an observed application failure.
+The Chrome extension's exact viewport override stopped applying after native confirmation dialogs stalled two controlled tabs. Desktop no-overflow checks passed, but the requested 1024 × 768 and 390 × 844 override passes could not be completed reliably in this run. Module-reset confirmation was opened, but the extension stalled while accepting it; course-reset and global-reset confirmations were therefore not repeated through Chrome. Their state transformations and storage behavior remain unchanged in source, and the extracted pure storage/progress behavior is covered by tests. The in-app browser was not used.
 
-## Deviations from the brief
+## GitHub Actions status
 
-- The baseline defect was broader than a missing test file: the obsolete test existed locally but was untracked and failed two starter-specific assertions.
-- The clean checkout also lacked the Sites packaging helper imported by `vite.config.ts`.
-- TypeScript required a typing-only Cloudflare environment repair.
-- The repository is standardized on npm, so the previous pnpm lock and workspace files are removed.
-- Chrome regression checks used `vinext dev` because `vinext start` served the generated asset request as HTML in this local Windows environment, preventing hydration. Production build output still completed successfully.
+To be updated after the branch push. The repository's PR 1 Quality runs were blocked before executing any steps by the external GitHub account billing lock; any identical zero-step PR 2 failure must be reported as an external runner restriction, not a code failure.
+
+## Deviations from the requested structure
+
+- Added `content/legacy/moduleCatalog.ts` as a small aggregation boundary so view and orchestration code share one ordered module list and lookup map without reintroducing content composition into `StudyApp.tsx`.
+- Exact tablet/mobile Chrome overrides and the three reset confirmation completions are recorded as manual-QA limitations above; no browser fallback was used because Chrome was explicitly required.
 
 ## Known limitations
 
-- Four existing `<img>` lint warnings remain intentionally unchanged.
-- The legacy question generator, monolithic application structure, and version-1 storage remain for later reviewed pull requests.
-- Local `vinext start` preview asset routing requires follow-up outside this baseline-only PR; Sites production deployment is unchanged and was not requested.
-- The local GitHub CLI credential is stale; Git push uses the authenticated Git credential path and draft PR creation uses the connected GitHub app.
+- The four existing `<img>` lint warnings remain intentionally unchanged.
+- The legacy generator still permits duplicate distractor text and remains unsuitable for the future assessment schema.
+- The live quiz remains fixed at 50 questions and the storage schema remains version 1 by design.
+- npm currently reports 23 dependency advisories (4 moderate, 19 high); dependency remediation is outside this behavior-neutral refactor.
+- No production deployment was performed.
 
-## PR 1 review follow-up
+## Recommendation
 
-The review correction remains documentation- and repository-quality-only; application behavior is unchanged.
-
-- Corrected `docs/CURRENT_STATE.md` to state that JSON parsing failures and values without version 1 fall back to the empty store, while structurally malformed version-1 objects may still be accepted because version-1 data is not schema-validated.
-- Added a final LF newline to every newly added or modified PR 1 text and Markdown file that lacked one.
-- Added `.github/workflows/quality.yml` to run `npm ci` and `npm run check` with Node.js 22.13.0 for pull requests and pushes to `main`.
-
-### Follow-up validation
-
-All local commands were rerun with the bundled supported Node runtime after the review correction:
-
-| Command | Result |
-|---|---|
-| `npm run lint` | PASS with the same four accepted existing `<img>` warnings |
-| `npm run typecheck` | PASS |
-| `npm run test` | PASS — 3 files, 5 tests |
-| `npm run build` | PASS |
-| `npm run check` | PASS — lint, typecheck, tests, and production build |
-| GitHub Actions `Quality` | BLOCKED — [run 30166657019](https://github.com/davidagyekum/optometry-study-hub/actions/runs/30166657019) failed before any steps started because GitHub reported that the repository owner account is locked due to a billing issue |
-
-## Recommended next step
-
-Review and merge PR 1. Begin PR 2 only after the merge gate is satisfied; do not start it automatically.
+Review this behavior-preserving refactor and stop before PR 3. Start PR 3 only after this pull request is reviewed and merged into `main`.

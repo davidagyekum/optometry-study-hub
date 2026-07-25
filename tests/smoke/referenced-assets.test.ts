@@ -5,8 +5,10 @@ import { describe, expect, it } from "vitest";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const contentSources = [
-  "app/StudyApp.tsx",
-  "app/additionalCourses.ts",
+  "content/legacy/courseCatalog.ts",
+  "content/legacy/additionalModules.ts",
+  "content/legacy/opt376Modules.ts",
+  "content/legacy/imageCatalog.ts",
 ] as const;
 const localImagePattern = /\/images\/[A-Za-z0-9_./-]+/g;
 
