@@ -3,33 +3,30 @@ import { modules } from '@/content/legacy/moduleCatalog';
 import { questionsFor } from '@/lib/legacy/questionGenerator';
 
 describe('legacy question generator', () => {
-  const studyModule = modules[0];
+  for (const studyModule of modules) {
+    describe(studyModule.id, () => {
+      it('preserves every fact and generated question field', () => {
+        const questions = questionsFor(studyModule);
+        expect(questions).toHaveLength(studyModule.facts.length);
 
-  it('preserves generated IDs and one-question-per-fact order', () => {
-    const questions = questionsFor(studyModule);
-    expect(questions).toHaveLength(studyModule.facts.length);
-    questions.forEach((question, index) => {
-      expect(question.id).toBe(`${studyModule.id}-${index + 1}`);
-      expect(question.prompt).toBe(studyModule.facts[index].q);
-      expect(question.correct).toBe(studyModule.facts[index].a);
-      expect(question.sectionId).toBe(studyModule.facts[index].section);
+        questions.forEach((question, index) => {
+          const fact = studyModule.facts[index];
+          const section = studyModule.sections.find((item) => item.id === fact.section)!;
+
+          expect(question.id).toBe(`${studyModule.id}-${index + 1}`);
+          expect(question.prompt).toBe(fact.q);
+          expect(question.correct).toBe(fact.a);
+          expect(question.sectionId).toBe(fact.section);
+          expect(question.options[0]).toBe(fact.a);
+          expect(question.options).toHaveLength(4);
+          expect(question.explanation).toBe(`${fact.a}. ${section.summary}`);
+        });
+      });
+
+      it('returns the same cached array reference', () => {
+        const questions = questionsFor(studyModule);
+        expect(questionsFor(studyModule)).toBe(questions);
+      });
     });
-  });
-
-  it('preserves explanation and option construction', () => {
-    const firstFact = studyModule.facts[0];
-    const section = studyModule.sections.find((item) => item.id === firstFact.section)!;
-    const question = questionsFor(studyModule)[0];
-
-    expect(question.options[0]).toBe(firstFact.a);
-    expect(question.explanation).toBe(`${firstFact.a}. ${section.summary}`);
-    expect(question.options).toHaveLength(4);
-  });
-
-  it('returns the cached output without changing it', () => {
-    const first = questionsFor(studyModule);
-    const second = questionsFor(studyModule);
-    expect(second).toBe(first);
-    expect(second).toEqual(first);
-  });
+  }
 });

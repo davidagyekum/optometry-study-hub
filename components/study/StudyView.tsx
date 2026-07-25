@@ -1,6 +1,6 @@
 'use client';
 
-import { type MouseEvent as ReactMouseEvent, useRef, useState } from 'react';
+import { type MouseEvent as ReactMouseEvent, useCallback, useRef, useState } from 'react';
 import { FigureDialog } from '@/components/study/FigureDialog';
 import type { GoToRoute } from '@/hooks/useClientRoute';
 import { moduleReadingPercentage } from '@/lib/legacy/progress';
@@ -22,6 +22,7 @@ export function StudyView({
   const progress = moduleReadingPercentage(module, read);
   const [expanded, setExpanded] = useState<Figure | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const closeFigure = useCallback(() => setExpanded(null), []);
 
   const openFigure = (image: Figure, event: ReactMouseEvent<HTMLButtonElement>) => {
     triggerRef.current = event.currentTarget;
@@ -95,7 +96,7 @@ export function StudyView({
         </div>
       </div>
       {expanded
-        ? <FigureDialog figure={expanded} triggerRef={triggerRef} onClose={() => setExpanded(null)} />
+        ? <FigureDialog figure={expanded} triggerRef={triggerRef} onClose={closeFigure} />
         : null}
     </>
   );

@@ -15,6 +15,14 @@ Modularise the existing Optometry Study Hub application without changing its rou
 
 PR 3 has not been started.
 
+## PR 2 review corrections
+
+- Moved default browser storage resolution inside `loadLegacyStore`'s existing `try/catch`, preserving the empty-store fallback when either an injected `getItem` call or the `window.localStorage` property getter throws.
+- Kept `opt376-study-state:v1`, storage version 1, permissive version-1 parsing, save behavior, and the absence of migration/schema validation unchanged.
+- Replaced the home view's manual per-course reading percentage calculation with `courseReadingCompletion(courseModules, store).percentage`; rendered values are unchanged.
+- Expanded legacy generator compatibility coverage across every fact in all eight modules, including IDs, prompts, correct answers, section links, positional option construction, option count, explanations, and cached array identity.
+- Added explicit ordered course/module ID assertions and bidirectional module-to-course membership checks.
+- Passed a stable figure-dialog close callback and marked `lib/legacy/types.ts` as the legacy version-1 type boundary.
 ## Files moved and created
 
 ### Legacy content
@@ -77,7 +85,7 @@ The PR 1 smoke tests and Vitest alias configuration were updated for the new tra
 | Storage key | `opt376-study-state:v1` |
 | Storage version | 1 |
 
-Tests also verify unique course and module IDs, course-to-module resolution, section-local ID uniqueness, fact-to-section references, image-file existence, generated question IDs/order/content, deterministic attempt structure, score behavior, progress formulas, route parsing/building, and version-1 storage round trips.
+Tests also verify the exact ordered course and module IDs, bidirectional course-to-module resolution, section-local ID uniqueness, fact-to-section references, image-file existence, every generated question field across all eight modules, cached generator identity, deterministic attempt structure, score behavior, progress formulas, route parsing/building, version-1 storage failure fallbacks, and storage round trips.
 
 ## Storage impact
 
@@ -104,7 +112,7 @@ All final validation used the bundled Node.js `v24.14.0` runtime.
 | `npm ci` | Pass; 528 packages installed. npm reported the repository's current dependency advisories and two non-fatal Windows cleanup warnings. |
 | `npm run lint` | Pass with the same four accepted `@next/next/no-img-element` warnings. |
 | `npm run typecheck` | Pass. |
-| `npm run test` | Pass: 9 files, 34 tests. |
+| `npm run test` | Pass: 9 files, 49 tests. |
 | `npm run build` | Pass. |
 | `npm run check` | Pass; reran lint, typecheck, all tests, and the production build. |
 

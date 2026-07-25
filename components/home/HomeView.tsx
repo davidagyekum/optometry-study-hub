@@ -3,6 +3,7 @@ import { moduleMap, modules } from '@/content/legacy/moduleCatalog';
 import type { GoToRoute } from '@/hooks/useClientRoute';
 import {
   bestScorePercentage,
+  courseReadingCompletion,
   latestResult,
   overallReadingCompletion,
   scorePercentage,
@@ -47,9 +48,7 @@ export function HomeView({
       <section className="course-grid">
         {courses.map((course) => {
           const courseModules = course.moduleIds.map((id) => moduleMap.get(id)).filter(Boolean) as Module[];
-          const sectionCount = courseModules.reduce((sum, item) => sum + item.sections.length, 0);
-          const readCount = courseModules.reduce((sum, item) => sum + (store.read[item.id]?.length ?? 0), 0);
-          const progress = Math.round((readCount / sectionCount) * 100) || 0;
+          const progress = courseReadingCompletion(courseModules, store).percentage;
           const attempts = courseModules.flatMap((item) => store.results[item.id] ?? []);
           const latest = latestResult(attempts);
           const best = bestScorePercentage(attempts);

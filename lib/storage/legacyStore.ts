@@ -9,10 +9,11 @@ function browserStorage(): LegacyStorage | undefined {
   return typeof window === 'undefined' ? undefined : window.localStorage;
 }
 
-export function loadLegacyStore(storage: LegacyStorage | undefined = browserStorage()): Store {
-  if (!storage) return EMPTY_STORE;
+export function loadLegacyStore(storage?: LegacyStorage): Store {
   try {
-    const parsed = JSON.parse(storage.getItem(STORAGE_KEY) ?? 'null');
+    const resolvedStorage = storage ?? browserStorage();
+    if (!resolvedStorage) return EMPTY_STORE;
+    const parsed = JSON.parse(resolvedStorage.getItem(STORAGE_KEY) ?? 'null');
     return parsed?.version === 1 ? parsed : EMPTY_STORE;
   } catch {
     return EMPTY_STORE;

@@ -8,7 +8,24 @@ import { questionsFor } from '@/lib/legacy/questionGenerator';
 describe('legacy content integrity', () => {
   it('preserves the course, module, section, and question totals', () => {
     expect(courses).toHaveLength(5);
+    expect(courses.map((course) => course.id)).toEqual([
+      'environmental-vision',
+      'human-visual-perception',
+      'neuro-anatomy',
+      'pharmacology',
+      'systemic-pathology',
+    ]);
     expect(modules).toHaveLength(8);
+    expect(modules.map((module) => module.id)).toEqual([
+      'environmental-vision',
+      'human-visual-perception',
+      'tissue-foundations',
+      'autonomic-pharmacology',
+      'systemic-pathology',
+      'ocular-adnexa',
+      'aqueous-vitreous',
+      'blood-supply',
+    ]);
     expect(modules.reduce((sum, module) => sum + module.sections.length, 0)).toBe(39);
     expect(modules.reduce((sum, module) => sum + questionsFor(module).length, 0)).toBe(400);
     modules.forEach((module) => expect(questionsFor(module)).toHaveLength(50));
@@ -17,12 +34,16 @@ describe('legacy content integrity', () => {
   it('keeps identifiers and references internally consistent', () => {
     expect(new Set(courses.map((course) => course.id)).size).toBe(courses.length);
     expect(new Set(modules.map((module) => module.id)).size).toBe(modules.length);
+    const coursesById = new Map(courses.map((course) => [course.id, course]));
 
     courses.forEach((course) => {
       course.moduleIds.forEach((moduleId) => expect(moduleMap.has(moduleId)).toBe(true));
     });
 
     modules.forEach((module) => {
+      const course = coursesById.get(module.courseId);
+      expect(course).toBeDefined();
+      expect(course?.moduleIds).toContain(module.id);
       const sectionIds = new Set(module.sections.map((section) => section.id));
       expect(sectionIds.size).toBe(module.sections.length);
       module.facts.forEach((fact) => expect(sectionIds.has(fact.section)).toBe(true));

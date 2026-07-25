@@ -30,6 +30,42 @@ describe('legacy version-1 storage', () => {
     expect(loadLegacyStore(memoryStorage(JSON.stringify({ version: 2 })))).toBe(EMPTY_STORE);
   });
 
+  it('falls back when an injected storage getItem throws', () => {
+    const storage: LegacyStorage = {
+      getItem: () => {
+        throw new Error('storage unavailable');
+      },
+      setItem: () => undefined,
+    };
+
+    expect(loadLegacyStore(storage)).toBe(EMPTY_STORE);
+  });
+
+  it('falls back when the window.localStorage property getter throws', () => {
+    const originalWindow = Object.getOwnPropertyDescriptor(globalThis, 'window');
+    const fakeWindow = {};
+    Object.defineProperty(fakeWindow, 'localStorage', {
+      configurable: true,
+      get: () => {
+        throw new Error('localStorage blocked');
+      },
+    });
+    Object.defineProperty(globalThis, 'window', {
+      configurable: true,
+      value: fakeWindow,
+    });
+
+    try {
+      expect(loadLegacyStore()).toBe(EMPTY_STORE);
+    } finally {
+      if (originalWindow) {
+        Object.defineProperty(globalThis, 'window', originalWindow);
+      } else {
+        Reflect.deleteProperty(globalThis, 'window');
+      }
+    }
+  });
+
   it('loads valid version-1 data without schema migration', () => {
     const store: Store = {
       version: 1,

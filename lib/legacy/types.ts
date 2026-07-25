@@ -1,3 +1,4 @@
+// Legacy version-1 application types. Do not extend these into the PR 3 assessment schema.
 export type Figure = {
   src: string;
   width: number;
