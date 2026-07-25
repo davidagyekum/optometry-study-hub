@@ -7,7 +7,8 @@
 - Base branch: `main`
 - Base commit: `5b1762c20dcaaabd0505081b972586f0c3b283ab`
 - Initial implementation commit: `75e172d7914de15aea71b3f823498b7eceeadc37`.
-- Review-correction commit and the exact final branch head are recorded in the draft PR and final Codex report because a committed file cannot contain its own resulting commit hash.
+- Review-correction commit: `d6ed14719a10bac427dc335135c81045e0a5f9a4`.
+- The exact final documentation-only branch head is recorded in the draft PR and final Codex report because a committed file cannot contain its own resulting commit hash.
 - Status: DRAFT
 
 ## Objective completed
@@ -157,7 +158,7 @@ After the unanswered confirmation was accepted, Chrome control stalled before th
 - No multi-format renderer, assessment assembler, adaptive mastery, spaced repetition, AIKEN export, Aiken’s V calculation, account, backend, or cloud storage was added.
 - Four existing `<img>` lint warnings remain.
 - npm reports 23 existing dependency advisories (4 moderate, 19 high); remediation is outside this PR.
-- GitHub Actions `Quality` run [30173040423](https://github.com/davidagyekum/optometry-study-hub/actions/runs/30173040423) failed with zero job steps and no repository commands executed, consistent with the existing external account restriction.
+- GitHub Actions `Quality` run [30178170009](https://github.com/davidagyekum/optometry-study-hub/actions/runs/30178170009) for review-correction commit `d6ed147` failed with zero job steps and no repository commands executed, consistent with the existing external account restriction.
 
 ## Recommended next step
 
