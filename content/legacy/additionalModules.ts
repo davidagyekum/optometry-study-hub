@@ -1,17 +1,8 @@
-export type CourseSummary = {
-  id: string;
-  code: string;
-  title: string;
-  description: string;
-  lecturers: string[];
-  moduleIds: string[];
-  tone: string;
-  coverImage: { src: string; width: number; height: number };
-};
+import type { Fact, Figure, Module } from '@/lib/legacy/types';
 
 type Pair = [term: string, definition: string];
 
-const concepts = (section: string, pairs: Pair[]) =>
+const concepts = (section: string, pairs: Pair[]): Fact[] =>
   pairs.flatMap(([term, definition]) => [
     {
       section,
@@ -34,62 +25,9 @@ const figure = (
   alt: string,
   caption: string,
   credit: string,
-) => ({ src, width, height, alt, caption, credit });
+) : Figure => ({ src, width, height, alt, caption, credit });
 
-export const courses: CourseSummary[] = [
-  {
-    id: 'environmental-vision',
-    code: 'OPT 508',
-    title: 'Environmental Vision',
-    description: 'Light, visual task analysis, ergonomics, ocular hazards, protection and workplace illumination.',
-    lecturers: ['Dr David Ben Kumah'],
-    moduleIds: ['environmental-vision'],
-    tone: 'teal',
-    coverImage: { src: '/images/courses/environmental/physical-optics.webp', width: 1263, height: 735 },
-  },
-  {
-    id: 'human-visual-perception',
-    code: 'OPT 374',
-    title: 'Human Visual Perception',
-    description: 'From sensation and retinal coding to the LGN, visual cortex and higher perceptual streams.',
-    lecturers: ['Emmanuel Owusu, OD, MSc, M.Optom, PhD'],
-    moduleIds: ['human-visual-perception'],
-    tone: 'blue',
-    coverImage: { src: '/images/courses/visual-perception/foundations.webp', width: 1400, height: 788 },
-  },
-  {
-    id: 'neuro-anatomy',
-    code: 'OPT 376',
-    title: 'Neuro Anatomy & Ocular Anatomy',
-    description: 'Nervous and supporting tissues, ocular adnexa, transparent media and ocular circulation.',
-    lecturers: ['Clement Afari, OD, MOptom, PhD', 'Chris Hudson, PhD, MCOptom, FAAO', 'Additional supplied course decks'],
-    moduleIds: ['tissue-foundations', 'ocular-adnexa', 'aqueous-vitreous', 'blood-supply'],
-    tone: 'coral',
-    coverImage: { src: '/images/courses/neuro-tissues/nervous-tissue.webp', width: 1400, height: 788 },
-  },
-  {
-    id: 'pharmacology',
-    code: 'OPT III',
-    title: 'Ocular Pharmacology',
-    description: 'Autonomic foundations and the adrenergic and cholinergic medicines most relevant to eye care.',
-    lecturers: ['Newman Osafo, BPharm, PhD', 'Prof Priscilla K. Mante'],
-    moduleIds: ['autonomic-pharmacology'],
-    tone: 'violet',
-    coverImage: { src: '/images/courses/pharmacology/cholinergic.webp', width: 1400, height: 788 },
-  },
-  {
-    id: 'systemic-pathology',
-    code: 'PATHOLOGY',
-    title: 'Systemic Pathology',
-    description: 'High-yield breast, cardiovascular, gastrointestinal, lymphoid, renal and respiratory pathology.',
-    lecturers: ['Dr Bernard Petershie', 'Dr Mataji Arthur', 'Additional supplied course decks'],
-    moduleIds: ['systemic-pathology'],
-    tone: 'gold',
-    coverImage: { src: '/images/courses/systemic-pathology/cardiovascular.webp', width: 1400, height: 802 },
-  },
-];
-
-export const additionalModules = [
+export const additionalModules: Module[] = [
   {
     id: 'environmental-vision',
     courseId: 'environmental-vision',
