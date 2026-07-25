@@ -42,7 +42,10 @@ export function reportQuestionBank(bank: QuestionBank): QuestionBankReport {
     totalObjectives: bank.objectives.length,
     byCourse: countBy(bank.questions, (question) => question.courseId),
     byModule: countBy(bank.questions, (question) => question.moduleId),
-    bySection: countBy(bank.questions, (question) => question.sectionId),
+    bySection: countBy(
+      bank.questions,
+      (question) => `${question.courseId}/${question.moduleId}/${question.sectionId}`,
+    ),
     byObjective: countBy(bank.questions, (question) => question.objectiveId),
     byBloomLevel: countBy(bank.questions, (question) => question.bloomLevel),
     byDifficulty: countBy(bank.questions, (question) => question.difficulty),

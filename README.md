@@ -18,7 +18,7 @@ The current application contains five courses, eight modules, 39 study sections,
 
 The project uses React, TypeScript, Next-compatible App Router files, Vinext, Vite, and Cloudflare Workers. Legacy content lives under `content/legacy/`; focused views live under `components/`; route, attempt, progress, and question-generation logic lives under `lib/` and `hooks/`; and `app/StudyApp.tsx` coordinates those modules.
 
-Client navigation uses `/course/:id`, `/study/:moduleId`, `/quiz/:moduleId`, and `/results/:moduleId`. Reading progress, active legacy attempts, and up to 20 recent results per module are stored in the validated V2 browser record `optometry-study-hub:v2`. Existing `opt376-study-state:v1` data migrates locally and remains available for rollback.
+Client navigation uses `/course/:id`, `/study/:moduleId`, `/quiz/:moduleId`, and `/results/:moduleId`. Reading progress, active legacy attempts, and up to 20 recent results per module are stored in the validated V2 browser record `optometry-study-hub:v2`. Existing `opt376-study-state:v1` data migrates locally and remains available for rollback until the learner explicitly resets all study data, which clears both storage generations.
 
 PR 3 adds an assessment-domain pilot under `content/question-bank/pilot/`, validation and reporting under `lib/assessment/`, and migration-safe storage under `lib/storage/`. The live quiz still uses the legacy 400-question engine.
 
@@ -59,7 +59,7 @@ The site is hosted through OpenAI Sites using the project information in `.opena
 
 ## Privacy
 
-Student reading progress, answers, flags, quiz history, and future assessment history remain in browser local storage. There are no student names, accounts, analytics, leaderboards, or cross-device synchronization. Clearing browser data removes the saved study state.
+Student reading progress, answers, flags, quiz history, and future assessment history remain in browser local storage. There are no student names, accounts, analytics, leaderboards, or cross-device synchronization. Clearing browser data or using the confirmed global reset removes the saved study state from both supported storage generations.
 
 ## Current limitations
 

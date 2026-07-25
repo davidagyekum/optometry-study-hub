@@ -17,6 +17,8 @@ Every question records:
 
 Learner records will refer to question and option IDs plus the question version. They will not depend on answer text or embed whole question objects.
 
+Validation also enforces ownership: every objective belongs to a course declared by the bank, and every question must match its objective's course, module, optional section, and target Bloom levels.
+
 ## Supported formats
 
 The schema supports:
@@ -67,7 +69,9 @@ Naming a lecturer or source does not imply that person approved a rewritten ques
 
 Every source has a stable ID, title, kind, optional locator, and optional valid URL. Reviewed and approved questions require at least one registered source. Lecture, textbook, guideline, and journal references should carry a slide, page, chapter, figure, or section locator.
 
-Questions may cite registered sources directly. Learning objectives refer to the same source registry by stable ID. Validation rejects missing references.
+Questions may cite registered sources directly. Learning objectives refer to the same source registry by stable ID. Validation rejects missing references and duplicate source IDs within a question or objective.
+
+A question citation must retain the registry source's title, kind, and URL. Its locator may be narrowed for the particular item, for example from a lecture section to a specific slide.
 
 ## Question families
 
@@ -77,7 +81,9 @@ A family groups variants that test the same underlying objective or misconceptio
 
 `npm run questions:validate` performs structural and semantic validation, then prints non-failing authoring warnings. `--strict` also fails on warnings.
 
-`npm run questions:report` reports coverage by course, module, section, objective, Bloom level, difficulty, format, stimulus type, and review status. It also reports missing misconception tags, missing source locators, and families with multiple variants.
+The validator rejects duplicate normalized prompt, stem, option, and accepted-answer text; duplicate stable references; and incomplete or extra matching keys. Mapping formats require exact set equality between declared prompts or stems and answer-map keys.
+
+`npm run questions:report` reports coverage by course, module, composite `course/module/section` key, objective, Bloom level, difficulty, format, stimulus type, and review status. It also reports missing misconception tags, missing source locators, and families with multiple variants.
 
 ## Future modes
 
@@ -87,7 +93,7 @@ Study, Exam, and Mastery modes are planned future consumers of this domain:
 - Exam mode may defer feedback and apply a fixed blueprint.
 - Mastery mode may use question history and objective coverage.
 
-PR 3 defines persisted attempt fields for these modes but does not implement an assembler, renderer, adaptive algorithm, or scoring workflow.
+PR 3 defines persisted attempt fields for these modes but does not implement an assembler, renderer, adaptive algorithm, or scoring workflow. Persisted attempts and results require non-empty unique question order, exact question-version coverage, valid ISO timestamps, stable response IDs, and references limited to questions in the snapshot. Attempt indices must be in range, scores cannot exceed a numeric maximum, and history counts cannot report more correct responses than attempts.
 
 ## AIKEN and Aiken’s V
 

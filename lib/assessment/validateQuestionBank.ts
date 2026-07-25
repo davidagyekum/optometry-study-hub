@@ -2,8 +2,10 @@ import type { Diagnostic } from '@/lib/assessment/diagnostics';
 import { questionBankSchema } from '@/lib/assessment/schemas';
 import type {
   AssessmentQuestion,
+  LearningObjective,
   QuestionBank,
   QuestionOption,
+  SourceReference,
 } from '@/lib/assessment/types';
 
 export type QuestionBankValidationOptions = {
@@ -16,7 +18,7 @@ export type QuestionBankValidationResult = {
 };
 
 function normalizedText(value: string): string {
-  return value.trim().toLocaleLowerCase().replace(/\s+/g, ' ');
+  return value.trim().toLowerCase().replace(/\s+/g, ' ');
 }
 
 function addDuplicateDiagnostics(
@@ -39,6 +41,19 @@ function addDuplicateDiagnostics(
     }
     seen.add(value);
   });
+}
+
+function hasExactUniqueSet(values: string[], expected: string[]): boolean {
+  if (new Set(values).size !== values.length || new Set(expected).size !== expected.length) {
+    return false;
+  }
+  if (values.length !== expected.length) return false;
+  const expectedSet = new Set(expected);
+  return values.every((value) => expectedSet.has(value));
+}
+
+function sameSourceIdentity(left: SourceReference, right: SourceReference): boolean {
+  return left.title === right.title && left.kind === right.kind && left.url === right.url;
 }
 
 function optionLikeEntries(question: AssessmentQuestion): QuestionOption[] {
@@ -174,10 +189,23 @@ function validateMatching(
   diagnostics: Diagnostic[],
 ): void {
   const promptIds = question.prompts.map((prompt) => prompt.id);
+  addDuplicateDiagnostics(
+    promptIds,
+    'DUPLICATE_MATCHING_PROMPT_ID',
+    'matching prompt ID',
+    diagnostics,
+    question.id,
+  );
+  addDuplicateDiagnostics(
+    question.prompts.map((prompt) => normalizedText(prompt.text)),
+    'DUPLICATE_MATCHING_PROMPT_TEXT',
+    'normalized matching prompt text',
+    diagnostics,
+    question.id,
+  );
   const choiceIds = new Set(question.choices.map((choice) => choice.id));
   const matchPromptIds = Object.keys(question.correctMatches);
-  const exactPrompts = promptIds.length === matchPromptIds.length
-    && promptIds.every((id) => matchPromptIds.includes(id));
+  const exactPrompts = hasExactUniqueSet(promptIds, matchPromptIds);
 
   if (!exactPrompts || Object.values(question.correctMatches).some((id) => !choiceIds.has(id))) {
     diagnostics.push({
@@ -208,10 +236,23 @@ function validateExtendedMatching(
   diagnostics: Diagnostic[],
 ): void {
   const stemIds = question.stems.map((stem) => stem.id);
+  addDuplicateDiagnostics(
+    stemIds,
+    'DUPLICATE_EXTENDED_MATCHING_STEM_ID',
+    'extended-matching stem ID',
+    diagnostics,
+    question.id,
+  );
+  addDuplicateDiagnostics(
+    question.stems.map((stem) => normalizedText(stem.text)),
+    'DUPLICATE_EXTENDED_MATCHING_STEM_TEXT',
+    'normalized extended-matching stem text',
+    diagnostics,
+    question.id,
+  );
   const optionIds = new Set(question.options.map((option) => option.id));
   const answerStemIds = Object.keys(question.correctAnswers);
-  const exactStems = stemIds.length === answerStemIds.length
-    && stemIds.every((id) => answerStemIds.includes(id));
+  const exactStems = hasExactUniqueSet(stemIds, answerStemIds);
 
   if (!exactStems || Object.values(question.correctAnswers).some((id) => !optionIds.has(id))) {
     diagnostics.push({
@@ -246,6 +287,13 @@ function validateHotspot(
     regionIds,
     'DUPLICATE_REGION_ID',
     'region ID',
+    diagnostics,
+    question.id,
+  );
+  addDuplicateDiagnostics(
+    question.correctRegionIds,
+    'DUPLICATE_CORRECT_REGION_ID',
+    'correct region ID',
     diagnostics,
     question.id,
   );
@@ -321,11 +369,37 @@ function validateImageLabels(
   }
 }
 
+function validateShortAnswer(
+  question: Extract<AssessmentQuestion, { format: 'short_answer' }>,
+  diagnostics: Diagnostic[],
+): void {
+  const normalizeAnswer = (answer: string): string => {
+    let normalized = answer;
+    if (question.normalization.trim) normalized = normalized.trim();
+    if (question.normalization.collapseWhitespace) {
+      normalized = normalized.replace(/\s+/g, ' ');
+    }
+    if (question.normalization.caseInsensitive) normalized = normalized.toLowerCase();
+    if (question.normalization.ignoreTerminalPunctuation) {
+      normalized = normalized.replace(/[\p{P}\p{S}]+$/gu, '');
+    }
+    return normalized;
+  };
+
+  addDuplicateDiagnostics(
+    question.acceptedAnswers.map(normalizeAnswer),
+    'DUPLICATE_NORMALIZED_SHORT_ANSWER',
+    'normalized accepted answer',
+    diagnostics,
+    question.id,
+  );
+}
+
 function validateQuestion(
   question: AssessmentQuestion,
   bank: QuestionBank,
-  objectiveIds: Set<string>,
-  sourceIds: Set<string>,
+  objectiveLookup: Map<string, LearningObjective>,
+  sourceLookup: Map<string, SourceReference>,
   diagnostics: Diagnostic[],
   options: QuestionBankValidationOptions,
 ): void {
@@ -347,13 +421,54 @@ function validateQuestion(
       path: 'explanation',
     });
   }
-  if (!objectiveIds.has(question.objectiveId)) {
+
+  const objective = objectiveLookup.get(question.objectiveId);
+  if (!objective) {
     diagnostics.push({
       severity: 'error',
       code: 'MISSING_OBJECTIVE_REFERENCE',
       message: `Objective "${question.objectiveId}" is not present in the bank.`,
       questionId: question.id,
       path: 'objectiveId',
+    });
+  }
+  if (objective && objective.courseId !== question.courseId) {
+    diagnostics.push({
+      severity: 'error',
+      code: 'OBJECTIVE_COURSE_MISMATCH',
+      message: `Objective course "${objective.courseId}" does not match question course "${question.courseId}".`,
+      questionId: question.id,
+      path: 'objectiveId',
+    });
+  }
+  if (objective && objective.moduleId !== question.moduleId) {
+    diagnostics.push({
+      severity: 'error',
+      code: 'OBJECTIVE_MODULE_MISMATCH',
+      message: `Objective module "${objective.moduleId}" does not match question module "${question.moduleId}".`,
+      questionId: question.id,
+      path: 'objectiveId',
+    });
+  }
+  if (
+    objective?.sectionId
+    && objective.sectionId !== question.sectionId
+  ) {
+    diagnostics.push({
+      severity: 'error',
+      code: 'OBJECTIVE_SECTION_MISMATCH',
+      message: `Objective section "${objective.sectionId}" does not match question section "${question.sectionId}".`,
+      questionId: question.id,
+      path: 'objectiveId',
+    });
+  }
+  if (objective && !objective.targetBloomLevels.includes(question.bloomLevel)) {
+    diagnostics.push({
+      severity: 'error',
+      code: 'BLOOM_OUTSIDE_OBJECTIVE_TARGET',
+      message: `Bloom level "${question.bloomLevel}" is not targeted by objective "${objective.id}".`,
+      questionId: question.id,
+      path: 'bloomLevel',
     });
   }
   if (!bank.courseIds.includes(question.courseId)) {
@@ -365,12 +480,29 @@ function validateQuestion(
       path: 'courseId',
     });
   }
+  addDuplicateDiagnostics(
+    question.sources.map((source) => source.id),
+    'DUPLICATE_QUESTION_SOURCE_ID',
+    'question source ID',
+    diagnostics,
+    question.id,
+  );
   question.sources.forEach((source, index) => {
-    if (!sourceIds.has(source.id)) {
+    const registeredSource = sourceLookup.get(source.id);
+    if (!registeredSource) {
       diagnostics.push({
         severity: 'error',
         code: 'MISSING_SOURCE_REFERENCE',
         message: `Source "${source.id}" is not present in the bank source registry.`,
+        questionId: question.id,
+        path: `sources[${index}]`,
+      });
+    }
+    if (registeredSource && !sameSourceIdentity(source, registeredSource)) {
+      diagnostics.push({
+        severity: 'error',
+        code: 'SOURCE_METADATA_MISMATCH',
+        message: `Source "${source.id}" must retain the registry title, kind, and URL; only its locator may vary.`,
         questionId: question.id,
         path: `sources[${index}]`,
       });
@@ -434,6 +566,8 @@ function validateQuestion(
       validateImageLabels(question, diagnostics);
       break;
     case 'short_answer':
+      validateShortAnswer(question, diagnostics);
+      break;
     case 'open_response':
       break;
   }
@@ -466,6 +600,12 @@ export function validateQuestionBank(
   const bank = parsed.data;
   const diagnostics: Diagnostic[] = [];
   addDuplicateDiagnostics(
+    bank.courseIds,
+    'DUPLICATE_COURSE_ID',
+    'course ID',
+    diagnostics,
+  );
+  addDuplicateDiagnostics(
     bank.questions.map((question) => question.id),
     'DUPLICATE_QUESTION_ID',
     'question ID',
@@ -484,11 +624,27 @@ export function validateQuestionBank(
     diagnostics,
   );
 
-  const objectiveIds = new Set(bank.objectives.map((objective) => objective.id));
-  const sourceIds = new Set(bank.sources.map((source) => source.id));
+  const objectiveLookup = new Map(
+    bank.objectives.map((objective) => [objective.id, objective]),
+  );
+  const sourceLookup = new Map(bank.sources.map((source) => [source.id, source]));
   bank.objectives.forEach((objective) => {
+    if (!bank.courseIds.includes(objective.courseId)) {
+      diagnostics.push({
+        severity: 'error',
+        code: 'OBJECTIVE_COURSE_NOT_IN_BANK',
+        message: `Objective course "${objective.courseId}" is not declared by the bank.`,
+        path: `objectives.${objective.id}.courseId`,
+      });
+    }
+    addDuplicateDiagnostics(
+      objective.sourceIds,
+      'DUPLICATE_OBJECTIVE_SOURCE_ID',
+      'objective source ID',
+      diagnostics,
+    );
     objective.sourceIds.forEach((sourceId, index) => {
-      if (!sourceIds.has(sourceId)) {
+      if (!sourceLookup.has(sourceId)) {
         diagnostics.push({
           severity: 'error',
           code: 'MISSING_SOURCE_REFERENCE',
@@ -500,7 +656,7 @@ export function validateQuestionBank(
   });
 
   bank.questions.forEach((question) => {
-    validateQuestion(question, bank, objectiveIds, sourceIds, diagnostics, options);
+    validateQuestion(question, bank, objectiveLookup, sourceLookup, diagnostics, options);
   });
 
   return { bank, diagnostics };

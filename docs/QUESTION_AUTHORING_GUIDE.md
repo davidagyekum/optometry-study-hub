@@ -12,6 +12,12 @@
 8. Obtain independent review before moving beyond `draft`.
 9. Increase the question `version` when a meaningful content change is approved.
 
+## Objective ownership
+
+Every objective's course must be declared by the bank. A question must use an objective from the same course, module, and—when the objective specifies one—the same section. The question's Bloom level must be one of the objective's `targetBloomLevels`.
+
+Create a separate objective when two items genuinely test different cognitive work. For example, recalling that a tonometer measures IOP is a Remember objective; applying the relationship among formation, outflow resistance, and episcleral venous pressure is a separate Apply/Analyze objective.
+
 ## Focused stems
 
 Ask one interpretable question. Put repeated wording in the stem instead of every option. Include only context needed to answer. Clinical vignettes should contain findings that support the intended inference, not decorative detail.
@@ -50,7 +56,9 @@ Tags describe the incorrect model an option or question is designed to expose, s
 
 ## Sources and locators
 
-Register every source once with a stable ID. Lecture, textbook, guideline, and journal sources should name the relevant slide, page, chapter, figure, or section. A source attribution does not claim author or lecturer approval.
+Register every source once with a stable ID. Course IDs in a bank, source IDs in a question, and source IDs in an objective must not repeat. Lecture, textbook, guideline, and journal sources should name the relevant slide, page, chapter, figure, or section. A source attribution does not claim author or lecturer approval.
+
+Question citations must preserve the registered source title, kind, and URL. A question may use a more precise locator without creating a new source identity.
 
 Reviewed and approved questions require:
 
@@ -71,6 +79,12 @@ Image questions require:
 
 Coordinates should be checked against the exact optimized asset at phone and desktop sizes before a question becomes production-ready.
 
+## Format references and normalization
+
+Matching prompt IDs, extended-matching stem IDs, and their normalized text must be unique. Their answer maps must contain exactly one key for every declared prompt or stem, with no missing or extra keys. Hotspot correct-region IDs must also be unique.
+
+Short-answer accepted responses must remain unique after applying that item's trim, case, whitespace, and terminal-punctuation rules. Test normalization before adding spelling or phrasing variants.
+
 ## Versioning and retirement
 
 Keep the question ID stable when correcting or improving the same item, and increment `version`. Create a new ID for a materially different task. Retire obsolete items rather than silently deleting their history.
@@ -89,7 +103,7 @@ Authors run the automated checks and document sources. Reviewers check factual a
   courseId: 'neuro-anatomy',
   moduleId: 'aqueous-vitreous',
   sectionId: 'flow',
-  objectiveId: 'aqueous-trace-conventional-outflow',
+  objectiveId: 'aqueous-identify-outflow-resistance',
   format: 'single_best_answer',
   stimulusType: 'pathway',
   bloomLevel: 'remember',

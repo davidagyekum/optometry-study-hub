@@ -6,12 +6,15 @@
 - Branch: `codex/pr3-assessment-domain`
 - Base branch: `main`
 - Base commit: `5b1762c20dcaaabd0505081b972586f0c3b283ab`
-- Implementation commit: `75e172d7914de15aea71b3f823498b7eceeadc37`. The final documentation-only head is recorded in the draft PR and final Codex report because a committed file cannot contain its own resulting commit hash.
+- Initial implementation commit: `75e172d7914de15aea71b3f823498b7eceeadc37`.
+- Review-correction commit and the exact final branch head are recorded in the draft PR and final Codex report because a committed file cannot contain its own resulting commit hash.
 - Status: DRAFT
 
 ## Objective completed
 
 Introduce the versioned assessment domain, question-bank validation/lint/report tooling, a nine-format Aqueous and Vitreous pilot, and a backward-compatible V1-to-V2 device-storage migration while leaving the production quiz on the legacy 400-question engine.
+
+The PR 3 review corrections now prevent hydration rewrites, clear both storage generations on global reset, enforce objective ownership and format-reference integrity, and validate persisted assessment semantics.
 
 PR 4 has not been started.
 
@@ -36,7 +39,7 @@ The domain defines stable IDs, nine discriminated question formats, objective/so
 - `content/question-bank/pilot/questions.ts`
 - `content/question-bank/pilot/bank.ts`
 
-The non-production Aqueous and Vitreous pilot contains 9 draft questions, 6 learning objectives, and one example of every supported format. It is not imported by the live quiz registry.
+The non-production Aqueous and Vitreous pilot contains 9 draft questions, 8 learning objectives, and one example of every supported format. The two new Remember objectives separate outflow-resistance recall and IOP measurement from higher-level pathway and IOP-determinant objectives. It is not imported by the live quiz registry.
 
 ### Storage
 
@@ -44,6 +47,7 @@ The non-production Aqueous and Vitreous pilot contains 9 draft questions, 6 lear
 - `lib/storage/schemas.ts`
 - `lib/storage/migrations.ts`
 - `lib/storage/store.ts`
+- `lib/storage/persistenceCoordinator.ts`
 - `hooks/useLegacyStore.ts`
 - `app/StudyApp.tsx`
 - `lib/legacy/types.ts`
@@ -52,7 +56,7 @@ The non-production Aqueous and Vitreous pilot contains 9 draft questions, 6 lear
 - `components/course/CourseView.tsx`
 - `lib/storage/legacyStore.ts`
 
-The UI now reads and saves validated `optometry-study-hub:v2` data. Valid V1 `read`, `active`, and `results` fields migrate exactly; the V1 key remains untouched for rollback. The live components continue to consume the same structural legacy fields and the same quiz engine.
+The UI now reads and saves validated `optometry-study-hub:v2` data. Valid V1 `read`, `active`, and `results` fields migrate exactly; ordinary migration leaves V1 untouched for rollback. Initial hydration is not marked dirty, so malformed V1/V2 bytes and valid V2 data are not rewritten. Learner-originated changes still save. The confirmed global reset writes valid empty V1 and V2 records so rollback cannot restore cleared data. The live components continue to consume the same structural legacy fields and the same quiz engine.
 
 ### Scripts and configuration
 
@@ -72,10 +76,13 @@ Added `zod`, `tsx`, `questions:validate`, and `questions:report`. The aggregate 
 - `tests/assessment/report.test.ts`
 - `tests/storage/migration-v1-v2.test.ts`
 - `tests/storage/store-v2.test.ts`
+- `tests/storage/persistence-coordinator.test.ts`
+- `tests/storage/persisted-state-semantics.test.ts`
+- `tests/assessment/validation-regressions.test.ts`
 - `tests/fixtures/valid-question-bank.ts`
 - `tests/fixtures/invalid-question-bank.ts`
 
-The final suite contains 15 test files and 72 tests. Coverage includes all nine formats, stable response IDs, structural and semantic errors, required lint warnings, deterministic reports, pure migration, exact V1 field preservation, rollback-key retention, V2 priority, corruption handling, round trips, and throwing storage access.
+The final suite contains 18 test files and 118 tests. Coverage includes all nine formats, stable response IDs, objective ownership and Bloom alignment, duplicate/reference adversaries, source identity, deterministic reports, pure migration, exact V1 field preservation, rollback-key retention, clean hydration, two-generation reset, semantic attempt/result/history invariants, corruption handling, round trips, and throwing storage access.
 
 ### Documentation
 
@@ -93,7 +100,7 @@ The current-state and README architecture/storage descriptions were updated beca
 
 - Intended user-visible changes: none.
 - Confirmed preserved behaviour: five courses, eight modules, 39 sections, 400 live legacy questions, 50 live questions per module, current question wording/distractor generation, notes, images, routes, scoring, reset labels, and CSS.
-- Storage impact: valid V1 progress automatically migrates to validated V2; V1 remains for rollback; malformed data and unavailable storage do not crash or delete the original raw value.
+- Storage impact: valid V1 progress automatically migrates to validated V2 and leaves V1 for rollback; hydration does not rewrite valid or malformed records; later learner actions save; global reset writes empty valid V1 and V2 records; unavailable storage does not crash.
 - Content impact: nine draft pilot examples were added outside the live registry. No existing educational content or legacy question was edited.
 
 ## Validation
@@ -105,9 +112,10 @@ All commands used bundled Node.js `v24.14.0`.
 | `npm ci` | PASS — 528 packages installed; npm retained 23 dependency advisories and emitted two non-fatal Windows cleanup warnings. |
 | `npm run lint` | PASS — same four accepted `<img>` warnings, zero errors. |
 | `npm run typecheck` | PASS. |
-| `npm run test` | PASS — 15 files, 72 tests. |
-| `npm run questions:validate` | PASS — 9 questions, 6 objectives, 0 errors, 0 warnings. |
-| `npm run questions:report` | PASS — deterministic report across every required dimension. |
+| `npm run test` | PASS — 18 files, 118 tests. |
+| `npm run questions:validate` | PASS — 9 questions, 8 objectives, 0 errors, 0 warnings. |
+| `npm run questions:validate -- --strict` | PASS — 9 questions, 8 objectives, 0 errors, 0 warnings. |
+| `npm run questions:report` | PASS — deterministic report with composite course/module/section keys. |
 | `npm run build` | PASS. |
 | `npm run check` | PASS — lint, typecheck, tests, question validation, and production build. |
 
@@ -126,6 +134,14 @@ Chrome-only checks on the local Vinext server passed for:
 - unanswered-submission warning appearance.
 
 After the unanswered confirmation was accepted, Chrome control stalled before the results page could be re-read. Results rendering/scoring code was not changed, and the automated legacy result tests remain green. Back/forward and mobile-width checks were not repeated after the stall; CSS and route code are unchanged. The in-app browser was never used.
+
+## Review corrections
+
+- Added a persistence coordinator so hydration remains clean and only learner-originated updates are saved.
+- Added a storage-level reset helper and wired the visible global reset to clear valid V1 and V2 records.
+- Added deterministic objective ownership, Bloom, duplicate-reference, normalized-text, exact-set, and source-identity diagnostics.
+- Split the two recall items into academically aligned Remember objectives, increasing the pilot from 6 to 8 objectives without changing its 9 questions.
+- Added semantic Zod validation for assessment attempts, results, history, timestamps, stable IDs, snapshot references, counts, scores, and response-array uniqueness.
 
 ## Deviations from the brief
 

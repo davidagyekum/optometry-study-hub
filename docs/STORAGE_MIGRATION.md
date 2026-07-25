@@ -32,6 +32,8 @@ assessment.questionHistory
 
 These maps are empty in PR 3. Future assessment attempts will persist question IDs, question versions, stable response IDs, ordering, flags, and the current index. Entire question objects are not stored.
 
+V2 validates semantic consistency as well as shape: question orders are non-empty and unique, version maps cover them exactly, responses and flags cannot refer outside a snapshot, indices stay in range, timestamps are ISO datetimes, persisted assessment identifiers use stable syntax, response arrays are unique, result scores do not exceed numeric maxima, and correct history counts do not exceed attempt counts.
+
 ## Load and migration algorithm
 
 1. Resolve browser storage inside a guarded operation.
@@ -51,11 +53,13 @@ The pure `migrateV1ToV2` function does not access browser APIs and is unit-teste
 
 Malformed JSON, wrong versions, invalid persisted shapes, blocked storage, and throwing `getItem` or `setItem` calls do not crash the application.
 
-Corrupt values are not removed or silently overwritten. Development builds report a structured diagnostic code. Production continues with an empty valid V2 store for the current session.
+Corrupt values are not removed or silently overwritten. Initial hook hydration is explicitly clean, so assigning the loaded in-memory fallback does not auto-save over malformed V1 or V2 bytes. A valid V2 record also loads without an unnecessary rewrite. Development builds report a structured diagnostic code. Production continues with an empty valid V2 store for the current session, and later learner-originated changes continue to save normally.
 
 ## Reset behavior
 
-The existing reset controls write an empty V2 record. The retained V1 record is not selected while a valid V2 record exists, which prevents old progress from reappearing after a reset. Keeping V1 is intentional rollback protection.
+Ordinary migration retains V1 unchanged for rollback protection.
+
+The visible global reset action is the explicit exception: `resetAllStudyData` writes a valid empty V1 record and a valid empty V2 record. This clears both storage generations so a later application rollback cannot restore pre-reset study data. Module and course resets keep their existing scoped behavior.
 
 ## Future migrations
 
@@ -67,6 +71,7 @@ Every future storage change must:
 - preserve enough identifiers and versions to interpret historical results;
 - avoid deleting the previous record during the rollout;
 - test absence, valid prior data, malformed data, unavailable storage, and round trips;
+- distinguish clean hydration from learner-originated dirty updates;
 - document rollback and privacy impact.
 
 ## Privacy implications

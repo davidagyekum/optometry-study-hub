@@ -20,7 +20,8 @@ export type StorageDiagnostic = {
     | 'MALFORMED_V1'
     | 'MALFORMED_V2'
     | 'V2_SAVE_FAILED'
-    | 'INVALID_V2_SAVE';
+    | 'INVALID_V2_SAVE'
+    | 'RESET_FAILED';
   message: string;
 };
 
@@ -125,6 +126,48 @@ export function saveStore(
     report({
       code: 'STORAGE_UNAVAILABLE',
       message: 'Browser storage is unavailable; study data could not be saved.',
+    });
+    return false;
+  }
+}
+
+export function resetAllStudyData(
+  storage?: StorageLike,
+  report: StorageDiagnosticReporter = developmentReporter,
+): boolean {
+  try {
+    const resolvedStorage = storage ?? browserStorage();
+    if (!resolvedStorage) return false;
+
+    const emptyV1 = {
+      version: 1 as const,
+      read: {},
+      active: {},
+      results: {},
+    };
+    const emptyV2 = createEmptyStoreV2();
+    let succeeded = true;
+
+    for (const [key, value] of [
+      [LEGACY_STORAGE_KEY, emptyV1],
+      [STORAGE_KEY, emptyV2],
+    ] as const) {
+      try {
+        resolvedStorage.setItem(key, JSON.stringify(value));
+      } catch {
+        succeeded = false;
+        report({
+          code: 'RESET_FAILED',
+          message: `Study data at "${key}" could not be reset.`,
+        });
+      }
+    }
+
+    return succeeded;
+  } catch {
+    report({
+      code: 'STORAGE_UNAVAILABLE',
+      message: 'Browser storage is unavailable; study data could not be reset.',
     });
     return false;
   }

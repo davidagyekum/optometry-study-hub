@@ -7,7 +7,7 @@ import type {
 
 function tokens(value: string): string[] {
   return value
-    .toLocaleLowerCase()
+    .toLowerCase()
     .replace(/[^\p{L}\p{N}\s]/gu, ' ')
     .split(/\s+/)
     .filter((token) => token.length > 2);
@@ -116,7 +116,7 @@ function lintQuestion(question: AssessmentQuestion): Diagnostic[] {
   }
   if (
     question.reviewer
-    && question.author.trim().toLocaleLowerCase() === question.reviewer.trim().toLocaleLowerCase()
+    && question.author.trim().toLowerCase() === question.reviewer.trim().toLowerCase()
   ) {
     diagnostics.push({
       severity: 'warning',

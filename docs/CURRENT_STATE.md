@@ -9,7 +9,7 @@
 - Live legacy-generated questions: 400, with 50 questions per module
 - Current persistence key: `optometry-study-hub:v2`
 - Rollback key retained after migration: `opt376-study-state:v1`
-- Assessment pilot: 9 draft questions covering 9 formats and 6 objectives
+- Assessment pilot: 9 draft questions covering 9 formats and 8 objectives
 
 ## Courses and modules
 
@@ -48,7 +48,7 @@ The validated version-2 store preserves:
 - up to 20 recent submitted legacy results per module;
 - empty assessment maps for future attempts, results, and question history.
 
-On first V2 load, valid V1 `read`, `active`, and `results` fields migrate exactly to the new key. The V1 record is retained for rollback. Malformed V1 or V2 data, unavailable browser storage, and throwing accessors do not crash the application or delete the original raw record. There is no account, backend database, analytics feed, or cross-device sync.
+On first V2 load, valid V1 `read`, `active`, and `results` fields migrate exactly to the new key. The V1 record is retained for rollback until the learner explicitly uses the global reset, which writes valid empty records to both generations. Initial hydration does not rewrite valid or malformed stored bytes, while later learner actions still save. Malformed V1 or V2 data, unavailable browser storage, and throwing accessors do not crash the application or delete the original raw record. There is no account, backend database, analytics feed, or cross-device sync.
 
 ## Strengths
 

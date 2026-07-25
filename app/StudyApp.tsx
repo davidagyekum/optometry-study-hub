@@ -15,6 +15,7 @@ import { createAttempt } from '@/lib/legacy/attempts';
 import type { CourseSummary, Module } from '@/lib/legacy/types';
 import { createEmptyStoreV2 } from '@/lib/storage/migrations';
 import type { StoreV2 } from '@/lib/storage/schemas';
+import { resetAllStudyData } from '@/lib/storage/store';
 
 export default function StudyApp() {
   const { route, go } = useClientRoute();
@@ -99,6 +100,7 @@ export default function StudyApp() {
           go={go}
           resetAll={() => {
             if (window.confirm('Reset all study progress and scores on this device?')) {
+              resetAllStudyData();
               setStore(createEmptyStoreV2());
             }
           }}

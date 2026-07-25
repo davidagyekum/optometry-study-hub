@@ -13,7 +13,7 @@ describe('question-bank reporting', () => {
 
     expect(second).toEqual(first);
     expect(first.totalQuestions).toBe(9);
-    expect(first.totalObjectives).toBe(6);
+    expect(first.totalObjectives).toBe(8);
     expect(first.byCourse).toEqual({ 'neuro-anatomy': 9 });
     expect(first.byModule).toEqual({ 'aqueous-vitreous': 9 });
     expect(Object.keys(first.byFormat)).toHaveLength(9);

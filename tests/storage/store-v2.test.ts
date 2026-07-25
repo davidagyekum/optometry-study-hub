@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import type { Store } from '@/lib/legacy/types';
 import { LEGACY_STORAGE_KEY, STORAGE_KEY } from '@/lib/storage/keys';
+import { loadLegacyStore } from '@/lib/storage/legacyStore';
 import { createEmptyStoreV2 } from '@/lib/storage/migrations';
 import {
   loadStore,
+  resetAllStudyData,
   saveStore,
   type StorageDiagnostic,
   type StorageLike,
@@ -158,5 +160,44 @@ describe('version-2 storage wrapper', () => {
         Reflect.deleteProperty(globalThis, 'window');
       }
     }
+  });
+
+  it('resets both current and legacy storage generations to valid empty stores', () => {
+    const { storage, values } = memoryStorage({
+      [LEGACY_STORAGE_KEY]: JSON.stringify(validV1()),
+      [STORAGE_KEY]: JSON.stringify({
+        ...createEmptyStoreV2(),
+        read: { 'aqueous-vitreous': ['flow'] },
+      }),
+    });
+
+    expect(resetAllStudyData(storage)).toBe(true);
+    expect(loadStore(storage)).toEqual(createEmptyStoreV2());
+    expect(loadLegacyStore(storage)).toEqual({
+      version: 1,
+      read: {},
+      active: {},
+      results: {},
+    });
+    expect(JSON.parse(values.get(LEGACY_STORAGE_KEY) ?? 'null')).toEqual({
+      version: 1,
+      read: {},
+      active: {},
+      results: {},
+    });
+  });
+
+  it('does not crash when resetting either storage generation fails', () => {
+    const diagnostics: StorageDiagnostic[] = [];
+    const storage: StorageLike = {
+      getItem: () => null,
+      setItem: () => {
+        throw new Error('blocked');
+      },
+    };
+
+    expect(() => resetAllStudyData(storage, (item) => diagnostics.push(item))).not.toThrow();
+    expect(resetAllStudyData(storage, (item) => diagnostics.push(item))).toBe(false);
+    expect(diagnostics).toContainEqual(expect.objectContaining({ code: 'RESET_FAILED' }));
   });
 });
