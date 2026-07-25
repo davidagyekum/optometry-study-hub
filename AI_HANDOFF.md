@@ -2,7 +2,7 @@
 
 ## Pull request
 
-- PR: Pending draft creation
+- PR: https://github.com/davidagyekum/optometry-study-hub/pull/1
 - Branch: `codex/pr1-baseline-quality`
 - Base branch: `main`
 - Base commit: `18ba5aebdef82402e26c1937d4e2bb1638a7a116`
