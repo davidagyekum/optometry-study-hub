@@ -131,7 +131,7 @@ All local commands were rerun with the bundled supported Node runtime after the 
 | `npm run test` | PASS — 3 files, 5 tests |
 | `npm run build` | PASS |
 | `npm run check` | PASS — lint, typecheck, tests, and production build |
-| GitHub Actions `Quality` | PENDING — first pull-request run begins after this follow-up is pushed |
+| GitHub Actions `Quality` | BLOCKED — [run 30166657019](https://github.com/davidagyekum/optometry-study-hub/actions/runs/30166657019) failed before any steps started because GitHub reported that the repository owner account is locked due to a billing issue |
 
 ## Recommended next step
 
