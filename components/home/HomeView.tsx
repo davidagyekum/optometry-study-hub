@@ -9,14 +9,14 @@ import {
   scorePercentage,
 } from '@/lib/legacy/progress';
 import { questionsFor } from '@/lib/legacy/questionGenerator';
-import type { Module, Store } from '@/lib/legacy/types';
+import type { LegacyStoreData, Module } from '@/lib/legacy/types';
 
 export function HomeView({
   store,
   go,
   resetAll,
 }: {
-  store: Store;
+  store: LegacyStoreData;
   go: GoToRoute;
   resetAll: () => void;
 }) {

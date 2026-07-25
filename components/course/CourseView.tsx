@@ -1,7 +1,7 @@
 import { moduleMap } from '@/content/legacy/moduleCatalog';
 import type { GoToRoute } from '@/hooks/useClientRoute';
 import { bestScore, courseReadingCompletion, moduleReadingPercentage } from '@/lib/legacy/progress';
-import type { CourseSummary, Module, Store } from '@/lib/legacy/types';
+import type { CourseSummary, LegacyStoreData, Module } from '@/lib/legacy/types';
 
 export function CourseView({
   course,
@@ -12,7 +12,7 @@ export function CourseView({
   clearCourse,
 }: {
   course: CourseSummary;
-  store: Store;
+  store: LegacyStoreData;
   go: GoToRoute;
   startQuiz: (module: Module) => void;
   clearModule: (id: string) => void;

@@ -1,28 +1,36 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import type { Store } from '@/lib/legacy/types';
 import {
-  EMPTY_STORE,
-  loadLegacyStore,
-  saveLegacyStore,
-} from '@/lib/storage/legacyStore';
+  useCallback,
+  useEffect,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from 'react';
+import { createEmptyStoreV2 } from '@/lib/storage/migrations';
+import { createStudyPersistenceCoordinator } from '@/lib/storage/persistenceCoordinator';
+import type { StoreV2 } from '@/lib/storage/schemas';
 
 export function useLegacyStore() {
-  const [store, setStore] = useState<Store>(EMPTY_STORE);
+  const [coordinator] = useState(createStudyPersistenceCoordinator);
+  const [store, setStoreState] = useState<StoreV2>(createEmptyStoreV2);
   const [hydrated, setHydrated] = useState(false);
+  const setStore = useCallback<Dispatch<SetStateAction<StoreV2>>>((update) => {
+    coordinator.markDirty();
+    setStoreState(update);
+  }, [coordinator]);
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
-      setStore(loadLegacyStore());
+      setStoreState(coordinator.hydrate());
       setHydrated(true);
     });
     return () => window.cancelAnimationFrame(frame);
-  }, []);
+  }, [coordinator]);
 
   useEffect(() => {
-    if (hydrated) saveLegacyStore(store);
-  }, [store, hydrated]);
+    if (hydrated) coordinator.persistIfDirty(store);
+  }, [coordinator, store, hydrated]);
 
   return { store, setStore };
 }

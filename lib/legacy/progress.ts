@@ -1,4 +1,4 @@
-import type { Module, Result, Store } from '@/lib/legacy/types';
+import type { LegacyStoreData, Module, Result } from '@/lib/legacy/types';
 
 export type ReadingCompletion = {
   completed: number;
@@ -14,7 +14,7 @@ export function moduleReadingPercentage(module: Module, read: string[]): number 
   return percentage(read.length, module.sections.length);
 }
 
-export function courseReadingCompletion(modules: Module[], store: Store): ReadingCompletion {
+export function courseReadingCompletion(modules: Module[], store: LegacyStoreData): ReadingCompletion {
   const completed = modules.reduce(
     (sum, module) => sum + (store.read[module.id]?.length ?? 0),
     0,
@@ -23,7 +23,7 @@ export function courseReadingCompletion(modules: Module[], store: Store): Readin
   return { completed, total, percentage: percentage(completed, total) };
 }
 
-export function overallReadingCompletion(modules: Module[], store: Store): ReadingCompletion {
+export function overallReadingCompletion(modules: Module[], store: LegacyStoreData): ReadingCompletion {
   return courseReadingCompletion(modules, store);
 }
 

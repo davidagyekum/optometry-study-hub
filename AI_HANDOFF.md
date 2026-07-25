@@ -2,156 +2,164 @@
 
 ## Pull request
 
-- Repository: `davidagyekum/optometry-study-hub`
-- Branch: `codex/pr2-modularise-legacy-app`
+- PR: [#3 — Introduce the assessment schema, validation tooling, and storage migration](https://github.com/davidagyekum/optometry-study-hub/pull/3)
+- Branch: `codex/pr3-assessment-domain`
 - Base branch: `main`
-- Exact base commit: `4194f69530766314015a921c49210478ffa10a6c`
-- Final head commit: Recorded in the draft pull request and final Codex report. A committed file cannot contain the hash produced by its own commit.
-- Status: Draft pending review
+- Base commit: `5b1762c20dcaaabd0505081b972586f0c3b283ab`
+- Initial implementation commit: `75e172d7914de15aea71b3f823498b7eceeadc37`.
+- Review-correction commit: `d6ed14719a10bac427dc335135c81045e0a5f9a4`.
+- The exact final documentation-only branch head is recorded in the draft PR and final Codex report because a committed file cannot contain its own resulting commit hash.
+- Status: DRAFT
 
 ## Objective completed
 
-Modularise the existing Optometry Study Hub application without changing its routes, educational content, legacy question output, quiz behavior, progress calculations, version-1 device storage, styling, or public deployment.
+Introduce the versioned assessment domain, question-bank validation/lint/report tooling, a nine-format Aqueous and Vitreous pilot, and a backward-compatible V1-to-V2 device-storage migration while leaving the production quiz on the legacy 400-question engine.
 
-PR 3 has not been started.
+The PR 3 review corrections now prevent hydration rewrites, clear both storage generations on global reset, enforce objective ownership and format-reference integrity, and validate persisted assessment semantics.
 
-## PR 2 review corrections
+PR 4 has not been started.
 
-- Moved default browser storage resolution inside `loadLegacyStore`'s existing `try/catch`, preserving the empty-store fallback when either an injected `getItem` call or the `window.localStorage` property getter throws.
-- Kept `opt376-study-state:v1`, storage version 1, permissive version-1 parsing, save behavior, and the absence of migration/schema validation unchanged.
-- Replaced the home view's manual per-course reading percentage calculation with `courseReadingCompletion(courseModules, store).percentage`; rendered values are unchanged.
-- Expanded legacy generator compatibility coverage across every fact in all eight modules, including IDs, prompts, correct answers, section links, positional option construction, option count, explanations, and cached array identity.
-- Added explicit ordered course/module ID assertions and bidirectional module-to-course membership checks.
-- Passed a stable figure-dialog close callback and marked `lib/legacy/types.ts` as the legacy version-1 type boundary.
-## Files moved and created
+## Files changed
 
-### Legacy content
+### Assessment source
 
-- `content/legacy/courseCatalog.ts` contains the five course summaries in their existing order.
-- `content/legacy/additionalModules.ts` contains the five newer course modules moved from `app/additionalCourses.ts`.
-- `content/legacy/opt376Modules.ts` contains the three original OPT 376 modules moved from `app/StudyApp.tsx`.
-- `content/legacy/imageCatalog.ts` contains the shared OPT 376 figure metadata.
-- `content/legacy/moduleCatalog.ts` combines the two module sources and exposes the existing module lookup map.
-- `app/additionalCourses.ts` is removed after its content and imports were moved.
+- `lib/assessment/constants.ts`
+- `lib/assessment/schemas.ts`
+- `lib/assessment/types.ts`
+- `lib/assessment/diagnostics.ts`
+- `lib/assessment/validateQuestionBank.ts`
+- `lib/assessment/lintQuestionBank.ts`
+- `lib/assessment/reportQuestionBank.ts`
 
-### Legacy domain and pure logic
+The domain defines stable IDs, nine discriminated question formats, objective/source registries, Bloom levels, difficulty, review states, option rationales, misconception tags, question families, and content versions. Semantic validation returns structured error codes; deterministic linting returns non-failing warnings by default.
 
-- `lib/legacy/types.ts` provides named legacy type exports.
-- `lib/legacy/questionGenerator.ts` preserves the positional distractor generator and cache with an explicit legacy-only warning.
-- `lib/legacy/attempts.ts` contains shuffle, attempt creation, scoring, and unanswered-result helpers. An injected random function supports deterministic tests while production still uses `Math.random`.
-- `lib/legacy/progress.ts` contains the existing reading and score calculations as pure helpers.
+### Pilot content
 
-### Navigation and storage
+- `content/question-bank/pilot/sources.ts`
+- `content/question-bank/pilot/objectives.ts`
+- `content/question-bank/pilot/questions.ts`
+- `content/question-bank/pilot/bank.ts`
 
-- `lib/navigation/clientRoute.ts` parses and builds the five existing client route shapes.
-- `hooks/useClientRoute.ts` owns pushState, popstate, direct-path hydration, and the existing smooth scroll-to-top behavior.
-- `lib/storage/legacyStore.ts` owns the unchanged key, empty store, version-1 loading, saving, and parsing fallback.
-- `hooks/useLegacyStore.ts` owns React hydration and persistence integration.
+The non-production Aqueous and Vitreous pilot contains 9 draft questions, 8 learning objectives, and one example of every supported format. The two new Remember objectives separate outflow-resistance recall and IOP measurement from higher-level pathway and IOP-determinant objectives. It is not imported by the live quiz registry.
 
-### Components
+### Storage
 
-- `components/layout/SiteHeader.tsx`
-- `components/layout/SiteFooter.tsx`
+- `lib/storage/keys.ts`
+- `lib/storage/schemas.ts`
+- `lib/storage/migrations.ts`
+- `lib/storage/store.ts`
+- `lib/storage/persistenceCoordinator.ts`
+- `hooks/useLegacyStore.ts`
+- `app/StudyApp.tsx`
+- `lib/legacy/types.ts`
+- `lib/legacy/progress.ts`
 - `components/home/HomeView.tsx`
 - `components/course/CourseView.tsx`
-- `components/study/StudyView.tsx`
-- `components/study/FigureDialog.tsx`
-- `components/quiz/LegacyQuizView.tsx`
-- `components/results/LegacyResultsView.tsx`
+- `lib/storage/legacyStore.ts`
 
-`app/StudyApp.tsx` is now the orchestration layer for route resolution, store actions, reset confirmations, quiz creation, and view selection.
+The UI now reads and saves validated `optometry-study-hub:v2` data. Valid V1 `read`, `active`, and `results` fields migrate exactly; ordinary migration leaves V1 untouched for rollback. Initial hydration is not marked dirty, so malformed V1/V2 bytes and valid V2 data are not rewritten. Learner-originated changes still save. The confirmed global reset writes valid empty V1 and V2 records so rollback cannot restore cleared data. The live components continue to consume the same structural legacy fields and the same quiz engine.
+
+### Scripts and configuration
+
+- `scripts/validate-question-bank.ts`
+- `scripts/report-question-bank.ts`
+- `package.json`
+- `package-lock.json`
+- `tests/smoke/package-scripts.test.ts`
+
+Added `zod`, `tsx`, `questions:validate`, and `questions:report`. The aggregate `check` command now includes question-bank validation.
 
 ### Tests
 
-- `tests/content/legacy-content-integrity.test.ts`
-- `tests/legacy/question-generator.test.ts`
-- `tests/legacy/attempts.test.ts`
-- `tests/legacy/progress.test.ts`
-- `tests/navigation/client-route.test.ts`
-- `tests/storage/legacy-store.test.ts`
+- `tests/assessment/schema.test.ts`
+- `tests/assessment/validation.test.ts`
+- `tests/assessment/lint.test.ts`
+- `tests/assessment/report.test.ts`
+- `tests/storage/migration-v1-v2.test.ts`
+- `tests/storage/store-v2.test.ts`
+- `tests/storage/persistence-coordinator.test.ts`
+- `tests/storage/persisted-state-semantics.test.ts`
+- `tests/assessment/validation-regressions.test.ts`
+- `tests/fixtures/valid-question-bank.ts`
+- `tests/fixtures/invalid-question-bank.ts`
 
-The PR 1 smoke tests and Vitest alias configuration were updated for the new tracked paths.
+The final suite contains 18 test files and 118 tests. Coverage includes all nine formats, stable response IDs, objective ownership and Bloom alignment, duplicate/reference adversaries, source identity, deterministic reports, pure migration, exact V1 field preservation, rollback-key retention, clean hydration, two-generation reset, semantic attempt/result/history invariants, corruption handling, round trips, and throwing storage access.
 
-## Preserved baseline proof
+### Documentation
 
-| Invariant | Verified result |
-|---|---:|
-| Courses | 5 |
-| Modules | 8 |
-| Study sections | 39 |
-| Generated legacy questions | 400 |
-| Questions per module | 50 |
-| Options per generated question | 4 entries |
-| Storage key | `opt376-study-state:v1` |
-| Storage version | 1 |
+- `docs/ASSESSMENT_SPEC.md`
+- `docs/QUESTION_AUTHORING_GUIDE.md`
+- `docs/STORAGE_MIGRATION.md`
+- `docs/CURRENT_STATE.md`
+- `docs/ASSESSMENT_REDESIGN_ROADMAP.md`
+- `README.md`
+- `AI_HANDOFF.md`
 
-Tests also verify the exact ordered course and module IDs, bidirectional course-to-module resolution, section-local ID uniqueness, fact-to-section references, image-file existence, every generated question field across all eight modules, cached generator identity, deterministic attempt structure, score behavior, progress formulas, route parsing/building, version-1 storage failure fallbacks, and storage round trips.
+The current-state and README architecture/storage descriptions were updated because they still described the pre-PR-2 monolith and V1 as the active record.
 
-## Storage impact
+## Behaviour
 
-None.
+- Intended user-visible changes: none.
+- Confirmed preserved behaviour: five courses, eight modules, 39 sections, 400 live legacy questions, 50 live questions per module, current question wording/distractor generation, notes, images, routes, scoring, reset labels, and CSS.
+- Storage impact: valid V1 progress automatically migrates to validated V2 and leaves V1 for rollback; hydration does not rewrite valid or malformed records; later learner actions save; global reset writes empty valid V1 and V2 records; unavailable storage does not crash.
+- Content impact: nine draft pilot examples were added outside the live registry. No existing educational content or legacy question was edited.
 
-- The key remains exactly `opt376-study-state:v1`.
-- The stored shape and version remain unchanged.
-- Existing reading progress, active attempts, flags, answers, result history, and timestamps remain readable.
-- No schema validation or migration was introduced.
-- JSON failures and non-version-1 values retain the existing empty-store fallback behavior.
+## Validation
 
-## User-visible impact
-
-No intentional user-visible change.
-
-Visible wording, course/module/section order, IDs, questions, distractor behavior, image paths, source credits, CSS classes, confirmation prompts, quiz navigation, result review, and route shapes are preserved. No CSS, metadata, educational claims, public deployment, or production data were changed.
-
-## Automated validation
-
-All final validation used the bundled Node.js `v24.14.0` runtime.
+All commands used bundled Node.js `v24.14.0`.
 
 | Command | Result |
 |---|---|
-| `npm ci` | Pass; 528 packages installed. npm reported the repository's current dependency advisories and two non-fatal Windows cleanup warnings. |
-| `npm run lint` | Pass with the same four accepted `@next/next/no-img-element` warnings. |
-| `npm run typecheck` | Pass. |
-| `npm run test` | Pass: 9 files, 49 tests. |
-| `npm run build` | Pass. |
-| `npm run check` | Pass; reran lint, typecheck, all tests, and the production build. |
+| `npm ci` | PASS — 528 packages installed; npm retained 23 dependency advisories and emitted two non-fatal Windows cleanup warnings. |
+| `npm run lint` | PASS — same four accepted `<img>` warnings, zero errors. |
+| `npm run typecheck` | PASS. |
+| `npm run test` | PASS — 18 files, 118 tests. |
+| `npm run questions:validate` | PASS — 9 questions, 8 objectives, 0 errors, 0 warnings. |
+| `npm run questions:validate -- --strict` | PASS — 9 questions, 8 objectives, 0 errors, 0 warnings. |
+| `npm run questions:report` | PASS — deterministic report with composite course/module/section keys. |
+| `npm run build` | PASS. |
+| `npm run check` | PASS — lint, typecheck, tests, question validation, and production build. |
 
-The first clean-install attempt was blocked by stale repository-local vinext/Worker validation processes left from earlier work. After stopping only those identified processes, the required Node 24 clean install passed.
+## Manual verification
 
-## Chrome-only manual regression
+Chrome-only checks on the local Vinext server passed for:
 
-Passed in Chrome on the local `vinext dev` server:
+- homepage and all five course cards;
+- OPT 376 course page and its four module cards;
+- Aqueous and Vitreous notes, six sections, figures, captions, and source links;
+- figure-dialog initial focus and Escape close;
+- reading progress update and refresh persistence through the V2 wrapper;
+- legacy 50-question quiz start;
+- answer selection, flagging, Next navigation, refresh, identical active-attempt resume, and `1/50 answered` persistence;
+- save-and-exit and course-card `Resume quiz` state;
+- unanswered-submission warning appearance.
 
-- homepage content and all five course cards;
-- all five course dashboards and all eight module cards;
-- all eight study-note modules, section counts, source figures, captions, and no desktop horizontal overflow;
-- figure-dialog initial focus, focus trap, Escape close, backdrop close, body-scroll lock, and focus restoration;
-- reading completion and refresh persistence;
-- quiz start, 50-question navigator, answer selection, flagging, Previous/Next, save-and-exit, resume, and refresh persistence with identical question/option order;
-- unanswered-submission warning dismissal and acceptance;
-- score totals, unanswered/incorrect counts, answer review, explanations, and related-note navigation;
-- shuffled retake and active-attempt restart dismissal/acceptance;
-- browser back and forward behavior.
+After the unanswered confirmation was accepted, Chrome control stalled before the results page could be re-read. Results rendering/scoring code was not changed, and the automated legacy result tests remain green. Back/forward and mobile-width checks were not repeated after the stall; CSS and route code are unchanged. The in-app browser was never used.
 
-The Chrome extension's exact viewport override stopped applying after native confirmation dialogs stalled two controlled tabs. Desktop no-overflow checks passed, but the requested 1024 × 768 and 390 × 844 override passes could not be completed reliably in this run. Module-reset confirmation was opened, but the extension stalled while accepting it; course-reset and global-reset confirmations were therefore not repeated through Chrome. Their state transformations and storage behavior remain unchanged in source, and the extracted pure storage/progress behavior is covered by tests. The in-app browser was not used.
+## Review corrections
 
-## GitHub Actions status
+- Added a persistence coordinator so hydration remains clean and only learner-originated updates are saved.
+- Added a storage-level reset helper and wired the visible global reset to clear valid V1 and V2 records.
+- Added deterministic objective ownership, Bloom, duplicate-reference, normalized-text, exact-set, and source-identity diagnostics.
+- Split the two recall items into academically aligned Remember objectives, increasing the pilot from 6 to 8 objectives without changing its 9 questions.
+- Added semantic Zod validation for assessment attempts, results, history, timestamps, stable IDs, snapshot references, counts, scores, and response-array uniqueness.
 
-The review-correction implementation commit `280a714888b177f1b87838947786293d12f9e3d1` triggered GitHub Actions `Quality` run [30170781350](https://github.com/davidagyekum/optometry-study-hub/actions/runs/30170781350). It completed with failure, but its single `quality` job contained zero steps and exposed no logs. Therefore `npm ci`, lint, typecheck, tests, and build did not execute on GitHub. This is consistent with the repository's existing external account billing lock and is recorded as an external runner restriction, not a code failure.
+## Deviations from the brief
 
-## Deviations from the requested structure
-
-- Added `content/legacy/moduleCatalog.ts` as a small aggregation boundary so view and orchestration code share one ordered module list and lookup map without reintroducing content composition into `StudyApp.tsx`.
-- Exact tablet/mobile Chrome overrides and the three reset confirmation completions are recorded as manual-QA limitations above; no browser fallback was used because Chrome was explicitly required.
+- Added `content/question-bank/pilot/sources.ts` as a small source-registry module so questions and objectives share identical stable references.
+- Retained the public hook name `useLegacyStore` to avoid unnecessary orchestration churn even though it now returns the V2 store.
+- If a V2 record exists but is malformed, loading does not overwrite it by migrating V1. This treats V1 fallback as valid only when V2 is absent and prevents silent destruction of corrupt V2 data.
+- Current-state and README corrections were included because PR 3 changes the active persistence contract and the merged documents still described the old monolithic architecture.
 
 ## Known limitations
 
-- The four existing `<img>` lint warnings remain intentionally unchanged.
-- The legacy generator still permits duplicate distractor text and remains unsuitable for the future assessment schema.
-- The live quiz remains fixed at 50 questions and the storage schema remains version 1 by design.
-- npm currently reports 23 dependency advisories (4 moderate, 19 high); dependency remediation is outside this behavior-neutral refactor.
-- No production deployment was performed.
+- The production quiz still uses the isolated positional legacy distractor generator.
+- The pilot questions are draft engineering fixtures and require academic review before any future live use.
+- No multi-format renderer, assessment assembler, adaptive mastery, spaced repetition, AIKEN export, Aiken’s V calculation, account, backend, or cloud storage was added.
+- Four existing `<img>` lint warnings remain.
+- npm reports 23 existing dependency advisories (4 moderate, 19 high); remediation is outside this PR.
+- GitHub Actions `Quality` run [30178170009](https://github.com/davidagyekum/optometry-study-hub/actions/runs/30178170009) for review-correction commit `d6ed147` failed with zero job steps and no repository commands executed, consistent with the existing external account restriction.
 
-## Recommendation
+## Recommended next step
 
-Review this behavior-preserving refactor and stop before PR 3. Start PR 3 only after this pull request is reviewed and merged into `main`.
+Review and approve the assessment schema, migration behavior, validator diagnostics, pilot quality, and authoring documentation. Do not begin PR 4 or migrate the 400 live questions until PR 3 is reviewed and merged into `main`.

@@ -4,17 +4,23 @@ The redesign is intentionally staged so engineering changes remain reviewable an
 
 ## PR 1 — Baseline quality and documentation
 
+Status: merged.
+
 - Establish npm-based clean installs, strict TypeScript checking, Vitest, repository integrity tests, and a single `npm run check` command.
 - Document the current system, contribution rules, educational review policy, and known limitations.
 - Make no intentional product changes.
 
 ## PR 2 — Modularize the legacy application
 
+Status: merged.
+
 - Separate legacy content, question generation, attempts, progress selectors, storage, navigation, hooks, and views.
 - Preserve all five courses, eight modules, 400 questions, route behavior, and version-1 storage.
 - Keep the flawed distractor generator unchanged but label it as legacy compatibility code.
 
 ## PR 3 — Assessment domain and migration foundation
+
+Status: current draft implementation.
 
 - Add stable IDs, learning objectives, Bloom levels, difficulty, sources, rationales, misconception tags, review status, and versioning.
 - Define validated schemas for nine assessment formats.
