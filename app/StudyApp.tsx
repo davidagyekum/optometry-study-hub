@@ -1,12 +1,13 @@
 'use client';
 
 import { type MouseEvent as ReactMouseEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { additionalModules, courses, type CourseSummary } from './additionalCourses';
 
 type Figure = { src: string; width: number; height: number; alt: string; caption: string; credit: string; sourceUrl?: string };
 type CoverImage = { src: string; width: number; height: number };
 type Section = { id: string; title: string; summary: string; bullets: string[]; terms: string[]; clinical: string; image: Figure };
-type Fact = { q: string; a: string; section: string };
-type Module = { id: string; number: string; title: string; shortTitle: string; description: string; tone: string; coverImage: CoverImage; objectives: string[]; sections: Section[]; facts: Fact[] };
+type Fact = { q: string; a: string; section: string; group?: string };
+type Module = { id: string; courseId: string; number: string; title: string; shortTitle: string; description: string; tone: string; lecturer?: string; sourceNote?: string; coverImage: CoverImage; objectives: string[]; sections: Section[]; facts: Fact[] };
 type Question = { id: string; prompt: string; options: string[]; correct: string; explanation: string; sectionId: string };
 type Attempt = { id: string; moduleId: string; startedAt: string; order: string[]; optionOrder: Record<string, string[]>; answers: Record<string, string>; flags: string[]; current: number };
 type Result = Attempt & { submittedAt: string; score: number; total: number };
@@ -43,7 +44,7 @@ const sectionImages: Record<string, Figure> = {
 const section = (id: string, title: string, summary: string, bullets: string[], terms: string[], clinical: string): Section => ({ id, title, summary, bullets, terms, clinical, image: sectionImages[id] });
 const f = (section: string, q: string, a: string): Fact => ({ section, q, a });
 
-const modules: Module[] = [
+const legacyModules = [
   {
     id: 'ocular-adnexa', number: '01', shortTitle: 'Ocular Adnexa', title: 'Ocular Adnexa & Lacrimal Apparatus', tone: 'teal',
     description: 'Eyelid landmarks, tissue layers, glands, lacrimal anatomy, tear film and drainage.',
@@ -112,6 +113,16 @@ const modules: Module[] = [
   },
 ];
 
+const modules: Module[] = [
+  ...(additionalModules as Module[]),
+  ...legacyModules.map((module) => ({
+    ...module,
+    courseId: 'neuro-anatomy',
+    lecturer: module.id === 'blood-supply' ? 'Clement Afari, OD, MOptom, PhD · Chris Hudson, PhD, MCOptom, FAAO' : 'Supplied OPT 376 course deck',
+    sourceNote: 'Rewritten from the supplied OPT 376 slides. Figures are drawn from the course decks and attributed educational sources. A correction note is included where slide wording conflicts with standard physiology.',
+  })),
+];
+
 const moduleMap = new Map(modules.map((module) => [module.id, module]));
 const questionCache = new Map<string, Question[]>();
 
@@ -119,10 +130,14 @@ function questionsFor(module: Module): Question[] {
   const cached = questionCache.get(module.id);
   if (cached) return cached;
   const groups = new Map<string, Fact[]>();
-  module.facts.forEach((fact) => groups.set(fact.section, [...(groups.get(fact.section) ?? []), fact]));
+  module.facts.forEach((fact) => {
+    const key = `${fact.section}:${fact.group ?? 'answer'}`;
+    groups.set(key, [...(groups.get(key) ?? []), fact]);
+  });
   const questions = module.facts.map((fact, index) => {
-    const peers = (groups.get(fact.section) ?? module.facts).filter((item) => item.a !== fact.a);
-    const fallback = module.facts.filter((item) => item.a !== fact.a);
+    const key = `${fact.section}:${fact.group ?? 'answer'}`;
+    const peers = (groups.get(key) ?? module.facts).filter((item) => item.a !== fact.a);
+    const fallback = module.facts.filter((item) => item.a !== fact.a && (!fact.group || item.group === fact.group));
     const pool = peers.length >= 3 ? peers : fallback;
     const distractors = [1, 2, 3].map((offset) => pool[(index + offset) % pool.length].a);
     const sectionData = module.sections.find((item) => item.id === fact.section)!;
@@ -152,7 +167,7 @@ function loadStore(): Store {
 function pathState() {
   if (typeof window === 'undefined') return { view: 'home', moduleId: '' };
   const parts = window.location.pathname.split('/').filter(Boolean);
-  if (parts[0] === 'study' || parts[0] === 'quiz' || parts[0] === 'results') return { view: parts[0], moduleId: parts[1] ?? '' };
+  if (parts[0] === 'course' || parts[0] === 'study' || parts[0] === 'quiz' || parts[0] === 'results') return { view: parts[0], moduleId: parts[1] ?? '' };
   return { view: 'home', moduleId: '' };
 }
 
@@ -190,6 +205,7 @@ export default function StudyApp() {
 
   const updateStore = (updater: (current: Store) => Store) => setStore((current) => updater(current));
   const activeModule = moduleMap.get(route.moduleId);
+  const activeCourse = courses.find((course) => course.id === route.moduleId);
 
   const startQuiz = (target: Module, force = false) => {
     const existing = store.active[target.id];
@@ -205,35 +221,83 @@ export default function StudyApp() {
     updateStore((current) => ({ ...current, read: { ...current.read, [id]: [] }, active: { ...current.active, [id]: undefined }, results: { ...current.results, [id]: [] } }));
   };
 
-  if (!activeModule && route.view !== 'home') return <main className="shell"><Header go={go}/><div className="empty"><h1>Module not found</h1><button onClick={() => go('home')}>Return home</button></div></main>;
+  const clearCourse = (course: CourseSummary) => {
+    if (!window.confirm(`Clear all notes progress, active quizzes and score history for ${course.title}?`)) return;
+    updateStore((current) => {
+      const read = { ...current.read };
+      const active = { ...current.active };
+      const results = { ...current.results };
+      course.moduleIds.forEach((id) => { read[id] = []; active[id] = undefined; results[id] = []; });
+      return { ...current, read, active, results };
+    });
+  };
+
+  if (route.view === 'course' && !activeCourse) return <main className="shell"><Header go={go}/><div className="empty"><h1>Course not found</h1><button onClick={() => go('home')}>Return home</button></div></main>;
+  if (!activeModule && !['home', 'course'].includes(route.view)) return <main className="shell"><Header go={go}/><div className="empty"><h1>Module not found</h1><button onClick={() => go('home')}>Return home</button></div></main>;
 
   return (
     <main className="shell">
       <Header go={go}/>
-      {route.view === 'home' ? <Home store={store} go={go} startQuiz={startQuiz} clearModule={clearModule} resetAll={() => { if (window.confirm('Reset all OPT 376 progress and scores on this device?')) setStore(EMPTY_STORE); }} /> : null}
+      {route.view === 'home' ? <Home store={store} go={go} resetAll={() => { if (window.confirm('Reset all study progress and scores on this device?')) setStore(EMPTY_STORE); }} /> : null}
+      {route.view === 'course' && activeCourse ? <CoursePage course={activeCourse} store={store} go={go} startQuiz={startQuiz} clearModule={clearModule} clearCourse={() => clearCourse(activeCourse)} /> : null}
       {route.view === 'study' && activeModule ? <Study module={activeModule} read={store.read[activeModule.id] ?? []} onToggle={(sectionId) => updateStore((current) => { const present = current.read[activeModule.id] ?? []; const next = present.includes(sectionId) ? present.filter((id) => id !== sectionId) : [...present, sectionId]; return { ...current, read: { ...current.read, [activeModule.id]: next } }; })} go={go} startQuiz={startQuiz}/> : null}
       {route.view === 'quiz' && activeModule ? <Quiz module={activeModule} attempt={store.active[activeModule.id]} onAttempt={(attempt) => updateStore((current) => ({ ...current, active: { ...current.active, [activeModule.id]: attempt } }))} onSubmit={(result) => updateStore((current) => ({ ...current, active: { ...current.active, [activeModule.id]: undefined }, results: { ...current.results, [activeModule.id]: [result, ...(current.results[activeModule.id] ?? [])].slice(0, 20) } }))} go={go} startQuiz={startQuiz}/> : null}
       {route.view === 'results' && activeModule ? <Results module={activeModule} result={(store.results[activeModule.id] ?? [])[0]} go={go} startQuiz={startQuiz}/> : null}
-      <footer><p>OPT 376 Eye Anatomy Review · Progress stays on this device.</p><button className="text-button" onClick={() => go('home')}>All modules</button></footer>
+      <footer><p>Optometry Study Hub · Progress stays on this device.</p><button className="text-button" onClick={() => go('home')}>All courses</button></footer>
     </main>
   );
 }
 
 function Header({ go }: { go: (view: string, moduleId?: string) => void }) {
-  return <header className="site-header"><button className="brand" onClick={() => go('home')} aria-label="OPT 376 home"><span className="brand-mark" aria-hidden="true"><i/></span><span><b>OPT 376</b><small>Eye Anatomy Review</small></span></button><span className="device-note">Private study progress · saved on device</span></header>;
+  return <header className="site-header"><button className="brand" onClick={() => go('home')} aria-label="Optometry Study Hub home"><span className="brand-mark" aria-hidden="true"><i/></span><span><b>OPTOMETRY</b><small>Study Hub</small></span></button><span className="device-note">Private study progress · saved on device</span></header>;
 }
 
-function Home({ store, go, startQuiz, clearModule, resetAll }: { store: Store; go: (view: string, id?: string) => void; startQuiz: (m: Module) => void; clearModule: (id: string) => void; resetAll: () => void }) {
+function Home({ store, go, resetAll }: { store: Store; go: (view: string, id?: string) => void; resetAll: () => void }) {
   const completed = modules.reduce((sum, item) => sum + (store.read[item.id]?.length ?? 0), 0);
   const totalSections = modules.reduce((sum, item) => sum + item.sections.length, 0);
+  const totalQuestions = modules.reduce((sum, item) => sum + questionsFor(item).length, 0);
   return <>
-    <section className="hero"><div className="hero-copy"><h1>Study smarter.<br/><em>See the whole eye.</em></h1><p>Three focused modules turn your OPT 376 slides into clear notes, clinical connections and 150 practice questions.</p><div className="hero-actions"><button className="primary" onClick={() => go('study', modules[0].id)}>Begin with module 01</button><span>{completed}/{totalSections} sections reviewed</span></div></div><div className="eye-visual" aria-label="Stylised iris motif"><div className="iris"><div className="pupil"/></div><div className="orbit-line one"/><div className="orbit-line two"/></div></section>
-    <section className="overview"><div><span>YOUR COURSE</span><h2>One eye. Three systems.</h2></div><div className="overall-progress"><strong>{Math.round((completed / totalSections) * 100) || 0}%</strong><span>reading complete</span></div></section>
-    <section className="module-grid">{modules.map((item) => {
-      const read = store.read[item.id]?.length ?? 0; const progress = Math.round((read / item.sections.length) * 100); const history = store.results[item.id] ?? []; const latest = history[0]; const best = history.length ? Math.max(...history.map((r) => r.score)) : undefined;
-      return <article className={`module-card ${item.tone}`} key={item.id}><div className="module-number">{item.number}</div><div className="module-art" aria-hidden="true"><img src={item.coverImage.src} width={item.coverImage.width} height={item.coverImage.height} alt="" loading="lazy" decoding="async"/></div><div className="module-body"><h3>{item.title}</h3><p>{item.description}</p><div className="progress-row"><div><i style={{width: `${progress}%`}}/></div><span>{progress}%</span></div><div className="score-row"><span>Latest <b>{latest ? `${latest.score}/50` : '—'}</b></span><span>Best <b>{best === undefined ? '—' : `${best}/50`}</b></span></div><div className="card-actions"><button className="secondary" onClick={() => go('study', item.id)}>Read notes</button><button className="primary small" onClick={() => startQuiz(item)}>{store.active[item.id] ? 'Resume quiz' : 'Take quiz'}</button></div><button className="text-button danger" onClick={() => clearModule(item.id)}>Clear module data</button></div></article>;
+    <section className="hero"><div className="hero-copy"><span className="eyebrow">KNUST OPTOMETRY REVIEW</span><h1>Five courses.<br/><em>One focused study hub.</em></h1><p>Clear lecture-based notes, source figures and {totalQuestions} shuffled practice questions across visual science, anatomy, pharmacology and pathology.</p><div className="hero-actions"><button className="primary" onClick={() => go('course', courses[0].id)}>Explore the courses</button><span>{completed}/{totalSections} sections reviewed</span></div></div><div className="eye-visual" aria-label="Stylised iris motif"><div className="iris"><div className="pupil"/></div><div className="orbit-line one"/><div className="orbit-line two"/></div></section>
+    <section className="overview"><div><span>YOUR STUDY LIBRARY</span><h2>Choose a course to continue.</h2></div><div className="overall-progress"><strong>{Math.round((completed / totalSections) * 100) || 0}%</strong><span>reading complete</span></div></section>
+    <section className="course-grid">{courses.map((course) => {
+      const courseModules = course.moduleIds.map((id) => moduleMap.get(id)).filter(Boolean) as Module[];
+      const sectionCount = courseModules.reduce((sum, item) => sum + item.sections.length, 0);
+      const readCount = courseModules.reduce((sum, item) => sum + (store.read[item.id]?.length ?? 0), 0);
+      const progress = Math.round((readCount / sectionCount) * 100) || 0;
+      const attempts = courseModules.flatMap((item) => store.results[item.id] ?? []);
+      const latest = [...attempts].sort((a, b) => b.submittedAt.localeCompare(a.submittedAt))[0];
+      const best = attempts.length ? Math.max(...attempts.map((result) => Math.round((result.score / result.total) * 100))) : undefined;
+      return <article className={`course-card ${course.tone}`} key={course.id}>
+        <button className="course-art" onClick={() => go('course', course.id)} aria-label={`Open ${course.title}`}><img src={course.coverImage.src} width={course.coverImage.width} height={course.coverImage.height} alt="" loading="lazy" decoding="async"/></button>
+        <div className="course-body"><span className="course-code">{course.code}</span><h3>{course.title}</h3><p>{course.description}</p>
+          <div className="course-meta"><span>{courseModules.length} {courseModules.length === 1 ? 'module' : 'modules'}</span><span>{courseModules.length * 50} questions</span></div>
+          <div className="progress-row"><div><i style={{width: `${progress}%`}}/></div><span>{progress}%</span></div>
+          <div className="score-row"><span>Latest <b>{latest ? `${Math.round((latest.score / latest.total) * 100)}%` : '—'}</b></span><span>Best <b>{best === undefined ? '—' : `${best}%`}</b></span></div>
+          <button className="primary full" onClick={() => go('course', course.id)}>Open course</button>
+        </div>
+      </article>;
     })}</section>
-    <section className="privacy-panel"><div><h2>Your learning stays yours.</h2><p>Answers, reading progress and up to 20 recent attempts per module are stored only in this browser.</p></div><button className="secondary danger" onClick={resetAll}>Reset all study data</button></section>
+    <section className="privacy-panel"><div><h2>Your learning stays yours.</h2><p>Answers, reading progress and up to 20 recent attempts per module are stored only in this browser. No account or student name is required.</p></div><button className="secondary danger" onClick={resetAll}>Reset all study data</button></section>
+  </>;
+}
+
+function CoursePage({ course, store, go, startQuiz, clearModule, clearCourse }: { course: CourseSummary; store: Store; go: (view: string, id?: string) => void; startQuiz: (m: Module) => void; clearModule: (id: string) => void; clearCourse: () => void }) {
+  const courseModules = course.moduleIds.map((id) => moduleMap.get(id)).filter(Boolean) as Module[];
+  const completed = courseModules.reduce((sum, item) => sum + (store.read[item.id]?.length ?? 0), 0);
+  const totalSections = courseModules.reduce((sum, item) => sum + item.sections.length, 0);
+  const progress = Math.round((completed / totalSections) * 100) || 0;
+  return <>
+    <section className={`course-hero ${course.tone}`}><button className="back" onClick={() => go('home')}>← All courses</button><div><span>{course.code}</span><h1>{course.title}</h1><p>{course.description}</p><p className="lecturer-line"><b>Lecturer/source:</b> {course.lecturers.join(' · ')}</p></div><div className="round-progress"><strong>{progress}%</strong><span>reviewed</span></div></section>
+    <section className="overview compact"><div><span>COURSE MODULES</span><h2>{courseModules.length === 1 ? 'One complete review module.' : `${courseModules.length} focused review modules.`}</h2></div><div className="overall-progress"><strong>{completed}/{totalSections}</strong><span>sections reviewed</span></div></section>
+    <section className="module-grid">{courseModules.map((item) => {
+      const read = store.read[item.id]?.length ?? 0;
+      const moduleProgress = Math.round((read / item.sections.length) * 100);
+      const history = store.results[item.id] ?? [];
+      const latest = history[0];
+      const best = history.length ? Math.max(...history.map((result) => result.score)) : undefined;
+      return <article className={`module-card ${item.tone}`} key={item.id}><div className="module-number">{item.number}</div><div className="module-art" aria-hidden="true"><img src={item.coverImage.src} width={item.coverImage.width} height={item.coverImage.height} alt="" loading="lazy" decoding="async"/></div><div className="module-body"><span className="course-code">{item.lecturer}</span><h3>{item.title}</h3><p>{item.description}</p><div className="progress-row"><div><i style={{width: `${moduleProgress}%`}}/></div><span>{moduleProgress}%</span></div><div className="score-row"><span>Latest <b>{latest ? `${latest.score}/50` : '—'}</b></span><span>Best <b>{best === undefined ? '—' : `${best}/50`}</b></span></div><div className="card-actions"><button className="secondary" onClick={() => go('study', item.id)}>Read notes</button><button className="primary small" onClick={() => startQuiz(item)}>{store.active[item.id] ? 'Resume quiz' : 'Take quiz'}</button></div><button className="text-button danger" onClick={() => clearModule(item.id)}>Clear module data</button></div></article>;
+    })}</section>
+    <section className="privacy-panel course-reset"><div><h2>Course data controls</h2><p>Clear only this course while leaving every other course and the original OPT 376 records untouched.</p></div><button className="secondary danger" onClick={clearCourse}>Clear {course.title}</button></section>
   </>;
 }
 
@@ -286,8 +350,8 @@ function Study({ module, read, onToggle, go, startQuiz }: { module: Module; read
   };
 
   return <>
-    <section className={`module-hero ${module.tone}`}><button className="back" onClick={() => go('home')}>← All modules</button><div><span>MODULE {module.number}</span><h1>{module.title}</h1><p>{module.description}</p></div><div className="round-progress"><strong>{progress}%</strong><span>reviewed</span></div></section>
-    <div className="study-layout"><aside><div className="aside-card"><h2>Learning objectives</h2><ol>{module.objectives.map((objective) => <li key={objective}>{objective}</li>)}</ol></div><nav aria-label="Module sections"><h2>On this page</h2>{module.sections.map((item, index) => <a key={item.id} href={`#${item.id}`} className={read.includes(item.id) ? 'done' : ''}><span>{String(index + 1).padStart(2, '0')}</span>{item.title}</a>)}</nav><button className="primary full" onClick={() => startQuiz(module)}>Start 50-question quiz</button></aside><div className="notes"><div className="source-note"><b>Study note</b><span>Rewritten from the supplied OPT 376 slides. Figures are drawn from the course decks and attributed educational sources. A correction note is included where slide wording conflicts with standard physiology.</span></div>{module.sections.map((item, index) => <article className="note-section" id={item.id} key={item.id}><div className="section-heading"><span>{String(index + 1).padStart(2, '0')}</span><div><h2>{item.title}</h2><p>{item.summary}</p></div></div><div className="section-learning"><figure className="section-figure"><button className="figure-button" type="button" onClick={(event) => openFigure(item.image, event)} aria-label={`Enlarge figure: ${item.image.caption}`}><img src={item.image.src} width={item.image.width} height={item.image.height} alt={item.image.alt} loading="lazy" decoding="async"/></button><figcaption><span>{item.image.caption}</span><small>Source: {item.image.sourceUrl ? <a href={item.image.sourceUrl} target="_blank" rel="noreferrer">{item.image.credit}</a> : item.image.credit}</small></figcaption></figure><ul className="key-points">{item.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul></div><div className="terms"><h3>Key terms</h3>{item.terms.map((term) => { const [name, definition] = term.split(' — '); return <div key={term}><b>{name}</b><span>{definition}</span></div>; })}</div><div className="clinical"><span>Clinical connection</span><p>{item.clinical}</p></div><button className={read.includes(item.id) ? 'complete-button complete' : 'complete-button'} onClick={() => onToggle(item.id)}>{read.includes(item.id) ? '✓ Reviewed' : 'Mark section reviewed'}</button></article>)}</div></div>
+    <section className={`module-hero ${module.tone}`}><button className="back" onClick={() => go('course', module.courseId)}>← Back to course</button><div><span>MODULE {module.number}</span><h1>{module.title}</h1><p>{module.description}</p></div><div className="round-progress"><strong>{progress}%</strong><span>reviewed</span></div></section>
+    <div className="study-layout"><aside><div className="aside-card"><h2>Learning objectives</h2><ol>{module.objectives.map((objective) => <li key={objective}>{objective}</li>)}</ol></div><nav aria-label="Module sections"><h2>On this page</h2>{module.sections.map((item, index) => <a key={item.id} href={`#${item.id}`} className={read.includes(item.id) ? 'done' : ''}><span>{String(index + 1).padStart(2, '0')}</span>{item.title}</a>)}</nav><button className="primary full" onClick={() => startQuiz(module)}>Start 50-question quiz</button></aside><div className="notes"><div className="source-note"><b>Study note</b><span>{module.sourceNote}</span></div>{module.sections.map((item, index) => <article className="note-section" id={item.id} key={item.id}><div className="section-heading"><span>{String(index + 1).padStart(2, '0')}</span><div><h2>{item.title}</h2><p>{item.summary}</p></div></div><div className="section-learning"><figure className="section-figure"><button className="figure-button" type="button" onClick={(event) => openFigure(item.image, event)} aria-label={`Enlarge figure: ${item.image.caption}`}><img src={item.image.src} width={item.image.width} height={item.image.height} alt={item.image.alt} loading="lazy" decoding="async"/></button><figcaption><span>{item.image.caption}</span><small>Source: {item.image.sourceUrl ? <a href={item.image.sourceUrl} target="_blank" rel="noreferrer">{item.image.credit}</a> : item.image.credit}</small></figcaption></figure><ul className="key-points">{item.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul></div><div className="terms"><h3>Key terms</h3>{item.terms.map((term) => { const [name, definition] = term.split(' — '); return <div key={term}><b>{name}</b><span>{definition}</span></div>; })}</div><div className="clinical"><span>Clinical connection</span><p>{item.clinical}</p></div><button className={read.includes(item.id) ? 'complete-button complete' : 'complete-button'} onClick={() => onToggle(item.id)}>{read.includes(item.id) ? '✓ Reviewed' : 'Mark section reviewed'}</button></article>)}</div></div>
     {expanded ? <div className="figure-modal" onMouseDown={(event) => { if (event.currentTarget === event.target) closeFigure(); }}><div className="figure-dialog" ref={modalRef} role="dialog" aria-modal="true" aria-labelledby="figure-dialog-title"><button className="figure-close" type="button" ref={closeButtonRef} onClick={closeFigure} aria-label="Close enlarged figure">Close <span aria-hidden="true">×</span></button><img src={expanded.src} width={expanded.width} height={expanded.height} alt={expanded.alt}/><div className="figure-dialog-caption"><h2 id="figure-dialog-title">{expanded.caption}</h2><p>Source: {expanded.sourceUrl ? <a href={expanded.sourceUrl} target="_blank" rel="noreferrer">{expanded.credit}</a> : expanded.credit}</p></div></div></div> : null}
   </>;
 }
@@ -299,12 +363,12 @@ function Quiz({ module, attempt, onAttempt, onSubmit, go, startQuiz }: { module:
   const questionId = attempt.order[attempt.current]; const question = byId.get(questionId)!; const answered = Object.keys(attempt.answers).length; const flagged = attempt.flags.includes(questionId);
   const patch = (changes: Partial<Attempt>) => onAttempt({ ...attempt, ...changes });
   const submit = () => { const unanswered = attempt.order.length - answered; if (unanswered && !window.confirm(`You still have ${unanswered} unanswered question${unanswered === 1 ? '' : 's'}. Submit anyway?`)) return; const score = attempt.order.reduce((sum, id) => sum + (attempt.answers[id] === byId.get(id)?.correct ? 1 : 0), 0); const result: Result = { ...attempt, score, total: 50, submittedAt: new Date().toISOString() }; onSubmit(result); go('results', module.id); };
-  return <section className="quiz-shell"><div className="quiz-top"><button className="back" onClick={() => go('home')}>← Save & exit</button><div><span>{module.shortTitle}</span><b>{answered}/50 answered</b></div><button className="text-button danger" onClick={() => startQuiz(module, true)}>Restart</button></div><div className="quiz-progress"><i style={{width: `${((attempt.current + 1) / 50) * 100}%`}}/></div><div className="quiz-grid"><aside className="navigator"><h2>Question navigator</h2><div>{attempt.order.map((id, index) => <button key={id} aria-label={`Question ${index + 1}`} onClick={() => patch({ current: index })} className={`${index === attempt.current ? 'current' : ''} ${attempt.answers[id] ? 'answered' : ''} ${attempt.flags.includes(id) ? 'flagged' : ''}`}>{index + 1}</button>)}</div><div className="legend"><span><i className="answered"/>Answered</span><span><i className="flagged"/>Flagged</span></div></aside><article className="question-card"><div className="question-meta"><span>QUESTION {attempt.current + 1} OF 50</span><button className={flagged ? 'flag active' : 'flag'} onClick={() => patch({ flags: flagged ? attempt.flags.filter((id) => id !== questionId) : [...attempt.flags, questionId] })}>{flagged ? '★ Flagged' : '☆ Flag for review'}</button></div><h1>{question.prompt}</h1><fieldset><legend className="sr-only">Answer choices</legend>{attempt.optionOrder[questionId].map((option, index) => <label key={option} className={attempt.answers[questionId] === option ? 'option selected' : 'option'}><input type="radio" name={questionId} checked={attempt.answers[questionId] === option} onChange={() => patch({ answers: { ...attempt.answers, [questionId]: option } })}/><span>{String.fromCharCode(65 + index)}</span><b>{option}</b></label>)}</fieldset><div className="quiz-actions"><button className="secondary" disabled={attempt.current === 0} onClick={() => patch({ current: Math.max(0, attempt.current - 1) })}>Previous</button>{attempt.current < 49 ? <button className="primary" onClick={() => patch({ current: attempt.current + 1 })}>Next question</button> : <button className="primary coral" onClick={submit}>Submit quiz</button>}</div><button className="submit-link" onClick={submit}>Submit quiz now</button></article></div></section>;
+  return <section className="quiz-shell"><div className="quiz-top"><button className="back" onClick={() => go('course', module.courseId)}>← Save & exit</button><div><span>{module.shortTitle}</span><b>{answered}/50 answered</b></div><button className="text-button danger" onClick={() => startQuiz(module, true)}>Restart</button></div><div className="quiz-progress"><i style={{width: `${((attempt.current + 1) / 50) * 100}%`}}/></div><div className="quiz-grid"><aside className="navigator"><h2>Question navigator</h2><div>{attempt.order.map((id, index) => <button key={id} aria-label={`Question ${index + 1}`} onClick={() => patch({ current: index })} className={`${index === attempt.current ? 'current' : ''} ${attempt.answers[id] ? 'answered' : ''} ${attempt.flags.includes(id) ? 'flagged' : ''}`}>{index + 1}</button>)}</div><div className="legend"><span><i className="answered"/>Answered</span><span><i className="flagged"/>Flagged</span></div></aside><article className="question-card"><div className="question-meta"><span>QUESTION {attempt.current + 1} OF 50</span><button className={flagged ? 'flag active' : 'flag'} onClick={() => patch({ flags: flagged ? attempt.flags.filter((id) => id !== questionId) : [...attempt.flags, questionId] })}>{flagged ? '★ Flagged' : '☆ Flag for review'}</button></div><h1>{question.prompt}</h1><fieldset><legend className="sr-only">Answer choices</legend>{attempt.optionOrder[questionId].map((option, index) => <label key={option} className={attempt.answers[questionId] === option ? 'option selected' : 'option'}><input type="radio" name={questionId} checked={attempt.answers[questionId] === option} onChange={() => patch({ answers: { ...attempt.answers, [questionId]: option } })}/><span>{String.fromCharCode(65 + index)}</span><b>{option}</b></label>)}</fieldset><div className="quiz-actions"><button className="secondary" disabled={attempt.current === 0} onClick={() => patch({ current: Math.max(0, attempt.current - 1) })}>Previous</button>{attempt.current < 49 ? <button className="primary" onClick={() => patch({ current: attempt.current + 1 })}>Next question</button> : <button className="primary coral" onClick={submit}>Submit quiz</button>}</div><button className="submit-link" onClick={submit}>Submit quiz now</button></article></div></section>;
 }
 
 function Results({ module, result, go, startQuiz }: { module: Module; result?: Result; go: (view: string, id?: string) => void; startQuiz: (m: Module, force?: boolean) => void }) {
   const questions = questionsFor(module); const byId = new Map(questions.map((q) => [q.id, q]));
   if (!result) return <section className="empty"><h1>No submitted result yet</h1><button className="primary" onClick={() => startQuiz(module)}>Take the quiz</button></section>;
   const unanswered = result.order.filter((id) => !result.answers[id]).length; const incorrect = result.total - result.score - unanswered; const percent = Math.round((result.score / result.total) * 100);
-  return <section className="results"><button className="back" onClick={() => go('home')}>← Dashboard</button><div className="result-hero"><div><span>QUIZ COMPLETE</span><h1>{module.shortTitle}</h1><p>{percent >= 80 ? 'Excellent work — your core understanding is strong.' : percent >= 60 ? 'A solid attempt. Review the missed sections and try again.' : 'Use the review below to target the topics that need another pass.'}</p></div><div className="score-circle"><strong>{percent}%</strong><span>{result.score}/50 correct</span></div></div><div className="result-stats"><span><b>{result.score}</b>Correct</span><span><b>{incorrect}</b>Incorrect</span><span><b>{unanswered}</b>Unanswered</span><span><b>{new Date(result.submittedAt).toLocaleDateString()}</b>Submitted</span></div><div className="result-actions"><button className="primary" onClick={() => startQuiz(module, true)}>Retake shuffled quiz</button><button className="secondary" onClick={() => go('study', module.id)}>Review study notes</button></div><h2 className="review-title">Answer review</h2><div className="review-list">{result.order.map((id, index) => { const q = byId.get(id)!; const selected = result.answers[id]; const correct = selected === q.correct; return <details key={id} className={correct ? 'review correct' : 'review incorrect'}><summary><span>{String(index + 1).padStart(2, '0')}</span><div><b>{q.prompt}</b><small>{correct ? 'Correct' : selected ? 'Incorrect' : 'Unanswered'}</small></div><i>{correct ? '✓' : '!'}</i></summary><div className="review-body"><p><span>Your answer</span><b>{selected ?? 'No answer selected'}</b></p>{!correct ? <p><span>Correct answer</span><b>{q.correct}</b></p> : null}<p className="explanation">{q.explanation}</p><button className="text-button" onClick={() => { go('study', module.id); setTimeout(() => document.getElementById(q.sectionId)?.scrollIntoView({ behavior: 'smooth' }), 50); }}>Open related notes →</button></div></details>; })}</div></section>;
+  return <section className="results"><button className="back" onClick={() => go('course', module.courseId)}>← Course dashboard</button><div className="result-hero"><div><span>QUIZ COMPLETE</span><h1>{module.shortTitle}</h1><p>{percent >= 80 ? 'Excellent work — your core understanding is strong.' : percent >= 60 ? 'A solid attempt. Review the missed sections and try again.' : 'Use the review below to target the topics that need another pass.'}</p></div><div className="score-circle"><strong>{percent}%</strong><span>{result.score}/50 correct</span></div></div><div className="result-stats"><span><b>{result.score}</b>Correct</span><span><b>{incorrect}</b>Incorrect</span><span><b>{unanswered}</b>Unanswered</span><span><b>{new Date(result.submittedAt).toLocaleDateString()}</b>Submitted</span></div><div className="result-actions"><button className="primary" onClick={() => startQuiz(module, true)}>Retake shuffled quiz</button><button className="secondary" onClick={() => go('study', module.id)}>Review study notes</button></div><h2 className="review-title">Answer review</h2><div className="review-list">{result.order.map((id, index) => { const q = byId.get(id)!; const selected = result.answers[id]; const correct = selected === q.correct; return <details key={id} className={correct ? 'review correct' : 'review incorrect'}><summary><span>{String(index + 1).padStart(2, '0')}</span><div><b>{q.prompt}</b><small>{correct ? 'Correct' : selected ? 'Incorrect' : 'Unanswered'}</small></div><i>{correct ? '✓' : '!'}</i></summary><div className="review-body"><p><span>Your answer</span><b>{selected ?? 'No answer selected'}</b></p>{!correct ? <p><span>Correct answer</span><b>{q.correct}</b></p> : null}<p className="explanation">{q.explanation}</p><button className="text-button" onClick={() => { go('study', module.id); setTimeout(() => document.getElementById(q.sectionId)?.scrollIntoView({ behavior: 'smooth' }), 50); }}>Open related notes →</button></div></details>; })}</div></section>;
 }
