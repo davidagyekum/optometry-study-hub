@@ -40,3 +40,17 @@ next-env.d.ts
 /.wrangler/
 /outputs/
 /work/
+/tsconfig.tsbuildinfo
+
+# Local lecture sources and extraction artifacts
+/Environmental vision/
+/Neuro anatomy/
+/Pharmarcology/
+/human visual perception/
+/systemic pathology/
+/tmp/
+
+# Untracked starter/support material superseded by tracked project files
+/build/
+/examples/
+/tests/rendered-html.test.mjs
