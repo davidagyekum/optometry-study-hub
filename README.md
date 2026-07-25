@@ -16,11 +16,13 @@ The current application contains five courses, eight modules, 39 study sections,
 
 ## Architecture today
 
-The project uses React, TypeScript, Next-compatible App Router files, Vinext, Vite, and Cloudflare Workers. Most course data, quiz logic, route state, browser storage, and view markup currently live in `app/StudyApp.tsx`; the five newer modules live in `app/additionalCourses.ts`.
+The project uses React, TypeScript, Next-compatible App Router files, Vinext, Vite, and Cloudflare Workers. Legacy content lives under `content/legacy/`; focused views live under `components/`; route, attempt, progress, and question-generation logic lives under `lib/` and `hooks/`; and `app/StudyApp.tsx` coordinates those modules.
 
-Client navigation uses `/course/:id`, `/study/:moduleId`, `/quiz/:moduleId`, and `/results/:moduleId`. Reading progress, active attempts, and up to 20 recent results per module are stored in the browser under `opt376-study-state:v1`.
+Client navigation uses `/course/:id`, `/study/:moduleId`, `/quiz/:moduleId`, and `/results/:moduleId`. Reading progress, active legacy attempts, and up to 20 recent results per module are stored in the validated V2 browser record `optometry-study-hub:v2`. Existing `opt376-study-state:v1` data migrates locally and remains available for rollback.
 
-See [Current State](docs/CURRENT_STATE.md) for the detailed baseline and [Assessment Redesign Roadmap](docs/ASSESSMENT_REDESIGN_ROADMAP.md) for the staged modernization plan.
+PR 3 adds an assessment-domain pilot under `content/question-bank/pilot/`, validation and reporting under `lib/assessment/`, and migration-safe storage under `lib/storage/`. The live quiz still uses the legacy 400-question engine.
+
+See [Current State](docs/CURRENT_STATE.md), [Assessment Specification](docs/ASSESSMENT_SPEC.md), and [Assessment Redesign Roadmap](docs/ASSESSMENT_REDESIGN_ROADMAP.md).
 
 ## Requirements
 
@@ -43,11 +45,13 @@ npm run lint
 npm run typecheck
 npm run test
 npm run test:watch
+npm run questions:validate
+npm run questions:report
 npm run build
 npm run check
 ```
 
-`npm run check` runs linting, strict TypeScript checking, the Vitest suite, and the production build in sequence.
+`npm run check` runs linting, strict TypeScript checking, the Vitest suite, question-bank validation, and the production build in sequence.
 
 ## Deployment
 
@@ -55,21 +59,21 @@ The site is hosted through OpenAI Sites using the project information in `.opena
 
 ## Privacy
 
-Student reading progress, answers, flags, and quiz history remain in browser local storage. There are no student names, accounts, analytics, leaderboards, or cross-device synchronization. Clearing browser data removes the saved study state.
+Student reading progress, answers, flags, quiz history, and future assessment history remain in browser local storage. There are no student names, accounts, analytics, leaderboards, or cross-device synchronization. Clearing browser data removes the saved study state.
 
 ## Current limitations
 
 - The 400 live questions are generated from fact prompts by a positional legacy distractor algorithm.
-- Question options do not yet have stable IDs, source records, rationales, Bloom levels, or review statuses.
-- Most application responsibilities remain concentrated in `app/StudyApp.tsx`.
+- The live questions and options have not yet been converted to stable assessment IDs, sources, rationales, Bloom levels, or review statuses.
+- The nine-format pilot proves the new schema but is not rendered or scored by the production quiz.
 - Navigation is client-managed rather than split into dedicated App Router routes.
-- Course notes and figures still require ongoing academic and licensing review.
+- Course notes, figures, and future production questions require ongoing academic and licensing review.
 
-The assessment redesign described in the roadmap is not yet live.
+The assessment foundation is implemented alongside the live system; the production question conversion and dynamic quiz engine remain future work.
 
 ## Contributing
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a change. Keep one concern per pull request, run `npm run check`, and apply the source and reviewer requirements in [Content Review Policy](docs/CONTENT_REVIEW_POLICY.md).
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a change. Keep one concern per pull request, run `npm run check`, and apply the source and reviewer requirements in [Content Review Policy](docs/CONTENT_REVIEW_POLICY.md) and [Question Authoring Guide](docs/QUESTION_AUTHORING_GUIDE.md).
 
 ## Educational and licensing notice
 

@@ -27,7 +27,9 @@ describe("package scripts", () => {
       lint: expect.any(String),
       typecheck: "tsc --noEmit",
       test: "vitest run",
-      check: "npm run lint && npm run typecheck && npm run test && npm run build",
+      "questions:validate": "tsx scripts/validate-question-bank.ts",
+      "questions:report": "tsx scripts/report-question-bank.ts",
+      check: "npm run lint && npm run typecheck && npm run test && npm run questions:validate && npm run build",
     });
   });
 

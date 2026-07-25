@@ -12,14 +12,15 @@ import { moduleMap } from '@/content/legacy/moduleCatalog';
 import { useClientRoute } from '@/hooks/useClientRoute';
 import { useLegacyStore } from '@/hooks/useLegacyStore';
 import { createAttempt } from '@/lib/legacy/attempts';
-import type { CourseSummary, Module, Store } from '@/lib/legacy/types';
-import { EMPTY_STORE } from '@/lib/storage/legacyStore';
+import type { CourseSummary, Module } from '@/lib/legacy/types';
+import { createEmptyStoreV2 } from '@/lib/storage/migrations';
+import type { StoreV2 } from '@/lib/storage/schemas';
 
 export default function StudyApp() {
   const { route, go } = useClientRoute();
   const { store, setStore } = useLegacyStore();
 
-  const updateStore = (updater: (current: Store) => Store) => {
+  const updateStore = (updater: (current: StoreV2) => StoreV2) => {
     setStore((current) => updater(current));
   };
   const activeModule = moduleMap.get(route.moduleId);
@@ -98,7 +99,7 @@ export default function StudyApp() {
           go={go}
           resetAll={() => {
             if (window.confirm('Reset all study progress and scores on this device?')) {
-              setStore(EMPTY_STORE);
+              setStore(createEmptyStoreV2());
             }
           }}
         />

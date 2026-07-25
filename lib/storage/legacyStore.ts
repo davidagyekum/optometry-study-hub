@@ -1,6 +1,7 @@
 import type { Store } from '@/lib/legacy/types';
+import { LEGACY_STORAGE_KEY } from '@/lib/storage/keys';
 
-export const STORAGE_KEY = 'opt376-study-state:v1';
+export const STORAGE_KEY = LEGACY_STORAGE_KEY;
 export const EMPTY_STORE: Store = { version: 1, read: {}, active: {}, results: {} };
 
 export type LegacyStorage = Pick<Storage, 'getItem' | 'setItem'>;

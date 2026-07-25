@@ -1,27 +1,24 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import type { Store } from '@/lib/legacy/types';
-import {
-  EMPTY_STORE,
-  loadLegacyStore,
-  saveLegacyStore,
-} from '@/lib/storage/legacyStore';
+import { createEmptyStoreV2 } from '@/lib/storage/migrations';
+import type { StoreV2 } from '@/lib/storage/schemas';
+import { loadStore, saveStore } from '@/lib/storage/store';
 
 export function useLegacyStore() {
-  const [store, setStore] = useState<Store>(EMPTY_STORE);
+  const [store, setStore] = useState<StoreV2>(createEmptyStoreV2);
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
-      setStore(loadLegacyStore());
+      setStore(loadStore());
       setHydrated(true);
     });
     return () => window.cancelAnimationFrame(frame);
   }, []);
 
   useEffect(() => {
-    if (hydrated) saveLegacyStore(store);
+    if (hydrated) saveStore(store);
   }, [store, hydrated]);
 
   return { store, setStore };

@@ -74,11 +74,14 @@ export type Result = Attempt & {
   total: number;
 };
 
-export type Store = {
-  version: 1;
+export type LegacyStoreData = {
   read: Record<string, string[]>;
   active: Record<string, Attempt | undefined>;
   results: Record<string, Result[]>;
+};
+
+export type Store = LegacyStoreData & {
+  version: 1;
 };
 
 export type CourseSummary = {
