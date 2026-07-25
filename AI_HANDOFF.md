@@ -129,7 +129,7 @@ The Chrome extension's exact viewport override stopped applying after native con
 
 ## GitHub Actions status
 
-To be updated after the branch push. The repository's PR 1 Quality runs were blocked before executing any steps by the external GitHub account billing lock; any identical zero-step PR 2 failure must be reported as an external runner restriction, not a code failure.
+GitHub Actions `Quality` run [30169567172](https://github.com/davidagyekum/optometry-study-hub/actions/runs/30169567172) completed with failure, but its single `quality` job reported no steps. Therefore `npm ci`, lint, typecheck, tests, and build did not run on GitHub. This matches the repository's existing external account billing lock and is recorded as an external runner restriction, not a code failure.
 
 ## Deviations from the requested structure
 
