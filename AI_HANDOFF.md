@@ -137,7 +137,7 @@ The Chrome extension's exact viewport override stopped applying after native con
 
 ## GitHub Actions status
 
-GitHub Actions `Quality` run [30169567172](https://github.com/davidagyekum/optometry-study-hub/actions/runs/30169567172) completed with failure, but its single `quality` job reported no steps. Therefore `npm ci`, lint, typecheck, tests, and build did not run on GitHub. This matches the repository's existing external account billing lock and is recorded as an external runner restriction, not a code failure.
+The review-correction implementation commit `280a714888b177f1b87838947786293d12f9e3d1` triggered GitHub Actions `Quality` run [30170781350](https://github.com/davidagyekum/optometry-study-hub/actions/runs/30170781350). It completed with failure, but its single `quality` job contained zero steps and exposed no logs. Therefore `npm ci`, lint, typecheck, tests, and build did not execute on GitHub. This is consistent with the repository's existing external account billing lock and is recorded as an external runner restriction, not a code failure.
 
 ## Deviations from the requested structure
 
