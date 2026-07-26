@@ -4,7 +4,7 @@
 
 PR 4 introduces a headless, pure assessment-session engine over the versioned question domain and StoreV2 persistence foundation. It creates, validates, resumes, updates, and finalizes assessment snapshots without rendering a new quiz or deciding whether an answer is correct.
 
-The public application remains on the 400-question legacy quiz. The nine-question Aqueous and Vitreous pilot remains a draft engineering fixture and has no public route or entry point.
+The public application remains on the 400-question legacy quiz. PR 6 adds a default-disabled, feature-gated route that may explicitly register the nine draft Aqueous and Vitreous engineering examples; the legacy quiz never registers them.
 
 ## Registry and eligibility
 
@@ -56,6 +56,8 @@ The engine never mutates authored question content while deriving these orders.
 
 This validation answers “can this response safely resume with this question?” It remains separate from correctness. PR 5 adds a headless grading layer that first calls response validation and then applies the attempt's locked policy.
 
+PR 6 adds a separate optional `draftResponses` layer to active attempts. Drafts may represent valid incomplete work and are validated against the exact question version, ownership, authored IDs, limits, and reuse rules. A complete draft is also stored through the existing complete-response validator; an incomplete draft removes any formerly complete response without being discarded. Historical snapshots without drafts remain valid, result snapshots never contain drafts, and final grading continues to read only `responses`. For snapshots that do contain a valid draft, the resolver derives its complete response and requires exact format-aware coherence with the stored response; response-only historical/headless data remains valid.
+
 Strict version 1 is all-or-nothing. Diagnostic version 1 differs only for matching, extended matching, and image labelling, where independent component coverage yields bounded partial credit. Component numerators and denominators are retained so exact fractions are summed before one aggregate rounding step. No policy uses negative marking or fuzzy comparison.
 
 ## Immutable attempt operations
@@ -74,6 +76,8 @@ Clearing an unanswered question is harmless. Moving previous at the first questi
 - `QUESTION_MODULE_MISMATCH`;
 - `INVALID_OPTION_ORDER`;
 - `INVALID_PERSISTED_RESPONSE`;
+- INVALID_DRAFT_RESPONSE;
+- DRAFT_RESPONSE_MISMATCH;
 - `INVALID_CURRENT_INDEX`.
 
 Resolution never substitutes a missing question, upgrades a version, discards a response, regenerates presentation order, or changes question order. The caller decides how to present or recover from an issue.
@@ -104,6 +108,8 @@ Atomic finalization requires the result's attempt ID, course, module, ordered qu
 
 Retrieved values are cloned so callers cannot mutate the store through a returned reference.
 
+The PR 6 controller adds a latest-StoreV2 transaction boundary around every pilot mutation. It validates the exact controlled-pilot identity before active selection, direct routing, update, submission, and result display; only successful operations publish the new store. Structured failures preserve the latest state. Candidate-aware pilot selection retains incompatible exact-blueprint snapshots, protects unrelated assessments, diagnoses multiple active pilot candidates, and supports guarded discard or atomic replacement. A pure partitioner routes originating draft/response validation to the renderer and controller, persistence, compatibility, result, and grading failures to the session alert.
+
 Persisted grading snapshots are not trusted as independent truth: result regrading recomputes the canonical report from exact stored responses, question versions, ownership, and policy, then rejects any structural disagreement with `GRADING_SNAPSHOT_MISMATCH`.
 
 ## What remains legacy
@@ -112,4 +118,4 @@ Atomic finalization also requires the result grading-policy reference to match t
 
 The current React quiz and result views, 400 generated questions, distractor logic, scoring, routes, CSS, and device-local learner workflow remain unchanged. No pilot question is registered with `LegacyQuizView`.
 
-The versioned grading policies are still headless. Visible multi-format renderers and a controlled pilot experience belong to a later reviewed PR.
+The versioned engines remain separate from the legacy quiz. PR 6 connects them only to an exact-string, default-off Aqueous pilot with accessible multi-format renderers, StoreV2 autosave, deterministic result verification, and draft-only registration. Production question conversion remains future reviewed work.

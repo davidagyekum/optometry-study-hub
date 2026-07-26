@@ -10,6 +10,8 @@ export function StudyView({
   module,
   read,
   onToggle,
+  pilotEnabled,
+  openPilot,
   go,
   startQuiz,
 }: {
@@ -17,6 +19,8 @@ export function StudyView({
   read: string[];
   onToggle: (id: string) => void;
   go: GoToRoute;
+  pilotEnabled: boolean;
+  openPilot: () => void;
   startQuiz: (module: Module) => void;
 }) {
   const progress = moduleReadingPercentage(module, read);
@@ -55,6 +59,18 @@ export function StudyView({
             ))}
           </nav>
           <button className="primary full" onClick={() => startQuiz(module)}>Start 50-question quiz</button>
+          {pilotEnabled && module.id === 'aqueous-vitreous' ? (
+            <section className="pilot-entry">
+              <h2>Experimental mixed-format pilot</h2>
+              <p>
+                Try nine draft questions using diagrams, matching, ordering and
+                written responses. This pilot does not affect your existing quiz score.
+              </p>
+              <button className="secondary" onClick={openPilot} type="button">
+                Open experimental pilot
+              </button>
+            </section>
+          ) : null}
         </aside>
         <div className="notes">
           <div className="source-note"><b>Study note</b><span>{module.sourceNote}</span></div>

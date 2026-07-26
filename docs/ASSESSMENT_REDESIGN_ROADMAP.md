@@ -38,7 +38,7 @@ Status: merged.
 
 ## PR 5 — Versioned headless grading policies
 
-Status: current draft implementation.
+Status: merged.
 
 - Add immutable strict and diagnostic version-1 policies with mode defaults.
 - Lock policy identity into new attempts and preserve it through results.
@@ -46,11 +46,22 @@ Status: current draft implementation.
 - Support deterministic regrading against exact question versions.
 - Keep renderers, routes, the draft pilot, question history, and the live legacy quiz unchanged.
 
+## PR 6 — Accessible renderers and controlled pilot
+
+Status: current draft implementation.
+
+- Add accessible renderers for all nine assessment formats.
+- Persist incomplete active-attempt drafts and complete responses separately.
+- Add a default-disabled Aqueous and Vitreous engineering pilot with StoreV2 resume, diagnostic grading, and verified result review.
+- Preserve the live 400-question legacy quiz and its score metrics.
+
 ## Later phases
 
-- Add accessible renderers and a controlled pilot experience only after grading review.
+- Keep the pilot disabled by default until its real questions and images complete academic review.
 - Convert and academically review real questions module by module.
 - Introduce study, exam, and mastery modes only after the domain model and migration are accepted.
 - Add accessibility, browser, content-quality, and migration regression coverage as each capability becomes live.
 
 Every phase starts from the latest merged `main` and waits for review before the next phase begins.
+
+Production conversion of the 400 legacy questions has not started. Real Aqueous question expansion and academic review remain a separate later phase.

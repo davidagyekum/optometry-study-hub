@@ -2,7 +2,7 @@
 
 ## Purpose and boundary
 
-PR 5 adds a pure, deterministic, headless grading layer over the versioned question and session contracts. It does not render questions, add routes, expose the draft pilot, or replace the live 400-question legacy quiz.
+PR 5 adds a pure, deterministic grading layer over the versioned question and session contracts. PR 6 invokes it from a default-disabled Aqueous engineering pilot without changing the live 400-question legacy quiz.
 
 The grading layer returns structured data and errors. It does not update React state, browser storage, or `assessment.questionHistory`.
 
@@ -76,6 +76,8 @@ An absent response is `unanswered`, including an absent open response. It receiv
 
 A present nonblank open response is always `manual_required` with a null score and a one-point maximum. The engine preserves the response but does not inspect rubric length, sample answers, or keywords to infer points. Whitespace-only written responses are invalid persisted data, not valid answers.
 
+PR 6 active attempts may also contain incomplete `draftResponses`. Grading deliberately ignores them and reads only structurally complete `responses`, so an incomplete draft is reported as unanswered. Result snapshots omit drafts.
+
 ## Session reports
 
 The report contains one outcome for every question in stored order. It always provides:
@@ -110,6 +112,6 @@ PR 5 does not update `assessment.questionHistory`. The current history record ca
 
 ## What remains legacy and what comes next
 
-The current React quiz, result page, scoring, routes, CSS, generated distractors, and 400 live questions remain unchanged. The nine-format pilot stays draft and unreachable.
+The current legacy React quiz, legacy result page, scoring, generated distractors, and 400 live questions remain unchanged. The nine-format bank stays draft and is reachable only through the default-disabled controlled pilot when the feature flag is exactly `true`.
 
-After grading-policy review, a later PR may add accessible multi-format renderers and a controlled pilot experience. It must not expose unreviewed production questions or silently replace the legacy workflow.
+PR 6 adds accessible multi-format renderers, diagnostic grading, and verified result review for engineering evaluation. It does not add a public policy selector, automatic open-response scoring, question-history updates, or production question conversion.

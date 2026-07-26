@@ -33,7 +33,9 @@ The schema supports:
 - short answer with explicit normalization;
 - open response with a non-automatic rubric.
 
-The committed Aqueous and Vitreous pilot contains one draft example of every format. These examples are not registered with the live quiz.
+The committed Aqueous and Vitreous pilot contains one draft example of every format. These examples are not registered with the live quiz. PR 6 may register them only through a clearly named draft-only registry inside an exact-string, default-disabled pilot boundary.
+Image-hotspot regions separate interactionLabel and neutral marker (used before submission) from the anatomical label (feedback only). Validation rejects duplicate markers/interaction labels and interaction text that repeats the answer label.
+
 Image-labelling answers are one-to-one: every declared target maps to one existing label, and each label may appear at most once in `correctLabels`. The persisted response contract also prohibits label reuse, so an authored correct answer is always representable by a valid response.
 
 
@@ -109,7 +111,9 @@ See [Assessment Grading Policies](ASSESSMENT_GRADING_POLICIES.md) for per-format
 - Exam mode may defer feedback and apply a fixed blueprint.
 - Mastery mode may use question history and objective coverage.
 
-PR 3 defines persisted attempt fields for these modes but does not implement an assembler, renderer, adaptive algorithm, or scoring workflow. Persisted attempts and results require non-empty unique question order, exact question-version coverage, valid ISO timestamps, stable response IDs, and references limited to questions in the snapshot. Attempt indices must be in range, scores cannot exceed a numeric maximum, and history counts cannot report more correct responses than attempts.
+PR 3 defines persisted attempt fields for these modes but does not implement an assembler or adaptive algorithm. Later reviewed layers add the session engine, grading policies, and a controlled renderer pilot. Persisted attempts and results require non-empty unique question order, exact question-version coverage, valid ISO timestamps, stable response IDs, and references limited to questions in the snapshot. Attempt indices must be in range, scores cannot exceed a numeric maximum, and history counts cannot report more correct responses than attempts.
+
+Active attempts may optionally store format-discriminated `draftResponses` for incomplete UI work. Draft keys must belong to the attempt, and draft IDs, mappings, limits, reuse rules, versions, course, and module are validated against the registry. Drafts never appear in results and never substitute for a complete response during grading. Resolution derives the complete response represented by each valid draft and rejects missing, extra, or semantically different paired responses with `DRAFT_RESPONSE_MISMATCH`; response-only historical/headless records remain valid.
 
 At the StoreV2 boundary, each active-attempt key must equal its attempt ID, each result key must equal its result ID, and each question-history key must equal its question ID. Atomic finalization additionally requires the result to be an exact course, module, ordered-question, version, and response snapshot of the active attempt and rejects result-ID collisions.
 
@@ -123,4 +127,4 @@ Aiken’s V is an expert content-validity statistic. It requires planned expert 
 
 ## What remains legacy
 
-The live application still uses the 400 generated legacy questions, legacy single-question renderer, current scoring rules, and existing routes. The generator is intentionally unchanged. PR 3 only moves browser persistence to a backward-compatible V2 wrapper and adds an unused assessment foundation.
+The live application still uses the 400 generated legacy questions, legacy single-question renderer, and current score rules. The generator is intentionally unchanged. PR 6 adds a default-disabled Aqueous engineering pilot beside that workflow; it does not convert or replace any legacy question.

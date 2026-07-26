@@ -1,3 +1,144 @@
+# AI Handoff - PR 6
+
+## Pull request
+
+- Branch: `codex/pr6-renderer-pilot`
+- Base branch: `main`
+- Exact base commit: `ab2e742c04c9f93ecb634a43f7ff3f9e144276ed`
+- PR: [#6 - Add accessible multi-format renderers and a gated assessment pilot](https://github.com/davidagyekum/optometry-study-hub/pull/6)
+- Implementation commit: `7321cbeeb313812bfd01ebb841a0d7b0c23cb0ad`
+- Remaining-review correction commit and exact final branch head: recorded in the draft PR and final Codex report after this handoff commit.
+- Latest GitHub Actions Quality run [30219314522](https://github.com/davidagyekum/optometry-study-hub/actions/runs/30219314522), job `89838894690`, failed before repository execution with zero steps. Checkout, install, lint, type-check, tests, validation, and build did not run; this is the existing external account restriction, not a repository test failure.
+- The exact final branch head is recorded in the draft PR and final Codex report because a committed file cannot contain its own resulting commit hash.
+- Status: draft review corrections implemented and validated.
+- PR 7 has not been started.
+
+## Objective completed
+
+Add accessible renderers for all nine versioned assessment formats and a controlled, browser-local Aqueous and Vitreous engineering pilot. The pilot uses the PR 4 session engine, PR 5 `diagnostic@1` grading, and StoreV2 persistence while leaving the existing 400-question legacy workflow unchanged.
+## PR 6 review corrections
+
+- Added pure attempt/result compatibility validators for the exact controlled identity: blueprint, course, module, Study mode, `diagnostic@1`, exactly the nine declared IDs, current versions, generic attempt resolution, and deterministic result regrading.
+- Routed active selection, landing/resume, direct attempt/result URLs, submission, and latest-result selection through those validators without repairing incompatible snapshots.
+- Replaced pre-submission anatomical hotspot names with neutral markers and spatial `interactionLabel` text; anatomical `label` is feedback-only.
+- Added one latest-StoreV2 transaction boundary for all pilot writes so consecutive operations compose before rerender and unrelated records survive.
+- Separated renderer validation from visible landing/session controller alerts; failed discard/submission keeps state and navigation occurs only after success.
+- Added submission-confirmation focus/announcement, cancellation focus restoration, keyboard activation, and reduced-motion-aware scrolling.
+- Completed matching, extended-matching, image-label, and hotspot instructional review with component status, rationales, overlays, patterned/text legend, and consistent unoptimized assessment images.
+- Preserved original disabled-build reset wording unless the pilot is enabled or matching hidden assessment data exists; reset continues clearing hidden matching records.
+- Replaced the lossy active-attempt selector with a candidate-aware contract that retains incompatible exact-blueprint snapshots, reports compatibility separately, diagnoses multiple active pilot candidates, and never exposes unrelated assessment IDs for pilot recovery.
+- Added confirmed, blueprint-guarded discard plus atomic fresh-pilot replacement on landing and direct recovery views while preserving unrelated attempts and results.
+- Centralised complete-response derivation and format-aware semantic equality for all nine formats. Resolution now emits `DRAFT_RESPONSE_MISMATCH`; pilot compatibility, submission, and grading all reject incoherent snapshots while response-only historical/headless records remain valid.
+- Added a pure pilot issue partitioner. Originating draft/response validation is question-scoped and associated through `aria-describedby` with polite announcement; storage, controller, compatibility, result, and grading failures remain in the session `role=alert`, and retry/navigation clear the relevant stale message.
+- Added a four-worker Vitest cap after an otherwise-passing Windows run lost a worker process. The stable full suite now completes with all 61 files and 358 tests.
+
+## Exposure and user impact
+
+- `NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT` is disabled by default in the tracked `.env.example`.
+- Only the exact string `true` enables the pilot. The flag is an exposure control, not authentication or security.
+- Disabled builds show no pilot entry, render no draft question, and show a neutral unavailable view for direct pilot routes. Existing home, course, notes, quiz, results, score metrics, and storage behavior remain unchanged.
+- Enabled builds add a secondary experimental entry only to the Aqueous notes page. The existing `Start 50-question quiz` control remains primary and unchanged.
+- The persistent warning states that the nine items are draft engineering examples, have not been academically approved, do not affect the existing course score, and do not replace the 50-question review quiz.
+
+## Pilot routes
+
+- `/pilot/aqueous-vitreous`
+- `/assessment/:attemptId`
+- `/assessment-result/:resultId`
+
+The pilot router is lazy-loaded. Disabled direct routes do not register or reveal the draft bank.
+
+## Implementation by area
+
+### Assessment source and persistence
+
+- Added explicit nine-question blueprint constants, exact IDs, `diagnostic@1`, a draft-only pilot registry, and compatibility selectors under `lib/assessment/pilot/`.
+- Added optional backward-compatible `draftResponses` to active attempts for all nine formats.
+- Added deterministic draft validation, immutable draft/response promotion and removal, clear behavior, question-state selection, and persisted-resolution diagnostics.
+- Added pure module and course assessment reset helpers while deliberately preserving `assessment.questionHistory`.
+- Kept result snapshots free of drafts and kept grading inputs limited to complete `responses`.
+
+### UI
+
+- Added nine semantic format renderers plus one exhaustive dispatcher.
+- Added warning, landing, session, progress, navigator, submission summary, recovery, results, and format-aware review components.
+- Added autosave, exact resume, save-and-exit, restart, flagging, numbered navigation, incomplete submission, atomic finalization, deterministic result verification, and related-note links.
+- Added a dedicated responsive pilot stylesheet. Ordering and image labelling remain fully usable without drag-and-drop.
+- New assessment diagrams use `next/image` with fixed responsive frames and local `unoptimized` delivery because Vinext’s local Worker image optimizer has no asset binding.
+
+### Tests
+
+- Added feature-flag, source-boundary, blueprint, schema, draft-operation, controller-flow, route, reset, legacy-metric, renderer, session, and result tests.
+- Component and hook coverage now includes the remaining recovery, issue-routing, navigation-scope, and retry cases.
+- The full suite contains 61 test files and 358 passing tests.
+
+### Documentation
+
+- Added `docs/ASSESSMENT_RENDERER_PILOT.md`.
+- Updated the assessment specification, session engine, grading policies, authoring guide, redesign roadmap, current state, and README.
+
+### Configuration
+
+- Added the tracked safe `.env.example`.
+- Extended Vitest to discover TSX component tests.
+- Added Testing Library, user-event, jest-dom, and jsdom development dependencies.
+
+## Automated validation
+
+Validated with bundled Node.js 24.14.0:
+
+- `npm ci`: passed from the lockfile. A Windows npm optional-binding omission was corrected by rerunning the locked install under bundled Node 24 with optional packages included; npm retained 23 dependency advisories and non-fatal WASI cleanup warnings. The first plain Windows `npm ci` reproduced npm's optional-binding omission; the documented Node 24 `npm ci --include=optional` repair completed successfully before the final gate.
+- `npm run lint`: passed with the four pre-existing legacy `<img>` warnings and no new warnings.
+- `npm run typecheck`: passed.
+- `npm run test`: passed, 61 files and 358 tests with the four-worker stability cap.
+- `npm run questions:validate`: passed, 9 questions, 8 objectives, 0 errors, 0 warnings.
+- `npm run questions:validate -- --strict`: passed.
+- `npm run questions:report`: passed and reported exactly one draft question for each of the nine formats.
+- `npm run build`: passed.
+- `npm run check`: passed to completion as one command, including lint, type-check, 358 tests, question validation, and the Vinext production build.
+- `git diff --check`: passed.
+
+## Chrome QA
+
+Chrome-only local QA was performed; the in-app browser was not used. The remaining-review pass started an exact nine-question pilot, completed and autosaved a matching response, refreshed to confirm the identical saved draft and answered count, submitted with eight unanswered items, and confirmed the displayed response graded 1/1. The default-disabled direct pilot route showed the neutral unavailable screen. Both enabled and disabled checks recorded zero new console errors. Incompatible-candidate, discard/replacement, injected autosave failure, and validation-scope failure paths require deliberately malformed or failing state and remain covered by focused component/hook tests rather than browser-state manipulation. The review-correction pass verified exact nine-question landing metadata, neutral A/B/C hotspot accessible names (with no anatomical label exposed), keyboard hotspot selection, `aria-pressed`, flag/draft autosave, identical refresh resume, submission-heading focus, cancellation focus restoration, incomplete submission, deterministic result totals, and hotspot selected/expected/both overlay text and legend. No new console error was observed during these flows.
+
+The Chrome extension stalled while a native reset confirmation was open, so that prompt was dismissed by ending the QA tab rather than accepting a destructive reset. Enabled/disabled reset wording, hidden-data disclosure, disabled direct routes, failed-action alerts, incompatible direct attempt/result recovery, reduced-motion behavior, legacy 50-question invariants, and responsive overflow remain covered by focused automated tests. No site data reset was accepted.
+
+Enabled checks passed:
+
+- Aqueous-only experimental entry, warning, nine-question `study` attempt, and locked `diagnostic@1`;
+- partial multiple-response autosave and refresh persistence;
+- image-label partial persistence, Save and exit, and exact attempt/index resume;
+- open response, flagging, submission warning, incomplete drafts as unanswered, and manual-review result;
+- automatic subtotal, eight unanswered automatic outcomes, one manual outcome, and all nine ordered review cards;
+- pilot diagrams loaded after the Vinext-compatible local-image correction;
+- no console errors after the correction.
+
+Responsive checks covered requested mobile, portrait-tablet, landscape-tablet, and desktop viewport overrides. Chrome applied scaled effective CSS widths on this Windows display, and every checked size reported no document-level horizontal overflow. The navigator, result summary, and review cards remained readable.
+
+Disabled checks passed:
+
+- direct pilot URL displayed the neutral unavailable view;
+- Aqueous notes retained the legacy 50-question quiz entry and omitted the pilot entry;
+- no console errors were recorded.
+
+Focused legacy regression confirmed the ordinary notes route, existing 50-question entry, source figures, reading state, home/course paths, and legacy score separation. Automated invariant tests continue to prove 5 courses, 8 modules, 39 sections, 400 live questions, 50 per module, and unchanged legacy metrics.
+
+## Storage impact
+
+The StoreV2 schema remains version 2 and the storage keys are unchanged. Existing attempts without drafts remain valid. Pilot active attempts may add optional `draftResponses`; submitted results omit them. Pilot records remain under `store.assessment`, never enter legacy `store.active` or `store.results`, do not update `questionHistory`, and do not affect Latest or Best.
+
+## Known limitations
+
+- All nine pilot items remain `draft` and require independent academic, source, image-rights, and accessibility review before production approval.
+- Open responses intentionally receive no automatic score and no manual-grading workflow exists.
+- The flag is client exposure, not a security boundary.
+- Chrome’s viewport extension reported scaled effective CSS widths on the active Windows display; overflow checks passed at each requested override.
+- The repository’s GitHub Actions account restriction may still stop the Quality job before any step executes. A zero-step external failure is not a repository test failure.
+- Production conversion of the 400 legacy questions has not started.
+
+---
+
 # AI Handoff - PR 5
 
 ## Pull request

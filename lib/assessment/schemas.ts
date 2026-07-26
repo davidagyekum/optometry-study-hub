@@ -85,6 +85,8 @@ export const assessmentImageSchema = z.strictObject({
 const normalizedRegionShape = {
   id: stableIdSchema,
   label: nonEmptyTextSchema,
+  interactionLabel: nonEmptyTextSchema,
+  marker: nonEmptyTextSchema,
   x: z.number(),
   y: z.number(),
   width: z.number(),
