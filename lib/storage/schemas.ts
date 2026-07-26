@@ -168,6 +168,21 @@ export const assessmentResultSnapshotSchema = assessmentResultSnapshotBaseSchema
     if (Object.keys(result.responses).some((id) => !questionIds.has(id))) {
       addIssue(context, ['responses'], 'Responses may reference only questions in the result.');
     }
+    const { score, maxScore } = result;
+    if ((score === null) !== (maxScore === null)) {
+      addIssue(
+        context,
+        ['maxScore'],
+        'Score and maxScore must either both be null or both be numeric.',
+      );
+    }
+    if (maxScore !== null && maxScore <= 0) {
+      addIssue(
+        context,
+        ['maxScore'],
+        'A numeric maxScore must be greater than zero.',
+      );
+    }
     if (
       result.score !== null
       && result.maxScore !== null

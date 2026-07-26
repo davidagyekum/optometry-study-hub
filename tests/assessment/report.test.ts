@@ -18,6 +18,9 @@ describe('question-bank reporting', () => {
     expect(first.byModule).toEqual({ 'aqueous-vitreous': 9 });
     expect(Object.keys(first.byFormat)).toHaveLength(9);
     expect(first.byReviewStatus).toEqual({ draft: 9 });
+    expect(first.byObjective).toEqual(expect.objectContaining({
+      'vitreous-identify-anatomy': 0,
+    }));
     expect(first.familiesWithMultipleVariants).toEqual({
       'aqueous-conventional-outflow-sequence': 2,
     });

@@ -2,7 +2,7 @@
 
 ## Verified state
 
-- PR 3 base commit: `5b1762c20dcaaabd0505081b972586f0c3b283ab`
+- PR 4 base commit: `e3d089a22640ecf7b40a1e0a1d5a8f7b79330925`
 - Courses: 5
 - Modules: 8
 - Study sections: 39
@@ -29,6 +29,8 @@ Each live module contains sections and 50 fact records. The isolated legacy `que
 
 The new assessment domain lives alongside—not inside—the live engine. It defines stable IDs, nine discriminated question formats, objectives, sources, Bloom levels, difficulty, rationales, misconception tags, review states, structured diagnostics, and deterministic coverage reports. The Aqueous and Vitreous pilot is not registered with the live quiz.
 
+A new headless session layer can register approved questions, create deterministic arbitrary-length attempts, validate all nine persisted response shapes, update attempts immutably, diagnose stale snapshots, finalize through an external evaluation, and update the StoreV2 assessment maps. It remains unused by the React application, performs no grading, and does not make the draft pilot publicly reachable.
+
 Client route state supports:
 
 - `/`
@@ -46,7 +48,7 @@ The validated version-2 store preserves:
 - completed reading-section IDs by module;
 - one active legacy quiz attempt per module;
 - up to 20 recent submitted legacy results per module;
-- empty assessment maps for future attempts, results, and question history.
+- assessment maps for future headless attempts, results, and question history, with no public UI integration yet.
 
 On first V2 load, valid V1 `read`, `active`, and `results` fields migrate exactly to the new key. The V1 record is retained for rollback until the learner explicitly uses the global reset, which writes valid empty records to both generations. Initial hydration does not rewrite valid or malformed stored bytes, while later learner actions still save. Malformed V1 or V2 data, unavailable browser storage, and throwing accessors do not crash the application or delete the original raw record. There is no account, backend database, analytics feed, or cross-device sync.
 
@@ -65,7 +67,7 @@ On first V2 load, valid V1 `read`, `active`, and `results` fields migrate exactl
 - The legacy distractor generator can create weak or duplicate options.
 - The live 400 questions are not yet represented by the new assessment schema.
 - Client routes are parsed manually.
-- Multi-format question rendering and grading do not yet exist.
+- Multi-format question rendering and grading policies do not yet exist; the new session engine is headless.
 - Four intentional `<img>` lint warnings remain until a later UI-focused change.
 
 ## Known educational limitations

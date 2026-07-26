@@ -20,17 +20,26 @@ Status: merged.
 
 ## PR 3 — Assessment domain and migration foundation
 
-Status: current draft implementation.
+Status: merged.
 
 - Add stable IDs, learning objectives, Bloom levels, difficulty, sources, rationales, misconception tags, review status, and versioning.
 - Define validated schemas for nine assessment formats.
 - Add question-bank diagnostics, linting, coverage reports, and a version-1-to-version-2 storage migration.
 - Keep the live quiz on the legacy engine.
 
+## PR 4 — Headless assessment session engine
+
+Status: current draft implementation.
+
+- Add approved-by-default question registration and deterministic arbitrary-length session creation.
+- Validate all nine persisted response formats without defining correctness.
+- Add immutable answer, flag, navigation, resume-resolution, finalization, and StoreV2 operations.
+- Keep the draft pilot disconnected from the public application and leave the live quiz unchanged.
+
 ## Later phases
 
-- Replace the hard-coded legacy quiz flow with a dynamic session engine.
-- Add renderers and grading policies for approved assessment formats.
+- Add reviewed grading policies for the supported assessment formats.
+- Add renderers only after the engine and grading contracts are accepted.
 - Convert and academically review real questions module by module.
 - Introduce study, exam, and mastery modes only after the domain model and migration are accepted.
 - Add accessibility, browser, content-quality, and migration regression coverage as each capability becomes live.
