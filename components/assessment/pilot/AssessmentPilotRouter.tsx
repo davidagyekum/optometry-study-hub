@@ -31,10 +31,11 @@ export function AssessmentPilotRouter({
     if (resourceId !== AQUEOUS_PILOT_ID) return <AssessmentPilotUnavailable go={go} />;
     return (
       <AssessmentPilotLanding
-        activeAttempt={pilot.activeAttempt}
+        attemptSelection={pilot.activeAttemptSelection}
         go={go}
-        initialIssues={pilot.activeAttemptResult.ok ? [] : pilot.activeAttemptResult.issues}
         latestResult={pilot.latestResult}
+        onDiscardCandidates={pilot.discardPilotCandidates}
+        onReplaceCandidates={pilot.replacePilotCandidates}
         onRestart={() => {
           if (window.confirm('Restart the pilot? Your active pilot work will be cleared.')) {
             return pilot.start(true);
@@ -50,11 +51,12 @@ export function AssessmentPilotRouter({
   if (view === 'assessment') {
     return (
       <AssessmentPilotSession
-        attemptResult={pilot.getAttempt(resourceId)}
+        attemptSelection={pilot.getAttemptSelection(resourceId)}
         go={go}
         onClear={pilot.clearDraft}
         onDiscard={pilot.discard}
         onMove={pilot.moveTo}
+        onReplace={pilot.replacePilotCandidates}
         onSubmit={pilot.submit}
         onToggleFlag={pilot.toggleFlag}
         onUpdateDraft={pilot.updateDraft}

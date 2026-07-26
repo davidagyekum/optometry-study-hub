@@ -7,7 +7,12 @@ import {
   validateDraftResponseForQuestion,
 } from '@/lib/assessment/session/draftResponses';
 import { resolveAssessmentAttempt } from '@/lib/assessment/session/resolveAttempt';
-import { assessmentAttemptSnapshotSchema } from '@/lib/storage/schemas';
+import {
+  assessmentAttemptSnapshotSchema,
+  type AssessmentDraftResponse,
+  type PersistedResponse,
+} from '@/lib/storage/schemas';
+import type { AssessmentQuestion } from '@/lib/assessment/types';
 import {
   makeAttempt,
   makeDraftRegistry,
@@ -18,6 +23,104 @@ function codes(result: { ok: true } | { ok: false; issues: { code: string }[] })
   return result.ok ? [] : result.issues.map((issue) => issue.code);
 }
 
+const formats: AssessmentQuestion['format'][] = [
+  'single_best_answer',
+  'multiple_response',
+  'ordering',
+  'matching',
+  'extended_matching',
+  'image_hotspot',
+  'image_label',
+  'short_answer',
+  'open_response',
+];
+
+function completeDraft(question: AssessmentQuestion): AssessmentDraftResponse {
+  switch (question.format) {
+    case 'single_best_answer':
+      return { format: question.format, optionId: question.correctOptionId };
+    case 'multiple_response':
+      return { format: question.format, optionIds: [...question.correctOptionIds] };
+    case 'ordering':
+      return { format: question.format, itemIds: [...question.correctOrder] };
+    case 'matching':
+      return { format: question.format, matches: { ...question.correctMatches } };
+    case 'extended_matching':
+      return { format: question.format, answers: { ...question.correctAnswers } };
+    case 'image_hotspot':
+      return { format: question.format, regionIds: [...question.correctRegionIds] };
+    case 'image_label':
+      return { format: question.format, matches: { ...question.correctLabels } };
+    case 'short_answer':
+      return { format: question.format, text: question.acceptedAnswers[0]! };
+    case 'open_response':
+      return { format: question.format, text: question.sampleAnswer ?? 'Sample response' };
+  }
+}
+
+function differentResponse(
+  question: AssessmentQuestion,
+  response: PersistedResponse,
+): PersistedResponse {
+  switch (question.format) {
+    case 'single_best_answer':
+      return {
+        format: question.format,
+        optionId: question.options.find((option) => option.id !== question.correctOptionId)!.id,
+      };
+    case 'multiple_response':
+      return {
+        format: question.format,
+        optionIds: question.options.slice(0, question.minimumSelections ?? 1).map((option) => option.id)
+          .map((id, index) => index === 0 ? question.options.at(-1)!.id : id),
+      };
+    case 'ordering':
+      return {
+        format: question.format,
+        itemIds: [...question.correctOrder].reverse(),
+      };
+    case 'matching': {
+      const entries = Object.entries(question.correctMatches);
+      return {
+        format: question.format,
+        matches: Object.fromEntries(entries.map(([key], index) => [
+          key,
+          entries[(index + 1) % entries.length][1],
+        ])),
+      };
+    }
+    case 'extended_matching': {
+      const entries = Object.entries(question.correctAnswers);
+      return {
+        format: question.format,
+        answers: Object.fromEntries(entries.map(([key], index) => [
+          key,
+          entries[(index + 1) % entries.length][1],
+        ])),
+      };
+    }
+    case 'image_hotspot':
+      return {
+        format: question.format,
+        regionIds: [question.regions.find(
+          (region) => !question.correctRegionIds.includes(region.id),
+        )!.id],
+      };
+    case 'image_label': {
+      const entries = Object.entries(question.correctLabels);
+      return {
+        format: question.format,
+        matches: Object.fromEntries(entries.map(([key], index) => [
+          key,
+          entries[(index + 1) % entries.length][1],
+        ])),
+      };
+    }
+    case 'short_answer':
+    case 'open_response':
+      return { format: question.format, text: `${response.format === question.format ? response.text : ''} altered` };
+  }
+}
 describe('assessment draft responses', () => {
   const registry = makeDraftRegistry();
 
@@ -219,5 +322,60 @@ describe('assessment draft responses', () => {
     if (!graded.ok) return;
     expect(graded.value.unansweredCount).toBe(3);
     expect(graded.value.score).toBe(0);
+  });
+  it.each(formats)('enforces complete draft/response coherence for %s', (format) => {
+    const question = questionByFormat(format);
+    const source = makeAttempt([question.id], { initializeDraftResponses: true });
+    const updated = updateAttemptDraftResponse({
+      attempt: source,
+      registry,
+      questionId: question.id,
+      draft: completeDraft(question),
+    });
+    expect(updated.ok).toBe(true);
+    if (!updated.ok) return;
+    expect(resolveAssessmentAttempt(updated.value, registry).ok).toBe(true);
+
+    const response = updated.value.responses[question.id];
+    expect(response).toBeDefined();
+    if (!response) return;
+    const mismatched = {
+      ...updated.value,
+      responses: {
+        ...updated.value.responses,
+        [question.id]: differentResponse(question, response),
+      },
+    };
+    expect(codes(resolveAssessmentAttempt(mismatched, registry)))
+      .toContain('DRAFT_RESPONSE_MISMATCH');
+    expect(codes(gradeAssessmentAttempt({ attempt: mismatched, registry })))
+      .toContain('DRAFT_RESPONSE_MISMATCH');
+
+    const missingResponse = {
+      ...updated.value,
+      responses: {},
+    };
+    expect(codes(resolveAssessmentAttempt(missingResponse, registry)))
+      .toContain('DRAFT_RESPONSE_MISMATCH');
+  });
+
+  it('rejects a response paired with an incomplete draft but accepts response-only history', () => {
+    const question = questionByFormat('short_answer');
+    const source = makeAttempt([question.id]);
+    const historical = {
+      ...source,
+      responses: {
+        [question.id]: { format: question.format, text: question.acceptedAnswers[0]! },
+      },
+    };
+    expect(resolveAssessmentAttempt(historical, registry).ok).toBe(true);
+    const incoherent = {
+      ...historical,
+      draftResponses: {
+        [question.id]: { format: question.format, text: '   ' },
+      },
+    };
+    expect(codes(resolveAssessmentAttempt(incoherent, registry)))
+      .toContain('DRAFT_RESPONSE_MISMATCH');
   });
 });

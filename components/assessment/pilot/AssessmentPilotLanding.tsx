@@ -2,31 +2,53 @@ import { useState } from 'react';
 import { PilotActionAlert } from '@/components/assessment/pilot/PilotActionAlert';
 import { PilotWarning } from '@/components/assessment/pilot/PilotWarning';
 import type { GoToRoute } from '@/hooks/useClientRoute';
-import type { SessionIssue, SessionResult } from '@/lib/assessment/session/types';
+import type { AqueousPilotAttemptSelection } from '@/lib/assessment/pilot/selectors';
+import type { SessionResult } from '@/lib/assessment/session/types';
 import type {
   AssessmentAttemptSnapshot,
   AssessmentResultSnapshot,
 } from '@/lib/storage/schemas';
 
 export function AssessmentPilotLanding({
-  activeAttempt,
+  attemptSelection,
   latestResult,
   go,
   onStart,
   onRestart,
-  initialIssues = [],
+  onDiscardCandidates,
+  onReplaceCandidates,
 }: {
-  activeAttempt?: AssessmentAttemptSnapshot;
+  attemptSelection: AqueousPilotAttemptSelection;
   latestResult?: AssessmentResultSnapshot;
   go: GoToRoute;
   onStart: () => SessionResult<AssessmentAttemptSnapshot>;
   onRestart: () => SessionResult<AssessmentAttemptSnapshot>;
-  initialIssues?: SessionIssue[];
+  onDiscardCandidates: (candidateIds: string[]) => SessionResult<unknown>;
+  onReplaceCandidates: (
+    candidateIds: string[],
+  ) => SessionResult<AssessmentAttemptSnapshot>;
 }) {
-  const [actionIssues, setActionIssues] = useState<SessionIssue[]>(initialIssues);
-  const run = (action: () => SessionResult<AssessmentAttemptSnapshot>) => {
+  const selectionKey = JSON.stringify({
+    candidateIds: attemptSelection.candidates.map((candidate) => candidate.id),
+    issues: attemptSelection.issues,
+  });
+  const [actionState, setActionState] = useState({
+    selectionKey,
+    issues: attemptSelection.issues,
+  });
+  const actionIssues = actionState.selectionKey === selectionKey
+    ? actionState.issues
+    : attemptSelection.issues;
+
+  const activeAttempt = attemptSelection.compatibleAttempt;
+  const candidateIds = attemptSelection.candidates.map((candidate) => candidate.id);
+  const needsRecovery = candidateIds.length > 0 && attemptSelection.issues.length > 0;
+  const run = <T,>(action: () => SessionResult<T>) => {
     const result = action();
-    setActionIssues(result.ok ? [] : result.issues);
+    setActionState({
+      selectionKey,
+      issues: result.ok ? [] : result.issues,
+    });
   };
 
   return (
@@ -49,36 +71,72 @@ export function AssessmentPilotLanding({
           <div><dt>Grading</dt><dd>diagnostic@1</dd></div>
           <div><dt>Storage</dt><dd>This browser only</dd></div>
         </dl>
-        <div className="pilot-landing-actions">
-          {activeAttempt ? (
-            <>
+        {needsRecovery ? (
+          <div className="pilot-recovery">
+            <h2>Saved pilot attempt needs attention</h2>
+            <p>
+              The incompatible pilot snapshot is still saved. Discard it or
+              replace all saved pilot candidates atomically with a fresh pilot.
+            </p>
+            <div className="pilot-landing-actions">
               <button
-                className="primary"
-                onClick={() => go('assessment', activeAttempt.id)}
+                className="text-button danger"
+                onClick={() => {
+                  if (window.confirm('Discard the incompatible saved pilot attempt?')) {
+                    run(() => onDiscardCandidates(candidateIds));
+                  }
+                }}
                 type="button"
               >
-                Resume pilot
+                Discard saved pilot
               </button>
-              <button className="secondary" onClick={() => run(onRestart)} type="button">
-                Restart pilot
+              <button
+                className="primary"
+                onClick={() => {
+                  if (window.confirm('Replace the incompatible pilot with a fresh attempt?')) {
+                    run(() => onReplaceCandidates(candidateIds));
+                  }
+                }}
+                type="button"
+              >
+                Start a fresh pilot
               </button>
-            </>
-          ) : (
-            <button className="primary" onClick={() => run(onStart)} type="button">
-              Start pilot
-            </button>
-          )}
-          {latestResult ? (
-            <button
-              className="secondary"
-              onClick={() => go('assessment-result', latestResult.id)}
-              type="button"
-            >
-              Review latest pilot result
-            </button>
-          ) : null}
-        </div>
-        <PilotActionAlert issues={actionIssues} />
+            </div>
+          </div>
+        ) : (
+          <div className="pilot-landing-actions">
+            {activeAttempt ? (
+              <>
+                <button
+                  className="primary"
+                  onClick={() => go('assessment', activeAttempt.id)}
+                  type="button"
+                >
+                  Resume pilot
+                </button>
+                <button className="secondary" onClick={() => run(onRestart)} type="button">
+                  Restart pilot
+                </button>
+              </>
+            ) : (
+              <button className="primary" onClick={() => run(onStart)} type="button">
+                Start pilot
+              </button>
+            )}
+            {latestResult ? (
+              <button
+                className="secondary"
+                onClick={() => go('assessment-result', latestResult.id)}
+                type="button"
+              >
+                Review latest pilot result
+              </button>
+            ) : null}
+          </div>
+        )}
+        {needsRecovery || actionIssues.length > 0 ? (
+          <PilotActionAlert issues={actionIssues} />
+        ) : null}
       </section>
     </div>
   );

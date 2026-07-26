@@ -12,6 +12,7 @@ import {
 import { buildDraftOnlyAqueousPilotRegistry } from '@/lib/assessment/pilot/registry';
 import {
   selectActiveAqueousPilotAttempt,
+  selectAqueousPilotAttemptById,
   selectLatestCompatibleAqueousPilotResult,
 } from '@/lib/assessment/pilot/selectors';
 import { createAssessmentAttempt } from '@/lib/assessment/session/createAttempt';
@@ -85,7 +86,7 @@ describe('controlled pilot persistence flow', () => {
 
     const reloaded = storeV2Schema.parse(JSON.parse(JSON.stringify(inserted.value)));
     const selected = selectActiveAqueousPilotAttempt(reloaded, registry);
-    expect(selected.ok && selected.value?.id).toBe(drafted.value.id);
+    expect(selected.compatibleAttempt?.id).toBe(drafted.value.id);
     const resumed = getActiveAssessmentAttempt(reloaded, drafted.value.id);
     if (!resumed.ok) throw new Error('active pilot should resume');
     expect(resumed.value.draftResponses?.[multiple.id]).toEqual({
@@ -137,7 +138,64 @@ describe('controlled pilot persistence flow', () => {
     if (!created.ok) throw new Error('fixture should create');
     store.assessment.activeAttempts[created.value.id] = created.value;
     const selected = selectActiveAqueousPilotAttempt(store, registryResult.value);
-    expect(selected.ok && selected.value).toBeUndefined();
+    expect(selected.compatibleAttempt).toBeUndefined();
+    expect(selected.candidates).toHaveLength(0);
     expect(selectLatestCompatibleAqueousPilotResult(store, registryResult.value)).toBeUndefined();
+  });
+  it('retains incompatible pilot candidates and diagnoses multiple active pilots', () => {
+    const registryResult = buildDraftOnlyAqueousPilotRegistry();
+    if (!registryResult.ok) throw new Error('pilot registry should build');
+    const first = createAssessmentAttempt({
+      registry: registryResult.value,
+      questionIds: [...AQUEOUS_PILOT_QUESTION_IDS],
+      mode: 'study',
+      courseId: AQUEOUS_PILOT_COURSE_ID,
+      moduleId: AQUEOUS_PILOT_MODULE_ID,
+      blueprintId: AQUEOUS_PILOT_BLUEPRINT_ID,
+      gradingPolicy: AQUEOUS_PILOT_POLICY,
+      allowedReviewStatuses: ['draft'],
+      idFactory: () => 'pilot-one',
+    });
+    if (!first.ok) throw new Error('fixture should create');
+    const incompatible = { ...first.value, mode: 'exam' as const };
+    const store = createEmptyStoreV2();
+    store.assessment.activeAttempts[incompatible.id] = incompatible;
+
+    const selected = selectActiveAqueousPilotAttempt(store, registryResult.value);
+    expect(selected.candidates.map((candidate) => candidate.id)).toEqual(['pilot-one']);
+    expect(selected.compatibleAttempt).toBeUndefined();
+    expect(selected.issues.map((issue) => issue.code)).toContain('PILOT_MODE_MISMATCH');
+
+    store.assessment.activeAttempts['pilot-two'] = { ...first.value, id: 'pilot-two' };
+    const multiple = selectActiveAqueousPilotAttempt(store, registryResult.value);
+    expect(multiple.candidates).toHaveLength(2);
+    expect(multiple.compatibleAttempt).toBeUndefined();
+    expect(multiple.issues.map((issue) => issue.code))
+      .toContain('PILOT_MULTIPLE_ACTIVE_ATTEMPTS');
+  });
+
+  it('does not expose an unrelated direct-route assessment as a pilot candidate', () => {
+    const registryResult = buildDraftOnlyAqueousPilotRegistry();
+    if (!registryResult.ok) throw new Error('pilot registry should build');
+    const unrelated = createAssessmentAttempt({
+      registry: registryResult.value,
+      questionIds: [...AQUEOUS_PILOT_QUESTION_IDS],
+      mode: 'study',
+      courseId: AQUEOUS_PILOT_COURSE_ID,
+      moduleId: AQUEOUS_PILOT_MODULE_ID,
+      allowedReviewStatuses: ['draft'],
+      idFactory: () => 'unrelated-direct',
+    });
+    if (!unrelated.ok) throw new Error('fixture should create');
+    const store = createEmptyStoreV2();
+    store.assessment.activeAttempts[unrelated.value.id] = unrelated.value;
+    const selected = selectAqueousPilotAttemptById(
+      store,
+      registryResult.value,
+      unrelated.value.id,
+    );
+    expect(selected.candidates).toHaveLength(0);
+    expect(selected.issues.map((issue) => issue.code))
+      .toContain('PILOT_BLUEPRINT_MISMATCH');
   });
 });

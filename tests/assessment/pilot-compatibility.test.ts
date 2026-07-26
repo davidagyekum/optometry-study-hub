@@ -8,6 +8,7 @@ import {
   validateAqueousPilotResult,
 } from '@/lib/assessment/pilot/compatibility';
 import { AQUEOUS_PILOT_BLUEPRINT_ID } from '@/lib/assessment/pilot/config';
+import { updateAttemptDraftResponse } from '@/lib/assessment/session/draftResponses';
 import type { SessionIssueCode } from '@/lib/assessment/session/types';
 import type {
   AssessmentAttemptSnapshot,
@@ -106,5 +107,32 @@ describe('controlled Aqueous pilot compatibility', () => {
       expect(policyValidation.issues.map((issue) => issue.code))
         .toContain('PILOT_POLICY_MISMATCH');
     }
+  });
+  it('rejects a pilot whose complete response differs from its saved draft', () => {
+    const source = makeAttempt([...AQUEOUS_PILOT_QUESTION_IDS], {
+      blueprintId: AQUEOUS_PILOT_BLUEPRINT_ID,
+      gradingPolicy: AQUEOUS_PILOT_POLICY,
+      initializeDraftResponses: true,
+    });
+    const question = registry.get('aqueous-flow-sba-001');
+    if (!question || question.format !== 'single_best_answer') {
+      throw new Error('single-answer pilot question should exist');
+    }
+    const updated = updateAttemptDraftResponse({
+      attempt: source,
+      registry,
+      questionId: question.id,
+      draft: { format: question.format, optionId: question.correctOptionId },
+    });
+    if (!updated.ok) throw new Error('coherent draft should update');
+    const mismatched = structuredClone(updated.value);
+    mismatched.responses[question.id] = {
+      format: question.format,
+      optionId: question.options.find(
+        (option) => option.id !== question.correctOptionId,
+      )!.id,
+    };
+    expect(codes(validateAqueousPilotAttempt(mismatched, registry)))
+      .toContain('DRAFT_RESPONSE_MISMATCH');
   });
 });

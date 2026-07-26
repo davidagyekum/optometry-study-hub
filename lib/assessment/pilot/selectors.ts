@@ -3,30 +3,88 @@ import {
   validateAqueousPilotResult,
 } from '@/lib/assessment/pilot/compatibility';
 import { AQUEOUS_PILOT_BLUEPRINT_ID } from '@/lib/assessment/pilot/config';
-import {
-  sessionFailure,
-  sessionSuccess,
-} from '@/lib/assessment/session/errors';
+import { sessionIssue } from '@/lib/assessment/session/errors';
 import type { QuestionRegistry } from '@/lib/assessment/session/registry';
-import type { SessionResult } from '@/lib/assessment/session/types';
+import type { SessionIssue } from '@/lib/assessment/session/types';
 import type {
   AssessmentAttemptSnapshot,
   AssessmentResultSnapshot,
   StoreV2,
 } from '@/lib/storage/schemas';
 
+export type AqueousPilotAttemptSelection = {
+  candidates: AssessmentAttemptSnapshot[];
+  compatibleAttempt?: AssessmentAttemptSnapshot;
+  issues: SessionIssue[];
+};
+
+function selectCandidates(
+  candidates: AssessmentAttemptSnapshot[],
+  registry: QuestionRegistry,
+): AqueousPilotAttemptSelection {
+  const snapshots = candidates.map((candidate) => structuredClone(candidate));
+  if (snapshots.length === 0) return { candidates: [], issues: [] };
+
+  const issues: SessionIssue[] = [];
+  if (snapshots.length > 1) {
+    issues.push(sessionIssue(
+      'PILOT_MULTIPLE_ACTIVE_ATTEMPTS',
+      'Multiple active aqueous and vitreous pilot attempts require recovery.',
+    ));
+  }
+  for (const candidate of snapshots) {
+    const compatible = validateAqueousPilotAttempt(candidate, registry);
+    if (!compatible.ok) issues.push(...compatible.issues);
+  }
+
+  return {
+    candidates: snapshots,
+    compatibleAttempt: snapshots.length === 1 && issues.length === 0
+      ? snapshots[0]
+      : undefined,
+    issues,
+  };
+}
+
 export function selectActiveAqueousPilotAttempt(
   store: StoreV2,
   registry: QuestionRegistry,
-): SessionResult<AssessmentAttemptSnapshot | undefined> {
-  const attempt = Object.values(store.assessment.activeAttempts).find(
-    (candidate) => candidate.blueprintId === AQUEOUS_PILOT_BLUEPRINT_ID,
+): AqueousPilotAttemptSelection {
+  return selectCandidates(
+    Object.values(store.assessment.activeAttempts).filter(
+      (candidate) => candidate.blueprintId === AQUEOUS_PILOT_BLUEPRINT_ID,
+    ),
+    registry,
   );
-  if (!attempt) return sessionSuccess(undefined);
-  const compatible = validateAqueousPilotAttempt(attempt, registry);
-  return compatible.ok
-    ? sessionSuccess(structuredClone(attempt))
-    : sessionFailure(compatible.issues);
+}
+
+export function selectAqueousPilotAttemptById(
+  store: StoreV2,
+  registry: QuestionRegistry,
+  attemptId: string,
+): AqueousPilotAttemptSelection {
+  const candidate = store.assessment.activeAttempts[attemptId];
+  if (!candidate) {
+    return {
+      candidates: [],
+      issues: [sessionIssue(
+        'ATTEMPT_NOT_FOUND',
+        `Assessment attempt "${attemptId}" was not found.`,
+        { attemptId },
+      )],
+    };
+  }
+  if (candidate.blueprintId !== AQUEOUS_PILOT_BLUEPRINT_ID) {
+    return {
+      candidates: [],
+      issues: [sessionIssue(
+        'PILOT_BLUEPRINT_MISMATCH',
+        'This assessment does not belong to the aqueous and vitreous pilot.',
+        { attemptId },
+      )],
+    };
+  }
+  return selectCandidates([candidate], registry);
 }
 
 export function selectCompatibleAqueousPilotResults(

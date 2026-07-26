@@ -1,5 +1,9 @@
 import type { AssessmentQuestion } from '@/lib/assessment/types';
-import { validateDraftResponseForQuestion } from '@/lib/assessment/session/draftResponses';
+import {
+  completeResponseFromDraft,
+  persistedResponsesEqual,
+  validateDraftResponseForQuestion,
+} from '@/lib/assessment/session/draftResponses';
 import {
   sessionFailure,
   sessionIssue,
@@ -86,29 +90,54 @@ export function resolveAssessmentAttempt(
     }
 
     const response = attempt.responses[questionId];
-    if (response !== undefined) {
-      const validated = validateResponseForQuestion(question, response);
-      if (!validated.ok) {
-        issues.push(...validated.issues.map((issue) => ({
-          ...issue,
-          code: 'INVALID_PERSISTED_RESPONSE' as const,
-          attemptId: attempt.id,
-          questionId,
-        })));
-      }
+    const validatedResponse = response === undefined
+      ? undefined
+      : validateResponseForQuestion(question, response);
+    if (validatedResponse && !validatedResponse.ok) {
+      issues.push(...validatedResponse.issues.map((issue) => ({
+        ...issue,
+        code: 'INVALID_PERSISTED_RESPONSE' as const,
+        attemptId: attempt.id,
+        questionId,
+      })));
     }
 
     const draft = attempt.draftResponses?.[questionId];
-    if (draft !== undefined) {
-      const validatedDraft = validateDraftResponseForQuestion(question, draft);
-      if (!validatedDraft.ok) {
-        issues.push(...validatedDraft.issues.map((issue) => ({
-          ...issue,
-          code: 'INVALID_DRAFT_RESPONSE' as const,
-          attemptId: attempt.id,
-          questionId,
-          path: `draftResponses.${questionId}${issue.path ? `.${issue.path}` : ''}`,
-        })));
+    const validatedDraft = draft === undefined
+      ? undefined
+      : validateDraftResponseForQuestion(question, draft);
+    if (validatedDraft && !validatedDraft.ok) {
+      issues.push(...validatedDraft.issues.map((issue) => ({
+        ...issue,
+        code: 'INVALID_DRAFT_RESPONSE' as const,
+        attemptId: attempt.id,
+        questionId,
+        path: `draftResponses.${questionId}${issue.path ? `.${issue.path}` : ''}`,
+      })));
+    }
+
+    if (validatedDraft?.ok) {
+      const draftResponse = completeResponseFromDraft(
+        question,
+        validatedDraft.value,
+      );
+      const storedResponse = validatedResponse?.ok
+        ? validatedResponse.value.response
+        : undefined;
+      const mismatch = draftResponse === undefined
+        ? response !== undefined
+        : storedResponse === undefined
+          || !persistedResponsesEqual(draftResponse, storedResponse);
+      if (mismatch) {
+        issues.push(sessionIssue(
+          'DRAFT_RESPONSE_MISMATCH',
+          `Draft and complete response for "${questionId}" do not agree.`,
+          {
+            attemptId: attempt.id,
+            questionId,
+            path: `draftResponses.${questionId}`,
+          },
+        ));
       }
     }
   }

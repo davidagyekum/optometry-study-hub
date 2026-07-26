@@ -7,8 +7,9 @@
 - Exact base commit: `ab2e742c04c9f93ecb634a43f7ff3f9e144276ed`
 - PR: [#6 - Add accessible multi-format renderers and a gated assessment pilot](https://github.com/davidagyekum/optometry-study-hub/pull/6)
 - Implementation commit: `7321cbeeb313812bfd01ebb841a0d7b0c23cb0ad`
-- GitHub Actions Quality run [30215421017](https://github.com/davidagyekum/optometry-study-hub/actions/runs/30215421017), job `89828674178`, failed before repository execution with zero steps. Checkout, install, lint, type-check, tests, validation, and build did not run; this is the existing external account restriction, not a repository test failure.
-- The exact final documentation-only branch head is recorded in the draft PR and final Codex report because a committed file cannot contain its own resulting commit hash.
+- Remaining-review correction commit and exact final branch head: recorded in the draft PR and final Codex report after this handoff commit.
+- Latest GitHub Actions Quality run [30219314522](https://github.com/davidagyekum/optometry-study-hub/actions/runs/30219314522), job `89838894690`, failed before repository execution with zero steps. Checkout, install, lint, type-check, tests, validation, and build did not run; this is the existing external account restriction, not a repository test failure.
+- The exact final branch head is recorded in the draft PR and final Codex report because a committed file cannot contain its own resulting commit hash.
 - Status: draft review corrections implemented and validated.
 - PR 7 has not been started.
 
@@ -25,6 +26,11 @@ Add accessible renderers for all nine versioned assessment formats and a control
 - Added submission-confirmation focus/announcement, cancellation focus restoration, keyboard activation, and reduced-motion-aware scrolling.
 - Completed matching, extended-matching, image-label, and hotspot instructional review with component status, rationales, overlays, patterned/text legend, and consistent unoptimized assessment images.
 - Preserved original disabled-build reset wording unless the pilot is enabled or matching hidden assessment data exists; reset continues clearing hidden matching records.
+- Replaced the lossy active-attempt selector with a candidate-aware contract that retains incompatible exact-blueprint snapshots, reports compatibility separately, diagnoses multiple active pilot candidates, and never exposes unrelated assessment IDs for pilot recovery.
+- Added confirmed, blueprint-guarded discard plus atomic fresh-pilot replacement on landing and direct recovery views while preserving unrelated attempts and results.
+- Centralised complete-response derivation and format-aware semantic equality for all nine formats. Resolution now emits `DRAFT_RESPONSE_MISMATCH`; pilot compatibility, submission, and grading all reject incoherent snapshots while response-only historical/headless records remain valid.
+- Added a pure pilot issue partitioner. Originating draft/response validation is question-scoped and associated through `aria-describedby` with polite announcement; storage, controller, compatibility, result, and grading failures remain in the session `role=alert`, and retry/navigation clear the relevant stale message.
+- Added a four-worker Vitest cap after an otherwise-passing Windows run lost a worker process. The stable full suite now completes with all 61 files and 358 tests.
 
 ## Exposure and user impact
 
@@ -63,8 +69,8 @@ The pilot router is lazy-loaded. Disabled direct routes do not register or revea
 ### Tests
 
 - Added feature-flag, source-boundary, blueprint, schema, draft-operation, controller-flow, route, reset, legacy-metric, renderer, session, and result tests.
-- Component coverage contains 15 test files and 24 focused component tests.
-- The full suite contains 61 test files and 337 passing tests.
+- Component and hook coverage now includes the remaining recovery, issue-routing, navigation-scope, and retry cases.
+- The full suite contains 61 test files and 358 passing tests.
 
 ### Documentation
 
@@ -81,20 +87,20 @@ The pilot router is lazy-loaded. Disabled direct routes do not register or revea
 
 Validated with bundled Node.js 24.14.0:
 
-- `npm ci`: passed from the lockfile. A Windows npm optional-binding omission was corrected by rerunning the locked install under bundled Node 24 with optional packages included; npm retained 23 dependency advisories and non-fatal WASI cleanup warnings.
+- `npm ci`: passed from the lockfile. A Windows npm optional-binding omission was corrected by rerunning the locked install under bundled Node 24 with optional packages included; npm retained 23 dependency advisories and non-fatal WASI cleanup warnings. The first plain Windows `npm ci` reproduced npm's optional-binding omission; the documented Node 24 `npm ci --include=optional` repair completed successfully before the final gate.
 - `npm run lint`: passed with the four pre-existing legacy `<img>` warnings and no new warnings.
 - `npm run typecheck`: passed.
-- `npm run test`: passed, 61 files and 337 tests.
+- `npm run test`: passed, 61 files and 358 tests with the four-worker stability cap.
 - `npm run questions:validate`: passed, 9 questions, 8 objectives, 0 errors, 0 warnings.
 - `npm run questions:validate -- --strict`: passed.
 - `npm run questions:report`: passed and reported exactly one draft question for each of the nine formats.
 - `npm run build`: passed.
-- `npm run check`: passed to completion as one command, including lint, type-check, 337 tests, question validation, and the Vinext production build.
+- `npm run check`: passed to completion as one command, including lint, type-check, 358 tests, question validation, and the Vinext production build.
 - `git diff --check`: passed.
 
 ## Chrome QA
 
-Chrome-only local QA was performed; the in-app browser was not used. The review-correction pass verified exact nine-question landing metadata, neutral A/B/C hotspot accessible names (with no anatomical label exposed), keyboard hotspot selection, `aria-pressed`, flag/draft autosave, identical refresh resume, submission-heading focus, cancellation focus restoration, incomplete submission, deterministic result totals, and hotspot selected/expected/both overlay text and legend. No new console error was observed during these flows.
+Chrome-only local QA was performed; the in-app browser was not used. The remaining-review pass started an exact nine-question pilot, completed and autosaved a matching response, refreshed to confirm the identical saved draft and answered count, submitted with eight unanswered items, and confirmed the displayed response graded 1/1. The default-disabled direct pilot route showed the neutral unavailable screen. Both enabled and disabled checks recorded zero new console errors. Incompatible-candidate, discard/replacement, injected autosave failure, and validation-scope failure paths require deliberately malformed or failing state and remain covered by focused component/hook tests rather than browser-state manipulation. The review-correction pass verified exact nine-question landing metadata, neutral A/B/C hotspot accessible names (with no anatomical label exposed), keyboard hotspot selection, `aria-pressed`, flag/draft autosave, identical refresh resume, submission-heading focus, cancellation focus restoration, incomplete submission, deterministic result totals, and hotspot selected/expected/both overlay text and legend. No new console error was observed during these flows.
 
 The Chrome extension stalled while a native reset confirmation was open, so that prompt was dismissed by ending the QA tab rather than accepting a destructive reset. Enabled/disabled reset wording, hidden-data disclosure, disabled direct routes, failed-action alerts, incompatible direct attempt/result recovery, reduced-motion behavior, legacy 50-question invariants, and responsive overflow remain covered by focused automated tests. No site data reset was accepted.
 

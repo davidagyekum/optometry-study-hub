@@ -206,7 +206,7 @@ export function validateDraftResponseForQuestion(
   );
 }
 
-function completeResponse(
+export function completeResponseFromDraft(
   question: AssessmentQuestion,
   draft: AssessmentDraftResponse,
 ): PersistedResponse | undefined {
@@ -251,6 +251,46 @@ function completeResponse(
   }
 }
 
+export function persistedResponsesEqual(
+  left: PersistedResponse,
+  right: PersistedResponse,
+): boolean {
+  if (left.format !== right.format) return false;
+  switch (left.format) {
+    case 'single_best_answer':
+      return right.format === left.format && left.optionId === right.optionId;
+    case 'multiple_response':
+      return right.format === left.format
+        && left.optionIds.length === right.optionIds.length
+        && left.optionIds.every((id) => right.optionIds.includes(id));
+    case 'ordering':
+      return right.format === left.format
+        && left.itemIds.length === right.itemIds.length
+        && left.itemIds.every((id, index) => id === right.itemIds[index]);
+    case 'matching':
+      return right.format === left.format && mappingsEqual(left.matches, right.matches);
+    case 'extended_matching':
+      return right.format === left.format && mappingsEqual(left.answers, right.answers);
+    case 'image_hotspot':
+      return right.format === left.format
+        && left.regionIds.length === right.regionIds.length
+        && left.regionIds.every((id) => right.regionIds.includes(id));
+    case 'image_label':
+      return right.format === left.format && mappingsEqual(left.matches, right.matches);
+    case 'short_answer':
+    case 'open_response':
+      return right.format === left.format && left.text === right.text;
+  }
+}
+
+function mappingsEqual(
+  left: Record<string, string>,
+  right: Record<string, string>,
+): boolean {
+  const keys = Object.keys(left);
+  return keys.length === Object.keys(right).length
+    && keys.every((key) => left[key] === right[key]);
+}
 export function updateAttemptDraftResponse({
   attempt,
   registry,
@@ -315,7 +355,7 @@ export function updateAttemptDraftResponse({
     [questionId]: structuredClone(validated.value),
   };
   const responses = { ...attempt.responses };
-  const response = completeResponse(entry.question, validated.value);
+  const response = completeResponseFromDraft(entry.question, validated.value);
   if (response) {
     const complete = validateResponseForQuestion(entry.question, response);
     if (!complete.ok) {

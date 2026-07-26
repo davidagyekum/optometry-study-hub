@@ -16,6 +16,7 @@ import { AQUEOUS_PILOT_BLUEPRINT_ID } from '@/lib/assessment/pilot/config';
 import { buildDraftOnlyAqueousPilotRegistry } from '@/lib/assessment/pilot/registry';
 import {
   selectActiveAqueousPilotAttempt,
+  selectAqueousPilotAttemptById,
   selectLatestCompatibleAqueousPilotResult,
 } from '@/lib/assessment/pilot/selectors';
 import {
@@ -88,15 +89,113 @@ export function useAssessmentPilot({
     return sessionSuccess(result.value.value);
   };
 
-  const activeAttemptResult = registry
+  const createPilotAttempt = () => registry
+    ? createAssessmentAttempt({
+      registry,
+      questionIds: [...AQUEOUS_PILOT_QUESTION_IDS],
+      mode: 'study',
+      courseId: AQUEOUS_PILOT_COURSE_ID,
+      moduleId: AQUEOUS_PILOT_MODULE_ID,
+      blueprintId: AQUEOUS_PILOT_BLUEPRINT_ID,
+      gradingPolicy: AQUEOUS_PILOT_POLICY,
+      initializeDraftResponses: true,
+      allowedReviewStatuses: ['draft'],
+    })
+    : registryUnavailable<AssessmentAttemptSnapshot>();
+
+  const activeAttemptSelection = registry
     ? selectActiveAqueousPilotAttempt(store, registry)
-    : registryUnavailable<AssessmentAttemptSnapshot | undefined>();
-  const activeAttempt = activeAttemptResult.ok
-    ? activeAttemptResult.value
-    : undefined;
+    : { candidates: [], issues: registryResult.ok ? [] : registryResult.issues };
+  const activeAttempt = activeAttemptSelection.compatibleAttempt;
   const latestResult = registry
     ? selectLatestCompatibleAqueousPilotResult(store, registry)
     : undefined;
+
+  const replacePilotCandidates = (
+    candidateIds: string[],
+  ): SessionResult<AssessmentAttemptSnapshot> => {
+    if (!registry) return registryUnavailable();
+    const result = transact((latest) => {
+      const currentPilotIds = Object.values(latest.assessment.activeAttempts)
+        .filter((candidate) => candidate.blueprintId === AQUEOUS_PILOT_BLUEPRINT_ID)
+        .map((candidate) => candidate.id)
+        .sort();
+      const expectedIds = [...new Set(candidateIds)].sort();
+      if (
+        currentPilotIds.length !== expectedIds.length
+        || currentPilotIds.some((id, index) => id !== expectedIds[index])
+      ) {
+        return sessionFailure(sessionIssue(
+          currentPilotIds.length > 1
+            ? 'PILOT_MULTIPLE_ACTIVE_ATTEMPTS'
+            : 'PILOT_RESULT_INCOMPATIBLE',
+          'The saved pilot candidates changed. Review them before replacing the pilot.',
+        ));
+      }
+
+      let baseStore = latest;
+      for (const id of expectedIds) {
+        const candidate = baseStore.assessment.activeAttempts[id];
+        if (!candidate) {
+          return sessionFailure(sessionIssue(
+            'ATTEMPT_NOT_FOUND',
+            `Assessment attempt "${id}" was not found.`,
+            { attemptId: id },
+          ));
+        }
+        if (candidate.blueprintId !== AQUEOUS_PILOT_BLUEPRINT_ID) {
+          return sessionFailure(sessionIssue(
+            'PILOT_BLUEPRINT_MISMATCH',
+            'An unrelated assessment cannot be replaced by the pilot route.',
+            { attemptId: id },
+          ));
+        }
+        const removed = removeActiveAssessmentAttempt(baseStore, id);
+        if (!removed.ok) return removed;
+        baseStore = removed.value;
+      }
+
+      const created = createPilotAttempt();
+      if (!created.ok) return created;
+      const inserted = putActiveAssessmentAttempt(
+        baseStore,
+        created.value.id,
+        created.value,
+      );
+      return inserted.ok
+        ? sessionSuccess({ store: inserted.value, value: created.value })
+        : inserted;
+    });
+    if (result.ok) go('assessment', result.value.id);
+    return result;
+  };
+
+  const discardPilotCandidates = (candidateIds: string[]): SessionResult<StoreV2> => transact(
+    (latest) => {
+      let nextStore = latest;
+      for (const id of [...new Set(candidateIds)]) {
+        const candidate = nextStore.assessment.activeAttempts[id];
+        if (!candidate) {
+          return sessionFailure(sessionIssue(
+            'ATTEMPT_NOT_FOUND',
+            `Assessment attempt "${id}" was not found.`,
+            { attemptId: id },
+          ));
+        }
+        if (candidate.blueprintId !== AQUEOUS_PILOT_BLUEPRINT_ID) {
+          return sessionFailure(sessionIssue(
+            'PILOT_BLUEPRINT_MISMATCH',
+            'The pilot route cannot discard an unrelated assessment.',
+            { attemptId: id },
+          ));
+        }
+        const removed = removeActiveAssessmentAttempt(nextStore, id);
+        if (!removed.ok) return removed;
+        nextStore = removed.value;
+      }
+      return sessionSuccess({ store: nextStore, value: nextStore });
+    },
+  );
 
   const start = (restart = false): SessionResult<AssessmentAttemptSnapshot> => {
     if (!registry) return registryUnavailable();
@@ -104,36 +203,27 @@ export function useAssessmentPilot({
       latestStoreRef.current,
       registry,
     );
-    if (!latestSelection.ok) return latestSelection;
-    if (latestSelection.value && !restart) {
-      go('assessment', latestSelection.value.id);
-      return sessionSuccess(latestSelection.value);
+    if (latestSelection.issues.length > 0) {
+      return sessionFailure(latestSelection.issues);
+    }
+    if (latestSelection.compatibleAttempt && !restart) {
+      go('assessment', latestSelection.compatibleAttempt.id);
+      return sessionSuccess(latestSelection.compatibleAttempt);
+    }
+    if (restart && latestSelection.compatibleAttempt) {
+      return replacePilotCandidates([latestSelection.compatibleAttempt.id]);
     }
 
     const result = transact((latest) => {
-      let baseStore = latest;
-      if (latestSelection.value) {
-        const removed = removeActiveAssessmentAttempt(
-          baseStore,
-          latestSelection.value.id,
-        );
-        if (!removed.ok) return removed;
-        baseStore = removed.value;
+      const reselected = selectActiveAqueousPilotAttempt(latest, registry);
+      if (reselected.issues.length > 0) return sessionFailure(reselected.issues);
+      if (reselected.compatibleAttempt) {
+        return sessionSuccess({ store: latest, value: reselected.compatibleAttempt });
       }
-      const created = createAssessmentAttempt({
-        registry,
-        questionIds: [...AQUEOUS_PILOT_QUESTION_IDS],
-        mode: 'study',
-        courseId: AQUEOUS_PILOT_COURSE_ID,
-        moduleId: AQUEOUS_PILOT_MODULE_ID,
-        blueprintId: AQUEOUS_PILOT_BLUEPRINT_ID,
-        gradingPolicy: AQUEOUS_PILOT_POLICY,
-        initializeDraftResponses: true,
-        allowedReviewStatuses: ['draft'],
-      });
+      const created = createPilotAttempt();
       if (!created.ok) return created;
       const inserted = putActiveAssessmentAttempt(
-        baseStore,
+        latest,
         created.value.id,
         created.value,
       );
@@ -159,11 +249,7 @@ export function useAssessmentPilot({
     if (!compatible.ok) return compatible;
     const updated = update(current.value);
     if (!updated.ok) return updated;
-    const stored = putActiveAssessmentAttempt(
-      latest,
-      updated.value.id,
-      updated.value,
-    );
+    const stored = putActiveAssessmentAttempt(latest, updated.value.id, updated.value);
     return stored.ok
       ? sessionSuccess({ store: stored.value, value: updated.value })
       : stored;
@@ -207,13 +293,8 @@ export function useAssessmentPilot({
     (current) => toggleAttemptFlag(current, questionId),
   );
 
-  const discard = (attemptId: string): SessionResult<StoreV2> => transact(
-    (latest) => {
-      const removed = removeActiveAssessmentAttempt(latest, attemptId);
-      return removed.ok
-        ? sessionSuccess({ store: removed.value, value: removed.value })
-        : removed;
-    },
+  const discard = (attemptId: string): SessionResult<StoreV2> => (
+    discardPilotCandidates([attemptId])
   );
 
   const submit = (
@@ -223,10 +304,7 @@ export function useAssessmentPilot({
     const result = transact((latest) => {
       const latestAttempt = getActiveAssessmentAttempt(latest, attemptId);
       if (!latestAttempt.ok) return latestAttempt;
-      const compatible = validateAqueousPilotAttempt(
-        latestAttempt.value,
-        registry,
-      );
+      const compatible = validateAqueousPilotAttempt(latestAttempt.value, registry);
       if (!compatible.ok) return compatible;
       const finalized = finalizeGradedAssessmentAttempt({
         attempt: latestAttempt.value,
@@ -240,25 +318,16 @@ export function useAssessmentPilot({
         finalized.value.result,
       );
       return stored.ok
-        ? sessionSuccess({
-          store: stored.value,
-          value: finalized.value.result,
-        })
+        ? sessionSuccess({ store: stored.value, value: finalized.value.result })
         : stored;
     });
     if (result.ok) go('assessment-result', result.value.id);
     return result;
   };
 
-  const getAttempt = (
-    attemptId: string,
-  ): SessionResult<AssessmentAttemptSnapshot> => {
-    if (!registry) return registryUnavailable();
-    const attempt = getActiveAssessmentAttempt(store, attemptId);
-    if (!attempt.ok) return attempt;
-    const compatible = validateAqueousPilotAttempt(attempt.value, registry);
-    return compatible.ok ? sessionSuccess(attempt.value) : compatible;
-  };
+  const getAttemptSelection = (attemptId: string) => registry
+    ? selectAqueousPilotAttemptById(store, registry, attemptId)
+    : { candidates: [], issues: registryResult.ok ? [] : registryResult.issues };
 
   const getResult = (
     resultId: string,
@@ -273,17 +342,19 @@ export function useAssessmentPilot({
   return {
     registryResult,
     registry,
-    activeAttemptResult,
+    activeAttemptSelection,
     activeAttempt,
     latestResult,
     start,
+    replacePilotCandidates,
+    discardPilotCandidates,
     updateDraft,
     clearDraft,
     moveTo,
     toggleFlag,
     discard,
     submit,
-    getAttempt,
+    getAttemptSelection,
     getResult,
   };
 }
