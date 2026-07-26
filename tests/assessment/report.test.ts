@@ -13,14 +13,12 @@ describe('question-bank reporting', () => {
 
     expect(second).toEqual(first);
     expect(first.totalQuestions).toBe(9);
-    expect(first.totalObjectives).toBe(8);
+    expect(first.totalObjectives).toBe(7);
     expect(first.byCourse).toEqual({ 'neuro-anatomy': 9 });
     expect(first.byModule).toEqual({ 'aqueous-vitreous': 9 });
     expect(Object.keys(first.byFormat)).toHaveLength(9);
     expect(first.byReviewStatus).toEqual({ draft: 9 });
-    expect(first.byObjective).toEqual(expect.objectContaining({
-      'vitreous-identify-anatomy': 0,
-    }));
+    expect(Object.values(first.byObjective).every((count) => count > 0)).toBe(true);
     expect(first.familiesWithMultipleVariants).toEqual({
       'aqueous-conventional-outflow-sequence': 2,
     });

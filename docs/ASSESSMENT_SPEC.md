@@ -33,7 +33,7 @@ The schema supports:
 - short answer with explicit normalization;
 - open response with a non-automatic rubric.
 
-The committed Aqueous and Vitreous pilot contains one draft example of every format. These examples are not registered with the live quiz. PR 6 may register them only through a clearly named draft-only registry inside an exact-string, default-disabled pilot boundary.
+The canonical Aqueous and Vitreous candidate bank contains 36 draft questions; the controlled pilot derives the exact original nine examples, one per format, by stable ID. These examples are not registered with the live quiz. PR 6 may register them only through a clearly named draft-only registry inside an exact-string, default-disabled pilot boundary.
 Image-hotspot regions separate interactionLabel and neutral marker (used before submission) from the anatomical label (feedback only). Validation rejects duplicate markers/interaction labels and interaction text that repeats the answer label.
 
 Image-labelling answers are one-to-one: every declared target maps to one existing label, and each label may appear at most once in `correctLabels`. The persisted response contract also prohibits label reuse, so an authored correct answer is always representable by a valid response.
@@ -128,3 +128,11 @@ Aiken’s V is an expert content-validity statistic. It requires planned expert 
 ## What remains legacy
 
 The live application still uses the 400 generated legacy questions, legacy single-question renderer, and current score rules. The generator is intentionally unchanged. PR 6 adds a default-disabled Aqueous engineering pilot beside that workflow; it does not convert or replace any legacy question.
+
+## PR 7 canonical authoring boundary
+
+The canonical Aqueous and Vitreous bank is an authoring and expert-review source, not a runtime catalogue. It declares a 36-item blueprint across section, format, Bloom, difficulty, and stimulus dimensions. Thirteen objectives are used because the preserved conventional-outflow objective deliberately covers both tracing and pathway comparison; this is the documented equivalent decomposition that keeps every objective at two or more items without changing pilot content.
+
+Structured table stimulus data is optional at the base schema level and mandatory by candidate-bank integrity tests whenever `stimulusType` is `table`. The data carries a caption, stable columns, and stable rows/cells for accessible future rendering.
+
+The review domain exports only applicable stable criteria and validates ordinal 1–5 ratings. Aiken’s V output is review evidence, never an automatic status transition. All 36 candidates remain draft, and the pilot’s `diagnostic@1` behavior is unchanged.

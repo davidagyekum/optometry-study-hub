@@ -28,6 +28,8 @@ PR 5 adds versioned strict and diagnostic grading under `lib/assessment/grading/
 
 PR 6 adds accessible renderers for all nine formats plus a controlled Aqueous and Vitreous engineering pilot. It remains disabled by default and does not replace or affect the legacy 50-question quiz. Pilot attempts/results must match the exact nine-item blueprint and are updated atomically in browser-local StoreV2; hotspot answers remain hidden behind neutral pre-submission markers.
 
+PR 7 adds one 36-question draft Aqueous and Vitreous candidate bank, an exact authoring blueprint, verified source audit, expert-review export, and Aiken’s V reporting. The pilot remains the same derived nine-question subset and remains disabled by default.
+
 See [Current State](docs/CURRENT_STATE.md), [Assessment Specification](docs/ASSESSMENT_SPEC.md), [Session Engine](docs/ASSESSMENT_SESSION_ENGINE.md), [Grading Policies](docs/ASSESSMENT_GRADING_POLICIES.md), and [Assessment Redesign Roadmap](docs/ASSESSMENT_REDESIGN_ROADMAP.md).
 
 ## Requirements
@@ -61,11 +63,14 @@ npm run test
 npm run test:watch
 npm run questions:validate
 npm run questions:report
+npm run questions:blueprint
+npm run questions:review-pack
+npm run questions:aiken -- --input tests/fixtures/review/valid-ratings.csv
 npm run build
 npm run check
 ```
 
-`npm run check` runs linting, strict TypeScript checking, the Vitest suite, question-bank validation, and the production build in sequence.
+`npm run check` runs linting, strict TypeScript checking, the Vitest suite, question-bank and blueprint validation, and the production build in sequence.
 
 ## Deployment
 
@@ -79,7 +84,7 @@ Student reading progress, answers, flags, quiz history, and future assessment hi
 
 - The 400 live questions are generated from fact prompts by a positional legacy distractor algorithm.
 - The live questions and options have not yet been converted to stable assessment IDs, sources, rationales, Bloom levels, or review statuses.
-- The nine-format pilot is an engineering demonstration, disabled by default, and is not an approved production assessment.
+- The 36-question Aqueous and Vitreous candidate bank and its nine-format pilot subset remain draft, disabled by default, and are not approved production assessments.
 - Navigation is client-managed rather than split into dedicated App Router routes.
 - Course notes, figures, and future production questions require ongoing academic and licensing review.
 - Open responses expose the deliberate manual-review boundary; no manual-grading workflow exists.

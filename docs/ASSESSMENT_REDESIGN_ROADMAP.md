@@ -48,20 +48,30 @@ Status: merged.
 
 ## PR 6 — Accessible renderers and controlled pilot
 
-Status: current draft implementation.
+Status: merged.
 
 - Add accessible renderers for all nine assessment formats.
 - Persist incomplete active-attempt drafts and complete responses separately.
 - Add a default-disabled Aqueous and Vitreous engineering pilot with StoreV2 resume, diagnostic grading, and verified result review.
 - Preserve the live 400-question legacy quiz and its score metrics.
 
+## PR 7 — Canonical Aqueous and Vitreous candidate bank
+
+Status: current draft implementation.
+
+- Preserve the exact nine-question engineering pilot as a derived subset of one 36-question canonical bank.
+- Add 27 draft candidates, an exact multidimensional blueprint, a source/content audit, and deterministic authoring reports.
+- Export an expert-review pack and calculate Aiken’s V without changing review status.
+- Keep the pilot disabled and the live legacy quiz unchanged.
+
 ## Later phases
 
-- Keep the pilot disabled by default until its real questions and images complete academic review.
+- PR 8 may complete or expand this module bank only after PR 7 review; real expert ratings have not yet been collected.
+- No question is approved merely because it exists in the canonical bank; keep the pilot disabled by default.
 - Convert and academically review real questions module by module.
 - Introduce study, exam, and mastery modes only after the domain model and migration are accepted.
 - Add accessibility, browser, content-quality, and migration regression coverage as each capability becomes live.
 
 Every phase starts from the latest merged `main` and waits for review before the next phase begins.
 
-Production conversion of the 400 legacy questions has not started. Real Aqueous question expansion and academic review remain a separate later phase.
+Production conversion of the other seven modules has not started. PR 7 provides draft Aqueous and Vitreous candidates only; real expert review and academic approval remain outstanding.

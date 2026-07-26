@@ -147,3 +147,9 @@ For image hotspots, author three separate concepts: marker is a neutral visible 
 Draft-response persistence accepts structurally valid incomplete learner work, but it does not relax question authoring. Stable IDs, selection limits, reuse rules, image coordinates, alternative text, sources, rationales, and reviewer metadata remain authored contracts. The grading layer reads complete responses only.
 
 Before a future production pilot is enabled, replace or independently review each engineering example, confirm sources and image rights, verify the cognitive target and distractors, test all accessible interactions, record reviewer metadata, and move accepted items through the normal reviewed and approved statuses.
+
+## Canonical candidate banks and blueprints
+
+New module questions belong in one canonical bank; feature-gated pilots must derive ordered subsets by stable ID rather than duplicate content. A declared blueprint is an authoring contract and must be validated before review. Table stimuli use structured caption, column, row, and cell data so a later renderer can produce accessible HTML rather than a screenshot.
+
+After self-review, run `npm run questions:review-pack` and obtain independent ratings using the criteria in [Expert Content Review](EXPERT_CONTENT_REVIEW.md). Aiken’s V is descriptive review evidence only. Do not add a reviewer or move an item beyond `draft` until a real reviewer has completed the project process.

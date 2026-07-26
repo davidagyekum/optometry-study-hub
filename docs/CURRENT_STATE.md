@@ -2,14 +2,15 @@
 
 ## Verified state
 
-- PR 6 base commit: `ab2e742c04c9f93ecb634a43f7ff3f9e144276ed`
+- PR 7 base commit: `1b3fe4911c366b80bac42d3327e7f780cf3cfce9`
 - Courses: 5
 - Modules: 8
 - Study sections: 39
 - Live legacy-generated questions: 400, with 50 questions per module
 - Current persistence key: `optometry-study-hub:v2`
 - Rollback key retained after migration: `opt376-study-state:v1`
-- Assessment pilot: 9 draft questions covering 9 formats and 8 objectives
+- Canonical Aqueous and Vitreous candidate bank: 36 draft questions across 6 sections and 13 objectives
+- Assessment pilot: the exact 9 engineering questions, derived from the canonical bank
 
 ## Courses and modules
 
@@ -83,3 +84,9 @@ On first V2 load, valid V1 `read`, `active`, and `results` fields migrate exactl
 - Named lecturer attribution identifies the supplied teaching source; it does not imply approval of rewritten notes or questions.
 - Image ownership and reuse rights require ongoing review.
 - The current 400 questions should not be treated as a validated examination bank.
+
+## PR 7 authoring and review foundation
+
+The canonical source of truth is `content/question-bank/opt376/aqueous-vitreous/`. Its exact blueprint covers 36 draft candidates, six per study section, including 22 higher-order items. The existing engineering pilot is selected by stable ID from that bank and remains default-disabled; the other 27 candidates have no browser launcher and cannot enter a pilot attempt.
+
+Question validation and reporting now use the canonical bank. `questions:blueprint` enforces the declared distribution and minimum objective coverage. `questions:review-pack` exports blank, applicable expert-review criteria, and `questions:aiken` validates real 1–5 ratings and reports Aiken’s V without mutating review status. No expert ratings have been collected, no item is academically approved, and the live 400-question quiz and browser storage contracts are unchanged.

@@ -341,7 +341,7 @@ function validateHotspot(
       diagnostics.push({
         severity: 'error',
         code: 'INVALID_HOTSPOT_COORDINATES',
-        message: 'Hotspot regions must remain within normalized image coordinates 0–1.',
+        message: 'Hotspot regions must remain within normalized image coordinates 0â€“1.',
         questionId: question.id,
         path: `regions[${index}]`,
       });
@@ -379,7 +379,7 @@ function validateImageLabels(
       diagnostics.push({
         severity: 'error',
         code: 'INVALID_LABEL_COORDINATES',
-        message: 'Image-label targets must use normalized coordinates 0–1.',
+        message: 'Image-label targets must use normalized coordinates 0â€“1.',
         questionId: question.id,
         path: `targets[${index}]`,
       });
@@ -464,6 +464,24 @@ function validateQuestion(
     });
   }
 
+  if (question.stimulusType === 'table' && !question.table) {
+    diagnostics.push({ severity: 'error', code: 'MISSING_STRUCTURED_TABLE', message: 'Table stimuli require accessible structured table data.', questionId: question.id, path: 'table' });
+  }
+  if (question.stimulusType !== 'table' && question.table) {
+    diagnostics.push({ severity: 'error', code: 'UNEXPECTED_STRUCTURED_TABLE', message: 'Structured table data requires stimulusType "table".', questionId: question.id, path: 'table' });
+  }
+  if (question.table) {
+    const columnIds = question.table.columns.map((column) => column.id);
+    addDuplicateDiagnostics(columnIds, 'DUPLICATE_TABLE_COLUMN_ID', 'table column ID', diagnostics, question.id);
+    addDuplicateDiagnostics(question.table.rows.map((row) => row.id), 'DUPLICATE_TABLE_ROW_ID', 'table row ID', diagnostics, question.id);
+    const expectedCells = [...columnIds].sort();
+    question.table.rows.forEach((row, index) => {
+      const actualCells = Object.keys(row.cells).sort();
+      if (actualCells.length !== expectedCells.length || actualCells.some((id, cellIndex) => id !== expectedCells[cellIndex])) {
+        diagnostics.push({ severity: 'error', code: 'INVALID_TABLE_CELLS', message: 'Every table row must contain exactly the declared column IDs.', questionId: question.id, path: `table.rows[${index}].cells` });
+      }
+    });
+  }
   const objective = objectiveLookup.get(question.objectiveId);
   if (!objective) {
     diagnostics.push({

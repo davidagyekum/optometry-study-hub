@@ -1,0 +1,12 @@
+import type { SourceReference } from '@/lib/assessment/types';
+
+export const aqueousLectureSource: SourceReference = { id: 'opt376-aqueous-vitreous-lecture', title: 'OPT 376 Aqueous Humour and Vitreous Body lecture deck', locator: 'Aqueous flow, intraocular pressure, and vitreous sections', kind: 'lecture' };
+export const openStaxVisionSource: SourceReference = { id: 'openstax-biology-2e-vision', title: 'OpenStax Biology 2e: Vision', locator: 'Section 36.5, anatomy of the eye', url: 'https://openstax.org/books/biology-2e/pages/36-5-vision', kind: 'textbook' };
+export const aqueousPhysiologySource: SourceReference = { id: 'ncbi-aqueous-circulation', title: 'Physiology, Aqueous Humor Circulation', locator: 'Production, circulation, and outflow pathways', url: 'https://www.ncbi.nlm.nih.gov/books/NBK553209/', kind: 'textbook' };
+export const intraocularPressureSource: SourceReference = { id: 'ncbi-intraocular-pressure', title: 'Intraocular Pressure', locator: 'Physiology, measurement, and clinical significance', url: 'https://www.ncbi.nlm.nih.gov/books/NBK532237/', kind: 'textbook' };
+export const eyeAnatomySource: SourceReference = { id: 'ncbi-eye-anatomy', title: 'Anatomy, Head and Neck, Eye', locator: 'Anterior segment and ocular chambers', url: 'https://www.ncbi.nlm.nih.gov/books/NBK482428/', kind: 'textbook' };
+export const neiVitreousDetachmentSource: SourceReference = { id: 'nei-vitreous-detachment', title: 'Vitreous Detachment', locator: 'Symptoms, retinal complications, and examination', url: 'https://www.nei.nih.gov/eye-health-information/eye-conditions-and-diseases/vitreous-detachment', kind: 'website' };
+export const posteriorVitreousDetachmentSource: SourceReference = { id: 'ncbi-posterior-vitreous-detachment', title: 'Posterior Vitreous Detachment', locator: 'Anatomy, ageing, syneresis, and complications', url: 'https://www.ncbi.nlm.nih.gov/books/NBK563273/', kind: 'textbook' };
+export const vitreousCompositionSource: SourceReference = { id: 'ncbi-vitreous-hemorrhage', title: 'Vitreous Hemorrhage', locator: 'Vitreous anatomy and composition', url: 'https://www.ncbi.nlm.nih.gov/books/NBK559131/', kind: 'textbook' };
+
+export const aqueousVitreousSources: SourceReference[] = [aqueousLectureSource, openStaxVisionSource, aqueousPhysiologySource, intraocularPressureSource, eyeAnatomySource, neiVitreousDetachmentSource, posteriorVitreousDetachmentSource, vitreousCompositionSource];
