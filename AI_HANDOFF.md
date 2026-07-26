@@ -5,9 +5,13 @@
 - Branch: `codex/pr5-grading-policies`
 - Base branch: `main`
 - Exact base commit: `850d77b6e5673ca895caa55d247dc35df9ca7141`
-- Suggested title: `Add versioned headless grading policies`
-- Publication: pending the focused implementation commit and draft pull request.
-- The implementation commit, final branch head, pull-request URL, and GitHub Actions status will be added after publication.
+- PR: [#5 - Add versioned headless grading policies](https://github.com/davidagyekum/optometry-study-hub/pull/5)
+- Implementation commit: `27207266841836a1d7d8a0e08258722e70544bf1`
+- Implementation head at PR creation: `27207266841836a1d7d8a0e08258722e70544bf1`
+- GitHub Actions Quality run [30198960185](https://github.com/davidagyekum/optometry-study-hub/actions/runs/30198960185) failed before repository execution: the `quality` job contains zero steps, consistent with the existing external account restriction rather than a repository failure.
+- The exact final documentation-only branch head is recorded in the draft PR and final Codex report because a committed file cannot contain its own resulting commit hash.
+- Status: DRAFT and mergeable.
+- PR 6 has not been started.
 
 ## Objective completed
 
