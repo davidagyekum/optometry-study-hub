@@ -8,7 +8,8 @@
 - PR: [#5 - Add versioned headless grading policies](https://github.com/davidagyekum/optometry-study-hub/pull/5)
 - Implementation commit: `27207266841836a1d7d8a0e08258722e70544bf1`
 - Implementation head at PR creation: `27207266841836a1d7d8a0e08258722e70544bf1`
-- GitHub Actions Quality run [30198960185](https://github.com/davidagyekum/optometry-study-hub/actions/runs/30198960185) failed before repository execution: the `quality` job contains zero steps, consistent with the existing external account restriction rather than a repository failure.
+- Review-correction implementation commit: `4fe0213a01a76da50cc5dc3a672026e3fc65b739`
+- Review-correction GitHub Actions Quality run [30201285849](https://github.com/davidagyekum/optometry-study-hub/actions/runs/30201285849) failed before repository execution: the `quality` job contains zero steps, so checkout, install, lint, type-check, tests, and build did not run; this is consistent with the existing external account restriction rather than a repository failure.
 - The exact final documentation-only branch head is recorded in the draft PR and final Codex report because a committed file cannot contain its own resulting commit hash.
 - Status: DRAFT and mergeable.
 - PR 6 has not been started.
