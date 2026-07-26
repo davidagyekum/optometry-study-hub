@@ -91,6 +91,9 @@ export function makeResult(
     attemptId: attempt.id,
     courseId: attempt.courseId,
     moduleId: attempt.moduleId,
+    ...(attempt.gradingPolicy
+      ? { gradingPolicy: structuredClone(attempt.gradingPolicy) }
+      : {}),
     submittedAt: '2026-07-26T09:30:00.000Z',
     orderedQuestionIds: [...attempt.orderedQuestionIds],
     questionVersions: { ...attempt.questionVersions },

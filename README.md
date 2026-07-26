@@ -24,7 +24,9 @@ PR 3 adds an assessment-domain pilot under `content/question-bank/pilot/`, valid
 
 PR 4 adds a headless session engine under `lib/assessment/session/` plus immutable StoreV2 assessment helpers. It supports deterministic arbitrary-length attempts and all nine response formats, but intentionally provides no renderer, grading policy, or public entry point.
 
-See [Current State](docs/CURRENT_STATE.md), [Assessment Specification](docs/ASSESSMENT_SPEC.md), [Session Engine](docs/ASSESSMENT_SESSION_ENGINE.md), and [Assessment Redesign Roadmap](docs/ASSESSMENT_REDESIGN_ROADMAP.md).
+PR 5 adds versioned strict and diagnostic grading under `lib/assessment/grading/`. It locks policy identity into new attempts, grades eight automatic formats, marks answered open responses for manual review, persists compact validated outcomes, and remains disconnected from the public UI.
+
+See [Current State](docs/CURRENT_STATE.md), [Assessment Specification](docs/ASSESSMENT_SPEC.md), [Session Engine](docs/ASSESSMENT_SESSION_ENGINE.md), [Grading Policies](docs/ASSESSMENT_GRADING_POLICIES.md), and [Assessment Redesign Roadmap](docs/ASSESSMENT_REDESIGN_ROADMAP.md).
 
 ## Requirements
 
@@ -70,9 +72,9 @@ Student reading progress, answers, flags, quiz history, and future assessment hi
 - The nine-format pilot proves the new schema but is not rendered or scored by the production quiz.
 - Navigation is client-managed rather than split into dedicated App Router routes.
 - Course notes, figures, and future production questions require ongoing academic and licensing review.
-- The headless assessment session engine is not connected to the public UI, and grading policies are deferred to a later reviewed PR.
+- The headless session and grading engines are not connected to the public UI; no multi-format renderer or manual-review workflow exists.
 
-The assessment foundation and headless session lifecycle are implemented alongside the live system; production grading, rendering, and question conversion remain future work.
+The assessment foundation, headless session lifecycle, and versioned grading policies are implemented alongside the live system; rendering, controlled pilot exposure, manual review, and production question conversion remain future work.
 
 ## Contributing
 

@@ -29,17 +29,26 @@ Status: merged.
 
 ## PR 4 — Headless assessment session engine
 
-Status: current draft implementation.
+Status: merged.
 
 - Add approved-by-default question registration and deterministic arbitrary-length session creation.
 - Validate all nine persisted response formats without defining correctness.
 - Add immutable answer, flag, navigation, resume-resolution, finalization, and StoreV2 operations.
 - Keep the draft pilot disconnected from the public application and leave the live quiz unchanged.
 
+## PR 5 — Versioned headless grading policies
+
+Status: current draft implementation.
+
+- Add immutable strict and diagnostic version-1 policies with mode defaults.
+- Lock policy identity into new attempts and preserve it through results.
+- Grade eight automatic formats, identify manual open responses, and persist validated compact grading snapshots.
+- Support deterministic regrading against exact question versions.
+- Keep renderers, routes, the draft pilot, question history, and the live legacy quiz unchanged.
+
 ## Later phases
 
-- Add reviewed grading policies for the supported assessment formats.
-- Add renderers only after the engine and grading contracts are accepted.
+- Add accessible renderers and a controlled pilot experience only after grading review.
 - Convert and academically review real questions module by module.
 - Introduce study, exam, and mastery modes only after the domain model and migration are accepted.
 - Add accessibility, browser, content-quality, and migration regression coverage as each capability becomes live.

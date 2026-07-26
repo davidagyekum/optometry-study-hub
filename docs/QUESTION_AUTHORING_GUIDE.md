@@ -87,6 +87,12 @@ Matching prompt IDs, extended-matching stem IDs, and their normalized text must 
 
 Short-answer accepted responses must remain unique after applying that item's trim, case, whitespace, and terminal-punctuation rules. Test normalization before adding spelling or phrasing variants.
 
+The same normalization function is used during authoring validation and grading. Accepted answers therefore need to be complete intended responses; substring, keyword, fuzzy, and spelling-distance matching are not available.
+
+Diagnostic partial credit exists only for matching, extended matching, and image labelling. Authors must ensure their prompts, stems, and targets represent independently meaningful components. Multiple response, ordering, hotspot, single-best-answer, and short-answer formats remain all-or-nothing.
+
+Open-response rubrics support future manual review. They are never automatic answer keys, and sample answers must not be written as though the engine will infer points from them.
+
 ## Versioning and retirement
 
 Keep the question ID stable when correcting or improving the same item, and increment `version`. Create a new ID for a materially different task. Retire obsolete items rather than silently deleting their history.

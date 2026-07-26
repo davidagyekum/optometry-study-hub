@@ -1,5 +1,9 @@
 import { z } from 'zod';
 import { STABLE_ID_PATTERN } from '@/lib/assessment/constants';
+import {
+  gradingPolicyReferenceSchema,
+  persistedGradingSnapshotSchema,
+} from '@/lib/assessment/grading/schemas';
 
 const legacyStringRecordSchema = z.record(z.string(), z.string());
 const legacyStringArrayRecordSchema = z.record(z.string(), z.array(z.string()));
@@ -109,6 +113,7 @@ const assessmentAttemptSnapshotBaseSchema = z.strictObject({
   courseId: stableIdSchema,
   moduleId: stableIdSchema,
   blueprintId: stableIdSchema.optional(),
+  gradingPolicy: gradingPolicyReferenceSchema.optional(),
   startedAt: isoDatetimeSchema,
   orderedQuestionIds: uniqueStableIdArray(1),
   questionVersions: stableIdVersionRecordSchema,
@@ -151,6 +156,8 @@ const assessmentResultSnapshotBaseSchema = z.strictObject({
   orderedQuestionIds: uniqueStableIdArray(1),
   questionVersions: stableIdVersionRecordSchema,
   responses: z.record(stableIdSchema, persistedResponseSchema),
+  gradingPolicy: gradingPolicyReferenceSchema.optional(),
+  grading: persistedGradingSnapshotSchema.optional(),
   score: z.number().nonnegative().nullable(),
   maxScore: z.number().nonnegative().nullable(),
 });
@@ -189,6 +196,60 @@ export const assessmentResultSnapshotSchema = assessmentResultSnapshotBaseSchema
       && result.score > result.maxScore
     ) {
       addIssue(context, ['score'], 'Score cannot exceed maxScore.');
+    }
+    if (result.grading) {
+      if (
+        !result.gradingPolicy
+        || result.grading.policy.id !== result.gradingPolicy.id
+        || result.grading.policy.version !== result.gradingPolicy.version
+      ) {
+        addIssue(
+          context,
+          ['grading', 'policy'],
+          'Persisted grading policy must equal the result grading-policy reference.',
+        );
+      }
+      if (!hasExactKeys(result.grading.questionGrades, result.orderedQuestionIds)) {
+        addIssue(
+          context,
+          ['grading', 'questionGrades'],
+          'Persisted question grades must exactly cover the result question order.',
+        );
+      }
+      Object.entries(result.grading.questionGrades).forEach(([key, grade]) => {
+        if (grade.questionId !== key) {
+          addIssue(
+            context,
+            ['grading', 'questionGrades', key, 'questionId'],
+            'Question-grade IDs must match their record keys.',
+          );
+        }
+        if (result.questionVersions[key] !== grade.questionVersion) {
+          addIssue(
+            context,
+            ['grading', 'questionGrades', key, 'questionVersion'],
+            'Question-grade versions must match the persisted result versions.',
+          );
+        }
+      });
+      if (result.grading.status === 'complete') {
+        if (
+          result.score !== result.grading.score
+          || result.maxScore !== result.grading.maxScore
+        ) {
+          addIssue(
+            context,
+            ['grading', 'score'],
+            'Complete grading totals must equal the result score and maximum.',
+          );
+        }
+      } else if (result.score !== null || result.maxScore !== null) {
+        addIssue(
+          context,
+          ['grading', 'status'],
+          'Manual-required grading requires null result score and maximum.',
+        );
+      }
     }
   });
 

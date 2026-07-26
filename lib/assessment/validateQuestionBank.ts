@@ -1,4 +1,5 @@
 import type { Diagnostic } from '@/lib/assessment/diagnostics';
+import { normalizeShortAnswer } from '@/lib/assessment/grading/normalizeShortAnswer';
 import { questionBankSchema } from '@/lib/assessment/schemas';
 import type {
   AssessmentQuestion,
@@ -383,21 +384,10 @@ function validateShortAnswer(
   question: Extract<AssessmentQuestion, { format: 'short_answer' }>,
   diagnostics: Diagnostic[],
 ): void {
-  const normalizeAnswer = (answer: string): string => {
-    let normalized = answer;
-    if (question.normalization.trim) normalized = normalized.trim();
-    if (question.normalization.collapseWhitespace) {
-      normalized = normalized.replace(/\s+/g, ' ');
-    }
-    if (question.normalization.caseInsensitive) normalized = normalized.toLowerCase();
-    if (question.normalization.ignoreTerminalPunctuation) {
-      normalized = normalized.replace(/[\p{P}\p{S}]+$/gu, '');
-    }
-    return normalized;
-  };
-
   addDuplicateDiagnostics(
-    question.acceptedAnswers.map(normalizeAnswer),
+    question.acceptedAnswers.map(
+      (answer) => normalizeShortAnswer(answer, question.normalization),
+    ),
     'DUPLICATE_NORMALIZED_SHORT_ANSWER',
     'normalized accepted answer',
     diagnostics,
