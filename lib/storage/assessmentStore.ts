@@ -3,7 +3,10 @@ import {
   sessionIssue,
   sessionSuccess,
 } from '@/lib/assessment/session/errors';
-import type { SessionResult } from '@/lib/assessment/session/types';
+import type {
+  SessionIssue,
+  SessionResult,
+} from '@/lib/assessment/session/types';
 import {
   storeV2Schema,
   type AssessmentAttemptSnapshot,
@@ -26,6 +29,29 @@ function validatedStore(
         path: [context.path, issue.path.join('.')].filter(Boolean).join('.'),
       },
     )));
+}
+
+function sameJsonValue(left: unknown, right: unknown): boolean {
+  if (Object.is(left, right)) return true;
+  if (Array.isArray(left) || Array.isArray(right)) {
+    return Array.isArray(left)
+      && Array.isArray(right)
+      && left.length === right.length
+      && left.every((value, index) => sameJsonValue(value, right[index]));
+  }
+  if (
+    typeof left !== 'object'
+    || left === null
+    || typeof right !== 'object'
+    || right === null
+  ) return false;
+  const leftRecord = left as Record<string, unknown>;
+  const rightRecord = right as Record<string, unknown>;
+  const leftKeys = Object.keys(leftRecord).sort();
+  const rightKeys = Object.keys(rightRecord).sort();
+  return leftKeys.length === rightKeys.length
+    && leftKeys.every((key, index) => key === rightKeys[index])
+    && leftKeys.every((key) => sameJsonValue(leftRecord[key], rightRecord[key]));
 }
 
 export function putActiveAssessmentAttempt(
@@ -152,13 +178,43 @@ export function finalizeAssessmentStore(
       { attemptId: result.attemptId, path: `assessment.results.${resultKey}` },
     ));
   }
-  if (result.attemptId !== active.value.id) {
+  if (store.assessment.results[resultKey]) {
     return sessionFailure(sessionIssue(
-      'RESULT_ATTEMPT_MISMATCH',
-      `Result attempt ID "${result.attemptId}" does not match active attempt "${active.value.id}".`,
-      { attemptId: active.value.id, path: 'attemptId' },
+      'RESULT_STORE_COLLISION',
+      `Assessment result "${resultKey}" already exists and cannot be overwritten atomically.`,
+      { attemptId: active.value.id, path: `assessment.results.${resultKey}` },
     ));
   }
+
+  const snapshotIssues: SessionIssue[] = [];
+  const compare = (
+    path: string,
+    resultValue: unknown,
+    attemptValue: unknown,
+  ): void => {
+    if (!sameJsonValue(resultValue, attemptValue)) {
+      snapshotIssues.push(sessionIssue(
+        'RESULT_ATTEMPT_SNAPSHOT_MISMATCH',
+        `Result field "${path}" does not match the active attempt snapshot.`,
+        { attemptId: active.value.id, path },
+      ));
+    }
+  };
+  compare('attemptId', result.attemptId, active.value.id);
+  compare('courseId', result.courseId, active.value.courseId);
+  compare('moduleId', result.moduleId, active.value.moduleId);
+  compare(
+    'orderedQuestionIds',
+    result.orderedQuestionIds,
+    active.value.orderedQuestionIds,
+  );
+  compare(
+    'questionVersions',
+    result.questionVersions,
+    active.value.questionVersions,
+  );
+  compare('responses', result.responses, active.value.responses);
+  if (snapshotIssues.length > 0) return sessionFailure(snapshotIssues);
 
   const activeAttempts = { ...store.assessment.activeAttempts };
   delete activeAttempts[attemptKey];

@@ -48,7 +48,9 @@ export type SessionIssueCode =
   | 'RESULT_STORE_KEY_MISMATCH'
   | 'ATTEMPT_NOT_FOUND'
   | 'RESULT_NOT_FOUND'
-  | 'RESULT_ATTEMPT_MISMATCH';
+  | 'RESULT_ATTEMPT_MISMATCH'
+  | 'RESULT_ATTEMPT_SNAPSHOT_MISMATCH'
+  | 'RESULT_STORE_COLLISION';
 
 export type SessionIssue = {
   code: SessionIssueCode;
@@ -71,16 +73,16 @@ export type SessionFailure = {
 export type SessionResult<T> = SessionSuccess<T> | SessionFailure;
 
 export type QuestionRegistryEntry = {
-  question: AssessmentQuestion;
-  questionId: string;
-  version: number;
-  familyId: string;
-  courseId: string;
-  moduleId: string;
-  sectionId: string;
-  objectiveId: string;
-  reviewStatus: ReviewStatus;
-  format: AssessmentQuestion['format'];
+  readonly question: AssessmentQuestion;
+  readonly questionId: string;
+  readonly version: number;
+  readonly familyId: string;
+  readonly courseId: string;
+  readonly moduleId: string;
+  readonly sectionId: string;
+  readonly objectiveId: string;
+  readonly reviewStatus: ReviewStatus;
+  readonly format: AssessmentQuestion['format'];
 };
 
 export type RegistryOptions = {

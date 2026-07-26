@@ -106,7 +106,7 @@ describe('assessment question registry', () => {
     if (!missing.ok) expect(missing.issues[0].code).toBe('QUESTION_NOT_FOUND');
   });
 
-  it('provides deterministic lookup without cloning or mutation', () => {
+  it('provides deterministic lookup through independent defensive copies', () => {
     const built = buildQuestionRegistry({
       banks: [makePilotBank()],
       allowedReviewStatuses: ['draft'],
@@ -115,7 +115,9 @@ describe('assessment question registry', () => {
     const first = built.value.lookup('aqueous-flow-sba-001');
     const second = built.value.lookup('aqueous-flow-sba-001');
     if (!first.ok || !second.ok) throw new Error('Question should resolve');
-    expect(second.value).toBe(first.value);
+    expect(second.value).toEqual(first.value);
+    expect(second.value).not.toBe(first.value);
+    expect(second.value.question).not.toBe(first.value.question);
   });
 
   it('keeps the pilot and session engine disconnected from the public legacy quiz', async () => {

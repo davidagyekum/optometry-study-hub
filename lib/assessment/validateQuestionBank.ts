@@ -358,11 +358,21 @@ function validateImageLabels(
   const answerTargets = Object.keys(question.correctLabels);
   const exactTargets = targetIds.length === answerTargets.length
     && targetIds.every((id) => answerTargets.includes(id));
-  if (!exactTargets || Object.values(question.correctLabels).some((id) => !labelIds.has(id))) {
+  const correctLabelIds = Object.values(question.correctLabels);
+  if (!exactTargets || correctLabelIds.some((id) => !labelIds.has(id))) {
     diagnostics.push({
       severity: 'error',
       code: 'INVALID_IMAGE_LABEL_REFERENCE',
       message: 'Every image target must map to an existing stable label ID.',
+      questionId: question.id,
+      path: 'correctLabels',
+    });
+  }
+  if (new Set(correctLabelIds).size !== correctLabelIds.length) {
+    diagnostics.push({
+      severity: 'error',
+      code: 'DUPLICATE_CORRECT_LABEL_ID',
+      message: 'Each correct image label may be used only once.',
       questionId: question.id,
       path: 'correctLabels',
     });

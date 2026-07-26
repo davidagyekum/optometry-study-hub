@@ -38,15 +38,36 @@ export function setAttemptResponse(
   if (!includesQuestion(attempt, questionId)) {
     return questionOutsideAttempt(attempt, questionId);
   }
-  const question = registry.get(questionId);
-  if (!question) {
+  const entry = registry.getEntry(questionId);
+  if (!entry) {
     return sessionFailure(sessionIssue(
       'QUESTION_NOT_FOUND',
       `Question "${questionId}" is not registered.`,
       { attemptId: attempt.id, questionId },
     ));
   }
-  const validated = validateResponseForQuestion(question, input);
+  if (attempt.questionVersions[questionId] !== entry.version) {
+    return sessionFailure(sessionIssue(
+      'QUESTION_VERSION_MISMATCH',
+      `Question "${questionId}" is version ${entry.version}, but this attempt requires version ${attempt.questionVersions[questionId]}.`,
+      { attemptId: attempt.id, questionId, path: `questionVersions.${questionId}` },
+    ));
+  }
+  if (attempt.courseId !== entry.courseId) {
+    return sessionFailure(sessionIssue(
+      'QUESTION_COURSE_MISMATCH',
+      `Question "${questionId}" does not belong to attempt course "${attempt.courseId}".`,
+      { attemptId: attempt.id, questionId, path: 'courseId' },
+    ));
+  }
+  if (attempt.moduleId !== entry.moduleId) {
+    return sessionFailure(sessionIssue(
+      'QUESTION_MODULE_MISMATCH',
+      `Question "${questionId}" does not belong to attempt module "${attempt.moduleId}".`,
+      { attemptId: attempt.id, questionId, path: 'moduleId' },
+    ));
+  }
+  const validated = validateResponseForQuestion(entry.question, input);
   if (!validated.ok) {
     return sessionFailure(validated.issues.map((issue) => ({
       ...issue,

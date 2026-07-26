@@ -34,6 +34,8 @@ The schema supports:
 - open response with a non-automatic rubric.
 
 The committed Aqueous and Vitreous pilot contains one draft example of every format. These examples are not registered with the live quiz.
+Image-labelling answers are one-to-one: every declared target maps to one existing label, and each label may appear at most once in `correctLabels`. The persisted response contract also prohibits label reuse, so an authored correct answer is always representable by a valid response.
+
 
 ## Bloom taxonomy
 
@@ -94,6 +96,8 @@ Study, Exam, and Mastery modes are planned future consumers of this domain:
 - Mastery mode may use question history and objective coverage.
 
 PR 3 defines persisted attempt fields for these modes but does not implement an assembler, renderer, adaptive algorithm, or scoring workflow. Persisted attempts and results require non-empty unique question order, exact question-version coverage, valid ISO timestamps, stable response IDs, and references limited to questions in the snapshot. Attempt indices must be in range, scores cannot exceed a numeric maximum, and history counts cannot report more correct responses than attempts.
+
+At the StoreV2 boundary, each active-attempt key must equal its attempt ID, each result key must equal its result ID, and each question-history key must equal its question ID. Atomic finalization additionally requires the result to be an exact course, module, ordered-question, version, and response snapshot of the active attempt and rejects result-ID collisions.
 
 ## AIKEN and Aiken’s V
 

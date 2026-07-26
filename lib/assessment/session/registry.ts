@@ -37,23 +37,43 @@ function sameQuestionContent(left: AssessmentQuestion, right: AssessmentQuestion
   return JSON.stringify(left) === JSON.stringify(right);
 }
 
-export class QuestionRegistry {
+export interface QuestionRegistry {
   readonly bankIds: readonly string[];
   readonly size: number;
+  get(questionId: string): AssessmentQuestion | undefined;
+  getEntry(questionId: string): QuestionRegistryEntry | undefined;
+  lookup(questionId: string): SessionResult<QuestionRegistryEntry>;
+  questionIds(): string[];
+}
+
+class ValidatedQuestionRegistry implements QuestionRegistry {
+  readonly size: number;
+  private readonly bankIdValues: readonly string[];
   private readonly entries: ReadonlyMap<string, QuestionRegistryEntry>;
 
   constructor(entries: Map<string, QuestionRegistryEntry>, bankIds: string[]) {
-    this.entries = entries;
-    this.bankIds = [...bankIds];
+    this.entries = new Map(
+      [...entries].map(([questionId, entry]) => [
+        questionId,
+        structuredClone(entry) as QuestionRegistryEntry,
+      ]),
+    );
+    this.bankIdValues = [...bankIds];
     this.size = entries.size;
   }
 
+  get bankIds(): readonly string[] {
+    return [...this.bankIdValues];
+  }
+
   get(questionId: string): AssessmentQuestion | undefined {
-    return this.entries.get(questionId)?.question;
+    const question = this.entries.get(questionId)?.question;
+    return question ? structuredClone(question) : undefined;
   }
 
   getEntry(questionId: string): QuestionRegistryEntry | undefined {
-    return this.entries.get(questionId);
+    const entry = this.entries.get(questionId);
+    return entry ? structuredClone(entry) : undefined;
   }
 
   lookup(questionId: string): SessionResult<QuestionRegistryEntry> {
@@ -65,7 +85,7 @@ export class QuestionRegistry {
         { questionId },
       ));
     }
-    return sessionSuccess(entry);
+    return sessionSuccess(structuredClone(entry));
   }
 
   questionIds(): string[] {
@@ -161,5 +181,5 @@ export function buildQuestionRegistry({
 
   return issues.length > 0
     ? sessionFailure(issues)
-    : sessionSuccess(new QuestionRegistry(entries, [...bankIds]));
+    : sessionSuccess(new ValidatedQuestionRegistry(entries, [...bankIds]));
 }

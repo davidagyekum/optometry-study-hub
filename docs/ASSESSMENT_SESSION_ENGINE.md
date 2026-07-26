@@ -11,6 +11,8 @@ The public application remains on the 400-question legacy quiz. The nine-questio
 `QuestionRegistry` is built from one or more validated question banks and provides stable lookup by question ID. Each registry entry preserves its question version, family, course, module, section, objective, review status, and format.
 
 The default production eligibility is `approved` only. Draft and reviewed questions require an explicit `allowedReviewStatuses` override. Retired questions additionally require the clearly named `allowRetiredForArchival` override, so they cannot enter normal sessions accidentally.
+Registry construction is the validation boundary: callers receive an interface, not a public constructor. The registry copies validated bank content on entry and returns defensive copies from `get`, `getEntry`, and `lookup`; mutating a source bank or returned question, metadata entry, option, or bank-ID list cannot change later lookup, eligibility, version checks, ownership checks, or presentation order.
+
 
 Registry construction rejects malformed banks, duplicate bank IDs, duplicate question IDs, and conflicting definitions. Missing lookups return no question; session creation and resolution convert that condition into structured diagnostics.
 
@@ -55,7 +57,7 @@ This validation answers â€œcan this response safely resume with this question?â€
 
 ## Immutable attempt operations
 
-Pure actions set or replace a validated response, clear a response, toggle a unique flag, move to a direct index, and move next or previous within bounds. They return a new snapshot and never mutate their input. Questions outside the attempt, invalid responses, and out-of-range direct navigation produce structured errors.
+Pure actions set or replace a validated response, clear a response, toggle a unique flag, move to a direct index, and move next or previous within bounds. They return a new snapshot and never mutate their input. The response setter defensively checks the attempt's stored question version, course, and module against the current registry entry before validating the response. Questions outside the attempt, stale ownership or version data, invalid responses, and out-of-range direct navigation produce structured errors.
 
 Clearing an unanswered question is harmless. Moving previous at the first question and next at the last question remains at the relevant boundary.
 
@@ -74,8 +76,10 @@ Clearing an unanswered question is harmless. Moving previous at the first questi
 Resolution never substitutes a missing question, upgrades a version, discards a response, regenerates presentation order, or changes question order. The caller decides how to present or recover from an issue.
 
 ## Finalization and external evaluation
+A resumed attempt must resolve successfully before the caller permits further interaction or finalization. Setters still repeat the relevant version and ownership checks as a defensive boundary; callers must surface and resolve stale-snapshot diagnostics rather than silently updating, repairing, or submitting the attempt.
 
-Finalization preserves the attempt ID relationship, course, module, question order, question versions, and responses in an `AssessmentResultSnapshot`. It adds an injected stable result ID and ISO submission time.
+
+Finalization first validates the complete attempt snapshot, then preserves the attempt ID relationship, course, module, question order, question versions, and responses in an `AssessmentResultSnapshot`. It adds an injected stable result ID and ISO submission time.
 
 Evaluation is supplied externally as either:
 
@@ -89,7 +93,9 @@ PR 5 is expected to define real correctness and grading policies. Deferring thos
 
 ## StoreV2 helpers
 
-Pure helpers insert, replace, retrieve, and remove active assessment attempts; insert, replace, and retrieve results; and atomically move a matching active attempt into results. Every write preserves reading progress, legacy attempts, legacy results, unrelated assessment records, and question history. Key/ID disagreement and invalid final stores return structured failures.
+Pure helpers insert, replace, retrieve, and remove active assessment attempts; insert, replace, and retrieve results; and atomically move a matching active attempt into results. Store validation requires every active-attempt, result, and question-history record key to match the record's own stable ID.
+
+Atomic finalization requires the result's attempt ID, course, module, ordered question IDs, question-version map, and complete response map to match the active attempt exactly. It refuses an existing result ID instead of overwriting it; ordinary `putAssessmentResult` remains the explicit insert-or-replace helper. Every write preserves reading progress, legacy attempts, legacy results, unrelated assessment records, and question history. Key/ID disagreement, snapshot disagreement, collisions, and invalid final stores return structured failures without mutating the source.
 
 Retrieved values are cloned so callers cannot mutate the store through a returned reference.
 

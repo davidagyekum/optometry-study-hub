@@ -10,6 +10,7 @@ import type {
 } from '@/lib/assessment/session/types';
 import {
   assessmentResultSnapshotSchema,
+  assessmentAttemptSnapshotSchema,
   type AssessmentResultSnapshot,
 } from '@/lib/storage/schemas';
 
@@ -40,11 +41,20 @@ export function finalizeAssessmentAttempt({
   idFactory = defaultResultId,
 }: FinalizeAssessmentAttemptInput): SessionResult<AssessmentResultSnapshot> {
   const { score, maxScore } = evaluation;
+  const parsedAttempt = assessmentAttemptSnapshotSchema.safeParse(attempt);
+  if (!parsedAttempt.success) {
+    return sessionFailure(parsedAttempt.error.issues.map((issue) => sessionIssue(
+      'INVALID_ATTEMPT_SNAPSHOT',
+      issue.message,
+      { attemptId: attempt.id, path: issue.path.join('.') },
+    )));
+  }
+  const validAttempt = parsedAttempt.data;
   if ((score === null) !== (maxScore === null)) {
     return sessionFailure(sessionIssue(
       'EVALUATION_PAIR_MISMATCH',
       'Score and maxScore must either both be null or both be numeric.',
-      { attemptId: attempt.id, path: 'evaluation' },
+      { attemptId: validAttempt.id, path: 'evaluation' },
     ));
   }
   if (score !== null && maxScore !== null) {
@@ -52,7 +62,7 @@ export function finalizeAssessmentAttempt({
       return sessionFailure(sessionIssue(
         'EVALUATION_MAX_INVALID',
         'A numeric maxScore must be finite and greater than zero.',
-        { attemptId: attempt.id, path: 'maxScore' },
+        { attemptId: validAttempt.id, path: 'maxScore' },
       ));
     }
     if (
@@ -63,7 +73,7 @@ export function finalizeAssessmentAttempt({
       return sessionFailure(sessionIssue(
         'EVALUATION_SCORE_INVALID',
         'A numeric score must be finite, nonnegative, and no greater than maxScore.',
-        { attemptId: attempt.id, path: 'score' },
+        { attemptId: validAttempt.id, path: 'score' },
       ));
     }
   }
@@ -75,14 +85,14 @@ export function finalizeAssessmentAttempt({
     return sessionFailure(sessionIssue(
       'INVALID_RESULT_ID',
       'The result ID factory threw.',
-      { attemptId: attempt.id },
+      { attemptId: validAttempt.id },
     ));
   }
-  if (!STABLE_ID_PATTERN.test(resultId)) {
+  if (typeof resultId !== 'string' || !STABLE_ID_PATTERN.test(resultId)) {
     return sessionFailure(sessionIssue(
       'INVALID_RESULT_ID',
       'Result IDs must use stable slug-style syntax.',
-      { attemptId: attempt.id, path: 'id' },
+      { attemptId: validAttempt.id, path: 'id' },
     ));
   }
   const timestamp = submittedAt(now);
@@ -90,13 +100,13 @@ export function finalizeAssessmentAttempt({
 
   const candidate: AssessmentResultSnapshot = {
     id: resultId,
-    attemptId: attempt.id,
-    courseId: attempt.courseId,
-    moduleId: attempt.moduleId,
+    attemptId: validAttempt.id,
+    courseId: validAttempt.courseId,
+    moduleId: validAttempt.moduleId,
     submittedAt: timestamp.value,
-    orderedQuestionIds: [...attempt.orderedQuestionIds],
-    questionVersions: { ...attempt.questionVersions },
-    responses: structuredClone(attempt.responses),
+    orderedQuestionIds: [...validAttempt.orderedQuestionIds],
+    questionVersions: { ...validAttempt.questionVersions },
+    responses: structuredClone(validAttempt.responses),
     score,
     maxScore,
   };
@@ -105,7 +115,7 @@ export function finalizeAssessmentAttempt({
     return sessionFailure(parsed.error.issues.map((issue) => sessionIssue(
       'INVALID_RESULT_SNAPSHOT',
       issue.message,
-      { attemptId: attempt.id, path: issue.path.join('.') },
+      { attemptId: validAttempt.id, path: issue.path.join('.') },
     )));
   }
   return sessionSuccess(parsed.data);

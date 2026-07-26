@@ -153,7 +153,7 @@ describe('immutable assessment StoreV2 helpers', () => {
     expect(codes(finalizeAssessmentStore(active.value, attempt.id, result.id, {
       ...result,
       attemptId: 'another-attempt',
-    }))).toContain('RESULT_ATTEMPT_MISMATCH');
+    }))).toContain('RESULT_ATTEMPT_SNAPSHOT_MISMATCH');
   });
 
   it('detects malformed keyed entries and rejects invalid result score pairs', () => {

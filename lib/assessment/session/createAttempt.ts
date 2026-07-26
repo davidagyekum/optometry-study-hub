@@ -111,7 +111,7 @@ export function createAssessmentAttempt({
   } catch {
     return sessionFailure(sessionIssue('INVALID_ATTEMPT_ID', 'The attempt ID factory threw.'));
   }
-  if (!STABLE_ID_PATTERN.test(attemptId)) {
+  if (typeof attemptId !== 'string' || !STABLE_ID_PATTERN.test(attemptId)) {
     return sessionFailure(sessionIssue(
       'INVALID_ATTEMPT_ID',
       'Attempt IDs must use stable slug-style syntax.',
