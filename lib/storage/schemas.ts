@@ -107,6 +107,39 @@ export const persistedResponseSchema = z.discriminatedUnion('format', [
   z.strictObject({ format: z.literal('open_response'), text: z.string() }),
 ]);
 
+export const assessmentDraftResponseSchema = z.discriminatedUnion('format', [
+  z.strictObject({
+    format: z.literal('single_best_answer'),
+    optionId: stableIdSchema,
+  }),
+  z.strictObject({
+    format: z.literal('multiple_response'),
+    optionIds: uniqueStableIdArray(),
+  }),
+  z.strictObject({
+    format: z.literal('ordering'),
+    itemIds: uniqueStableIdArray(),
+  }),
+  z.strictObject({
+    format: z.literal('matching'),
+    matches: stableIdRecordSchema,
+  }),
+  z.strictObject({
+    format: z.literal('extended_matching'),
+    answers: stableIdRecordSchema,
+  }),
+  z.strictObject({
+    format: z.literal('image_hotspot'),
+    regionIds: uniqueStableIdArray(),
+  }),
+  z.strictObject({
+    format: z.literal('image_label'),
+    matches: stableIdRecordSchema,
+  }),
+  z.strictObject({ format: z.literal('short_answer'), text: z.string() }),
+  z.strictObject({ format: z.literal('open_response'), text: z.string() }),
+]);
+
 const assessmentAttemptSnapshotBaseSchema = z.strictObject({
   id: stableIdSchema,
   mode: z.enum(['study', 'exam', 'mastery']),
@@ -119,6 +152,7 @@ const assessmentAttemptSnapshotBaseSchema = z.strictObject({
   questionVersions: stableIdVersionRecordSchema,
   optionOrder: stableIdArrayRecordSchema,
   responses: z.record(stableIdSchema, persistedResponseSchema),
+  draftResponses: z.record(stableIdSchema, assessmentDraftResponseSchema).optional(),
   flags: uniqueStableIdArray(),
   currentIndex: z.number().int().nonnegative(),
 });
@@ -138,6 +172,7 @@ export const assessmentAttemptSnapshotSchema = assessmentAttemptSnapshotBaseSche
     }
     for (const [field, ids] of [
       ['responses', Object.keys(attempt.responses)],
+      ['draftResponses', Object.keys(attempt.draftResponses ?? {})],
       ['optionOrder', Object.keys(attempt.optionOrder)],
       ['flags', attempt.flags],
     ] as const) {
@@ -306,6 +341,7 @@ export const storeV2Schema = z.strictObject({
 });
 
 export type PersistedResponse = z.infer<typeof persistedResponseSchema>;
+export type AssessmentDraftResponse = z.infer<typeof assessmentDraftResponseSchema>;
 export type AssessmentAttemptSnapshot = z.infer<typeof assessmentAttemptSnapshotSchema>;
 export type AssessmentResultSnapshot = z.infer<typeof assessmentResultSnapshotSchema>;
 export type QuestionHistoryRecord = z.infer<typeof questionHistoryRecordSchema>;

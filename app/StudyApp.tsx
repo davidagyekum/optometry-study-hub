@@ -1,9 +1,11 @@
 'use client';
 
+import { lazy, Suspense } from 'react';
 import { CourseView } from '@/components/course/CourseView';
 import { HomeView } from '@/components/home/HomeView';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { SiteHeader } from '@/components/layout/SiteHeader';
+import { AssessmentPilotUnavailable } from '@/components/assessment/pilot/AssessmentPilotUnavailable';
 import { LegacyQuizView } from '@/components/quiz/LegacyQuizView';
 import { LegacyResultsView } from '@/components/results/LegacyResultsView';
 import { StudyView } from '@/components/study/StudyView';
@@ -11,15 +13,29 @@ import { courses } from '@/content/legacy/courseCatalog';
 import { moduleMap } from '@/content/legacy/moduleCatalog';
 import { useClientRoute } from '@/hooks/useClientRoute';
 import { useLegacyStore } from '@/hooks/useLegacyStore';
+import { isAssessmentPilotEnabled } from '@/lib/assessment/pilot/config';
 import { createAttempt } from '@/lib/legacy/attempts';
 import type { CourseSummary, Module } from '@/lib/legacy/types';
+import type { ClientView } from '@/lib/navigation/clientRoute';
+import {
+  resetAssessmentCourse,
+  resetAssessmentModule,
+} from '@/lib/storage/assessmentReset';
 import { createEmptyStoreV2 } from '@/lib/storage/migrations';
 import type { StoreV2 } from '@/lib/storage/schemas';
 import { resetAllStudyData } from '@/lib/storage/store';
 
+const PILOT_VIEWS: ClientView[] = ['pilot', 'assessment', 'assessment-result'];
+const AssessmentPilotRouter = lazy(() => (
+  import('@/components/assessment/pilot/AssessmentPilotRouter')
+    .then((module) => ({ default: module.AssessmentPilotRouter }))
+));
+
 export default function StudyApp() {
   const { route, go } = useClientRoute();
   const { store, setStore } = useLegacyStore();
+  const pilotEnabled = isAssessmentPilotEnabled();
+  const isPilotView = PILOT_VIEWS.includes(route.view);
 
   const updateStore = (updater: (current: StoreV2) => StoreV2) => {
     setStore((current) => updater(current));
@@ -33,7 +49,11 @@ export default function StudyApp() {
       go('quiz', target.id);
       return;
     }
-    if (existing && force && !window.confirm('Restart this attempt? Your current answers will be cleared.')) return;
+    if (
+      existing
+      && force
+      && !window.confirm('Restart this attempt? Your current answers will be cleared.')
+    ) return;
     const attempt = createAttempt(target);
     updateStore((current) => ({
       ...current,
@@ -43,17 +63,21 @@ export default function StudyApp() {
   };
 
   const clearModule = (id: string) => {
-    if (!window.confirm('Clear reading progress, active quiz and score history for this module?')) return;
-    updateStore((current) => ({
+    if (!window.confirm(
+      'Clear reading progress, active quiz, score history and assessment pilot data for this module?',
+    )) return;
+    updateStore((current) => resetAssessmentModule({
       ...current,
       read: { ...current.read, [id]: [] },
       active: { ...current.active, [id]: undefined },
       results: { ...current.results, [id]: [] },
-    }));
+    }, id));
   };
 
   const clearCourse = (course: CourseSummary) => {
-    if (!window.confirm(`Clear all notes progress, active quizzes and score history for ${course.title}?`)) return;
+    if (!window.confirm(
+      `Clear all notes progress, active quizzes, score history and assessment pilot data for ${course.title}?`,
+    )) return;
     updateStore((current) => {
       const read = { ...current.read };
       const active = { ...current.active };
@@ -63,7 +87,7 @@ export default function StudyApp() {
         active[id] = undefined;
         results[id] = [];
       });
-      return { ...current, read, active, results };
+      return resetAssessmentCourse({ ...current, read, active, results }, course.id);
     });
   };
 
@@ -73,19 +97,19 @@ export default function StudyApp() {
         <SiteHeader go={go} />
         <div className="empty">
           <h1>Course not found</h1>
-          <button onClick={() => go('home')}>Return home</button>
+          <button onClick={() => go('home')} type="button">Return home</button>
         </div>
       </main>
     );
   }
 
-  if (!activeModule && !['home', 'course'].includes(route.view)) {
+  if (!isPilotView && !activeModule && !['home', 'course'].includes(route.view)) {
     return (
       <main className="shell">
         <SiteHeader go={go} />
         <div className="empty">
           <h1>Module not found</h1>
-          <button onClick={() => go('home')}>Return home</button>
+          <button onClick={() => go('home')} type="button">Return home</button>
         </div>
       </main>
     );
@@ -132,6 +156,8 @@ export default function StudyApp() {
           })}
           go={go}
           startQuiz={startQuiz}
+          pilotEnabled={pilotEnabled}
+          openPilot={() => go('pilot', 'aqueous-vitreous')}
         />
       ) : null}
       {route.view === 'quiz' && activeModule ? (
@@ -164,6 +190,25 @@ export default function StudyApp() {
           go={go}
           startQuiz={startQuiz}
         />
+      ) : null}
+      {isPilotView ? (
+        pilotEnabled ? (
+          <Suspense
+            fallback={(
+              <div className="pilot-loading" role="status">
+                Loading experimental assessment…
+              </div>
+            )}
+          >
+            <AssessmentPilotRouter
+              go={go}
+              resourceId={route.moduleId}
+              setStore={setStore}
+              store={store}
+              view={route.view}
+            />
+          </Suspense>
+        ) : <AssessmentPilotUnavailable go={go} />
       ) : null}
       <SiteFooter go={go} />
     </main>

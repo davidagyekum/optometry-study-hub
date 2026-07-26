@@ -1,11 +1,21 @@
-export type ClientView = 'home' | 'course' | 'study' | 'quiz' | 'results';
+export type ClientView =
+  | 'home'
+  | 'course'
+  | 'study'
+  | 'quiz'
+  | 'results'
+  | 'pilot'
+  | 'assessment'
+  | 'assessment-result';
 
 export type ClientRoute = {
   view: ClientView;
   moduleId: string;
 };
 
-const ROUTED_VIEWS: ClientView[] = ['course', 'study', 'quiz', 'results'];
+const ROUTED_VIEWS: ClientView[] = [
+  'course', 'study', 'quiz', 'results', 'pilot', 'assessment', 'assessment-result',
+];
 
 export function parseClientRoute(pathname: string): ClientRoute {
   const cleanPath = pathname.split(/[?#]/, 1)[0];

@@ -1,4 +1,5 @@
 import type { AssessmentQuestion } from '@/lib/assessment/types';
+import { validateDraftResponseForQuestion } from '@/lib/assessment/session/draftResponses';
 import {
   sessionFailure,
   sessionIssue,
@@ -96,6 +97,20 @@ export function resolveAssessmentAttempt(
         })));
       }
     }
+
+    const draft = attempt.draftResponses?.[questionId];
+    if (draft !== undefined) {
+      const validatedDraft = validateDraftResponseForQuestion(question, draft);
+      if (!validatedDraft.ok) {
+        issues.push(...validatedDraft.issues.map((issue) => ({
+          ...issue,
+          code: 'INVALID_DRAFT_RESPONSE' as const,
+          attemptId: attempt.id,
+          questionId,
+          path: `draftResponses.${questionId}${issue.path ? `.${issue.path}` : ''}`,
+        })));
+      }
+    }
   }
 
   for (const questionId of Object.keys(attempt.responses)) {
@@ -104,6 +119,19 @@ export function resolveAssessmentAttempt(
         'INVALID_PERSISTED_RESPONSE',
         `Response references question "${questionId}" outside the attempt.`,
         { attemptId: attempt.id, questionId, path: `responses.${questionId}` },
+      ));
+    }
+  }
+  for (const questionId of Object.keys(attempt.draftResponses ?? {})) {
+    if (!attemptIds.has(questionId)) {
+      issues.push(sessionIssue(
+        'INVALID_DRAFT_RESPONSE',
+        `Draft response references question "${questionId}" outside the attempt.`,
+        {
+          attemptId: attempt.id,
+          questionId,
+          path: `draftResponses.${questionId}`,
+        },
       ));
     }
   }

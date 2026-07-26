@@ -137,3 +137,11 @@ Authors run the automated checks and document sources. Reviewers check factual a
   correctOptionId: 'trabecular-meshwork'
 }
 ```
+
+## Controlled renderer-pilot boundary
+
+The PR 6 Aqueous bank remains `draft` and may be registered only by the clearly named draft-only pilot registry when `NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT` is exactly `true`. This exception demonstrates rendering and persistence; it is not an academic approval path and must not be copied into production registration.
+
+Draft-response persistence accepts structurally valid incomplete learner work, but it does not relax question authoring. Stable IDs, selection limits, reuse rules, image coordinates, alternative text, sources, rationales, and reviewer metadata remain authored contracts. The grading layer reads complete responses only.
+
+Before a future production pilot is enabled, replace or independently review each engineering example, confirm sources and image rights, verify the cognitive target and distractors, test all accessible interactions, record reviewer metadata, and move accepted items through the normal reviewed and approved statuses.

@@ -2,7 +2,7 @@
 
 ## Verified state
 
-- PR 5 base commit: `850d77b6e5673ca895caa55d247dc35df9ca7141`
+- PR 6 base commit: `ab2e742c04c9f93ecb634a43f7ff3f9e144276ed`
 - Courses: 5
 - Modules: 8
 - Study sections: 39
@@ -31,7 +31,7 @@ The new assessment domain lives alongside—not inside—the live engine. It def
 
 A headless session layer can register approved questions through a defensive validated registry, create deterministic arbitrary-length attempts, validate all nine persisted response shapes, update attempts immutably, diagnose stale snapshots, finalize through an external evaluation, and update keyed StoreV2 assessment maps with exact atomic snapshot checks.
 
-A separate headless grading layer provides immutable strict and diagnostic version-1 policies, mode defaults, explicit historical policy adoption, one-point normalized outcomes, exact-fraction diagnostic aggregation, manual open-response boundaries, compact result snapshots, and deterministic exact-version regrading that verifies persisted snapshots. It remains unused by the React application and does not make the draft pilot publicly reachable.
+A separate grading layer provides immutable strict and diagnostic version-1 policies, mode defaults, explicit historical policy adoption, one-point normalized outcomes, exact-fraction diagnostic aggregation, manual open-response boundaries, compact result snapshots, and deterministic exact-version regrading. PR 6 connects it only to a default-disabled Aqueous engineering pilot with accessible renderers for all nine formats.
 
 Client route state supports:
 
@@ -40,6 +40,9 @@ Client route state supports:
 - `/study/:moduleId`
 - `/quiz/:moduleId`
 - `/results/:moduleId`
+- `/pilot/aqueous-vitreous`
+- `/assessment/:attemptId`
+- `/assessment-result/:resultId`
 
 History updates use `pushState`, and `popstate` restores the matching view.
 
@@ -50,7 +53,7 @@ The validated version-2 store preserves:
 - completed reading-section IDs by module;
 - one active legacy quiz attempt per module;
 - up to 20 recent submitted legacy results per module;
-- assessment maps for future headless attempts, grading-aware results, and unchanged question history, with no public UI integration yet.
+- assessment maps for pilot attempts, grading-aware results, and unchanged question history, isolated from legacy score history.
 
 On first V2 load, valid V1 `read`, `active`, and `results` fields migrate exactly to the new key. The V1 record is retained for rollback until the learner explicitly uses the global reset, which writes valid empty records to both generations. Initial hydration does not rewrite valid or malformed stored bytes, while later learner actions still save. Failed learner-originated saves retain dirty state so a later persistence call can retry. Malformed V1 or V2 data, unavailable browser storage, and throwing accessors do not crash the application or delete the original raw record. There is no account, backend database, analytics feed, or cross-device sync.
 
@@ -69,7 +72,7 @@ On first V2 load, valid V1 `read`, `active`, and `results` fields migrate exactl
 - The legacy distractor generator can create weak or duplicate options.
 - The live 400 questions are not yet represented by the new assessment schema.
 - Client routes are parsed manually.
-- Multi-format rendering and a controlled pilot experience do not yet exist; session and grading engines remain headless.
+- The multi-format pilot remains draft, disabled by default, and unsuitable as an approved examination bank.
 - Four intentional `<img>` lint warnings remain until a later UI-focused change.
 
 ## Known educational limitations

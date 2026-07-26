@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./pilot.css";
 
 :root {
   --navy: #061b33;

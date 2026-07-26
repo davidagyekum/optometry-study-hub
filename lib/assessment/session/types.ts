@@ -35,6 +35,14 @@ export type SessionIssueCode =
   | 'RESPONSE_NOT_EXACT_PERMUTATION'
   | 'RESPONSE_MAPPING_KEYS_INVALID'
   | 'RESPONSE_REUSE_NOT_ALLOWED'
+  | 'DRAFT_FORMAT_MISMATCH'
+  | 'DRAFT_OPTION_NOT_FOUND'
+  | 'DRAFT_MAPPING_KEY_INVALID'
+  | 'DRAFT_REUSE_NOT_ALLOWED'
+  | 'DRAFT_SELECTION_LIMIT'
+  | 'DRAFT_NOT_EXACT_PERMUTATION'
+  | 'DRAFT_DUPLICATE_ID'
+  | 'INVALID_DRAFT_RESPONSE'
   | 'QUESTION_NOT_IN_ATTEMPT'
   | 'CURRENT_INDEX_OUT_OF_RANGE'
   | 'INVALID_CURRENT_INDEX'
@@ -55,7 +63,14 @@ export type SessionIssueCode =
   | 'GRADING_POLICY_NOT_FOUND'
   | 'GRADING_POLICY_VERSION_UNSUPPORTED'
   | 'GRADING_POLICY_REQUIRED'
-  | 'GRADING_POLICY_MISMATCH';
+  | 'GRADING_POLICY_MISMATCH'
+  | 'GRADING_RESPONSE_INVALID'
+  | 'GRADING_QUESTION_FORMAT_UNSUPPORTED'
+  | 'GRADING_SCORE_INVALID'
+  | 'GRADING_ATTEMPT_INVALID'
+  | 'GRADING_RESULT_INVALID'
+  | 'GRADING_REPORT_INVALID'
+  | 'GRADING_SNAPSHOT_MISMATCH';
 
 export type SessionIssue = {
   code: SessionIssueCode;
@@ -113,6 +128,7 @@ export type CreateAssessmentAttemptInput = RegistryOptions & {
   moduleId: string;
   blueprintId?: string;
   gradingPolicy?: GradingPolicyReference;
+  initializeDraftResponses?: boolean;
   random?: RandomSource;
   now?: Clock;
   idFactory?: IdFactory;

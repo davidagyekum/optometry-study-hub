@@ -24,7 +24,9 @@ PR 3 adds an assessment-domain pilot under `content/question-bank/pilot/`, valid
 
 PR 4 adds a headless session engine under `lib/assessment/session/` plus immutable StoreV2 assessment helpers. It supports deterministic arbitrary-length attempts and all nine response formats, but intentionally provides no renderer, grading policy, or public entry point.
 
-PR 5 adds versioned strict and diagnostic grading under `lib/assessment/grading/`. It locks policy identity into new attempts, provides explicit locking for historical attempts, grades eight automatic formats with exact-fraction aggregation, marks answered open responses for manual review, and verifies compact persisted outcomes through deterministic regrading. It remains disconnected from the public UI.
+PR 5 adds versioned strict and diagnostic grading under `lib/assessment/grading/`. It locks policy identity into new attempts, provides explicit locking for historical attempts, grades eight automatic formats with exact-fraction aggregation, marks answered open responses for manual review, and verifies compact persisted outcomes through deterministic regrading.
+
+PR 6 adds accessible renderers for all nine formats plus a controlled Aqueous and Vitreous engineering pilot. It remains disabled by default and does not replace or affect the legacy 50-question quiz.
 
 See [Current State](docs/CURRENT_STATE.md), [Assessment Specification](docs/ASSESSMENT_SPEC.md), [Session Engine](docs/ASSESSMENT_SESSION_ENGINE.md), [Grading Policies](docs/ASSESSMENT_GRADING_POLICIES.md), and [Assessment Redesign Roadmap](docs/ASSESSMENT_REDESIGN_ROADMAP.md).
 
@@ -41,6 +43,14 @@ npm run dev
 ```
 
 The development server prints its local URL. The project intentionally has no account or server database requirement for student progress.
+
+To inspect the draft pilot locally, create an untracked `.env.local`:
+
+```text
+NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT=true
+```
+
+Only the exact string `true` enables it. The flag controls client exposure, not security, and the draft questions are not academically approved.
 
 ## Quality commands
 
@@ -69,12 +79,12 @@ Student reading progress, answers, flags, quiz history, and future assessment hi
 
 - The 400 live questions are generated from fact prompts by a positional legacy distractor algorithm.
 - The live questions and options have not yet been converted to stable assessment IDs, sources, rationales, Bloom levels, or review statuses.
-- The nine-format pilot proves the new schema but is not rendered or scored by the production quiz.
+- The nine-format pilot is an engineering demonstration, disabled by default, and is not an approved production assessment.
 - Navigation is client-managed rather than split into dedicated App Router routes.
 - Course notes, figures, and future production questions require ongoing academic and licensing review.
-- The headless session and grading engines are not connected to the public UI; no multi-format renderer or manual-review workflow exists.
+- Open responses expose the deliberate manual-review boundary; no manual-grading workflow exists.
 
-The assessment foundation, headless session lifecycle, and versioned grading policies are implemented alongside the live system; rendering, controlled pilot exposure, manual review, and production question conversion remain future work.
+The assessment foundation, session lifecycle, grading policies, accessible renderers, and controlled pilot are implemented alongside the live system. Academic approval, manual review, and production conversion of the 400 legacy questions remain future work.
 
 ## Contributing
 

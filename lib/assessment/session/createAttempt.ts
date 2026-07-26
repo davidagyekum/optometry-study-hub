@@ -52,6 +52,7 @@ export function createAssessmentAttempt({
   moduleId,
   blueprintId,
   gradingPolicy,
+  initializeDraftResponses = false,
   random = Math.random,
   now = () => new Date(),
   idFactory = defaultAttemptId,
@@ -180,6 +181,7 @@ export function createAssessmentAttempt({
     questionVersions,
     optionOrder,
     responses: {},
+    ...(initializeDraftResponses ? { draftResponses: {} } : {}),
     flags: [],
     currentIndex: 0,
   };
