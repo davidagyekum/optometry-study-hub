@@ -6,7 +6,10 @@
 - Base branch: `main`
 - Exact base commit: `1b3fe4911c366b80bac42d3327e7f780cf3cfce9`
 - Suggested title: **Add the Aqueous and Vitreous candidate bank and expert-review workflow**
-- PR URL, implementation commit, final head, and GitHub Actions identifiers will be recorded in the draft PR and final Codex report after publishing. A committed file cannot contain the SHA produced by the commit that contains it.
+- Draft PR: [#7 — Add the Aqueous and Vitreous candidate bank and expert-review workflow](https://github.com/davidagyekum/optometry-study-hub/pull/7)
+- Implementation commit: `511f43cce5408058ca178cb15dafda836c69539b`
+- The exact final head is recorded in the draft PR and final Codex report because a committed file cannot contain the SHA produced by the commit that contains it.
+- GitHub Actions Quality run [30226155543](https://github.com/davidagyekum/optometry-study-hub/actions/runs/30226155543), job `89856561937`, completed as a zero-step failure. Checkout, install, lint, type-check, tests, validation, and build did not execute; this is the known external account restriction, not a repository test failure.
 - Status: draft implementation complete; no deployment; PR 8 not started.
 
 ## Scope completed
@@ -102,5 +105,5 @@ Enabled build:
 - The 13-objective equivalent decomposition must be reviewed academically.
 - Existing image rights and coordinates require confirmation before any question can leave draft.
 - The four existing legacy image lint warnings remain.
-- GitHub Actions may fail before executing repository steps because of the known account restriction; run and job details will be recorded after the draft PR is opened.
+- GitHub Actions run `30226155543`, job `89856561937`, failed with zero executed steps because of the known external account restriction.
 - No deployment was performed, and PR 8 was not started.
