@@ -28,8 +28,9 @@ export function createStudyPersistenceCoordinator(
     },
     persistIfDirty(store) {
       if (!dirty) return false;
-      dirty = false;
-      return report ? saveStore(store, storage, report) : saveStore(store, storage);
+      const saved = report ? saveStore(store, storage, report) : saveStore(store, storage);
+      if (saved) dirty = false;
+      return saved;
     },
   };
 }

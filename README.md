@@ -22,7 +22,9 @@ Client navigation uses `/course/:id`, `/study/:moduleId`, `/quiz/:moduleId`, and
 
 PR 3 adds an assessment-domain pilot under `content/question-bank/pilot/`, validation and reporting under `lib/assessment/`, and migration-safe storage under `lib/storage/`. The live quiz still uses the legacy 400-question engine.
 
-See [Current State](docs/CURRENT_STATE.md), [Assessment Specification](docs/ASSESSMENT_SPEC.md), and [Assessment Redesign Roadmap](docs/ASSESSMENT_REDESIGN_ROADMAP.md).
+PR 4 adds a headless session engine under `lib/assessment/session/` plus immutable StoreV2 assessment helpers. It supports deterministic arbitrary-length attempts and all nine response formats, but intentionally provides no renderer, grading policy, or public entry point.
+
+See [Current State](docs/CURRENT_STATE.md), [Assessment Specification](docs/ASSESSMENT_SPEC.md), [Session Engine](docs/ASSESSMENT_SESSION_ENGINE.md), and [Assessment Redesign Roadmap](docs/ASSESSMENT_REDESIGN_ROADMAP.md).
 
 ## Requirements
 
@@ -68,8 +70,9 @@ Student reading progress, answers, flags, quiz history, and future assessment hi
 - The nine-format pilot proves the new schema but is not rendered or scored by the production quiz.
 - Navigation is client-managed rather than split into dedicated App Router routes.
 - Course notes, figures, and future production questions require ongoing academic and licensing review.
+- The headless assessment session engine is not connected to the public UI, and grading policies are deferred to a later reviewed PR.
 
-The assessment foundation is implemented alongside the live system; the production question conversion and dynamic quiz engine remain future work.
+The assessment foundation and headless session lifecycle are implemented alongside the live system; production grading, rendering, and question conversion remain future work.
 
 ## Contributing
 

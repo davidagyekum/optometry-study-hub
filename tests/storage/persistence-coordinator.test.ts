@@ -99,4 +99,30 @@ describe('study persistence coordinator', () => {
     expect(() => coordinator.persistIfDirty(createEmptyStoreV2())).not.toThrow();
     expect(coordinator.persistIfDirty(createEmptyStoreV2())).toBe(false);
   });
+
+  it('retains dirty state after a failed save so persistence can be retried', () => {
+    const values = new Map<string, string>();
+    let attempts = 0;
+    const storage: StorageLike = {
+      getItem: (key) => values.get(key) ?? null,
+      setItem: (key, value) => {
+        attempts += 1;
+        if (attempts === 1) throw new Error('temporary failure');
+        values.set(key, value);
+      },
+    };
+    const coordinator = createStudyPersistenceCoordinator(storage);
+    const hydrated = coordinator.hydrate();
+    const updated = {
+      ...hydrated,
+      read: { 'aqueous-vitreous': ['flow'] },
+    };
+
+    coordinator.markDirty();
+    expect(coordinator.persistIfDirty(updated)).toBe(false);
+    expect(coordinator.persistIfDirty(updated)).toBe(true);
+    expect(attempts).toBe(2);
+    expect(JSON.parse(values.get(STORAGE_KEY) ?? 'null')).toEqual(updated);
+    expect(coordinator.persistIfDirty(updated)).toBe(false);
+  });
 });

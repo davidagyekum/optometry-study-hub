@@ -76,6 +76,8 @@ Image questions require:
 - normalized coordinates from `0` to `1`;
 - targets that remain entirely within the image;
 - stable region, target, and label IDs.
+For image labelling, `correctLabels` must cover every target exactly once and must not reuse a label ID. There is no label-reuse policy in the schema or response contract; duplicate correct-label values make the authored answer impossible to submit and are rejected by validation.
+
 
 Coordinates should be checked against the exact optimized asset at phone and desktop sizes before a question becomes production-ready.
 

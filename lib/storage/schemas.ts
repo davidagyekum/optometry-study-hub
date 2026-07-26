@@ -168,6 +168,21 @@ export const assessmentResultSnapshotSchema = assessmentResultSnapshotBaseSchema
     if (Object.keys(result.responses).some((id) => !questionIds.has(id))) {
       addIssue(context, ['responses'], 'Responses may reference only questions in the result.');
     }
+    const { score, maxScore } = result;
+    if ((score === null) !== (maxScore === null)) {
+      addIssue(
+        context,
+        ['maxScore'],
+        'Score and maxScore must either both be null or both be numeric.',
+      );
+    }
+    if (maxScore !== null && maxScore <= 0) {
+      addIssue(
+        context,
+        ['maxScore'],
+        'A numeric maxScore must be greater than zero.',
+      );
+    }
     if (
       result.score !== null
       && result.maxScore !== null
@@ -199,6 +214,34 @@ export const storeV2Schema = z.strictObject({
     results: z.record(stableIdSchema, assessmentResultSnapshotSchema),
     questionHistory: z.record(stableIdSchema, questionHistoryRecordSchema),
   }),
+}).superRefine((store, context) => {
+  Object.entries(store.assessment.activeAttempts).forEach(([key, attempt]) => {
+    if (attempt.id !== key) {
+      addIssue(
+        context,
+        ['assessment', 'activeAttempts', key, 'id'],
+        `Active-attempt ID "${attempt.id}" must match its record key "${key}".`,
+      );
+    }
+  });
+  Object.entries(store.assessment.results).forEach(([key, result]) => {
+    if (result.id !== key) {
+      addIssue(
+        context,
+        ['assessment', 'results', key, 'id'],
+        `Assessment-result ID "${result.id}" must match its record key "${key}".`,
+      );
+    }
+  });
+  Object.entries(store.assessment.questionHistory).forEach(([key, history]) => {
+    if (history.questionId !== key) {
+      addIssue(
+        context,
+        ['assessment', 'questionHistory', key, 'questionId'],
+        `Question-history ID "${history.questionId}" must match its record key "${key}".`,
+      );
+    }
+  });
 });
 
 export type PersistedResponse = z.infer<typeof persistedResponseSchema>;

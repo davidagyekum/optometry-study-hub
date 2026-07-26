@@ -31,6 +31,16 @@ function countBy(
   return Object.fromEntries([...counts.entries()].sort(([left], [right]) => left.localeCompare(right)));
 }
 
+function objectiveCoverage(bank: QuestionBank): CountMap {
+  const counts = new Map(bank.objectives.map((objective) => [objective.id, 0]));
+  bank.questions.forEach((question) => {
+    counts.set(question.objectiveId, (counts.get(question.objectiveId) ?? 0) + 1);
+  });
+  return Object.fromEntries(
+    [...counts.entries()].sort(([left], [right]) => left.localeCompare(right)),
+  );
+}
+
 export function reportQuestionBank(bank: QuestionBank): QuestionBankReport {
   const familyCounts = countBy(bank.questions, (question) => question.familyId);
   const familiesWithMultipleVariants = Object.fromEntries(
@@ -46,7 +56,7 @@ export function reportQuestionBank(bank: QuestionBank): QuestionBankReport {
       bank.questions,
       (question) => `${question.courseId}/${question.moduleId}/${question.sectionId}`,
     ),
-    byObjective: countBy(bank.questions, (question) => question.objectiveId),
+    byObjective: objectiveCoverage(bank),
     byBloomLevel: countBy(bank.questions, (question) => question.bloomLevel),
     byDifficulty: countBy(bank.questions, (question) => question.difficulty),
     byFormat: countBy(bank.questions, (question) => question.format),

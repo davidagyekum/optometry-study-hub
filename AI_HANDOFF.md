@@ -1,4 +1,142 @@
-# AI Handoff
+# AI Handoff — PR 4
+
+## Pull request
+
+- PR: [#4 — Add the headless assessment session engine](https://github.com/davidagyekum/optometry-study-hub/pull/4)
+- Branch: `codex/pr4-assessment-session-engine`
+- Base branch: `main`
+- Exact base commit: `e3d089a22640ecf7b40a1e0a1d5a8f7b79330925`
+- Implementation commit: `61bf41b30af2c3d65b9228a4fdaf940fde34b737`.
+- Latest pre-correction GitHub Actions Quality run [30183537341](https://github.com/davidagyekum/optometry-study-hub/actions/runs/30183537341) failed before repository execution: its `quality` job reports no steps, consistent with the existing external account restriction rather than a code/test failure. The correction push will trigger a new run whose final status is recorded in the PR and final Codex report.
+- The exact final documentation-only branch head is recorded in the draft PR and final Codex report because a committed file cannot contain its own resulting commit hash.
+- Status: DRAFT
+
+## Objective completed
+
+Add a pure, headless assessment-session engine over the PR 3 question schema and StoreV2 foundation while leaving the live 400-question quiz, routes, content, styling, and public student experience unchanged.
+
+PR 5 has not been started.
+
+## Review corrections
+
+The PR 4 review feedback is addressed without connecting the headless engine to the live application:
+
+- replaced the exported registry class with an interface backed by a module-private validated implementation;
+- copied registry input and returned defensive question, entry, and bank-ID values so external mutation cannot affect later lookup, eligibility, version, ownership, or presentation order;
+- enforced StoreV2 key/record identity for active attempts, results, and question history, including malformed-load preservation and rejection by every assessment-store write;
+- made atomic finalization compare attempt ID, course, module, exact ordered questions, exact versions, and exact response keys and values, and reject result-ID collisions;
+- rejected duplicate authored image-label answer values so every correct mapping remains representable by the no-reuse response contract;
+- made response writes repeat version, course, and module checks against the current registry entry;
+- validated attempt snapshots at finalization and rejected non-string ID-factory values before regular-expression checks;
+- retained persistence dirty state after failed saves so a later call can retry;
+- documented the registry boundary, stale-attempt workflow, one-to-one image labels, keyed storage identity, and atomic finalization contract.
+
+## Implementation
+
+### Registry and deterministic creation
+
+- `lib/assessment/session/registry.ts` validates one or more banks, rejects malformed or duplicate input, exposes structured missing-question lookup, retains stable question metadata, and isolates internal validated content from caller mutation.
+- Production eligibility defaults to `approved`. Draft/reviewed questions require an explicit status override, and retired questions additionally require `allowRetiredForArchival`.
+- `lib/assessment/session/createAttempt.ts` creates arbitrary positive-length StoreV2 attempt snapshots from explicit question IDs.
+- Randomness, time, and IDs are injectable. Question order and the six applicable option/item orders are deterministic for a deterministic random source.
+
+### Response integrity and immutable actions
+
+- `lib/assessment/session/responseValidation.ts` validates all nine persisted response formats without grading them.
+- Multiple-response limits come only from explicit authored limits; the engine does not infer grading policy from correct answers.
+- `lib/assessment/session/attemptActions.ts` immutably sets, replaces, and clears responses; verifies stored version/course/module identity before response writes; toggles unique flags; and bounds direct, next, and previous navigation.
+- Structured issues use stable codes and include attempt, question, or field context when applicable.
+
+### Resume, finalization, and storage
+
+- `lib/assessment/session/resolveAttempt.ts` detects missing/stale questions, course/module disagreement, invalid presentation order, invalid responses, and invalid current indexes without repairing persisted data.
+- `lib/assessment/session/finalizeAttempt.ts` validates the attempt, preserves attempt content, rejects non-string result IDs, and accepts only an externally supplied null/null or bounded numeric evaluation.
+- `lib/storage/schemas.ts` rejects mixed score states, nonpositive numeric maximum scores, and assessment-map key/record identity disagreement.
+- `lib/storage/assessmentStore.ts` provides immutable active-attempt/result CRUD plus collision-safe, exact-snapshot atomic finalization while preserving legacy fields and unrelated assessment records.
+
+### Reporting and documentation
+
+- Question-bank reports now include every declared objective, including objectives with zero questions.
+- Added `docs/ASSESSMENT_SESSION_ENGINE.md`.
+- Updated the README, current-state document, and redesign roadmap to describe PR 4 as a headless draft implementation.
+
+## Tests
+
+The suite now contains 28 test files and 197 tests.
+
+PR 4 coverage includes:
+
+- registry status policy, duplicate/conflict diagnostics, missing lookup, deterministic defensive copies, mutation isolation, and absence of a public runtime constructor;
+- one-, three-, and nine-question deterministic session creation;
+- all six applicable presentation-order formats;
+- positive and negative responses for all nine formats, plus authored image-label answerability;
+- immutable answer, clear, flag, and navigation operations;
+- exact resume plus every required stale/invalid snapshot issue;
+- stale response-write version/course/module rejection and source immutability;
+- ungraded and externally scored finalization boundaries, invalid attempt snapshots, and non-string ID factories;
+- immutable StoreV2 insertion, replacement, retrieval, removal, keyed identity validation, malformed-byte preservation, and unrelated-record retention;
+- exact atomic snapshot comparison, response-key/value mismatch diagnostics, and collision refusal without overwrites;
+- uncovered learning-objective reporting;
+- preserved five-course, eight-module, 39-section, 400-question, and 50-per-module legacy invariants;
+- confirmation that `LegacyQuizView` does not import the pilot or session engine.
+
+## Behavior and scope
+
+- Intended user-visible changes: none.
+- No React component, route, CSS file, legacy educational record, distractor generator, legacy storage key/version, live scoring rule, or deployment configuration changed.
+- The nine-question pilot remains draft and publicly unreachable.
+- No renderer, blueprint assembler, adaptive selection, grading policy, correctness-history update, account, analytics, database, or cloud storage was added.
+
+## Validation
+
+All commands used bundled Node.js `v24.14.0`.
+
+| Command | Result |
+|---|---|
+| `npm ci` | PASS — 528 packages installed; npm reported three dependency deprecation notices, one non-fatal Windows cleanup warning, and 23 existing dependency advisories. |
+| `npm run lint` | PASS — zero errors and the same four accepted `<img>` warnings. |
+| `npm run typecheck` | PASS. |
+| `npm run test` | PASS — 28 files, 197 tests. |
+| `npm run questions:validate` | PASS — 9 questions, 8 objectives, 0 errors, 0 warnings. |
+| `npm run questions:validate -- --strict` | PASS — 9 questions, 8 objectives, 0 errors, 0 warnings. |
+| `npm run questions:report` | PASS — deterministic output includes `vitreous-identify-anatomy: 0`. |
+| `npm run build` | PASS. |
+| `npm run check` | PASS — lint, typecheck, 197 tests, question validation, and production build. |
+| `git diff --check` | PASS. |
+
+## Chrome-only manual regression
+
+The local Vinext application was checked only in Chrome; the in-app browser was not used.
+
+Passed:
+
+- homepage and all five course cards;
+- OPT 376 dashboard and all four module cards;
+- Aqueous and Vitreous notes, six figures, captions, source links, dialog focus, Escape close, and focus restoration;
+- reading-progress update and persistence after reload;
+- existing 50-question quiz, answer selection, flagging, Next and numbered navigation, refresh, and identical resume;
+- a fully answered 50-question submission, score summary, all 50 review entries, and retained latest/best score;
+- browser Back and Forward between quiz and result routes;
+- global-reset confirmation presence;
+- zero new Chrome console errors;
+- no visible pilot or assessment-session entry point.
+
+The destructive global reset was not accepted during manual QA so existing browser-local study data would be preserved. The confirmation appeared correctly, and the existing automated reset tests remain green.
+
+## Known limitations and next step
+
+- The public quiz still uses the isolated legacy generator and legacy scoring.
+- The pilot remains an engineering fixture pending academic review.
+- PR 4 validates response integrity but deliberately does not determine correctness.
+- Four existing `<img>` warnings remain.
+- npm dependency advisories and Windows cleanup warnings are outside this PR.
+
+Review the pure engine contracts, error model, snapshot compatibility, and StoreV2 helpers. Do not begin PR 5 until this draft PR is reviewed and merged.
+
+---
+
+## Previous PR 3 handoff
+
 
 ## Pull request
 
