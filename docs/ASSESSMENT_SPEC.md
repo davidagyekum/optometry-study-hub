@@ -34,6 +34,8 @@ The schema supports:
 - open response with a non-automatic rubric.
 
 The committed Aqueous and Vitreous pilot contains one draft example of every format. These examples are not registered with the live quiz. PR 6 may register them only through a clearly named draft-only registry inside an exact-string, default-disabled pilot boundary.
+Image-hotspot regions separate interactionLabel and neutral marker (used before submission) from the anatomical label (feedback only). Validation rejects duplicate markers/interaction labels and interaction text that repeats the answer label.
+
 Image-labelling answers are one-to-one: every declared target maps to one existing label, and each label may appear at most once in `correctLabels`. The persisted response contract also prohibits label reuse, so an authored correct answer is always representable by a valid response.
 
 

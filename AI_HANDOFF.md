@@ -9,12 +9,22 @@
 - Implementation commit: `7321cbeeb313812bfd01ebb841a0d7b0c23cb0ad`
 - GitHub Actions Quality run [30215421017](https://github.com/davidagyekum/optometry-study-hub/actions/runs/30215421017), job `89828674178`, failed before repository execution with zero steps. Checkout, install, lint, type-check, tests, validation, and build did not run; this is the existing external account restriction, not a repository test failure.
 - The exact final documentation-only branch head is recorded in the draft PR and final Codex report because a committed file cannot contain its own resulting commit hash.
-- Status: draft implementation ready for review.
+- Status: draft review corrections implemented and validated.
 - PR 7 has not been started.
 
 ## Objective completed
 
 Add accessible renderers for all nine versioned assessment formats and a controlled, browser-local Aqueous and Vitreous engineering pilot. The pilot uses the PR 4 session engine, PR 5 `diagnostic@1` grading, and StoreV2 persistence while leaving the existing 400-question legacy workflow unchanged.
+## PR 6 review corrections
+
+- Added pure attempt/result compatibility validators for the exact controlled identity: blueprint, course, module, Study mode, `diagnostic@1`, exactly the nine declared IDs, current versions, generic attempt resolution, and deterministic result regrading.
+- Routed active selection, landing/resume, direct attempt/result URLs, submission, and latest-result selection through those validators without repairing incompatible snapshots.
+- Replaced pre-submission anatomical hotspot names with neutral markers and spatial `interactionLabel` text; anatomical `label` is feedback-only.
+- Added one latest-StoreV2 transaction boundary for all pilot writes so consecutive operations compose before rerender and unrelated records survive.
+- Separated renderer validation from visible landing/session controller alerts; failed discard/submission keeps state and navigation occurs only after success.
+- Added submission-confirmation focus/announcement, cancellation focus restoration, keyboard activation, and reduced-motion-aware scrolling.
+- Completed matching, extended-matching, image-label, and hotspot instructional review with component status, rationales, overlays, patterned/text legend, and consistent unoptimized assessment images.
+- Preserved original disabled-build reset wording unless the pilot is enabled or matching hidden assessment data exists; reset continues clearing hidden matching records.
 
 ## Exposure and user impact
 
@@ -53,8 +63,8 @@ The pilot router is lazy-loaded. Disabled direct routes do not register or revea
 ### Tests
 
 - Added feature-flag, source-boundary, blueprint, schema, draft-operation, controller-flow, route, reset, legacy-metric, renderer, session, and result tests.
-- Component coverage contains 12 test files and 14 focused component tests.
-- The full suite contains 57 test files and 314 passing tests.
+- Component coverage contains 15 test files and 24 focused component tests.
+- The full suite contains 61 test files and 337 passing tests.
 
 ### Documentation
 
@@ -71,20 +81,22 @@ The pilot router is lazy-loaded. Disabled direct routes do not register or revea
 
 Validated with bundled Node.js 24.14.0:
 
-- `npm ci`: passed; npm reported non-fatal Windows cleanup warnings for optional WASI dependency directories.
+- `npm ci`: passed from the lockfile. A Windows npm optional-binding omission was corrected by rerunning the locked install under bundled Node 24 with optional packages included; npm retained 23 dependency advisories and non-fatal WASI cleanup warnings.
 - `npm run lint`: passed with the four pre-existing legacy `<img>` warnings and no new warnings.
 - `npm run typecheck`: passed.
-- `npm run test`: passed, 57 files and 314 tests.
+- `npm run test`: passed, 61 files and 337 tests.
 - `npm run questions:validate`: passed, 9 questions, 8 objectives, 0 errors, 0 warnings.
 - `npm run questions:validate -- --strict`: passed.
 - `npm run questions:report`: passed and reported exactly one draft question for each of the nine formats.
 - `npm run build`: passed.
-- `npm run check`: lint, type-check, tests, and question validation passed; the outer command wrapper timed out while Vinext was starting its build, then the identical build command passed separately.
+- `npm run check`: passed to completion as one command, including lint, type-check, 337 tests, question validation, and the Vinext production build.
 - `git diff --check`: passed.
 
 ## Chrome QA
 
-Chrome-only local QA was performed with the flag enabled and disabled; the in-app browser was not used.
+Chrome-only local QA was performed; the in-app browser was not used. The review-correction pass verified exact nine-question landing metadata, neutral A/B/C hotspot accessible names (with no anatomical label exposed), keyboard hotspot selection, `aria-pressed`, flag/draft autosave, identical refresh resume, submission-heading focus, cancellation focus restoration, incomplete submission, deterministic result totals, and hotspot selected/expected/both overlay text and legend. No new console error was observed during these flows.
+
+The Chrome extension stalled while a native reset confirmation was open, so that prompt was dismissed by ending the QA tab rather than accepting a destructive reset. Enabled/disabled reset wording, hidden-data disclosure, disabled direct routes, failed-action alerts, incompatible direct attempt/result recovery, reduced-motion behavior, legacy 50-question invariants, and responsive overflow remain covered by focused automated tests. No site data reset was accepted.
 
 Enabled checks passed:
 

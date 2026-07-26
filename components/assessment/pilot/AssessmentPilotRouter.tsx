@@ -33,13 +33,17 @@ export function AssessmentPilotRouter({
       <AssessmentPilotLanding
         activeAttempt={pilot.activeAttempt}
         go={go}
+        initialIssues={pilot.activeAttemptResult.ok ? [] : pilot.activeAttemptResult.issues}
         latestResult={pilot.latestResult}
         onRestart={() => {
           if (window.confirm('Restart the pilot? Your active pilot work will be cleared.')) {
-            pilot.start(true);
+            return pilot.start(true);
           }
+          return pilot.activeAttempt
+            ? { ok: true as const, value: pilot.activeAttempt }
+            : pilot.start();
         }}
-        onStart={() => pilot.start()}
+        onStart={pilot.start}
       />
     );
   }

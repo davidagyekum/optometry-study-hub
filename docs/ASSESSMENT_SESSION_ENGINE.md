@@ -107,6 +107,8 @@ Atomic finalization requires the result's attempt ID, course, module, ordered qu
 
 Retrieved values are cloned so callers cannot mutate the store through a returned reference.
 
+The PR 6 controller adds a latest-StoreV2 transaction boundary around every pilot mutation. It validates the exact controlled-pilot identity before active selection, direct routing, update, submission, and result display; only successful operations publish the new store. Structured failures preserve the latest state and are surfaced separately from renderer validation.
+
 Persisted grading snapshots are not trusted as independent truth: result regrading recomputes the canonical report from exact stored responses, question versions, ownership, and policy, then rejects any structural disagreement with `GRADING_SNAPSHOT_MISMATCH`.
 
 ## What remains legacy

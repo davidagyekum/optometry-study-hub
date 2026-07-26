@@ -18,6 +18,8 @@ import { createAttempt } from '@/lib/legacy/attempts';
 import type { CourseSummary, Module } from '@/lib/legacy/types';
 import type { ClientView } from '@/lib/navigation/clientRoute';
 import {
+  courseResetConfirmation,
+  moduleResetConfirmation,
   resetAssessmentCourse,
   resetAssessmentModule,
 } from '@/lib/storage/assessmentReset';
@@ -63,9 +65,7 @@ export default function StudyApp() {
   };
 
   const clearModule = (id: string) => {
-    if (!window.confirm(
-      'Clear reading progress, active quiz, score history and assessment pilot data for this module?',
-    )) return;
+    if (!window.confirm(moduleResetConfirmation(store, id, pilotEnabled))) return;
     updateStore((current) => resetAssessmentModule({
       ...current,
       read: { ...current.read, [id]: [] },
@@ -75,9 +75,12 @@ export default function StudyApp() {
   };
 
   const clearCourse = (course: CourseSummary) => {
-    if (!window.confirm(
-      `Clear all notes progress, active quizzes, score history and assessment pilot data for ${course.title}?`,
-    )) return;
+    if (!window.confirm(courseResetConfirmation(
+      store,
+      course.id,
+      course.title,
+      pilotEnabled,
+    ))) return;
     updateStore((current) => {
       const read = { ...current.read };
       const active = { ...current.active };

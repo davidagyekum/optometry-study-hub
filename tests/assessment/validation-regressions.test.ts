@@ -97,6 +97,13 @@ describe('question-bank duplicate and reference validation', () => {
     expect(diagnosticCodes(bank).has('INVALID_EXTENDED_MATCHING_REFERENCE')).toBe(true);
   });
 
+  it('rejects hotspot interaction text that exposes the anatomical answer label', () => {
+    const bank = makeValidQuestionBank();
+    const hotspot = bank.questions.find((question) => question.format === 'image_hotspot');
+    if (!hotspot) throw new Error('Image hotspot pilot missing');
+    hotspot.regions[0].interactionLabel = hotspot.regions[0].label;
+    expect(diagnosticCodes(bank).has('HOTSPOT_INTERACTION_LABEL_REVEALS_ANSWER')).toBe(true);
+  });
   it('requires registry source identity while permitting question-specific locators', () => {
     const validLocatorOverride = makeValidQuestionBank();
     validLocatorOverride.questions[0].sources[0].locator = 'Slide 12';

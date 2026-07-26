@@ -22,6 +22,39 @@ function resetAssessmentWhere(
   });
 }
 
+function hasAssessmentWhere(
+  store: StoreV2,
+  matches: (record: { courseId: string; moduleId: string }) => boolean,
+): boolean {
+  return Object.values(store.assessment.activeAttempts).some(matches)
+    || Object.values(store.assessment.results).some(matches);
+}
+
+export function moduleResetConfirmation(
+  store: StoreV2,
+  moduleId: string,
+  pilotEnabled: boolean,
+): string {
+  const mentionAssessment = pilotEnabled
+    || hasAssessmentWhere(store, (record) => record.moduleId === moduleId);
+  return mentionAssessment
+    ? 'Clear reading progress, active quiz, score history and assessment pilot data for this module?'
+    : 'Clear reading progress, active quiz and score history for this module?';
+}
+
+export function courseResetConfirmation(
+  store: StoreV2,
+  courseId: string,
+  courseTitle: string,
+  pilotEnabled: boolean,
+): string {
+  const mentionAssessment = pilotEnabled
+    || hasAssessmentWhere(store, (record) => record.courseId === courseId);
+  return mentionAssessment
+    ? `Clear all notes progress, active quizzes, score history and assessment pilot data for ${courseTitle}?`
+    : `Clear all notes progress, active quizzes and score history for ${courseTitle}?`;
+}
+
 export function resetAssessmentModule(store: StoreV2, moduleId: string): StoreV2 {
   return resetAssessmentWhere(store, (record) => record.moduleId === moduleId);
 }

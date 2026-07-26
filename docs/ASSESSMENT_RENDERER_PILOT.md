@@ -32,7 +32,7 @@ When enabled, the pilot uses:
 - `/assessment/:attemptId` for a persisted active attempt;
 - `/assessment-result/:resultId` for deterministic result verification and review.
 
-When disabled, the Aqueous notes page has no pilot entry and direct pilot URLs show a neutral unavailable view without registering or rendering the draft bank. Ordinary home, course, notes, legacy quiz, and legacy results routes remain unchanged. The client route `moduleId` field is retained as a generic route-resource ID to avoid a broad routing rewrite.
+When disabled, the Aqueous notes page has no pilot entry and direct pilot URLs show a neutral unavailable view without registering or rendering the draft bank. Ordinary home, course, notes, legacy quiz, and legacy results routes remain unchanged. Original module/course reset wording is preserved when no hidden assessment record is in scope; reset still clears any matching hidden assessment record, and the expanded warning is used when such data exists. The client route `moduleId` field is retained as a generic route-resource ID to avoid a broad routing rewrite.
 
 ## Nine accessible renderers
 
@@ -43,7 +43,7 @@ When disabled, the Aqueous notes page has no pilot entry and direct pilot URLs s
 3. ordering with Move up, Move down, and explicit confirmation controls;
 4. matching with associated selects;
 5. extended matching with a shared option bank and associated selects;
-6. image hotspot buttons with meaningful text labels and `aria-pressed`;
+6. image hotspot buttons with neutral marker/spatial interaction names and `aria-pressed`; anatomical region labels are feedback-only after submission;
 7. image labelling with target markers and associated selects;
 8. short-answer text input;
 9. open-response textarea.
@@ -71,13 +71,13 @@ Making a formerly complete draft incomplete removes its committed response but r
 
 ## Autosave, resume, and recovery
 
-Every valid draft, flag, and navigation update replaces the active StoreV2 attempt through the existing immutable storage helpers. Renderers never access browser storage directly. Save and exit leaves the same active attempt available on the landing view.
+Every valid draft, flag, navigation, start, restart, discard, and submission operation runs through one latest-store transaction boundary. Consecutive operations before a React rerender compose against the updated store and preserve unrelated assessment records, legacy data, and reading data. Renderers never access browser storage directly. Save and exit leaves the same active attempt available on the landing view.
 
-Resume verifies the pilot blueprint, exact nine-question set, question versions, ownership, stored presentation order, `diagnostic@1`, complete responses, and drafts. A failed resolution produces a recovery view with human-readable and collapsible diagnostic details. The learner may return to the landing view or confirm discarding only the broken pilot attempt.
+Resume, direct attempt/result routes, active selection, latest-result selection, and submission verify the exact pilot blueprint, course, module, nine-question set, current versions, Study mode, stored presentation order, `diagnostic@1`, complete responses, and drafts. Incompatible snapshots are never silently repaired. A failed resolution produces a recovery view with human-readable and collapsible diagnostic details. The learner may return to the landing view or confirm discarding only the broken pilot attempt.
 
 ## Submission and grading
 
-Submission summarizes answered, in-progress, unanswered, and flagged counts. It warns that incomplete drafts grade as unanswered and that an answered open response requires manual review.
+Submission summarizes answered, in-progress, unanswered, and flagged counts. Opening the confirmation focuses and announces its heading; cancelling restores focus to Submit. Question navigation uses automatic scrolling when reduced motion is requested and smooth scrolling otherwise. Controller/storage failures appear in a separate alert and preserve the active attempt. It warns that incomplete drafts grade as unanswered and that an answered open response requires manual review.
 
 `finalizeGradedAssessmentAttempt` grades only `attempt.responses`; drafts never become grading inputs. `finalizeAssessmentStore` then atomically removes the active attempt and adds the result. The result omits `draftResponses`, preserves exact question order and versions, and remains locked to `diagnostic@1`.
 
@@ -87,7 +87,7 @@ Automatically gradable responses receive the existing PR 5 policy outcomes. Diag
 
 The result route retrieves the exact result from StoreV2 and runs deterministic `gradeAssessmentResult` verification. A stale question, policy mismatch, or grading-snapshot mismatch displays an integrity error rather than trusting the stored totals.
 
-The review follows stored question order and provides format-specific learner responses, expected automatic responses, component outcomes, explanations, relevant rationales, and links to the related study-note anchor. Open responses show the learner text, sample answer and rubric, plus the manual-review boundary.
+The review follows stored question order and provides format-specific learner responses, expected automatic responses, component outcomes, learner-choice and expected-choice rationales, and links to the related study-note anchor. Hotspot review overlays selected, expected, and shared regions with borders, patterns, text, a visible legend, and textual lists. Open responses show the learner text, sample answer and rubric, plus the manual-review boundary.
 
 ## StoreV2 and legacy separation
 

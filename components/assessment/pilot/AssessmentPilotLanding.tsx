@@ -1,5 +1,8 @@
+import { useState } from 'react';
+import { PilotActionAlert } from '@/components/assessment/pilot/PilotActionAlert';
 import { PilotWarning } from '@/components/assessment/pilot/PilotWarning';
 import type { GoToRoute } from '@/hooks/useClientRoute';
+import type { SessionIssue, SessionResult } from '@/lib/assessment/session/types';
 import type {
   AssessmentAttemptSnapshot,
   AssessmentResultSnapshot,
@@ -11,13 +14,21 @@ export function AssessmentPilotLanding({
   go,
   onStart,
   onRestart,
+  initialIssues = [],
 }: {
   activeAttempt?: AssessmentAttemptSnapshot;
   latestResult?: AssessmentResultSnapshot;
   go: GoToRoute;
-  onStart: () => void;
-  onRestart: () => void;
+  onStart: () => SessionResult<AssessmentAttemptSnapshot>;
+  onRestart: () => SessionResult<AssessmentAttemptSnapshot>;
+  initialIssues?: SessionIssue[];
 }) {
+  const [actionIssues, setActionIssues] = useState<SessionIssue[]>(initialIssues);
+  const run = (action: () => SessionResult<AssessmentAttemptSnapshot>) => {
+    const result = action();
+    setActionIssues(result.ok ? [] : result.issues);
+  };
+
   return (
     <div className="pilot-page">
       <button className="back" onClick={() => go('study', 'aqueous-vitreous')} type="button">
@@ -48,12 +59,14 @@ export function AssessmentPilotLanding({
               >
                 Resume pilot
               </button>
-              <button className="secondary" onClick={onRestart} type="button">
+              <button className="secondary" onClick={() => run(onRestart)} type="button">
                 Restart pilot
               </button>
             </>
           ) : (
-            <button className="primary" onClick={onStart} type="button">Start pilot</button>
+            <button className="primary" onClick={() => run(onStart)} type="button">
+              Start pilot
+            </button>
           )}
           {latestResult ? (
             <button
@@ -65,6 +78,7 @@ export function AssessmentPilotLanding({
             </button>
           ) : null}
         </div>
+        <PilotActionAlert issues={actionIssues} />
       </section>
     </div>
   );

@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 export function SubmissionSummary({
   answered,
   inProgress,
@@ -15,9 +17,22 @@ export function SubmissionSummary({
   onCancel: () => void;
   onConfirm: () => void;
 }) {
+  const headingRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    headingRef.current?.focus();
+  }, []);
+
   return (
-    <section className="submission-summary" aria-labelledby="submission-summary-title">
-      <h2 id="submission-summary-title">Review before submission</h2>
+    <section
+      className="submission-summary"
+      aria-labelledby="submission-summary-title"
+      aria-live="polite"
+      role="region"
+    >
+      <h2 id="submission-summary-title" ref={headingRef} tabIndex={-1}>
+        Review before submission
+      </h2>
       <dl>
         <div><dt>Answered</dt><dd>{answered}</dd></div>
         <div><dt>In progress</dt><dd>{inProgress}</dd></div>

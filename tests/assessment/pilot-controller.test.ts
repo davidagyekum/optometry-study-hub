@@ -6,6 +6,7 @@ import {
 import {
   AQUEOUS_PILOT_COURSE_ID,
   AQUEOUS_PILOT_MODULE_ID,
+  AQUEOUS_PILOT_POLICY,
   AQUEOUS_PILOT_QUESTION_IDS,
 } from '@/lib/assessment/pilot/blueprint';
 import { buildDraftOnlyAqueousPilotRegistry } from '@/lib/assessment/pilot/registry';
@@ -35,6 +36,7 @@ describe('controlled pilot persistence flow', () => {
       courseId: AQUEOUS_PILOT_COURSE_ID,
       moduleId: AQUEOUS_PILOT_MODULE_ID,
       blueprintId: AQUEOUS_PILOT_BLUEPRINT_ID,
+      gradingPolicy: AQUEOUS_PILOT_POLICY,
       initializeDraftResponses: true,
       allowedReviewStatuses: ['draft'],
       random: () => 0.999,
@@ -82,7 +84,8 @@ describe('controlled pilot persistence flow', () => {
     if (!inserted.ok) throw new Error('active pilot should store');
 
     const reloaded = storeV2Schema.parse(JSON.parse(JSON.stringify(inserted.value)));
-    expect(selectActiveAqueousPilotAttempt(reloaded)?.id).toBe(drafted.value.id);
+    const selected = selectActiveAqueousPilotAttempt(reloaded, registry);
+    expect(selected.ok && selected.value?.id).toBe(drafted.value.id);
     const resumed = getActiveAssessmentAttempt(reloaded, drafted.value.id);
     if (!resumed.ok) throw new Error('active pilot should resume');
     expect(resumed.value.draftResponses?.[multiple.id]).toEqual({
@@ -133,7 +136,8 @@ describe('controlled pilot persistence flow', () => {
     });
     if (!created.ok) throw new Error('fixture should create');
     store.assessment.activeAttempts[created.value.id] = created.value;
-    expect(selectActiveAqueousPilotAttempt(store)).toBeUndefined();
+    const selected = selectActiveAqueousPilotAttempt(store, registryResult.value);
+    expect(selected.ok && selected.value).toBeUndefined();
     expect(selectLatestCompatibleAqueousPilotResult(store, registryResult.value)).toBeUndefined();
   });
 });

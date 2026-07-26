@@ -284,10 +284,28 @@ function validateHotspot(
   diagnostics: Diagnostic[],
 ): void {
   const regionIds = question.regions.map((region) => region.id);
+  const markers = question.regions.map((region) => region.marker);
+  const interactionLabels = question.regions.map((region) => (
+    region.interactionLabel.trim().toLocaleLowerCase()
+  ));
   addDuplicateDiagnostics(
     regionIds,
     'DUPLICATE_REGION_ID',
     'region ID',
+    diagnostics,
+    question.id,
+  );
+  addDuplicateDiagnostics(
+    markers,
+    'DUPLICATE_HOTSPOT_MARKER',
+    'hotspot marker',
+    diagnostics,
+    question.id,
+  );
+  addDuplicateDiagnostics(
+    interactionLabels,
+    'DUPLICATE_HOTSPOT_INTERACTION_LABEL',
+    'hotspot interaction label',
     diagnostics,
     question.id,
   );
@@ -300,6 +318,18 @@ function validateHotspot(
   );
 
   question.regions.forEach((region, index) => {
+    if (
+      region.interactionLabel.trim().toLocaleLowerCase()
+      === region.label.trim().toLocaleLowerCase()
+    ) {
+      diagnostics.push({
+        severity: 'error',
+        code: 'HOTSPOT_INTERACTION_LABEL_REVEALS_ANSWER',
+        message: 'Pre-submission hotspot interaction text must not repeat the anatomical answer label.',
+        questionId: question.id,
+        path: `regions[${index}].interactionLabel`,
+      });
+    }
     if (
       region.x < 0
       || region.y < 0

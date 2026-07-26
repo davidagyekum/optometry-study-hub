@@ -1,38 +1,32 @@
 import {
-  AQUEOUS_PILOT_MODULE_ID,
-  AQUEOUS_PILOT_POLICY,
-  AQUEOUS_PILOT_QUESTION_IDS,
-} from '@/lib/assessment/pilot/blueprint';
+  validateAqueousPilotAttempt,
+  validateAqueousPilotResult,
+} from '@/lib/assessment/pilot/compatibility';
 import { AQUEOUS_PILOT_BLUEPRINT_ID } from '@/lib/assessment/pilot/config';
+import {
+  sessionFailure,
+  sessionSuccess,
+} from '@/lib/assessment/session/errors';
 import type { QuestionRegistry } from '@/lib/assessment/session/registry';
+import type { SessionResult } from '@/lib/assessment/session/types';
 import type {
   AssessmentAttemptSnapshot,
   AssessmentResultSnapshot,
   StoreV2,
 } from '@/lib/storage/schemas';
 
-function sameQuestionSet(ids: readonly string[]): boolean {
-  if (ids.length !== AQUEOUS_PILOT_QUESTION_IDS.length) return false;
-  const expected = new Set<string>(AQUEOUS_PILOT_QUESTION_IDS);
-  return ids.every((id) => expected.has(id));
-}
-
-function currentVersionsResolve(
-  result: AssessmentResultSnapshot,
-  registry: QuestionRegistry,
-): boolean {
-  return result.orderedQuestionIds.every((questionId) => (
-    registry.getEntry(questionId)?.version === result.questionVersions[questionId]
-  ));
-}
-
 export function selectActiveAqueousPilotAttempt(
   store: StoreV2,
-): AssessmentAttemptSnapshot | undefined {
+  registry: QuestionRegistry,
+): SessionResult<AssessmentAttemptSnapshot | undefined> {
   const attempt = Object.values(store.assessment.activeAttempts).find(
     (candidate) => candidate.blueprintId === AQUEOUS_PILOT_BLUEPRINT_ID,
   );
-  return attempt ? structuredClone(attempt) : undefined;
+  if (!attempt) return sessionSuccess(undefined);
+  const compatible = validateAqueousPilotAttempt(attempt, registry);
+  return compatible.ok
+    ? sessionSuccess(structuredClone(attempt))
+    : sessionFailure(compatible.issues);
 }
 
 export function selectCompatibleAqueousPilotResults(
@@ -40,13 +34,7 @@ export function selectCompatibleAqueousPilotResults(
   registry: QuestionRegistry,
 ): AssessmentResultSnapshot[] {
   return Object.values(store.assessment.results)
-    .filter((result) => (
-      result.moduleId === AQUEOUS_PILOT_MODULE_ID
-      && sameQuestionSet(result.orderedQuestionIds)
-      && result.gradingPolicy?.id === AQUEOUS_PILOT_POLICY.id
-      && result.gradingPolicy.version === AQUEOUS_PILOT_POLICY.version
-      && currentVersionsResolve(result, registry)
-    ))
+    .filter((result) => validateAqueousPilotResult(result, registry).ok)
     .map((result) => structuredClone(result));
 }
 

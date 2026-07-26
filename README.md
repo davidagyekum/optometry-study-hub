@@ -26,7 +26,7 @@ PR 4 adds a headless session engine under `lib/assessment/session/` plus immutab
 
 PR 5 adds versioned strict and diagnostic grading under `lib/assessment/grading/`. It locks policy identity into new attempts, provides explicit locking for historical attempts, grades eight automatic formats with exact-fraction aggregation, marks answered open responses for manual review, and verifies compact persisted outcomes through deterministic regrading.
 
-PR 6 adds accessible renderers for all nine formats plus a controlled Aqueous and Vitreous engineering pilot. It remains disabled by default and does not replace or affect the legacy 50-question quiz.
+PR 6 adds accessible renderers for all nine formats plus a controlled Aqueous and Vitreous engineering pilot. It remains disabled by default and does not replace or affect the legacy 50-question quiz. Pilot attempts/results must match the exact nine-item blueprint and are updated atomically in browser-local StoreV2; hotspot answers remain hidden behind neutral pre-submission markers.
 
 See [Current State](docs/CURRENT_STATE.md), [Assessment Specification](docs/ASSESSMENT_SPEC.md), [Session Engine](docs/ASSESSMENT_SESSION_ENGINE.md), [Grading Policies](docs/ASSESSMENT_GRADING_POLICIES.md), and [Assessment Redesign Roadmap](docs/ASSESSMENT_REDESIGN_ROADMAP.md).
 

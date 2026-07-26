@@ -18,7 +18,7 @@ export function ImageHotspotRenderer({
     <fieldset className="assessment-fieldset" disabled={disabled} aria-describedby={descriptionId}>
       <legend className="sr-only">{question.stem}</legend>
       <p className="assessment-instruction">
-        Select one or more labelled regions. Correct regions are shown only after submission.
+        Select one or more marked regions. Correct regions are shown only after submission.
       </p>
       <div
         className="assessment-image-stage"
@@ -35,7 +35,7 @@ export function ImageHotspotRenderer({
           const pressed = selectedSet.has(region.id);
           return (
             <button
-              aria-label={region.label}
+              aria-label={`${region.marker}: ${region.interactionLabel}`}
               aria-pressed={pressed}
               className={`hotspot-region${pressed ? ' selected' : ''}`}
               disabled={disabled}
@@ -54,7 +54,7 @@ export function ImageHotspotRenderer({
               }}
               type="button"
             >
-              <span>{region.label}</span>
+              <span aria-hidden="true">{region.marker}</span>
             </button>
           );
         })}

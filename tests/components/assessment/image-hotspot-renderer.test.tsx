@@ -8,7 +8,7 @@ import { questionByFormat } from '@/tests/fixtures/session-engine';
 afterEach(cleanup);
 
 describe('ImageHotspotRenderer', () => {
-  it('uses positioned keyboard buttons with aria-pressed and hides correct-region feedback', () => {
+  it('uses neutral positioned keyboard buttons without exposing anatomical answers', () => {
     const question = questionByFormat('image_hotspot');
     const onDraftChange = vi.fn();
     render(
@@ -19,9 +19,17 @@ describe('ImageHotspotRenderer', () => {
       />,
     );
     const region = question.regions[0];
-    const button = screen.getByRole('button', { name: region.label });
+    const button = screen.getByRole('button', {
+      name: `${region.marker}: ${region.interactionLabel}`,
+    });
     expect(button).toHaveAttribute('aria-pressed', 'false');
     expect(button).toHaveStyle({ left: `${region.x * 100}%`, top: `${region.y * 100}%` });
+    expect(screen.queryByRole('button', { name: 'Iridocorneal angle' })).not.toBeInTheDocument();
+    question.regions.forEach((candidate) => {
+      expect(screen.getByRole('button', {
+        name: `${candidate.marker}: ${candidate.interactionLabel}`,
+      })).toHaveAccessibleName();
+    });
     fireEvent.click(button);
     expect(onDraftChange).toHaveBeenCalledWith({
       format: question.format,

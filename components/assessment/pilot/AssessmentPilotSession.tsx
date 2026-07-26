@@ -1,17 +1,15 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { AssessmentQuestionRenderer } from '@/components/assessment/renderers/AssessmentQuestionRenderer';
+import { PilotActionAlert } from '@/components/assessment/pilot/PilotActionAlert';
 import { PilotWarning } from '@/components/assessment/pilot/PilotWarning';
 import { QuestionNavigator } from '@/components/assessment/pilot/QuestionNavigator';
 import { SessionProgress } from '@/components/assessment/pilot/SessionProgress';
 import { SubmissionSummary } from '@/components/assessment/pilot/SubmissionSummary';
+import { AssessmentQuestionRenderer } from '@/components/assessment/renderers/AssessmentQuestionRenderer';
 import type { GoToRoute } from '@/hooks/useClientRoute';
-import { AQUEOUS_PILOT_BLUEPRINT_ID } from '@/lib/assessment/pilot/config';
-import {
-  getAttemptQuestionState,
-} from '@/lib/assessment/session/draftResponses';
-import { resolveAssessmentAttempt } from '@/lib/assessment/session/resolveAttempt';
+import { validateAqueousPilotAttempt } from '@/lib/assessment/pilot/compatibility';
+import { getAttemptQuestionState } from '@/lib/assessment/session/draftResponses';
 import type { QuestionRegistry } from '@/lib/assessment/session/registry';
 import type { SessionIssue, SessionResult } from '@/lib/assessment/session/types';
 import type {
@@ -24,6 +22,12 @@ function formatLabel(format: string): string {
   return format.split('_').map((word) => (
     `${word.charAt(0).toUpperCase()}${word.slice(1)}`
   )).join(' ');
+}
+
+function scrollingBehavior(): ScrollBehavior {
+  return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    ? 'auto'
+    : 'smooth';
 }
 
 export function AssessmentPilotSession({
@@ -60,38 +64,34 @@ export function AssessmentPilotSession({
   onDiscard: (attemptId: string) => SessionResult<unknown>;
   onSubmit: (attemptId: string) => SessionResult<AssessmentResultSnapshot>;
 }) {
-  const [issues, setIssues] = useState<SessionIssue[]>([]);
+  const [validationIssues, setValidationIssues] = useState<SessionIssue[]>([]);
+  const [controllerIssues, setControllerIssues] = useState<SessionIssue[]>([]);
+  const [discardIssues, setDiscardIssues] = useState<SessionIssue[]>([]);
   const [reviewingSubmission, setReviewingSubmission] = useState(false);
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const submitButtonRef = useRef<HTMLButtonElement>(null);
 
   const attempt = attemptResult.ok ? attemptResult.value : undefined;
-  const resolved = attempt ? resolveAssessmentAttempt(attempt, registry) : undefined;
+  const resolved = attempt ? validateAqueousPilotAttempt(attempt, registry) : undefined;
   const currentIndex = attempt?.currentIndex;
 
   useEffect(() => {
     if (currentIndex === undefined) return;
     headingRef.current?.focus({ preventScroll: true });
-    headingRef.current?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    headingRef.current?.scrollIntoView({
+      block: 'start',
+      behavior: scrollingBehavior(),
+    });
   }, [currentIndex]);
 
-  if (
-    !attemptResult.ok
-    || !attempt
-    || !resolved
-    || attempt.blueprintId !== AQUEOUS_PILOT_BLUEPRINT_ID
-    || !resolved.ok
-  ) {
-    const recoveryIssues = !attemptResult.ok
+  if (!attemptResult.ok || !attempt || !resolved || !resolved.ok) {
+    const compatibilityIssues: SessionIssue[] = !attemptResult.ok
       ? attemptResult.issues
-      : !resolved
-        ? [{
-          code: 'ATTEMPT_NOT_FOUND' as const,
-          message: 'The requested pilot attempt is unavailable.',
-        }] : !resolved.ok
+      : resolved && !resolved.ok
         ? resolved.issues
         : [{
-          code: 'RESULT_ATTEMPT_MISMATCH' as const,
-          message: 'This attempt does not belong to the controlled pilot.',
+          code: 'ATTEMPT_NOT_FOUND',
+          message: 'The requested pilot attempt is unavailable.',
         }];
     return (
       <div className="pilot-page">
@@ -104,7 +104,7 @@ export function AssessmentPilotSession({
           <details>
             <summary>Technical details</summary>
             <ul>
-              {recoveryIssues.map((issue) => (
+              {compatibilityIssues.map((issue) => (
                 <li key={`${issue.code}-${issue.path ?? issue.message}`}>
                   <code>{issue.code}</code>: {issue.message}
                 </li>
@@ -120,8 +120,9 @@ export function AssessmentPilotSession({
                 className="text-button danger"
                 onClick={() => {
                   if (window.confirm('Discard this broken pilot attempt?')) {
-                    onDiscard(attempt.id);
-                    go('pilot', 'aqueous-vitreous');
+                    const result = onDiscard(attempt.id);
+                    setDiscardIssues(result.ok ? [] : result.issues);
+                    if (result.ok) go('pilot', 'aqueous-vitreous');
                   }
                 }}
                 type="button"
@@ -130,6 +131,10 @@ export function AssessmentPilotSession({
               </button>
             ) : null}
           </div>
+          <PilotActionAlert
+            issues={discardIssues}
+            title="The saved attempt could not be discarded."
+          />
         </section>
       </div>
     );
@@ -150,8 +155,11 @@ export function AssessmentPilotSession({
     ),
   );
 
-  const capture = (result: SessionResult<unknown>) => {
-    setIssues(result.ok ? [] : result.issues);
+  const captureValidation = (result: SessionResult<unknown>) => {
+    setValidationIssues(result.ok ? [] : result.issues);
+  };
+  const captureController = (result: SessionResult<unknown>) => {
+    setControllerIssues(result.ok ? [] : result.issues);
   };
 
   return (
@@ -166,7 +174,7 @@ export function AssessmentPilotSession({
       <div className="pilot-session-grid">
         <QuestionNavigator
           attempt={attempt}
-          onNavigate={(index) => capture(onMove(attempt, index))}
+          onNavigate={(index) => captureController(onMove(attempt, index))}
         />
         <section className="pilot-question-card">
           <div className="pilot-question-meta">
@@ -174,7 +182,7 @@ export function AssessmentPilotSession({
             <span>{formatLabel(question.format)}</span>
             <button
               className={attempt.flags.includes(questionId) ? 'flag active' : 'flag'}
-              onClick={() => capture(onToggleFlag(attempt, questionId))}
+              onClick={() => captureController(onToggleFlag(attempt, questionId))}
               type="button"
             >
               {attempt.flags.includes(questionId) ? 'Unflag question' : 'Flag question'}
@@ -188,12 +196,12 @@ export function AssessmentPilotSession({
           <AssessmentQuestionRenderer
             descriptionId={`${question.id}-pilot-context`}
             draft={attempt.draftResponses?.[questionId]}
-            onClear={() => capture(onClear(attempt, questionId))}
-            onDraftChange={(draft) => capture(onUpdateDraft(attempt, questionId, draft))}
+            onClear={() => captureValidation(onClear(attempt, questionId))}
+            onDraftChange={(draft) => captureValidation(onUpdateDraft(attempt, questionId, draft))}
             presentationOrder={attempt.optionOrder[questionId]}
             question={question}
             response={attempt.responses[questionId]}
-            validationMessage={issues[0]?.message}
+            validationMessage={validationIssues[0]?.message}
           />
           <p className="sr-only" id={`${question.id}-pilot-context`}>
             Draft pilot question. Correctness is shown only after submission.
@@ -202,7 +210,7 @@ export function AssessmentPilotSession({
             <button
               className="secondary"
               disabled={attempt.currentIndex === 0}
-              onClick={() => capture(onMove(attempt, attempt.currentIndex - 1))}
+              onClick={() => captureController(onMove(attempt, attempt.currentIndex - 1))}
               type="button"
             >
               Previous
@@ -210,7 +218,7 @@ export function AssessmentPilotSession({
             <button
               className="secondary"
               disabled={attempt.currentIndex === attempt.orderedQuestionIds.length - 1}
-              onClick={() => capture(onMove(attempt, attempt.currentIndex + 1))}
+              onClick={() => captureController(onMove(attempt, attempt.currentIndex + 1))}
               type="button"
             >
               Next
@@ -224,7 +232,11 @@ export function AssessmentPilotSession({
             </button>
             <button
               className="primary"
-              onClick={() => setReviewingSubmission(true)}
+              onClick={() => {
+                setControllerIssues([]);
+                setReviewingSubmission(true);
+              }}
+              ref={submitButtonRef}
               type="button"
             >
               Submit
@@ -236,11 +248,15 @@ export function AssessmentPilotSession({
               flagged={attempt.flags.length}
               hasOpenResponse={hasOpenResponse}
               inProgress={inProgress}
-              onCancel={() => setReviewingSubmission(false)}
-              onConfirm={() => capture(onSubmit(attempt.id))}
+              onCancel={() => {
+                setReviewingSubmission(false);
+                window.setTimeout(() => submitButtonRef.current?.focus(), 0);
+              }}
+              onConfirm={() => captureController(onSubmit(attempt.id))}
               unanswered={unanswered}
             />
           ) : null}
+          <PilotActionAlert issues={controllerIssues} />
         </section>
       </div>
     </div>

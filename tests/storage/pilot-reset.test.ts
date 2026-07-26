@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
+  courseResetConfirmation,
+  moduleResetConfirmation,
   resetAssessmentCourse,
   resetAssessmentModule,
 } from '@/lib/storage/assessmentReset';
@@ -64,5 +66,22 @@ describe('pilot assessment resets', () => {
       results: {},
       questionHistory: {},
     });
+  });
+  it('preserves original disabled copy unless matching hidden assessment data exists', () => {
+    const empty = createEmptyStoreV2();
+    expect(moduleResetConfirmation(empty, 'aqueous-vitreous', false)).toBe(
+      'Clear reading progress, active quiz and score history for this module?',
+    );
+    expect(courseResetConfirmation(empty, 'neuro-anatomy', 'Neuro Anatomy', false)).toBe(
+      'Clear all notes progress, active quizzes and score history for Neuro Anatomy?',
+    );
+
+    const populated = pilotStore();
+    expect(moduleResetConfirmation(populated, 'aqueous-vitreous', false))
+      .toContain('assessment pilot data');
+    expect(courseResetConfirmation(populated, 'neuro-anatomy', 'Neuro Anatomy', false))
+      .toContain('assessment pilot data');
+    expect(moduleResetConfirmation(empty, 'aqueous-vitreous', true))
+      .toContain('assessment pilot data');
   });
 });
