@@ -2,11 +2,13 @@
 
 ## Pull request
 
-- PR: draft PR to be opened as **Add the headless assessment session engine**
+- PR: [#4 — Add the headless assessment session engine](https://github.com/davidagyekum/optometry-study-hub/pull/4)
 - Branch: `codex/pr4-assessment-session-engine`
 - Base branch: `main`
 - Exact base commit: `e3d089a22640ecf7b40a1e0a1d5a8f7b79330925`
-- The implementation commit, PR URL, GitHub Actions run, and exact final branch head are recorded in the draft PR and final Codex report after publication. A committed file cannot contain its own resulting commit hash.
+- Implementation commit: `61bf41b30af2c3d65b9228a4fdaf940fde34b737`.
+- GitHub Actions Quality run [30183503030](https://github.com/davidagyekum/optometry-study-hub/actions/runs/30183503030) failed before repository execution: its `quality` job reports no steps, consistent with the existing external account restriction rather than a code/test failure.
+- The exact final documentation-only branch head is recorded in the draft PR and final Codex report because a committed file cannot contain its own resulting commit hash.
 - Status: DRAFT
 
 ## Objective completed
