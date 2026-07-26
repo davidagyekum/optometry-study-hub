@@ -16,7 +16,7 @@ export function normalizeShortAnswer(
   }
   if (normalization.caseInsensitive) normalized = normalized.toLocaleLowerCase('en');
   if (normalization.ignoreTerminalPunctuation) {
-    normalized = normalized.replace(/[\p{P}\p{S}]+$/gu, '');
+    normalized = normalized.replace(/\p{P}+$/gu, '');
   }
   return normalized;
 }

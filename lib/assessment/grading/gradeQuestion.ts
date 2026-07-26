@@ -5,10 +5,8 @@ import {
 } from '@/lib/assessment/grading/errors';
 import { normalizeShortAnswer } from '@/lib/assessment/grading/normalizeShortAnswer';
 import { resolveGradingPolicy } from '@/lib/assessment/grading/policyRegistry';
-import {
-  questionGradeOutcomeSchema,
-  roundGradingScore,
-} from '@/lib/assessment/grading/schemas';
+import { roundGradingScore } from '@/lib/assessment/grading/scoreContribution';
+import { questionGradeOutcomeSchema } from '@/lib/assessment/grading/schemas';
 import type {
   GradeResponseForQuestionInput,
   GradingPolicy,
@@ -200,12 +198,18 @@ export function gradeResponseForQuestion({
     }
     case 'short_answer':
       if (validResponse.format !== question.format) break;
-      return validateOutcome(automaticOutcome(
-        question,
-        question.acceptedAnswers
-          .map((answer) => normalizeShortAnswer(answer, question.normalization))
-          .includes(normalizeShortAnswer(validResponse.text, question.normalization)),
-      ));
+      {
+        const normalizedResponse = normalizeShortAnswer(
+          validResponse.text,
+          question.normalization,
+        );
+        const correct = normalizedResponse.length > 0
+          && question.acceptedAnswers.some((answer) => {
+            const normalizedAnswer = normalizeShortAnswer(answer, question.normalization);
+            return normalizedAnswer.length > 0 && normalizedAnswer === normalizedResponse;
+          });
+        return validateOutcome(automaticOutcome(question, correct));
+      }
     case 'open_response':
       if (validResponse.format !== question.format) break;
       return validateOutcome(manualOutcome(question));

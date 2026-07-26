@@ -1,8 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import {
-  attachGradingSnapshot,
-  finalizeGradedAssessmentAttempt,
-} from '@/lib/assessment/grading/finalizeGradedAttempt';
+import { finalizeGradedAssessmentAttempt } from '@/lib/assessment/grading/finalizeGradedAttempt';
 import {
   finalizeAssessmentStore,
   putActiveAssessmentAttempt,
@@ -16,7 +13,6 @@ import {
 import {
   makeAttempt,
   makeDraftRegistry,
-  makeResult,
   questionByFormat,
 } from '@/tests/fixtures/session-engine';
 
@@ -44,6 +40,7 @@ describe('grading-aware finalization', () => {
     const finalized = finalize(attempt);
     expect(finalized.ok).toBe(true);
     if (!finalized.ok) return;
+    expect(finalized.value.lockedAttempt.gradingPolicy).toEqual({ id: 'strict', version: 1 });
     expect(finalized.value.result).toEqual(expect.objectContaining({
       attemptId: attempt.id,
       gradingPolicy: { id: 'strict', version: 1 },
@@ -94,14 +91,6 @@ describe('grading-aware finalization', () => {
         manualRequiredCount: 1,
       }),
     }));
-  });
-
-  it('rejects invalid externally supplied grading reports', () => {
-    const attached = attachGradingSnapshot(makeResult(), {
-      status: 'complete',
-      questionGrades: {},
-    });
-    expect(codes(attached)).toContain('GRADING_REPORT_INVALID');
   });
 
   it('atomically stores a valid graded result and rejects snapshot tampering', () => {

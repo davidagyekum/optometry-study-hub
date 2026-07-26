@@ -384,10 +384,22 @@ function validateShortAnswer(
   question: Extract<AssessmentQuestion, { format: 'short_answer' }>,
   diagnostics: Diagnostic[],
 ): void {
+  const normalizedAnswers = question.acceptedAnswers.map(
+    (answer) => normalizeShortAnswer(answer, question.normalization),
+  );
+  normalizedAnswers.forEach((answer, index) => {
+    if (answer.length === 0) {
+      diagnostics.push({
+        severity: 'error',
+        code: 'EMPTY_NORMALIZED_SHORT_ANSWER',
+        message: 'Accepted answers must remain non-empty after declared normalization.',
+        questionId: question.id,
+        path: `acceptedAnswers.${index}`,
+      });
+    }
+  });
   addDuplicateDiagnostics(
-    question.acceptedAnswers.map(
-      (answer) => normalizeShortAnswer(answer, question.normalization),
-    ),
+    normalizedAnswers,
     'DUPLICATE_NORMALIZED_SHORT_ANSWER',
     'normalized accepted answer',
     diagnostics,

@@ -23,7 +23,9 @@ New attempts lock a policy reference when they are created:
 | Exam | `strict` version 1 |
 | Mastery | `strict` version 1 |
 
-An explicit available policy may override the mode default at creation. Once stored, the policy cannot be changed for grading or finalization. Historical attempts and results without a policy remain schema-valid, but grading them requires an explicit policy reference. Unknown IDs and unsupported versions fail; the engine never silently substitutes another policy.
+An explicit available policy may override the mode default at creation. Once stored, the policy cannot be changed for grading or finalization. Unknown IDs, unsupported versions, and malformed runtime references fail structurally; the engine never silently substitutes another policy.
+
+Historical attempts and results without a policy remain schema-valid, but no mode default is guessed for them. `lockAttemptGradingPolicy` validates and copies a historical attempt, requires an explicit available policy, rejects conflict with an existing lock, and returns the new locked snapshot without mutating the source. `finalizeGradedAssessmentAttempt` accepts the same explicit policy and returns `lockedAttempt` so callers can persist that snapshot before atomic StoreV2 finalization.
 
 Policy locking makes grading reproducible. A stored result can be regraded only with the exact question IDs, question versions, responses, course, module, and policy that produced it.
 
@@ -37,7 +39,7 @@ Every question has a normalized maximum of one point. Outcomes are:
 - `unanswered`: score 0;
 - `manual_required`: score `null`.
 
-There is no negative marking. Fractional aggregate values are rounded deterministically to six decimal places.
+There is no negative marking. A partial outcome stores a six-decimal display score plus its exact `correctParts` and `totalParts`. Reports sum the exact component fractions first and round the aggregate once, preventing repeated thirds from becoming `0.999999`.
 
 ## Per-format rules
 
@@ -62,9 +64,11 @@ Authoring validation and grading share one normalization function. Operations oc
 1. optional leading and trailing trim;
 2. optional internal whitespace collapse;
 3. optional case-insensitive conversion;
-4. optional removal of terminal Unicode punctuation and symbols.
+4. optional removal of terminal Unicode punctuation.
 
-The normalized response must equal a normalized accepted answer. Substrings, keywords, edit distance, spelling similarity, and fuzzy medical comparisons are not used.
+Unicode symbols are preserved, so meaningful responses such as `Na+` and `15°` remain intact. Accepted answers that normalize to an empty string are authoring errors, and an empty normalized learner response can never receive credit.
+
+The normalized response must equal a non-empty normalized accepted answer. Substrings, keywords, edit distance, spelling similarity, and fuzzy medical comparisons are not used.
 
 ## Unanswered and open responses
 
@@ -76,7 +80,7 @@ A present nonblank open response is always `manual_required` with a null score a
 
 The report contains one outcome for every question in stored order. It always provides:
 
-- `autoScore`: sum of numeric outcomes;
+- `autoScore`: the rounded sum of exact numeric contributions;
 - `autoMaxScore`: sum of numeric outcome maxima;
 - exact counts for correct, partial, incorrect, unanswered, and manual outcomes.
 
@@ -90,14 +94,15 @@ Storage validation requires:
 
 - grade keys to exactly cover the result question order;
 - grade IDs and versions to match their result records;
+- partial scores to equal their rounded component fraction;
 - outcome status and score relationships to be valid;
-- automatic totals and status counts to equal the grade records;
+- automatic totals, calculated from exact contributions, and status counts to equal the grade records;
 - complete grading totals to equal the result totals;
 - manual-required results to retain null top-level totals.
 
-The snapshot never embeds question objects, answer keys, accepted-answer lists, rationales, or rubrics.
+The snapshot never embeds question objects, answer keys, accepted-answer lists, rationales, or rubrics. There is no public API for attaching an arbitrary report to unrelated responses.
 
-`gradeAssessmentResult` deterministically regrades stored responses only when exact registered question versions and ownership still match. Missing or newer questions produce structured failures rather than silent upgrades.
+`gradeAssessmentResult` deterministically regrades stored responses only when exact registered question versions and ownership still match. When a stored grading snapshot exists, the canonical recomputed report must structurally equal it, ignoring only `schemaVersion` and object-key insertion order. Any disagreement returns `GRADING_SNAPSHOT_MISMATCH`; missing or newer questions and policy drift produce their own structured failures rather than silent upgrades.
 
 ## Why question history is unchanged
 

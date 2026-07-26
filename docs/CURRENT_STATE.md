@@ -31,7 +31,7 @@ The new assessment domain lives alongside—not inside—the live engine. It def
 
 A headless session layer can register approved questions through a defensive validated registry, create deterministic arbitrary-length attempts, validate all nine persisted response shapes, update attempts immutably, diagnose stale snapshots, finalize through an external evaluation, and update keyed StoreV2 assessment maps with exact atomic snapshot checks.
 
-A separate headless grading layer provides immutable strict and diagnostic version-1 policies, mode defaults, policy locking, one-point normalized outcomes, conservative diagnostic partial credit, manual open-response boundaries, aggregate reports, compact result snapshots, and deterministic exact-version regrading. It remains unused by the React application and does not make the draft pilot publicly reachable.
+A separate headless grading layer provides immutable strict and diagnostic version-1 policies, mode defaults, explicit historical policy adoption, one-point normalized outcomes, exact-fraction diagnostic aggregation, manual open-response boundaries, compact result snapshots, and deterministic exact-version regrading that verifies persisted snapshots. It remains unused by the React application and does not make the draft pilot publicly reachable.
 
 Client route state supports:
 

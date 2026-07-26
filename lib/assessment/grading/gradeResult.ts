@@ -14,6 +14,31 @@ import type {
 } from '@/lib/assessment/grading/types';
 import { assessmentResultSnapshotSchema } from '@/lib/storage/schemas';
 
+function sameStructuralValue(left: unknown, right: unknown): boolean {
+  if (Object.is(left, right)) return true;
+  if (Array.isArray(left) || Array.isArray(right)) {
+    return Array.isArray(left)
+      && Array.isArray(right)
+      && left.length === right.length
+      && left.every((value, index) => sameStructuralValue(value, right[index]));
+  }
+  if (
+    typeof left !== 'object'
+    || left === null
+    || typeof right !== 'object'
+    || right === null
+  ) return false;
+  const leftRecord = left as Record<string, unknown>;
+  const rightRecord = right as Record<string, unknown>;
+  const leftKeys = Object.keys(leftRecord).sort();
+  const rightKeys = Object.keys(rightRecord).sort();
+  return leftKeys.length === rightKeys.length
+    && leftKeys.every((key, index) => key === rightKeys[index])
+    && leftKeys.every(
+      (key) => sameStructuralValue(leftRecord[key], rightRecord[key]),
+    );
+}
+
 export function gradeAssessmentResult({
   result,
   registry,
@@ -92,9 +117,25 @@ export function gradeAssessmentResult({
     outcomes.push(graded.value);
   }
   if (issues.length > 0) return gradingFailure(issues);
-  return aggregateQuestionGrades(
+  const recomputed = aggregateQuestionGrades(
     policy.value,
     validResult.orderedQuestionIds,
     outcomes,
   );
+  if (!recomputed.ok) return recomputed;
+
+  if (validResult.grading) {
+    const persistedReport = Object.fromEntries(
+      Object.entries(validResult.grading)
+        .filter(([key]) => key !== 'schemaVersion'),
+    );
+    if (!sameStructuralValue(persistedReport, recomputed.value)) {
+      return gradingFailure(gradingIssue(
+        'GRADING_SNAPSHOT_MISMATCH',
+        'Persisted grading does not match deterministic regrading of the stored responses.',
+        { attemptId: validResult.attemptId, path: 'grading' },
+      ));
+    }
+  }
+  return recomputed;
 }

@@ -1,5 +1,9 @@
 import { z } from 'zod';
 import { STABLE_ID_PATTERN } from '@/lib/assessment/constants';
+import {
+  questionGradeContribution,
+  roundGradingScore,
+} from '@/lib/assessment/grading/scoreContribution';
 import { questionFormatSchema } from '@/lib/assessment/schemas';
 
 const stableIdSchema = z.string().regex(STABLE_ID_PATTERN, 'Expected a stable slug-style ID');
@@ -35,11 +39,33 @@ export const questionGradeOutcomeSchema = z.strictObject({
     manual_required: null,
   } as const;
   if (grade.status === 'partial') {
+    if (
+      grade.correctParts === undefined
+      || grade.totalParts === undefined
+      || grade.correctParts <= 0
+      || grade.correctParts >= grade.totalParts
+    ) {
+      context.addIssue({
+        code: 'custom',
+        path: ['correctParts'],
+        message: 'Partial grades require 0 < correctParts < totalParts.',
+      });
+    }
     if (grade.score === null || grade.score <= 0 || grade.score >= 1) {
       context.addIssue({
         code: 'custom',
         path: ['score'],
         message: 'Partial grades require a score strictly between zero and one.',
+      });
+    } else if (
+      grade.correctParts !== undefined
+      && grade.totalParts !== undefined
+      && grade.score !== roundGradingScore(grade.correctParts / grade.totalParts)
+    ) {
+      context.addIssue({
+        code: 'custom',
+        path: ['score'],
+        message: 'Partial score must equal the rounded component fraction.',
       });
     }
   } else if (grade.score !== expectedScore[grade.status]) {
@@ -86,10 +112,6 @@ const gradingReportShape = {
   manualRequiredCount: z.number().int().nonnegative(),
 };
 
-export function roundGradingScore(value: number): number {
-  return Math.round((value + Number.EPSILON) * 1_000_000) / 1_000_000;
-}
-
 function validateGradingReport(
   report: z.infer<z.ZodObject<typeof gradingReportShape>>,
   context: z.RefinementCtx,
@@ -105,12 +127,18 @@ function validateGradingReport(
     }
   });
   const numeric = entries
-    .map(([, grade]) => grade)
-    .filter((grade) => grade.score !== null);
+    .map(([, grade]) => ({
+      grade,
+      contribution: questionGradeContribution(grade),
+    }))
+    .filter((entry) => entry.contribution !== null);
   const expectedAutoScore = roundGradingScore(
-    numeric.reduce((sum, grade) => sum + (grade.score ?? 0), 0),
+    numeric.reduce((sum, entry) => sum + (entry.contribution ?? 0), 0),
   );
-  const expectedAutoMax = numeric.reduce((sum, grade) => sum + grade.maxScore, 0);
+  const expectedAutoMax = numeric.reduce(
+    (sum, entry) => sum + entry.grade.maxScore,
+    0,
+  );
   const counts = {
     correctCount: entries.filter(([, grade]) => grade.status === 'correct').length,
     partialCount: entries.filter(([, grade]) => grade.status === 'partial').length,
@@ -124,7 +152,7 @@ function validateGradingReport(
     context.addIssue({
       code: 'custom',
       path: ['autoScore'],
-      message: 'autoScore must equal the rounded sum of numeric question scores.',
+      message: 'autoScore must equal the rounded sum of exact question contributions.',
     });
   }
   if (report.autoMaxScore !== expectedAutoMax) {

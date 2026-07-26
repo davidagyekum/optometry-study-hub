@@ -94,11 +94,13 @@ Study, Exam, and Mastery modes are planned future consumers of this domain:
 
 Strict version 1 and diagnostic version 1 are immutable built-in policies. New Study attempts default to diagnostic; Exam and Mastery attempts default to strict. Attempts lock a copied policy reference, and results preserve it.
 
-Every question has a normalized maximum of one. Strict scoring is all-or-nothing for the eight automatic formats. Diagnostic scoring permits component fractions only for matching, extended matching, and image labelling. Open responses remain manual, and no outcome can be negative.
+Every question has a normalized maximum of one. Strict scoring is all-or-nothing for the eight automatic formats. Diagnostic scoring permits component fractions only for matching, extended matching, and image labelling. Partial outcomes retain numerator and denominator; aggregates sum those exact fractions before rounding once to six decimals. Open responses remain manual, and no outcome can be negative.
 
-Historical snapshots without a policy remain loadable but require an explicit available policy when graded. Explicit policy disagreement with a locked snapshot is an error.
+Historical snapshots without a policy remain loadable but require explicit policy adoption before graded finalization. The pure lock operation validates and copies the attempt, never guesses a mode default, rejects unavailable or conflicting policies, and returns the exact locked attempt that must be persisted before atomic finalization.
 
-A result may store a compact version-1 grading snapshot. Its grade keys, question IDs, versions, policy, totals, counts, and complete/manual status must agree with the result. Regrading requires exact question versions and never upgrades silently.
+Short-answer normalization may remove terminal Unicode punctuation but preserves Unicode symbols. Accepted answers that normalize to empty are invalid, and an empty normalized learner response cannot receive credit.
+
+A result may store a compact version-1 grading snapshot. Its grade keys, question IDs, versions, policy, component fractions, totals, counts, and complete/manual status must agree with the result. Regrading requires exact question versions, recomputes the canonical report from persisted responses, and rejects any disagreement with the snapshot instead of silently returning different grading.
 
 See [Assessment Grading Policies](ASSESSMENT_GRADING_POLICIES.md) for per-format rules and persistence semantics.
 

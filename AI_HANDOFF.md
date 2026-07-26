@@ -19,6 +19,17 @@ Add a pure, deterministic, versioned grading layer over the PR 4 assessment-sess
 
 PR 6 has not been started.
 
+## Review corrections
+
+- Changed shared short-answer normalization to remove terminal Unicode punctuation only. Unicode symbols such as `+` and `°` remain meaningful.
+- Added `EMPTY_NORMALIZED_SHORT_ANSWER` authoring validation and prevented an empty normalized learner response from receiving credit.
+- Added one shared numeric-contribution helper so reports sum exact component fractions and round the aggregate once.
+- Strengthened partial-outcome validation to require a proper component fraction and a matching rounded display score.
+- Deterministically regrade persisted responses before accepting a stored grading snapshot; structural disagreement now returns `GRADING_SNAPSHOT_MISMATCH`.
+- Kept grading-snapshot attachment module-private so callers cannot attach an arbitrary schema-valid report to unrelated responses.
+- Added explicit immutable historical policy adoption through `lockAttemptGradingPolicy`; graded finalization returns the locked attempt for the documented atomic StoreV2 flow.
+- Hardened the public policy-registry boundary so malformed runtime references return structured failures rather than throwing.
+
 ## Implementation
 
 ### Versioned policies and attempt locking
@@ -36,34 +47,36 @@ PR 6 has not been started.
 - Strict v1 is all-or-nothing for every automatic format.
 - Diagnostic v1 adds conservative component fractions only for matching, extended matching, and image labelling.
 - Every automatic question has a normalized maximum of one point; no negative marking is possible.
-- Six-decimal deterministic rounding is used for partial and aggregate scores.
+- Partial outcomes retain their exact numerator and denominator; aggregates sum those fractions before one deterministic six-decimal rounding step.
 - Absent responses are unanswered, while malformed present responses fail structurally instead of being silently reclassified.
 - Short-answer authoring validation and live grading now share one deterministic normalizer.
 
 ### Reports, persistence, and regrading
 
-- Added deterministic per-question reports and aggregate complete/manual-required summaries with automatic subtotals.
+- Added deterministic per-question reports and aggregate complete/manual-required summaries with exact-fraction automatic subtotals.
 - Added exact-version attempt grading and stored-result regrading with course/module ownership checks.
-- Added graded finalization that delegates to the PR 4 finalizer, attaches a validated compact grading snapshot, and returns both result and report.
+- Persisted grading snapshots are accepted only when deterministic regrading produces the same canonical report, ignoring only the persisted schema-version wrapper and object-key insertion order.
+- Added graded finalization that delegates to the PR 4 finalizer, attaches an internally generated validated compact grading snapshot, and returns the locked attempt, result, and report.
 - Extended result persistence backward-compatibly with optional policy and grading fields plus cross-record semantic validation.
 - Persisted grading contains outcomes and summaries only; it does not copy questions, answer keys, rationales, accepted answers, or rubrics.
 - `assessment.questionHistory` is deliberately unchanged because policy, partial-credit, manual-outcome, and version semantics need a later reviewed design.
 
 ## Tests
 
-The suite now contains 37 test files and 254 tests.
+The suite now contains 39 test files and 271 tests.
 
 PR 5 coverage includes:
 
 - immutable policy registration, mode defaults, unsupported references, mutation isolation, and absence of a public raw constructor;
 - policy locking, explicit overrides, historical-policy compatibility, and locked-policy mismatch rejection;
-- every short-answer normalization switch, combined and Unicode punctuation behavior, authoring/grading parity, and rejection of fuzzy or substring matches;
+- every short-answer normalization switch, terminal ASCII and Unicode punctuation behavior, meaningful `Na+` and `15°` symbols, empty-normalized authoring and learner boundaries, authoring/grading parity, and rejection of fuzzy or substring matches;
 - correct, incorrect, and unanswered strict outcomes for all nine formats;
 - exact set, sequence, mapping, hotspot, short-answer, and manual-open-response rules;
 - diagnostic zero, partial, and full component credit for the three approved formats, deterministic fractions, and nonnegative scores;
 - one-question, all-nine, all-unanswered, all-automatic-correct, mixed, manual-required, malformed, stale, missing, and ownership-mismatched attempt grading;
-- deterministic result regrading, exact stored versions, set-order independence, policy mismatches, and source immutability;
-- complete, fractional, and manual graded finalization; schema validation; atomic StoreV2 finalization; and tamper rejection;
+- exact-fraction aggregation across thirds, strengthened partial-outcome schemas, and rejection of inconsistent persisted component scores;
+- deterministic result regrading, exact stored versions, set-order independence, persisted-snapshot verification, false coherent snapshot rejection, policy/version drift, and source immutability;
+- complete, fractional, manual, and historical-policy graded finalization; immutable explicit policy locking; schema validation; atomic StoreV2 finalization; and tamper rejection;
 - backward-compatible result loading plus negative grading-snapshot key, version, ID, status, count, total, finiteness, policy, and top-level score cases;
 - preserved five-course, eight-module, 39-section, 400-question, 50-per-module, nine-format pilot, and public-route boundaries.
 
@@ -83,12 +96,12 @@ All commands used bundled Node.js `v24.14.0`.
 | `npm ci` | PASS - 528 packages installed; npm reported three dependency deprecation notices and non-fatal Windows cleanup warnings. |
 | `npm run lint` | PASS - zero errors and the same four accepted `<img>` warnings. |
 | `npm run typecheck` | PASS. |
-| `npm run test` | PASS - 37 files, 254 tests. |
+| `npm run test` | PASS - 39 files, 271 tests. |
 | `npm run questions:validate` | PASS - 9 questions, 8 objectives, 0 errors, 0 warnings. |
 | `npm run questions:validate -- --strict` | PASS - 9 questions, 8 objectives, 0 errors, 0 warnings. |
 | `npm run questions:report` | PASS - deterministic coverage output, including one objective with zero questions. |
 | `npm run build` | PASS. |
-| `npm run check` | PASS - lint, typecheck, 254 tests, question validation, and production build. |
+| `npm run check` | PASS - lint, typecheck, 271 tests, question validation, and production build. |
 | `git diff --check` | PASS. |
 
 ## Chrome-only manual regression

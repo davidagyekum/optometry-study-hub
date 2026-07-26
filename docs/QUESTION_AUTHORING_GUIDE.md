@@ -85,9 +85,9 @@ Coordinates should be checked against the exact optimized asset at phone and des
 
 Matching prompt IDs, extended-matching stem IDs, and their normalized text must be unique. Their answer maps must contain exactly one key for every declared prompt or stem, with no missing or extra keys. Hotspot correct-region IDs must also be unique.
 
-Short-answer accepted responses must remain unique after applying that item's trim, case, whitespace, and terminal-punctuation rules. Test normalization before adding spelling or phrasing variants.
+Short-answer accepted responses must remain unique and non-empty after applying that item's trim, case, whitespace, and terminal-punctuation rules. Terminal punctuation may be ignored, but Unicode symbols remain meaningful: `Na+` retains `+`, and `15°` retains `°`. Punctuation-only accepted answers are rejected.
 
-The same normalization function is used during authoring validation and grading. Accepted answers therefore need to be complete intended responses; substring, keyword, fuzzy, and spelling-distance matching are not available.
+The same normalization function is used during authoring validation and grading. Accepted answers therefore need to be complete intended responses; empty normalized learner responses, substring, keyword, fuzzy, and spelling-distance matching are not accepted.
 
 Diagnostic partial credit exists only for matching, extended matching, and image labelling. Authors must ensure their prompts, stems, and targets represent independently meaningful components. Multiple response, ordering, hotspot, single-best-answer, and short-answer formats remain all-or-nothing.
 

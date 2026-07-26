@@ -72,6 +72,18 @@ describe('versioned grading-policy registry', () => {
       .toContain('GRADING_POLICY_VERSION_UNSUPPORTED');
   });
 
+  it('returns structured failures for malformed runtime references', () => {
+    expect(() => resolveGradingPolicy(null as never)).not.toThrow();
+    expect(codes(resolveGradingPolicy(null as never)))
+      .toContain('GRADING_POLICY_NOT_FOUND');
+    expect(codes(resolveGradingPolicy({ id: 'strict', version: 0 })))
+      .toContain('GRADING_POLICY_VERSION_UNSUPPORTED');
+    expect(codes(resolveGradingPolicy({
+      id: 42 as unknown as string,
+      version: 1,
+    }))).toContain('GRADING_POLICY_NOT_FOUND');
+  });
+
   it('returns defensive policy copies that cannot alter later lookup', () => {
     const first = resolveGradingPolicy({ id: 'diagnostic', version: 1 });
     const second = resolveGradingPolicy({ id: 'diagnostic', version: 1 });

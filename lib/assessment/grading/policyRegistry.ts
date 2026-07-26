@@ -7,6 +7,7 @@ import {
   BUILT_IN_GRADING_POLICIES,
   MODE_DEFAULT_GRADING_POLICIES,
 } from '@/lib/assessment/grading/policies';
+import { gradingPolicyReferenceSchema } from '@/lib/assessment/grading/schemas';
 import type {
   GradingPolicy,
   GradingPolicyReference,
@@ -41,19 +42,34 @@ const policies: ReadonlyMap<string, GradingPolicy> = new Map(
 function lookupPolicy(
   reference: GradingPolicyReference,
 ): GradingResult<GradingPolicy> {
-  const policy = policies.get(policyKey(reference));
+  const parsedReference = gradingPolicyReferenceSchema.safeParse(reference);
+  if (!parsedReference.success) {
+    const issue = parsedReference.error.issues[0];
+    const invalidVersion = issue?.path[0] === 'version';
+    return gradingFailure(gradingIssue(
+      invalidVersion
+        ? 'GRADING_POLICY_VERSION_UNSUPPORTED'
+        : 'GRADING_POLICY_NOT_FOUND',
+      `Grading policy reference is malformed: ${issue?.message ?? 'invalid value'}.`,
+      {
+        path: ['gradingPolicy', ...(issue?.path ?? [])].join('.'),
+      },
+    ));
+  }
+  const validReference = parsedReference.data;
+  const policy = policies.get(policyKey(validReference));
   if (policy) return gradingSuccess(copyPolicy(policy));
 
   const knownId = BUILT_IN_GRADING_POLICIES.some(
-    (candidate) => candidate.id === reference.id,
+    (candidate) => candidate.id === validReference.id,
   );
   return gradingFailure(gradingIssue(
     knownId
       ? 'GRADING_POLICY_VERSION_UNSUPPORTED'
       : 'GRADING_POLICY_NOT_FOUND',
     knownId
-      ? `Grading policy "${reference.id}" does not support version ${reference.version}.`
-      : `Grading policy "${reference.id}" is not registered.`,
+      ? `Grading policy "${validReference.id}" does not support version ${validReference.version}.`
+      : `Grading policy "${validReference.id}" is not registered.`,
     { path: 'gradingPolicy' },
   ));
 }
@@ -98,14 +114,27 @@ export function resolveSnapshotGradingPolicy(
   locked: GradingPolicyReference | undefined,
   explicit: GradingPolicyReference | undefined,
 ): GradingResult<GradingPolicyReference> {
-  if (locked && explicit && !policyReferencesEqual(locked, explicit)) {
+  const resolvedLocked = locked ? resolveGradingPolicy(locked) : undefined;
+  if (resolvedLocked && !resolvedLocked.ok) return resolvedLocked;
+  const resolvedExplicit = explicit ? resolveGradingPolicy(explicit) : undefined;
+  if (resolvedExplicit && !resolvedExplicit.ok) return resolvedExplicit;
+
+  if (
+    resolvedLocked?.ok
+    && resolvedExplicit?.ok
+    && !policyReferencesEqual(resolvedLocked.value, resolvedExplicit.value)
+  ) {
     return gradingFailure(gradingIssue(
       'GRADING_POLICY_MISMATCH',
-      `Explicit grading policy "${policyKey(explicit)}" does not match locked policy "${policyKey(locked)}".`,
+      `Explicit grading policy "${policyKey(resolvedExplicit.value)}" does not match locked policy "${policyKey(resolvedLocked.value)}".`,
       { path: 'gradingPolicy' },
     ));
   }
-  const selected = locked ?? explicit;
+  const selected = resolvedLocked?.ok
+    ? resolvedLocked.value
+    : resolvedExplicit?.ok
+      ? resolvedExplicit.value
+      : undefined;
   if (!selected) {
     return gradingFailure(gradingIssue(
       'GRADING_POLICY_REQUIRED',
@@ -113,8 +142,5 @@ export function resolveSnapshotGradingPolicy(
       { path: 'gradingPolicy' },
     ));
   }
-  const resolved = resolveGradingPolicy(selected);
-  return resolved.ok
-    ? gradingSuccess({ id: resolved.value.id, version: resolved.value.version })
-    : resolved;
+  return gradingSuccess({ id: selected.id, version: selected.version });
 }

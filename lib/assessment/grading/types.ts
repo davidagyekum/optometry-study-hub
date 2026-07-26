@@ -34,7 +34,8 @@ export type GradingIssueCode =
   | 'GRADING_SCORE_INVALID'
   | 'GRADING_ATTEMPT_INVALID'
   | 'GRADING_RESULT_INVALID'
-  | 'GRADING_REPORT_INVALID';
+  | 'GRADING_REPORT_INVALID'
+  | 'GRADING_SNAPSHOT_MISMATCH';
 
 export type GradingIssue = {
   code: GradingIssueCode;
@@ -111,14 +112,21 @@ export type GradeAssessmentResultInput = {
   policy?: GradingPolicyReference;
 };
 
+export type LockAttemptGradingPolicyInput = {
+  attempt: AssessmentAttemptSnapshot;
+  policy?: GradingPolicyReference;
+};
+
 export type FinalizeGradedAssessmentAttemptInput = {
   attempt: AssessmentAttemptSnapshot;
   registry: QuestionRegistry;
+  policy?: GradingPolicyReference;
   now?: Clock;
   idFactory?: IdFactory;
 };
 
 export type FinalizeGradedAssessmentAttemptOutput = {
+  lockedAttempt: AssessmentAttemptSnapshot;
   result: AssessmentResultSnapshot;
   report: AssessmentGradingReport;
 };

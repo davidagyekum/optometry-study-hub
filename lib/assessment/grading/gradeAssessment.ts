@@ -6,9 +6,10 @@ import {
 import { gradeResponseForQuestion } from '@/lib/assessment/grading/gradeQuestion';
 import { resolveSnapshotGradingPolicy } from '@/lib/assessment/grading/policyRegistry';
 import {
-  assessmentGradingReportSchema,
+  questionGradeContribution,
   roundGradingScore,
-} from '@/lib/assessment/grading/schemas';
+} from '@/lib/assessment/grading/scoreContribution';
+import { assessmentGradingReportSchema } from '@/lib/assessment/grading/schemas';
 import type {
   AssessmentGradingReport,
   GradeAssessmentAttemptInput,
@@ -38,11 +39,19 @@ export function aggregateQuestionGrades(
   outcomes.forEach((outcome) => {
     questionGrades[outcome.questionId] = structuredClone(outcome);
   });
-  const numeric = outcomes.filter((outcome) => outcome.score !== null);
+  const numeric = outcomes
+    .map((outcome) => ({
+      outcome,
+      contribution: questionGradeContribution(outcome),
+    }))
+    .filter((entry) => entry.contribution !== null);
   const autoScore = roundGradingScore(
-    numeric.reduce((sum, outcome) => sum + (outcome.score ?? 0), 0),
+    numeric.reduce((sum, entry) => sum + (entry.contribution ?? 0), 0),
   );
-  const autoMaxScore = numeric.reduce((sum, outcome) => sum + outcome.maxScore, 0);
+  const autoMaxScore = numeric.reduce(
+    (sum, entry) => sum + entry.outcome.maxScore,
+    0,
+  );
   const manualRequiredCount = outcomes.filter(
     (outcome) => outcome.status === 'manual_required',
   ).length;

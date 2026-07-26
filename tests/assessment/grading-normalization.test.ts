@@ -25,7 +25,7 @@ describe('shared short-answer normalization', () => {
       ...allOff,
       collapseWhitespace: true,
     })).toBe('one two');
-    expect(normalizeShortAnswer('answer?!…', {
+    expect(normalizeShortAnswer('answer?!\u2026', {
       ...allOff,
       ignoreTerminalPunctuation: true,
     })).toBe('answer');
@@ -33,12 +33,22 @@ describe('shared short-answer normalization', () => {
 
   it('keeps disabled operations disabled and applies the combined order deterministically', () => {
     expect(normalizeShortAnswer('  AnSwer!!  ', allOff)).toBe('  AnSwer!!  ');
-    expect(normalizeShortAnswer(' \tA   TONOMETER？！ ', {
+    expect(normalizeShortAnswer(' \tA   TONOMETER\uFF1F\uFF01 ', {
       trim: true,
       caseInsensitive: true,
       collapseWhitespace: true,
       ignoreTerminalPunctuation: true,
     })).toBe('a tonometer');
+  });
+
+  it('removes terminal punctuation but preserves meaningful symbols', () => {
+    const ignorePunctuation = {
+      ...allOff,
+      ignoreTerminalPunctuation: true,
+    };
+    expect(normalizeShortAnswer('Na+', ignorePunctuation)).toBe('Na+');
+    expect(normalizeShortAnswer('15\u00B0', ignorePunctuation)).toBe('15\u00B0');
+    expect(normalizeShortAnswer('Na+?!', ignorePunctuation)).toBe('Na+');
   });
 
   it('uses identical normalization for authoring duplicate detection and grading', () => {
@@ -56,6 +66,29 @@ describe('shared short-answer normalization', () => {
       policy: { id: 'strict', version: 1 },
     });
     expect(grade.ok && grade.value.status).toBe('correct');
+  });
+
+  it('rejects accepted answers that normalize to empty', () => {
+    const bank = makePilotBank();
+    const question = bank.questions.find((item) => item.format === 'short_answer');
+    if (!question) throw new Error('Expected short-answer fixture');
+    question.acceptedAnswers = ['?!\u2026'];
+    expect(validateQuestionBank(bank).diagnostics).toContainEqual(
+      expect.objectContaining({
+        code: 'EMPTY_NORMALIZED_SHORT_ANSWER',
+        path: 'acceptedAnswers.0',
+      }),
+    );
+  });
+
+  it('does not grade punctuation-only learner responses as correct', () => {
+    const question = questionByFormat('short_answer');
+    const grade = gradeResponseForQuestion({
+      question,
+      response: { format: 'short_answer', text: '?!\u2026' },
+      policy: { id: 'strict', version: 1 },
+    });
+    expect(grade.ok && grade.value.status).toBe('incorrect');
   });
 
   it('does not accept substrings or fuzzy spellings', () => {

@@ -24,7 +24,7 @@ PR 3 adds an assessment-domain pilot under `content/question-bank/pilot/`, valid
 
 PR 4 adds a headless session engine under `lib/assessment/session/` plus immutable StoreV2 assessment helpers. It supports deterministic arbitrary-length attempts and all nine response formats, but intentionally provides no renderer, grading policy, or public entry point.
 
-PR 5 adds versioned strict and diagnostic grading under `lib/assessment/grading/`. It locks policy identity into new attempts, grades eight automatic formats, marks answered open responses for manual review, persists compact validated outcomes, and remains disconnected from the public UI.
+PR 5 adds versioned strict and diagnostic grading under `lib/assessment/grading/`. It locks policy identity into new attempts, provides explicit locking for historical attempts, grades eight automatic formats with exact-fraction aggregation, marks answered open responses for manual review, and verifies compact persisted outcomes through deterministic regrading. It remains disconnected from the public UI.
 
 See [Current State](docs/CURRENT_STATE.md), [Assessment Specification](docs/ASSESSMENT_SPEC.md), [Session Engine](docs/ASSESSMENT_SESSION_ENGINE.md), [Grading Policies](docs/ASSESSMENT_GRADING_POLICIES.md), and [Assessment Redesign Roadmap](docs/ASSESSMENT_REDESIGN_ROADMAP.md).
 
