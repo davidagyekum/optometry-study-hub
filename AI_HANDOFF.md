@@ -1,3 +1,135 @@
+# AI Handoff - PR 5
+
+## Pull request
+
+- Branch: `codex/pr5-grading-policies`
+- Base branch: `main`
+- Exact base commit: `850d77b6e5673ca895caa55d247dc35df9ca7141`
+- PR: [#5 - Add versioned headless grading policies](https://github.com/davidagyekum/optometry-study-hub/pull/5)
+- Implementation commit: `27207266841836a1d7d8a0e08258722e70544bf1`
+- Implementation head at PR creation: `27207266841836a1d7d8a0e08258722e70544bf1`
+- Review-correction implementation commit: `4fe0213a01a76da50cc5dc3a672026e3fc65b739`
+- Review-correction GitHub Actions Quality run [30201285849](https://github.com/davidagyekum/optometry-study-hub/actions/runs/30201285849) failed before repository execution: the `quality` job contains zero steps, so checkout, install, lint, type-check, tests, and build did not run; this is consistent with the existing external account restriction rather than a repository failure.
+- The exact final documentation-only branch head is recorded in the draft PR and final Codex report because a committed file cannot contain its own resulting commit hash.
+- Status: DRAFT and mergeable.
+- PR 6 has not been started.
+
+## Objective completed
+
+Add a pure, deterministic, versioned grading layer over the PR 4 assessment-session engine while leaving the live 400-question legacy quiz and public experience unchanged.
+
+PR 6 has not been started.
+
+## Review corrections
+
+- Changed shared short-answer normalization to remove terminal Unicode punctuation only. Unicode symbols such as `+` and `°` remain meaningful.
+- Added `EMPTY_NORMALIZED_SHORT_ANSWER` authoring validation and prevented an empty normalized learner response from receiving credit.
+- Added one shared numeric-contribution helper so reports sum exact component fractions and round the aggregate once.
+- Strengthened partial-outcome validation to require a proper component fraction and a matching rounded display score.
+- Deterministically regrade persisted responses before accepting a stored grading snapshot; structural disagreement now returns `GRADING_SNAPSHOT_MISMATCH`.
+- Kept grading-snapshot attachment module-private so callers cannot attach an arbitrary schema-valid report to unrelated responses.
+- Added explicit immutable historical policy adoption through `lockAttemptGradingPolicy`; graded finalization returns the locked attempt for the documented atomic StoreV2 flow.
+- Hardened the public policy-registry boundary so malformed runtime references return structured failures rather than throwing.
+
+## Implementation
+
+### Versioned policies and attempt locking
+
+- Added immutable `strict` version 1 and `diagnostic` version 1 policies.
+- Mode defaults are study to diagnostic v1, exam to strict v1, and mastery to strict v1.
+- The registry uses a module-private implementation, private storage, a frozen public instance, defensive copies, and structured unknown-ID/unsupported-version failures.
+- Newly created attempts lock a validated policy reference; historical attempts and results without one remain schema-valid but require an explicit policy when graded.
+- Finalization preserves the locked reference, and atomic StoreV2 finalization includes it in exact attempt/result comparison.
+
+### Pure grading and deterministic aggregation
+
+- Added pure grading for single-best-answer, multiple-response, ordering, matching, extended-matching, image-hotspot, image-label, and short-answer questions.
+- Answered open responses are `manual_required`; unanswered open responses remain numeric unanswered outcomes.
+- Strict v1 is all-or-nothing for every automatic format.
+- Diagnostic v1 adds conservative component fractions only for matching, extended matching, and image labelling.
+- Every automatic question has a normalized maximum of one point; no negative marking is possible.
+- Partial outcomes retain their exact numerator and denominator; aggregates sum those fractions before one deterministic six-decimal rounding step.
+- Absent responses are unanswered, while malformed present responses fail structurally instead of being silently reclassified.
+- Short-answer authoring validation and live grading now share one deterministic normalizer.
+
+### Reports, persistence, and regrading
+
+- Added deterministic per-question reports and aggregate complete/manual-required summaries with exact-fraction automatic subtotals.
+- Added exact-version attempt grading and stored-result regrading with course/module ownership checks.
+- Persisted grading snapshots are accepted only when deterministic regrading produces the same canonical report, ignoring only the persisted schema-version wrapper and object-key insertion order.
+- Added graded finalization that delegates to the PR 4 finalizer, attaches an internally generated validated compact grading snapshot, and returns the locked attempt, result, and report.
+- Extended result persistence backward-compatibly with optional policy and grading fields plus cross-record semantic validation.
+- Persisted grading contains outcomes and summaries only; it does not copy questions, answer keys, rationales, accepted answers, or rubrics.
+- `assessment.questionHistory` is deliberately unchanged because policy, partial-credit, manual-outcome, and version semantics need a later reviewed design.
+
+## Tests
+
+The suite now contains 39 test files and 271 tests.
+
+PR 5 coverage includes:
+
+- immutable policy registration, mode defaults, unsupported references, mutation isolation, and absence of a public raw constructor;
+- policy locking, explicit overrides, historical-policy compatibility, and locked-policy mismatch rejection;
+- every short-answer normalization switch, terminal ASCII and Unicode punctuation behavior, meaningful `Na+` and `15°` symbols, empty-normalized authoring and learner boundaries, authoring/grading parity, and rejection of fuzzy or substring matches;
+- correct, incorrect, and unanswered strict outcomes for all nine formats;
+- exact set, sequence, mapping, hotspot, short-answer, and manual-open-response rules;
+- diagnostic zero, partial, and full component credit for the three approved formats, deterministic fractions, and nonnegative scores;
+- one-question, all-nine, all-unanswered, all-automatic-correct, mixed, manual-required, malformed, stale, missing, and ownership-mismatched attempt grading;
+- exact-fraction aggregation across thirds, strengthened partial-outcome schemas, and rejection of inconsistent persisted component scores;
+- deterministic result regrading, exact stored versions, set-order independence, persisted-snapshot verification, false coherent snapshot rejection, policy/version drift, and source immutability;
+- complete, fractional, manual, and historical-policy graded finalization; immutable explicit policy locking; schema validation; atomic StoreV2 finalization; and tamper rejection;
+- backward-compatible result loading plus negative grading-snapshot key, version, ID, status, count, total, finiteness, policy, and top-level score cases;
+- preserved five-course, eight-module, 39-section, 400-question, 50-per-module, nine-format pilot, and public-route boundaries.
+
+## Behavior and scope
+
+- Intended user-visible changes: none.
+- No React component, route, CSS file, educational content, live question, legacy distractor generator, legacy score rule, storage key, storage version, deployment file, account, analytics, backend, or cloud persistence changed.
+- The nine-question pilot remains draft and publicly unreachable.
+- No renderer, policy selector, public pilot entry point, assembler, adaptive behavior, history update, or manual-grading UI was added.
+
+## Validation
+
+All commands used bundled Node.js `v24.14.0`.
+
+| Command | Result |
+|---|---|
+| `npm ci` | PASS - 528 packages installed; npm reported three dependency deprecation notices and non-fatal Windows cleanup warnings. |
+| `npm run lint` | PASS - zero errors and the same four accepted `<img>` warnings. |
+| `npm run typecheck` | PASS. |
+| `npm run test` | PASS - 39 files, 271 tests. |
+| `npm run questions:validate` | PASS - 9 questions, 8 objectives, 0 errors, 0 warnings. |
+| `npm run questions:validate -- --strict` | PASS - 9 questions, 8 objectives, 0 errors, 0 warnings. |
+| `npm run questions:report` | PASS - deterministic coverage output, including one objective with zero questions. |
+| `npm run build` | PASS. |
+| `npm run check` | PASS - lint, typecheck, 271 tests, question validation, and production build. |
+| `git diff --check` | PASS. |
+
+## Chrome-only manual regression
+
+The local Vinext application was checked in the user's Chrome browser. The in-app browser was never initialized.
+
+Passed:
+
+- homepage and all five course cards;
+- OPT 376 dashboard and all four module cards;
+- Aqueous and Vitreous notes, all six figures, captions, source links, dialog focus, focus containment, Escape close, and focus restoration;
+- reading-progress update from two to three reviewed sections and persistence at 50% after reload;
+- legacy answer selection, flagging, Next, Previous, numbered navigation, and identical refresh/resume;
+- a fully answered 50-question submission, legacy score summary, all 50 review entries, and expanded selected-answer/explanation review;
+- browser Back and Forward between quiz and result routes;
+- module-reset confirmation dismissal with reading progress and latest score preserved;
+- responsive homepage and notes checks at mobile and tablet overrides with no horizontal document overflow;
+- no console errors;
+- no visible grading-policy selector, pilot question, or new assessment entry point.
+
+## Review focus
+
+- Confirm strict and diagnostic format rules match the documented conservative boundary.
+- Confirm historical snapshots require an explicit policy rather than receiving a guessed default.
+- Confirm persisted grade summaries are compact, cross-validated, and backward-compatible.
+- Confirm `questionHistory` and every live legacy UI/scoring path remain untouched.
+
 # AI Handoff — PR 4
 
 ## Pull request

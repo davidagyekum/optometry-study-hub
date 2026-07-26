@@ -1,3 +1,4 @@
+import type { GradingPolicyReference } from '@/lib/assessment/grading/types';
 import type {
   AssessmentQuestion,
   QuestionBank,
@@ -50,7 +51,11 @@ export type SessionIssueCode =
   | 'RESULT_NOT_FOUND'
   | 'RESULT_ATTEMPT_MISMATCH'
   | 'RESULT_ATTEMPT_SNAPSHOT_MISMATCH'
-  | 'RESULT_STORE_COLLISION';
+  | 'RESULT_STORE_COLLISION'
+  | 'GRADING_POLICY_NOT_FOUND'
+  | 'GRADING_POLICY_VERSION_UNSUPPORTED'
+  | 'GRADING_POLICY_REQUIRED'
+  | 'GRADING_POLICY_MISMATCH';
 
 export type SessionIssue = {
   code: SessionIssueCode;
@@ -107,6 +112,7 @@ export type CreateAssessmentAttemptInput = RegistryOptions & {
   courseId: string;
   moduleId: string;
   blueprintId?: string;
+  gradingPolicy?: GradingPolicyReference;
   random?: RandomSource;
   now?: Clock;
   idFactory?: IdFactory;

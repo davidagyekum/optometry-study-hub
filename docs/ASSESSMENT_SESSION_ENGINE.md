@@ -29,6 +29,7 @@ The created snapshot records:
 - the deterministic learner-facing order;
 - empty responses and flags;
 - `currentIndex` zero;
+- a copied, versioned grading-policy reference selected explicitly or from the session-mode default.
 - an ISO `startedAt` value.
 
 ## Presentation order by format
@@ -53,7 +54,9 @@ The engine never mutates authored question content while deriving these orders.
 
 `validateResponseForQuestion` verifies that a stored response belongs structurally to its question. It enforces exact format discrimination, valid stable references, selection limits, exact permutations, mapping-key equality, reuse policy, hotspot and label references, and nonblank written responses.
 
-This validation answers “can this response safely resume with this question?” It does not answer “is this response correct?” No scoring, fuzzy matching, partial credit, or format-specific grading policy exists in PR 4.
+This validation answers “can this response safely resume with this question?” It remains separate from correctness. PR 5 adds a headless grading layer that first calls response validation and then applies the attempt's locked policy.
+
+Strict version 1 is all-or-nothing. Diagnostic version 1 differs only for matching, extended matching, and image labelling, where independent component coverage yields bounded partial credit. Component numerators and denominators are retained so exact fractions are summed before one aggregate rounding step. No policy uses negative marking or fuzzy comparison.
 
 ## Immutable attempt operations
 
@@ -89,18 +92,24 @@ Evaluation is supplied externally as either:
 
 or a numeric pair with positive `maxScore` and `0 <= score <= maxScore`. Mixed null/numeric states are invalid in both the engine and StoreV2 schema.
 
-PR 5 is expected to define real correctness and grading policies. Deferring those policies keeps PR 4 focused on session integrity and avoids embedding unreviewed scoring assumptions in the storage layer.
+`lockAttemptGradingPolicy` provides the explicit adoption path for historical attempts without a policy. It validates and copies the attempt, requires an available policy, rejects a conflicting lock, and never guesses from session mode.
+
+`finalizeGradedAssessmentAttempt` can accept that explicit historical policy, grades the resulting locked snapshot, converts a complete report to numeric evaluation or a manual-required report to null evaluation, calls the existing finalizer, and attaches an internally generated compact grading snapshot. Its output includes `lockedAttempt`; callers persist that exact snapshot before atomic finalization so the active attempt and result retain the same policy.
 
 ## StoreV2 helpers
 
 Pure helpers insert, replace, retrieve, and remove active assessment attempts; insert, replace, and retrieve results; and atomically move a matching active attempt into results. Store validation requires every active-attempt, result, and question-history record key to match the record's own stable ID.
 
-Atomic finalization requires the result's attempt ID, course, module, ordered question IDs, question-version map, and complete response map to match the active attempt exactly. It refuses an existing result ID instead of overwriting it; ordinary `putAssessmentResult` remains the explicit insert-or-replace helper. Every write preserves reading progress, legacy attempts, legacy results, unrelated assessment records, and question history. Key/ID disagreement, snapshot disagreement, collisions, and invalid final stores return structured failures without mutating the source.
+Atomic finalization requires the result's attempt ID, course, module, ordered question IDs, question-version map, complete response map, and grading-policy reference to match the active attempt exactly. Historical callers first store the returned `lockedAttempt`, then atomically finalize its matching result. It refuses an existing result ID instead of overwriting it; ordinary `putAssessmentResult` remains the explicit insert-or-replace helper. Every write preserves reading progress, legacy attempts, legacy results, unrelated assessment records, and question history. Key/ID disagreement, snapshot disagreement, collisions, and invalid final stores return structured failures without mutating the source.
 
 Retrieved values are cloned so callers cannot mutate the store through a returned reference.
 
+Persisted grading snapshots are not trusted as independent truth: result regrading recomputes the canonical report from exact stored responses, question versions, ownership, and policy, then rejects any structural disagreement with `GRADING_SNAPSHOT_MISMATCH`.
+
 ## What remains legacy
+
+Atomic finalization also requires the result grading-policy reference to match the active attempt whenever either snapshot has one.
 
 The current React quiz and result views, 400 generated questions, distractor logic, scoring, routes, CSS, and device-local learner workflow remain unchanged. No pilot question is registered with `LegacyQuizView`.
 
-PR 5 may add headless grading policies and related tests after this PR is reviewed and merged. It must still be separately reviewed before any new assessment format becomes visible to students.
+The versioned grading policies are still headless. Visible multi-format renderers and a controlled pilot experience belong to a later reviewed PR.

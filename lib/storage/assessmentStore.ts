@@ -214,6 +214,7 @@ export function finalizeAssessmentStore(
     active.value.questionVersions,
   );
   compare('responses', result.responses, active.value.responses);
+  compare('gradingPolicy', result.gradingPolicy, active.value.gradingPolicy);
   if (snapshotIssues.length > 0) return sessionFailure(snapshotIssues);
 
   const activeAttempts = { ...store.assessment.activeAttempts };

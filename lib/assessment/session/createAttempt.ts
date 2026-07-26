@@ -1,4 +1,8 @@
 import { STABLE_ID_PATTERN } from '@/lib/assessment/constants';
+import {
+  defaultGradingPolicyForMode,
+  resolveGradingPolicy,
+} from '@/lib/assessment/grading/policyRegistry';
 import type { ReviewStatus } from '@/lib/assessment/types';
 import {
   sessionFailure,
@@ -12,6 +16,7 @@ import {
 import type {
   CreateAssessmentAttemptInput,
   SessionIssue,
+  SessionIssueCode,
   SessionResult,
 } from '@/lib/assessment/session/types';
 import { assessmentAttemptSnapshotSchema } from '@/lib/storage/schemas';
@@ -46,6 +51,7 @@ export function createAssessmentAttempt({
   courseId,
   moduleId,
   blueprintId,
+  gradingPolicy,
   random = Math.random,
   now = () => new Date(),
   idFactory = defaultAttemptId,
@@ -105,6 +111,21 @@ export function createAssessmentAttempt({
   });
   if (issues.length > 0) return sessionFailure(issues);
 
+  const selectedPolicy = gradingPolicy
+    ? resolveGradingPolicy(gradingPolicy)
+    : defaultGradingPolicyForMode(mode);
+  if (!selectedPolicy.ok) {
+    return sessionFailure(selectedPolicy.issues.map((issue) => sessionIssue(
+      issue.code as SessionIssueCode,
+      issue.message,
+      { path: issue.path },
+    )));
+  }
+  const lockedPolicy = {
+    id: selectedPolicy.value.id,
+    version: selectedPolicy.value.version,
+  };
+
   let attemptId: string;
   try {
     attemptId = idFactory();
@@ -153,6 +174,7 @@ export function createAssessmentAttempt({
     courseId,
     moduleId,
     ...(blueprintId ? { blueprintId } : {}),
+    gradingPolicy: lockedPolicy,
     startedAt: timestamp.value,
     orderedQuestionIds: shuffledIds.value,
     questionVersions,
