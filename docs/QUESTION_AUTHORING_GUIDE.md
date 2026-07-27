@@ -153,3 +153,10 @@ Before a future production pilot is enabled, replace or independently review eac
 New module questions belong in one canonical bank; feature-gated pilots must derive ordered subsets by stable ID rather than duplicate content. A declared blueprint is an authoring contract and must be validated before review. Table stimuli use structured caption, column, row, and cell data so a later renderer can produce accessible HTML rather than a screenshot.
 
 After self-review, run `npm run questions:review-pack` and obtain independent ratings using the criteria in [Expert Content Review](EXPERT_CONTENT_REVIEW.md). Aiken’s V is descriptive review evidence only. Do not add a reviewer or move an item beyond `draft` until a real reviewer has completed the project process.
+## PR 7 review-hardening rules
+
+Review evidence must remain self-contained and exact. The exported row's bank, question version, evidence hash, section, objective, format, Bloom level, and difficulty are immutable reviewer inputs; editing any of them invalidates a rated row. Reviewer IDs are lowercase project slugs after trim normalization.
+
+A table stimulus must add evidence that requires interpretation. It must not reproduce each prompt already paired with its correct answer. Tests protect the production-process and vitreous-landmark matching items against complete mapping leakage. SBA distractors must remain in the same conceptual category and represent plausible misconceptions.
+
+An automated UTF-8 guard scans relevant source, content, scripts, documentation, and fixtures for common mojibake sequences and the Unicode replacement character while allowing valid Unicode punctuation, arrows, multiplication signs, degree signs, and scientific symbols.

@@ -1,13 +1,13 @@
-# Aiken’s V Workflow
+# Aiken's V Workflow
 
-Aiken’s V summarizes how strongly ordinal expert ratings concentrate above the lowest point of a declared scale. For this project’s 1–5 rubric:
+Aiken's V summarizes how strongly ordinal expert ratings concentrate above the lowest point of a declared scale. For this project's 1–5 rubric:
 
 ```text
 s = r - 1
 V = sum(s) / (n × (5 - 1))
 ```
 
-The implementation retains numerator, denominator, reviewer count, submitted range, and the unrounded value; reports display V to six decimal places. For ratings 5, 5, and 4, the numerator is 11, denominator is 12, and displayed V is 0.916667.
+For ratings 5, 5, and 4, the numerator is 11, denominator is 12, and displayed V is 0.916667. The number-only calculation returns `ratingCount`; the summary layer separately computes unique normalized reviewers.
 
 ## Commands
 
@@ -17,9 +17,19 @@ npm run questions:aiken -- --input path/to/completed-review.csv
 npm run questions:aiken -- --input path/to/completed-review.csv --flag-below 0.80
 ```
 
-The optional threshold labels a result only as `needs-review`. It never marks a question reviewed or approved. Unknown questions or criteria, duplicate reviewer/question/criterion rows, missing reviewer IDs, and ratings outside 1–5 are rejected. Criteria omitted from the CSV receive no value. Fewer than three unique reviewers produces a warning.
+The parser rejects malformed CSV, wrong row widths, extra columns, unterminated quotes, non-positive/non-integer versions, malformed reviewer IDs, duplicate normalized reviewer/question/criterion rows, ratings outside 1–5, unknown questions/criteria, and any canonical bank/version/hash/section/objective/format/Bloom/difficulty mismatch.
 
-Output is written to `tmp/question-review/aiken-report.md` and `.json` and summarized in the console. Generated review output is intentionally uncommitted.
+## Correct summary semantics
+
+The canonical bank defines the complete expected question/criterion matrix. Reports include all 338 applicable pairs, including unrated pairs:
+
+- zero reviewers: no V, status `unrated`, and `NO_REVIEW_RATINGS`;
+- one or two unique reviewers: provisional V and `INSUFFICIENT_REVIEWERS`;
+- three or more: normal V, with the optional threshold producing only `needs-review`.
+
+Per-question V uses only `overall-content-validity`. Every other criterion is reported independently per question and criterion. Relevance, accuracy, clarity, rights, Bloom alignment, and other heterogeneous ratings are not pooled. Reports retain the question version and evidence hash and show applicable, rated, and unrated criterion counts plus unique-reviewer and question coverage.
+
+Output is written to ignored `tmp/question-review/aiken-report.md` and `.json` and summarized in the console. No report mutates review status.
 
 ## Interpretation
 

@@ -98,3 +98,4 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a change. Keep one concer
 ## Educational and licensing notice
 
 Lecture-derived material is a curriculum aid, not automatically an authoritative clinical source. Educational wording, lecturer attribution, medical corrections, and image reuse rights must be reviewed before broad public release. Named lecturers must not be represented as approving rewritten material without documented approval.
+PR 7 review tooling now exports a self-contained 338-row, evidence-hashed expert pack and complete Markdown/JSON dossiers. Rated rows are rejected when canonical metadata or evidence hashes are stale. Reviewer identities are normalized lowercase slugs, zero-rating coverage is explicit, and per-question Aiken's V uses only `overall-content-validity`; no ratings or approvals are bundled with the repository.

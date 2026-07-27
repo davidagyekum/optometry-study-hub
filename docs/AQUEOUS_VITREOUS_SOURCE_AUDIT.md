@@ -36,3 +36,8 @@ The candidate bank reuses only two existing local module figures: the course sit
 - [Posterior Vitreous Detachment](https://www.ncbi.nlm.nih.gov/books/NBK563273/)
 - [Vitreous Hemorrhage](https://www.ncbi.nlm.nih.gov/books/NBK559131/)
 - [OpenStax Biology 2e: Vision](https://openstax.org/books/biology-2e/pages/36-5-vision)
+## Review follow-up
+
+Image candidates continue to use only existing attributed module assets. The generated expert dossier records the path, dimensions, alternative text, normalized coordinates, source candidates, and a current pending expert-confirmation rights status. OpenStax/course-attributed anterior-segment assets and the National Eye Institute vitreous asset remain draft-only; reuse basis and coordinates must be confirmed before approval.
+
+The follow-up corrected all detected encoding corruption, preserved qualified variable values (including 98–99% vitreous water), and did not broaden the source boundary or alter the live notes.

@@ -136,3 +136,8 @@ The canonical Aqueous and Vitreous bank is an authoring and expert-review source
 Structured table stimulus data is optional at the base schema level and mandatory by candidate-bank integrity tests whenever `stimulusType` is `table`. The data carries a caption, stable columns, and stable rows/cells for accessible future rendering.
 
 The review domain exports only applicable stable criteria and validates ordinal 1–5 ratings. Aiken’s V output is review evidence, never an automatic status transition. All 36 candidates remain draft, and the pilot’s `diagnostic@1` behavior is unchanged.
+## Exact expert-review evidence contract
+
+The canonical review export binds each rated row to the bank ID, question ID, positive integer version, deterministic question evidence hash, section, objective, format, Bloom level, and difficulty. The hash covers the complete review-relevant question, objective, and registered source identities. Completed rows from a stale or edited pack are rejected.
+
+The expected matrix is derived from the canonical bank. Per-question Aiken's V is calculated only from `overall-content-validity`; all other applicable criteria are reported separately. Reports retain version/hash evidence and include zero-rating coverage rather than silently omitting it. Review output remains expert-only under ignored `tmp/` and does not alter the renderer, grading, storage, or status contracts.

@@ -16,7 +16,7 @@ export const mediaChambersQuestions: AssessmentQuestion[] = [
     ['angle-a-narrower', 'Eye A may have narrower access to the drainage angle', 'Peripheral iris-cornea proximity can narrow the angle.'],
     ['angle-b-narrower', 'Eye B must have narrower access to the drainage angle', 'A deeper chamber does not support this conclusion.', 'depth-direction-reversal'],
     ['same-angle', 'Their identical IOP proves identical angle anatomy', 'IOP alone does not define chamber configuration.', 'iop-equals-angle-status'],
-    ['vitreous-determines', 'Vitreous volume alone determines which angle is open', 'Vitreous volume is not the direct comparison supplied.', 'aqueous-vitreous-confusion'],
+    ['same-depth', 'Their identical IOP proves that their peripheral chamber depths are equal', 'IOP alone does not determine peripheral chamber depth or angle anatomy.', 'iop-equals-angle-status'],
   ], 'angle-a-narrower'),
   mr({ id: 'aqueous-chambers-mr-001', familyId: 'aqueous-chamber-boundaries', sectionId: 'media-chambers', objectiveId: 'aqueous-identify-chambers', stimulusType: 'comparison', bloomLevel: 'understand', difficulty: 'intermediate', stem: 'Select the statements that correctly distinguish the two aqueous chambers.', explanation: 'The cornea and iris bound the anterior chamber; the posterior chamber is behind the iris, communicates through the pupil, and lies before the lens-zonular plane.', sources, misconceptionTags: ['aqueous-chamber-boundaries'] }, [
     ['ac-cornea-iris', 'The anterior chamber lies chiefly between cornea and iris', 'This is the defining anterior-chamber relationship.'],

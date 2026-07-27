@@ -1,7 +1,13 @@
 import type { QuestionFormat } from '@/lib/assessment/types';
 import type { ReviewCriterion } from './types';
 
+export const OVERALL_CONTENT_VALIDITY: ReviewCriterion = {
+  id: 'overall-content-validity',
+  label: 'Overall content validity',
+  description: 'Considering the complete evidence, the item is a valid measure of its declared objective.',
+};
 export const UNIVERSAL_CRITERIA: ReviewCriterion[] = [
+  OVERALL_CONTENT_VALIDITY,
   { id: 'relevance', label: 'Relevance', description: 'The item is relevant to its declared objective and module.' },
   { id: 'factual-accuracy', label: 'Factual accuracy', description: 'The medical content is accurate and appropriately qualified.' },
   { id: 'clarity', label: 'Clarity', description: 'The task is clear without avoidable ambiguity.' },
@@ -14,7 +20,7 @@ export const FORMAT_CRITERIA: ReviewCriterion[] = [
   { id: 'rationale-quality', label: 'Rationale quality', description: 'Rationales explain the distinction and diagnostic value.' },
   { id: 'component-independence', label: 'Component independence', description: 'Components test meaningful, independently scorable decisions.' },
   { id: 'image-accessibility', label: 'Image accessibility', description: 'Alternative and interaction text support access without revealing answers.' },
-  { id: 'image-coordinate-accuracy', label: 'Image coordinate accuracy', description: 'Targets remain accurate across supported image sizes.' },
+  { id: 'image-coordinate-accuracy', label: 'Image coordinate accuracy', description: 'Targets use normalized coordinates from 0 to 1 and remain accurate across supported image sizes.' },
   { id: 'image-rights', label: 'Image rights', description: 'The image has documented reuse rights or course ownership.' },
   { id: 'rubric-quality', label: 'Rubric quality', description: 'The rubric defines observable, relevant evidence.' },
 ];

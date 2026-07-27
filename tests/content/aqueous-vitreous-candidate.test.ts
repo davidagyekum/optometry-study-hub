@@ -30,5 +30,32 @@ describe('canonical Aqueous and Vitreous candidate bank', () => {
     expect(newQuestions).toHaveLength(27);
     for (const question of newQuestions) { const serialized = JSON.stringify(question); expect(serialized).not.toMatch(/all of the above|none of the above/i); if (question.difficulty !== 'foundation') expect(question.misconceptionTags.length).toBeGreaterThan(0); if (/\b(not|except|false|incorrect|least)\b/i.test(question.stem)) expect(question.allowNegativeStem).toBe(true); if (question.format === 'single_best_answer' || question.format === 'multiple_response' || question.format === 'extended_matching') expect(question.options.every((option) => option.rationale?.trim())).toBe(true); if (question.format === 'ordering') expect(question.items.every((item) => item.rationale?.trim())).toBe(true); if (question.format === 'matching') expect(question.choices.every((choice) => choice.rationale?.trim())).toBe(true); if (question.format === 'image_label') expect(question.labels.every((item) => item.rationale?.trim())).toBe(true); if (question.format === 'image_hotspot') for (const region of question.regions) expect(region.interactionLabel.toLowerCase()).not.toBe(region.label.toLowerCase()); }
   });
+  it('keeps the revised table stimuli independent from their answer maps', () => {
+    for (const questionId of ['aqueous-production-matching-001', 'vitreous-anatomy-matching-001']) {
+      const question = aqueousVitreousCandidateBank.questions.find((entry) => entry.id === questionId); expect(question?.format).toBe('matching'); if (!question || question.format !== 'matching') continue;
+      const rows = question.table?.rows ?? []; expect(rows.length).toBe(question.prompts.length);
+      for (const prompt of question.prompts) {
+        const row = rows.find((entry) => Object.values(entry.cells).includes(prompt.text)); expect(row).toBeDefined();
+        const correctChoice = question.choices.find((entry) => entry.id === question.correctMatches[prompt.id]); expect(correctChoice).toBeDefined();
+        expect(JSON.stringify(row?.cells).toLowerCase()).not.toContain(correctChoice!.text.toLowerCase());
+      }
+    }
+  });
+  it('keeps the IOP error-analysis mapping unique and the corrected Bloom operations defensible', () => {
+    const matching = aqueousVitreousCandidateBank.questions.find((entry) => entry.id === 'aqueous-iop-matching-001'); expect(matching?.format).toBe('matching'); if (matching?.format === 'matching') {
+      expect(matching.correctMatches).toEqual({ 'formation-normal': 'outflow-resistance', 'meshwork-low': 'episcleral-pressure', 'one-reading': 'measurement-context' });
+      expect(new Set(Object.values(matching.correctMatches)).size).toBe(matching.prompts.length);
+      expect(matching.prompts.map((entry) => entry.text)).toEqual([
+        '“Aqueous formation and episcleral venous pressure are unchanged, so IOP cannot rise.”',
+        '“Aqueous formation and trabecular resistance are unchanged, so IOP cannot rise.”',
+        '“One tonometer value is a context-free diagnosis.”',
+      ]);
+      expect(matching.prompts.map((entry) => entry.text).join(' ')).not.toMatch(/Only secretion can raise IOP/i);
+    }
+    expect(aqueousVitreousCandidateBank.questions.find((entry) => entry.id === 'aqueous-barrier-sba-001')).toMatchObject({ bloomLevel: 'analyze', stimulusType: 'clinical_vignette' });
+    expect(aqueousVitreousCandidateBank.questions.find((entry) => entry.id === 'aqueous-production-matching-001')).toMatchObject({ bloomLevel: 'analyze', stimulusType: 'table' });
+    expect(aqueousVitreousCandidateBank.questions.find((entry) => entry.id === 'vitreous-anatomy-matching-001')).toMatchObject({ bloomLevel: 'understand', stimulusType: 'table' });
+    const short = aqueousVitreousCandidateBank.questions.find((entry) => entry.id === 'vitreous-clinical-short-001'); expect(short).toMatchObject({ bloomLevel: 'apply', stimulusType: 'error_analysis' }); expect(short?.stem).toMatch(/examination shows/i);
+  });
   it('registers syntactically valid external source URLs', () => { for (const source of aqueousVitreousCandidateBank.sources.filter((item) => item.url)) expect(() => new URL(source.url as string)).not.toThrow(); });
 });

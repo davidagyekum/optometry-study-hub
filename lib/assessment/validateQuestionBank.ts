@@ -341,7 +341,7 @@ function validateHotspot(
       diagnostics.push({
         severity: 'error',
         code: 'INVALID_HOTSPOT_COORDINATES',
-        message: 'Hotspot regions must remain within normalized image coordinates 0â€“1.',
+        message: 'Hotspot regions must remain within normalized image coordinates 0–1.',
         questionId: question.id,
         path: `regions[${index}]`,
       });
@@ -379,7 +379,7 @@ function validateImageLabels(
       diagnostics.push({
         severity: 'error',
         code: 'INVALID_LABEL_COORDINATES',
-        message: 'Image-label targets must use normalized coordinates 0â€“1.',
+        message: 'Image-label targets must use normalized coordinates 0–1.',
         questionId: question.id,
         path: `targets[${index}]`,
       });
