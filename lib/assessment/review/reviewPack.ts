@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import type { AssessmentQuestion, LearningObjective, QuestionBank, SourceReference } from '@/lib/assessment/types';
 import { applicableCriteria } from './criteria';
+import { safeMarkdownJson } from './markdown';
 import type { ReviewCriterion, ReviewIssue, ReviewPackRow } from './types';
 
 export const REVIEW_PACK_HEADERS = ['bankId', 'questionId', 'questionVersion', 'questionHash', 'sectionId', 'objectiveId', 'format', 'bloomLevel', 'difficulty', 'criterion', 'reviewerId', 'rating', 'comment'] as const;
@@ -121,7 +122,7 @@ export function buildReviewDossier(bank: QuestionBank): object {
 }
 export function reviewDossierMarkdown(bank: QuestionBank): string {
   const dossier = buildReviewDossier(bank) as { questions: { questionHash: string; question: AssessmentQuestion; objective: LearningObjective; sources: SourceReference[]; imageAudit?: object; applicableCriteria: object[] }[] };
-  const sections = dossier.questions.flatMap((item) => [`## ${item.question.id} (version ${item.question.version})`, '', `Question hash: \`${item.questionHash}\``, '', `Objective: **${item.objective.id}** — ${item.objective.statement}`, '', '```json', JSON.stringify(item, null, 2), '```', '']);
+  const sections = dossier.questions.flatMap((item) => [`## ${item.question.id} (version ${item.question.version})`, '', `Question hash: \`${item.questionHash}\``, '', `Objective: **${item.objective.id}** — ${item.objective.statement}`, '', safeMarkdownJson(item), '']);
   return [`# Aqueous and Vitreous expert-review items`, '', 'This dossier is for expert review only and is not rendered in the student interface.', '', ...sections].join('\n');
 }
 export function reviewGuide(bank: QuestionBank): string { return `# Expert content review guide\n\nBank: ${bank.title} (${bank.questions.length} draft questions)\n\nUse this project review scale for each applicable criterion:\n\n1 — unacceptable\n2 — major revision required\n3 — usable with revision\n4 — strong\n5 — excellent\n\nUse a stable lowercase slug reviewer ID (for example, reviewer-a), one integer rating from 1 to 5, and an optional comment. Do not edit evidence-binding columns. Blank rating rows remain part of the expected coverage matrix. Ratings support discussion and do not change review status or constitute academic approval.\n`; }

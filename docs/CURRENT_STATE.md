@@ -96,3 +96,12 @@ The 36-question Aqueous and Vitreous candidate bank remains draft-only and the e
 ## Final PR 7 review isolation correction
 
 The disabled nine-question pilot is assembled directly from `questions/preservedPilot.ts`, filtered objectives, and filtered registered sources. Its import graph does not reach `bank.ts` or any of the 27 hidden candidate-question modules. The canonical 36-question authoring bank remains available only to authoring, validation, blueprint, and expert-review tooling.
+
+## PR 8 operational expert-review workflow
+
+The repository can create evidence-bound campaigns, prefill one 338-row pack per registered reviewer, merge validated packs in deterministic order, preserve comment-only evidence, analyze criterion-specific Aiken values, generate stable issues, validate resolutions and chair decisions, export a bank snapshot, and verify a future status transition. Generated output is ignored and no campaign module is imported by the browser application. All current questions and objectives remain draft, no real ratings or identities are committed, and the pilot feature flag remains false.
+
+
+## PR 8 review hardening
+
+Campaign identity now includes a deterministic hash over the full normalized campaign, reviewer profiles, policy, timestamp, and ordered criterion matrix. Exact campaign recreation is a no-op that never rewrites reviewer evidence; malformed or conflicting directories fail closed. Reviewer packs, merged evidence, issues, reports, bundles, and decisions carry that identity. Merged evidence is runtime-validated and self-hashed before analysis; evidence bundles recompute analysis, issue application, and resolutions rather than trusting caller-supplied state. Readiness uses independent, unconflicted coverage and cannot waive missing ratings, criteria, reviewers, stale evidence, or independence deficits. Stable decisions and status-transition verification are exact to the campaign, internally recomputed canonical question hash and content, evidence bundle, decision type, chair authority, and a decision-bound independent, unconflicted, consent-aware substantive attribution. Markdown JSON exports use fences longer than any untrusted backtick run. These changes remain authoring/review tooling only; the learner application, question content, objectives, storage, scoring, and disabled pilot are unchanged.

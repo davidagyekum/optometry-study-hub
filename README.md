@@ -99,3 +99,17 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a change. Keep one concer
 
 Lecture-derived material is a curriculum aid, not automatically an authoritative clinical source. Educational wording, lecturer attribution, medical corrections, and image reuse rights must be reviewed before broad public release. Named lecturers must not be represented as approving rewritten material without documented approval.
 PR 7 review tooling now exports a self-contained 338-row, evidence-hashed expert pack and complete Markdown/JSON dossiers. Rated rows are rejected when canonical metadata or evidence hashes are stale. Reviewer identities are normalized lowercase slugs, zero-rating coverage is explicit, and per-question Aiken's V uses only `overall-content-validity`; no ratings or approvals are bundled with the repository.
+
+## Evidence-bound expert-review campaigns
+
+PR 8 adds local authoring commands for campaign creation, reviewer-pack merge, readiness analysis, decision verification, and bank snapshots:
+
+```bash
+npm run questions:review-campaign -- --campaign-id <id> --reviewers <profiles.json>
+npm run questions:review-merge -- --campaign <manifest.json> --input <pack.csv>
+npm run questions:review-readiness -- --campaign <manifest.json> --submissions <merged.json>
+npm run questions:review-verify -- --campaign <manifest.json> --submissions <merged.json> --resolutions <resolutions.json> --decisions <decisions.json>
+npm run questions:review-snapshot
+```
+
+Generated evidence remains under ignored `tmp/question-review/`. These commands do not enter the browser bundle, change question status, enable the pilot, or constitute academic review. See [Expert review campaigns](docs/EXPERT_REVIEW_CAMPAIGNS.md) and [Review resolution and promotion](docs/REVIEW_RESOLUTION_AND_PROMOTION.md).

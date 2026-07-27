@@ -45,3 +45,7 @@ Ratings and Aiken's V support structured discussion. They do not change `reviewS
 ## Objective-source completeness
 
 The dossier and all criterion/image evidence use the union of question-level and objective-level registered source identities. This is the same source-identity union covered by the deterministic evidence hash, so an expert can inspect every source that contributes to the reviewed objective even when a particular question cites only a subset directly.
+
+## PR 8 campaign boundary
+
+Expert review is now organized through evidence-bound campaigns with one validated pack per registered reviewer. Ratings and qualitative comments are separate evidence: blank ratings never discard non-empty comments. Stable issues, explicit resolutions, review-chair decisions, and transition verification remain non-mutating. No current item has received real independent expert review.

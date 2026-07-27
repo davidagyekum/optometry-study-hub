@@ -1,0 +1,29 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "reviewer-a",
+    "roles": ["subject-matter-expert"],
+    "expertiseTags": ["aqueous-humour"],
+    "independentReviewAttestation": true,
+    "conflictOfInterest": { "status": "none" },
+    "consentToAttribution": false
+  },
+  {
+    "schemaVersion": 1,
+    "id": "reviewer-b",
+    "roles": ["assessment-reviewer"],
+    "expertiseTags": ["assessment-design"],
+    "independentReviewAttestation": true,
+    "conflictOfInterest": { "status": "none" },
+    "consentToAttribution": false
+  },
+  {
+    "schemaVersion": 1,
+    "id": "reviewer-c",
+    "roles": ["subject-matter-expert", "review-chair"],
+    "expertiseTags": ["vitreous"],
+    "independentReviewAttestation": true,
+    "conflictOfInterest": { "status": "none" },
+    "consentToAttribution": false
+  }
+]

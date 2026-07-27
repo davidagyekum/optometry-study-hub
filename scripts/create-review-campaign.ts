@@ -1,0 +1,134 @@
+import { join } from 'node:path';
+import {
+  createReviewCampaignManifest,
+  validateCampaignDirectoryManifest,
+  validateReviewCampaignManifest,
+} from '@/lib/assessment/review/campaignManifest';
+import {
+  campaignReviewRows,
+  campaignRowsToCsv,
+} from '@/lib/assessment/review/reviewerPack';
+import { validateReviewerProfiles } from '@/lib/assessment/review/reviewerProfiles';
+import {
+  buildReviewDossier,
+  reviewDossierMarkdown,
+  reviewGuide,
+} from '@/lib/assessment/review/reviewPack';
+import {
+  canonicalReviewContext,
+  readJson,
+  requireValue,
+  runCommand,
+  valueFor,
+  writeJsonExclusive,
+  writeTextExclusive,
+} from './review-command-utils';
+
+function isMissingFile(error: unknown): boolean {
+  return (
+    error instanceof Error &&
+    'code' in error &&
+    error.code === 'ENOENT'
+  );
+}
+
+runCommand(async () => {
+  const campaignId = requireValue('--campaign-id');
+  const reviewersPath = requireValue('--reviewers');
+  const createdAt = valueFor('--created-at') ?? new Date().toISOString();
+  const reviewers = validateReviewerProfiles(await readJson(reviewersPath));
+  if (reviewers.issues.length > 0) {
+    throw new Error(
+      reviewers.issues.map((issue) => `${issue.code}: ${issue.message}`).join('\n'),
+    );
+  }
+  const manifest = createReviewCampaignManifest({
+    campaignId,
+    createdAt,
+    ...canonicalReviewContext,
+    reviewers: reviewers.profiles,
+  });
+  const validated = validateReviewCampaignManifest(
+    manifest,
+    canonicalReviewContext,
+  );
+  if (validated.issues.length > 0) {
+    throw new Error(
+      validated.issues.map((issue) => `${issue.code}: ${issue.message}`).join('\n'),
+    );
+  }
+
+  const directory = join('tmp', 'question-review', campaignId);
+  const manifestPath = join(directory, 'campaign-manifest.json');
+  let existingManifest: unknown;
+  let manifestExists = false;
+  try {
+    existingManifest = await readJson(manifestPath);
+    manifestExists = true;
+  } catch (error) {
+    if (!isMissingFile(error)) {
+      throw new Error(
+        `REVIEW_CAMPAIGN_DIRECTORY_CONFLICT: Existing campaign manifest is unreadable or malformed. Directory: ${directory}.`,
+      );
+    }
+  }
+
+  if (manifestExists) {
+    const compatibility = validateCampaignDirectoryManifest(
+      existingManifest,
+      manifest,
+      canonicalReviewContext,
+    );
+    if (compatibility.length > 0) {
+      throw new Error(
+        `${compatibility[0].code}: ${compatibility[0].message} Directory: ${directory}.`,
+      );
+    }
+    console.log(
+      `Campaign ${campaignId} (${manifest.campaignHash}) already exists; no artifact was rewritten.`,
+    );
+    return;
+  }
+
+  await writeJsonExclusive(manifestPath, manifest);
+  await writeTextExclusive(
+    join(directory, 'campaign-summary.md'),
+    [
+      `# Review campaign ${campaignId}`,
+      '',
+      `Campaign hash: \`${manifest.campaignHash}\``,
+      `Bank: \`${manifest.bankId}\``,
+      `Bank hash: \`${manifest.bankHash}\``,
+      `Policy: \`${manifest.policy.id}@${manifest.policy.version}\``,
+      `Policy hash: \`${manifest.policyHash}\``,
+      `Created: ${manifest.createdAt}`,
+      `Questions: ${manifest.questions.length}`,
+      `Reviewers: ${manifest.reviewers.length}`,
+      '',
+      'The 0.80 Aiken value is a project discussion flag, not universal proof of validity. This campaign never changes review status.',
+    ].join('\n'),
+  );
+  for (const reviewer of manifest.reviewers) {
+    await writeTextExclusive(
+      join(directory, 'reviewer-packs', `${reviewer.id}.csv`),
+      campaignRowsToCsv(
+        campaignReviewRows(manifest, canonicalReviewContext.bank, reviewer.id),
+      ),
+    );
+    await writeTextExclusive(
+      join(directory, 'reviewer-packs', `${reviewer.id}-guide.md`),
+      `${reviewGuide(canonicalReviewContext.bank)}\nCampaign: \`${manifest.id}\`\nCampaign hash: \`${manifest.campaignHash}\`\nReviewer ID: \`${reviewer.id}\`\n`,
+    );
+  }
+  await writeTextExclusive(
+    join(directory, 'review-items.md'),
+    reviewDossierMarkdown(canonicalReviewContext.bank),
+  );
+  await writeJsonExclusive(
+    join(directory, 'review-items.json'),
+    buildReviewDossier(canonicalReviewContext.bank),
+  );
+  console.log(
+    `Created ${campaignId} (${manifest.campaignHash}): ${manifest.questions.length} questions, 338 criteria per reviewer, ${manifest.reviewers.length} reviewer packs.`,
+  );
+});
