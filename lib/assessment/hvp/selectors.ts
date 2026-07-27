@@ -1,0 +1,97 @@
+import {
+  validateHvpCuratedAttempt,
+  validateHvpCuratedResult,
+} from '@/lib/assessment/hvp/compatibility';
+import { HVP_CURATED_BLUEPRINT_ID } from '@/lib/assessment/hvp/config';
+import { sessionIssue } from '@/lib/assessment/session/errors';
+import type { QuestionRegistry } from '@/lib/assessment/session/registry';
+import type { SessionIssue } from '@/lib/assessment/session/types';
+import type {
+  AssessmentAttemptSnapshot,
+  AssessmentResultSnapshot,
+  StoreV2,
+} from '@/lib/storage/schemas';
+
+export type HvpAttemptSelection = {
+  candidates: AssessmentAttemptSnapshot[];
+  compatibleAttempt?: AssessmentAttemptSnapshot;
+  issues: SessionIssue[];
+};
+
+function selectCandidates(
+  candidates: AssessmentAttemptSnapshot[],
+  registry: QuestionRegistry,
+): HvpAttemptSelection {
+  const snapshots = candidates.map((candidate) => structuredClone(candidate));
+  if (snapshots.length === 0) return { candidates: [], issues: [] };
+  const issues: SessionIssue[] = [];
+  if (snapshots.length > 1) {
+    issues.push(sessionIssue(
+      'PILOT_MULTIPLE_ACTIVE_ATTEMPTS',
+      'Multiple active Human Visual Perception curated attempts require recovery.',
+    ));
+  }
+  snapshots.forEach((candidate) => {
+    const compatible = validateHvpCuratedAttempt(candidate, registry);
+    if (!compatible.ok) issues.push(...compatible.issues);
+  });
+  return {
+    candidates: snapshots,
+    compatibleAttempt: snapshots.length === 1 && issues.length === 0
+      ? snapshots[0]
+      : undefined,
+    issues,
+  };
+}
+
+export function selectActiveHvpAttempt(
+  store: StoreV2,
+  registry: QuestionRegistry,
+): HvpAttemptSelection {
+  return selectCandidates(
+    Object.values(store.assessment.activeAttempts).filter(
+      (attempt) => attempt.blueprintId === HVP_CURATED_BLUEPRINT_ID,
+    ),
+    registry,
+  );
+}
+
+export function selectHvpAttemptById(
+  store: StoreV2,
+  registry: QuestionRegistry,
+  attemptId: string,
+): HvpAttemptSelection {
+  const candidate = store.assessment.activeAttempts[attemptId];
+  if (!candidate) {
+    return {
+      candidates: [],
+      issues: [sessionIssue(
+        'ATTEMPT_NOT_FOUND',
+        `Assessment attempt "${attemptId}" was not found.`,
+        { attemptId },
+      )],
+    };
+  }
+  if (candidate.blueprintId !== HVP_CURATED_BLUEPRINT_ID) {
+    return {
+      candidates: [],
+      issues: [sessionIssue(
+        'PILOT_BLUEPRINT_MISMATCH',
+        'This assessment does not belong to OPT 374 curated practice.',
+        { attemptId },
+      )],
+    };
+  }
+  return selectCandidates([candidate], registry);
+}
+
+export function selectLatestCompatibleHvpResult(
+  store: StoreV2,
+  registry: QuestionRegistry,
+): AssessmentResultSnapshot | undefined {
+  return Object.values(store.assessment.results)
+    .filter((result) => result.blueprintId === HVP_CURATED_BLUEPRINT_ID)
+    .filter((result) => validateHvpCuratedResult(result, registry).ok)
+    .map((result) => structuredClone(result))
+    .sort((left, right) => right.submittedAt.localeCompare(left.submittedAt))[0];
+}

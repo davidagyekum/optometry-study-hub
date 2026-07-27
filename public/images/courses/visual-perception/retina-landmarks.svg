@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Original posterior eye landmark schematic</title>
+  <desc id="desc">A warm circular field with a bright nasal landmark, a darker temporal landmark, and branching vessels.</desc>
+  <defs>
+    <radialGradient id="field" cx="50%" cy="48%" r="60%">
+      <stop offset="0" stop-color="#f8bd72"/>
+      <stop offset="1" stop-color="#c96b45"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="800" fill="#f6f1e8"/>
+  <ellipse id="posterior-field" cx="600" cy="400" rx="535" ry="350" fill="url(#field)" stroke="#17375e" stroke-width="12"/>
+  <ellipse id="bright-landmark" cx="360" cy="400" rx="86" ry="104" fill="#ffe9b8" stroke="#9a5a39" stroke-width="10"/>
+  <circle id="dark-landmark" cx="730" cy="410" r="48" fill="#884932" opacity=".82"/>
+  <circle cx="730" cy="410" r="11" fill="#4d2b2d"/>
+  <g id="vessels" fill="none" stroke-linecap="round">
+    <path d="M360 400 C470 310 575 235 790 205" stroke="#9d2634" stroke-width="18"/>
+    <path d="M360 400 C470 490 600 575 825 610" stroke="#9d2634" stroke-width="18"/>
+    <path d="M360 400 C280 310 220 250 130 225" stroke="#7e263c" stroke-width="14"/>
+    <path d="M360 400 C275 495 210 565 120 620" stroke="#7e263c" stroke-width="14"/>
+    <path d="M360 400 C490 335 615 290 875 285" stroke="#24577b" stroke-width="12"/>
+    <path d="M360 400 C500 465 635 525 890 525" stroke="#24577b" stroke-width="12"/>
+    <path d="M560 250 C625 260 690 275 760 315" stroke="#9d2634" stroke-width="9"/>
+    <path d="M585 555 C655 535 720 520 790 485" stroke="#24577b" stroke-width="8"/>
+  </g>
+</svg>

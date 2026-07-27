@@ -3,6 +3,7 @@ import '@testing-library/jest-dom/vitest';
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
+import { ControlledAssessmentSession } from '@/components/assessment/controlled/ControlledAssessmentSession';
 import { AssessmentPilotLanding } from '@/components/assessment/pilot/AssessmentPilotLanding';
 import { AssessmentPilotSession } from '@/components/assessment/pilot/AssessmentPilotSession';
 import { AQUEOUS_PILOT_BLUEPRINT_ID } from '@/lib/assessment/pilot/config';
@@ -113,6 +114,36 @@ describe('AssessmentPilotSession', () => {
     expect(screen.getByRole('heading', { name: 'Review before submission' })).toBeInTheDocument();
   });
 
+  it('uses the configured experience name in shared recovery navigation', () => {
+    const { registry, attempt } = pilotFixture();
+    render(
+      <ControlledAssessmentSession
+        attemptSelection={{
+          candidates: [{ ...attempt, mode: 'exam' }],
+          issues: [sessionIssue('PILOT_MODE_MISMATCH', 'Mode mismatch.')],
+        }}
+        experience={{
+          warning: null,
+          landingView: 'practice',
+          landingResourceId: 'human-visual-perception-curated',
+          experienceName: 'curated practice',
+          contextDescription: 'Curated practice context.',
+        }}
+        go={vi.fn()}
+        onClear={() => sessionSuccess(attempt)}
+        onDiscard={() => sessionSuccess(undefined)}
+        onMove={() => sessionSuccess(attempt)}
+        onReplace={() => sessionSuccess(attempt)}
+        onSubmit={() => sessionSuccess(makeResult(attempt))}
+        onToggleFlag={() => sessionSuccess(attempt)}
+        onUpdateDraft={() => sessionSuccess(attempt)}
+        registry={registry}
+      />,
+    );
+    expect(screen.getByRole('button', { name: 'Return to curated practice' }))
+      .toBeInTheDocument();
+  });
+
   it('does not navigate when discarding an incompatible attempt fails', () => {
     matchMedia(false);
     vi.spyOn(window, 'confirm').mockReturnValue(true);
@@ -128,6 +159,7 @@ describe('AssessmentPilotSession', () => {
       go,
       onDiscard: vi.fn(() => sessionFailure(sessionIssue('INVALID_STORE', 'Removal failed.'))),
     });
+    expect(screen.getByRole('button', { name: 'Return to pilot' })).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: 'Discard saved attempt' }));
     expect(go).not.toHaveBeenCalled();
     expect(screen.getByRole('alert')).toHaveTextContent('Removal failed.');

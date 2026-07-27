@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 900" role="img" aria-labelledby="title desc">
+  <title id="title">Original six-layer relay schematic</title>
+  <desc id="desc">Six numbered layers with alternating neutral inputs and four neutral target markers.</desc>
+  <defs>
+    <pattern id="dots" width="18" height="18" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="3" fill="#547c91"/>
+    </pattern>
+    <marker id="arrow" markerWidth="11" markerHeight="11" refX="10" refY="5.5" orient="auto">
+      <path d="M0 0 L11 5.5 L0 11 Z" fill="#17375e"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="900" fill="#f8fbfc"/>
+  <g stroke="#17375e" stroke-width="7">
+    <path d="M155 130 Q390 60 640 125 L620 225 Q390 165 170 230Z" fill="#dceff2"/>
+    <path d="M170 235 Q390 175 620 235 L600 330 Q390 275 185 335Z" fill="#dceff2"/>
+    <path d="M185 340 Q390 285 600 340 L580 435 Q390 385 200 440Z" fill="url(#dots)"/>
+    <path d="M200 445 Q390 395 580 445 L560 540 Q390 495 215 545Z" fill="url(#dots)"/>
+    <path d="M215 550 Q390 505 560 550 L540 645 Q390 605 230 650Z" fill="url(#dots)"/>
+    <path d="M230 655 Q390 615 540 655 L520 750 Q390 715 245 755Z" fill="url(#dots)"/>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#17375e">
+    <text x="385" y="170">6</text><text x="385" y="275">5</text><text x="385" y="380">4</text>
+    <text x="385" y="485">3</text><text x="385" y="590">2</text><text x="385" y="695">1</text>
+  </g>
+  <g fill="none" stroke="#17375e" stroke-width="10" marker-end="url(#arrow)">
+    <path d="M870 250 C790 260 720 300 625 330"/>
+    <path d="M870 650 C780 630 700 590 565 550" stroke-dasharray="22 16"/>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="30" fill="#17375e">
+    <text x="790" y="220">Input X</text><text x="790" y="710">Input Y</text>
+  </g>
+  <g id="neutral-targets" fill="#fff" stroke="#e06b55" stroke-width="9">
+    <circle cx="280" cy="648" r="31"/><circle cx="280" cy="270" r="31"/>
+    <circle cx="750" cy="342" r="31"/><circle cx="750" cy="558" r="31"/>
+  </g>
+</svg>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">Original retinal density comparison graph</title>
+  <desc id="desc">Two qualitative density curves plotted against retinal eccentricity with three neutral targets.</desc>
+  <rect width="1200" height="700" fill="#fbfcfd"/>
+  <g stroke="#17375e" stroke-width="7" fill="none">
+    <path d="M120 560 H1100"/>
+    <path d="M120 560 V80"/>
+  </g>
+  <g font-family="Arial, sans-serif" fill="#17375e" font-size="30">
+    <text x="475" y="640">Retinal eccentricity</text>
+    <text x="145" y="115">Relative density</text>
+    <text x="175" y="610">Nasal</text><text x="950" y="610">Temporal</text>
+    <text x="880" y="115">Curve 1</text><text x="880" y="160">Curve 2</text>
+  </g>
+  <path d="M130 520 C250 420 370 310 500 275 C545 260 560 520 585 520 C610 520 630 250 660 105 C685 250 700 520 730 520 C850 485 960 420 1090 520"
+        fill="none" stroke="#147b82" stroke-width="12"/>
+  <path d="M130 520 C250 300 350 185 475 220 C555 245 610 500 660 520 C720 380 800 170 930 210 C1010 245 1050 350 1090 520"
+        fill="none" stroke="#a64e64" stroke-width="12" stroke-dasharray="26 18"/>
+  <rect x="320" y="80" width="38" height="480" fill="#fff" opacity=".85" stroke="#8d6c54" stroke-width="5"/>
+  <g id="neutral-targets" fill="#fff" stroke="#e06b55" stroke-width="9">
+    <circle cx="564" cy="84" r="30"/><circle cx="816" cy="238" r="30"/><circle cx="264" cy="574" r="30"/>
+  </g>
+</svg>

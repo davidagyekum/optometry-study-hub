@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Original dual-route cortical processing schematic</title>
+  <desc id="desc">A lateral hemisphere with one solid upper route, one dashed lower route, and neutral target regions.</desc>
+  <defs>
+    <marker id="arrow-solid" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0 0 L12 6 L0 12 Z" fill="#1e6f85"/>
+    </marker>
+    <marker id="arrow-dash" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0 0 L12 6 L0 12 Z" fill="#9b4b6a"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="800" fill="#f8fbfc"/>
+  <path d="M125 420 C115 230 285 115 520 105 C785 92 1055 230 1080 425 C1100 585 900 690 630 680 C370 672 160 600 125 420Z"
+        fill="#e4d7c6" stroke="#17375e" stroke-width="12"/>
+  <ellipse cx="920" cy="410" rx="92" ry="160" fill="#d6e6ec" stroke="#17375e" stroke-width="8"/>
+  <path d="M910 360 C780 230 680 185 555 190" fill="none" stroke="#1e6f85" stroke-width="22" marker-end="url(#arrow-solid)"/>
+  <path d="M910 465 C780 555 680 610 545 620" fill="none" stroke="#9b4b6a" stroke-width="22" stroke-dasharray="30 20" marker-end="url(#arrow-dash)"/>
+  <g id="neutral-regions" fill-opacity=".42" stroke="#17375e" stroke-width="8">
+    <rect x="576" y="96" width="336" height="200" rx="70" fill="#6eb1bf"/>
+    <rect x="540" y="464" width="360" height="200" rx="70" fill="#c4869f"/>
+    <rect x="264" y="176" width="216" height="192" rx="65" fill="#e5ac56"/>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="32" font-weight="700">
+    <text x="690" y="205" fill="#17375e">Route A</text>
+    <text x="690" y="595" fill="#17375e">Route B</text>
+  </g>
+  <g id="neutral-targets" fill="#fff" stroke="#e06b55" stroke-width="9">
+    <circle cx="660" cy="216" r="31"/><circle cx="660" cy="496" r="31"/>
+    <circle cx="864" cy="128" r="31"/><circle cx="864" cy="560" r="31"/>
+  </g>
+</svg>
