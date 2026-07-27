@@ -80,10 +80,11 @@ Chrome tested the local application without using the Codex in-app browser.
 
 ## GitHub Actions
 
-- Implementation-head Quality run: `30285156536`; job: `90041015246`.
-- GitHub marked the job failed with an empty `steps` array, so no checkout, install, lint, type-check, test, validation, or build step executed.
+- Initial implementation-head Quality run: `30285156536`; job: `90041015246`.
+- Review-correction Quality run: `30287689686`; job: `90049442983`; head: `8537fcfb2f841e5ee7a434098283341a29fc5813`.
+- GitHub marked both jobs failed with empty `steps` arrays, so no checkout, install, lint, type-check, test, validation, or build step executed.
 - This matches the repository's known external account restriction and is not evidence of a repository-code failure.
-- A new correction-head Actions run/job is recorded in the draft PR description and final report after the review-fix commit is pushed.
+- The draft PR description and final report record the handoff-only final head and its latest Actions run/job IDs.
 
 ## Known limitations
 
