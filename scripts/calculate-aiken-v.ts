@@ -1,0 +1,15 @@
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { aqueousVitreousCandidateBank } from '@/content/question-bank/opt376/aqueous-vitreous/bank';
+import { parseAikenRatings, summarizeAikenRatings } from '@/lib/assessment/review/aikenV';
+import { aikenJson, aikenMarkdown } from '@/lib/assessment/review/reviewReport';
+const inputIndex = process.argv.indexOf('--input'); const input = inputIndex >= 0 ? process.argv[inputIndex + 1] : undefined; const flagIndex = process.argv.indexOf('--flag-below'); const flagBelow = flagIndex >= 0 ? Number(process.argv[flagIndex + 1]) : 0.8;
+if (!input) throw new Error('Usage: npm run questions:aiken -- --input <reviewed.csv> [--flag-below 0.80]'); if (!Number.isFinite(flagBelow) || flagBelow < 0 || flagBelow > 1) throw new Error('--flag-below must be between 0 and 1.');
+const parsed = parseAikenRatings(await readFile(input, 'utf8'), aqueousVitreousCandidateBank);
+if (parsed.issues.length) { for (const issue of parsed.issues) console.error(`${issue.code}${issue.row ? ` row ${issue.row}` : ''}: ${issue.message}`); process.exitCode = 1; }
+else {
+  const summary = summarizeAikenRatings(aqueousVitreousCandidateBank, parsed.ratings, flagBelow); const output = 'tmp/question-review'; await mkdir(output, { recursive: true });
+  await writeFile(`${output}/aiken-report.json`, `${JSON.stringify(aikenJson(aqueousVitreousCandidateBank.id, summary, flagBelow), null, 2)}\n`, 'utf8');
+  await writeFile(`${output}/aiken-report.md`, `${aikenMarkdown(aqueousVitreousCandidateBank.id, summary, flagBelow)}\n`, 'utf8');
+  console.log(`Aiken ratings: ${parsed.ratings.length}`); console.log(`Applicable criteria: ${summary.coverage.applicableCriterionCount}`); console.log(`Rated criteria: ${summary.coverage.ratedCriterionCount}`); console.log(`Unrated criteria: ${summary.coverage.unratedCriterionCount}`); console.log(`Unique reviewers: ${summary.coverage.uniqueReviewerCount}`); console.log(`Questions with ratings: ${summary.coverage.questionsWithRatings}/${summary.coverage.questionCount}`); console.log(`Warnings: ${summary.warnings.length}`);
+  for (const value of summary.values.filter((entry) => entry.ratingCount > 0)) console.log(`${value.questionId}@${value.questionVersion}/${value.criterion}: ${value.displayValue} (${value.status}; ${value.questionHash})`);
+}

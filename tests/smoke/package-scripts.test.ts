@@ -29,7 +29,10 @@ describe("package scripts", () => {
       test: "vitest run",
       "questions:validate": "tsx scripts/validate-question-bank.ts",
       "questions:report": "tsx scripts/report-question-bank.ts",
-      check: "npm run lint && npm run typecheck && npm run test && npm run questions:validate && npm run build",
+      "questions:blueprint": "tsx scripts/report-question-blueprint.ts",
+      "questions:review-pack": "tsx scripts/export-question-review-pack.ts",
+      "questions:aiken": "tsx scripts/calculate-aiken-v.ts",
+      check: "npm run lint && npm run typecheck && npm run test && npm run questions:validate && npm run questions:blueprint && npm run build",
     });
   });
 

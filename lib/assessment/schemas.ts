@@ -56,6 +56,17 @@ const baseQuestionShape = {
   version: z.number().int().positive(),
   estimatedSeconds: z.number().int().positive().optional(),
   allowNegativeStem: z.boolean().optional(),
+  table: z.strictObject({
+    caption: nonEmptyTextSchema,
+    columns: z.array(z.strictObject({
+      id: stableIdSchema,
+      heading: nonEmptyTextSchema,
+    })).min(2),
+    rows: z.array(z.strictObject({
+      id: stableIdSchema,
+      cells: z.record(stableIdSchema, nonEmptyTextSchema),
+    })).min(1),
+  }).optional(),
 };
 
 const orderingItemSchema = z.strictObject({
