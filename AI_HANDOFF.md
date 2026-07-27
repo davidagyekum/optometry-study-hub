@@ -20,6 +20,14 @@
 - Added the exact-string feature flag `NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE=false`; the legacy HVP notes and 50-question quiz remain the primary learner experience.
 - Result snapshots may now retain an optional blueprint ID so exact controlled-result routing and compatibility checks remain possible. The storage version and key are unchanged.
 
+## PR 9 review corrections
+
+- Both HVP result return actions now navigate to the canonical `HVP_CURATED_PRACTICE_ID`; valid-result and integrity-error regression tests assert the exact route call.
+- Runtime assembly now explicitly disables difficulty relaxation. Compatibility validation counts canonical question difficulty and Bloom levels, requires exactly 14 foundation / 26 intermediate / 10 advanced questions, and requires at least 20 Apply-or-higher questions for both attempts and results.
+- Quota-preserving mutation fixtures prove difficulty drift and higher-order drift are rejected while section, format, and family contracts remain satisfied.
+- The assembler succeeds across 1,000 deterministic seeds; every seed produces 50 unique questions, exact section/format/difficulty quotas, at least 20 higher-order questions, no relaxation, and no family count above two.
+- Shared incompatible-attempt recovery now labels its return action from `experience.experienceName`; Aqueous still renders “Return to pilot” while HVP renders “Return to curated practice.”
+
 ## Canonical content and quotas
 
 - Package SHA-256: `029dc39ff103a836445a86bb352513b231e51d266d4b2fade3f00527d00ef89a`.
@@ -28,8 +36,8 @@
 - Scored practice: exactly 50 unique current-version questions; open response excluded.
 - Practice sections: foundations 6, retina 20, LGN/V1 14, extrastriate 10.
 - Practice formats: 30 single-best-answer, 8 multiple-response, 4 matching, 2 extended-matching, 2 ordering, 1 hotspot, 1 image label, and 2 short-answer.
-- Difficulty target: 14 foundation, 26 intermediate, and 10 advanced; exact target achieved for the supplied bank.
-- The assembler preserves the section/format matrix, at least 20 Apply-or-higher questions, at most two questions per family, deterministic same-seed behavior, different-seed variation, and structured failure diagnostics.
+- Difficulty contract: exactly 14 foundation, 26 intermediate, and 10 advanced; runtime relaxation is disabled.
+- The assembler preserves the section/format matrix, at least 20 Apply-or-higher questions, at most two questions per family, deterministic same-seed behavior, different-seed variation, and structured failure diagnostics across 1,000 tested seeds.
 
 ## Preserved boundaries
 
@@ -48,7 +56,7 @@ Validation used bundled Node.js 24.14.0:
 - `npm ci`: passed from the committed lockfile; npm reported 23 existing dependency advisories and harmless optional-package cleanup warnings.
 - `npm run lint`: passed with only the four pre-existing legacy `<img>` warnings.
 - `npm run typecheck`: passed.
-- `npm run test`: passed, 90 test files and 552 tests.
+- `npm run test`: passed, 91 test files and 558 tests, including 1,000 deterministic assembler seeds.
 - `npm run questions:validate`: passed, 36 Aqueous questions, 13 objectives, 0 errors, 0 warnings.
 - `npm run questions:validate -- --strict`: passed.
 - `npm run questions:report` and `npm run questions:blueprint`: passed; Aqueous coverage and zero blueprint diagnostics remain unchanged.
@@ -75,7 +83,7 @@ Chrome tested the local application without using the Codex in-app browser.
 - Implementation-head Quality run: `30285156536`; job: `90041015246`.
 - GitHub marked the job failed with an empty `steps` array, so no checkout, install, lint, type-check, test, validation, or build step executed.
 - This matches the repository's known external account restriction and is not evidence of a repository-code failure.
-- The draft PR description and final report record the final head and its latest Actions run/job IDs after this handoff correction is pushed.
+- A new correction-head Actions run/job is recorded in the draft PR description and final report after the review-fix commit is pushed.
 
 ## Known limitations
 

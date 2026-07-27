@@ -2,6 +2,7 @@ import { GradeSummary } from '@/components/assessment/review/GradeSummary';
 import { QuestionReviewCard } from '@/components/assessment/review/QuestionReviewCard';
 import { HvpPracticeWarning } from '@/components/assessment/hvp/HvpPracticeWarning';
 import type { GoToRoute } from '@/hooks/useClientRoute';
+import { HVP_CURATED_PRACTICE_ID } from '@/lib/assessment/hvp/config';
 import { gradeAssessmentResult } from '@/lib/assessment/grading/gradeResult';
 import type { GradingIssue } from '@/lib/assessment/grading/types';
 import type { QuestionRegistry } from '@/lib/assessment/session/registry';
@@ -31,7 +32,7 @@ function IntegrityError({
         </details>
         <button
           className="secondary"
-          onClick={() => go('practice', 'human-visual-perception')}
+          onClick={() => go('practice', HVP_CURATED_PRACTICE_ID)}
           type="button"
         >
           Return to curated practice
@@ -84,7 +85,7 @@ export function HvpPracticeResults({
     <div className="pilot-results-page">
       <button
         className="back"
-        onClick={() => go('practice', 'human-visual-perception')}
+        onClick={() => go('practice', HVP_CURATED_PRACTICE_ID)}
         type="button"
       >
         ← Back to curated practice

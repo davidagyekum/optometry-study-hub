@@ -139,7 +139,7 @@ export function ControlledAssessmentSession({
           </details>
           <div>
             <button className="secondary" onClick={() => go(experience.landingView, experience.landingResourceId)} type="button">
-              Return to pilot
+              Return to {experience.experienceName}
             </button>
             {candidate ? (
               <>

@@ -87,11 +87,11 @@ Exact format quotas:
 | Short answer | 2 |
 
 The assembler first preserves total, section, and format quotas. It then
-targets 14 foundation, 26 intermediate, and 10 advanced questions, requires at
-least 20 Apply-or-higher questions, and limits each question family to two
-members. If exact difficulty becomes impossible in a future bank version, it
-minimizes absolute difficulty deviation deterministically without weakening the
-hard quotas or higher-order minimum. Missing required cells produce structured
+requires exactly 14 foundation, 26 intermediate, and 10 advanced questions,
+requires at least 20 Apply-or-higher questions, and limits each question family
+to two members. Runtime assembly disables difficulty relaxation; an incompatible
+attempt or result fails closed if either the exact difficulty distribution or
+higher-order minimum drifts. Missing required cells produce structured
 diagnostics.
 
 Seeded assembly is deterministic: the same bank and seed produce the same set,

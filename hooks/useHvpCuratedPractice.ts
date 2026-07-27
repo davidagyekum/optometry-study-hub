@@ -103,6 +103,7 @@ export function useHvpCuratedPractice({
     const assembly = assembleHvpCuratedPractice({
       questions: humanVisualPerceptionCandidateBank.questions,
       seed,
+      allowDifficultyRelaxation: false,
     });
     if (!assembly.ok) {
       return sessionFailure(assembly.issues.map((issue) => sessionIssue(

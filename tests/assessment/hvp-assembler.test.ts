@@ -3,6 +3,7 @@ import { humanVisualPerceptionCandidateBank } from '@/content/question-bank/opt3
 import {
   assembleHvpCuratedPractice,
   createHvpSeededRandom,
+  HVP_MINIMUM_HIGHER_ORDER_QUESTIONS,
   HVP_PRACTICE_DIFFICULTY_TARGETS,
   HVP_PRACTICE_FORMAT_TARGETS,
   HVP_PRACTICE_SECTION_TARGETS,
@@ -52,6 +53,39 @@ describe('OPT 374 curated-practice assembler', () => {
       (question) => question.familyId,
     )))).toBeLessThanOrEqual(2);
   });
+
+
+  it('satisfies every hard assembly contract across 1,000 deterministic seeds', () => {
+    for (let index = 0; index < 1_000; index += 1) {
+      const seed = `seed-robustness-${index}`;
+      const result = assembleHvpCuratedPractice({
+        questions: humanVisualPerceptionCandidateBank.questions,
+        seed,
+        allowDifficultyRelaxation: false,
+      });
+      expect(result.ok, seed).toBe(true);
+      if (!result.ok) continue;
+      const { questions } = result.value;
+      expect(questions, seed).toHaveLength(50);
+      expect(new Set(result.value.questionIds).size, seed).toBe(50);
+      expect(countBy(questions, (question) => question.sectionId), seed).toEqual(
+        HVP_PRACTICE_SECTION_TARGETS,
+      );
+      expect(countBy(questions, (question) => question.format), seed).toEqual(
+        HVP_PRACTICE_FORMAT_TARGETS,
+      );
+      expect(countBy(questions, (question) => question.difficulty), seed).toEqual(
+        HVP_PRACTICE_DIFFICULTY_TARGETS,
+      );
+      expect(result.value.higherOrderCount, seed)
+        .toBeGreaterThanOrEqual(HVP_MINIMUM_HIGHER_ORDER_QUESTIONS);
+      expect(result.value.usedDifficultyRelaxation, seed).toBe(false);
+      expect(Math.max(...Object.values(countBy(
+        questions,
+        (question) => question.familyId,
+      ))), seed).toBeLessThanOrEqual(2);
+    }
+  }, 30_000);
 
   it('is stable for one seed and varies under another seed', () => {
     const first = assembleHvpCuratedPractice({

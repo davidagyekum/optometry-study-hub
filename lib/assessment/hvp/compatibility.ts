@@ -7,6 +7,8 @@ import {
   HVP_CURATED_POLICY,
 } from '@/lib/assessment/hvp/config';
 import {
+  HVP_MINIMUM_HIGHER_ORDER_QUESTIONS,
+  HVP_PRACTICE_DIFFICULTY_TARGETS,
   HVP_PRACTICE_FORMAT_TARGETS,
   HVP_PRACTICE_SECTION_TARGETS,
 } from '@/lib/assessment/hvp/assembler';
@@ -26,6 +28,8 @@ import type {
   AssessmentAttemptSnapshot,
   AssessmentResultSnapshot,
 } from '@/lib/storage/schemas';
+
+const HIGHER_ORDER_LEVELS = new Set(['apply', 'analyze', 'evaluate', 'create']);
 
 function increment(record: Record<string, number>, key: string): void {
   record[key] = (record[key] ?? 0) + 1;
@@ -89,13 +93,17 @@ function identityIssues(
 
   const sections: Record<string, number> = {};
   const formats: Record<string, number> = {};
+  const difficulties: Record<string, number> = {};
   const families: Record<string, number> = {};
+  let higherOrderCount = 0;
   for (const questionId of snapshot.orderedQuestionIds) {
     const entry = registry.getEntry(questionId);
     if (!entry) continue;
     increment(sections, entry.sectionId);
     increment(formats, entry.format);
+    increment(difficulties, entry.question.difficulty);
     increment(families, entry.familyId);
+    if (HIGHER_ORDER_LEVELS.has(entry.question.bloomLevel)) higherOrderCount += 1;
     if (entry.format === 'open_response') {
       issues.push(sessionIssue(
         'PILOT_QUESTION_SET_MISMATCH',
@@ -128,6 +136,22 @@ function identityIssues(
         { path: 'orderedQuestionIds' },
       ));
     }
+  }
+  for (const [difficulty, expected] of Object.entries(HVP_PRACTICE_DIFFICULTY_TARGETS)) {
+    if ((difficulties[difficulty] ?? 0) !== expected) {
+      issues.push(sessionIssue(
+        'PILOT_QUESTION_SET_MISMATCH',
+        `Difficulty "${difficulty}" requires ${expected} questions.`,
+        { path: 'orderedQuestionIds' },
+      ));
+    }
+  }
+  if (higherOrderCount < HVP_MINIMUM_HIGHER_ORDER_QUESTIONS) {
+    issues.push(sessionIssue(
+      'PILOT_QUESTION_SET_MISMATCH',
+      `Curated practice requires at least ${HVP_MINIMUM_HIGHER_ORDER_QUESTIONS} Apply-or-higher questions.`,
+      { path: 'orderedQuestionIds' },
+    ));
   }
   if (Object.values(families).some((count) => count > 2)) {
     issues.push(sessionIssue(

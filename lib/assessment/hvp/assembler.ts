@@ -71,6 +71,8 @@ export const HVP_PRACTICE_DIFFICULTY_TARGETS = {
   advanced: 10,
 } as const;
 
+export const HVP_MINIMUM_HIGHER_ORDER_QUESTIONS = 20;
+
 const DIFFICULTIES: Difficulty[] = ['foundation', 'intermediate', 'advanced'];
 const HIGHER_ORDER = new Set(['apply', 'analyze', 'evaluate', 'create']);
 
@@ -270,7 +272,7 @@ function findDifficultyAllocation(
 
   const targetKey = DIFFICULTIES.map((difficulty) => target[difficulty]).join(':');
   const resolved = states.get(targetKey);
-  return resolved && resolved.higherCapacity >= 20
+  return resolved && resolved.higherCapacity >= HVP_MINIMUM_HIGHER_ORDER_QUESTIONS
     ? resolved.allocations
     : undefined;
 }
@@ -316,7 +318,7 @@ function selectQuestions(
 export function assembleHvpCuratedPractice({
   questions,
   seed,
-  allowDifficultyRelaxation = true,
+  allowDifficultyRelaxation = false,
 }: {
   questions: readonly AssessmentQuestion[];
   seed: string | number;
@@ -367,7 +369,7 @@ export function assembleHvpCuratedPractice({
     const higherOrderCount = selected.filter(
       (question) => HIGHER_ORDER.has(question.bloomLevel),
     ).length;
-    if (higherOrderCount < 20) continue;
+    if (higherOrderCount < HVP_MINIMUM_HIGHER_ORDER_QUESTIONS) continue;
     const difficultyDeviation = DIFFICULTIES.reduce(
       (total, difficulty) => total + Math.abs(
         target[difficulty] - HVP_PRACTICE_DIFFICULTY_TARGETS[difficulty],
