@@ -6,8 +6,10 @@
 - Base branch: `main`
 - Exact base commit: `a1b43c79adc92d2e2402c8913ee5f85b7931f5e0`
 - Suggested title: **Add evidence-bound expert-review campaigns and promotion-readiness gates**
-- Draft PR URL, implementation commit, exact final head, and final Actions IDs are recorded after publication. The exact final head also remains in the PR description because a committed file cannot contain the SHA produced by its own commit.
-- Status: implementation and local validation complete; draft publication pending; no deployment; PR 9 not started.
+- Draft PR: https://github.com/davidagyekum/optometry-study-hub/pull/8
+- Implementation commit: `a8b1d9a3aa8458be8aa0e6d8db4ee3d4a31bd695`.
+- The exact final head remains in the PR description because a committed file cannot contain the SHA produced by its own commit.
+- Status: implementation, local validation, and draft publication complete; no deployment; PR 9 not started.
 
 ## Implemented contracts
 
@@ -76,7 +78,11 @@ Chrome tested the local site without using the in-app browser.
 
 ## GitHub Actions
 
-The final run ID, job ID, and whether the steps array is empty will be recorded in the draft PR description after the branch is pushed. A zero-step external account failure is not a repository test failure.
+- Initial pull-request run: `30233643720` (`Quality` run 34).
+- Job: `89877082067` (`quality`).
+- GitHub marked the job failed before executing any steps; the connector returned `steps: null`.
+- This is the repository's known external account restriction, not a failure of checkout, install, lint, type-checking, tests, question validation, or build.
+- The PR description records the latest final-head run and job IDs after the handoff commit is pushed.
 
 ## Known limitations
 
