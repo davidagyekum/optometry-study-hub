@@ -30,6 +30,14 @@ describe('canonical Aqueous and Vitreous candidate bank', () => {
     expect(newQuestions).toHaveLength(27);
     for (const question of newQuestions) { const serialized = JSON.stringify(question); expect(serialized).not.toMatch(/all of the above|none of the above/i); if (question.difficulty !== 'foundation') expect(question.misconceptionTags.length).toBeGreaterThan(0); if (/\b(not|except|false|incorrect|least)\b/i.test(question.stem)) expect(question.allowNegativeStem).toBe(true); if (question.format === 'single_best_answer' || question.format === 'multiple_response' || question.format === 'extended_matching') expect(question.options.every((option) => option.rationale?.trim())).toBe(true); if (question.format === 'ordering') expect(question.items.every((item) => item.rationale?.trim())).toBe(true); if (question.format === 'matching') expect(question.choices.every((choice) => choice.rationale?.trim())).toBe(true); if (question.format === 'image_label') expect(question.labels.every((item) => item.rationale?.trim())).toBe(true); if (question.format === 'image_hotspot') for (const region of question.regions) expect(region.interactionLabel.toLowerCase()).not.toBe(region.label.toLowerCase()); }
   });
+  it('uses mutually exclusive extended-matching categories without option reuse', () => {
+    const question = aqueousVitreousCandidateBank.questions.find((entry) => entry.id === 'aqueous-flow-extended-001'); expect(question?.format).toBe('extended_matching'); if (question?.format !== 'extended_matching') return;
+    expect(question.reuseOptions).toBe(false);
+    expect(question.correctAnswers).toEqual({ 'schlemm-tracer': 'conventional-route', 'ciliary-tracer': 'unconventional-route', 'venous-rise': 'venous-constraint' });
+    expect(new Set(Object.values(question.correctAnswers)).size).toBe(question.stems.length);
+    expect(question.options.map((option) => option.id)).toEqual(['conventional-route', 'unconventional-route', 'venous-constraint', 'vitreous-route']);
+    expect(question.options.find((option) => option.id === 'venous-constraint')?.text).not.toMatch(/conventional.*pathway/i);
+  });
   it('keeps the revised table stimuli independent from their answer maps', () => {
     for (const questionId of ['aqueous-production-matching-001', 'vitreous-anatomy-matching-001']) {
       const question = aqueousVitreousCandidateBank.questions.find((entry) => entry.id === questionId); expect(question?.format).toBe('matching'); if (!question || question.format !== 'matching') continue;

@@ -160,3 +160,6 @@ Review evidence must remain self-contained and exact. The exported row's bank, q
 A table stimulus must add evidence that requires interpretation. It must not reproduce each prompt already paired with its correct answer. Tests protect the production-process and vitreous-landmark matching items against complete mapping leakage. SBA distractors must remain in the same conceptual category and represent plausible misconceptions.
 
 An automated UTF-8 guard scans relevant source, content, scripts, documentation, and fixtures for common mojibake sequences and the Unicode replacement character while allowing valid Unicode punctuation, arrows, multiplication signs, degree signs, and scientific symbols.
+## Pilot and extended-matching review safeguards
+
+A feature-gated subset must import its preserved items directly; it must not import a full candidate bank and filter at runtime when that would pull hidden candidates into the client graph. Extended-matching options that represent overlapping levels of the same pathway must be redesigned as mutually exclusive categories. Declare `reuseOptions: false` when each option is intended to be used once.

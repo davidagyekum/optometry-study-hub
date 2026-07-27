@@ -61,7 +61,7 @@ Validation used bundled Node.js 24.14.0:
 - `npm ci --include=optional`: passed; npm reported existing dependency advisories and harmless Windows optional-package cleanup warnings.
 - `npm run lint`: passed with only the four pre-existing legacy `<img>` warnings.
 - `npm run typecheck`: passed.
-- `npm run test`: passed, 66 test files and 400 tests.
+- `npm run test`: passed, 66 test files and 412 tests.
 - `npm run questions:validate`: passed, 36 questions, 13 objectives, 0 errors, 0 warnings.
 - `npm run questions:validate -- --strict`: passed.
 - `npm run questions:report`: passed with exact declared coverage.
@@ -85,3 +85,13 @@ Correction run [30228425600](https://github.com/davidagyekum/optometry-study-hub
 - Aiken's V is descriptive evidence only and never approves an item automatically.
 - The four existing `<img>` lint warnings remain outside this PR's behavior-preserving scope.
 - GitHub Actions cannot execute until the external account restriction is resolved.
+## Final four-finding correction
+
+A subsequent review identified four remaining contracts, all now corrected on `codex/pr7`:
+
+1. `pilotSubset.ts` no longer imports the assembled 36-question bank. A recursive import-graph test proves that its only question module is `questions/preservedPilot.ts` and that `bank.ts` plus all 27 hidden candidate modules are unreachable.
+2. `aqueous-flow-extended-001` now uses mutually exclusive conventional-route, unconventional-route, and downstream venous-pressure-constraint categories with three unique mappings and explicit `reuseOptions: false`.
+3. The UTF-8 guard now detects the broader `U+00C3 U+0080–U+00BF` corruption family plus common Windows-1252 punctuation variants. Predicate tests cover misdecoded é, multiplication-sign, and pound-sign byte pairs while valid `é`, `×`, `£`, punctuation, and scientific text remain allowed.
+4. The expert dossier, every criterion evidence object, and image source candidates now contain the registered union of question and objective sources—the same union used by the evidence hash. A real image-label candidate test proves an objective-only source is present throughout the exported evidence.
+
+Final post-correction validation passed with 66 test files and 412 tests, strict question validation, blueprint/report generation, the 338-row dossier export, Aiken fixture, production build, and `git diff --check`. The exact final commit and PR head are recorded in the draft PR and final Codex report. All prior scope boundaries remain: 36 draft candidates, nine unchanged pilot semantic hashes, disabled pilot flag, no deployment, no PR 8, and no live quiz/storage/UI change.

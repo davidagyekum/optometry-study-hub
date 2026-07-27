@@ -58,3 +58,6 @@ This is author self-review only, not independent academic approval. Every item w
 | vitreous-clinical-extended-001 | Pass; urgency categories remain clinically distinguishable. |
 | vitreous-clinical-short-001 | Pass after redesign as examination-based Apply/error analysis. |
 | vitreous-clinical-open-response-002 | Pass after quotation repair; sample and rubric support Create. |
+## Extended-matching exclusivity correction
+
+`aqueous-flow-extended-001` now separates two anatomical routes from one downstream pressure constraint. Its correct categories are conventional trabecular route, unconventional uveoscleral route, and episcleral venous-pressure constraint; `reuseOptions` is explicitly `false`, and every stem maps to a unique category.

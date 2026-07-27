@@ -10,9 +10,12 @@ function stableValue(value: unknown): unknown {
   if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).sort(([left], [right]) => left.localeCompare(right)).map(([key, entry]) => [key, stableValue(entry)]));
   return value;
 }
-export function reviewQuestionHash(question: AssessmentQuestion, objective: LearningObjective, bankSources: SourceReference[]): string {
+export function reviewSources(question: AssessmentQuestion, objective: LearningObjective, bankSources: SourceReference[]): SourceReference[] {
   const sourceIds = new Set([...question.sources.map((source) => source.id), ...objective.sourceIds]);
-  const sourceIdentities = bankSources.filter((source) => sourceIds.has(source.id)).map((source) => ({ id: source.id, title: source.title, locator: source.locator, url: source.url, kind: source.kind }));
+  return bankSources.filter((source) => sourceIds.has(source.id));
+}
+export function reviewQuestionHash(question: AssessmentQuestion, objective: LearningObjective, bankSources: SourceReference[]): string {
+  const sourceIdentities = reviewSources(question, objective, bankSources).map((source) => ({ id: source.id, title: source.title, locator: source.locator, url: source.url, kind: source.kind }));
   const evidence = stableValue({ question, objective, sourceIdentities });
   return createHash('sha256').update(JSON.stringify(evidence), 'utf8').digest('hex');
 }
@@ -53,7 +56,7 @@ export function parseCsv(text: string): ParsedCsv {
   return { rows, issues };
 }
 
-function imageAudit(question: AssessmentQuestion): object | undefined {
+function imageAudit(question: AssessmentQuestion, sources: SourceReference[]): object | undefined {
   if (!('image' in question)) return undefined;
   const knownAsset = question.image.src.includes('05-vitreous-anatomy')
     ? { attribution: 'National Eye Institute existing module figure', rightsStatus: 'attributed-nei-asset-pending-expert-confirmation' }
@@ -66,17 +69,17 @@ function imageAudit(question: AssessmentQuestion): object | undefined {
     coordinates: question.format === 'image_hotspot' ? question.regions : question.targets,
     ...knownAsset,
     auditNote: 'Existing attributed educational asset; source attribution, reuse basis, and coordinates require expert confirmation before approval.',
-    sourceCandidates: question.sources.map((source) => ({ id: source.id, title: source.title, url: source.url })),
+    sourceCandidates: sources.map((source) => ({ id: source.id, title: source.title, locator: source.locator, url: source.url, kind: source.kind })),
   };
 }
-export function criterionEvidence(question: AssessmentQuestion, criterion: ReviewCriterion): object {
-  const common = { stem: question.stem, explanation: question.explanation, objectiveId: question.objectiveId, bloomLevel: question.bloomLevel, difficulty: question.difficulty, sources: question.sources };
+export function criterionEvidence(question: AssessmentQuestion, criterion: ReviewCriterion, sources: SourceReference[]): object {
+  const common = { stem: question.stem, explanation: question.explanation, objectiveId: question.objectiveId, bloomLevel: question.bloomLevel, difficulty: question.difficulty, sources };
   switch (criterion.id) {
-    case 'distractor-quality': return { options: 'options' in question ? question.options : 'choices' in question ? question.choices : undefined, correctAnswer: correctAnswer(question) };
-    case 'rationale-quality': return { question, correctAnswer: correctAnswer(question) };
-    case 'component-independence': return { components: componentEvidence(question), correctAnswer: correctAnswer(question) };
-    case 'image-accessibility': case 'image-coordinate-accuracy': case 'image-rights': return imageAudit(question) ?? {};
-    case 'rubric-quality': return question.format === 'open_response' ? { rubric: question.rubric, sampleAnswer: question.sampleAnswer } : {};
+    case 'distractor-quality': return { ...common, options: 'options' in question ? question.options : 'choices' in question ? question.choices : undefined, correctAnswer: correctAnswer(question) };
+    case 'rationale-quality': return { ...common, question, correctAnswer: correctAnswer(question) };
+    case 'component-independence': return { ...common, components: componentEvidence(question), correctAnswer: correctAnswer(question) };
+    case 'image-accessibility': case 'image-coordinate-accuracy': case 'image-rights': return { ...common, ...(imageAudit(question, sources) ?? {}) };
+    case 'rubric-quality': return question.format === 'open_response' ? { ...common, rubric: question.rubric, sampleAnswer: question.sampleAnswer } : common;
     default: return common;
   }
 }
@@ -111,8 +114,8 @@ export function buildReviewDossier(bank: QuestionBank): object {
     questions: bank.questions.map((question) => {
       const objective = objectives.get(question.objectiveId);
       if (!objective) throw new Error(`Question ${question.id} has no canonical objective.`);
-      const criteria = applicableCriteria(question.format);
-      return { questionHash: reviewQuestionHash(question, objective, bank.sources), question, objective, sources: question.sources, imageAudit: imageAudit(question), applicableCriteria: criteria.map((criterion) => ({ ...criterion, evidence: criterionEvidence(question, criterion) })) };
+      const criteria = applicableCriteria(question.format); const sources = reviewSources(question, objective, bank.sources);
+      return { questionHash: reviewQuestionHash(question, objective, bank.sources), question, objective, sources, imageAudit: imageAudit(question, sources), applicableCriteria: criteria.map((criterion) => ({ ...criterion, evidence: criterionEvidence(question, criterion, sources) })) };
     }),
   };
 }

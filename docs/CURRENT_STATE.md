@@ -93,3 +93,6 @@ Question validation and reporting now use the canonical bank. `questions:bluepri
 ## PR 7 review correction state
 
 The 36-question Aqueous and Vitreous candidate bank remains draft-only and the exact nine-question pilot remains disabled by default. The expert export now generates a 338-row evidence-bound CSV plus complete Markdown/JSON item dossiers. No real reviewer identity, rating, reviewed status, or approved status is present. Aiken reporting uses only `overall-content-validity` for per-question V and reports the full applicable/rated/unrated matrix. The learner-facing application, StoreV2, legacy 400-question bank, and pilot feature gate are unchanged.
+## Final PR 7 review isolation correction
+
+The disabled nine-question pilot is assembled directly from `questions/preservedPilot.ts`, filtered objectives, and filtered registered sources. Its import graph does not reach `bank.ts` or any of the 27 hidden candidate-question modules. The canonical 36-question authoring bank remains available only to authoring, validation, blueprint, and expert-review tooling.

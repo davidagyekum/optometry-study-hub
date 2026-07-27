@@ -42,3 +42,6 @@ Blank rows are retained so the report can show the complete expected coverage ma
 ## Decision boundary
 
 Ratings and Aiken's V support structured discussion. They do not change `reviewStatus`, replace factual discussion, establish a universal validity threshold, or prove that an item is safe for production. An independent subject expert must resolve comments, verify claims and images, and explicitly approve a later item version through the content-review policy.
+## Objective-source completeness
+
+The dossier and all criterion/image evidence use the union of question-level and objective-level registered source identities. This is the same source-identity union covered by the deterministic evidence hash, so an expert can inspect every source that contributes to the reviewed objective even when a particular question cites only a subset directly.

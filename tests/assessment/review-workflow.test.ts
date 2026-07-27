@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { aqueousVitreousCandidateBank } from '@/content/question-bank/opt376/aqueous-vitreous/bank';
 import { calculateAikenValue, normalizeReviewerId, parseAikenRatings, summarizeAikenRatings } from '@/lib/assessment/review/aikenV';
 import { applicableCriteria } from '@/lib/assessment/review/criteria';
+import type { SourceReference } from '@/lib/assessment/types';
 import { buildReviewDossier, buildReviewPackRows, criterionEvidence, REVIEW_PACK_HEADERS, reviewDossierMarkdown, reviewQuestionHash, reviewRowsToCsv } from '@/lib/assessment/review/reviewPack';
 
 const canonicalRow = buildReviewPackRows(aqueousVitreousCandidateBank).find((entry) => entry.questionId === 'aqueous-flow-sba-001' && entry.criterion === 'overall-content-validity')!;
@@ -94,13 +95,13 @@ describe('self-contained expert review dossier', () => {
     for (const reviewRow of first) { const question = aqueousVitreousCandidateBank.questions.find((item) => item.id === reviewRow.questionId)!; expect(applicableCriteria(question.format).map((criterion) => criterion.id)).toContain(reviewRow.criterion); expect(reviewRow.reviewerId).toBe(''); expect(reviewRow.rating).toBe(''); }
   });
   it('contains complete question structures, objectives, sources, answers, and criterion evidence', () => {
-    const dossier = buildReviewDossier(aqueousVitreousCandidateBank) as { questions: { question: typeof aqueousVitreousCandidateBank.questions[number]; objective: { statement: string }; sources: { title: string }[]; applicableCriteria: { id: string; definition?: string; evidence: object }[]; imageAudit?: { rightsStatus: string } }[] };
+    const dossier = buildReviewDossier(aqueousVitreousCandidateBank) as { questions: { question: typeof aqueousVitreousCandidateBank.questions[number]; objective: { statement: string }; sources: SourceReference[]; applicableCriteria: { id: string; definition?: string; evidence: object }[]; imageAudit?: { rightsStatus: string } }[] };
     expect(dossier.questions).toHaveLength(36);
     for (const item of dossier.questions) {
       expect(item.question.stem).toBeDefined(); expect(item.question.explanation).toBeTruthy(); expect(item.objective.statement).toBeTruthy(); expect(item.sources.every((source) => source.title)).toBe(true);
       for (const criterion of applicableCriteria(item.question.format)) {
-        const evidence = criterionEvidence(item.question, criterion) as Record<string, unknown>; expect(Object.keys(evidence).length).toBeGreaterThan(0);
-        if (['overall-content-validity', 'relevance', 'factual-accuracy', 'clarity', 'objective-alignment', 'bloom-alignment', 'source-traceability'].includes(criterion.id)) expect(evidence).toMatchObject({ stem: item.question.stem, objectiveId: item.question.objectiveId, sources: item.question.sources });
+        const evidence = criterionEvidence(item.question, criterion, item.sources) as Record<string, unknown>; expect(Object.keys(evidence).length).toBeGreaterThan(0);
+        if (['overall-content-validity', 'relevance', 'factual-accuracy', 'clarity', 'objective-alignment', 'bloom-alignment', 'source-traceability'].includes(criterion.id)) expect(evidence).toMatchObject({ stem: item.question.stem, objectiveId: item.question.objectiveId, sources: item.sources });
         if (criterion.id === 'distractor-quality') { expect(evidence.options).toBeDefined(); expect(evidence.correctAnswer).toBeDefined(); }
         if (criterion.id === 'rationale-quality') { expect(evidence.question).toEqual(item.question); expect(evidence.correctAnswer).toBeDefined(); }
         if (criterion.id === 'component-independence') { expect(evidence.components).toBeDefined(); expect(evidence.correctAnswer).toBeDefined(); }
@@ -113,6 +114,15 @@ describe('self-contained expert review dossier', () => {
       if (item.question.format === 'short_answer') expect(item.question.acceptedAnswers.length).toBeGreaterThan(0);
     }
     const markdown = reviewDossierMarkdown(aqueousVitreousCandidateBank); expect(markdown).toContain('expert-review items'); expect(markdown).toContain('correctOptionId'); expect(markdown).toContain('correctMatches'); expect(markdown).toContain('rubric'); expect(markdown).toContain('rightsStatus');
+  });
+  it('includes objective-only source identities in dossier, criterion, and image evidence', () => {
+    const dossier = buildReviewDossier(aqueousVitreousCandidateBank) as { questions: { question: typeof aqueousVitreousCandidateBank.questions[number]; sources: { id: string }[]; applicableCriteria: { id: string; evidence: { sources: { id: string }[] } }[]; imageAudit?: { sourceCandidates: { id: string }[] } }[] };
+    const item = dossier.questions.find((entry) => entry.question.id === 'aqueous-chambers-label-001'); expect(item).toBeDefined();
+    const objectiveOnlySourceId = 'ncbi-eye-anatomy';
+    expect(item?.question.sources.map((source) => source.id)).not.toContain(objectiveOnlySourceId);
+    expect(item?.sources.map((source) => source.id)).toContain(objectiveOnlySourceId);
+    for (const criterion of item?.applicableCriteria ?? []) expect(criterion.evidence.sources.map((source) => source.id)).toContain(objectiveOnlySourceId);
+    expect(item?.imageAudit?.sourceCandidates.map((source) => source.id)).toContain(objectiveOnlySourceId);
   });
   it('accepts the committed deterministic fixture', () => {
     const parsed = parseAikenRatings(readFileSync('tests/fixtures/review/valid-ratings.csv', 'utf8'), aqueousVitreousCandidateBank); expect(parsed.issues).toEqual([]);
