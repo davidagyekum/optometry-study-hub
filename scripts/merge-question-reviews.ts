@@ -46,6 +46,8 @@ runCommand(async () => {
       '# Review submission merge report',
       '',
       `Campaign: \`${manifest.id}\``,
+      `Campaign hash: \`${manifest.campaignHash}\``,
+      `Merged hash: \`${result.merged.mergedHash}\``,
       `Input packs: ${inputPaths.length}`,
       `Coverage rows retained: ${result.merged.submissions.length}`,
       `Numeric ratings: ${result.merged.submissions.filter((row) => row.rating !== undefined).length}`,
@@ -53,10 +55,13 @@ runCommand(async () => {
       '',
       'Comments are untrusted text. The CSV convenience export may trigger spreadsheet formula handling in some software; inspect untrusted cells before opening. Canonical evidence is the JSON file.',
       '',
-      safeMarkdownJson({ inputFiles: inputPaths.map((path) => path.split(/[\\/]/).at(-1)) }),
+      safeMarkdownJson({
+        sourcePacks: result.merged.sourcePacks,
+        inputFiles: inputPaths.map((path) => path.split(/[\\/]/).at(-1)),
+      }),
     ].join('\n'),
   );
   console.log(
-    `Merged ${inputPaths.length} packs with ${result.merged.submissions.length} coverage rows.`,
+    `Merged ${inputPaths.length} packs with ${result.merged.submissions.length} coverage rows. Evidence ${result.merged.mergedHash}.`,
   );
 });

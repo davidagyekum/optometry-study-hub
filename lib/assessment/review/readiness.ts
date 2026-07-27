@@ -3,7 +3,10 @@ import type {
   QuestionReviewAnalysis,
   ReviewIssueResolution,
 } from './campaignTypes';
-import { unresolvedReviewIssues } from './issueResolutions';
+import {
+  resolutionClosesIssue,
+  unresolvedReviewIssues,
+} from './issueResolutions';
 
 export function applyReviewResolutions(
   analysis: BankReviewAnalysis,
@@ -11,13 +14,13 @@ export function applyReviewResolutions(
 ): BankReviewAnalysis {
   const questions = analysis.questions.map((question) => {
     const unresolved = unresolvedReviewIssues(question.issues, resolutions);
-    const complete =
+    const independentlyComplete =
       question.coverage.applicableCriteria ===
-      question.coverage.fullyCoveredCriteria;
+      question.coverage.independentlyCoveredCriteria;
     const state: QuestionReviewAnalysis['state'] =
       question.ratings.length === 0 && question.comments.length === 0
         ? 'not-started'
-        : !complete
+        : !independentlyComplete
           ? 'incomplete'
           : unresolved.length > 0
             ? 'requires-resolution'
@@ -26,6 +29,13 @@ export function applyReviewResolutions(
   });
   const stateCount = (state: QuestionReviewAnalysis['state']): number =>
     questions.filter((question) => question.state === state).length;
+  const allIssues = questions.flatMap((question) => question.issues);
+  const resolutionMap = new Map(
+    resolutions.map((resolution) => [resolution.issueId, resolution]),
+  );
+  const resolved = allIssues.filter((issue) =>
+    resolutionClosesIssue(issue, resolutionMap.get(issue.id)),
+  ).length;
   return {
     ...analysis,
     questions,
@@ -35,6 +45,11 @@ export function applyReviewResolutions(
       incomplete: stateCount('incomplete'),
       requiresResolution: stateCount('requires-resolution'),
       readyForHumanDecision: stateCount('ready-for-human-decision'),
+      issueStatusCounts: {
+        total: allIssues.length,
+        resolved,
+        unresolved: allIssues.length - resolved,
+      },
     },
   };
 }

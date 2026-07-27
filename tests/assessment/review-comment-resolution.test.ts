@@ -22,6 +22,7 @@ function commentAnalysis() {
       {
         name: 'reviewer-a.csv',
         csv: reviewerCsv('reviewer-a', {
+          manifest,
           rating: '5',
           commentAt: {
             questionId: 'aqueous-angle-sba-001',
@@ -30,33 +31,46 @@ function commentAnalysis() {
           },
         }),
       },
-      { name: 'reviewer-b.csv', csv: reviewerCsv('reviewer-b', { rating: '5' }) },
-      { name: 'reviewer-c.csv', csv: reviewerCsv('reviewer-c', { rating: '5' }) },
+      {
+        name: 'reviewer-b.csv',
+        csv: reviewerCsv('reviewer-b', { manifest, rating: '5' }),
+      },
+      {
+        name: 'reviewer-c.csv',
+        csv: reviewerCsv('reviewer-c', { manifest, rating: '5' }),
+      },
     ],
   }).merged!;
   const analysis = analyzeReviewCampaign({
     manifest,
-    submissions: merged.submissions,
+    merged,
     policy: reviewTestContext.policy,
   });
   return { manifest, merged, analysis };
 }
 
 describe('review issue resolutions', () => {
-  it('generates deterministic open templates and makes readiness explicit after resolution', () => {
+  it('preserves supplied resolutions in regenerated templates and readiness', () => {
     const { manifest, analysis } = commentAnalysis();
     const issues = analysis.questions.flatMap((question) => question.issues);
-    const template = openResolutionTemplate(issues);
-    expect(template.every((resolution) => resolution.status === 'open')).toBe(true);
-    const resolved = template.map((resolution) => ({
-      ...resolution,
+    const commentIssue = issues.find((issue) => issue.code === 'REVIEWER_COMMENT')!;
+    const resolved = {
+      schemaVersion: 1 as const,
+      issueId: commentIssue.id,
       status: 'resolved' as const,
       resolution: 'Synthetic fixture resolution.',
       resolvedBy: 'reviewer-c',
       resolvedAt: '2000-01-02T00:00:00.000Z',
-    }));
-    const validated = validateIssueResolutions({ value: resolved, issues, manifest });
+    };
+    const validated = validateIssueResolutions({
+      value: [resolved],
+      issues,
+      manifest,
+    });
     expect(validated.issues).toEqual([]);
+    expect(openResolutionTemplate(issues, validated.resolutions)).toContainEqual(
+      resolved,
+    );
     expect(
       applyReviewResolutions(analysis, validated.resolutions).questions.find(
         (question) => question.questionId === 'aqueous-angle-sba-001',
@@ -64,45 +78,30 @@ describe('review issue resolutions', () => {
     ).toBe('ready-for-human-decision');
   });
 
-  it.each([
-    ['missing rationale', (issueId: string) => [{ schemaVersion: 1, issueId, status: 'resolved', resolvedBy: 'reviewer-c', resolvedAt: '2000-01-02T00:00:00.000Z' }], 'REVIEW_RESOLUTION_DETAILS_REQUIRED'],
-    ['unknown issue', () => [{ schemaVersion: 1, issueId: 'unknown-issue', status: 'open' }], 'REVIEW_RESOLUTION_ISSUE_UNKNOWN'],
-    ['duplicate issue', (issueId: string) => [{ schemaVersion: 1, issueId, status: 'open' }, { schemaVersion: 1, issueId, status: 'open' }], 'REVIEW_RESOLUTION_DUPLICATE'],
-    ['unauthorized resolver', (issueId: string) => [{ schemaVersion: 1, issueId, status: 'resolved', resolution: 'Synthetic.', resolvedBy: 'outsider', resolvedAt: '2000-01-02T00:00:00.000Z' }], 'REVIEW_RESOLUTION_RESOLVER_UNAUTHORIZED'],
-  ])('rejects %s', (_label, build, code) => {
-    const { manifest, analysis } = commentAnalysis();
-    const issues = analysis.questions.flatMap((question) => question.issues);
-    expect(
-      validateIssueResolutions({
-        value: build(issues[0].id),
-        issues,
-        manifest,
-      }).issues.map((issue) => issue.code),
-    ).toContain(code);
-  });
-
-  it('changes the evidence-bundle hash when a resolution changes', () => {
+  it('changes the evidence-bundle hash when a valid resolution changes', () => {
     const { manifest, merged, analysis } = commentAnalysis();
-    const issue = analysis.questions.flatMap((question) => question.issues)[0];
+    const issue = analysis.questions
+      .flatMap((question) => question.issues)
+      .find((entry) => entry.code === 'REVIEWER_COMMENT')!;
     const first = createEvidenceBundle({
       manifest,
-      submissions: merged.submissions,
-      analysis,
+      merged,
       resolutions: [{ schemaVersion: 1, issueId: issue.id, status: 'open' }],
       policy: reviewTestContext.policy,
     });
     const second = createEvidenceBundle({
       manifest,
-      submissions: merged.submissions,
-      analysis,
-      resolutions: [{
-        schemaVersion: 1,
-        issueId: issue.id,
-        status: 'resolved',
-        resolution: 'Synthetic resolution.',
-        resolvedBy: 'reviewer-c',
-        resolvedAt: '2000-01-02T00:00:00.000Z',
-      }],
+      merged,
+      resolutions: [
+        {
+          schemaVersion: 1,
+          issueId: issue.id,
+          status: 'resolved',
+          resolution: 'Synthetic resolution.',
+          resolvedBy: 'reviewer-c',
+          resolvedAt: '2000-01-02T00:00:00.000Z',
+        },
+      ],
       policy: reviewTestContext.policy,
     });
     expect(second.hash).not.toBe(first.hash);

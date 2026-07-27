@@ -6,10 +6,13 @@ import type {
   ReviewPackEntry,
   ReviewSubmission,
 } from './campaignTypes';
+import { reviewSubmissionSchema } from './campaignSchemas';
 import { normalizeCampaignReviewerId } from './reviewerProfiles';
+import { stableReviewHash } from './stableReviewHash';
 
 export const CAMPAIGN_REVIEW_HEADERS = [
   'campaignId',
+  'campaignHash',
   'bankId',
   'questionId',
   'questionVersion',
@@ -40,6 +43,7 @@ export function campaignReviewRows(
   }
   return buildReviewPackRows(bank).map((row) => ({
     campaignId: manifest.id,
+    campaignHash: manifest.campaignHash,
     bankId: row.bankId,
     questionId: row.questionId,
     questionVersion: row.questionVersion,
@@ -75,8 +79,23 @@ function rowRecord(
   ) as Record<(typeof CAMPAIGN_REVIEW_HEADERS)[number], string>;
 }
 
-const CONTROL_CHARACTERS = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/;
+export const REVIEW_CONTROL_CHARACTERS =
+  /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/;
 export const MAX_REVIEW_COMMENT_LENGTH = 10_000;
+
+export function normalizedReviewerPackHash(input: {
+  reviewerId: string;
+  submissions: ReviewSubmission[];
+}): string {
+  return stableReviewHash({
+    reviewerId: input.reviewerId,
+    submissions: [...input.submissions].sort((left, right) =>
+      [left.questionId, left.criterion]
+        .join('|')
+        .localeCompare([right.questionId, right.criterion].join('|')),
+    ),
+  });
+}
 
 export function validateReviewerPack(input: {
   csv: string;
@@ -87,6 +106,7 @@ export function validateReviewerPack(input: {
   submissions: ReviewSubmission[];
   rows: ReviewPackEntry[];
   issues: ReviewDiagnostic[];
+  packHash?: string;
 } {
   const parsed = parseCsv(input.csv);
   const issues: ReviewDiagnostic[] = parsed.issues.map((issue) => ({
@@ -157,6 +177,7 @@ export function validateReviewerPack(input: {
     const normalizedReviewer = normalizeCampaignReviewerId(raw.reviewerId);
     const exactFields: Array<keyof ReviewPackEntry> = [
       'campaignId',
+      'campaignHash',
       'bankId',
       'questionId',
       'questionVersion',
@@ -171,10 +192,13 @@ export function validateReviewerPack(input: {
     const mismatches = exactFields.filter(
       (field) => String(expected[field]) !== raw[field],
     );
-    if (raw.campaignId !== input.manifest.id) {
+    if (
+      raw.campaignId !== input.manifest.id ||
+      raw.campaignHash !== input.manifest.campaignHash
+    ) {
       issues.push({
         code: 'REVIEW_CAMPAIGN_MISMATCH',
-        message: `Row campaign ${raw.campaignId} does not match ${input.manifest.id}.`,
+        message: `Row campaign evidence does not match immutable campaign ${input.manifest.id}.`,
         row: parsedRow.row,
       });
     }
@@ -215,7 +239,7 @@ export function validateReviewerPack(input: {
         row: parsedRow.row,
       });
     }
-    if (CONTROL_CHARACTERS.test(raw.comment)) {
+    if (REVIEW_CONTROL_CHARACTERS.test(raw.comment)) {
       issues.push({
         code: 'REVIEW_CONTROL_CHARACTER',
         message: 'Comment contains a disallowed control character.',
@@ -223,16 +247,18 @@ export function validateReviewerPack(input: {
       });
     }
     const issueCount = issues.filter((issue) => issue.row === parsedRow.row).length;
+    const normalizedComment = raw.comment.trim().length === 0 ? undefined : raw.comment;
     const entry: ReviewPackEntry = {
       ...expected,
       reviewerId: normalizedReviewer,
       rating: raw.rating,
-      comment: raw.comment,
+      comment: normalizedComment ?? '',
     };
     rows.push(entry);
     if (issueCount === 0) {
-      submissions.push({
+      const submission: ReviewSubmission = {
         campaignId: expected.campaignId,
+        campaignHash: expected.campaignHash,
         bankId: expected.bankId,
         questionId: expected.questionId,
         questionVersion: expected.questionVersion,
@@ -245,8 +271,18 @@ export function validateReviewerPack(input: {
         criterion: expected.criterion,
         reviewerId: normalizedReviewer,
         ...(raw.rating ? { rating: Number(raw.rating) } : {}),
-        ...(raw.comment ? { comment: raw.comment } : {}),
-      });
+        ...(normalizedComment ? { comment: normalizedComment } : {}),
+      };
+      const runtime = reviewSubmissionSchema.safeParse(submission);
+      if (!runtime.success) {
+        issues.push({
+          code: 'REVIEW_SUBMISSION_INVALID',
+          message: runtime.error.issues.map((issue) => issue.message).join('; '),
+          row: parsedRow.row,
+        });
+      } else {
+        submissions.push(runtime.data as ReviewSubmission);
+      }
     }
   }
   for (const expected of expectedRows) {
@@ -258,7 +294,19 @@ export function validateReviewerPack(input: {
       });
     }
   }
-  return { submissions, rows, issues };
+  return {
+    submissions,
+    rows,
+    issues,
+    ...(issues.length === 0
+      ? {
+          packHash: normalizedReviewerPackHash({
+            reviewerId: input.expectedReviewerId,
+            submissions,
+          }),
+        }
+      : {}),
+  };
 }
 
 export function submissionsToCsv(submissions: ReviewSubmission[]): string {

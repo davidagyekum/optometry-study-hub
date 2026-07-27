@@ -6,16 +6,46 @@ import type {
 } from './campaignTypes';
 import { reviewIssueResolutionSchema } from './campaignSchemas';
 
+export const NON_WAIVABLE_EVIDENCE_ISSUE_CODES = new Set([
+  'NO_REVIEW_RATINGS',
+  'MISSING_REQUIRED_CRITERION',
+  'INSUFFICIENT_REVIEWERS',
+  'STALE_REVIEW_EVIDENCE',
+  'REVIEWER_INDEPENDENCE_NOT_ATTESTED',
+]);
+
+export function resolutionClosesIssue(
+  issue: StableReviewIssue,
+  resolution?: ReviewIssueResolution,
+): boolean {
+  if (!resolution || resolution.status === 'open') return false;
+  if (NON_WAIVABLE_EVIDENCE_ISSUE_CODES.has(issue.code)) return false;
+  if (
+    issue.severity === 'blocking' &&
+    resolution.status === 'accepted-for-discussion'
+  ) {
+    return false;
+  }
+  return true;
+}
+
 export function openResolutionTemplate(
   issues: StableReviewIssue[],
+  existing: ReviewIssueResolution[] = [],
 ): ReviewIssueResolution[] {
+  const current = new Map(
+    existing.map((resolution) => [resolution.issueId, resolution]),
+  );
   return [...issues]
     .sort((left, right) => left.id.localeCompare(right.id))
-    .map((issue) => ({
-      schemaVersion: 1,
-      issueId: issue.id,
-      status: 'open',
-    }));
+    .map(
+      (issue) =>
+        current.get(issue.id) ?? {
+          schemaVersion: 1,
+          issueId: issue.id,
+          status: 'open',
+        },
+    );
 }
 
 export function validateIssueResolutions(input: {
@@ -92,21 +122,44 @@ export function validateIssueResolutions(input: {
         });
         return;
       }
+      if (NON_WAIVABLE_EVIDENCE_ISSUE_CODES.has(issue.code)) {
+        diagnostics.push({
+          code: 'REVIEW_RESOLUTION_EVIDENCE_NON_WAIVABLE',
+          message: `${issue.code} requires corrected campaign evidence and cannot be closed textually.`,
+        });
+        return;
+      }
       if (
-        resolution.status === 'not-actionable' &&
-        ['FACTUAL_ACCURACY_CONCERN', 'IMAGE_RIGHTS_CONCERN'].includes(issue.code) &&
+        ['FACTUAL_ACCURACY_CONCERN', 'IMAGE_RIGHTS_CONCERN'].includes(
+          issue.code,
+        ) &&
         !resolver.roles.includes('review-chair')
       ) {
         diagnostics.push({
           code: 'REVIEW_RESOLUTION_CHAIR_REQUIRED',
-          message: `${issue.code} can be marked not-actionable only by a review chair with rationale.`,
+          message: `${issue.code} no-change closure requires a review chair with rationale.`,
+        });
+        return;
+      }
+      if (
+        issue.severity === 'blocking' &&
+        resolution.status === 'accepted-for-discussion'
+      ) {
+        diagnostics.push({
+          code: 'REVIEW_RESOLUTION_BLOCKING_DISCUSSION_ONLY',
+          message: `${issue.code} is blocking and cannot be closed as accepted-for-discussion.`,
         });
         return;
       }
     }
     resolutions.push(resolution);
   });
-  return { resolutions, issues: diagnostics };
+  return {
+    resolutions: [...resolutions].sort((left, right) =>
+      left.issueId.localeCompare(right.issueId),
+    ),
+    issues: diagnostics,
+  };
 }
 
 export function unresolvedReviewIssues(
@@ -116,8 +169,7 @@ export function unresolvedReviewIssues(
   const resolutionMap = new Map(
     resolutions.map((resolution) => [resolution.issueId, resolution]),
   );
-  return issues.filter((issue) => {
-    const resolution = resolutionMap.get(issue.id);
-    return !resolution || resolution.status === 'open';
-  });
+  return issues.filter(
+    (issue) => !resolutionClosesIssue(issue, resolutionMap.get(issue.id)),
+  );
 }

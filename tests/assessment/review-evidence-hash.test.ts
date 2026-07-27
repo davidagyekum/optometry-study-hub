@@ -1,43 +1,42 @@
 import { describe, expect, it } from 'vitest';
-import { analyzeReviewCampaign } from '@/lib/assessment/review/reviewAnalysis';
 import { createEvidenceBundle } from '@/lib/assessment/review/reviewDecisions';
+import { mergeReviewerPacks } from '@/lib/assessment/review/mergeSubmissions';
 import { completeDecisionFixture } from './reviewDecisionFixtures';
-import { reviewTestContext } from './reviewTestFixtures';
+import {
+  rebuildValidatedMerged,
+  reviewTestContext,
+  reviewerCsv,
+  syntheticCampaign,
+} from './reviewTestFixtures';
 
 describe('review evidence-bundle hashing', () => {
-  it('changes for rating, comment, and policy changes', () => {
+  it('changes for rating, comment, and complete policy/campaign changes', () => {
     const fixture = completeDecisionFixture();
-    const withRating = fixture.merged.submissions.map((submission, index) =>
-      index === 0 ? { ...submission, rating: 4 } : submission,
+    const withRating = rebuildValidatedMerged(
+      fixture.manifest,
+      fixture.merged.submissions.map((submission, index) =>
+        index === 0 ? { ...submission, rating: 4 } : submission,
+      ),
     );
-    const ratingAnalysis = analyzeReviewCampaign({
-      manifest: fixture.manifest,
-      submissions: withRating,
-      policy: reviewTestContext.policy,
-    });
     const ratingBundle = createEvidenceBundle({
       manifest: fixture.manifest,
-      submissions: withRating,
-      analysis: ratingAnalysis,
+      merged: withRating,
       resolutions: [],
       policy: reviewTestContext.policy,
     });
     expect(ratingBundle.hash).not.toBe(fixture.bundle.hash);
 
-    const withComment = fixture.merged.submissions.map((submission, index) =>
-      index === 0
-        ? { ...submission, comment: 'Synthetic hash-change comment.' }
-        : submission,
+    const withComment = rebuildValidatedMerged(
+      fixture.manifest,
+      fixture.merged.submissions.map((submission, index) =>
+        index === 0
+          ? { ...submission, comment: 'Synthetic hash-change comment.' }
+          : submission,
+      ),
     );
-    const commentAnalysis = analyzeReviewCampaign({
-      manifest: fixture.manifest,
-      submissions: withComment,
-      policy: reviewTestContext.policy,
-    });
     const commentBundle = createEvidenceBundle({
       manifest: fixture.manifest,
-      submissions: withComment,
-      analysis: commentAnalysis,
+      merged: withComment,
       resolutions: [],
       policy: reviewTestContext.policy,
     });
@@ -47,15 +46,23 @@ describe('review evidence-bundle hashing', () => {
       ...reviewTestContext.policy,
       flagBelowAikenV: 0.81,
     };
-    const policyAnalysis = analyzeReviewCampaign({
-      manifest: fixture.manifest,
-      submissions: fixture.merged.submissions,
-      policy: changedPolicy,
+    const changedManifest = syntheticCampaign(undefined, {
+      policy: changedPolicy as typeof reviewTestContext.policy,
     });
+    const changedMerged = mergeReviewerPacks({
+      manifest: changedManifest,
+      bank: reviewTestContext.bank,
+      packs: ['reviewer-a', 'reviewer-b', 'reviewer-c'].map((reviewerId) => ({
+        name: `${reviewerId}.csv`,
+        csv: reviewerCsv(reviewerId, {
+          manifest: changedManifest,
+          rating: '5',
+        }),
+      })),
+    }).merged!;
     const policyBundle = createEvidenceBundle({
-      manifest: fixture.manifest,
-      submissions: fixture.merged.submissions,
-      analysis: policyAnalysis,
+      manifest: changedManifest,
+      merged: changedMerged,
       resolutions: [],
       policy: changedPolicy,
     });

@@ -10,7 +10,14 @@ import type {
 } from './campaignTypes';
 import { reviewCampaignManifestSchema } from './campaignSchemas';
 import { stableReviewHash } from './stableReviewHash';
-import { validateReviewerProfiles } from './reviewerProfiles';
+import {
+  normalizeReviewerProfiles,
+  validateReviewerProfiles,
+} from './reviewerProfiles';
+
+export function reviewPolicyHash(policy: ContentReviewPolicy): string {
+  return stableReviewHash(policy);
+}
 
 export function reviewBankHash(
   bank: QuestionBank,
@@ -59,6 +66,28 @@ export function reviewBankHash(
   });
 }
 
+function campaignHashEvidence(
+  manifest: Omit<ReviewCampaignManifest, 'campaignHash'>,
+): unknown {
+  return {
+    schemaVersion: manifest.schemaVersion,
+    id: manifest.id,
+    bankId: manifest.bankId,
+    bankHash: manifest.bankHash,
+    policy: manifest.policy,
+    policyHash: manifest.policyHash,
+    createdAt: manifest.createdAt,
+    questions: manifest.questions,
+    reviewers: normalizeReviewerProfiles(manifest.reviewers),
+  };
+}
+
+export function reviewCampaignHash(
+  manifest: Omit<ReviewCampaignManifest, 'campaignHash'>,
+): string {
+  return stableReviewHash(campaignHashEvidence(manifest));
+}
+
 export function createReviewCampaignManifest(input: {
   campaignId: string;
   createdAt: string;
@@ -67,15 +96,24 @@ export function createReviewCampaignManifest(input: {
   policy: ContentReviewPolicy;
   reviewers: ReviewerProfile[];
 }): ReviewCampaignManifest {
+  const validatedReviewers = validateReviewerProfiles(input.reviewers);
+  if (validatedReviewers.issues.length > 0) {
+    throw new Error(
+      validatedReviewers.issues
+        .map((issue) => `${issue.code}: ${issue.message}`)
+        .join('\n'),
+    );
+  }
   const objectives = new Map(
     input.bank.objectives.map((objective) => [objective.id, objective]),
   );
-  return {
+  const evidence: Omit<ReviewCampaignManifest, 'campaignHash'> = {
     schemaVersion: 1,
     id: input.campaignId,
     bankId: input.bank.id,
     bankHash: reviewBankHash(input.bank, input.blueprint, input.policy),
     policy: { id: input.policy.id, version: input.policy.version },
+    policyHash: reviewPolicyHash(input.policy),
     createdAt: input.createdAt,
     questions: input.bank.questions.map((question) => {
       const objective = objectives.get(question.objectiveId);
@@ -93,7 +131,11 @@ export function createReviewCampaignManifest(input: {
         ),
       };
     }),
-    reviewers: input.reviewers,
+    reviewers: validatedReviewers.profiles,
+  };
+  return {
+    ...evidence,
+    campaignHash: reviewCampaignHash(evidence),
   };
 }
 
@@ -123,8 +165,12 @@ export function validateReviewCampaignManifest(
       message: `Expected bank ${input.bank.id}; found ${manifest.bankId}.`,
     });
   }
-  const expectedHash = reviewBankHash(input.bank, input.blueprint, input.policy);
-  if (manifest.bankHash !== expectedHash) {
+  const expectedBankHash = reviewBankHash(
+    input.bank,
+    input.blueprint,
+    input.policy,
+  );
+  if (manifest.bankHash !== expectedBankHash) {
     issues.push({
       code: 'REVIEW_CAMPAIGN_BANK_STALE',
       message: 'Campaign bank hash does not match the canonical bank.',
@@ -139,6 +185,12 @@ export function validateReviewCampaignManifest(
       message: 'Campaign policy identity does not match the current policy.',
     });
   }
+  if (manifest.policyHash !== reviewPolicyHash(input.policy)) {
+    issues.push({
+      code: 'REVIEW_CAMPAIGN_POLICY_STALE',
+      message: 'Campaign policy hash does not match the complete current policy.',
+    });
+  }
   const expected = createReviewCampaignManifest({
     campaignId: manifest.id,
     createdAt: manifest.createdAt,
@@ -147,33 +199,67 @@ export function validateReviewCampaignManifest(
     policy: input.policy,
     reviewers: manifest.reviewers,
   });
-  if (manifest.questions.length !== expected.questions.length) {
+  if (
+    stableReviewHash(manifest.questions) !==
+    stableReviewHash(expected.questions)
+  ) {
     issues.push({
       code: 'REVIEW_CAMPAIGN_QUESTION_MATRIX_MISMATCH',
-      message: `Expected ${expected.questions.length} questions; found ${manifest.questions.length}.`,
-    });
-  } else {
-    expected.questions.forEach((question, index) => {
-      if (
-        stableReviewHash(manifest.questions[index]) !==
-        stableReviewHash(question)
-      ) {
-        issues.push({
-          code: 'REVIEW_CAMPAIGN_QUESTION_MATRIX_MISMATCH',
-          message: `Campaign question ${index + 1} does not match canonical evidence.`,
-        });
-      }
+      message: 'Campaign question matrix does not match canonical evidence.',
     });
   }
-  issues.push(
-    ...validateReviewerProfiles(manifest.reviewers).issues,
-  );
-  const reviewerIds = manifest.reviewers.map((reviewer) => reviewer.id);
-  if (new Set(reviewerIds).size !== reviewerIds.length) {
+  if (
+    stableReviewHash(manifest.reviewers) !==
+    stableReviewHash(expected.reviewers)
+  ) {
     issues.push({
-      code: 'REVIEWER_ID_DUPLICATE',
-      message: 'Campaign reviewer IDs must be unique.',
+      code: 'REVIEW_CAMPAIGN_REVIEWERS_NOT_NORMALIZED',
+      message: 'Campaign reviewer profiles are not in canonical normalized form.',
     });
   }
+  const withoutHash: Omit<ReviewCampaignManifest, 'campaignHash'> = {
+    schemaVersion: manifest.schemaVersion,
+    id: manifest.id,
+    bankId: manifest.bankId,
+    bankHash: manifest.bankHash,
+    policy: manifest.policy,
+    policyHash: manifest.policyHash,
+    createdAt: manifest.createdAt,
+    questions: manifest.questions,
+    reviewers: manifest.reviewers,
+  };
+  if (manifest.campaignHash !== reviewCampaignHash(withoutHash)) {
+    issues.push({
+      code: 'REVIEW_CAMPAIGN_HASH_MISMATCH',
+      message: 'Campaign hash does not match its immutable campaign evidence.',
+    });
+  }
+  if (manifest.campaignHash !== expected.campaignHash) {
+    issues.push({
+      code: 'REVIEW_CAMPAIGN_STALE',
+      message: 'Campaign evidence differs from the current canonical campaign.',
+    });
+  }
+  issues.push(...validateReviewerProfiles(manifest.reviewers).issues);
   return { manifest, issues };
+}
+
+
+export function validateCampaignDirectoryManifest(
+  existing: unknown,
+  expected: ReviewCampaignManifest,
+): ReviewDiagnostic[] {
+  const existingHash =
+    existing && typeof existing === 'object'
+      ? (existing as { campaignHash?: unknown }).campaignHash
+      : undefined;
+  return existingHash === expected.campaignHash
+    ? []
+    : [
+        {
+          code: 'REVIEW_CAMPAIGN_DIRECTORY_CONFLICT',
+          message:
+            'Existing campaign directory contains a different immutable campaign hash.',
+        },
+      ];
 }

@@ -3,6 +3,9 @@ import { aqueousVitreousReviewPolicy } from '@/content/question-bank/opt376/aque
 import {
   createReviewCampaignManifest,
   reviewBankHash,
+  reviewCampaignHash,
+  reviewPolicyHash,
+  validateCampaignDirectoryManifest,
   validateReviewCampaignManifest,
 } from '@/lib/assessment/review/campaignManifest';
 import { validateContentReviewPolicy } from '@/lib/assessment/review/policyValidation';
@@ -13,7 +16,7 @@ import {
 } from './reviewTestFixtures';
 
 describe('review policy', () => {
-  it('uses the immutable versioned project policy without claiming universal validity', () => {
+  it('uses the immutable exact project criterion policy', () => {
     expect(validateContentReviewPolicy(aqueousVitreousReviewPolicy).issues).toEqual([]);
     expect(aqueousVitreousReviewPolicy).toMatchObject({
       id: 'opt376-expert-review',
@@ -48,7 +51,7 @@ describe('review policy', () => {
           short_answer: ['image-rights'],
         },
       },
-      'REVIEW_POLICY_CRITERION_NOT_APPLICABLE',
+      'REVIEW_POLICY_FORMAT_CRITERIA_MISMATCH',
     ],
   ])('rejects invalid policy data', (policy, code) => {
     expect(validateContentReviewPolicy(policy).issues.map((issue) => issue.code)).toContain(code);
@@ -56,46 +59,91 @@ describe('review policy', () => {
 });
 
 describe('review campaign manifest', () => {
-  it('produces deterministic bank and campaign evidence with an injected timestamp', () => {
-    const firstHash = reviewBankHash(
-      reviewTestContext.bank,
-      reviewTestContext.blueprint,
-      reviewTestContext.policy,
+  it('binds normalized reviewers, the full policy, timestamp, bank, and ordered matrix', () => {
+    const manifest = syntheticCampaign();
+    expect(manifest.campaignHash).toBe(
+      reviewCampaignHash({
+        schemaVersion: manifest.schemaVersion,
+        id: manifest.id,
+        bankId: manifest.bankId,
+        bankHash: manifest.bankHash,
+        policy: manifest.policy,
+        policyHash: manifest.policyHash,
+        createdAt: manifest.createdAt,
+        questions: manifest.questions,
+        reviewers: manifest.reviewers,
+      }),
     );
-    const secondHash = reviewBankHash(
-      reviewTestContext.bank,
-      reviewTestContext.blueprint,
-      reviewTestContext.policy,
-    );
-    expect(firstHash).toBe(secondHash);
-    expect(syntheticCampaign()).toEqual(syntheticCampaign());
-    expect(syntheticCampaign().questions).toHaveLength(36);
+    expect(manifest.policyHash).toBe(reviewPolicyHash(reviewTestContext.policy));
+    expect(manifest.questions).toHaveLength(36);
+    expect(manifest.reviewers.map((reviewer) => reviewer.id)).toEqual([
+      'reviewer-a',
+      'reviewer-b',
+      'reviewer-c',
+    ]);
+    expect(
+      reviewBankHash(
+        reviewTestContext.bank,
+        reviewTestContext.blueprint,
+        reviewTestContext.policy,
+      ),
+    ).toBe(manifest.bankHash);
   });
 
   it.each([
-    ['stale hash', (manifest: ReturnType<typeof syntheticCampaign>) => ({ ...manifest, bankHash: '0'.repeat(64) }), 'REVIEW_CAMPAIGN_BANK_STALE'],
-    ['wrong policy', (manifest: ReturnType<typeof syntheticCampaign>) => ({ ...manifest, policy: { ...manifest.policy, version: 2 } }), 'REVIEW_CAMPAIGN_POLICY_MISMATCH'],
-    ['missing question', (manifest: ReturnType<typeof syntheticCampaign>) => ({ ...manifest, questions: manifest.questions.slice(1) }), 'REVIEW_CAMPAIGN_QUESTION_MATRIX_MISMATCH'],
-    ['extra question', (manifest: ReturnType<typeof syntheticCampaign>) => ({ ...manifest, questions: [...manifest.questions, manifest.questions[0]] }), 'REVIEW_CAMPAIGN_QUESTION_MATRIX_MISMATCH'],
-    ['wrong version', (manifest: ReturnType<typeof syntheticCampaign>) => ({ ...manifest, questions: manifest.questions.map((question, index) => index === 0 ? { ...question, questionVersion: 2 } : question) }), 'REVIEW_CAMPAIGN_QUESTION_MATRIX_MISMATCH'],
-    ['wrong hash', (manifest: ReturnType<typeof syntheticCampaign>) => ({ ...manifest, questions: manifest.questions.map((question, index) => index === 0 ? { ...question, questionHash: '0'.repeat(64) } : question) }), 'REVIEW_CAMPAIGN_QUESTION_MATRIX_MISMATCH'],
-    ['wrong criteria', (manifest: ReturnType<typeof syntheticCampaign>) => ({ ...manifest, questions: manifest.questions.map((question, index) => index === 0 ? { ...question, applicableCriteria: ['clarity'] } : question) }), 'REVIEW_CAMPAIGN_QUESTION_MATRIX_MISMATCH'],
-    ['duplicate reviewer', (manifest: ReturnType<typeof syntheticCampaign>) => ({ ...manifest, reviewers: [...manifest.reviewers, manifest.reviewers[0]] }), 'REVIEWER_ID_DUPLICATE'],
-  ])('detects %s', (_label, mutate, code) => {
+    ['bank hash', (manifest: ReturnType<typeof syntheticCampaign>) => ({ ...manifest, bankHash: '0'.repeat(64) }), 'REVIEW_CAMPAIGN_BANK_STALE'],
+    ['policy identity', (manifest: ReturnType<typeof syntheticCampaign>) => ({ ...manifest, policy: { ...manifest.policy, version: 2 } }), 'REVIEW_CAMPAIGN_POLICY_MISMATCH'],
+    ['policy hash', (manifest: ReturnType<typeof syntheticCampaign>) => ({ ...manifest, policyHash: '0'.repeat(64) }), 'REVIEW_CAMPAIGN_POLICY_STALE'],
+    ['createdAt', (manifest: ReturnType<typeof syntheticCampaign>) => ({ ...manifest, createdAt: '2001-01-01T00:00:00.000Z' }), 'REVIEW_CAMPAIGN_HASH_MISMATCH'],
+    ['question matrix', (manifest: ReturnType<typeof syntheticCampaign>) => ({ ...manifest, questions: manifest.questions.slice(1) }), 'REVIEW_CAMPAIGN_QUESTION_MATRIX_MISMATCH'],
+    ['reviewer independence', (manifest: ReturnType<typeof syntheticCampaign>) => ({ ...manifest, reviewers: manifest.reviewers.map((reviewer, index) => index === 0 ? { ...reviewer, independentReviewAttestation: false, conflictOfInterest: { status: 'declared' as const, description: 'Synthetic.' } } : reviewer) }), 'REVIEW_CAMPAIGN_HASH_MISMATCH'],
+    ['reviewer conflict', (manifest: ReturnType<typeof syntheticCampaign>) => ({ ...manifest, reviewers: manifest.reviewers.map((reviewer, index) => index === 0 ? { ...reviewer, conflictOfInterest: { status: 'declared' as const, description: 'Synthetic.' } } : reviewer) }), 'REVIEW_CAMPAIGN_HASH_MISMATCH'],
+    ['reviewer roles', (manifest: ReturnType<typeof syntheticCampaign>) => ({ ...manifest, reviewers: manifest.reviewers.map((reviewer, index) => index === 0 ? { ...reviewer, roles: ['assessment-reviewer' as const] } : reviewer) }), 'REVIEW_CAMPAIGN_HASH_MISMATCH'],
+    ['reviewer consent', (manifest: ReturnType<typeof syntheticCampaign>) => ({ ...manifest, reviewers: manifest.reviewers.map((reviewer, index) => index === 0 ? { ...reviewer, consentToAttribution: true } : reviewer) }), 'REVIEW_CAMPAIGN_HASH_MISMATCH'],
+  ])('detects mutated %s without a new campaign', (_label, mutate, code) => {
     expect(
-      validateReviewCampaignManifest(mutate(syntheticCampaign()), reviewTestContext).issues.map(
-        (issue) => issue.code,
-      ),
+      validateReviewCampaignManifest(mutate(syntheticCampaign()), reviewTestContext)
+        .issues.map((issue) => issue.code),
     ).toContain(code);
   });
 
-  it('does not use the current clock when a timestamp is supplied', () => {
-    const manifest = createReviewCampaignManifest({
-      campaignId: 'fixed-campaign',
+  it('refuses to overwrite a campaign directory with different immutable evidence', () => {
+    const original = syntheticCampaign();
+    const changed = syntheticCampaign(undefined, {
+      createdAt: '2001-01-01T00:00:00.000Z',
+    });
+    expect(validateCampaignDirectoryManifest(original, original)).toEqual([]);
+    expect(
+      validateCampaignDirectoryManifest(original, changed).map(
+        (issue) => issue.code,
+      ),
+    ).toContain('REVIEW_CAMPAIGN_DIRECTORY_CONFLICT');
+  });
+
+  it('changes campaign hashes for policy or reviewer evidence changes', () => {
+    const changedPolicy = {
+      ...reviewTestContext.policy,
+      flagBelowAikenV: 0.81,
+    };
+    const policyCampaign = createReviewCampaignManifest({
+      campaignId: 'test-aqueous-review',
       createdAt: '2000-01-01T00:00:00.000Z',
-      ...reviewTestContext,
+      bank: reviewTestContext.bank,
+      blueprint: reviewTestContext.blueprint,
+      policy: changedPolicy,
       reviewers: syntheticReviewers,
     });
-    expect(manifest.createdAt).toBe('2000-01-01T00:00:00.000Z');
+    const roleCampaign = createReviewCampaignManifest({
+      campaignId: 'test-aqueous-review',
+      createdAt: '2000-01-01T00:00:00.000Z',
+      ...reviewTestContext,
+      reviewers: syntheticReviewers.map((reviewer, index) =>
+        index === 0
+          ? { ...reviewer, roles: ['assessment-reviewer'] }
+          : reviewer,
+      ),
+    });
+    expect(policyCampaign.campaignHash).not.toBe(syntheticCampaign().campaignHash);
+    expect(roleCampaign.campaignHash).not.toBe(syntheticCampaign().campaignHash);
   });
 });

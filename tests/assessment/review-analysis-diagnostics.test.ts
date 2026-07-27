@@ -1,61 +1,66 @@
 import { describe, expect, it } from 'vitest';
-import { analyzeReviewCampaign } from '@/lib/assessment/review/reviewAnalysis';
-import { mergeReviewerPacks } from '@/lib/assessment/review/mergeSubmissions';
+import {
+  mergeReviewerPacks,
+  validateMergedReviewSubmissions,
+} from '@/lib/assessment/review/mergeSubmissions';
 import {
   reviewTestContext,
   reviewerCsv,
   syntheticCampaign,
 } from './reviewTestFixtures';
 
-function completeSubmissions() {
+function completeEvidence() {
   const manifest = syntheticCampaign();
   const merged = mergeReviewerPacks({
     manifest,
     bank: reviewTestContext.bank,
     packs: ['reviewer-a', 'reviewer-b', 'reviewer-c'].map((reviewerId) => ({
       name: `${reviewerId}.csv`,
-      csv: reviewerCsv(reviewerId, { rating: '5' }),
+      csv: reviewerCsv(reviewerId, { manifest, rating: '5' }),
     })),
   }).merged!;
-  return { manifest, submissions: merged.submissions };
+  return { manifest, merged };
 }
 
 describe('review-analysis evidence diagnostics', () => {
-  it('emits a stable missing-required-criterion issue when coverage evidence is absent', () => {
-    const { manifest, submissions } = completeSubmissions();
-    const question = manifest.questions[0];
-    const criterion = question.applicableCriteria[0];
-    const analysis = analyzeReviewCampaign({
-      manifest,
-      submissions: submissions.filter(
-        (row) =>
-          row.questionId !== question.questionId || row.criterion !== criterion,
-      ),
-      policy: reviewTestContext.policy,
-    });
-    expect(
-      analysis.questions
-        .find((entry) => entry.questionId === question.questionId)
-        ?.issues.some(
-          (issue) =>
-            issue.code === 'MISSING_REQUIRED_CRITERION' &&
-            issue.criterion === criterion,
+  it('rejects missing criterion rows before analysis', () => {
+    const { manifest, merged } = completeEvidence();
+    const result = validateMergedReviewSubmissions({
+      value: {
+        ...merged,
+        submissions: merged.submissions.filter(
+          (row, index) => index !== 0,
         ),
-    ).toBe(true);
+      },
+      manifest,
+      bank: reviewTestContext.bank,
+    });
+    expect(result.merged).toBeUndefined();
+    expect(result.issues.map((issue) => issue.code)).toContain(
+      'MERGED_REVIEW_MATRIX_INCOMPLETE',
+    );
   });
 
-  it('emits a stable stale-evidence issue for a mismatched question hash', () => {
-    const { manifest, submissions } = completeSubmissions();
-    const changed = submissions.map((submission, index) =>
-      index === 0 ? { ...submission, questionHash: '0'.repeat(64) } : submission,
-    );
-    const analysis = analyzeReviewCampaign({
+  it('rejects stale question hashes before Aiken or coverage calculations', () => {
+    const { manifest, merged } = completeEvidence();
+    const result = validateMergedReviewSubmissions({
+      value: {
+        ...merged,
+        submissions: merged.submissions.map((submission, index) =>
+          index === 0
+            ? { ...submission, questionHash: '0'.repeat(64) }
+            : submission,
+        ),
+      },
       manifest,
-      submissions: changed,
-      policy: reviewTestContext.policy,
+      bank: reviewTestContext.bank,
     });
-    expect(
-      analysis.questions.flatMap((question) => question.issues).map((issue) => issue.code),
-    ).toContain('STALE_REVIEW_EVIDENCE');
+    expect(result.merged).toBeUndefined();
+    expect(result.issues.map((issue) => issue.code)).toEqual(
+      expect.arrayContaining([
+        'MERGED_REVIEW_PROTECTED_METADATA_MISMATCH',
+        'MERGED_REVIEW_HASH_MISMATCH',
+      ]),
+    );
   });
 });

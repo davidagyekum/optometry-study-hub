@@ -7,6 +7,7 @@ import { normalizeIssueText, stableReviewHash } from './stableReviewHash';
 
 export function createStableReviewIssue(input: {
   campaignId: string;
+  campaignHash: string;
   question: ReviewCampaignQuestion;
   criterion?: string;
   reviewerId?: string;
@@ -25,6 +26,7 @@ export function createStableReviewIssue(input: {
     : undefined;
   const identity = stableReviewHash({
     campaignId: input.campaignId,
+    campaignHash: input.campaignHash,
     questionId: input.question.questionId,
     questionVersion: input.question.questionVersion,
     questionHash: input.question.questionHash,
@@ -37,6 +39,7 @@ export function createStableReviewIssue(input: {
     schemaVersion: 1,
     id: `${input.code.toLowerCase().replaceAll('_', '-')}-${identity}`,
     campaignId: input.campaignId,
+    campaignHash: input.campaignHash,
     questionId: input.question.questionId,
     questionVersion: input.question.questionVersion,
     questionHash: input.question.questionHash,

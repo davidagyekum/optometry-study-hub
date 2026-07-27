@@ -7,6 +7,36 @@ import { reviewerProfileSchema } from './campaignSchemas';
 export const normalizeCampaignReviewerId = (value: string): string =>
   value.trim().toLowerCase();
 
+export function normalizeReviewerProfile(
+  profile: ReviewerProfile,
+): ReviewerProfile {
+  return {
+    schemaVersion: 1,
+    id: normalizeCampaignReviewerId(profile.id),
+    roles: [...new Set(profile.roles)].sort(),
+    expertiseTags: [...new Set(profile.expertiseTags)].sort(),
+    independentReviewAttestation: profile.independentReviewAttestation,
+    conflictOfInterest:
+      profile.conflictOfInterest.status === 'none'
+        ? { status: 'none' }
+        : {
+            status: 'declared',
+            description: profile.conflictOfInterest.description.trim(),
+          },
+    consentToAttribution: profile.consentToAttribution,
+    ...(profile.displayName ? { displayName: profile.displayName.trim() } : {}),
+    ...(profile.affiliation ? { affiliation: profile.affiliation.trim() } : {}),
+  };
+}
+
+export function normalizeReviewerProfiles(
+  profiles: ReviewerProfile[],
+): ReviewerProfile[] {
+  return profiles
+    .map(normalizeReviewerProfile)
+    .sort((left, right) => left.id.localeCompare(right.id));
+}
+
 export function validateReviewerProfiles(value: unknown): {
   profiles: ReviewerProfile[];
   issues: ReviewDiagnostic[];
@@ -48,35 +78,46 @@ export function validateReviewerProfiles(value: unknown): {
       });
       return;
     }
-    if (seen.has(parsed.data.id)) {
+    if (
+      new Set(parsed.data.roles).size !== parsed.data.roles.length ||
+      new Set(parsed.data.expertiseTags).size !== parsed.data.expertiseTags.length
+    ) {
+      issues.push({
+        code: 'REVIEWER_PROFILE_DUPLICATE_VALUE',
+        message: `${parsed.data.id} contains duplicate roles or expertise tags.`,
+      });
+      return;
+    }
+    const profile = normalizeReviewerProfile(parsed.data as ReviewerProfile);
+    if (seen.has(profile.id)) {
       issues.push({
         code: 'REVIEWER_ID_DUPLICATE',
-        message: `Duplicate reviewer ID "${parsed.data.id}".`,
+        message: `Duplicate reviewer ID "${profile.id}".`,
       });
       return;
     }
     if (
-      !parsed.data.independentReviewAttestation &&
-      parsed.data.conflictOfInterest.status === 'none'
+      !profile.independentReviewAttestation &&
+      profile.conflictOfInterest.status === 'none'
     ) {
       issues.push({
         code: 'REVIEWER_ATTESTATION_REQUIRED',
-        message: `${parsed.data.id} must attest independence or declare a conflict.`,
+        message: `${profile.id} must attest independence or declare a conflict.`,
       });
       return;
     }
     if (
-      (parsed.data.displayName || parsed.data.affiliation) &&
-      !parsed.data.consentToAttribution
+      (profile.displayName || profile.affiliation) &&
+      !profile.consentToAttribution
     ) {
       issues.push({
         code: 'REVIEWER_ATTRIBUTION_CONSENT_REQUIRED',
-        message: `${parsed.data.id} includes identity data without attribution consent.`,
+        message: `${profile.id} includes identity data without attribution consent.`,
       });
       return;
     }
-    seen.add(parsed.data.id);
-    profiles.push(parsed.data);
+    seen.add(profile.id);
+    profiles.push(profile);
   });
   if (profiles.length === 0 && issues.length === 0) {
     issues.push({
@@ -84,5 +125,5 @@ export function validateReviewerProfiles(value: unknown): {
       message: 'A review campaign requires at least one reviewer.',
     });
   }
-  return { profiles, issues };
+  return { profiles: normalizeReviewerProfiles(profiles), issues };
 }

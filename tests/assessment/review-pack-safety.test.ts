@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { safeMarkdownJson } from '@/lib/assessment/review/markdown';
 import {
   campaignReviewRows,
   campaignRowsToCsv,
@@ -43,5 +44,32 @@ describe('review comment safety', () => {
     expect(result.issues.map((issue) => issue.code)).toContain(
       'REVIEW_CONTROL_CHARACTER',
     );
+  });
+});
+
+describe('Markdown JSON export safety', () => {
+  it('uses a fence longer than untrusted backtick runs without changing JSON', () => {
+    const comment = [
+      '``` triple',
+      '```` quadruple',
+      '# heading',
+      '[link](https://example.test)',
+      '<strong>raw HTML</strong>',
+      '</script><script>alert("x")</script>',
+      'Unicode: Δ × £ “multiline”',
+    ].join('\n');
+    const value = {
+      comment,
+      rationale: `${comment}\nA final rationale line.`,
+    };
+    const markdown = safeMarkdownJson(value);
+    const [opening, ...rest] = markdown.split('\n');
+    const fence = opening.replace(/json$/, '');
+    expect(fence).toBe('`'.repeat(5));
+    expect(rest.at(-1)).toBe(fence);
+    const json = rest.slice(0, -1).join('\n');
+    expect(json).toBe(JSON.stringify(value, null, 2));
+    expect(JSON.parse(json)).toEqual(value);
+    expect(markdown).toContain('</script><script>');
   });
 });

@@ -2,10 +2,12 @@ import { describe, expect, it } from 'vitest';
 import { analyzeReviewCampaign } from '@/lib/assessment/review/reviewAnalysis';
 import { mergeReviewerPacks } from '@/lib/assessment/review/mergeSubmissions';
 import {
-  campaignReviewRows,
-  campaignRowsToCsv,
-} from '@/lib/assessment/review/reviewerPack';
+  validateIssueResolutions,
+} from '@/lib/assessment/review/issueResolutions';
+import { applyReviewResolutions } from '@/lib/assessment/review/readiness';
+import type { ReviewerProfile } from '@/lib/assessment/review/campaignTypes';
 import {
+  emptyValidatedMerged,
   reviewTestContext,
   reviewerCsv,
   syntheticCampaign,
@@ -13,169 +15,172 @@ import {
 } from './reviewTestFixtures';
 
 function mergedFor(
-  reviewerIds: string[],
-  rowRating: (row: { questionId: string; criterion: string }, reviewerId: string) => string = () => '5',
-  reviewers = syntheticReviewers,
+  reviewers: ReviewerProfile[],
+  rowRating: (
+    row: { questionId: string; criterion: string },
+    reviewerId: string,
+  ) => string = () => '5',
 ) {
   const manifest = syntheticCampaign(reviewers);
-  const packs = reviewerIds.map((reviewerId) => ({
-    name: `${reviewerId}.csv`,
-    csv: campaignRowsToCsv(
-      campaignReviewRows(manifest, reviewTestContext.bank, reviewerId).map((row) => ({
-        ...row,
-        rating: rowRating(row, reviewerId),
-      })),
-    ),
-  }));
   const merged = mergeReviewerPacks({
     manifest,
     bank: reviewTestContext.bank,
-    packs,
+    packs: reviewers.map((reviewer) => ({
+      name: `${reviewer.id}.csv`,
+      csv: reviewerCsv(reviewer.id, {
+        manifest,
+        rowRating: (row) => rowRating(row, reviewer.id),
+      }),
+    })),
   });
   expect(merged.issues).toEqual([]);
-  return { manifest, submissions: merged.merged!.submissions };
+  return { manifest, merged: merged.merged! };
 }
 
 describe('review analysis and readiness', () => {
-  it.each([0, 1, 2, 3])('reports deterministic readiness for %i reviewers', (count) => {
-    const reviewerIds = syntheticReviewers.slice(0, count).map((reviewer) => reviewer.id);
-    const input =
-      count === 0
-        ? { manifest: syntheticCampaign(), submissions: [] }
-        : mergedFor(reviewerIds);
+  it.each([0, 1, 2, 3])(
+    'reports deterministic independent readiness for %i reviewers',
+    (count) => {
+      const input =
+        count === 0
+          ? {
+              manifest: syntheticCampaign(),
+              merged: emptyValidatedMerged(),
+            }
+          : mergedFor(syntheticReviewers.slice(0, count));
+      const analysis = analyzeReviewCampaign({
+        ...input,
+        policy: reviewTestContext.policy,
+      });
+      expect(analysis.questions).toHaveLength(36);
+      if (count === 0) {
+        expect(analysis.summary.notStarted).toBe(36);
+      } else if (count < 3) {
+        expect(analysis.summary.incomplete).toBe(36);
+        expect(
+          analysis.questions[0].issues.some(
+            (issue) => issue.code === 'INSUFFICIENT_REVIEWERS',
+          ),
+        ).toBe(true);
+      } else {
+        expect(analysis.summary.readyForHumanDecision).toBe(36);
+        expect(analysis.questions.every((question) => question.issues.length === 0)).toBe(true);
+      }
+    },
+  );
+
+  it('uses independent Aiken values while retaining all-reviewer diagnostics', () => {
+    const conflicted: ReviewerProfile = {
+      ...syntheticReviewers[2],
+      independentReviewAttestation: false,
+      conflictOfInterest: {
+        status: 'declared',
+        description: 'Synthetic conflict.',
+      },
+    };
+    const { manifest, merged } = mergedFor(
+      [syntheticReviewers[0], syntheticReviewers[1], conflicted],
+      () => '5',
+    );
     const analysis = analyzeReviewCampaign({
-      ...input,
+      manifest,
+      merged,
       policy: reviewTestContext.policy,
     });
-    expect(analysis.questions).toHaveLength(36);
-    if (count === 0) {
-      expect(analysis.summary.notStarted).toBe(36);
-      expect(analysis.questions[0].issues.some((issue) => issue.code === 'NO_REVIEW_RATINGS')).toBe(true);
-    } else if (count < 3) {
-      expect(analysis.summary.incomplete).toBe(36);
-      expect(analysis.questions[0].issues.some((issue) => issue.code === 'INSUFFICIENT_REVIEWERS')).toBe(true);
-    } else {
-      expect(analysis.summary.readyForHumanDecision).toBe(36);
-      expect(analysis.questions.every((question) => question.issues.length === 0)).toBe(true);
-    }
+    const first = analysis.questions[0];
+    expect(first.coverage.fullyCoveredCriteria).toBe(first.coverage.applicableCriteria);
+    expect(first.coverage.independentlyCoveredCriteria).toBe(0);
+    expect(first.criterionValues[0].reviewerCount).toBe(2);
+    expect(first.allReviewerCriterionValues[0].reviewerCount).toBe(3);
+    expect(analysis.summary.incomplete).toBe(36);
   });
 
-  it('reports missing criteria and uses only overall-content-validity for per-question V', () => {
-    const targetQuestion = 'aqueous-angle-sba-001';
-    const { manifest, submissions } = mergedFor(
-      ['reviewer-a', 'reviewer-b', 'reviewer-c'],
-      (row) =>
-        row.questionId === targetQuestion && row.criterion === 'overall-content-validity'
-          ? ''
+  it('keeps three conflicted or non-independent reviewers incomplete', () => {
+    const reviewers = syntheticReviewers.map((reviewer, index) => ({
+      ...reviewer,
+      independentReviewAttestation: false,
+      conflictOfInterest: {
+        status: 'declared' as const,
+        description: `Synthetic conflict ${index + 1}.`,
+      },
+    }));
+    const { manifest, merged } = mergedFor(reviewers);
+    const analysis = analyzeReviewCampaign({
+      manifest,
+      merged,
+      policy: reviewTestContext.policy,
+    });
+    expect(analysis.summary.reviewerCoverage.independentReviewers).toBe(0);
+    expect(analysis.summary.incomplete).toBe(36);
+    expect(analysis.summary.readyForHumanDecision).toBe(0);
+  });
+
+  it('does not let a resolution waive insufficient independent coverage', () => {
+    const { manifest, merged } = mergedFor(syntheticReviewers.slice(0, 2));
+    const analysis = analyzeReviewCampaign({
+      manifest,
+      merged,
+      policy: reviewTestContext.policy,
+    });
+    const issue = analysis.questions[0].issues.find(
+      (entry) => entry.code === 'INSUFFICIENT_REVIEWERS',
+    )!;
+    const attempted = {
+      schemaVersion: 1 as const,
+      issueId: issue.id,
+      status: 'resolved' as const,
+      resolution: 'Synthetic attempted waiver.',
+      resolvedBy: 'reviewer-a',
+      resolvedAt: '2000-01-02T00:00:00.000Z',
+    };
+    expect(
+      validateIssueResolutions({
+        value: [attempted],
+        issues: analysis.questions.flatMap((question) => question.issues),
+        manifest,
+      }).issues.map((entry) => entry.code),
+    ).toContain('REVIEW_RESOLUTION_EVIDENCE_NON_WAIVABLE');
+    expect(applyReviewResolutions(analysis, [attempted]).summary.incomplete).toBe(36);
+  });
+
+  it('keeps blocking evidence unresolved when marked accepted-for-discussion', () => {
+    const { manifest, merged } = mergedFor(
+      syntheticReviewers,
+      (row, reviewerId) =>
+        row.questionId === 'aqueous-angle-sba-001' &&
+        row.criterion === 'factual-accuracy' &&
+        reviewerId === 'reviewer-a'
+          ? '1'
           : '5',
     );
     const analysis = analyzeReviewCampaign({
       manifest,
-      submissions,
+      merged,
       policy: reviewTestContext.policy,
     });
-    const question = analysis.questions.find((entry) => entry.questionId === targetQuestion)!;
-    expect(question.overallContentValidity?.value).toBeUndefined();
-    expect(question.criterionValues.find((value) => value.criterion === 'clarity')?.value).toBe(1);
-    expect(question.issues.some((issue) => issue.code === 'NO_REVIEW_RATINGS' && issue.criterion === 'overall-content-validity')).toBe(true);
-  });
-
-  it('flags below-project Aiken values, low ratings, and blocking accuracy and image-rights concerns', () => {
-    const imageQuestion = reviewTestContext.bank.questions.find((question) => 'image' in question)!.id;
-    const { manifest, submissions } = mergedFor(
-      ['reviewer-a', 'reviewer-b', 'reviewer-c'],
-      (row, reviewerId) => {
-        if (row.questionId === imageQuestion && row.criterion === 'image-rights' && reviewerId === 'reviewer-a') return '2';
-        if (row.questionId === 'aqueous-angle-sba-001' && row.criterion === 'factual-accuracy' && reviewerId === 'reviewer-a') return '1';
-        if (row.questionId === 'aqueous-angle-sba-001' && row.criterion === 'clarity') return '3';
-        return '5';
-      },
-    );
-    const analysis = analyzeReviewCampaign({
-      manifest,
-      submissions,
-      policy: reviewTestContext.policy,
-    });
-    const issues = analysis.questions.flatMap((question) => question.issues);
-    expect(issues.map((issue) => issue.code)).toContain('AIKEN_BELOW_PROJECT_FLAG');
-    expect(issues.find((issue) => issue.code === 'FACTUAL_ACCURACY_CONCERN')?.severity).toBe('blocking');
-    expect(issues.find((issue) => issue.code === 'IMAGE_RIGHTS_CONCERN')?.severity).toBe('blocking');
-  });
-
-  it('retains every reviewer comment as an unresolved issue', () => {
-    const manifest = syntheticCampaign();
-    const merged = mergeReviewerPacks({
-      manifest,
-      bank: reviewTestContext.bank,
-      packs: [
-        {
-          name: 'reviewer-a.csv',
-          csv: reviewerCsv('reviewer-a', {
-            rating: '5',
-            commentAt: {
-              questionId: 'aqueous-angle-sba-001',
-              criterion: 'clarity',
-              comment: 'Synthetic qualitative concern.',
-            },
-          }),
-        },
-        { name: 'reviewer-b.csv', csv: reviewerCsv('reviewer-b', { rating: '5' }) },
-        { name: 'reviewer-c.csv', csv: reviewerCsv('reviewer-c', { rating: '5' }) },
-      ],
-    }).merged!;
-    const analysis = analyzeReviewCampaign({
-      manifest,
-      submissions: merged.submissions,
-      policy: reviewTestContext.policy,
-    });
-    expect(
-      analysis.questions
-        .find((question) => question.questionId === 'aqueous-angle-sba-001')
-        ?.issues.some((issue) => issue.code === 'REVIEWER_COMMENT'),
-    ).toBe(true);
-  });
-
-  it('reports conflict and non-independence without silently counting the reviewer', () => {
-    const conflicted = {
-      ...syntheticReviewers[0],
-      independentReviewAttestation: false,
-      conflictOfInterest: {
-        status: 'declared' as const,
-        description: 'Synthetic conflict.',
-      },
+    const issue = analysis.questions
+      .flatMap((question) => question.issues)
+      .find((entry) => entry.code === 'FACTUAL_ACCURACY_CONCERN')!;
+    const attempted = {
+      schemaVersion: 1 as const,
+      issueId: issue.id,
+      status: 'accepted-for-discussion' as const,
+      resolution: 'Synthetic discussion only.',
+      resolvedBy: 'reviewer-c',
+      resolvedAt: '2000-01-02T00:00:00.000Z',
     };
-    const reviewers = [conflicted, syntheticReviewers[1], syntheticReviewers[2]];
-    const { manifest, submissions } = mergedFor(
-      reviewers.map((reviewer) => reviewer.id),
-      () => '5',
-      reviewers,
-    );
-    const analysis = analyzeReviewCampaign({
+    const validation = validateIssueResolutions({
+      value: [attempted],
+      issues: analysis.questions.flatMap((question) => question.issues),
       manifest,
-      submissions,
-      policy: reviewTestContext.policy,
     });
-    expect(analysis.summary.reviewerCoverage).toMatchObject({
-      totalReviewers: 3,
-      independentReviewers: 2,
-      conflictedReviewers: 1,
-    });
-    expect(analysis.summary.incomplete).toBe(36);
-    expect(analysis.questions[0].issues.map((issue) => issue.code)).toEqual(
-      expect.arrayContaining([
-        'REVIEWER_CONFLICT_DECLARED',
-        'REVIEWER_INDEPENDENCE_NOT_ATTESTED',
-      ]),
+    expect(validation.issues.map((entry) => entry.code)).toContain(
+      'REVIEW_RESOLUTION_BLOCKING_DISCUSSION_ONLY',
     );
-  });
-
-  it('never produces reviewed, approved, or valid as an automatic state', () => {
-    const states = analyzeReviewCampaign({
-      ...mergedFor(['reviewer-a', 'reviewer-b', 'reviewer-c']),
-      policy: reviewTestContext.policy,
-    }).questions.map((question) => question.state as string);
-    expect(states).not.toContain('reviewed');
-    expect(states).not.toContain('approved');
-    expect(states).not.toContain('valid');
+    expect(
+      applyReviewResolutions(analysis, [attempted]).questions.find(
+        (question) => question.questionId === 'aqueous-angle-sba-001',
+      )?.state,
+    ).toBe('requires-resolution');
   });
 });

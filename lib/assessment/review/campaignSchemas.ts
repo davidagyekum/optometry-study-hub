@@ -55,9 +55,11 @@ export const reviewCampaignQuestionSchema = z.strictObject({
 export const reviewCampaignManifestSchema = z.strictObject({
   schemaVersion: z.literal(1),
   id: stableSlug,
+  campaignHash: z.string().regex(/^[a-f0-9]{64}$/),
   bankId: stableSlug,
   bankHash: z.string().regex(/^[a-f0-9]{64}$/),
   policy: z.strictObject({ id: stableSlug, version: z.number().int().positive() }),
+  policyHash: z.string().regex(/^[a-f0-9]{64}$/),
   createdAt: z.iso.datetime(),
   questions: z.array(reviewCampaignQuestionSchema).min(1),
   reviewers: z.array(reviewerProfileSchema).min(1),
@@ -65,6 +67,7 @@ export const reviewCampaignManifestSchema = z.strictObject({
 
 export const reviewSubmissionSchema = z.strictObject({
   campaignId: stableSlug,
+  campaignHash: z.string().regex(/^[a-f0-9]{64}$/),
   bankId: stableSlug,
   questionId: stableSlug,
   questionVersion: z.number().int().positive(),
@@ -98,6 +101,7 @@ export const questionReviewDecisionSchema = z.strictObject({
   schemaVersion: z.literal(1),
   id: stableSlug,
   campaignId: stableSlug,
+  campaignHash: z.string().regex(/^[a-f0-9]{64}$/),
   questionId: stableSlug,
   questionVersion: z.number().int().positive(),
   questionHash: z.string().regex(/^[a-f0-9]{64}$/),

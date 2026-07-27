@@ -8,6 +8,7 @@ import type {
   ReviewerProfile,
   StableReviewIssue,
 } from './campaignTypes';
+import type { ValidatedMergedReviewSubmissions } from './mergeSubmissions';
 import { createStableReviewIssue, sortReviewIssues } from './reviewIssues';
 import type { AikenValue } from './types';
 
@@ -54,6 +55,13 @@ function aikenValue(
   };
 }
 
+function isIndependentReviewer(reviewer?: ReviewerProfile): boolean {
+  return Boolean(
+    reviewer?.independentReviewAttestation &&
+      reviewer.conflictOfInterest.status === 'none',
+  );
+}
+
 function reviewerCounts(
   reviewerIds: Set<string>,
   reviewers: Map<string, ReviewerProfile>,
@@ -67,19 +75,14 @@ function reviewerCounts(
     const reviewer = reviewers.get(reviewerId);
     if (!reviewer) continue;
     if (reviewer.conflictOfInterest.status === 'declared') conflicted += 1;
-    if (
-      reviewer.independentReviewAttestation &&
-      reviewer.conflictOfInterest.status === 'none'
-    ) {
-      independent += 1;
-    }
+    if (isIndependentReviewer(reviewer)) independent += 1;
   }
   return { independent, conflicted };
 }
 
 export function analyzeReviewCampaign(input: {
   manifest: ReviewCampaignManifest;
-  submissions: ReviewSubmission[];
+  merged: ValidatedMergedReviewSubmissions;
   policy: ContentReviewPolicy;
 }): BankReviewAnalysis {
   const reviewerMap = new Map(
@@ -87,11 +90,14 @@ export function analyzeReviewCampaign(input: {
   );
   const questions: QuestionReviewAnalysis[] = input.manifest.questions.map(
     (question) => {
-      const questionRows = input.submissions.filter(
+      const questionRows = input.merged.submissions.filter(
         (submission) => submission.questionId === question.questionId,
       );
       const ratingRows = questionRows.filter(
         (submission) => submission.rating !== undefined,
+      );
+      const independentRatingRows = ratingRows.filter((submission) =>
+        isIndependentReviewer(reviewerMap.get(submission.reviewerId)),
       );
       const commentRows = questionRows.filter(
         (submission) => Boolean(submission.comment),
@@ -103,41 +109,38 @@ export function analyzeReviewCampaign(input: {
           input.manifest,
           question,
           criterion,
-          questionRows.filter((row) => row.criterion === criterion),
+          independentRatingRows.filter((row) => row.criterion === criterion),
           input.policy,
         ),
       );
-      const issues: StableReviewIssue[] = [];
-      for (const row of questionRows.filter(
-        (entry) =>
-          entry.questionVersion !== question.questionVersion ||
-          entry.questionHash !== question.questionHash,
-      )) {
-        issues.push(
-          createStableReviewIssue({
-            campaignId: input.manifest.id,
+      const allReviewerCriterionValues = question.applicableCriteria.map(
+        (criterion) =>
+          aikenValue(
+            input.manifest,
             question,
-            criterion: row.criterion,
-            reviewerId: row.reviewerId,
-            code: 'STALE_REVIEW_EVIDENCE',
-            severity: 'blocking',
-            message: `${row.reviewerId} submitted evidence for a stale question version or hash.`,
-          }),
-        );
-      }
+            criterion,
+            ratingRows.filter((row) => row.criterion === criterion),
+            input.policy,
+          ),
+      );
+      const issues: StableReviewIssue[] = [];
       let fullyCoveredCriteria = 0;
       let independentlyCoveredCriteria = 0;
       for (const value of criterionValues) {
         const coverageRows = questionRows.filter(
           (row) => row.criterion === value.criterion,
         );
-        const criterionRows = ratingRows.filter(
+        const allCriterionRows = ratingRows.filter(
+          (row) => row.criterion === value.criterion,
+        );
+        const independentCriterionRows = independentRatingRows.filter(
           (row) => row.criterion === value.criterion,
         );
         if (coverageRows.length === 0) {
           issues.push(
             createStableReviewIssue({
               campaignId: input.manifest.id,
+              campaignHash: input.manifest.campaignHash,
               question,
               criterion: value.criterion,
               code: 'MISSING_REQUIRED_CRITERION',
@@ -146,41 +149,47 @@ export function analyzeReviewCampaign(input: {
             }),
           );
         }
-        const criterionReviewers = new Set(
-          criterionRows.map((row) => row.reviewerId),
+        const allCriterionReviewers = new Set(
+          allCriterionRows.map((row) => row.reviewerId),
         );
-        const criterionCounts = reviewerCounts(criterionReviewers, reviewerMap);
+        const independentCriterionReviewers = new Set(
+          independentCriterionRows.map((row) => row.reviewerId),
+        );
+        if (allCriterionReviewers.size >= input.policy.minimumUniqueReviewers) {
+          fullyCoveredCriteria += 1;
+        }
+        if (
+          independentCriterionReviewers.size >=
+          input.policy.minimumUniqueReviewers
+        ) {
+          independentlyCoveredCriteria += 1;
+        }
         if (value.ratingCount === 0) {
           issues.push(
             createStableReviewIssue({
               campaignId: input.manifest.id,
+              campaignHash: input.manifest.campaignHash,
               question,
               criterion: value.criterion,
               code: 'NO_REVIEW_RATINGS',
               severity: 'blocking',
-              message: `${value.criterion} has no numeric review ratings.`,
+              message: `${value.criterion} has no independent unconflicted numeric review ratings.`,
             }),
           );
         } else {
-          if (criterionReviewers.size >= input.policy.minimumUniqueReviewers) {
-            fullyCoveredCriteria += 1;
-          }
           if (
-            criterionCounts.independent >= input.policy.minimumUniqueReviewers
-          ) {
-            independentlyCoveredCriteria += 1;
-          }
-          if (
-            criterionCounts.independent < input.policy.minimumUniqueReviewers
+            independentCriterionReviewers.size <
+            input.policy.minimumUniqueReviewers
           ) {
             issues.push(
               createStableReviewIssue({
                 campaignId: input.manifest.id,
+                campaignHash: input.manifest.campaignHash,
                 question,
                 criterion: value.criterion,
                 code: 'INSUFFICIENT_REVIEWERS',
                 severity: 'blocking',
-                message: `${value.criterion} has ${criterionCounts.independent} independent unconflicted reviewers; ${input.policy.minimumUniqueReviewers} are required by project policy.`,
+                message: `${value.criterion} has ${independentCriterionReviewers.size} independent unconflicted reviewers; ${input.policy.minimumUniqueReviewers} are required by project policy.`,
               }),
             );
           }
@@ -191,17 +200,18 @@ export function analyzeReviewCampaign(input: {
             issues.push(
               createStableReviewIssue({
                 campaignId: input.manifest.id,
+                campaignHash: input.manifest.campaignHash,
                 question,
                 criterion: value.criterion,
                 code: 'AIKEN_BELOW_PROJECT_FLAG',
                 severity: 'requires-discussion',
-                message: `${value.criterion} Aiken's V is below the project discussion flag of ${input.policy.flagBelowAikenV.toFixed(2)}.`,
+                message: `${value.criterion} independent-review Aiken's V is below the project discussion flag of ${input.policy.flagBelowAikenV.toFixed(2)}.`,
                 evidence: { aikenV: value.value },
               }),
             );
           }
         }
-        for (const row of criterionRows.filter(
+        for (const row of allCriterionRows.filter(
           (entry) =>
             entry.rating !== undefined &&
             entry.rating <= input.policy.lowRatingAtOrBelow,
@@ -218,6 +228,7 @@ export function analyzeReviewCampaign(input: {
           issues.push(
             createStableReviewIssue({
               campaignId: input.manifest.id,
+              campaignHash: input.manifest.campaignHash,
               question,
               criterion: value.criterion,
               reviewerId: row.reviewerId,
@@ -233,6 +244,7 @@ export function analyzeReviewCampaign(input: {
         issues.push(
           createStableReviewIssue({
             campaignId: input.manifest.id,
+            campaignHash: input.manifest.campaignHash,
             question,
             criterion: row.criterion,
             reviewerId: row.reviewerId,
@@ -243,18 +255,23 @@ export function analyzeReviewCampaign(input: {
           }),
         );
       }
+      const independentlyComplete =
+        independentlyCoveredCriteria === question.applicableCriteria.length;
       for (const reviewerId of new Set(questionRows.map((row) => row.reviewerId))) {
         const reviewer = reviewerMap.get(reviewerId);
         if (!reviewer) continue;
-        if (!reviewer.independentReviewAttestation) {
+        if (!reviewer.independentReviewAttestation && !independentlyComplete) {
           issues.push(
             createStableReviewIssue({
               campaignId: input.manifest.id,
+              campaignHash: input.manifest.campaignHash,
               question,
               reviewerId,
               code: 'REVIEWER_INDEPENDENCE_NOT_ATTESTED',
-              severity: 'blocking',
-              message: `${reviewerId} has not attested independent review.`,
+              severity: independentlyComplete
+                ? 'requires-discussion'
+                : 'blocking',
+              message: `${reviewerId} has not attested independent review and is excluded from independent coverage.`,
             }),
           );
         }
@@ -262,22 +279,21 @@ export function analyzeReviewCampaign(input: {
           issues.push(
             createStableReviewIssue({
               campaignId: input.manifest.id,
+              campaignHash: input.manifest.campaignHash,
               question,
               reviewerId,
               code: 'REVIEWER_CONFLICT_DECLARED',
               severity: 'requires-discussion',
-              message: `${reviewerId} declared a conflict of interest.`,
+              message: `${reviewerId} declared a conflict of interest and is excluded from independent coverage.`,
             }),
           );
         }
       }
       const sortedIssues = sortReviewIssues(issues);
       const hasRatingsOrComments = ratingRows.length > 0 || commentRows.length > 0;
-      const incomplete =
-        independentlyCoveredCriteria < question.applicableCriteria.length;
       const state = !hasRatingsOrComments
         ? 'not-started'
-        : incomplete
+        : !independentlyComplete
           ? 'incomplete'
           : sortedIssues.length > 0
             ? 'requires-resolution'
@@ -291,6 +307,7 @@ export function analyzeReviewCampaign(input: {
           ratedCriteria: criterionValues.filter((value) => value.ratingCount > 0)
             .length,
           fullyCoveredCriteria,
+          independentlyCoveredCriteria,
           uniqueReviewers: reviewerIds.size,
           independentReviewers: counts.independent,
           conflictedReviewers: counts.conflicted,
@@ -299,6 +316,10 @@ export function analyzeReviewCampaign(input: {
           (value) => value.criterion === 'overall-content-validity',
         ),
         criterionValues,
+        allReviewerOverallContentValidity: allReviewerCriterionValues.find(
+          (value) => value.criterion === 'overall-content-validity',
+        ),
+        allReviewerCriterionValues,
         ratings: ratingRows,
         comments: commentRows,
         issues: sortedIssues,
@@ -311,14 +332,16 @@ export function analyzeReviewCampaign(input: {
   const stateCount = (state: QuestionReviewAnalysis['state']): number =>
     questions.filter((question) => question.state === state).length;
   const totalReviewers = new Set(
-    input.submissions.map((submission) => submission.reviewerId),
+    input.merged.submissions.map((submission) => submission.reviewerId),
   );
   const reviewerSummary = reviewerCounts(totalReviewers, reviewerMap);
   return {
     schemaVersion: 1,
     campaignId: input.manifest.id,
+    campaignHash: input.manifest.campaignHash,
     bankId: input.manifest.bankId,
     bankHash: input.manifest.bankHash,
+    mergedHash: input.merged.mergedHash,
     policy: { id: input.policy.id, version: input.policy.version },
     questions,
     summary: {
@@ -336,6 +359,11 @@ export function analyzeReviewCampaign(input: {
         informational: allIssues.filter(
           (issue) => issue.severity === 'informational',
         ).length,
+      },
+      issueStatusCounts: {
+        total: allIssues.length,
+        resolved: 0,
+        unresolved: allIssues.length,
       },
       reviewerCoverage: {
         totalReviewers: totalReviewers.size,
@@ -357,18 +385,7 @@ export function analyzeReviewCampaign(input: {
         ),
         independentlyCovered: questions.reduce(
           (sum, question) =>
-            sum +
-            question.criterionValues.filter((value) => {
-              const rows = question.ratings.filter(
-                (row) => row.criterion === value.criterion,
-              );
-              return (
-                reviewerCounts(
-                  new Set(rows.map((row) => row.reviewerId)),
-                  reviewerMap,
-                ).independent >= input.policy.minimumUniqueReviewers
-              );
-            }).length,
+            sum + question.coverage.independentlyCoveredCriteria,
           0,
         ),
       },

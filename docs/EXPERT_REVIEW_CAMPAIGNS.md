@@ -37,7 +37,7 @@ Tests may supply `--created-at <ISO timestamp>` for deterministic output. The co
 - one prefilled CSV and guide per reviewer;
 - complete expert-only Markdown and JSON item dossiers.
 
-The canonical bank produces 338 question/criterion rows per reviewer. Each row binds the campaign, bank, question ID, version, evidence hash, section, objective, format, Bloom level, difficulty, criterion, and reviewer ID. Never edit those evidence columns.
+The canonical bank produces 338 question/criterion rows per reviewer. Each row binds the immutable `campaignHash`, bank, question ID, version, evidence hash, section, objective, format, Bloom level, difficulty, criterion, and reviewer ID. The campaign hash covers its ID, timestamp, bank hash, complete policy hash, ordered question/criterion matrix, and complete normalized reviewer profiles. A change to roles, expertise, independence, conflict declaration, consent, timestamp, or policy makes an older pack stale. Never edit those evidence columns.
 
 ## Complete and merge packs
 
@@ -51,7 +51,7 @@ npm run questions:review-merge -- \
   --input path/to/reviewer-c.csv
 ```
 
-Input order does not affect output. The merge rejects unregistered or duplicate reviewers, duplicate question/criterion evidence, stale hashes, missing or unexpected rows, changed metadata, malformed CSV, and ratings outside 1–5. The canonical output is `merged-submissions.json`; the CSV is a convenience export.
+Input order does not affect output. The merge rejects unregistered or duplicate reviewers, duplicate question/criterion evidence, stale hashes, missing or unexpected rows, changed metadata, malformed CSV, and ratings outside 1–5. The canonical output is `merged-submissions.json`; the CSV is a convenience export. Both contain the campaign hash, and the JSON records deterministic source-pack receipts plus a self-verifying `mergedHash`. Readiness and decision verification revalidate the complete runtime schema, protected metadata, reviewer registration, criterion matrix, row uniqueness, ordering, comments, receipts, and hashes before any coverage or Aiken calculation.
 
 Reviewer comments are untrusted text. The workflow does not render them as executable HTML or evaluate spreadsheet formulas. Inspect untrusted CSV cells before opening them in spreadsheet software.
 
@@ -65,7 +65,7 @@ npm run questions:review-readiness -- \
 
 Optional arguments are `--resolutions <file>` and `--require-ready`. The default command reports incomplete evidence successfully. `--require-ready` exits nonzero unless every question is ready for a human decision.
 
-Aiken's V is calculated separately for every applicable criterion. Only `overall-content-validity` is used as the per-question V; ratings are never pooled across unlike criteria. Zero ratings remain explicitly unrated. Every qualitative comment, conflict, low rating, missing criterion, independence failure, and project-flag result becomes a stable issue.
+Aiken's V is calculated separately for every applicable criterion. Readiness-facing values use only independent, unconflicted reviewers; all-reviewer values remain separate diagnostics. Only `overall-content-validity` is used as the per-question V; ratings are never pooled across unlike criteria. Zero ratings remain explicitly unrated. Every qualitative comment, conflict, low rating, missing criterion, independence failure, and project-flag result becomes a stable issue.
 
 Calculated states are deliberately limited to:
 

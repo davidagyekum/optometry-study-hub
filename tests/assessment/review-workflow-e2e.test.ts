@@ -27,20 +27,19 @@ describe('review campaign end-to-end workflow', () => {
       bank: reviewTestContext.bank,
       packs: ['reviewer-a', 'reviewer-b', 'reviewer-c'].map((reviewerId) => ({
         name: `${reviewerId}.csv`,
-        csv: reviewerCsv(reviewerId, { rating: '5' }),
+        csv: reviewerCsv(reviewerId, { manifest, rating: '5' }),
       })),
     });
     expect(merged.issues).toEqual([]);
     const analysis = analyzeReviewCampaign({
       manifest,
-      submissions: merged.merged!.submissions,
+      merged: merged.merged!,
       policy: reviewTestContext.policy,
     });
     expect(analysis.summary.readyForHumanDecision).toBe(36);
     const bundle = createEvidenceBundle({
       manifest,
-      submissions: merged.merged!.submissions,
-      analysis,
+      merged: merged.merged!,
       resolutions: [],
       policy: reviewTestContext.policy,
     });
@@ -51,6 +50,7 @@ describe('review campaign end-to-end workflow', () => {
         value: [fixture.baseDecision],
         bundle,
         manifest,
+        context: reviewTestContext,
       }).issues,
     ).toEqual([]);
     expect(aqueousVitreousCandidateBank).toEqual(before);

@@ -1,19 +1,11 @@
 import { join } from 'node:path';
-import type {
-  QuestionReviewDecision,
-  ReviewIssueResolution,
-  ReviewSubmission,
-} from '@/lib/assessment/review/campaignTypes';
-import type { MergedReviewSubmissions } from '@/lib/assessment/review/mergeSubmissions';
+import { validateMergedReviewSubmissions } from '@/lib/assessment/review/mergeSubmissions';
 import { analyzeReviewCampaign } from '@/lib/assessment/review/reviewAnalysis';
 import {
   createEvidenceBundle,
   validateReviewDecisions,
 } from '@/lib/assessment/review/reviewDecisions';
-import {
-  validateIssueResolutions,
-} from '@/lib/assessment/review/issueResolutions';
-import { applyReviewResolutions } from '@/lib/assessment/review/readiness';
+import { validateIssueResolutions } from '@/lib/assessment/review/issueResolutions';
 import {
   campaignDirectory,
   canonicalReviewContext,
@@ -32,22 +24,26 @@ runCommand(async () => {
   const resolutionsPath = requireValue('--resolutions');
   const decisionsPath = requireValue('--decisions');
   const manifest = await loadCampaign(campaignPath);
-  const merged = (await readJson(submissionsPath)) as MergedReviewSubmissions;
-  if (
-    merged.campaignId !== manifest.id ||
-    merged.bankHash !== manifest.bankHash ||
-    !Array.isArray(merged.submissions)
-  ) {
-    throw new Error('Merged submissions are invalid or stale.');
-  }
-  let analysis = analyzeReviewCampaign({
+  const mergedValidation = validateMergedReviewSubmissions({
+    value: await readJson(submissionsPath),
     manifest,
-    submissions: merged.submissions as ReviewSubmission[],
+    bank: canonicalReviewContext.bank,
+  });
+  if (!mergedValidation.merged || mergedValidation.issues.length > 0) {
+    throw new Error(
+      mergedValidation.issues
+        .map((issue) => `${issue.code}: ${issue.message}`)
+        .join('\n'),
+    );
+  }
+  const baseAnalysis = analyzeReviewCampaign({
+    manifest,
+    merged: mergedValidation.merged,
     policy: canonicalReviewContext.policy,
   });
   const resolutionValidation = validateIssueResolutions({
     value: await readJson(resolutionsPath),
-    issues: analysis.questions.flatMap((question) => question.issues),
+    issues: baseAnalysis.questions.flatMap((question) => question.issues),
     manifest,
   });
   if (resolutionValidation.issues.length > 0) {
@@ -57,28 +53,26 @@ runCommand(async () => {
         .join('\n'),
     );
   }
-  const resolutions =
-    resolutionValidation.resolutions as ReviewIssueResolution[];
-  analysis = applyReviewResolutions(analysis, resolutions);
   const bundle = createEvidenceBundle({
     manifest,
-    submissions: merged.submissions as ReviewSubmission[],
-    analysis,
-    resolutions,
+    merged: mergedValidation.merged,
+    resolutions: resolutionValidation.resolutions,
     policy: canonicalReviewContext.policy,
   });
   const decisionValidation = validateReviewDecisions({
     value: await readJson(decisionsPath),
     bundle,
     manifest,
+    context: canonicalReviewContext,
   });
-  const decisions =
-    decisionValidation.decisions as QuestionReviewDecision[];
+  const decisions = decisionValidation.decisions;
   const decided = new Set(decisions.map((decision) => decision.questionId));
   const report = {
     schemaVersion: 1,
     campaignId: manifest.id,
+    campaignHash: manifest.campaignHash,
     bankHash: manifest.bankHash,
+    mergedHash: mergedValidation.merged.mergedHash,
     evidenceBundleHash: bundle.hash,
     valid: decisionValidation.issues.length === 0,
     decisions,
@@ -95,6 +89,8 @@ runCommand(async () => {
       '# Review decision verification',
       '',
       `Campaign: \`${manifest.id}\``,
+      `Campaign hash: \`${manifest.campaignHash}\``,
+      `Merged hash: \`${mergedValidation.merged.mergedHash}\``,
       `Evidence bundle: \`${bundle.hash}\``,
       `Valid submitted decisions: ${decisions.length}`,
       `Questions without decisions: ${report.questionsWithoutDecisions.length}`,

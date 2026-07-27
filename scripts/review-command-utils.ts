@@ -10,6 +10,7 @@ import type {
 import type { QuestionBank } from '@/lib/assessment/types';
 import type { QuestionBlueprint } from '@/lib/assessment/blueprint/types';
 import { validateReviewCampaignManifest } from '@/lib/assessment/review/campaignManifest';
+export { safeMarkdownJson } from '@/lib/assessment/review/markdown';
 
 export const canonicalReviewContext: {
   bank: QuestionBank;
@@ -69,13 +70,6 @@ export async function loadCampaign(path: string): Promise<ReviewCampaignManifest
 
 export function campaignDirectory(manifestPath: string): string {
   return dirname(manifestPath);
-}
-
-export function safeMarkdownJson(value: unknown): string {
-  return `\`\`\`json\n${JSON.stringify(value, null, 2).replaceAll(
-    '</script',
-    '<\\/script',
-  )}\n\`\`\``;
 }
 
 export function runCommand(main: () => Promise<void>): void {

@@ -9,7 +9,18 @@
 - Draft PR: https://github.com/davidagyekum/optometry-study-hub/pull/8
 - Implementation commit: `a8b1d9a3aa8458be8aa0e6d8db4ee3d4a31bd695`.
 - The exact final head remains in the PR description because a committed file cannot contain the SHA produced by its own commit.
-- Status: implementation, local validation, and draft publication complete; no deployment; PR 9 not started.
+- Status: review corrections and local validation complete; the existing PR remains draft; no deployment; PR 9 not started.
+
+## Review-feedback corrections
+
+- Campaign identity is now immutable and collision-resistant: `campaignHash` covers the campaign ID, creation timestamp, canonical bank hash, complete policy hash, ordered question/criterion matrix, and fully normalized reviewer profiles. It is carried by packs, merged evidence, issues, reports, evidence bundles, and decisions.
+- Existing campaign directories reject a conflicting manifest instead of silently reusing stale reviewer packs. Pack validation detects reviewer-role, expertise, independence, conflict, consent, timestamp, and policy changes.
+- Merged evidence is validated as untrusted runtime input before analysis. The validator enforces the exact campaign matrix, protected row metadata, reviewer registration, uniqueness, ordering, comment rules, source-pack receipts, and deterministic `mergedHash`.
+- Evidence bundles are self-verifying. Analysis, issues, resolutions, readiness, and the bundle hash are recomputed from the immutable campaign and validated merged evidence; mutation, omission, duplicate decisions, stale references, or forged readiness are rejected.
+- Readiness statistics use only independent, unconflicted reviewer ratings. All-reviewer values remain separate diagnostics. Missing ratings, required criteria, reviewer minimums, stale evidence, and independence deficits cannot be waived.
+- Stable decisions are bound to the campaign hash, question version/hash, evidence-bundle hash, decision type, chair, and current effective issue resolutions. Eligibility decisions must enumerate every current closure that supports readiness.
+- Transition verification now checks exact IDs, versions, hashes, bundles, decisions, retirement evidence, zero unresolved issues, and consent-aware attribution to a participating substantive reviewer. Chair authority is tracked separately.
+- Markdown JSON blocks now use a fence longer than any backtick run in untrusted content, preserving the JSON payload exactly even with headings, links, raw HTML, scripts, Unicode, or nested fences.
 
 ## Implemented contracts
 
@@ -42,7 +53,9 @@
 ## Deterministic evidence
 
 - Canonical campaign bank hash: `c17370c8e6a871120cf3db7571fd14b03032b1068557e6e54d8c5a8ac166e24d`.
-- Rating-free synthetic evidence-bundle hash: `03bd9d16fb5198300d83953447b46b2fb32e7eb14179646f0befcbe2a31e4b1f`.
+- Immutable synthetic campaign hash: `5074efd1ef5fe0db9f07b369c46fd695bfdde5ee0d5dc7a31ffd19fa5d4cb91b`.
+- Validated merged-evidence hash: `77130a6533193c8470259c5d69081bdec2d295a7c660610abcf211f1df60c832`.
+- Rating-free self-verifying evidence-bundle hash: `883d6ff4ba824c80405573ebf39fc47875cfd1eb53b64c69a4e9e696e568265b`.
 - The fixed synthetic campaign creates three 338-row reviewer packs and merges 1,014 coverage rows independent of input order.
 - Readiness reports 36 `not-started` questions, 338 blocking no-rating issues, zero numeric ratings, zero real comments, and zero questions ready for human decision.
 - Decision verification accepts the empty synthetic decision set as structurally valid, reports all 36 questions without decisions, and mutates no source.
@@ -54,7 +67,7 @@ Validation used bundled Node.js 24.14.0 with Node 24 first on PATH for every chi
 - `npm ci`: passed from the committed lockfile; npm reported 23 existing dependency advisories and harmless Windows optional-package cleanup warnings.
 - `npm run lint`: passed with only the four pre-existing legacy `<img>` warnings.
 - `npm run typecheck`: passed.
-- `npm run test`: passed, 79 test files and 499 tests.
+- `npm run test`: passed, 80 test files and 514 tests.
 - `npm run questions:validate`: passed, 36 questions, 13 objectives, 0 errors, 0 warnings.
 - `npm run questions:validate -- --strict`: passed.
 - `npm run questions:report`: passed with exact declared coverage and 36 draft questions.
@@ -62,6 +75,7 @@ Validation used bundled Node.js 24.14.0 with Node 24 first on PATH for every chi
 - `npm run questions:review-pack`: passed, 36 questions and 338 rows.
 - `npm run questions:aiken -- --input tests/fixtures/review/valid-ratings.csv`: passed; the preserved 5, 5, 4 example remains numerator 11, denominator 12, V 0.916667.
 - All five new campaign commands passed with the committed synthetic fixtures.
+- Conflicting campaign recreation with a changed timestamp was rejected with `REVIEW_CAMPAIGN_DIRECTORY_CONFLICT`.
 - `npm run build`: passed.
 - `npm run check`: passed to completion.
 - `git diff --check`: passed.
@@ -78,11 +92,10 @@ Chrome tested the local site without using the in-app browser.
 
 ## GitHub Actions
 
-- Initial pull-request run: `30233643720` (`Quality` run 34).
-- Job: `89877082067` (`quality`).
-- GitHub marked the job failed before executing any steps; the connector returned `steps: null`.
+- The prior pull-request run was `30233643720` (`Quality` run 34), job `89877082067` (`quality`).
+- GitHub marked that job failed before executing any steps; the connector returned `steps: null`.
 - This is the repository's known external account restriction, not a failure of checkout, install, lint, type-checking, tests, question validation, or build.
-- The PR description records the latest final-head run and job IDs after the handoff commit is pushed.
+- The PR description and final report record the correction head and its latest Actions run/job IDs after this handoff is pushed.
 
 ## Known limitations
 

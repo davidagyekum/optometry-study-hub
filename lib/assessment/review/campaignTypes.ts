@@ -48,9 +48,11 @@ export type ReviewCampaignQuestion = {
 export type ReviewCampaignManifest = {
   schemaVersion: 1;
   id: string;
+  campaignHash: string;
   bankId: string;
   bankHash: string;
   policy: { id: string; version: number };
+  policyHash: string;
   createdAt: string;
   questions: ReviewCampaignQuestion[];
   reviewers: ReviewerProfile[];
@@ -58,6 +60,7 @@ export type ReviewCampaignManifest = {
 
 export type ReviewSubmission = {
   campaignId: string;
+  campaignHash: string;
   bankId: string;
   questionId: string;
   questionVersion: number;
@@ -78,6 +81,23 @@ export type ReviewPackEntry = Omit<ReviewSubmission, 'rating' | 'comment'> & {
   comment: string;
 };
 
+export type ReviewSourcePackReceipt = {
+  reviewerId: string;
+  packHash: string;
+  rowCount: number;
+};
+
+export type MergedReviewSubmissions = {
+  schemaVersion: 1;
+  campaignId: string;
+  campaignHash: string;
+  bankId: string;
+  bankHash: string;
+  sourcePacks: ReviewSourcePackReceipt[];
+  submissions: ReviewSubmission[];
+  mergedHash: string;
+};
+
 export type ReviewIssueSeverity =
   | 'blocking'
   | 'requires-discussion'
@@ -87,6 +107,7 @@ export type StableReviewIssue = {
   schemaVersion: 1;
   id: string;
   campaignId: string;
+  campaignHash: string;
   questionId: string;
   questionVersion: number;
   questionHash: string;
@@ -121,6 +142,7 @@ export type QuestionReviewDecision = {
   schemaVersion: 1;
   id: string;
   campaignId: string;
+  campaignHash: string;
   questionId: string;
   questionVersion: number;
   questionHash: string;
@@ -146,12 +168,15 @@ export type QuestionReviewAnalysis = {
     applicableCriteria: number;
     ratedCriteria: number;
     fullyCoveredCriteria: number;
+    independentlyCoveredCriteria: number;
     uniqueReviewers: number;
     independentReviewers: number;
     conflictedReviewers: number;
   };
   overallContentValidity?: AikenValue;
   criterionValues: AikenValue[];
+  allReviewerOverallContentValidity?: AikenValue;
+  allReviewerCriterionValues: AikenValue[];
   ratings: ReviewSubmission[];
   comments: ReviewSubmission[];
   issues: StableReviewIssue[];
@@ -161,8 +186,10 @@ export type QuestionReviewAnalysis = {
 export type BankReviewAnalysis = {
   schemaVersion: 1;
   campaignId: string;
+  campaignHash: string;
   bankId: string;
   bankHash: string;
+  mergedHash: string;
   policy: { id: string; version: number };
   questions: QuestionReviewAnalysis[];
   summary: {
@@ -172,6 +199,11 @@ export type BankReviewAnalysis = {
     requiresResolution: number;
     readyForHumanDecision: number;
     totalIssues: Record<ReviewIssueSeverity, number>;
+    issueStatusCounts: {
+      total: number;
+      resolved: number;
+      unresolved: number;
+    };
     reviewerCoverage: {
       totalReviewers: number;
       independentReviewers: number;
@@ -197,11 +229,18 @@ export type EvidenceBundle = {
   schemaVersion: 1;
   hash: string;
   campaignId: string;
+  campaignHash: string;
   bankHash: string;
+  mergedHash: string;
   policy: ContentReviewPolicy;
   manifest: ReviewCampaignManifest;
-  submissions: ReviewSubmission[];
+  merged: MergedReviewSubmissions;
   analysis: BankReviewAnalysis;
   issues: StableReviewIssue[];
   resolutions: ReviewIssueResolution[];
+};
+
+export type ReviewAttribution = {
+  reviewerId: string;
+  consentConfirmed: true;
 };

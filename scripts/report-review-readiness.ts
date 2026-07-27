@@ -1,9 +1,6 @@
 import { join } from 'node:path';
-import type {
-  ReviewIssueResolution,
-  ReviewSubmission,
-} from '@/lib/assessment/review/campaignTypes';
-import type { MergedReviewSubmissions } from '@/lib/assessment/review/mergeSubmissions';
+import type { ReviewIssueResolution } from '@/lib/assessment/review/campaignTypes';
+import { validateMergedReviewSubmissions } from '@/lib/assessment/review/mergeSubmissions';
 import { analyzeReviewCampaign } from '@/lib/assessment/review/reviewAnalysis';
 import {
   openResolutionTemplate,
@@ -31,18 +28,21 @@ runCommand(async () => {
   const submissionsPath = requireValue('--submissions');
   const resolutionsPath = valueFor('--resolutions');
   const manifest = await loadCampaign(campaignPath);
-  const merged = (await readJson(submissionsPath)) as MergedReviewSubmissions;
-  if (
-    merged.campaignId !== manifest.id ||
-    merged.bankId !== manifest.bankId ||
-    merged.bankHash !== manifest.bankHash ||
-    !Array.isArray(merged.submissions)
-  ) {
-    throw new Error('Merged submissions do not match the campaign evidence.');
+  const mergedValidation = validateMergedReviewSubmissions({
+    value: await readJson(submissionsPath),
+    manifest,
+    bank: canonicalReviewContext.bank,
+  });
+  if (!mergedValidation.merged || mergedValidation.issues.length > 0) {
+    throw new Error(
+      mergedValidation.issues
+        .map((issue) => `${issue.code}: ${issue.message}`)
+        .join('\n'),
+    );
   }
   let analysis = analyzeReviewCampaign({
     manifest,
-    submissions: merged.submissions as ReviewSubmission[],
+    merged: mergedValidation.merged,
     policy: canonicalReviewContext.policy,
   });
   let resolutions: ReviewIssueResolution[] = [];
@@ -66,7 +66,7 @@ runCommand(async () => {
   await writeJson(join(directory, 'review-issues.json'), issues);
   await writeJson(
     join(directory, 'resolution-template.json'),
-    openResolutionTemplate(issues),
+    openResolutionTemplate(issues, resolutions),
   );
   await writeText(
     join(directory, 'review-analysis.md'),
@@ -74,13 +74,16 @@ runCommand(async () => {
       '# Expert review readiness',
       '',
       `Campaign: \`${manifest.id}\``,
+      `Campaign hash: \`${manifest.campaignHash}\``,
       `Bank hash: \`${manifest.bankHash}\``,
+      `Merged hash: \`${mergedValidation.merged.mergedHash}\``,
       `Not started: ${analysis.summary.notStarted}`,
       `Incomplete: ${analysis.summary.incomplete}`,
       `Requires resolution: ${analysis.summary.requiresResolution}`,
       `Ready for human decision: ${analysis.summary.readyForHumanDecision}`,
+      `Issues: ${analysis.summary.issueStatusCounts.total} total, ${analysis.summary.issueStatusCounts.resolved} resolved, ${analysis.summary.issueStatusCounts.unresolved} unresolved`,
       '',
-      "Aiken's V is criterion-specific. Per-question V uses only overall-content-validity. The project flag requires discussion and never approves an item.",
+      "Readiness-facing Aiken's V uses independent, unconflicted reviewers only. All-reviewer statistics remain separate diagnostics. The project flag requires discussion and never approves an item.",
       '',
       '## Evidence',
       '',
@@ -90,8 +93,10 @@ runCommand(async () => {
           version: question.questionVersion,
           hash: question.questionHash,
           state: question.state,
+          independentCoverage: question.coverage.independentlyCoveredCriteria,
           overallContentValidity: question.overallContentValidity,
           criterionValues: question.criterionValues,
+          allReviewerCriterionValues: question.allReviewerCriterionValues,
           comments: question.comments.map((comment) => ({
             reviewerId: comment.reviewerId,
             criterion: comment.criterion,

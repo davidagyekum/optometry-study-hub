@@ -100,3 +100,8 @@ The disabled nine-question pilot is assembled directly from `questions/preserved
 ## PR 8 operational expert-review workflow
 
 The repository can create evidence-bound campaigns, prefill one 338-row pack per registered reviewer, merge validated packs in deterministic order, preserve comment-only evidence, analyze criterion-specific Aiken values, generate stable issues, validate resolutions and chair decisions, export a bank snapshot, and verify a future status transition. Generated output is ignored and no campaign module is imported by the browser application. All current questions and objectives remain draft, no real ratings or identities are committed, and the pilot feature flag remains false.
+
+
+## PR 8 review hardening
+
+Campaign identity now includes a deterministic hash over the full normalized campaign, reviewer profiles, policy, timestamp, and ordered criterion matrix. Reviewer packs, merged evidence, issues, reports, bundles, and decisions carry that identity. Merged evidence is runtime-validated and self-hashed before analysis; evidence bundles recompute analysis, issue application, and resolutions rather than trusting caller-supplied state. Readiness uses independent, unconflicted coverage and cannot waive missing ratings, criteria, reviewers, stale evidence, or independence deficits. Stable decisions and status-transition verification are exact to the campaign, question hash, evidence bundle, decision type, chair authority, and consent-aware substantive attribution. Markdown JSON exports use fences longer than any untrusted backtick run. These changes remain authoring/review tooling only; the learner application, question content, objectives, storage, scoring, and disabled pilot are unchanged.

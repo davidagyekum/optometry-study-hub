@@ -1,6 +1,8 @@
+import { access } from 'node:fs/promises';
 import { join } from 'node:path';
 import {
   createReviewCampaignManifest,
+  validateCampaignDirectoryManifest,
   validateReviewCampaignManifest,
 } from '@/lib/assessment/review/campaignManifest';
 import {
@@ -49,15 +51,37 @@ runCommand(async () => {
     );
   }
   const directory = join('tmp', 'question-review', campaignId);
-  await writeJson(join(directory, 'campaign-manifest.json'), manifest);
+  const manifestPath = join(directory, 'campaign-manifest.json');
+  try {
+    await access(manifestPath);
+    const compatibility = validateCampaignDirectoryManifest(
+      await readJson(manifestPath),
+      manifest,
+    );
+    if (compatibility.length > 0) {
+      throw new Error(
+        `${compatibility[0].code}: ${compatibility[0].message} Directory: ${directory}.`,
+      );
+    }
+  } catch (error) {
+    if (
+      error instanceof Error &&
+      !('code' in error && error.code === 'ENOENT')
+    ) {
+      throw error;
+    }
+  }
+  await writeJson(manifestPath, manifest);
   await writeText(
     join(directory, 'campaign-summary.md'),
     [
       `# Review campaign ${campaignId}`,
       '',
+      `Campaign hash: \`${manifest.campaignHash}\``,
       `Bank: \`${manifest.bankId}\``,
       `Bank hash: \`${manifest.bankHash}\``,
       `Policy: \`${manifest.policy.id}@${manifest.policy.version}\``,
+      `Policy hash: \`${manifest.policyHash}\``,
       `Created: ${manifest.createdAt}`,
       `Questions: ${manifest.questions.length}`,
       `Reviewers: ${manifest.reviewers.length}`,
@@ -74,7 +98,7 @@ runCommand(async () => {
     );
     await writeText(
       join(directory, 'reviewer-packs', `${reviewer.id}-guide.md`),
-      `${reviewGuide(canonicalReviewContext.bank)}\nCampaign: \`${manifest.id}\`\nReviewer ID: \`${reviewer.id}\`\n`,
+      `${reviewGuide(canonicalReviewContext.bank)}\nCampaign: \`${manifest.id}\`\nCampaign hash: \`${manifest.campaignHash}\`\nReviewer ID: \`${reviewer.id}\`\n`,
     );
   }
   await writeText(
@@ -86,6 +110,6 @@ runCommand(async () => {
     buildReviewDossier(canonicalReviewContext.bank),
   );
   console.log(
-    `Created ${campaignId}: ${manifest.questions.length} questions, 338 criteria per reviewer, ${manifest.reviewers.length} reviewer packs.`,
+    `Created ${campaignId} (${manifest.campaignHash}): ${manifest.questions.length} questions, 338 criteria per reviewer, ${manifest.reviewers.length} reviewer packs.`,
   );
 });

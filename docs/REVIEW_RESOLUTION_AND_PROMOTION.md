@@ -13,7 +13,7 @@ Issue IDs bind the campaign, exact question version and hash, criterion, reviewe
 - a valid ISO timestamp;
 - an issue ID from the current evidence.
 
-Factual-accuracy and image-rights blocking concerns may be marked `not-actionable` only by a review chair with an explicit rationale. Meeting the Aiken project flag does not resolve a reviewer comment. Every non-empty comment must be addressed before readiness.
+Factual-accuracy and image-rights blocking concerns require review-chair authority for every no-change closure, whether labelled `resolved` or `not-actionable`. `NO_REVIEW_RATINGS`, `MISSING_REQUIRED_CRITERION`, `INSUFFICIENT_REVIEWERS`, `STALE_REVIEW_EVIDENCE`, and independence deficits cannot be waived textually. `accepted-for-discussion` never closes a blocking deficit. Meeting the Aiken project flag does not resolve a reviewer comment, and every non-empty comment must be addressed before readiness.
 
 ## Human decision manifests
 
@@ -24,7 +24,7 @@ The supported decisions are:
 - `eligible-for-reviewed`;
 - `retire`.
 
-There is no `approved` decision in PR 8. Every decision records a stable ID, campaign and question evidence, the evidence-bundle hash, review chair, ISO timestamp, rationale, and referenced issue IDs.
+There is no `approved` decision in PR 8. Every decision records a recomputed stable ID bound to the campaign hash and evidence-bundle hash, exact question evidence, review chair, ISO timestamp, rationale, and unique same-question issue IDs. Referenced issues must have current validated non-open resolutions, and eligibility decisions enumerate every closure that supports readiness.
 
 `eligible-for-reviewed` requires complete independent reviewer coverage, the project reviewer minimum, exact current evidence, no unresolved blocking issue, and explicit resolution of every comment. A decision still does not mutate `reviewStatus`.
 
@@ -32,7 +32,7 @@ Incomplete evidence may support `revise` or `retain-draft`. Retirement requires 
 
 ## Evidence-bundle hashes
 
-The deterministic evidence bundle covers the campaign manifest, normalized submissions, Aiken analysis, stable issues, resolutions, and review-policy identity. It excludes paths, output directories, modification times, and JSON insertion order.
+The deterministic evidence bundle covers the immutable campaign manifest, validated merged submissions and receipts, independent and all-reviewer analysis, stable issues, validated resolutions, and full review policy. Bundle validation recomputes every derived field and rejects mutated submissions, forged readiness, removed issues, altered resolutions, or an unchanged hash after mutation. It excludes paths, output directories, modification times, and JSON insertion order.
 
 A change to question content, objective, source identity, rating, comment, resolution, or policy changes the relevant hash. Decisions with a stale hash are rejected.
 
@@ -54,10 +54,10 @@ The command reports missing, stale, or unsupported decisions and never writes to
 
 - meaningful question changes require a version increment;
 - revised content returns to `draft` and invalidates old evidence;
-- draft-to-reviewed requires an exact `eligible-for-reviewed` decision and explicit human reviewer attribution;
+- draft-to-reviewed requires an exact validated `eligible-for-reviewed` decision, current review question hash, zero unresolved issues, and explicit consent-aware attribution to a participating substantive reviewer; review-chair authority is recorded separately;
 - draft-to-approved is forbidden;
 - reviewed-to-approved remains outside PR 8;
-- retirement requires a matching `retire` decision;
+- retirement requires a matching stable `retire` decision for the same campaign, question, hash, and evidence bundle; retired-to-reviewed requires a newer version and new evidence;
 - inputs are never mutated.
 
 Export the current comparison baseline with:
