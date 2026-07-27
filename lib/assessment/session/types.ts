@@ -9,6 +9,7 @@ import type {
   AssessmentResultSnapshot,
   PersistedResponse,
 } from '@/lib/storage/schemas';
+import type { PracticeSelectionSnapshot } from '@/lib/assessment/practice/types';
 
 export type SessionIssueCode =
   | 'MALFORMED_QUESTION_BANK'
@@ -68,6 +69,7 @@ export type SessionIssueCode =
   | 'PILOT_MODULE_MISMATCH'
   | 'PILOT_RESULT_INCOMPATIBLE'
   | 'PILOT_MULTIPLE_ACTIVE_ATTEMPTS'
+  | 'PRACTICE_HISTORY_VERSION_CONFLICT'
   | 'RESULT_STORE_COLLISION'
   | 'GRADING_POLICY_NOT_FOUND'
   | 'GRADING_POLICY_VERSION_UNSUPPORTED'
@@ -136,6 +138,7 @@ export type CreateAssessmentAttemptInput = RegistryOptions & {
   courseId: string;
   moduleId: string;
   blueprintId?: string;
+  practiceSelection?: PracticeSelectionSnapshot;
   gradingPolicy?: GradingPolicyReference;
   initializeDraftResponses?: boolean;
   random?: RandomSource;

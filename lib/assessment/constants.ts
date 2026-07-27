@@ -13,6 +13,7 @@ export const REVIEW_STATUSES = ['draft', 'reviewed', 'approved', 'retired'] as c
 
 export const QUESTION_FORMATS = [
   'single_best_answer',
+  'true_false',
   'multiple_response',
   'ordering',
   'matching',

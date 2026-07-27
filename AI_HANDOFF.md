@@ -1,94 +1,99 @@
-# AI Handoff — PR 9
+# AI Handoff - PR 10
 
 ## Pull request
 
-- Branch: `codex/pr9`
+- Branch: `codex/pr10-adaptive-practice-history`
 - Base branch: `main`
-- Exact base commit: `a47b4e21ce890d1045cfd407f40abbb7f3067938`
-- Suggested title: **Add the OPT 374 curated visual-perception practice bank**
-- Draft PR: pending creation after the focused implementation commit is pushed.
-- The implementation and final head SHAs are recorded in the PR description and final report because a committed file cannot contain the SHA produced by its own commit.
-- Status: implementation, automated validation, and Chrome-only QA complete; no deployment; PR 10 not started.
+- Exact base commit: `c30fcc67c14dccd14eff0fd5f821eada4e084fb9`
+- Suggested title: **Add reusable practice blueprints, targeted practice, and question history**
+- Draft PR: https://github.com/davidagyekum/optometry-study-hub/pull/10
+- Status: implementation and local validation complete; awaiting review.
 
 ## Implemented scope
 
-- Imported the supplied OPT 374 Human Visual Perception JSON byte-for-byte as the canonical source and exposed typed bank, objective, source, and blueprint modules.
-- Added six original accessible SVG teaching diagrams built around the package's declared dimensions and interaction coordinates.
-- Added HVP-specific validation, report, and blueprint commands without changing the Aqueous defaults or PR 8 review-campaign tooling.
-- Added a deterministic 50-question assembler, exact compatibility checks, registry, selectors, local StoreV2 controller, landing, session, and result views.
-- Extracted shared controlled-assessment session and result components while retaining the Aqueous pilot's existing contracts.
-- Added the exact-string feature flag `NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE=false`; the legacy HVP notes and 50-question quiz remain the primary learner experience.
-- Result snapshots may now retain an optional blueprint ID so exact controlled-result routing and compatibility checks remain possible. The storage version and key are unchanged.
-
-## PR 9 review corrections
-
-- Both HVP result return actions now navigate to the canonical `HVP_CURATED_PRACTICE_ID`; valid-result and integrity-error regression tests assert the exact route call.
-- Runtime assembly now explicitly disables difficulty relaxation. Compatibility validation counts canonical question difficulty and Bloom levels, requires exactly 14 foundation / 26 intermediate / 10 advanced questions, and requires at least 20 Apply-or-higher questions for both attempts and results.
-- Quota-preserving mutation fixtures prove difficulty drift and higher-order drift are rejected while section, format, and family contracts remain satisfied.
-- The assembler succeeds across 1,000 deterministic seeds; every seed produces 50 unique questions, exact section/format/difficulty quotas, at least 20 higher-order questions, no relaxation, and no family count above two.
-- Shared incompatible-attempt recovery now labels its return action from `experience.experienceName`; Aqueous still renders “Return to pilot” while HVP renders “Return to curated practice.”
-
-## Canonical content and quotas
-
-- Package SHA-256: `029dc39ff103a836445a86bb352513b231e51d266d4b2fade3f00527d00ef89a`.
-- Canonical bank: 120 questions, 23 objectives, 19 registered sources, nine formats, all version 1 and all formally `draft`.
-- Section totals: foundations 16, retina 48, LGN/V1 32, extrastriate 24.
-- Scored practice: exactly 50 unique current-version questions; open response excluded.
-- Practice sections: foundations 6, retina 20, LGN/V1 14, extrastriate 10.
-- Practice formats: 30 single-best-answer, 8 multiple-response, 4 matching, 2 extended-matching, 2 ordering, 1 hotspot, 1 image label, and 2 short-answer.
-- Difficulty contract: exactly 14 foundation, 26 intermediate, and 10 advanced; runtime relaxation is disabled.
-- The assembler preserves the section/format matrix, at least 20 Apply-or-higher questions, at most two questions per family, deterministic same-seed behavior, different-seed variation, and structured failure diagnostics across 1,000 tested seeds.
+- Added a strict dedicated `true_false` domain, boolean draft/response
+  contracts, accessible renderer, all-or-nothing grading, review rendering,
+  validation, and isolated tests. No canonical question was converted.
+- Added strict version-1 reusable practice blueprints and immutable persisted
+  selection snapshots.
+- Preserved legacy PR 9 Full attempts/results without selection metadata.
+- Added deterministic HVP Quick 10, Standard 25, preserved Full 50, Custom
+  5-50, unseen, retry-missed, weak-topic, challenge, and mixed practice.
+- Added one-active-HVP-family recovery, explicit discard, and atomic
+  replacement across scored and written HVP practice.
+- Activated backward-compatible, version-aware question history only for HVP
+  practice and made it atomic with result finalization.
+- Added separate two-question written practice with manual-required outcomes,
+  no fabricated percentage, local drafts, resume, flags, and rubric review.
+- Added focused accessible practice-selection UI and result context.
+- Added a pure controlled-experience routing boundary so both scored and
+  written HVP snapshots are routed through the HVP flag, while the Aqueous
+  pilot remains isolated.
 
 ## Preserved boundaries
 
-- Five courses, eight modules, 39 study sections, 400 legacy-generated questions, and 50 legacy questions per module remain covered by the test suite.
-- The legacy HVP facts, generator, scoring, Latest/Best values, and `store.results` are unchanged.
-- The Aqueous bank remains 36 draft questions with 13 draft objectives; its nine pilot semantic hashes remain unchanged.
-- `NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT=false` and `NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE=false` remain the committed defaults.
-- HVP attempts and results use only the existing StoreV2 assessment maps; `questionHistory` is not updated.
-- No reviewer identities, evidence, status promotions, backend, account, analytics, deployment, or PR 10 work was added.
-- A static disabled-learner import-boundary test proves the ordinary learner graph cannot reach the 120-question bank or its answer keys while the flag is off.
+- Five courses, eight modules, 39 study sections, 400 legacy-generated
+  questions, legacy scoring, Latest/Best values, and legacy result history are
+  unchanged.
+- `optometry-study-hub:v2` and V1 rollback behavior are unchanged.
+- HVP `bank.json` is byte-for-byte unchanged at SHA-256
+  `029dc39ff103a836445a86bb352513b231e51d266d4b2fade3f00527d00ef89a`.
+- HVP remains 120 draft questions, 23 draft objectives, 19 sources, and six SVG
+  diagrams.
+- Aqueous remains 36 draft questions; its exact nine pilot items and semantic
+  hashes are unchanged and its history policy remains disabled.
+- Both committed assessment flags remain `false`.
+- No reviewer identity, rating, decision, or status promotion was added.
+- No deployment or PR 11 work occurred.
 
-## Final local validation
+## Automated validation
 
-Validation used bundled Node.js 24.14.0:
-
-- `npm ci`: passed from the committed lockfile; npm reported 23 existing dependency advisories and harmless optional-package cleanup warnings.
-- `npm run lint`: passed with only the four pre-existing legacy `<img>` warnings.
+- Runtime: bundled Node.js 24.14.0.
+- `npm ci`: passed from the committed lockfile.
+- `npm run lint`: passed with only the four documented legacy `<img>`
+  warnings.
 - `npm run typecheck`: passed.
-- `npm run test`: passed, 91 test files and 558 tests, including 1,000 deterministic assembler seeds.
-- `npm run questions:validate`: passed, 36 Aqueous questions, 13 objectives, 0 errors, 0 warnings.
-- `npm run questions:validate -- --strict`: passed.
-- `npm run questions:report` and `npm run questions:blueprint`: passed; Aqueous coverage and zero blueprint diagnostics remain unchanged.
-- `npm run questions:validate:hvp`: passed, 120 questions, 23 objectives, 19 sources, 0 errors, and 79 non-blocking supplied-content authoring warnings. Academic content was not silently rewritten.
-- `npm run questions:report:hvp` and `npm run questions:blueprint:hvp`: passed with exact declared totals and zero blueprint diagnostics.
-- Production builds passed with HVP curated practice disabled and enabled.
-- `npm run check`: passed to completion and includes both Aqueous and HVP validation/blueprint gates.
+- `npm run test`: 97 test files and 576 passing tests.
+- Quick, Standard, and Full profiles each passed 1,000 deterministic seeds.
+- `npm run questions:validate` and `--strict`: passed (36 questions,
+  13 objectives, zero errors and zero warnings).
+- `npm run questions:report` and `questions:blueprint`: passed.
+- `npm run questions:validate:hvp`: passed (120 questions, 23 objectives,
+  19 sources, zero errors; 79 preserved authoring warnings).
+- `npm run questions:report:hvp` and `questions:blueprint:hvp`: passed.
+- Production builds passed with HVP practice disabled and enabled while the
+  Aqueous pilot remained disabled.
+- `npm run check`: passed after the final routing correction.
 - `git diff --check`: passed.
 
-## Chrome-only regression
+## Chrome-only QA
 
-Chrome tested the local application without using the Codex in-app browser.
+- Verified notes entry point and direct practice route.
+- Verified Quick 10 answer, flag, refresh/resume, incomplete-submission
+  warning, scored result, result context, and atomic history update.
+- Verified Standard 25 creation and saved active-attempt recovery.
+- Verified targeted availability changes truthfully and insufficient
+  retry-missed/weak-topic pools stay disabled.
+- Verified Custom 5 with a Foundations-only filter produces exactly five
+  questions without filter expansion.
+- Verified atomic replacement of a scored attempt with written practice.
+- Chrome found and prompted correction of the written-attempt routing boundary;
+  a regression test now covers scored and written HVP routes.
+- Verified both written responses autosave across refresh, submit as exactly
+  two manual-review outcomes, show rubrics, and display no fabricated
+  percentage.
+- Verified mobile layout without horizontal overflow and the unchanged legacy
+  50-question HVP quiz entry point.
+- Verified the disabled HVP feature-gate page with both flags false.
+- Chrome console: zero new errors.
 
-- Disabled: no curated entry or hidden 120-question content appeared; the HVP notes retained the legacy 50-question action; the direct practice route hydrated to a neutral unavailable view.
-- Enabled: the notes displayed the secondary entry; the landing reported a 120-question pool and 50-question set; starting produced the exact section and format quotas.
-- One draft and flag persisted through refresh; question navigation worked; incomplete submission displayed the review warning and finalized atomically.
-- Results showed 0/50 with 50 unanswered for the intentionally incomplete QA submission, exact section/format breakdowns, full stored-order review, and the explicit legacy-score isolation statement.
-- Responsive checks covered 390×844, 768×1024, and 1024×768 with no document-level horizontal overflow.
-- Enabled and disabled Chrome console checks reported zero errors.
-- Automated renderer, grading, controller, compatibility, seed-variation, note-link, reset, and isolation tests cover the remaining format and persistence contracts.
+## Publishing state
 
-## GitHub Actions
-
-- Initial implementation-head Quality run: `30285156536`; job: `90041015246`.
-- Review-correction Quality run: `30287689686`; job: `90049442983`; head: `8537fcfb2f841e5ee7a434098283341a29fc5813`.
-- GitHub marked both jobs failed with empty `steps` arrays, so no checkout, install, lint, type-check, test, validation, or build step executed.
-- This matches the repository's known external account restriction and is not evidence of a repository-code failure.
-- The draft PR description and final report record the handoff-only final head and its latest Actions run/job IDs.
-
-## Known limitations
-
-- The 79 HVP validator warnings are preserved package authoring diagnostics; changing them would violate the requirement to import the supplied academic objects exactly.
-- All HVP questions and objectives remain draft and are not lecturer-approved examination items.
-- Public enablement is a separate decision; the committed feature flag remains false.
-- Later depth, stereopsis, colour, motion, entoptic, and illusion tranches remain pending.
+- Production deployment: not performed.
+- PR 11: not started.
+- GitHub Actions run 30315678159 and job 90140567142 ended in the known
+  external account restriction with zero executed steps. No repository
+  checkout, install, test, validation, or build step ran. The PR description
+  and final report record the latest observed run after the final push.
+- The final branch-head SHA and draft PR URL are reported in the PR and final
+  response because a committed file cannot embed its own resulting SHA.

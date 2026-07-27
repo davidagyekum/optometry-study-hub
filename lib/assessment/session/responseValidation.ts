@@ -103,6 +103,10 @@ export function validateResponseForQuestion(
       }
       return sessionSuccess({ response });
     }
+    case 'true_false': {
+      if (response.format !== 'true_false') break;
+      return sessionSuccess({ response });
+    }
     case 'multiple_response': {
       if (response.format !== 'multiple_response') break;
       const valid = new Set(question.options.map((option) => option.id));

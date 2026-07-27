@@ -119,3 +119,12 @@ Atomic finalization also requires the result grading-policy reference to match t
 The current React quiz and result views, 400 generated questions, distractor logic, scoring, routes, CSS, and device-local learner workflow remain unchanged. No pilot question is registered with `LegacyQuizView`.
 
 The versioned engines remain separate from the legacy quiz. PR 6 connects them only to an exact-string, default-off Aqueous pilot with accessible multi-format renderers, StoreV2 autosave, deterministic result verification, and draft-only registration. Production question conversion remains future reviewed work.
+
+## Practice selection and history finalization
+
+PR 10 copies an immutable optional practice-selection identity from attempt to
+result and includes it in exact atomic snapshot comparison. History-enabled
+finalization removes the attempt, inserts the verified result, and updates
+version-aware history in one validated StoreV2 candidate. Any failure commits
+nothing. Aqueous uses the default disabled history policy. See
+`docs/PRACTICE_PLATFORM.md`.

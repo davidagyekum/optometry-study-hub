@@ -4,6 +4,7 @@ import {
   gradingPolicyReferenceSchema,
   persistedGradingSnapshotSchema,
 } from '@/lib/assessment/grading/schemas';
+import { practiceSelectionSnapshotSchema } from '@/lib/assessment/practice/schemas';
 
 const legacyStringRecordSchema = z.record(z.string(), z.string());
 const legacyStringArrayRecordSchema = z.record(z.string(), z.array(z.string()));
@@ -80,6 +81,10 @@ export const persistedResponseSchema = z.discriminatedUnion('format', [
     optionId: stableIdSchema,
   }),
   z.strictObject({
+    format: z.literal('true_false'),
+    answer: z.boolean(),
+  }),
+  z.strictObject({
     format: z.literal('multiple_response'),
     optionIds: uniqueStableIdArray(),
   }),
@@ -111,6 +116,10 @@ export const assessmentDraftResponseSchema = z.discriminatedUnion('format', [
   z.strictObject({
     format: z.literal('single_best_answer'),
     optionId: stableIdSchema,
+  }),
+  z.strictObject({
+    format: z.literal('true_false'),
+    answer: z.boolean(),
   }),
   z.strictObject({
     format: z.literal('multiple_response'),
@@ -146,6 +155,7 @@ const assessmentAttemptSnapshotBaseSchema = z.strictObject({
   courseId: stableIdSchema,
   moduleId: stableIdSchema,
   blueprintId: stableIdSchema.optional(),
+  practiceSelection: practiceSelectionSnapshotSchema.optional(),
   gradingPolicy: gradingPolicyReferenceSchema.optional(),
   startedAt: isoDatetimeSchema,
   orderedQuestionIds: uniqueStableIdArray(1),
@@ -188,6 +198,7 @@ const assessmentResultSnapshotBaseSchema = z.strictObject({
   courseId: stableIdSchema,
   moduleId: stableIdSchema,
   blueprintId: stableIdSchema.optional(),
+  practiceSelection: practiceSelectionSnapshotSchema.optional(),
   submittedAt: isoDatetimeSchema,
   orderedQuestionIds: uniqueStableIdArray(1),
   questionVersions: stableIdVersionRecordSchema,
@@ -295,6 +306,14 @@ export const questionHistoryRecordSchema = z.strictObject({
   attemptCount: z.number().int().nonnegative(),
   correctCount: z.number().int().nonnegative(),
   lastAnsweredAt: isoDatetimeSchema.optional(),
+  encounterCount: z.number().int().nonnegative().optional(),
+  partialCount: z.number().int().nonnegative().optional(),
+  incorrectCount: z.number().int().nonnegative().optional(),
+  unansweredCount: z.number().int().nonnegative().optional(),
+  manualRequiredCount: z.number().int().nonnegative().optional(),
+  lastEncounteredAt: isoDatetimeSchema.optional(),
+  lastResultId: stableIdSchema.optional(),
+  lastStatus: z.enum(['correct', 'incorrect', 'partial', 'unanswered', 'manual_required']).optional(),
 }).superRefine((record, context) => {
   if (record.correctCount > record.attemptCount) {
     addIssue(context, ['correctCount'], 'Correct count cannot exceed attempt count.');

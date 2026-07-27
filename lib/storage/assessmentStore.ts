@@ -7,6 +7,7 @@ import type {
   SessionIssue,
   SessionResult,
 } from '@/lib/assessment/session/types';
+import { nextHistoryRecord } from '@/lib/assessment/practice/history';
 import {
   storeV2Schema,
   type AssessmentAttemptSnapshot,
@@ -168,6 +169,9 @@ export function finalizeAssessmentStore(
   attemptKey: string,
   resultKey: string,
   result: AssessmentResultSnapshot,
+  options: {
+    historyPolicy?: 'disabled' | 'scored' | 'encounter-and-manual';
+  } = {},
 ): SessionResult<StoreV2> {
   const active = getActiveAssessmentAttempt(store, attemptKey);
   if (!active.ok) return active;
@@ -215,10 +219,38 @@ export function finalizeAssessmentStore(
   );
   compare('responses', result.responses, active.value.responses);
   compare('gradingPolicy', result.gradingPolicy, active.value.gradingPolicy);
+  compare('practiceSelection', result.practiceSelection, active.value.practiceSelection);
   if (snapshotIssues.length > 0) return sessionFailure(snapshotIssues);
 
   const activeAttempts = { ...store.assessment.activeAttempts };
   delete activeAttempts[attemptKey];
+  const questionHistory = structuredClone(store.assessment.questionHistory);
+  const historyPolicy = options.historyPolicy ?? 'disabled';
+  if (historyPolicy !== 'disabled') {
+    if (!result.grading) {
+      return sessionFailure(sessionIssue(
+        'INVALID_STORE',
+        'History-enabled finalization requires a verified grading snapshot.',
+        { attemptId: attemptKey, path: 'grading' },
+      ));
+    }
+    for (const questionId of result.orderedQuestionIds) {
+      const next = nextHistoryRecord(
+        questionHistory[questionId],
+        result,
+        questionId,
+        historyPolicy,
+      );
+      if ('issue' in next) {
+        return sessionFailure(sessionIssue(
+          'PRACTICE_HISTORY_VERSION_CONFLICT',
+          'Question history cannot combine or downgrade authored versions.',
+          { attemptId: attemptKey, questionId, path: `assessment.questionHistory.${questionId}.version` },
+        ));
+      }
+      questionHistory[questionId] = next;
+    }
+  }
   return validatedStore({
     ...store,
     assessment: {
@@ -228,6 +260,7 @@ export function finalizeAssessmentStore(
         ...store.assessment.results,
         [resultKey]: structuredClone(result),
       },
+      questionHistory,
     },
   }, { attemptId: attemptKey });
 }

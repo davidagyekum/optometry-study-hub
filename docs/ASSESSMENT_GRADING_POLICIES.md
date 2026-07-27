@@ -115,3 +115,11 @@ PR 5 does not update `assessment.questionHistory`. The current history record ca
 The current legacy React quiz, legacy result page, scoring, generated distractors, and 400 live questions remain unchanged. The nine-format bank stays draft and is reachable only through the default-disabled controlled pilot when the feature flag is exactly `true`.
 
 PR 6 adds accessible multi-format renderers, diagnostic grading, and verified result review for engineering evaluation. It does not add a public policy selector, automatic open-response scoring, question-history updates, or production question conversion.
+
+## True/False and written practice
+
+Dedicated True/False responses are boolean and grade all-or-nothing under both
+`strict@1` and `diagnostic@1`. HVP Written practice retains the existing
+open-response manual boundary: supplied responses produce `manual_required`
+and no percentage. History may record encounters/manual-review counts but
+never objective correctness for written responses.

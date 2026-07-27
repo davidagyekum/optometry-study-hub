@@ -118,6 +118,12 @@ export const singleBestAnswerQuestionSchema = z.strictObject({
   correctOptionId: stableIdSchema,
 });
 
+export const trueFalseQuestionSchema = z.strictObject({
+  ...baseQuestionShape,
+  format: z.literal('true_false'),
+  correctAnswer: z.boolean(),
+});
+
 export const multipleResponseQuestionSchema = z.strictObject({
   ...baseQuestionShape,
   format: z.literal('multiple_response'),
@@ -191,6 +197,7 @@ export const openResponseQuestionSchema = z.strictObject({
 
 export const assessmentQuestionSchema = z.discriminatedUnion('format', [
   singleBestAnswerQuestionSchema,
+  trueFalseQuestionSchema,
   multipleResponseQuestionSchema,
   orderingQuestionSchema,
   matchingQuestionSchema,

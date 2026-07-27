@@ -1,0 +1,91 @@
+.practice-choice-section {
+  border-top: 1px solid var(--line);
+  padding-top: 28px;
+}
+
+.practice-choice-section h2 {
+  margin: 0 0 8px;
+}
+
+.practice-choice-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  margin-top: 18px;
+}
+
+.practice-choice-grid button {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 72px;
+  text-align: left;
+}
+
+.practice-choice-grid button span {
+  font-size: 12px;
+  opacity: .78;
+}
+
+.practice-count {
+  display: grid;
+  gap: 6px;
+  margin: 18px 0;
+  max-width: 220px;
+}
+
+.practice-count input {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  min-height: 44px;
+  padding: 8px 12px;
+}
+
+.practice-filter-group {
+  border: 0;
+  margin: 18px 0;
+  padding: 0;
+}
+
+.practice-filter-group legend {
+  font-weight: 750;
+  margin-bottom: 10px;
+}
+
+.practice-filter-group > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.practice-filter-group label {
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+  display: flex;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 12px;
+}
+
+.practice-filter-group label:has(input:checked) {
+  background: color-mix(in srgb, var(--teal) 12%, white);
+  border-color: var(--teal);
+}
+
+@media (max-width: 520px) {
+  .practice-choice-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .practice-filter-group > div {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .practice-filter-group label {
+    border-radius: 10px;
+  }
+}

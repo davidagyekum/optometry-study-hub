@@ -157,3 +157,12 @@ Later depth, stereopsis, colour, motion, entoptic, and dedicated illusion decks
 should extend this canonical bank with new stable IDs and versions. They must
 not rewrite the current tranche or weaken the expert-review and promotion
 requirements added in PRs 7 and 8.
+
+## PR 10 profiles and written practice
+
+The original Full 50 remains exact and PR 9 snapshots without selection
+metadata remain resumable. Quick 10 and Standard 25 use documented
+largest-remainder proportional targets; Custom uses explicit filters; targeted
+strategies use compatible current-version device history. The two canonical
+open-response items are available only in separate Written practice and are
+never automatically marked. See `docs/PRACTICE_PLATFORM.md`.

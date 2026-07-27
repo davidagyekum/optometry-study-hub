@@ -51,6 +51,7 @@ export function authoredPresentationIds(
     case 'image_label':
       return question.labels.map((label) => label.id);
     case 'image_hotspot':
+    case 'true_false':
     case 'short_answer':
     case 'open_response':
       return undefined;
