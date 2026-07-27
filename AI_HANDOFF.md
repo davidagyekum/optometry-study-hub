@@ -72,8 +72,10 @@ Chrome tested the local application without using the Codex in-app browser.
 
 ## GitHub Actions
 
-- A new Actions run and job ID will be recorded in the draft PR description and final report after the branch is pushed.
-- The repository has a known external account restriction that may fail the job before executing any steps. If that recurs, it is not evidence of a repository checkout, install, lint, type-check, test, validation, or build failure.
+- Implementation-head Quality run: `30285156536`; job: `90041015246`.
+- GitHub marked the job failed with an empty `steps` array, so no checkout, install, lint, type-check, test, validation, or build step executed.
+- This matches the repository's known external account restriction and is not evidence of a repository-code failure.
+- The draft PR description and final report record the final head and its latest Actions run/job IDs after this handoff correction is pushed.
 
 ## Known limitations
 
