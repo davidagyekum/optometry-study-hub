@@ -96,3 +96,7 @@ The 36-question Aqueous and Vitreous candidate bank remains draft-only and the e
 ## Final PR 7 review isolation correction
 
 The disabled nine-question pilot is assembled directly from `questions/preservedPilot.ts`, filtered objectives, and filtered registered sources. Its import graph does not reach `bank.ts` or any of the 27 hidden candidate-question modules. The canonical 36-question authoring bank remains available only to authoring, validation, blueprint, and expert-review tooling.
+
+## PR 8 operational expert-review workflow
+
+The repository can create evidence-bound campaigns, prefill one 338-row pack per registered reviewer, merge validated packs in deterministic order, preserve comment-only evidence, analyze criterion-specific Aiken values, generate stable issues, validate resolutions and chair decisions, export a bank snapshot, and verify a future status transition. Generated output is ignored and no campaign module is imported by the browser application. All current questions and objectives remain draft, no real ratings or identities are committed, and the pilot feature flag remains false.

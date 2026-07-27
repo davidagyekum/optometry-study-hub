@@ -61,3 +61,7 @@ This is author self-review only, not independent academic approval. Every item w
 ## Extended-matching exclusivity correction
 
 `aqueous-flow-extended-001` now separates two anatomical routes from one downstream pressure constraint. Its correct categories are conventional trabecular route, unconventional uveoscleral route, and episcleral venous-pressure constraint; `reuseOptions` is explicitly `false`, and every stem maps to a unique category.
+
+## Campaign evidence binding
+
+The exact 36-question blueprint is part of the deterministic campaign bank hash. Each campaign question also binds its version, review hash, objective, sources, and format-derived criterion matrix. All 36 questions and 13 objectives remain draft; the nine preserved pilot semantics are unchanged.

@@ -52,3 +52,7 @@ Do not add images with unclear ownership, unreadable labels, or unverifiable ana
 - **Retired:** preserved for history but excluded from production delivery.
 
 Authors should not review their own intermediate or advanced questions unless an explicit exception is documented.
+
+## Versioned campaign policy
+
+`opt376-expert-review@1` requires three independent, unconflicted reviewers per applicable criterion, flags V below 0.80 for discussion, and treats ratings of 1 or 2 as concerns. Low factual-accuracy and image-rights ratings block readiness. Meeting the numeric policy never changes `reviewStatus`; human attribution and judgment remain mandatory.

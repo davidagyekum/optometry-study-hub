@@ -32,6 +32,11 @@ describe("package scripts", () => {
       "questions:blueprint": "tsx scripts/report-question-blueprint.ts",
       "questions:review-pack": "tsx scripts/export-question-review-pack.ts",
       "questions:aiken": "tsx scripts/calculate-aiken-v.ts",
+      "questions:review-campaign": "tsx scripts/create-review-campaign.ts",
+      "questions:review-merge": "tsx scripts/merge-question-reviews.ts",
+      "questions:review-readiness": "tsx scripts/report-review-readiness.ts",
+      "questions:review-verify": "tsx scripts/verify-review-decision.ts",
+      "questions:review-snapshot": "tsx scripts/export-question-bank-snapshot.ts",
       check: "npm run lint && npm run typecheck && npm run test && npm run questions:validate && npm run questions:blueprint && npm run build",
     });
   });

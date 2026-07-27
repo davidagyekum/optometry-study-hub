@@ -163,3 +163,7 @@ An automated UTF-8 guard scans relevant source, content, scripts, documentation,
 ## Pilot and extended-matching review safeguards
 
 A feature-gated subset must import its preserved items directly; it must not import a full candidate bank and filter at runtime when that would pull hidden candidates into the client graph. Extended-matching options that represent overlapping levels of the same pathway must be redesigned as mutually exclusive categories. Declare `reuseOptions: false` when each option is intended to be used once.
+
+## Evidence after authoring
+
+Authorship and author self-review do not equal independent expert review. After a candidate is versioned, use an evidence-bound campaign. A meaningful edit increments the question version and invalidates prior evidence. Never copy a decision into `reviewStatus`; a later pull request must supply exact evidence, an eligible human decision, and reviewer attribution for any proposed draft-to-reviewed transition.

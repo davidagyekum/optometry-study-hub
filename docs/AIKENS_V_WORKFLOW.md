@@ -39,3 +39,7 @@ A high V is not guaranteed evidence of validity, and no threshold is universally
 
 - Aiken, L. R. (1980). Content Validity and Reliability of Single Items or Questionnaires. *Educational and Psychological Measurement, 40*(4), 955–959. https://doi.org/10.1177/001316448004000419
 - Aiken, L. R. (1985). Three Coefficients for Analyzing the Reliability and Validity of Ratings. *Educational and Psychological Measurement, 45*(1), 131–142. https://doi.org/10.1177/0013164485451012
+
+## Campaign analysis in PR 8
+
+Campaign readiness calculates Aiken's V separately for each applicable criterion and uses only `overall-content-validity` for per-question V. The 0.80 value is a project discussion flag, not universal proof of validity. Numeric ratings alone enter V; all comments remain qualitative issues until explicitly addressed.

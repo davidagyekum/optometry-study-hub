@@ -19,7 +19,12 @@
     "db:generate": "drizzle-kit generate",
     "questions:blueprint": "tsx scripts/report-question-blueprint.ts",
     "questions:review-pack": "tsx scripts/export-question-review-pack.ts",
-    "questions:aiken": "tsx scripts/calculate-aiken-v.ts"
+    "questions:aiken": "tsx scripts/calculate-aiken-v.ts",
+    "questions:review-campaign": "tsx scripts/create-review-campaign.ts",
+    "questions:review-merge": "tsx scripts/merge-question-reviews.ts",
+    "questions:review-readiness": "tsx scripts/report-review-readiness.ts",
+    "questions:review-verify": "tsx scripts/verify-review-decision.ts",
+    "questions:review-snapshot": "tsx scripts/export-question-bank-snapshot.ts"
   },
   "dependencies": {
     "drizzle-orm": "0.45.2",

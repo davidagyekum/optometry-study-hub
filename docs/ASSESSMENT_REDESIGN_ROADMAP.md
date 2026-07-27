@@ -1,77 +1,35 @@
 # Assessment Redesign Roadmap
 
-The redesign is intentionally staged so engineering changes remain reviewable and the current student experience stays stable.
+The redesign is intentionally staged so engineering and educational changes remain reviewable while the live student experience stays stable.
 
-## PR 1 — Baseline quality and documentation
+## Merged foundation
 
-Status: merged.
+- PR 1 — baseline quality and documentation: merged.
+- PR 2 — modularized legacy application: merged.
+- PR 3 — assessment domain and storage migration: merged.
+- PR 4 — headless assessment session engine: merged.
+- PR 5 — versioned grading policies: merged.
+- PR 6 — accessible renderers and controlled pilot: merged.
+- PR 7 — canonical Aqueous and Vitreous candidate bank and expert-review pack: merged.
 
-- Establish npm-based clean installs, strict TypeScript checking, Vitest, repository integrity tests, and a single `npm run check` command.
-- Document the current system, contribution rules, educational review policy, and known limitations.
-- Make no intentional product changes.
-
-## PR 2 — Modularize the legacy application
-
-Status: merged.
-
-- Separate legacy content, question generation, attempts, progress selectors, storage, navigation, hooks, and views.
-- Preserve all five courses, eight modules, 400 questions, route behavior, and version-1 storage.
-- Keep the flawed distractor generator unchanged but label it as legacy compatibility code.
-
-## PR 3 — Assessment domain and migration foundation
-
-Status: merged.
-
-- Add stable IDs, learning objectives, Bloom levels, difficulty, sources, rationales, misconception tags, review status, and versioning.
-- Define validated schemas for nine assessment formats.
-- Add question-bank diagnostics, linting, coverage reports, and a version-1-to-version-2 storage migration.
-- Keep the live quiz on the legacy engine.
-
-## PR 4 — Headless assessment session engine
-
-Status: merged.
-
-- Add approved-by-default question registration and deterministic arbitrary-length session creation.
-- Validate all nine persisted response formats without defining correctness.
-- Add immutable answer, flag, navigation, resume-resolution, finalization, and StoreV2 operations.
-- Keep the draft pilot disconnected from the public application and leave the live quiz unchanged.
-
-## PR 5 — Versioned headless grading policies
-
-Status: merged.
-
-- Add immutable strict and diagnostic version-1 policies with mode defaults.
-- Lock policy identity into new attempts and preserve it through results.
-- Grade eight automatic formats, identify manual open responses, and persist validated compact grading snapshots.
-- Support deterministic regrading against exact question versions.
-- Keep renderers, routes, the draft pilot, question history, and the live legacy quiz unchanged.
-
-## PR 6 — Accessible renderers and controlled pilot
-
-Status: merged.
-
-- Add accessible renderers for all nine assessment formats.
-- Persist incomplete active-attempt drafts and complete responses separately.
-- Add a default-disabled Aqueous and Vitreous engineering pilot with StoreV2 resume, diagnostic grading, and verified result review.
-- Preserve the live 400-question legacy quiz and its score metrics.
-
-## PR 7 — Canonical Aqueous and Vitreous candidate bank
+## PR 8 — Evidence-bound expert-review campaigns
 
 Status: current draft implementation.
 
-- Preserve the exact nine-question engineering pilot as a derived subset of one 36-question canonical bank.
-- Add 27 draft candidates, an exact multidimensional blueprint, a source/content audit, and deterministic authoring reports.
-- Export an expert-review pack and calculate Aiken’s V without changing review status.
-- Keep the pilot disabled and the live legacy quiz unchanged.
+- Register consent-aware reviewer profiles without inventing identities.
+- Bind campaigns and reviewer packs to deterministic bank, policy, question, objective, and source evidence.
+- Merge complete, partial, blank, rating-bearing, and comment-only submissions without mutating questions.
+- Produce criterion-specific Aiken's V, stable issues, explicit resolutions, readiness reports, evidence-bundle hashes, and human chair decisions.
+- Verify future status transitions without performing any transition.
+- Preserve the 36-question draft bank, exact nine-question pilot, live 400-question quiz, storage, scoring, and disabled pilot flag.
 
 ## Later phases
 
-- PR 8 may complete or expand this module bank only after PR 7 review; real expert ratings have not yet been collected.
-- No question is approved merely because it exists in the canonical bank; keep the pilot disabled by default.
-- Convert and academically review real questions module by module.
-- Introduce study, exam, and mastery modes only after the domain model and migration are accepted.
-- Add accessibility, browser, content-quality, and migration regression coverage as each capability becomes live.
+- Real independent expert reviewers still need to be recruited; no real ratings or identities are committed.
+- PR 9 may resolve genuine feedback and revise question versions.
+- Only a later evidence-backed change may move selected items to `reviewed`.
+- `approved` status and public pilot enablement remain separate decisions.
+- The other seven modules remain unconverted.
+- The pilot stays disabled until a separately reviewed release decision.
 
-Every phase starts from the latest merged `main` and waits for review before the next phase begins.
-
-Production conversion of the other seven modules has not started. PR 7 provides draft Aqueous and Vitreous candidates only; real expert review and academic approval remain outstanding.
+Every phase starts from the latest merged `main` and stops for review before the next phase begins.

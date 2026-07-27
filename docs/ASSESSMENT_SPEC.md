@@ -141,3 +141,7 @@ The review domain exports only applicable stable criteria and validates ordinal 
 The canonical review export binds each rated row to the bank ID, question ID, positive integer version, deterministic question evidence hash, section, objective, format, Bloom level, and difficulty. The hash covers the complete review-relevant question, objective, and registered source identities. Completed rows from a stale or edited pack are rejected.
 
 The expected matrix is derived from the canonical bank. Per-question Aiken's V is calculated only from `overall-content-validity`; all other applicable criteria are reported separately. Reports retain version/hash evidence and include zero-rating coverage rather than silently omitting it. Review output remains expert-only under ignored `tmp/` and does not alter the renderer, grading, storage, or status contracts.
+
+## Review-campaign domain
+
+Review campaigns, submissions, stable issues, resolutions, chair decisions, evidence bundles, and transition diagnostics are authoring-domain records. They are not learner attempt data and are not stored in StoreV2. None of these records automatically reviews, approves, retires, launches, grades, or mutates a question.

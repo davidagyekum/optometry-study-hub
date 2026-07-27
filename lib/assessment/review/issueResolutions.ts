@@ -1,0 +1,123 @@
+import type {
+  ReviewCampaignManifest,
+  ReviewDiagnostic,
+  ReviewIssueResolution,
+  StableReviewIssue,
+} from './campaignTypes';
+import { reviewIssueResolutionSchema } from './campaignSchemas';
+
+export function openResolutionTemplate(
+  issues: StableReviewIssue[],
+): ReviewIssueResolution[] {
+  return [...issues]
+    .sort((left, right) => left.id.localeCompare(right.id))
+    .map((issue) => ({
+      schemaVersion: 1,
+      issueId: issue.id,
+      status: 'open',
+    }));
+}
+
+export function validateIssueResolutions(input: {
+  value: unknown;
+  issues: StableReviewIssue[];
+  manifest: ReviewCampaignManifest;
+}): {
+  resolutions: ReviewIssueResolution[];
+  issues: ReviewDiagnostic[];
+} {
+  if (!Array.isArray(input.value)) {
+    return {
+      resolutions: [],
+      issues: [
+        {
+          code: 'REVIEW_RESOLUTIONS_INVALID',
+          message: 'Resolutions must be an array.',
+        },
+      ],
+    };
+  }
+  const diagnostics: ReviewDiagnostic[] = [];
+  const resolutions: ReviewIssueResolution[] = [];
+  const issueMap = new Map(input.issues.map((issue) => [issue.id, issue]));
+  const reviewerMap = new Map(
+    input.manifest.reviewers.map((reviewer) => [reviewer.id, reviewer]),
+  );
+  const seen = new Set<string>();
+  input.value.forEach((entry, index) => {
+    const parsed = reviewIssueResolutionSchema.safeParse(entry);
+    if (!parsed.success) {
+      diagnostics.push({
+        code: 'REVIEW_RESOLUTION_INVALID',
+        message: `Resolution ${index + 1}: ${parsed.error.issues
+          .map((issue) => issue.message)
+          .join('; ')}`,
+      });
+      return;
+    }
+    const resolution = parsed.data as ReviewIssueResolution;
+    if (seen.has(resolution.issueId)) {
+      diagnostics.push({
+        code: 'REVIEW_RESOLUTION_DUPLICATE',
+        message: `Duplicate resolution for ${resolution.issueId}.`,
+      });
+      return;
+    }
+    seen.add(resolution.issueId);
+    const issue = issueMap.get(resolution.issueId);
+    if (!issue) {
+      diagnostics.push({
+        code: 'REVIEW_RESOLUTION_ISSUE_UNKNOWN',
+        message: `Unknown or stale review issue ${resolution.issueId}.`,
+      });
+      return;
+    }
+    if (resolution.status !== 'open') {
+      if (
+        !resolution.resolution ||
+        !resolution.resolvedBy ||
+        !resolution.resolvedAt
+      ) {
+        diagnostics.push({
+          code: 'REVIEW_RESOLUTION_DETAILS_REQUIRED',
+          message: `Resolution ${resolution.issueId} requires rationale, resolver, and timestamp.`,
+        });
+        return;
+      }
+      const resolver = reviewerMap.get(resolution.resolvedBy);
+      if (!resolver) {
+        diagnostics.push({
+          code: 'REVIEW_RESOLUTION_RESOLVER_UNAUTHORIZED',
+          message: `${resolution.resolvedBy} is not a campaign reviewer.`,
+        });
+        return;
+      }
+      if (
+        resolution.status === 'not-actionable' &&
+        ['FACTUAL_ACCURACY_CONCERN', 'IMAGE_RIGHTS_CONCERN'].includes(issue.code) &&
+        !resolver.roles.includes('review-chair')
+      ) {
+        diagnostics.push({
+          code: 'REVIEW_RESOLUTION_CHAIR_REQUIRED',
+          message: `${issue.code} can be marked not-actionable only by a review chair with rationale.`,
+        });
+        return;
+      }
+    }
+    resolutions.push(resolution);
+  });
+  return { resolutions, issues: diagnostics };
+}
+
+export function unresolvedReviewIssues(
+  issues: StableReviewIssue[],
+  resolutions: ReviewIssueResolution[],
+): StableReviewIssue[] {
+  const resolutionMap = new Map(
+    resolutions.map((resolution) => [resolution.issueId, resolution]),
+  );
+  return issues.filter((issue) => {
+    const resolution = resolutionMap.get(issue.id);
+    return !resolution || resolution.status === 'open';
+  });
+}
