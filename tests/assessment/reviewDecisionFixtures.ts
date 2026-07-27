@@ -7,6 +7,7 @@ import { mergeReviewerPacks } from '@/lib/assessment/review/mergeSubmissions';
 import type {
   QuestionReviewDecision,
   ReviewDecisionType,
+  ReviewerProfile,
 } from '@/lib/assessment/review/campaignTypes';
 import {
   reviewTestContext,
@@ -17,14 +18,18 @@ import {
 
 export function completeDecisionFixture(options: {
   consentedAttribution?: boolean;
+  reviewerA?: Partial<ReviewerProfile>;
 } = {}) {
-  const reviewers = options.consentedAttribution
-    ? syntheticReviewers.map((reviewer) =>
-        reviewer.id === 'reviewer-a'
-          ? { ...reviewer, consentToAttribution: true }
-          : reviewer,
-      )
-    : syntheticReviewers;
+  const consentedAttribution = options.consentedAttribution ?? true;
+  const reviewers = syntheticReviewers.map((reviewer) =>
+    reviewer.id === 'reviewer-a'
+      ? {
+          ...reviewer,
+          ...(consentedAttribution ? { consentToAttribution: true } : {}),
+          ...options.reviewerA,
+        }
+      : reviewer,
+  );
   const manifest = syntheticCampaign(reviewers);
   const merged = mergeReviewerPacks({
     manifest,
@@ -59,6 +64,9 @@ export function completeDecisionFixture(options: {
       questionHash: question.questionHash,
       evidenceBundleHash: bundle.hash,
       decision,
+      ...(decision === 'eligible-for-reviewed'
+        ? { reviewerAttributionId: 'reviewer-a' }
+        : {}),
       decidedBy: 'reviewer-c',
       decidedAt: '2000-01-03T00:00:00.000Z',
       rationale: 'Synthetic fixture decision; not academic evidence.',
@@ -77,6 +85,7 @@ export function completeDecisionFixture(options: {
           questionHash: evidence.questionHash,
           evidenceBundleHash: evidence.evidenceBundleHash,
           decision: evidence.decision,
+          reviewerAttributionId: evidence.reviewerAttributionId,
           decidedBy: evidence.decidedBy,
         }),
     };

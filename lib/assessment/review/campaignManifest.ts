@@ -191,13 +191,18 @@ export function validateReviewCampaignManifest(
       message: 'Campaign policy hash does not match the complete current policy.',
     });
   }
+  const reviewerValidation = validateReviewerProfiles(manifest.reviewers);
+  issues.push(...reviewerValidation.issues);
+  if (reviewerValidation.issues.length > 0) {
+    return { manifest, issues };
+  }
   const expected = createReviewCampaignManifest({
     campaignId: manifest.id,
     createdAt: manifest.createdAt,
     bank: input.bank,
     blueprint: input.blueprint,
     policy: input.policy,
-    reviewers: manifest.reviewers,
+    reviewers: reviewerValidation.profiles,
   });
   if (
     stableReviewHash(manifest.questions) !==
@@ -240,26 +245,31 @@ export function validateReviewCampaignManifest(
       message: 'Campaign evidence differs from the current canonical campaign.',
     });
   }
-  issues.push(...validateReviewerProfiles(manifest.reviewers).issues);
   return { manifest, issues };
 }
-
 
 export function validateCampaignDirectoryManifest(
   existing: unknown,
   expected: ReviewCampaignManifest,
+  context: {
+    bank: QuestionBank;
+    blueprint: QuestionBlueprint;
+    policy: ContentReviewPolicy;
+  },
 ): ReviewDiagnostic[] {
-  const existingHash =
-    existing && typeof existing === 'object'
-      ? (existing as { campaignHash?: unknown }).campaignHash
-      : undefined;
-  return existingHash === expected.campaignHash
-    ? []
-    : [
-        {
-          code: 'REVIEW_CAMPAIGN_DIRECTORY_CONFLICT',
-          message:
-            'Existing campaign directory contains a different immutable campaign hash.',
-        },
-      ];
+  const validated = validateReviewCampaignManifest(existing, context);
+  if (
+    !validated.manifest ||
+    validated.issues.length > 0 ||
+    stableReviewHash(validated.manifest) !== stableReviewHash(expected)
+  ) {
+    return [
+      {
+        code: 'REVIEW_CAMPAIGN_DIRECTORY_CONFLICT',
+        message:
+          'Existing campaign directory contains malformed or different immutable campaign evidence.',
+      },
+    ];
+  }
+  return [];
 }

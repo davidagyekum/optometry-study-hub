@@ -30,11 +30,6 @@ function exactInput(
     decision,
     evidenceBundle: fixture.bundle,
     reviewContext: reviewTestContext,
-    currentQuestionHash: fixture.manifest.questions[0].questionHash,
-    attribution: {
-      reviewerId: 'reviewer-a',
-      consentConfirmed: true as const,
-    },
   };
 }
 
@@ -111,6 +106,113 @@ describe('question review-status transition verification', () => {
     ).toContain('REVIEW_TRANSITION_DECISION_INVALID');
   });
 
+  it.each([
+    [
+      'stem',
+      (question: AssessmentQuestion): AssessmentQuestion => ({
+        ...question,
+        stem: `${question.stem} Unauthorized change.`,
+      }),
+    ],
+    [
+      'answer',
+      (question: AssessmentQuestion): AssessmentQuestion => {
+        if (question.format !== 'single_best_answer') throw new Error('Expected SBA.');
+        return { ...question, correctOptionId: question.options[1].id };
+      },
+    ],
+    [
+      'options/components',
+      (question: AssessmentQuestion): AssessmentQuestion => {
+        if (question.format !== 'single_best_answer') throw new Error('Expected SBA.');
+        return {
+          ...question,
+          options: question.options.map((option, index) =>
+            index === 1
+              ? { ...option, text: `${option.text} changed` }
+              : option,
+          ),
+        };
+      },
+    ],
+    [
+      'rationale',
+      (question: AssessmentQuestion): AssessmentQuestion => {
+        if (question.format !== 'single_best_answer') throw new Error('Expected SBA.');
+        return {
+          ...question,
+          options: question.options.map((option, index) =>
+            index === 0
+              ? { ...option, rationale: `${option.rationale} changed` }
+              : option,
+          ),
+        };
+      },
+    ],
+    [
+      'objective/Bloom metadata',
+      (question: AssessmentQuestion): AssessmentQuestion => ({
+        ...question,
+        objectiveId: reviewTestContext.bank.objectives[1].id,
+        bloomLevel: 'analyze',
+      }),
+    ],
+    [
+      'sources',
+      (question: AssessmentQuestion): AssessmentQuestion => ({
+        ...question,
+        sources: question.sources.map((source, index) =>
+          index === 0
+            ? { ...source, locator: `${source.locator} changed` }
+            : source,
+        ),
+      }),
+    ],
+  ])(
+    'rejects matching before/after unauthorized %s content even with a fabricated hash',
+    (_label, mutate) => {
+      const fixture = completeDecisionFixture();
+      const before = mutate(cloneQuestion());
+      const after = {
+        ...mutate(cloneQuestion()),
+        reviewStatus: 'reviewed' as const,
+        reviewer: 'reviewer-a',
+      };
+      const fabricatedInput = {
+        ...exactInput(fixture, before, after),
+        currentQuestionHash: 'f'.repeat(64),
+      };
+      expect(
+        verifyQuestionReviewTransition(fabricatedInput).map(
+          (issue) => issue.code,
+        ),
+      ).toContain('REVIEW_CANONICAL_CONTENT_MISMATCH');
+    },
+  );
+
+  it('rejects post-decision attribution tampering', () => {
+    const fixture = completeDecisionFixture();
+    const before = cloneQuestion();
+    const after = {
+      ...before,
+      reviewStatus: 'reviewed' as const,
+      reviewer: 'reviewer-b',
+    };
+    expect(
+      verifyQuestionReviewTransition(
+        exactInput(fixture, before, after, {
+          ...fixture.baseDecision,
+          reviewerAttributionId: 'reviewer-b',
+        }),
+      ).map((issue) => issue.code),
+    ).toEqual(
+      expect.arrayContaining([
+        'REVIEW_TRANSITION_DECISION_INVALID',
+        'REVIEW_DECISION_ID_INVALID',
+      ]),
+    );
+  });
+
   it('rejects a stale or mutated evidence bundle', () => {
     const fixture = completeDecisionFixture({ consentedAttribution: true });
     const before = cloneQuestion();
@@ -182,6 +284,7 @@ describe('question review-status transition verification', () => {
       questionHash: question.questionHash,
       evidenceBundleHash: bundle.hash,
       decision: 'eligible-for-reviewed' as const,
+      reviewerAttributionId: 'reviewer-a',
       decidedBy: 'reviewer-c',
       decidedAt: '2000-01-03T00:00:00.000Z',
       rationale: 'Synthetic unresolved comment decision.',
@@ -204,11 +307,6 @@ describe('question review-status transition verification', () => {
         decision,
         evidenceBundle: bundle,
         reviewContext: reviewTestContext,
-        currentQuestionHash: question.questionHash,
-        attribution: {
-          reviewerId: 'reviewer-a',
-          consentConfirmed: true,
-        },
       }).map((issue) => issue.code),
     ).toEqual(
       expect.arrayContaining([
@@ -232,7 +330,6 @@ describe('question review-status transition verification', () => {
     expect(
       verifyQuestionReviewTransition({
         ...exactInput(fixture, before, after, retire),
-        attribution: undefined,
       }),
     ).toEqual([]);
 
@@ -250,7 +347,6 @@ describe('question review-status transition verification', () => {
     expect(
       verifyQuestionReviewTransition({
         ...exactInput(fixture, before, after, otherDecision),
-        attribution: undefined,
       }).map((issue) => issue.code),
     ).toContain('REVIEW_DECISION_MISMATCH');
     expect(
@@ -259,13 +355,14 @@ describe('question review-status transition verification', () => {
           ...retire,
           id: fixture.baseDecision.id,
         }),
-        attribution: undefined,
       }).map((issue) => issue.code),
     ).toContain('REVIEW_TRANSITION_DECISION_INVALID');
   });
 
   it('rejects nonconsenting and nonparticipating attribution', () => {
-    const noConsent = completeDecisionFixture();
+    const noConsent = completeDecisionFixture({
+      consentedAttribution: false,
+    });
     const before = cloneQuestion();
     const after = {
       ...before,
@@ -276,7 +373,7 @@ describe('question review-status transition verification', () => {
       verifyQuestionReviewTransition(
         exactInput(noConsent, before, after),
       ).map((issue) => issue.code),
-    ).toContain('REVIEWER_ATTRIBUTION_NOT_CONSENTED');
+    ).toContain('REVIEW_DECISION_ATTRIBUTION_NOT_CONSENTED');
 
     const observer = {
       schemaVersion: 1 as const,
@@ -313,6 +410,7 @@ describe('question review-status transition verification', () => {
       questionHash: question.questionHash,
       evidenceBundleHash: bundle.hash,
       decision: 'eligible-for-reviewed' as const,
+      reviewerAttributionId: 'reviewer-d',
       decidedBy: 'reviewer-c',
       decidedAt: '2000-01-03T00:00:00.000Z',
       rationale: 'Synthetic observer attribution test.',
@@ -326,13 +424,8 @@ describe('question review-status transition verification', () => {
         decision,
         evidenceBundle: bundle,
         reviewContext: reviewTestContext,
-        currentQuestionHash: question.questionHash,
-        attribution: {
-          reviewerId: 'reviewer-d',
-          consentConfirmed: true,
-        },
       }).map((issue) => issue.code),
-    ).toContain('REVIEWER_ATTRIBUTION_NOT_PARTICIPATING');
+    ).toContain('REVIEW_DECISION_ATTRIBUTION_NOT_PARTICIPATING');
   });
 
   it('rejects retired-to-reviewed without newer evidence', () => {

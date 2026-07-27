@@ -20,7 +20,7 @@ The required criterion matrix comes from `applicableCriteria(question.format)`. 
 
 Create an uncommitted JSON array of reviewer profiles. Each profile needs a stable lowercase slug ID, at least one role, stable expertise tags, an independence attestation or declared conflict, and an attribution-consent choice. Display names and affiliations are optional and must not be stored without consent.
 
-Pseudonymous IDs are suitable for working packs. The future human attribution process is still required before a question can move to `reviewed`. Do not commit a real reviewer registry.
+Pseudonymous IDs are suitable for working packs. Every campaign must include at least one review chair. The future human attribution process is still required before a question can move to `reviewed`. Do not commit a real reviewer registry.
 
 ## Create a campaign
 
@@ -30,7 +30,7 @@ npm run questions:review-campaign -- \
   --reviewers path/to/reviewers.json
 ```
 
-Tests may supply `--created-at <ISO timestamp>` for deterministic output. The command writes ignored artifacts under `tmp/question-review/<campaign-id>/`:
+Tests may supply `--created-at <ISO timestamp>` for deterministic output. Repeating the exact command against an equivalent complete manifest is a strict no-op: no manifest, summary, dossier, guide, or reviewer CSV is rewritten. A malformed or different existing manifest, or a colliding artifact in a new campaign directory, fails with `REVIEW_CAMPAIGN_DIRECTORY_CONFLICT`. New artifacts use exclusive-create semantics under `tmp/question-review/<campaign-id>/`:
 
 - `campaign-manifest.json`;
 - `campaign-summary.md`;
@@ -65,7 +65,7 @@ npm run questions:review-readiness -- \
 
 Optional arguments are `--resolutions <file>` and `--require-ready`. The default command reports incomplete evidence successfully. `--require-ready` exits nonzero unless every question is ready for a human decision.
 
-Aiken's V is calculated separately for every applicable criterion. Readiness-facing values use only independent, unconflicted reviewers; all-reviewer values remain separate diagnostics. Only `overall-content-validity` is used as the per-question V; ratings are never pooled across unlike criteria. Zero ratings remain explicitly unrated. Every qualitative comment, conflict, low rating, missing criterion, independence failure, and project-flag result becomes a stable issue.
+Aiken's V is calculated separately for every applicable criterion. Readiness-facing values use only independent, unconflicted reviewers; all-reviewer values remain separate diagnostics. Reports distinguish registered reviewers, submitted packs, reviewers contributing ratings, and comment-only reviewers. Only `overall-content-validity` is used as the per-question V; ratings are never pooled across unlike criteria. Zero ratings remain explicitly unrated. Every qualitative comment, conflict, low rating, missing criterion, independence failure, and project-flag result becomes a stable issue.
 
 Calculated states are deliberately limited to:
 

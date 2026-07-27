@@ -331,10 +331,25 @@ export function analyzeReviewCampaign(input: {
   const allIssues = questions.flatMap((question) => question.issues);
   const stateCount = (state: QuestionReviewAnalysis['state']): number =>
     questions.filter((question) => question.state === state).length;
-  const totalReviewers = new Set(
+  const submittedReviewers = new Set(
     input.merged.submissions.map((submission) => submission.reviewerId),
   );
-  const reviewerSummary = reviewerCounts(totalReviewers, reviewerMap);
+  const ratingReviewers = new Set(
+    input.merged.submissions
+      .filter((submission) => submission.rating !== undefined)
+      .map((submission) => submission.reviewerId),
+  );
+  const commentingReviewers = new Set(
+    input.merged.submissions
+      .filter((submission) => Boolean(submission.comment))
+      .map((submission) => submission.reviewerId),
+  );
+  const commentOnlyReviewers = new Set(
+    [...commentingReviewers].filter(
+      (reviewerId) => !ratingReviewers.has(reviewerId),
+    ),
+  );
+  const reviewerSummary = reviewerCounts(submittedReviewers, reviewerMap);
   return {
     schemaVersion: 1,
     campaignId: input.manifest.id,
@@ -366,7 +381,10 @@ export function analyzeReviewCampaign(input: {
         unresolved: allIssues.length,
       },
       reviewerCoverage: {
-        totalReviewers: totalReviewers.size,
+        registeredReviewers: input.manifest.reviewers.length,
+        submittedReviewers: submittedReviewers.size,
+        ratingReviewers: ratingReviewers.size,
+        commentOnlyReviewers: commentOnlyReviewers.size,
         independentReviewers: reviewerSummary.independent,
         conflictedReviewers: reviewerSummary.conflicted,
       },

@@ -53,6 +53,38 @@ export async function writeJson(path: string, value: unknown): Promise<void> {
   await writeText(path, JSON.stringify(value, null, 2));
 }
 
+export async function writeTextExclusive(
+  path: string,
+  value: string,
+): Promise<void> {
+  await mkdir(dirname(path), { recursive: true });
+  try {
+    await writeFile(
+      path,
+      value.endsWith('\n') ? value : `${value}\n`,
+      { encoding: 'utf8', flag: 'wx' },
+    );
+  } catch (error) {
+    if (
+      error instanceof Error &&
+      'code' in error &&
+      error.code === 'EEXIST'
+    ) {
+      throw new Error(
+        `REVIEW_CAMPAIGN_DIRECTORY_CONFLICT: Refusing to overwrite existing campaign artifact ${path}.`,
+      );
+    }
+    throw error;
+  }
+}
+
+export async function writeJsonExclusive(
+  path: string,
+  value: unknown,
+): Promise<void> {
+  await writeTextExclusive(path, JSON.stringify(value, null, 2));
+}
+
 export async function loadCampaign(path: string): Promise<ReviewCampaignManifest> {
   const validated = validateReviewCampaignManifest(
     await readJson(path),

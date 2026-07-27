@@ -5,7 +5,11 @@ import { syntheticReviewers } from './reviewTestFixtures';
 describe('reviewer profiles', () => {
   it('normalizes stable IDs and accepts consent-free pseudonymous fixtures', () => {
     const result = validateReviewerProfiles([
-      { ...syntheticReviewers[0], id: ' Reviewer-A ' },
+      {
+        ...syntheticReviewers[0],
+        id: ' Reviewer-A ',
+        roles: ['subject-matter-expert', 'review-chair'],
+      },
     ]);
     expect(result.issues).toEqual([]);
     expect(result.profiles[0].id).toBe('reviewer-a');
@@ -23,11 +27,20 @@ describe('reviewer profiles', () => {
     expect(validateReviewerProfiles(profiles).issues.map((issue) => issue.code)).toContain(code);
   });
 
+  it('requires at least one registered review chair', () => {
+    expect(
+      validateReviewerProfiles([syntheticReviewers[0]]).issues.map(
+        (issue) => issue.code,
+      ),
+    ).toContain('REVIEW_CHAIR_REQUIRED');
+  });
+
   it('accepts a declared conflict as explicit non-independent evidence', () => {
     const result = validateReviewerProfiles([
       {
         ...syntheticReviewers[0],
         independentReviewAttestation: false,
+        roles: ['subject-matter-expert', 'review-chair'],
         conflictOfInterest: { status: 'declared', description: 'Synthetic fixture conflict.' },
       },
     ]);

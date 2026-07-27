@@ -125,5 +125,14 @@ export function validateReviewerProfiles(value: unknown): {
       message: 'A review campaign requires at least one reviewer.',
     });
   }
+  if (
+    profiles.length > 0 &&
+    !profiles.some((profile) => profile.roles.includes('review-chair'))
+  ) {
+    issues.push({
+      code: 'REVIEW_CHAIR_REQUIRED',
+      message: 'A review campaign requires at least one registered review chair.',
+    });
+  }
   return { profiles: normalizeReviewerProfiles(profiles), issues };
 }

@@ -148,6 +148,7 @@ export type QuestionReviewDecision = {
   questionHash: string;
   evidenceBundleHash: string;
   decision: ReviewDecisionType;
+  reviewerAttributionId?: string;
   decidedBy: string;
   decidedAt: string;
   rationale: string;
@@ -205,7 +206,10 @@ export type BankReviewAnalysis = {
       unresolved: number;
     };
     reviewerCoverage: {
-      totalReviewers: number;
+      registeredReviewers: number;
+      submittedReviewers: number;
+      ratingReviewers: number;
+      commentOnlyReviewers: number;
       independentReviewers: number;
       conflictedReviewers: number;
     };
@@ -238,9 +242,4 @@ export type EvidenceBundle = {
   analysis: BankReviewAnalysis;
   issues: StableReviewIssue[];
   resolutions: ReviewIssueResolution[];
-};
-
-export type ReviewAttribution = {
-  reviewerId: string;
-  consentConfirmed: true;
 };

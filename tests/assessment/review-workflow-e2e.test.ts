@@ -15,13 +15,12 @@ import { completeDecisionFixture } from './reviewDecisionFixtures';
 import {
   reviewTestContext,
   reviewerCsv,
-  syntheticCampaign,
 } from './reviewTestFixtures';
 
 describe('review campaign end-to-end workflow', () => {
   it('creates, merges, analyzes, hashes, and verifies synthetic evidence without changing the bank', () => {
     const before = structuredClone(aqueousVitreousCandidateBank);
-    const manifest = syntheticCampaign();
+    const manifest = completeDecisionFixture().manifest;
     const merged = mergeReviewerPacks({
       manifest,
       bank: reviewTestContext.bank,

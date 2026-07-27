@@ -1,4 +1,3 @@
-import { access } from 'node:fs/promises';
 import { join } from 'node:path';
 import {
   createReviewCampaignManifest,
@@ -21,9 +20,17 @@ import {
   requireValue,
   runCommand,
   valueFor,
-  writeJson,
-  writeText,
+  writeJsonExclusive,
+  writeTextExclusive,
 } from './review-command-utils';
+
+function isMissingFile(error: unknown): boolean {
+  return (
+    error instanceof Error &&
+    'code' in error &&
+    error.code === 'ENOENT'
+  );
+}
 
 runCommand(async () => {
   const campaignId = requireValue('--campaign-id');
@@ -50,29 +57,41 @@ runCommand(async () => {
       validated.issues.map((issue) => `${issue.code}: ${issue.message}`).join('\n'),
     );
   }
+
   const directory = join('tmp', 'question-review', campaignId);
   const manifestPath = join(directory, 'campaign-manifest.json');
+  let existingManifest: unknown;
+  let manifestExists = false;
   try {
-    await access(manifestPath);
+    existingManifest = await readJson(manifestPath);
+    manifestExists = true;
+  } catch (error) {
+    if (!isMissingFile(error)) {
+      throw new Error(
+        `REVIEW_CAMPAIGN_DIRECTORY_CONFLICT: Existing campaign manifest is unreadable or malformed. Directory: ${directory}.`,
+      );
+    }
+  }
+
+  if (manifestExists) {
     const compatibility = validateCampaignDirectoryManifest(
-      await readJson(manifestPath),
+      existingManifest,
       manifest,
+      canonicalReviewContext,
     );
     if (compatibility.length > 0) {
       throw new Error(
         `${compatibility[0].code}: ${compatibility[0].message} Directory: ${directory}.`,
       );
     }
-  } catch (error) {
-    if (
-      error instanceof Error &&
-      !('code' in error && error.code === 'ENOENT')
-    ) {
-      throw error;
-    }
+    console.log(
+      `Campaign ${campaignId} (${manifest.campaignHash}) already exists; no artifact was rewritten.`,
+    );
+    return;
   }
-  await writeJson(manifestPath, manifest);
-  await writeText(
+
+  await writeJsonExclusive(manifestPath, manifest);
+  await writeTextExclusive(
     join(directory, 'campaign-summary.md'),
     [
       `# Review campaign ${campaignId}`,
@@ -90,22 +109,22 @@ runCommand(async () => {
     ].join('\n'),
   );
   for (const reviewer of manifest.reviewers) {
-    await writeText(
+    await writeTextExclusive(
       join(directory, 'reviewer-packs', `${reviewer.id}.csv`),
       campaignRowsToCsv(
         campaignReviewRows(manifest, canonicalReviewContext.bank, reviewer.id),
       ),
     );
-    await writeText(
+    await writeTextExclusive(
       join(directory, 'reviewer-packs', `${reviewer.id}-guide.md`),
       `${reviewGuide(canonicalReviewContext.bank)}\nCampaign: \`${manifest.id}\`\nCampaign hash: \`${manifest.campaignHash}\`\nReviewer ID: \`${reviewer.id}\`\n`,
     );
   }
-  await writeText(
+  await writeTextExclusive(
     join(directory, 'review-items.md'),
     reviewDossierMarkdown(canonicalReviewContext.bank),
   );
-  await writeJson(
+  await writeJsonExclusive(
     join(directory, 'review-items.json'),
     buildReviewDossier(canonicalReviewContext.bank),
   );

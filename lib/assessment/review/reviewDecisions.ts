@@ -259,6 +259,7 @@ export function validateReviewDecisions(input: {
       questionHash: decision.questionHash,
       evidenceBundleHash: decision.evidenceBundleHash,
       decision: decision.decision,
+      reviewerAttributionId: decision.reviewerAttributionId,
       decidedBy: decision.decidedBy,
     });
     if (decision.id !== expectedId) {
@@ -297,6 +298,16 @@ export function validateReviewDecisions(input: {
       });
       return;
     }
+    if (
+      new Date(decision.decidedAt).getTime() <
+      new Date(input.manifest.createdAt).getTime()
+    ) {
+      issues.push({
+        code: 'REVIEW_DECISION_TIMESTAMP_BEFORE_CAMPAIGN',
+        message: `Decision ${decision.id} predates campaign creation.`,
+      });
+      return;
+    }
     if (new Set(decision.resolvedIssueIds).size !== decision.resolvedIssueIds.length) {
       issues.push({
         code: 'REVIEW_DECISION_ISSUE_DUPLICATE',
@@ -325,7 +336,85 @@ export function validateReviewDecisions(input: {
       return;
     }
     const analysis = analysisQuestions.get(decision.questionId);
+    if (
+      decision.decision !== 'eligible-for-reviewed' &&
+      decision.reviewerAttributionId
+    ) {
+      issues.push({
+        code: 'REVIEW_DECISION_ATTRIBUTION_UNEXPECTED',
+        message: `Decision ${decision.id} must not attribute a reviewer unless it is eligible-for-reviewed.`,
+      });
+      return;
+    }
     if (decision.decision === 'eligible-for-reviewed') {
+      if (!decision.reviewerAttributionId) {
+        issues.push({
+          code: 'REVIEW_DECISION_ATTRIBUTION_REQUIRED',
+          message: `Decision ${decision.id} requires an evidence-bound substantive reviewer attribution.`,
+        });
+        return;
+      }
+      const attributedReviewer = campaignReviewers.get(
+        decision.reviewerAttributionId,
+      );
+      const substantiveRoles = new Set([
+        'subject-matter-expert',
+        'assessment-reviewer',
+        'accessibility-reviewer',
+        'image-rights-reviewer',
+      ]);
+      if (!attributedReviewer) {
+        issues.push({
+          code: 'REVIEW_DECISION_ATTRIBUTION_UNKNOWN',
+          message: `${decision.reviewerAttributionId} is not registered in this campaign.`,
+        });
+        return;
+      }
+      if (!attributedReviewer.independentReviewAttestation) {
+        issues.push({
+          code: 'REVIEW_DECISION_ATTRIBUTION_NOT_INDEPENDENT',
+          message: `${decision.reviewerAttributionId} did not attest independent review.`,
+        });
+        return;
+      }
+      if (attributedReviewer.conflictOfInterest.status !== 'none') {
+        issues.push({
+          code: 'REVIEW_DECISION_ATTRIBUTION_CONFLICTED',
+          message: `${decision.reviewerAttributionId} has a declared conflict of interest.`,
+        });
+        return;
+      }
+      if (
+        !attributedReviewer.roles.some((role) =>
+          substantiveRoles.has(role),
+        )
+      ) {
+        issues.push({
+          code: 'REVIEW_DECISION_ATTRIBUTION_ROLE_INVALID',
+          message: `${decision.reviewerAttributionId} does not hold a substantive review role.`,
+        });
+        return;
+      }
+      if (!attributedReviewer.consentToAttribution) {
+        issues.push({
+          code: 'REVIEW_DECISION_ATTRIBUTION_NOT_CONSENTED',
+          message: `${decision.reviewerAttributionId} did not consent to attribution.`,
+        });
+        return;
+      }
+      const participated = bundle.merged.submissions.some(
+        (submission) =>
+          submission.questionId === decision.questionId &&
+          submission.reviewerId === decision.reviewerAttributionId &&
+          (submission.rating !== undefined || Boolean(submission.comment)),
+      );
+      if (!participated) {
+        issues.push({
+          code: 'REVIEW_DECISION_ATTRIBUTION_NOT_PARTICIPATING',
+          message: `${decision.reviewerAttributionId} supplied no substantive evidence for ${decision.questionId}.`,
+        });
+        return;
+      }
       if (
         !analysis ||
         analysis.coverage.independentlyCoveredCriteria !==
@@ -383,6 +472,7 @@ export function stableDecisionId(input: {
   questionHash: string;
   evidenceBundleHash: string;
   decision: QuestionReviewDecision['decision'];
+  reviewerAttributionId?: string;
   decidedBy: string;
 }): string {
   return `decision-${stableReviewHash({
@@ -393,6 +483,7 @@ export function stableDecisionId(input: {
     questionHash: input.questionHash,
     evidenceBundleHash: input.evidenceBundleHash,
     decision: input.decision,
+    reviewerAttributionId: input.reviewerAttributionId ?? null,
     decidedBy: input.decidedBy,
   }).slice(0, 24)}`;
 }

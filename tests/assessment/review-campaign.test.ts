@@ -112,9 +112,26 @@ describe('review campaign manifest', () => {
     const changed = syntheticCampaign(undefined, {
       createdAt: '2001-01-01T00:00:00.000Z',
     });
-    expect(validateCampaignDirectoryManifest(original, original)).toEqual([]);
     expect(
-      validateCampaignDirectoryManifest(original, changed).map(
+      validateCampaignDirectoryManifest(
+        original,
+        original,
+        reviewTestContext,
+      ),
+    ).toEqual([]);
+    expect(
+      validateCampaignDirectoryManifest(
+        { campaignHash: original.campaignHash },
+        original,
+        reviewTestContext,
+      ).map((issue) => issue.code),
+    ).toContain('REVIEW_CAMPAIGN_DIRECTORY_CONFLICT');
+    expect(
+      validateCampaignDirectoryManifest(
+        original,
+        changed,
+        reviewTestContext,
+      ).map(
         (issue) => issue.code,
       ),
     ).toContain('REVIEW_CAMPAIGN_DIRECTORY_CONFLICT');

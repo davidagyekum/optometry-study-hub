@@ -27,6 +27,43 @@ function issueFor(
 }
 
 describe('blocking review-resolution policy', () => {
+  it('rejects resolver metadata on open resolutions and pre-campaign timestamps', () => {
+    const issue = issueFor('REVIEWER_COMMENT', 'requires-discussion');
+    const manifest = syntheticCampaign();
+    expect(
+      validateIssueResolutions({
+        value: [
+          {
+            schemaVersion: 1,
+            issueId: issue.id,
+            status: 'open',
+            resolution: 'Synthetic premature metadata.',
+            resolvedBy: 'reviewer-c',
+            resolvedAt: '2000-01-02T00:00:00.000Z',
+          },
+        ],
+        issues: [issue],
+        manifest,
+      }).issues.map((entry) => entry.code),
+    ).toContain('REVIEW_RESOLUTION_OPEN_METADATA_FORBIDDEN');
+    expect(
+      validateIssueResolutions({
+        value: [
+          {
+            schemaVersion: 1,
+            issueId: issue.id,
+            status: 'resolved',
+            resolution: 'Synthetic early closure.',
+            resolvedBy: 'reviewer-c',
+            resolvedAt: '1999-12-31T23:59:59.000Z',
+          },
+        ],
+        issues: [issue],
+        manifest,
+      }).issues.map((entry) => entry.code),
+    ).toContain('REVIEW_RESOLUTION_TIMESTAMP_BEFORE_CAMPAIGN');
+  });
+
   it.each(['resolved', 'not-actionable'] as const)(
     'requires chair authority for factual-accuracy %s closure',
     (status) => {

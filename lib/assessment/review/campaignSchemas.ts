@@ -112,6 +112,7 @@ export const questionReviewDecisionSchema = z.strictObject({
     'eligible-for-reviewed',
     'retire',
   ]),
+  reviewerAttributionId: stableSlug.optional(),
   decidedBy: stableSlug,
   decidedAt: z.iso.datetime(),
   rationale: nonEmpty,

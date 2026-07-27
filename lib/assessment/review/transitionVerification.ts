@@ -2,7 +2,6 @@ import type { AssessmentQuestion } from '@/lib/assessment/types';
 import type {
   EvidenceBundle,
   QuestionReviewDecision,
-  ReviewAttribution,
   ReviewDiagnostic,
 } from './campaignTypes';
 import type { EvidenceValidationContext } from './reviewDecisions';
@@ -11,6 +10,7 @@ import {
   validateReviewDecisions,
 } from './reviewDecisions';
 import { unresolvedReviewIssues } from './issueResolutions';
+import { reviewQuestionHash } from './reviewPack';
 import { stableReviewHash } from './stableReviewHash';
 
 function meaningfulQuestionEvidence(question: AssessmentQuestion): unknown {
@@ -21,34 +21,73 @@ function meaningfulQuestionEvidence(question: AssessmentQuestion): unknown {
   return evidence;
 }
 
+function canonicalQuestionContent(question: AssessmentQuestion): unknown {
+  const content: Record<string, unknown> = { ...question };
+  delete content.reviewStatus;
+  delete content.reviewer;
+  return content;
+}
+
 function validateExactTransitionEvidence(input: {
   afterQuestion: AssessmentQuestion;
   requiredDecision: 'eligible-for-reviewed' | 'retire';
   decision?: QuestionReviewDecision;
   evidenceBundle?: EvidenceBundle;
   reviewContext?: EvidenceValidationContext;
-  currentQuestionHash?: string;
 }): {
   bundle?: EvidenceBundle;
+  decision?: QuestionReviewDecision;
   issues: ReviewDiagnostic[];
 } {
-  const issues: ReviewDiagnostic[] = [];
-  if (
-    !input.decision ||
-    !input.evidenceBundle ||
-    !input.reviewContext ||
-    !input.currentQuestionHash
-  ) {
+  if (!input.decision || !input.evidenceBundle || !input.reviewContext) {
     return {
       issues: [
         {
           code: 'REVIEW_DECISION_REQUIRED',
           message:
-            'The transition requires a decision, evidence bundle, canonical review context, and current review question hash.',
+            'The transition requires a decision, evidence bundle, and canonical review context.',
         },
       ],
     };
   }
+
+  const issues: ReviewDiagnostic[] = [];
+  const canonicalQuestion = input.reviewContext.bank.questions.find(
+    (question) => question.id === input.afterQuestion.id,
+  );
+  const canonicalObjective = canonicalQuestion
+    ? input.reviewContext.bank.objectives.find(
+        (objective) => objective.id === canonicalQuestion.objectiveId,
+      )
+    : undefined;
+  if (!canonicalQuestion || !canonicalObjective) {
+    return {
+      issues: [
+        {
+          code: 'REVIEW_CANONICAL_QUESTION_MISSING',
+          message:
+            'The proposed question is not present with a resolvable objective in the canonical review bank.',
+        },
+      ],
+    };
+  }
+
+  const canonicalHash = reviewQuestionHash(
+    canonicalQuestion,
+    canonicalObjective,
+    input.reviewContext.bank.sources,
+  );
+  if (
+    stableReviewHash(canonicalQuestionContent(input.afterQuestion)) !==
+    stableReviewHash(canonicalQuestionContent(canonicalQuestion))
+  ) {
+    issues.push({
+      code: 'REVIEW_CANONICAL_CONTENT_MISMATCH',
+      message:
+        'The proposed question content does not exactly match the canonical content that received review evidence.',
+    });
+  }
+
   const evidence = validateEvidenceBundle({
     value: input.evidenceBundle,
     manifest: input.evidenceBundle.manifest,
@@ -57,6 +96,7 @@ function validateExactTransitionEvidence(input: {
   if (!evidence.bundle) {
     return {
       issues: [
+        ...issues,
         {
           code: 'REVIEW_TRANSITION_EVIDENCE_INVALID',
           message: 'Transition evidence bundle is invalid or stale.',
@@ -65,6 +105,7 @@ function validateExactTransitionEvidence(input: {
       ],
     };
   }
+
   const decisionValidation = validateReviewDecisions({
     value: [input.decision],
     bundle: evidence.bundle,
@@ -76,7 +117,9 @@ function validateExactTransitionEvidence(input: {
     decisionValidation.decisions.length !== 1
   ) {
     return {
+      bundle: evidence.bundle,
       issues: [
+        ...issues,
         {
           code: 'REVIEW_TRANSITION_DECISION_INVALID',
           message: 'Transition decision is invalid for the evidence bundle.',
@@ -85,83 +128,36 @@ function validateExactTransitionEvidence(input: {
       ],
     };
   }
+
   const decision = decisionValidation.decisions[0];
   const manifestQuestion = evidence.bundle.manifest.questions.find(
-    (question) => question.questionId === input.afterQuestion.id,
+    (question) => question.questionId === canonicalQuestion.id,
+  );
+  const analysisQuestion = evidence.bundle.analysis.questions.find(
+    (question) => question.questionId === canonicalQuestion.id,
   );
   if (
     decision.decision !== input.requiredDecision ||
     decision.campaignId !== evidence.bundle.campaignId ||
     decision.campaignHash !== evidence.bundle.campaignHash ||
-    decision.questionId !== input.afterQuestion.id ||
-    decision.questionVersion !== input.afterQuestion.version ||
-    decision.questionHash !== input.currentQuestionHash ||
+    decision.questionId !== canonicalQuestion.id ||
+    decision.questionVersion !== canonicalQuestion.version ||
+    decision.questionHash !== canonicalHash ||
     decision.evidenceBundleHash !== evidence.bundle.hash ||
     !manifestQuestion ||
-    manifestQuestion.questionVersion !== input.afterQuestion.version ||
-    manifestQuestion.questionHash !== input.currentQuestionHash
+    manifestQuestion.questionVersion !== canonicalQuestion.version ||
+    manifestQuestion.questionHash !== canonicalHash ||
+    !analysisQuestion ||
+    analysisQuestion.questionVersion !== canonicalQuestion.version ||
+    analysisQuestion.questionHash !== canonicalHash
   ) {
     issues.push({
       code: 'REVIEW_DECISION_MISMATCH',
       message:
-        'The decision does not match the exact campaign, question, version, review hash, bundle, and transition type.',
+        'The decision does not match the exact canonical campaign, question, version, recomputed review hash, analysis, bundle, and transition type.',
     });
   }
-  return { bundle: evidence.bundle, issues };
-}
-
-function validateAttribution(input: {
-  question: AssessmentQuestion;
-  attribution?: ReviewAttribution;
-  bundle: EvidenceBundle;
-}): ReviewDiagnostic[] {
-  const issues: ReviewDiagnostic[] = [];
-  if (
-    !input.attribution ||
-    input.attribution.consentConfirmed !== true ||
-    input.question.reviewer !== input.attribution.reviewerId
-  ) {
-    return [
-      {
-        code: 'REVIEWER_ATTRIBUTION_REQUIRED',
-        message:
-          'Reviewed status requires an explicit consent-aware substantive reviewer attribution.',
-      },
-    ];
-  }
-  const profile = input.bundle.manifest.reviewers.find(
-    (reviewer) => reviewer.id === input.attribution?.reviewerId,
-  );
-  const substantiveRoles = new Set([
-    'subject-matter-expert',
-    'assessment-reviewer',
-    'accessibility-reviewer',
-    'image-rights-reviewer',
-  ]);
-  if (
-    !profile?.consentToAttribution ||
-    !profile.roles.some((role) => substantiveRoles.has(role))
-  ) {
-    issues.push({
-      code: 'REVIEWER_ATTRIBUTION_NOT_CONSENTED',
-      message:
-        'The attributed reviewer must consent and hold a substantive review role.',
-    });
-  }
-  const participated = input.bundle.merged.submissions.some(
-    (submission) =>
-      submission.questionId === input.question.id &&
-      submission.reviewerId === input.attribution?.reviewerId &&
-      (submission.rating !== undefined || Boolean(submission.comment)),
-  );
-  if (!participated) {
-    issues.push({
-      code: 'REVIEWER_ATTRIBUTION_NOT_PARTICIPATING',
-      message:
-        'The attributed reviewer must have supplied substantive evidence for this question.',
-    });
-  }
-  return issues;
+  return { bundle: evidence.bundle, decision, issues };
 }
 
 export function verifyQuestionReviewTransition(input: {
@@ -170,8 +166,6 @@ export function verifyQuestionReviewTransition(input: {
   decision?: QuestionReviewDecision;
   evidenceBundle?: EvidenceBundle;
   reviewContext?: EvidenceValidationContext;
-  currentQuestionHash?: string;
-  attribution?: ReviewAttribution;
 }): ReviewDiagnostic[] {
   const issues: ReviewDiagnostic[] = [];
   if (input.beforeQuestion.id !== input.afterQuestion.id) {
@@ -234,10 +228,9 @@ export function verifyQuestionReviewTransition(input: {
       decision: input.decision,
       evidenceBundle: input.evidenceBundle,
       reviewContext: input.reviewContext,
-      currentQuestionHash: input.currentQuestionHash,
     });
     issues.push(...exact.issues);
-    if (exact.bundle) {
+    if (exact.bundle && exact.decision) {
       const analysis = exact.bundle.analysis.questions.find(
         (question) => question.questionId === input.afterQuestion.id,
       );
@@ -252,13 +245,17 @@ export function verifyQuestionReviewTransition(input: {
             'The proposed reviewed transition retains an unresolved issue.',
         });
       }
-      issues.push(
-        ...validateAttribution({
-          question: input.afterQuestion,
-          attribution: input.attribution,
-          bundle: exact.bundle,
-        }),
-      );
+      if (
+        !exact.decision.reviewerAttributionId ||
+        input.afterQuestion.reviewer !==
+          exact.decision.reviewerAttributionId
+      ) {
+        issues.push({
+          code: 'REVIEWER_ATTRIBUTION_MISMATCH',
+          message:
+            'The proposed reviewer attribution must exactly match the evidence-bound decision attribution.',
+        });
+      }
     }
   }
   if (
@@ -289,7 +286,6 @@ export function verifyQuestionReviewTransition(input: {
       decision: input.decision,
       evidenceBundle: input.evidenceBundle,
       reviewContext: input.reviewContext,
-      currentQuestionHash: input.currentQuestionHash,
     });
     if (exact.issues.length > 0) {
       issues.push(

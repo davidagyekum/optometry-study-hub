@@ -24,9 +24,9 @@ The supported decisions are:
 - `eligible-for-reviewed`;
 - `retire`.
 
-There is no `approved` decision in PR 8. Every decision records a recomputed stable ID bound to the campaign hash and evidence-bundle hash, exact question evidence, review chair, ISO timestamp, rationale, and unique same-question issue IDs. Referenced issues must have current validated non-open resolutions, and eligibility decisions enumerate every closure that supports readiness.
+There is no `approved` decision in PR 8. Every decision records a recomputed stable ID bound to the campaign hash and evidence-bundle hash, exact question evidence, decision type, review chair, and—only for `eligible-for-reviewed`—a `reviewerAttributionId`. The ISO timestamp, rationale, and unique same-question issue IDs are validated, and decision or resolution timestamps cannot predate campaign creation. Referenced issues must have current validated non-open resolutions, and eligibility decisions enumerate every closure that supports readiness.
 
-`eligible-for-reviewed` requires complete independent reviewer coverage, the project reviewer minimum, exact current evidence, no unresolved blocking issue, and explicit resolution of every comment. A decision still does not mutate `reviewStatus`.
+`eligible-for-reviewed` requires complete independent reviewer coverage, the project reviewer minimum, exact current evidence, no unresolved blocking issue, and explicit resolution of every comment. Its attributed reviewer must be registered, independent, unconflicted, consented, hold a substantive role, and have supplied a rating or comment for that exact question. The chair may be a different person. A decision still does not mutate `reviewStatus`.
 
 Incomplete evidence may support `revise` or `retain-draft`. Retirement requires an explicit human rationale.
 
@@ -54,7 +54,7 @@ The command reports missing, stale, or unsupported decisions and never writes to
 
 - meaningful question changes require a version increment;
 - revised content returns to `draft` and invalidates old evidence;
-- draft-to-reviewed requires an exact validated `eligible-for-reviewed` decision, current review question hash, zero unresolved issues, and explicit consent-aware attribution to a participating substantive reviewer; review-chair authority is recorded separately;
+- draft-to-reviewed recomputes the canonical review hash from the bank, objective, and registered sources, compares all proposed question content except `reviewStatus` and `reviewer` with that canonical content, requires an exact validated `eligible-for-reviewed` decision, and requires `afterQuestion.reviewer` to equal the decision-bound `reviewerAttributionId`;
 - draft-to-approved is forbidden;
 - reviewed-to-approved remains outside PR 8;
 - retirement requires a matching stable `retire` decision for the same campaign, question, hash, and evidence bundle; retired-to-reviewed requires a newer version and new evidence;

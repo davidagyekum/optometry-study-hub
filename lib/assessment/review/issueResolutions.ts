@@ -102,6 +102,16 @@ export function validateIssueResolutions(input: {
       });
       return;
     }
+    if (
+      resolution.status === 'open' &&
+      (resolution.resolution || resolution.resolvedBy || resolution.resolvedAt)
+    ) {
+      diagnostics.push({
+        code: 'REVIEW_RESOLUTION_OPEN_METADATA_FORBIDDEN',
+        message: `Open resolution ${resolution.issueId} cannot include resolver metadata.`,
+      });
+      return;
+    }
     if (resolution.status !== 'open') {
       if (
         !resolution.resolution ||
@@ -111,6 +121,16 @@ export function validateIssueResolutions(input: {
         diagnostics.push({
           code: 'REVIEW_RESOLUTION_DETAILS_REQUIRED',
           message: `Resolution ${resolution.issueId} requires rationale, resolver, and timestamp.`,
+        });
+        return;
+      }
+      if (
+        new Date(resolution.resolvedAt).getTime() <
+        new Date(input.manifest.createdAt).getTime()
+      ) {
+        diagnostics.push({
+          code: 'REVIEW_RESOLUTION_TIMESTAMP_BEFORE_CAMPAIGN',
+          message: `Resolution ${resolution.issueId} predates campaign creation.`,
         });
         return;
       }

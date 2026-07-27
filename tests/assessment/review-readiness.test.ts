@@ -47,7 +47,10 @@ describe('review analysis and readiness', () => {
               manifest: syntheticCampaign(),
               merged: emptyValidatedMerged(),
             }
-          : mergedFor(syntheticReviewers.slice(0, count));
+          : mergedFor([
+              syntheticReviewers[2],
+              ...syntheticReviewers.slice(0, count - 1),
+            ]);
       const analysis = analyzeReviewCampaign({
         ...input,
         policy: reviewTestContext.policy,
@@ -68,6 +71,38 @@ describe('review analysis and readiness', () => {
       }
     },
   );
+
+  it('distinguishes registered, submitted, rating, and comment-only reviewers', () => {
+    const manifest = syntheticCampaign();
+    const merged = mergeReviewerPacks({
+      manifest,
+      bank: reviewTestContext.bank,
+      packs: [
+        {
+          name: 'reviewer-c.csv',
+          csv: reviewerCsv('reviewer-c', {
+            manifest,
+            commentAt: {
+              questionId: manifest.questions[0].questionId,
+              criterion: 'clarity',
+              comment: 'Synthetic comment-only evidence.',
+            },
+          }),
+        },
+      ],
+    }).merged!;
+    const analysis = analyzeReviewCampaign({
+      manifest,
+      merged,
+      policy: reviewTestContext.policy,
+    });
+    expect(analysis.summary.reviewerCoverage).toMatchObject({
+      registeredReviewers: 3,
+      submittedReviewers: 1,
+      ratingReviewers: 0,
+      commentOnlyReviewers: 1,
+    });
+  });
 
   it('uses independent Aiken values while retaining all-reviewer diagnostics', () => {
     const conflicted: ReviewerProfile = {
@@ -116,7 +151,10 @@ describe('review analysis and readiness', () => {
   });
 
   it('does not let a resolution waive insufficient independent coverage', () => {
-    const { manifest, merged } = mergedFor(syntheticReviewers.slice(0, 2));
+    const { manifest, merged } = mergedFor([
+      syntheticReviewers[2],
+      syntheticReviewers[0],
+    ]);
     const analysis = analyzeReviewCampaign({
       manifest,
       merged,

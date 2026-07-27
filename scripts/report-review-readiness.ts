@@ -82,6 +82,7 @@ runCommand(async () => {
       `Requires resolution: ${analysis.summary.requiresResolution}`,
       `Ready for human decision: ${analysis.summary.readyForHumanDecision}`,
       `Issues: ${analysis.summary.issueStatusCounts.total} total, ${analysis.summary.issueStatusCounts.resolved} resolved, ${analysis.summary.issueStatusCounts.unresolved} unresolved`,
+      `Reviewers: ${analysis.summary.reviewerCoverage.registeredReviewers} registered, ${analysis.summary.reviewerCoverage.submittedReviewers} submitted, ${analysis.summary.reviewerCoverage.ratingReviewers} rated, ${analysis.summary.reviewerCoverage.commentOnlyReviewers} comment-only`,
       '',
       "Readiness-facing Aiken's V uses independent, unconflicted reviewers only. All-reviewer statistics remain separate diagnostics. The project flag requires discussion and never approves an item.",
       '',

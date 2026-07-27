@@ -41,6 +41,7 @@ describe('human review decisions', () => {
           questionHash: candidate.questionHash,
           evidenceBundleHash: candidate.evidenceBundleHash,
           decision: candidate.decision,
+          reviewerAttributionId: candidate.reviewerAttributionId,
           decidedBy: candidate.decidedBy,
         }),
       );
@@ -90,6 +91,68 @@ describe('human review decisions', () => {
         context: reviewTestContext,
       }).issues.map((issue) => issue.code),
     ).toContain(code);
+  });
+
+  it.each([
+    [
+      'conflicted',
+      {
+        independentReviewAttestation: true,
+        conflictOfInterest: {
+          status: 'declared' as const,
+          description: 'Synthetic declared conflict.',
+        },
+        consentToAttribution: true,
+      },
+      'REVIEW_DECISION_ATTRIBUTION_CONFLICTED',
+    ],
+    [
+      'non-independent',
+      {
+        independentReviewAttestation: false,
+        conflictOfInterest: {
+          status: 'declared' as const,
+          description: 'Synthetic non-independent reviewer.',
+        },
+        consentToAttribution: true,
+      },
+      'REVIEW_DECISION_ATTRIBUTION_NOT_INDEPENDENT',
+    ],
+    [
+      'nonconsenting',
+      {
+        independentReviewAttestation: true,
+        conflictOfInterest: { status: 'none' as const },
+        consentToAttribution: false,
+      },
+      'REVIEW_DECISION_ATTRIBUTION_NOT_CONSENTED',
+    ],
+  ])('rejects a %s attributed reviewer', (_label, reviewerA, code) => {
+    const fixture = completeDecisionFixture({ reviewerA });
+    const candidate = fixture.decisionFor('eligible-for-reviewed');
+    expect(
+      validateReviewDecisions({
+        value: [candidate],
+        bundle: fixture.bundle,
+        manifest: fixture.manifest,
+        context: reviewTestContext,
+      }).issues.map((issue) => issue.code),
+    ).toContain(code);
+  });
+
+  it('rejects a decision timestamp before campaign creation', () => {
+    const fixture = completeDecisionFixture();
+    const candidate = fixture.decisionFor('eligible-for-reviewed', {
+      decidedAt: '1999-12-31T23:59:59.000Z',
+    });
+    expect(
+      validateReviewDecisions({
+        value: [candidate],
+        bundle: fixture.bundle,
+        manifest: fixture.manifest,
+        context: reviewTestContext,
+      }).issues.map((issue) => issue.code),
+    ).toContain('REVIEW_DECISION_TIMESTAMP_BEFORE_CAMPAIGN');
   });
 
   it('rejects duplicate stable decision IDs', () => {
@@ -174,6 +237,7 @@ describe('human review decisions', () => {
       questionHash: second.questionHash,
       evidenceBundleHash: bundle.hash,
       decision: 'eligible-for-reviewed' as const,
+      reviewerAttributionId: 'reviewer-a',
       decidedBy: 'reviewer-c',
       decidedAt: '2000-01-03T00:00:00.000Z',
       rationale: 'Synthetic unrelated issue test.',
