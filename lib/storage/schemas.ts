@@ -187,6 +187,7 @@ const assessmentResultSnapshotBaseSchema = z.strictObject({
   attemptId: stableIdSchema,
   courseId: stableIdSchema,
   moduleId: stableIdSchema,
+  blueprintId: stableIdSchema.optional(),
   submittedAt: isoDatetimeSchema,
   orderedQuestionIds: uniqueStableIdArray(1),
   questionVersions: stableIdVersionRecordSchema,

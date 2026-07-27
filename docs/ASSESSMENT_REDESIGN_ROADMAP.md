@@ -11,17 +11,19 @@ The redesign is intentionally staged so engineering and educational changes rema
 - PR 5 — versioned grading policies: merged.
 - PR 6 — accessible renderers and controlled pilot: merged.
 - PR 7 — canonical Aqueous and Vitreous candidate bank and expert-review pack: merged.
+- PR 8 — evidence-bound expert-review campaigns and promotion-readiness gates: merged.
 
-## PR 8 — Evidence-bound expert-review campaigns
+## PR 9 — OPT 374 curated visual-perception practice bank
 
 Status: current draft implementation.
 
-- Register consent-aware reviewer profiles without inventing identities.
-- Bind campaigns and reviewer packs to deterministic bank, policy, question, objective, and source evidence.
-- Merge complete, partial, blank, rating-bearing, and comment-only submissions without mutating questions.
-- Produce criterion-specific Aiken's V, stable issues, explicit resolutions, readiness reports, evidence-bundle hashes, and human chair decisions.
-- Verify future status transitions without performing any transition.
-- Preserve the 36-question draft bank, exact nine-question pilot, live 400-question quiz, storage, scoring, and disabled pilot flag.
+- Preserve the exact 120-question package, 23 objectives, 19 sources, and all draft statuses.
+- Add six original coordinate-aligned SVG diagrams.
+- Assemble deterministic 50-question sets with exact section and format quotas.
+- Reuse StoreV2, the session engine, grading policies, and nine renderers.
+- Keep the secondary practice route false by default and outside the ordinary learner import graph.
+- Preserve the legacy HVP quiz, all 400 generated questions, Aqueous content and hashes, and PR 8 review tooling.
+- Treat later depth, stereopsis, colour, motion, entoptic, and illusion decks as future tranches.
 
 ## Later phases
 

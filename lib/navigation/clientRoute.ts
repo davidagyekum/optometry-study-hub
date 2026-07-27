@@ -5,6 +5,7 @@ export type ClientView =
   | 'quiz'
   | 'results'
   | 'pilot'
+  | 'practice'
   | 'assessment'
   | 'assessment-result';
 
@@ -14,7 +15,7 @@ export type ClientRoute = {
 };
 
 const ROUTED_VIEWS: ClientView[] = [
-  'course', 'study', 'quiz', 'results', 'pilot', 'assessment', 'assessment-result',
+  'course', 'study', 'quiz', 'results', 'pilot', 'practice', 'assessment', 'assessment-result',
 ];
 
 export function parseClientRoute(pathname: string): ClientRoute {

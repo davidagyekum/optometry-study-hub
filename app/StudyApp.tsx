@@ -6,6 +6,7 @@ import { HomeView } from '@/components/home/HomeView';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { AssessmentPilotUnavailable } from '@/components/assessment/pilot/AssessmentPilotUnavailable';
+import { HvpPracticeUnavailable } from '@/components/assessment/hvp/HvpPracticeUnavailable';
 import { LegacyQuizView } from '@/components/quiz/LegacyQuizView';
 import { LegacyResultsView } from '@/components/results/LegacyResultsView';
 import { StudyView } from '@/components/study/StudyView';
@@ -14,6 +15,11 @@ import { moduleMap } from '@/content/legacy/moduleCatalog';
 import { useClientRoute } from '@/hooks/useClientRoute';
 import { useLegacyStore } from '@/hooks/useLegacyStore';
 import { isAssessmentPilotEnabled } from '@/lib/assessment/pilot/config';
+import {
+  HVP_CURATED_BLUEPRINT_ID,
+  HVP_CURATED_PRACTICE_ID,
+  isHvpCuratedPracticeEnabled,
+} from '@/lib/assessment/hvp/config';
 import { createAttempt } from '@/lib/legacy/attempts';
 import type { CourseSummary, Module } from '@/lib/legacy/types';
 import type { ClientView } from '@/lib/navigation/clientRoute';
@@ -27,17 +33,35 @@ import { createEmptyStoreV2 } from '@/lib/storage/migrations';
 import type { StoreV2 } from '@/lib/storage/schemas';
 import { resetAllStudyData } from '@/lib/storage/store';
 
-const PILOT_VIEWS: ClientView[] = ['pilot', 'assessment', 'assessment-result'];
+const CONTROLLED_VIEWS: ClientView[] = ['pilot', 'practice', 'assessment', 'assessment-result'];
 const AssessmentPilotRouter = lazy(() => (
   import('@/components/assessment/pilot/AssessmentPilotRouter')
     .then((module) => ({ default: module.AssessmentPilotRouter }))
+));
+const HvpPracticeRouter = lazy(() => (
+  import('@/components/assessment/hvp/HvpPracticeRouter')
+    .then((module) => ({ default: module.HvpPracticeRouter }))
 ));
 
 export default function StudyApp() {
   const { route, go } = useClientRoute();
   const { store, setStore } = useLegacyStore();
   const pilotEnabled = isAssessmentPilotEnabled();
-  const isPilotView = PILOT_VIEWS.includes(route.view);
+  const hvpPracticeEnabled = isHvpCuratedPracticeEnabled();
+  const isControlledView = CONTROLLED_VIEWS.includes(route.view);
+  const routedAttempt = route.view === 'assessment'
+    ? store.assessment.activeAttempts[route.moduleId]
+    : undefined;
+  const routedResult = route.view === 'assessment-result'
+    ? store.assessment.results[route.moduleId]
+    : undefined;
+  const controlledBlueprint = routedAttempt?.blueprintId ?? routedResult?.blueprintId;
+  const controlledKind = route.view === 'practice'
+    || controlledBlueprint === HVP_CURATED_BLUEPRINT_ID
+    ? 'hvp'
+    : route.view === 'pilot' || controlledBlueprint === 'aqueous-vitreous-pilot-v1'
+      ? 'aqueous'
+      : 'unknown';
 
   const updateStore = (updater: (current: StoreV2) => StoreV2) => {
     setStore((current) => updater(current));
@@ -65,7 +89,7 @@ export default function StudyApp() {
   };
 
   const clearModule = (id: string) => {
-    if (!window.confirm(moduleResetConfirmation(store, id, pilotEnabled))) return;
+    if (!window.confirm(moduleResetConfirmation(store, id, pilotEnabled || hvpPracticeEnabled))) return;
     updateStore((current) => resetAssessmentModule({
       ...current,
       read: { ...current.read, [id]: [] },
@@ -79,7 +103,7 @@ export default function StudyApp() {
       store,
       course.id,
       course.title,
-      pilotEnabled,
+      pilotEnabled || hvpPracticeEnabled,
     ))) return;
     updateStore((current) => {
       const read = { ...current.read };
@@ -106,7 +130,7 @@ export default function StudyApp() {
     );
   }
 
-  if (!isPilotView && !activeModule && !['home', 'course'].includes(route.view)) {
+  if (!isControlledView && !activeModule && !['home', 'course'].includes(route.view)) {
     return (
       <main className="shell">
         <SiteHeader go={go} />
@@ -161,6 +185,8 @@ export default function StudyApp() {
           startQuiz={startQuiz}
           pilotEnabled={pilotEnabled}
           openPilot={() => go('pilot', 'aqueous-vitreous')}
+          hvpPracticeEnabled={hvpPracticeEnabled}
+          openHvpPractice={() => go('practice', HVP_CURATED_PRACTICE_ID)}
         />
       ) : null}
       {route.view === 'quiz' && activeModule ? (
@@ -194,15 +220,19 @@ export default function StudyApp() {
           startQuiz={startQuiz}
         />
       ) : null}
-      {isPilotView ? (
-        pilotEnabled ? (
-          <Suspense
-            fallback={(
-              <div className="pilot-loading" role="status">
-                Loading experimental assessment…
-              </div>
-            )}
-          >
+      {isControlledView ? (
+        controlledKind === 'hvp' && hvpPracticeEnabled ? (
+          <Suspense fallback={<div className="pilot-loading" role="status">Loading curated practice…</div>}>
+            <HvpPracticeRouter
+              go={go}
+              resourceId={route.moduleId}
+              setStore={setStore}
+              store={store}
+              view={route.view}
+            />
+          </Suspense>
+        ) : controlledKind === 'aqueous' && pilotEnabled ? (
+          <Suspense fallback={<div className="pilot-loading" role="status">Loading experimental assessment…</div>}>
             <AssessmentPilotRouter
               go={go}
               resourceId={route.moduleId}
@@ -211,6 +241,8 @@ export default function StudyApp() {
               view={route.view}
             />
           </Suspense>
+        ) : controlledKind === 'hvp' ? (
+          <HvpPracticeUnavailable go={go} />
         ) : <AssessmentPilotUnavailable go={go} />
       ) : null}
       <SiteFooter go={go} />

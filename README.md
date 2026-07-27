@@ -30,6 +30,10 @@ PR 6 adds accessible renderers for all nine formats plus a controlled Aqueous an
 
 PR 7 adds one 36-question draft Aqueous and Vitreous candidate bank, an exact authoring blueprint, verified source audit, expert-review export, and Aiken’s V reporting. The pilot remains the same derived nine-question subset and remains disabled by default.
 
+PR 8 adds evidence-bound expert-review campaigns, immutable reviewer packs, readiness analysis, human-chair decisions, and exact transition verification. It does not move any question beyond draft.
+
+PR 9 adds a canonical 120-question OPT 374 Human Visual Perception pool and a secondary, default-disabled 50-question curated-practice route. The existing notes and legacy quiz remain unchanged, and curated results remain isolated from legacy Latest/Best metrics.
+
 See [Current State](docs/CURRENT_STATE.md), [Assessment Specification](docs/ASSESSMENT_SPEC.md), [Session Engine](docs/ASSESSMENT_SESSION_ENGINE.md), [Grading Policies](docs/ASSESSMENT_GRADING_POLICIES.md), and [Assessment Redesign Roadmap](docs/ASSESSMENT_REDESIGN_ROADMAP.md).
 
 ## Requirements
@@ -50,9 +54,10 @@ To inspect the draft pilot locally, create an untracked `.env.local`:
 
 ```text
 NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT=true
+NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE=true
 ```
 
-Only the exact string `true` enables it. The flag controls client exposure, not security, and the draft questions are not academically approved.
+Only the exact string `true` enables either experience. These flags control client exposure, not security, and all candidate questions remain draft rather than academically approved.
 
 ## Quality commands
 
@@ -64,6 +69,9 @@ npm run test:watch
 npm run questions:validate
 npm run questions:report
 npm run questions:blueprint
+npm run questions:validate:hvp
+npm run questions:report:hvp
+npm run questions:blueprint:hvp
 npm run questions:review-pack
 npm run questions:aiken -- --input tests/fixtures/review/valid-ratings.csv
 npm run build

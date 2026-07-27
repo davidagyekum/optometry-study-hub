@@ -37,7 +37,7 @@ describe("package scripts", () => {
       "questions:review-readiness": "tsx scripts/report-review-readiness.ts",
       "questions:review-verify": "tsx scripts/verify-review-decision.ts",
       "questions:review-snapshot": "tsx scripts/export-question-bank-snapshot.ts",
-      check: "npm run lint && npm run typecheck && npm run test && npm run questions:validate && npm run questions:blueprint && npm run build",
+      check: "npm run lint && npm run typecheck && npm run test && npm run questions:validate && npm run questions:blueprint && npm run questions:validate:hvp && npm run questions:blueprint:hvp && npm run build",
     });
   });
 

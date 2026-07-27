@@ -12,6 +12,8 @@ export function StudyView({
   onToggle,
   pilotEnabled,
   openPilot,
+  hvpPracticeEnabled = false,
+  openHvpPractice,
   go,
   startQuiz,
 }: {
@@ -21,6 +23,8 @@ export function StudyView({
   go: GoToRoute;
   pilotEnabled: boolean;
   openPilot: () => void;
+  hvpPracticeEnabled?: boolean;
+  openHvpPractice?: () => void;
   startQuiz: (module: Module) => void;
 }) {
   const progress = moduleReadingPercentage(module, read);
@@ -59,6 +63,19 @@ export function StudyView({
             ))}
           </nav>
           <button className="primary full" onClick={() => startQuiz(module)}>Start 50-question quiz</button>
+          {hvpPracticeEnabled && module.id === 'human-visual-perception' && openHvpPractice ? (
+            <section className="pilot-entry">
+              <h2>Curated slide-aligned practice</h2>
+              <p>
+                Build a 50-question mixed-format practice set from 120 questions
+                aligned with the supplied OPT 374 slides. This does not affect
+                your legacy quiz score.
+              </p>
+              <button className="secondary" onClick={openHvpPractice} type="button">
+                Open curated practice
+              </button>
+            </section>
+          ) : null}
           {pilotEnabled && module.id === 'aqueous-vitreous' ? (
             <section className="pilot-entry">
               <h2>Experimental mixed-format pilot</h2>

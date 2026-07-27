@@ -2,7 +2,7 @@
 
 ## Verified state
 
-- PR 7 base commit: `1b3fe4911c366b80bac42d3327e7f780cf3cfce9`
+- PR 9 base commit: `a47b4e21ce890d1045cfd407f40abbb7f3067938`
 - Courses: 5
 - Modules: 8
 - Study sections: 39
@@ -11,6 +11,8 @@
 - Rollback key retained after migration: `opt376-study-state:v1`
 - Canonical Aqueous and Vitreous candidate bank: 36 draft questions across 6 sections and 13 objectives
 - Assessment pilot: the exact 9 engineering questions, derived from the canonical bank
+- Canonical OPT 374 Human Visual Perception bank: 120 draft questions, 23 objectives, and 19 sources
+- HVP curated practice: default-disabled deterministic 50-question sets, isolated from legacy metrics
 
 ## Courses and modules
 
@@ -42,6 +44,7 @@ Client route state supports:
 - `/quiz/:moduleId`
 - `/results/:moduleId`
 - `/pilot/aqueous-vitreous`
+- `/practice/human-visual-perception-curated`
 - `/assessment/:attemptId`
 - `/assessment-result/:resultId`
 
@@ -105,3 +108,20 @@ The repository can create evidence-bound campaigns, prefill one 338-row pack per
 ## PR 8 review hardening
 
 Campaign identity now includes a deterministic hash over the full normalized campaign, reviewer profiles, policy, timestamp, and ordered criterion matrix. Exact campaign recreation is a no-op that never rewrites reviewer evidence; malformed or conflicting directories fail closed. Reviewer packs, merged evidence, issues, reports, bundles, and decisions carry that identity. Merged evidence is runtime-validated and self-hashed before analysis; evidence bundles recompute analysis, issue application, and resolutions rather than trusting caller-supplied state. Readiness uses independent, unconflicted coverage and cannot waive missing ratings, criteria, reviewers, stale evidence, or independence deficits. Stable decisions and status-transition verification are exact to the campaign, internally recomputed canonical question hash and content, evidence bundle, decision type, chair authority, and a decision-bound independent, unconflicted, consent-aware substantive attribution. Markdown JSON exports use fences longer than any untrusted backtick run. These changes remain authoring/review tooling only; the learner application, question content, objectives, storage, scoring, and disabled pilot are unchanged.
+
+## PR 9 OPT 374 curated-practice boundary
+
+The canonical package JSON is preserved byte-for-byte and validated separately
+from the Aqueous bank. Six original SVG schematics satisfy the declared image
+viewBoxes and normalized coordinates. A seeded assembler creates 50-question
+Study-mode sessions with exact section and format quotas, a maximum of two
+questions per family, at least 20 Apply-or-higher items, and deterministic
+difficulty targeting.
+
+`NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE=false` remains the repository
+default. When disabled, the ordinary learner graph cannot import the 120-item
+bank or its answer keys. When enabled, attempts and results dispatch by
+`opt374-hvp-curated-v1`, remain in StoreV2 assessment maps, and do not mutate
+legacy facts, active quizzes, results, Latest/Best scores, or question history.
+All 120 questions and 23 objectives remain draft. No expert evidence, review
+status transition, deployment, or public enablement is part of PR 9.

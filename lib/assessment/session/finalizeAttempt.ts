@@ -103,6 +103,7 @@ export function finalizeAssessmentAttempt({
     attemptId: validAttempt.id,
     courseId: validAttempt.courseId,
     moduleId: validAttempt.moduleId,
+    ...(validAttempt.blueprintId ? { blueprintId: validAttempt.blueprintId } : {}),
     ...(validAttempt.gradingPolicy
       ? { gradingPolicy: structuredClone(validAttempt.gradingPolicy) }
       : {}),

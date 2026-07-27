@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Original medial hemisphere schematic</title>
+  <desc id="desc">A simplified medial hemisphere with a posterior groove and three neutral regions.</desc>
+  <rect width="1200" height="800" fill="#f8fbfc"/>
+  <path d="M135 445 C120 245 280 105 520 95 C790 82 1045 230 1080 420 C1110 575 920 690 655 688 C420 688 195 615 135 445Z"
+        fill="#e6d8c5" stroke="#17375e" stroke-width="12"/>
+  <g fill="none" stroke="#7c665b" stroke-width="11" stroke-linecap="round">
+    <path d="M230 360 C360 270 500 270 610 350"/>
+    <path d="M420 565 C555 485 690 485 825 540"/>
+    <path d="M790 330 C875 365 930 420 1010 460"/>
+    <path d="M770 430 C855 425 930 435 1025 505" stroke="#17375e" stroke-width="15"/>
+  </g>
+  <g id="neutral-regions" fill-opacity=".45" stroke-width="9">
+    <rect x="816" y="272" width="276" height="256" rx="70" fill="#3b8da0" stroke="#17375e"/>
+    <rect x="144" y="176" width="264" height="200" rx="65" fill="#e1a04d" stroke="#17375e"/>
+    <rect x="456" y="440" width="240" height="160" rx="55" fill="#a96a82" stroke="#17375e"/>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="30" fill="#17375e">
+    <text x="145" y="735">Anterior</text><text x="940" y="735">Posterior</text>
+  </g>
+</svg>

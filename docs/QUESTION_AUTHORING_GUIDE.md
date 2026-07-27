@@ -167,3 +167,23 @@ A feature-gated subset must import its preserved items directly; it must not imp
 ## Evidence after authoring
 
 Authorship and author self-review do not equal independent expert review. After a candidate is versioned, use an evidence-bound campaign. A meaningful edit increments the question version and invalidates prior evidence. Never copy a decision into `reviewStatus`; a later pull request must supply exact evidence, an eligible human decision, and reviewer attribution for any proposed draft-to-reviewed transition.
+
+## OPT 374 curated-practice tranche
+
+The Human Visual Perception candidate bank preserves the supplied package JSON
+exactly. Authors must extend it through stable IDs and incremented versions
+rather than rewriting this tranche. Its six image assets are original
+repository-owned schematics; answer labels must remain outside SVG metadata and
+neutral pre-submission artwork.
+
+The 50-question assembler treats total, section, format, current-version,
+family, and higher-order requirements as hard constraints. Difficulty is the
+only relaxable target, using deterministic minimum absolute deviation. The two
+open-response prompts remain manual-only and cannot enter an automatically
+scored set.
+
+The draft-only HVP registry is another explicit controlled-practice exception,
+enabled only by `NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE=true`. It is not an
+approval path. No HVP item may move to reviewed or approved until genuine
+independent expert packs have been collected, merged, resolved, and supported
+by an eligible human review-chair decision.

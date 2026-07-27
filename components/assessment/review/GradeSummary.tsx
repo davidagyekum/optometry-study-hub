@@ -1,13 +1,13 @@
 import type { AssessmentGradingReport } from '@/lib/assessment/grading/types';
 
-export function GradeSummary({ report }: { report: AssessmentGradingReport }) {
+export function GradeSummary({ report, title = 'Pilot result' }: { report: AssessmentGradingReport; title?: string }) {
   const percentage = report.status === 'complete' && report.maxScore
     ? Math.round(((report.score ?? 0) / report.maxScore) * 100)
     : undefined;
   return (
     <section className="pilot-grade-summary">
       <div>
-        <h1>{report.status === 'complete' ? 'Pilot result' : 'Manual review required'}</h1>
+        <h1>{report.status === 'complete' ? title : 'Manual review required'}</h1>
         {report.status === 'complete' ? (
           <p>{report.score} / {report.maxScore} · {percentage}%</p>
         ) : (
