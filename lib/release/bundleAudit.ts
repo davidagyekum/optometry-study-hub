@@ -6,6 +6,7 @@ import {
   writeFileSync,
 } from 'node:fs';
 import { relative, resolve } from 'node:path';
+import { aqueousVitreousCandidateBank } from '@/content/question-bank/opt376/aqueous-vitreous/bank';
 import { RELEASE_BUDGETS, type ReleaseBudget } from '@/lib/release/budgets';
 import {
   assertCleanReleaseTree,
@@ -219,11 +220,7 @@ function stableMarkers() {
     ...Object.values(question.correctLabels ?? {}),
   ]).filter((value, index, values) => value.length > 5 && values.indexOf(value) === index)
     .slice(0, 12);
-  const aqueous = JSON.parse(readFileSync(
-    'content/question-bank/opt376/aqueous-vitreous/bank.json',
-    'utf8',
-  )) as { questions: BankQuestion[] };
-  const aqueousQuestions = aqueous.questions.slice(0, 3);
+  const aqueousQuestions = aqueousVitreousCandidateBank.questions.slice(0, 3);
   return {
     hvpAuthored: sectionQuestions.flatMap((question) => [
       question.stem,
