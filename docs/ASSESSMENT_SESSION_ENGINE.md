@@ -131,3 +131,11 @@ policy and deterministically regrades with the registry before history changes.
 Manual-only responses never alter automatic mastery counters. Any failure
 commits nothing. Aqueous uses the default disabled history policy. See
 `docs/PRACTICE_PLATFORM.md`.
+
+## Read-only progress selectors
+
+PR 11 does not change the session engine or StoreV2. Feature-gated HVP progress
+selectors validate persisted schemas, enforce the existing compatibility
+contract, and deterministically regrade current-version results before
+deriving analytics. Invalid snapshots fail closed and remain stored. Mastery,
+activity, and recommendations are calculated in memory and are never persisted.

@@ -139,6 +139,7 @@ backend, leaderboard, or synchronization. The key remains
 legacy active quizzes, legacy result history, Latest/Best selectors, PR 9
 attempts/results, and Aqueous attempts/results remain compatible.
 
-The HVP and Aqueous feature flags remain committed as `false`. PR 10 does not
-deploy. The mastery dashboard and unified progress UI are explicitly deferred
-to PR 11.
+The HVP and Aqueous feature flags remain committed as `false`. PR 10 did not
+deploy. PR 11 adds read-only practice and progress dashboards over these
+contracts without changing history, selection, grading, storage, or the
+disabled release boundary. See `docs/PROGRESS_ANALYTICS.md`.

@@ -18,7 +18,7 @@ The current application contains five courses, eight modules, 39 study sections,
 
 The project uses React, TypeScript, Next-compatible App Router files, Vinext, Vite, and Cloudflare Workers. Legacy content lives under `content/legacy/`; focused views live under `components/`; route, attempt, progress, and question-generation logic lives under `lib/` and `hooks/`; and `app/StudyApp.tsx` coordinates those modules.
 
-Client navigation uses `/course/:id`, `/study/:moduleId`, `/quiz/:moduleId`, and `/results/:moduleId`. Reading progress, active legacy attempts, and up to 20 recent results per module are stored in the validated V2 browser record `optometry-study-hub:v2`. Existing `opt376-study-state:v1` data migrates locally and remains available for rollback until the learner explicitly resets all study data, which clears both storage generations.
+Client navigation includes `/practice`, `/progress`, `/progress/:moduleId`, the existing course/study/quiz/result routes, and controlled `/practice/:experienceId` routes. Reading progress, active legacy attempts, and up to 20 recent results per module are stored in the validated V2 browser record `optometry-study-hub:v2`. Existing `opt376-study-state:v1` data migrates locally and remains available for rollback until the learner explicitly resets all study data, which clears both storage generations.
 
 PR 3 adds an assessment-domain pilot under `content/question-bank/pilot/`, validation and reporting under `lib/assessment/`, and migration-safe storage under `lib/storage/`. The live quiz still uses the legacy 400-question engine.
 
@@ -34,7 +34,7 @@ PR 8 adds evidence-bound expert-review campaigns, immutable reviewer packs, read
 
 PR 9 adds a canonical 120-question OPT 374 Human Visual Perception pool and a secondary, default-disabled 50-question curated-practice route. The existing notes and legacy quiz remain unchanged, and curated results remain isolated from legacy Latest/Best metrics.
 
-See [Current State](docs/CURRENT_STATE.md), [Assessment Specification](docs/ASSESSMENT_SPEC.md), [Session Engine](docs/ASSESSMENT_SESSION_ENGINE.md), [Grading Policies](docs/ASSESSMENT_GRADING_POLICIES.md), and [Assessment Redesign Roadmap](docs/ASSESSMENT_REDESIGN_ROADMAP.md).
+See [Current State](docs/CURRENT_STATE.md), [Progress Analytics](docs/PROGRESS_ANALYTICS.md), [Assessment Specification](docs/ASSESSMENT_SPEC.md), [Session Engine](docs/ASSESSMENT_SESSION_ENGINE.md), [Grading Policies](docs/ASSESSMENT_GRADING_POLICIES.md), and [Assessment Redesign Roadmap](docs/ASSESSMENT_REDESIGN_ROADMAP.md).
 
 ## Requirements
 
@@ -129,3 +129,12 @@ practice blueprints, deterministic HVP Quick/Standard/Full/Custom sessions,
 history-targeted practice, atomic device-local question history, and separate
 written practice. See [docs/PRACTICE_PLATFORM.md](docs/PRACTICE_PLATFORM.md).
 Both assessment feature flags remain disabled by default.
+
+## Unified practice and progress
+
+PR 11 adds an always-available Practice Hub, an overall Progress Hub, and
+module detail routes. Legacy saved-result statistics remain separate from
+feature-gated HVP curated analytics. Current-version mastery, integrity
+filtering, activity, and recommendations are deterministic and derived
+read-only from StoreV2. See
+[docs/PROGRESS_ANALYTICS.md](docs/PROGRESS_ANALYTICS.md).

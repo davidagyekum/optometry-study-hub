@@ -1,5 +1,7 @@
 export type ClientView =
   | 'home'
+  | 'practice-hub'
+  | 'progress'
   | 'course'
   | 'study'
   | 'quiz'
@@ -21,6 +23,12 @@ const ROUTED_VIEWS: ClientView[] = [
 export function parseClientRoute(pathname: string): ClientRoute {
   const cleanPath = pathname.split(/[?#]/, 1)[0];
   const parts = cleanPath.split('/').filter(Boolean);
+  if (parts[0] === 'practice' && parts.length === 1) {
+    return { view: 'practice-hub', moduleId: '' };
+  }
+  if (parts[0] === 'progress') {
+    return { view: 'progress', moduleId: parts[1] ?? '' };
+  }
   const view = parts[0] as ClientView | undefined;
   if (view && ROUTED_VIEWS.includes(view)) {
     return { view, moduleId: parts[1] ?? '' };
@@ -29,5 +37,10 @@ export function parseClientRoute(pathname: string): ClientRoute {
 }
 
 export function buildClientPath(route: ClientRoute): string {
-  return route.view === 'home' ? '/' : `/${route.view}/${route.moduleId}`;
+  if (route.view === 'home') return '/';
+  if (route.view === 'practice-hub') return '/practice';
+  if (route.view === 'progress') {
+    return route.moduleId ? `/progress/${route.moduleId}` : '/progress';
+  }
+  return `/${route.view}/${route.moduleId}`;
 }
