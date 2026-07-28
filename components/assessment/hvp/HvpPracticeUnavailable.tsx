@@ -8,6 +8,7 @@ export function HvpPracticeUnavailable({ go }: { go: GoToRoute }) {
         The OPT 374 curated-practice feature is disabled for this build.
         Human Visual Perception notes and the existing 50-question quiz remain available.
       </p>
+      <p>Saved curated-practice data remains on this device and will be available if the feature is re-enabled.</p>
       <button
         className="primary"
         onClick={() => go('study', 'human-visual-perception')}

@@ -1,6 +1,7 @@
 'use client';
 
 import { type MouseEvent as ReactMouseEvent, useCallback, useRef, useState } from 'react';
+import { HvpReleaseStatus } from '@/components/assessment/hvp/HvpReleaseStatus';
 import { FigureDialog } from '@/components/study/FigureDialog';
 import type { GoToRoute } from '@/hooks/useClientRoute';
 import { moduleReadingPercentage } from '@/lib/legacy/progress';
@@ -71,6 +72,7 @@ export function StudyView({
                 aligned with the supplied OPT 374 slides. This does not affect
                 your legacy quiz score.
               </p>
+              <HvpReleaseStatus compact />
               <button className="secondary" onClick={openHvpPractice} type="button">
                 Open curated practice
               </button>

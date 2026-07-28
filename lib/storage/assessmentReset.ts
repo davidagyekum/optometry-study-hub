@@ -38,7 +38,7 @@ export function moduleResetConfirmation(
   const mentionAssessment = pilotEnabled
     || hasAssessmentWhere(store, (record) => record.moduleId === moduleId);
   return mentionAssessment
-    ? 'Clear reading progress, active quiz, score history and assessment pilot data for this module?'
+    ? 'Clear reading progress, active quiz, score history, and saved controlled-practice attempts and results for this module? Question history is retained.'
     : 'Clear reading progress, active quiz and score history for this module?';
 }
 
@@ -51,7 +51,7 @@ export function courseResetConfirmation(
   const mentionAssessment = pilotEnabled
     || hasAssessmentWhere(store, (record) => record.courseId === courseId);
   return mentionAssessment
-    ? `Clear all notes progress, active quizzes, score history and assessment pilot data for ${courseTitle}?`
+    ? `Clear all notes progress, active quizzes, score history, and saved controlled-practice attempts and results for ${courseTitle}? Question history is retained.`
     : `Clear all notes progress, active quizzes and score history for ${courseTitle}?`;
 }
 

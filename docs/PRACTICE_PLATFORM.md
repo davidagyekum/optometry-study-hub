@@ -143,3 +143,12 @@ The HVP and Aqueous feature flags remain committed as `false`. PR 10 did not
 deploy. PR 11 adds read-only practice and progress dashboards over these
 contracts without changing history, selection, grading, storage, or the
 disabled release boundary. See `docs/PROGRESS_ANALYTICS.md`.
+
+## PR 12 release profile
+
+The practice platform now has an automated HVP public-beta release profile that
+keeps Aqueous disabled and preserves the existing StoreV2 key, version,
+question-history identity, selection contracts, and manual-only Written
+Practice boundary. The repository defaults remain false. Bundle audits require
+authored HVP content to stay lazy and reject hidden Aqueous content. This draft
+does not publish or alter any review status.

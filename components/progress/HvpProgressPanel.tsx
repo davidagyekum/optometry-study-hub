@@ -1,3 +1,4 @@
+import { HvpReleaseStatus } from '@/components/assessment/hvp/HvpReleaseStatus';
 import type { GoToRoute } from '@/hooks/useClientRoute';
 import { HVP_CURATED_PRACTICE_ID } from '@/lib/assessment/hvp/config';
 import {
@@ -187,6 +188,7 @@ export function HvpProgressPanel({
     return (
       <article className="curated-summary">
         <div className="section-heading"><div><span className="course-code">OPT 374</span><h2>Curated practice</h2><p>Verified current-version assessment evidence. Kept separate from the legacy quiz.</p></div></div>
+        <HvpReleaseStatus compact />
         <IntegrityNotice summary={summary} />
         <div className="analytics-metrics">
           <Metric label="Latest" value={displayPercent(summary.latestPercentage)} />
@@ -213,6 +215,7 @@ export function HvpProgressPanel({
   return (
     <section className="hub-section curated-detail">
       <div className="section-heading"><div><span className="course-code">CURATED PRACTICE</span><h2>Current-version mastery</h2><p>Legacy quiz scores are not included in these metrics.</p></div></div>
+      <HvpReleaseStatus compact />
       <IntegrityNotice summary={summary} />
       <div className="analytics-metrics">
         <Metric label="Compatible scored sessions" value={summary.compatibleScoredResultCount} />
@@ -234,7 +237,7 @@ export function HvpProgressPanel({
       {nextAction ? (
         <article className="recommendation compact">
           <div><span>Deterministic next step</span><h2>{nextAction.title}</h2><p>{nextAction.reason}</p></div>
-          <button className="primary small" onClick={() => go(nextAction.destination.view, nextAction.destination.moduleId)}>Open</button>
+          <button className="primary small" onClick={() => go(nextAction.destination.view, nextAction.destination.moduleId)}>Open recommended practice</button>
         </article>
       ) : null}
       <article className="mastery-explanation">

@@ -12,7 +12,7 @@ Live site: https://opt-376-eye-anatomy-review.davorion7.chatgpt.site
 - **Ocular Pharmacology** — adrenergic and cholinergic foundations relevant to eye care.
 - **Systemic Pathology** — breast, cardiovascular, gastrointestinal, lymphoid, renal, and respiratory pathology.
 
-The current application contains five courses, eight modules, 39 study sections, and 400 legacy-generated multiple-choice questions.
+The current application contains five courses, eight modules, 39 study sections, and 400 legacy-generated multiple-choice questions. The versioned assessment engine supports ten formats; all Aqueous and HVP schema questions remain draft.
 
 ## Architecture today
 
@@ -57,7 +57,7 @@ NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT=true
 NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE=true
 ```
 
-Only the exact string `true` enables either experience. These flags control client exposure, not security, and all candidate questions remain draft rather than academically approved.
+Only the exact string `true` enables either experience. These flags control client exposure, not security, and all candidate questions remain draft rather than academically approved. The repository defaults keep both flags false. The reviewed future release profile keeps Aqueous false and enables only HVP, but HVP has not been published during PR 12.
 
 ## Quality commands
 
@@ -138,3 +138,18 @@ feature-gated HVP curated analytics. Current-version mastery, integrity
 filtering, activity, and recommendations are deterministic and derived
 read-only from StoreV2. See
 [docs/PROGRESS_ANALYTICS.md](docs/PROGRESS_ANALYTICS.md).
+
+## Release hardening
+
+PR 11 is merged. PR 12 is the current draft release-hardening phase, based on
+`e8b9810ff6f2898c9bc85d37da72f069ee049115`. It adds exact disabled and HVP
+public-beta profiles, dual-build bundle audits, performance budgets, a
+clean-tree release manifest, Worker security headers, route and focus
+hardening, and a manual release workflow. Production publishing remains a
+separate post-merge action requiring explicit authorization.
+
+Use `npm run release:verify` from a clean reviewed commit. See the
+[release runbook](docs/RELEASE_RUNBOOK.md), [release
+checklist](docs/RELEASE_CHECKLIST.md), [rollback
+runbook](docs/ROLLBACK_RUNBOOK.md), and [baseline
+budgets](docs/RELEASE_BASELINE_AND_BUDGETS.md).

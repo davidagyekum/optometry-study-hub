@@ -1,146 +1,150 @@
-# AI Handoff — PR 11
+# AI Handoff — PR 12
 
 ## Pull request
 
-- Branch: `codex/pr11-mastery-progress-ui`
+- Branch: `codex/pr12-release-hardening-sites`
 - Base branch: `main`
-- Exact base commit: `01f3f75edcd93aa88bb7c5f149634be13dc43771`
-- Draft PR: https://github.com/davidagyekum/optometry-study-hub/pull/11
-- Suggested title: `Add the mastery dashboard and unified progress experience`
-- The implementation commit and final branch head are reported in the draft PR
-  and final handoff because a committed file cannot contain its own resulting
-  SHA.
+- Exact base commit: `e8b9810ff6f2898c9bc85d37da72f069ee049115`
+- Draft PR: pending
+- Suggested title: `Harden the HVP release and prepare the Sites production rollout`
+- The final implementation SHA, manifest checksum, test totals, and Actions
+  identifiers are reported in the draft PR and final handoff because this
+  committed file cannot contain its own resulting commit SHA.
 
 ## Implemented scope
 
-- Added exact `/practice`, `/progress`, and `/progress/:moduleId` routes while
-  preserving controlled `/practice/:experienceId` behavior and browser-history
-  restoration.
-- Added accessible Home, Practice, and Progress navigation with active-route
-  state, keyboard operation, mobile wrapping, and device-local privacy copy.
-- Added an always-available Practice Hub covering all eight legacy modules,
-  active quiz resume, saved Legacy Latest/Best, reading progress, and optional
-  lazy curated HVP panels.
-- Added overall and module Progress views with reading completion, saved legacy
-  results, recent average, real-timestamp activity, deterministic next actions,
-  and explicit new-browser empty states.
-- Added pure legacy analytics, activity, mastery, and recommendation selectors
-  without writing calculated state.
-- Added a lazy HVP analytics boundary. Persisted results are schema-validated,
-  HVP compatibility-checked, and deterministically regraded before inclusion.
-  Malformed, stale, or tampered HVP results fail closed and are counted as
-  omitted without deletion.
-- Added exact current-version question, section, objective, format, difficulty,
-  and Bloom evidence. Mastery labels expose their accuracy, coverage, answered
-  attempts, question encounters, and recent misses.
-- Kept manual-only Written Practice separate and visibly `Not scored`.
-- Kept Aqueous controlled results outside learner HVP metrics and
-  recommendations.
-- Documented legacy-versus-curated boundaries, weighted answered accuracy,
-  mastery thresholds, limited evidence, activity timestamps, recommendation
-  order, privacy, import isolation, and the PR 12 release boundary.
+- Added exact disabled and HVP public-beta profiles. Every release profile
+  rejects Aqueous exposure; committed defaults remain false.
+- Added cross-platform dual-build, bundle-audit, clean-tree manifest, checksum,
+  report, and complete release-verification scripts.
+- Added canonical counts, HVP checksum, draft-status, ten-format, storage,
+  hosting, D1/R2, route, and import-isolation assertions.
+- Recorded PR 11 byte baselines and enforce ten-per-cent output budgets. Build
+  duration remains observational.
+- Added Worker HTML security headers while preserving status, body, content
+  type, redirects, cache behavior, and image responses.
+- Added semantic landmarks, skip navigation, route-aware titles, explicit
+  not-found rendering, main-content focus after client/history navigation,
+  reduced-motion behavior, and visible focus treatment.
+- Centralized HVP learner status: internally verified and slide-aligned
+  curated study practice, not lecturer-approved examination items, stored only
+  on this device.
+- Added upgrade, rollback-key, reset, profile, route, accessibility, content,
+  bundle, manifest, and security regression tests.
+- Added a manual release-candidate workflow and release, rollback, security,
+  budget, and checklist documentation.
 
-## Preserved boundaries
+## Preserved contracts
 
-- Five courses, eight modules, 39 study sections, and 400 legacy-generated
-  questions remain unchanged.
-- Legacy attempt, scoring, Latest/Best, reading, retained-result, and reset
-  behavior remain unchanged.
-- StoreV2 remains `optometry-study-hub:v2`; rollback remains
-  `opt376-study-state:v1`. No schema, key, migration, persisted analytics,
-  activity log, or dashboard preference was added.
-- The canonical HVP bank remains 120 draft questions, 23 draft objectives,
-  19 sources, and six SVG diagrams. Its expected checksum remains
+- Five courses, eight modules, 39 sections, and 400 legacy questions.
+- Aqueous: 36 draft questions, 13 draft objectives, exact nine-item disabled
+  engineering pilot.
+- HVP: 120 draft questions, 23 draft objectives, 19 sources, six SVG diagrams,
+  and canonical checksum
   `029dc39ff103a836445a86bb352513b231e51d266d4b2fade3f00527d00ef89a`.
-- Aqueous remains 36 draft questions and the exact nine-question engineering
-  pilot remains unchanged.
-- `.env.example` keeps both assessment feature flags `false`.
-- No question or objective review status changed. No deployment or PR 12 work
-  occurred.
+- StoreV2 key `optometry-study-hub:v2`, version 2, rollback key
+  `opt376-study-state:v1`, legacy scoring, HVP question history, and
+  device-local privacy.
+- No question or objective review status changed. No D1, R2, backend,
+  analytics, account, migration, deployment, merge, or later PR was added.
+
+## Production baseline
+
+- Inspected read-only in Chrome on 2026-07-28.
+- URL: https://opt-376-eye-anatomy-review.davorion7.chatgpt.site
+- Sites project: `appgprj_6a5614a4d1288191966f6f3570f99f22`
+- Published version: 3
+- Recorded source commit: `18ba5aebdef82402e26c1937d4e2bb1638a7a116`
+- Recorded archive content hash:
+  `sha256:06cf3d451a20b183fa0b0a8493795b75262498515f3b6de9dcf06dac31061688`
+- No D1 or R2 binding. The old production UI exposes the five-course legacy
+  experience; `/practice` falls back to Home and produced no console errors.
+- Production state and storage were not mutated.
 
 ## Automated validation
 
 - Runtime: bundled Node.js 24.
-- Focused TypeScript, route, mastery, analytics, recommendation, import
-  isolation, accessibility, UI, and browser-history tests: passed.
-- `npm run lint`: passed with the four pre-existing `<img>` warnings.
-- `npm run typecheck`: passed.
-- `npm run test`: **112 test files and 653 passing tests**.
-- `npm ci`: passed from the committed lockfile. npm reported its existing
-  dependency audit findings and two non-fatal Windows cleanup warnings.
-- Aqueous validation and strict validation passed: 36 draft questions,
-  13 draft objectives, zero errors, and zero warnings.
-- HVP validation passed: 120 draft questions, 23 draft objectives, 19 sources,
-  zero errors, and the unchanged 79 authoring warnings.
-- Aqueous and HVP reports and blueprint reports passed.
-- Disabled production build passed with both flags false.
-- Enabled production build passed with Aqueous false and HVP true.
-- Final `npm run check` and `git diff --check`: passed.
-- HVP package identity test passed with checksum
-  `029dc39ff103a836445a86bb352513b231e51d266d4b2fade3f00527d00ef89a`.
-- GitHub Actions run `30329896547`, job `90182649063`, concluded failure
-  before executing repository code: the job reports an empty `steps` array,
-  consistent with the repository's known external account restriction. It was
-  not rerun or worked around; the complete local quality gate passed.
+- Focused PR 12 suite: 15 files and 108 passing tests.
+- Lint: passed with the four pre-existing `<img>` warnings.
+- TypeScript: passed after focused corrections.
+- `npm ci`: passed under bundled Node.js 24. npm reported 23 existing audit
+  findings and two non-fatal Windows cleanup warnings.
+- Lint: passed with the four pre-existing `<img>` warnings.
+- TypeScript: passed.
+- Full Vitest suite: **127 files and 752 passing tests**.
+- Aqueous validation and strict validation: 36 draft questions, 13 draft
+  objectives, zero errors, zero warnings.
+- HVP validation: 120 draft questions, 23 draft objectives, 19 sources, zero
+  errors, and the unchanged 79 authoring warnings.
+- Aqueous and HVP reports and blueprint reports: passed.
+- Disabled and HVP public-beta production builds: passed with Aqueous false.
+- Bundle isolation and performance audits: passed for both profiles.
+- Final ordinary production build, `npm run check`, and
+  `git diff --check`: passed.
+- Clean-tree release verification, the final manifest checksum, final branch
+  SHA, and GitHub Actions status are reported in the draft PR and final handoff.
 
 ## Browser QA
 
-- Used Chrome only; the Codex in-app browser was never initialized.
-- Verified `/practice`, `/progress`, both HVP and Aqueous module details,
-  HVP study/course entry points, the controlled HVP landing, unavailable
-  disabled routing, unknown-module handling, and browser back/forward.
-- Disabled mode showed all eight legacy module cards and five course cards,
-  hid curated analytics, preserved the neutral controlled-route message, and
-  exposed no answer content.
-- Enabled mode lazy-loaded the curated summary and full mastery detail,
-  including sections, 23 objectives, encountered formats, difficulty, Bloom,
-  integrity omission notice, and Written Practice `Not scored`.
-- Checked 390×844, 768×1024, 1024×768, and 1440×900 viewport overrides with
-  visible navigation and no document-level horizontal overflow.
-- After the warmed preview restart, every tested route produced zero new
-  console errors.
+- Chrome only; the in-app browser was never initialized.
+- Read-only live baseline: Home and the legacy HVP quiz worked, controlled
+  HVP was unavailable, `/practice` fell back to the old Home experience, and
+  no console errors appeared. Production storage was not read or changed.
+- Disabled local profile: Home, Practice, Progress, module detail, legacy quiz,
+  HVP unavailable state, Aqueous unavailable state, direct routes, and absence
+  of curated analytics passed.
+- HVP public-beta profile: release warning, Quick start, answer and flag
+  autosave, hard-refresh resume, incomplete-submission review, exact result
+  review, Written Practice `Not scored`, Progress analytics, Aqueous
+  isolation, and legacy quiz preservation passed.
+- Keyboard skip navigation, route focus, back/forward titles and focus, direct
+  deep links, explicit not-found state, figure enlargement/Escape/focus
+  restoration, hotspot keyboard selection, multiple-response rendering, and
+  390×844, 768×1024, 1024×768, and 1440×900 overflow checks passed.
+- Chrome logs contained only Vite/React development information and no errors.
+  Automated coverage supplies deterministic malformed-storage, reduced-motion,
+  ten-format renderer, reset, and no-answer-leak checks.
+- No production mutation or deployment is authorized.
 
 ## Publishing
 
-- Production deployment: not performed and not authorized for PR 11.
-- PR 12: not started.
+- Production deployment: not performed.
+- Publication requires merge, exact clean `main` verification, reviewer
+  approval, and separate explicit authorization under
+  `docs/RELEASE_RUNBOOK.md`.
+- No subsequent PR was started.
 
-## PR 11 review corrections
+## Remaining release-audit review corrections
 
-- Replaced separate legacy and curated recommendations with one lazy
-  HVP-aware coordinator implementing all ten reviewed priorities.
-- Added recovery-aware scored and Written active-session states; incompatible
-  or multiple HVP candidates route to the controlled landing.
-- Merged compatible legacy, curated and Written activity before deterministic
-  sorting and the eight-item limit. Exact HVP results remain directly
-  reviewable; older legacy results route truthfully to module history.
-- Added five-level mastery distribution to summary and detail views, plus
-  active state, compatible scored count, profile/strategy distributions,
-  gradable encounters, integrity omissions and newest-first Written sessions.
-- Added safe date, percentage, progress-bar and legacy score handling. Invalid
-  raw records remain untouched and are excluded from unsafe calculations.
-- Replaced the HVP registry exception with an explicit analytics-failure
-  result and neutral UI state.
-- Added active-module course counts, separately labelled HVP Legacy quiz and
-  Curated practice sections, complete Practice navigation state and typed
-  destinations without route casts.
-- Focused regression suites passed: 13 files and 96 tests.
-- Full test suite passed: **116 files and 678 tests**.
-- Lint passed with the four pre-existing `<img>` warnings.
-- TypeScript checking passed.
-- Both committed assessment flags remain `false`; StoreV2, question banks,
-  review statuses and preserved HVP hashes are unchanged.
-- No deployment, merge or PR 12 work occurred.
-- Lockfile installation passed under bundled Node 24. The Windows system npm
-  launcher initially exposed its optional-binding bug, and a child process
-  briefly resolved unsupported Node 22.11; pinning npm and all children to
-  bundled Node 24 restored the exact clean install without source or lockfile
-  changes.
-- Aqueous validation, strict validation, report and blueprint passed.
-- HVP validation, report and blueprint passed with the unchanged 79 authoring
-  warnings.
-- Disabled and HVP-enabled production builds passed with Aqueous disabled.
-- Final `npm run check` and `git diff --check` passed.
-- Chrome-only QA passed in enabled and disabled modes: one recommendation,
-  unified truthful activity, recovery routing, mastery distribution, written
-  `Not scored`, navigation/history, no overflow and zero new console errors.
+- Added strict, atomic build metadata binding each copied release output to its schema version, exact profile and flags, clean Git commit and tree, Node/npm versions, timestamp, duration, output directory, and SHA-256 fingerprint.
+- Made release builds remove stale profile metadata before work starts and withhold final metadata after any failed or explicitly dirty development build.
+- Made standalone bundle auditing reject missing, malformed, stale, wrong-profile, wrong-flag, Aqueous-enabled, wrong-commit, wrong-tree, dirty-tree, wrong-directory, and wrong-fingerprint evidence.
+- Bound manifest creation independently to the audit profile, validated build identity, current clean Git identity, required flags, and copied-output fingerprint. The human report includes the complete bound identity.
+- Audited both `HvpPracticeRouter` and `HvpProgressPanel` dynamic entries, with separate initial, controlled, analytics, and combined closures.
+- Corrected disabled and HVP-enabled Practice/Progress measurements, separated controlled and analytics incremental bytes, and used a union to avoid double-counting shared chunks.
+- Re-measured the untouched PR 11 base `e8b9810ff6f2898c9bc85d37da72f069ee049115` with the corrected algorithm and reset byte budgets to approximately ten per cent headroom.
+- Expanded isolation scans across multiple sections and formats, including representative answer identities. Reports expose only marker counts and pass/fail details.
+- Added enabled Home, Practice, and Progress DOM tests proving that stems, explanations, correct-answer identifiers, and option rationales are not rendered before controlled practice.
+- Added regression coverage for identity mismatches, missing/malformed metadata, both lazy-entry failures and eagerness, route closure inclusion, and shared-chunk de-duplication.
+- `release:verify` now requires a clean tree before deleting all prior release evidence, rebuilds both profiles, and confirms the fresh manifest matches the HVP build metadata.
+
+## Review-correction validation
+
+- Locked dependency reinstall: passed under bundled Node.js 24; npm retained the existing 23 audit findings and non-fatal Windows cleanup warnings.
+- Lint: passed with the four pre-existing `<img>` warnings.
+- TypeScript: passed.
+- Full Vitest suite after the correction: **128 files and 774 passing tests**.
+- Corrected untouched-PR-11 baselines and approximately ten-per-cent budgets are recorded in `docs/RELEASE_BASELINE_AND_BUDGETS.md`.
+- Final question validation, dual clean builds, audits, source-bound manifest, `release:verify`, `npm run check`, Chrome QA, final head, and GitHub Actions status are recorded after the clean final validation.
+
+## Clean source-bound evidence after review correction
+
+- Clean dual release builds: passed for disabled and HVP public-beta profiles.
+- Corrected dual-boundary bundle audits: passed for both profiles.
+- Disabled metrics: 6,492,574 total bytes; 962,237 client-JavaScript bytes; 533,011 initial bytes; 376,388 controlled-HVP incremental bytes; 286,961 analytics incremental bytes; 398,661 combined incremental bytes.
+- HVP public-beta metrics: 6,492,572 total bytes; 962,236 client-JavaScript bytes; 533,010 initial bytes; 376,388 controlled-HVP incremental bytes; 286,961 analytics incremental bytes; 398,661 combined incremental bytes.
+- Both Practice and Progress enabled-route metrics include analytics; disabled-route metrics exclude it.
+- Build metadata, audit, and manifest agreed on clean commit/tree/profile/flags/fingerprint.
+- Pre-final manifest SHA-256: `66738a170228b19b74a54acc8e458ca120dfbd8dc6843e2fd75740aef60ff299`.
+- Both committed feature flags remain false. Aqueous remains unavailable. HVP checksum, StoreV2, legacy content, and review statuses remain unchanged.
+- No generated `tmp/release` evidence is tracked. No deployment, merge, publication, or later PR occurred.

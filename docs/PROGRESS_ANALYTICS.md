@@ -117,8 +117,8 @@ practice or quiz page; they do not silently replace or start assessments.
 
 Both committed assessment feature flags remain `false`. PR 11 adds the
 read-only hubs and analytics but does not deploy or promote any question.
-PR 12 remains the release-hardening, reviewed enablement, and deployment
-phase.
+PR 12 is the current draft release-hardening and reviewed rollout-preparation
+phase. It does not deploy.
 
 ## Unified recommendation coordinator
 
@@ -160,3 +160,11 @@ math requires a finite score, finite total and `total > 0`; malformed records
 remain stored but are excluded from averages and score-driven recommendations.
 HVP registry construction returns an explicit failure result, and the UI shows
 a neutral analytics-unavailable state without rewriting saved data.
+
+## PR 12 release profile
+
+The Progress Hub remains read-only. The HVP public-beta release profile exposes
+its lazy, compatibility-checked analytics without persisting dashboard state or
+combining curated mastery with legacy Latest/Best scores. Disabling HVP again
+hides the panels but preserves compatible StoreV2 attempts, results, and
+question history. PR 12 does not publish the profile.

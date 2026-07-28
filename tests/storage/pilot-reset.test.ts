@@ -78,10 +78,10 @@ describe('pilot assessment resets', () => {
 
     const populated = pilotStore();
     expect(moduleResetConfirmation(populated, 'aqueous-vitreous', false))
-      .toContain('assessment pilot data');
+      .toContain('controlled-practice');
     expect(courseResetConfirmation(populated, 'neuro-anatomy', 'Neuro Anatomy', false))
-      .toContain('assessment pilot data');
+      .toContain('controlled-practice');
     expect(moduleResetConfirmation(empty, 'aqueous-vitreous', true))
-      .toContain('assessment pilot data');
+      .toContain('controlled-practice');
   });
 });
