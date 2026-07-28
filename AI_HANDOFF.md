@@ -1,127 +1,102 @@
-# AI Handoff - PR 10
+# AI Handoff — PR 11
 
 ## Pull request
 
-- Branch: `codex/pr10-adaptive-practice-history`
+- Branch: `codex/pr11-mastery-progress-ui`
 - Base branch: `main`
-- Exact base commit: `c30fcc67c14dccd14eff0fd5f821eada4e084fb9`
-- Draft PR: https://github.com/davidagyekum/optometry-study-hub/pull/10
-- Status: all requested correctness/integrity review findings addressed; draft
-  retained for review.
-- The exact correction commit and final branch head are recorded in the PR
-  description and final report because a committed file cannot contain its own
-  resulting SHA.
+- Exact base commit: `01f3f75edcd93aa88bb7c5f149634be13dc43771`
+- Draft PR: pending creation after final validation
+- Suggested title: `Add the mastery dashboard and unified progress experience`
+- The implementation commit and final branch head are reported in the draft PR
+  and final handoff because a committed file cannot contain its own resulting
+  SHA.
 
-## Review corrections
+## Implemented scope
 
-- Made `opt374-hvp-written-v1` explicitly `manual-only`. Zero, one and two
-  answered prompts always persist null score/maximum; unanswered and
-  `manual_required` item statuses remain intact. Result routing uses
-  `blueprintId`, and written summaries/cards expose no numeric score,
-  percentage or scored breakdown.
-- Corrected history semantics: manual responses increment encounter,
-  supplied-response and manual-review metadata but never automatic attempt,
-  correct, partial or incorrect counters.
-- Defined section-level weakness as at least two gradable attempts plus either
-  sub-80% accuracy or a current-version latest miss. Perfect and
-  unanswered-only history is excluded; weak severity, miss recency and
-  advanced higher-order challenge priority are preserved.
-- Applied the family repetition cap to displayed targeted availability.
-- Added immutable sorted strategy-eligible question-ID evidence and a
-  deterministic integrity hash. Saved targeted/custom attempt and result
-  compatibility now fails closed on evidence alteration or membership
-  substitution.
-- Strengthened blueprint/selection contracts, including exact fixed-profile
-  sets, profile/strategy compatibility, known sections, unique formats/review
-  states and valid target totals/minimums. The preserved Full bypass validates
-  before assembly.
-- Completed atomic finalization identity with `blueprintId`, selection-bound
-  history policy and deterministic registry regrading before any attempt,
-  result or history mutation.
-- Removed generic version-1 eligibility assumptions. Current positive authored
-  versions are assembled and persisted exactly; newer history replaces older
-  mastery and downgrades fail.
-- Quick, Standard and Full prefer unseen current-version candidates while
-  preserving every quota, family limit and higher-order minimum.
-- Replaced Quick/Standard fixed-profile greedy quota filling with deterministic
-  constrained selection. Exact section, format and difficulty quotas,
-  higher-order minimums and family limits are satisfied before unseen count is
-  maximized; seeded order breaks ties between equally valid sets. Seen
-  higher-order candidates are therefore selected when unseen lower-order
-  candidates cannot satisfy the Bloom contract.
-- Chrome found one remaining per-item `0 / 1` display in an unanswered
-  written result. Written review cards now say `Not scored`; a regression
-  covers the stronger no-numeric-score boundary.
+- Added exact `/practice`, `/progress`, and `/progress/:moduleId` routes while
+  preserving controlled `/practice/:experienceId` behavior and browser-history
+  restoration.
+- Added accessible Home, Practice, and Progress navigation with active-route
+  state, keyboard operation, mobile wrapping, and device-local privacy copy.
+- Added an always-available Practice Hub covering all eight legacy modules,
+  active quiz resume, saved Legacy Latest/Best, reading progress, and optional
+  lazy curated HVP panels.
+- Added overall and module Progress views with reading completion, saved legacy
+  results, recent average, real-timestamp activity, deterministic next actions,
+  and explicit new-browser empty states.
+- Added pure legacy analytics, activity, mastery, and recommendation selectors
+  without writing calculated state.
+- Added a lazy HVP analytics boundary. Persisted results are schema-validated,
+  HVP compatibility-checked, and deterministically regraded before inclusion.
+  Malformed, stale, or tampered HVP results fail closed and are counted as
+  omitted without deletion.
+- Added exact current-version question, section, objective, format, difficulty,
+  and Bloom evidence. Mastery labels expose their accuracy, coverage, answered
+  attempts, question encounters, and recent misses.
+- Kept manual-only Written Practice separate and visibly `Not scored`.
+- Kept Aqueous controlled results outside learner HVP metrics and
+  recommendations.
+- Documented legacy-versus-curated boundaries, weighted answered accuracy,
+  mastery thresholds, limited evidence, activity timestamps, recommendation
+  order, privacy, import isolation, and the PR 12 release boundary.
 
 ## Preserved boundaries
 
-- Five courses, eight modules, 39 study sections, 400 legacy-generated
-  questions, legacy quiz/scoring, Latest/Best values and legacy history are
-  unchanged.
-- StoreV2 remains `optometry-study-hub:v2`; no migration or storage-key
-  change was introduced.
-- The HVP canonical bank remains byte-for-byte unchanged at SHA-256
-  `029dc39ff103a836445a86bb352513b231e51d266d4b2fade3f00527d00ef89a`:
-  120 draft questions, 23 draft objectives, 19 sources and six SVG diagrams.
-- Aqueous remains 36 draft questions; its bank, nine pilot items, semantic
-  hashes and disabled history boundary are unchanged.
-- `.env.example` still commits
-  `NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT=false` and
-  `NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE=false`.
-- No review-status promotion, deployment or PR 11 work occurred.
+- Five courses, eight modules, 39 study sections, and 400 legacy-generated
+  questions remain unchanged.
+- Legacy attempt, scoring, Latest/Best, reading, retained-result, and reset
+  behavior remain unchanged.
+- StoreV2 remains `optometry-study-hub:v2`; rollback remains
+  `opt376-study-state:v1`. No schema, key, migration, persisted analytics,
+  activity log, or dashboard preference was added.
+- The canonical HVP bank remains 120 draft questions, 23 draft objectives,
+  19 sources, and six SVG diagrams. Its expected checksum remains
+  `029dc39ff103a836445a86bb352513b231e51d266d4b2fade3f00527d00ef89a`.
+- Aqueous remains 36 draft questions and the exact nine-question engineering
+  pilot remains unchanged.
+- `.env.example` keeps both assessment feature flags `false`.
+- No question or objective review status changed. No deployment or PR 12 work
+  occurred.
 
 ## Automated validation
 
-- Runtime: bundled Node.js 24.14.0.
-- `npm ci`: passed from the committed lockfile. The Windows npm shim initially
-  selected Node 22.11 and omitted an optional native dependency; the clean
-  install and all child processes were rerun explicitly under Node 24.
-- `npm run lint`: passed with only the four documented legacy `<img>`
-  warnings.
+- Runtime: bundled Node.js 24.
+- Focused TypeScript, route, mastery, analytics, recommendation, import
+  isolation, accessibility, UI, and browser-history tests: passed.
+- `npm run lint`: passed with the four pre-existing `<img>` warnings.
 - `npm run typecheck`: passed.
-- `npm run test`: **104 test files and 603 passing tests**.
-- `npm run questions:validate` and `--strict`: passed (36 questions,
-  13 objectives, zero errors/warnings).
-- `npm run questions:report` and `questions:blueprint`: passed.
-- `npm run questions:validate:hvp`: passed (120 questions, 23 objectives,
-  19 sources, zero errors; 79 preserved authoring warnings).
-- `npm run questions:report:hvp` and `questions:blueprint:hvp`: passed.
-- Production builds passed with HVP disabled and enabled while Aqueous was
-  explicitly disabled.
-- Final `npm run check` and `git diff --check`: passed after Chrome QA.
-- Coverage includes zero/one/two written responses, manual-history isolation,
-  perfect/unanswered/weak history, ranking/family availability, all four
-  targeted strategy substitutions in attempts and results, evidence mutation,
-  strict selection/blueprint rejection, atomic rollback, current version 2,
-  unseen preference for Quick/Standard/Full, and the fixed-profile edge case
-  where a valid session requires seen higher-order questions despite an
-  abundance of unseen lower-order candidates.
+- `npm run test`: **112 test files and 653 passing tests**.
+- `npm ci`: passed from the committed lockfile. npm reported its existing
+  dependency audit findings and two non-fatal Windows cleanup warnings.
+- Aqueous validation and strict validation passed: 36 draft questions,
+  13 draft objectives, zero errors, and zero warnings.
+- HVP validation passed: 120 draft questions, 23 draft objectives, 19 sources,
+  zero errors, and the unchanged 79 authoring warnings.
+- Aqueous and HVP reports and blueprint reports passed.
+- Disabled production build passed with both flags false.
+- Enabled production build passed with Aqueous false and HVP true.
+- Final `npm run check` and `git diff --check`: passed.
+- HVP package identity test passed with checksum
+  `029dc39ff103a836445a86bb352513b231e51d266d4b2fade3f00527d00ef89a`.
 
-## Chrome-only QA
+## Browser QA
 
-- Verified direct curated route and notes entry while HVP was enabled.
-- Verified entirely unanswered, partially answered and fully answered Written
-  Practice. All results showed manual review, correct item statuses and
-  `Not scored` without percentages, numeric marks or scored breakdowns.
-- Verified clean history disables weak-topic/retry practice and missed history
-  enables the appropriate targeted state; family-aware availability is covered
-  by the UI/domain regression.
-- Verified saved Unseen practice resumed after refresh with the identical
-  attempt URL and question position.
-- Verified the unchanged legacy 50-question quiz entry remains beside the
-  curated notes entry.
-- Verified 390×844, 1024×768 and 1440×900 layouts without horizontal overflow.
-- Verified enabled and explicitly disabled feature-gate routes in Chrome.
-- Fresh enabled and disabled Chrome tabs reported zero console errors.
-- After the final assembly correction, verified clean Quick and Standard starts
-  produced 10-question and 25-question controlled-assessment sessions
-  respectively, with direct routing and zero new console errors.
+- Used Chrome only; the Codex in-app browser was never initialized.
+- Verified `/practice`, `/progress`, both HVP and Aqueous module details,
+  HVP study/course entry points, the controlled HVP landing, unavailable
+  disabled routing, unknown-module handling, and browser back/forward.
+- Disabled mode showed all eight legacy module cards and five course cards,
+  hid curated analytics, preserved the neutral controlled-route message, and
+  exposed no answer content.
+- Enabled mode lazy-loaded the curated summary and full mastery detail,
+  including sections, 23 objectives, encountered formats, difficulty, Bloom,
+  integrity omission notice, and Written Practice `Not scored`.
+- Checked 390×844, 768×1024, 1024×768, and 1440×900 viewport overrides with
+  visible navigation and no document-level horizontal overflow.
+- After the warmed preview restart, every tested route produced zero new
+  console errors.
 
-## GitHub Actions and publishing
+## Publishing
 
-- The pre-correction Actions run remains the known external account restriction
-  with zero executed repository steps. No CI command failed in repository code.
-- The post-push run and job IDs are recorded in the draft PR description and
-  final report rather than causing an endless handoff-only commit/run cycle.
-- Production deployment: not performed.
-- PR 11: not started.
+- Production deployment: not performed and not authorized for PR 11.
+- PR 12: not started.

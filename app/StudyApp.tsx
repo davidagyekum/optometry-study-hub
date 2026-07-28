@@ -5,6 +5,9 @@ import { CourseView } from '@/components/course/CourseView';
 import { HomeView } from '@/components/home/HomeView';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { SiteHeader } from '@/components/layout/SiteHeader';
+import { PracticeHub } from '@/components/practice/PracticeHub';
+import { ModuleProgressView } from '@/components/progress/ModuleProgressView';
+import { ProgressHub } from '@/components/progress/ProgressHub';
 import { AssessmentPilotUnavailable } from '@/components/assessment/pilot/AssessmentPilotUnavailable';
 import { HvpPracticeUnavailable } from '@/components/assessment/hvp/HvpPracticeUnavailable';
 import { LegacyQuizView } from '@/components/quiz/LegacyQuizView';
@@ -41,6 +44,10 @@ const AssessmentPilotRouter = lazy(() => (
 const HvpPracticeRouter = lazy(() => (
   import('@/components/assessment/hvp/HvpPracticeRouter')
     .then((module) => ({ default: module.HvpPracticeRouter }))
+));
+const HvpProgressPanel = lazy(() => (
+  import('@/components/progress/HvpProgressPanel')
+    .then((module) => ({ default: module.HvpProgressPanel }))
 ));
 
 export default function StudyApp() {
@@ -116,7 +123,7 @@ export default function StudyApp() {
   if (route.view === 'course' && !activeCourse) {
     return (
       <main className="shell">
-        <SiteHeader go={go} />
+        <SiteHeader go={go} view={route.view} />
         <div className="empty">
           <h1>Course not found</h1>
           <button onClick={() => go('home')} type="button">Return home</button>
@@ -125,10 +132,17 @@ export default function StudyApp() {
     );
   }
 
-  if (!isControlledView && !activeModule && !['home', 'course'].includes(route.view)) {
+  const globalView = route.view === 'practice-hub'
+    || (route.view === 'progress' && !route.moduleId);
+  if (
+    !isControlledView
+    && !globalView
+    && !activeModule
+    && !['home', 'course'].includes(route.view)
+  ) {
     return (
       <main className="shell">
-        <SiteHeader go={go} />
+        <SiteHeader go={go} view={route.view} />
         <div className="empty">
           <h1>Module not found</h1>
           <button onClick={() => go('home')} type="button">Return home</button>
@@ -139,7 +153,7 @@ export default function StudyApp() {
 
   return (
     <main className="shell">
-      <SiteHeader go={go} />
+      <SiteHeader go={go} view={route.view} />
       {route.view === 'home' ? (
         <HomeView
           store={store}
@@ -150,6 +164,51 @@ export default function StudyApp() {
               setStore(createEmptyStoreV2());
             }
           }}
+        />
+      ) : null}
+      {route.view === 'practice-hub' ? (
+        <PracticeHub
+          store={store}
+          go={go}
+          startQuiz={startQuiz}
+          hvpEnabled={hvpPracticeEnabled}
+          curatedResumePanel={hvpPracticeEnabled ? (
+            <Suspense fallback={<div className="analytics-loading" role="status">Loading curated progress…</div>}>
+              <HvpProgressPanel store={store} go={go} variant="resume" />
+            </Suspense>
+          ) : undefined}
+          curatedPanel={hvpPracticeEnabled ? (
+            <Suspense fallback={<div className="analytics-loading" role="status">Loading curated summary…</div>}>
+              <HvpProgressPanel store={store} go={go} variant="summary" />
+            </Suspense>
+          ) : undefined}
+        />
+      ) : null}
+      {route.view === 'progress' && !route.moduleId ? (
+        <ProgressHub
+          store={store}
+          go={go}
+          hvpEnabled={hvpPracticeEnabled}
+          curatedPanel={hvpPracticeEnabled ? (
+            <Suspense fallback={<div className="analytics-loading" role="status">Loading curated progress…</div>}>
+              <HvpProgressPanel store={store} go={go} variant="summary" />
+            </Suspense>
+          ) : undefined}
+        />
+      ) : null}
+      {route.view === 'progress' && activeModule ? (
+        <ModuleProgressView
+          module={activeModule}
+          store={store}
+          go={go}
+          startQuiz={startQuiz}
+          curatedPanel={
+            activeModule.id === 'human-visual-perception' && hvpPracticeEnabled ? (
+              <Suspense fallback={<div className="analytics-loading" role="status">Loading mastery evidence…</div>}>
+                <HvpProgressPanel store={store} go={go} variant="detail" />
+              </Suspense>
+            ) : undefined
+          }
         />
       ) : null}
       {route.view === 'course' && activeCourse ? (

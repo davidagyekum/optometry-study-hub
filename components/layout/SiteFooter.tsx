@@ -4,7 +4,11 @@ export function SiteFooter({ go }: { go: GoToRoute }) {
   return (
     <footer>
       <p>Optometry Study Hub · Progress stays on this device.</p>
-      <button className="text-button" onClick={() => go('home')}>All courses</button>
+      <nav aria-label="Footer navigation">
+        <button className="text-button" onClick={() => go('home')}>Home</button>
+        <button className="text-button" onClick={() => go('practice-hub')}>Practice</button>
+        <button className="text-button" onClick={() => go('progress')}>Progress</button>
+      </nav>
     </footer>
   );
 }

@@ -2,7 +2,7 @@
 
 ## Verified state
 
-- PR 9 base commit: `a47b4e21ce890d1045cfd407f40abbb7f3067938`
+- PR 11 exact base commit: `01f3f75edcd93aa88bb7c5f149634be13dc43771`
 - Courses: 5
 - Modules: 8
 - Study sections: 39
@@ -142,4 +142,17 @@ before atomically updating backward-compatible, version-aware question
 history; the Aqueous pilot
 remains excluded. The storage key/version, legacy data, legacy scores, both
 committed feature flags, and privacy model are unchanged. Details are in
-`docs/PRACTICE_PLATFORM.md`. The dashboard is deferred to PR 11.
+`docs/PRACTICE_PLATFORM.md`.
+
+## PR 11 practice and progress boundary
+
+The learner application now has `/practice`, `/progress`, and
+`/progress/:moduleId` routes while preserving controlled
+`/practice/:experienceId` routing. Legacy reading, active quizzes, and at most
+20 saved results per module are summarized without inventing lifetime or
+question-level history. When HVP is enabled, a lazy HVP-specific panel
+schema-validates, compatibility-checks, and deterministically regrades saved
+results before showing current-version evidence or mastery. Written practice
+remains Not scored, Aqueous remains excluded, and legacy and curated scores
+are never combined. Analytics are read-only; StoreV2, both storage keys,
+reset behavior, and both committed false feature flags are unchanged.
