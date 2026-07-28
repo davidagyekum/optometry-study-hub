@@ -54,7 +54,7 @@ const result = spawnSync(npmCommand, npmArguments, {
   shell: false,
   stdio: 'inherit',
 });
-const buildDurationMs = Math.max(0, performance.now() - started);
+const buildDurationMs = Math.round(Math.max(0, performance.now() - started));
 if (result.status !== 0) {
   process.exit(result.status ?? 1);
 }
