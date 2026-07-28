@@ -136,3 +136,15 @@
 - Full Vitest suite after the correction: **128 files and 774 passing tests**.
 - Corrected untouched-PR-11 baselines and approximately ten-per-cent budgets are recorded in `docs/RELEASE_BASELINE_AND_BUDGETS.md`.
 - Final question validation, dual clean builds, audits, source-bound manifest, `release:verify`, `npm run check`, Chrome QA, final head, and GitHub Actions status are recorded after the clean final validation.
+
+## Clean source-bound evidence after review correction
+
+- Clean dual release builds: passed for disabled and HVP public-beta profiles.
+- Corrected dual-boundary bundle audits: passed for both profiles.
+- Disabled metrics: 6,492,574 total bytes; 962,237 client-JavaScript bytes; 533,011 initial bytes; 376,388 controlled-HVP incremental bytes; 286,961 analytics incremental bytes; 398,661 combined incremental bytes.
+- HVP public-beta metrics: 6,492,572 total bytes; 962,236 client-JavaScript bytes; 533,010 initial bytes; 376,388 controlled-HVP incremental bytes; 286,961 analytics incremental bytes; 398,661 combined incremental bytes.
+- Both Practice and Progress enabled-route metrics include analytics; disabled-route metrics exclude it.
+- Build metadata, audit, and manifest agreed on clean commit/tree/profile/flags/fingerprint.
+- Pre-final manifest SHA-256: `66738a170228b19b74a54acc8e458ca120dfbd8dc6843e2fd75740aef60ff299`.
+- Both committed feature flags remain false. Aqueous remains unavailable. HVP checksum, StoreV2, legacy content, and review statuses remain unchanged.
+- No generated `tmp/release` evidence is tracked. No deployment, merge, publication, or later PR occurred.

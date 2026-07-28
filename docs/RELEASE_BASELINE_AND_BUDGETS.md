@@ -59,9 +59,27 @@ identified clean commit, both release-profile builds, and evidence that the
 change does not expose answer content or weaken import isolation. Never raise a
 budget only to make a failing build pass.
 
-## Release-candidate measurements
+## PR 12 corrected release-candidate measurements
 
-The draft PR's final clean-tree measurements are recorded in `AI_HANDOFF.md`
-and the pull-request description. A release candidate passes only when its
-fresh output remains under the ceilings derived from the untouched baseline
-above.
+The clean-tree dual audit after the review corrections produced:
+
+| Metric | Disabled | HVP public beta |
+|---|---:|---:|
+| Total output | 6,492,574 bytes | 6,492,572 bytes |
+| Client JavaScript | 962,237 bytes | 962,236 bytes |
+| Initial Home JavaScript | 533,011 bytes | 533,010 bytes |
+| Disabled Practice Hub JavaScript | 533,011 bytes | 533,010 bytes |
+| Disabled Progress Hub JavaScript | 533,011 bytes | 533,010 bytes |
+| HVP-enabled Practice Hub JavaScript, including analytics | 819,972 bytes | 819,971 bytes |
+| HVP-enabled Progress Hub JavaScript, including analytics | 819,972 bytes | 819,971 bytes |
+| Incremental controlled HVP JavaScript | 376,388 bytes | 376,388 bytes |
+| Incremental HVP analytics JavaScript | 286,961 bytes | 286,961 bytes |
+| Combined incremental HVP JavaScript | 398,661 bytes | 398,661 bytes |
+| Largest emitted asset | 628,981 bytes | 628,981 bytes |
+| Output files | 111 | 111 |
+| Observed build duration | 6,263 ms | 5,957 ms |
+
+Every byte metric remains below its corrected ceiling. The generated metadata,
+audits, and manifest bound these outputs to the exact clean correction commit.
+Final evidence is regenerated from scratch by `release:verify` on the final
+branch head.
