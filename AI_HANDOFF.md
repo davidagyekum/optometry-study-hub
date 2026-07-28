@@ -43,6 +43,12 @@
   mastery and downgrades fail.
 - Quick, Standard and Full prefer unseen current-version candidates while
   preserving every quota, family limit and higher-order minimum.
+- Replaced Quick/Standard fixed-profile greedy quota filling with deterministic
+  constrained selection. Exact section, format and difficulty quotas,
+  higher-order minimums and family limits are satisfied before unseen count is
+  maximized; seeded order breaks ties between equally valid sets. Seen
+  higher-order candidates are therefore selected when unseen lower-order
+  candidates cannot satisfy the Bloom contract.
 - Chrome found one remaining per-item `0 / 1` display in an unanswered
   written result. Written review cards now say `Not scored`; a regression
   covers the stronger no-numeric-score boundary.
@@ -73,7 +79,7 @@
 - `npm run lint`: passed with only the four documented legacy `<img>`
   warnings.
 - `npm run typecheck`: passed.
-- `npm run test`: **103 test files and 600 passing tests**.
+- `npm run test`: **104 test files and 603 passing tests**.
 - `npm run questions:validate` and `--strict`: passed (36 questions,
   13 objectives, zero errors/warnings).
 - `npm run questions:report` and `questions:blueprint`: passed.
@@ -87,7 +93,9 @@
   perfect/unanswered/weak history, ranking/family availability, all four
   targeted strategy substitutions in attempts and results, evidence mutation,
   strict selection/blueprint rejection, atomic rollback, current version 2,
-  and unseen preference for Quick/Standard/Full.
+  unseen preference for Quick/Standard/Full, and the fixed-profile edge case
+  where a valid session requires seen higher-order questions despite an
+  abundance of unseen lower-order candidates.
 
 ## Chrome-only QA
 
@@ -105,6 +113,9 @@
 - Verified 390×844, 1024×768 and 1440×900 layouts without horizontal overflow.
 - Verified enabled and explicitly disabled feature-gate routes in Chrome.
 - Fresh enabled and disabled Chrome tabs reported zero console errors.
+- After the final assembly correction, verified clean Quick and Standard starts
+  produced 10-question and 25-question controlled-assessment sessions
+  respectively, with direct routing and zero new console errors.
 
 ## GitHub Actions and publishing
 

@@ -208,38 +208,114 @@ function selectQuotaQuestions(
   minimumHigherOrder: number,
   history: Readonly<Record<string, QuestionHistoryRecord>>,
 ): AssessmentQuestion[] | undefined {
-  for (let retry = 0; retry < 24; retry += 1) {
-    const selected: AssessmentQuestion[] = [];
-    const familyCounts = new Map<string, number>();
-    let failed = false;
-    cells.forEach((cell, cellIndex) => {
-      DIFFICULTIES.forEach((difficulty) => {
-        if (failed) return;
-        const quota = allocations[cellIndex][difficulty];
-        const candidates = shuffle(
-          candidateCells[cellIndex].filter((question) => question.difficulty === difficulty),
-          random,
-        ).sort((left, right) => (
-          Number(isCurrentHistory(left, history[left.id])) - Number(isCurrentHistory(right, history[right.id]))
-          || Number(HIGHER_ORDER.has(right.bloomLevel)) - Number(HIGHER_ORDER.has(left.bloomLevel))
-        ));
-        let picked = 0;
-        candidates.forEach((question) => {
-          if (picked >= quota || (familyCounts.get(question.familyId) ?? 0) >= maximumFamilyRepetition) return;
+  type QuotaBucket = {
+    candidates: AssessmentQuestion[];
+    quota: number;
+    maximumHigherOrder: number;
+    maximumUnseen: number;
+  };
+  const buckets: QuotaBucket[] = cells.flatMap((cell, cellIndex) => DIFFICULTIES.flatMap((difficulty) => {
+    const quota = allocations[cellIndex][difficulty];
+    if (quota === 0) return [];
+    const candidates = shuffle(
+      candidateCells[cellIndex].filter((question) => question.difficulty === difficulty),
+      random,
+    ).sort((left, right) => (
+      Number(isCurrentHistory(left, history[left.id])) - Number(isCurrentHistory(right, history[right.id]))
+      || Number(HIGHER_ORDER.has(right.bloomLevel)) - Number(HIGHER_ORDER.has(left.bloomLevel))
+    ));
+    return [{
+      candidates,
+      quota,
+      maximumHigherOrder: Math.min(
+        quota,
+        candidates.filter((question) => HIGHER_ORDER.has(question.bloomLevel)).length,
+      ),
+      maximumUnseen: Math.min(
+        quota,
+        candidates.filter((question) => !isCurrentHistory(question, history[question.id])).length,
+      ),
+    }];
+  })).sort((left, right) => (
+    (left.candidates.length - left.quota) - (right.candidates.length - right.quota)
+  ));
+  const remainingHigherOrder = Array.from({ length: buckets.length + 1 }, () => 0);
+  const remainingUnseen = Array.from({ length: buckets.length + 1 }, () => 0);
+  for (let index = buckets.length - 1; index >= 0; index -= 1) {
+    remainingHigherOrder[index] = remainingHigherOrder[index + 1] + buckets[index].maximumHigherOrder;
+    remainingUnseen[index] = remainingUnseen[index + 1] + buckets[index].maximumUnseen;
+  }
+  let best: AssessmentQuestion[] | undefined;
+  let bestUnseenCount = -1;
+  const theoreticalMaximumUnseen = remainingUnseen[0];
+  const selected: AssessmentQuestion[] = [];
+  const familyCounts = new Map<string, number>();
+
+  function visitBucket(bucketIndex: number, higherOrderCount: number, unseenCount: number): void {
+    if (bestUnseenCount === theoreticalMaximumUnseen) return;
+    if (higherOrderCount + remainingHigherOrder[bucketIndex] < minimumHigherOrder) return;
+    if (unseenCount + remainingUnseen[bucketIndex] < bestUnseenCount) return;
+    if (bucketIndex === buckets.length) {
+      if (higherOrderCount >= minimumHigherOrder && unseenCount > bestUnseenCount) {
+        best = [...selected];
+        bestUnseenCount = unseenCount;
+      }
+      return;
+    }
+    const bucket = buckets[bucketIndex];
+    const chosen: AssessmentQuestion[] = [];
+
+    function choose(
+      candidateIndex: number,
+      remaining: number,
+      chosenHigherOrder: number,
+      chosenUnseen: number,
+    ): void {
+      if (bestUnseenCount === theoreticalMaximumUnseen) return;
+      if (bucket.candidates.length - candidateIndex < remaining) return;
+      if (remaining === 0) {
+        chosen.forEach((question) => {
           selected.push(question);
           familyCounts.set(question.familyId, (familyCounts.get(question.familyId) ?? 0) + 1);
-          picked += 1;
         });
-        if (picked !== quota) failed = true;
-      });
-    });
-    if (
-      !failed
-      && selected.filter((question) => HIGHER_ORDER.has(question.bloomLevel)).length
-        >= minimumHigherOrder
-    ) return selected;
+        visitBucket(
+          bucketIndex + 1,
+          higherOrderCount + chosenHigherOrder,
+          unseenCount + chosenUnseen,
+        );
+        chosen.forEach((question) => {
+          selected.pop();
+          const count = (familyCounts.get(question.familyId) ?? 1) - 1;
+          if (count === 0) familyCounts.delete(question.familyId);
+          else familyCounts.set(question.familyId, count);
+        });
+        return;
+      }
+      for (let index = candidateIndex; index <= bucket.candidates.length - remaining; index += 1) {
+        const question = bucket.candidates[index];
+        const alreadyChosen = chosen.filter(
+          (candidate) => candidate.familyId === question.familyId,
+        ).length;
+        if (
+          (familyCounts.get(question.familyId) ?? 0) + alreadyChosen
+          >= maximumFamilyRepetition
+        ) continue;
+        chosen.push(question);
+        choose(
+          index + 1,
+          remaining - 1,
+          chosenHigherOrder + Number(HIGHER_ORDER.has(question.bloomLevel)),
+          chosenUnseen + Number(!isCurrentHistory(question, history[question.id])),
+        );
+        chosen.pop();
+      }
+    }
+
+    choose(0, bucket.quota, 0, 0);
   }
-  return undefined;
+
+  visitBucket(0, 0, 0);
+  return best;
 }
 
 function simpleSelection(
