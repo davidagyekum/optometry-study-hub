@@ -20,12 +20,16 @@ export function ProgressHub({
   store,
   go,
   curatedPanel,
+  curatedRecommendationPanel,
+  curatedActivityPanel,
   hvpEnabled,
 }: {
   store: StoreV2;
   hvpEnabled: boolean;
   go: GoToRoute;
   curatedPanel?: ReactNode;
+  curatedRecommendationPanel?: ReactNode;
+  curatedActivityPanel?: ReactNode;
 }) {
   const courseAnalytics = allLegacyCourseAnalytics(store);
   const moduleAnalytics = allLegacyModuleAnalytics(store);
@@ -33,7 +37,7 @@ export function ProgressHub({
   const totalSections = moduleAnalytics.reduce((sum, item) => sum + item.readingTotal, 0);
   const savedResults = moduleAnalytics.reduce((sum, item) => sum + item.savedResultCount, 0);
   const activeSessions = moduleAnalytics.filter((item) => item.activeAttempt).length;
-  const activity = legacyRecentActivity(store);
+  const legacyActivity = legacyRecentActivity(store);
   const recommendation = legacyRecommendations(store)[0];
   return (
     <>
@@ -47,28 +51,30 @@ export function ProgressHub({
           <Metric label="Saved legacy results" value={savedResults} detail="Recent saved attempts, not lifetime attempts" />
           <Metric label="Active legacy sessions" value={activeSessions} detail="Curated sessions are reported separately when available" />
         </div>
-        {recommendation ? (
+        {hvpEnabled ? curatedRecommendationPanel : recommendation ? (
           <article className="recommendation">
             <div><span>Recommended next step</span><h2>{recommendation.title}</h2><p>{recommendation.reason}</p></div>
-            <button className="primary" onClick={() => go(recommendation.destination.view as never, recommendation.destination.moduleId)}>Continue</button>
+            <button className="primary" onClick={() => go(recommendation.destination.view, recommendation.destination.moduleId)}>Continue</button>
           </article>
         ) : null}
         {curatedPanel}
       </section>
-        {!hvpEnabled && (Object.keys(store.assessment.activeAttempts).length || Object.keys(store.assessment.results).length) ? (
-          <p className="integrity-note">Additional controlled-practice data is stored on this device, but that feature is currently disabled.</p>
-        ) : null}
+      {!hvpEnabled && (Object.keys(store.assessment.activeAttempts).length || Object.keys(store.assessment.results).length) ? (
+        <p className="integrity-note">Additional controlled-practice data is stored on this device, but that feature is currently disabled.</p>
+      ) : null}
       <section className="hub-section">
-        <div className="section-heading"><div><h2>Course progress</h2><p>Session averages are arithmetic means of saved percentages on this browser.</p></div></div>
+        <div className="section-heading"><div><h2>Course progress</h2><p>Session averages are arithmetic means of safely readable saved percentages on this browser.</p></div></div>
         <div className="course-progress-grid">
           {courses.map((course, index) => {
             const analytics = courseAnalytics[index];
+            const isHvp = course.id === 'human-visual-perception';
             return (
               <article key={course.id}>
                 <span className="course-code">{course.code}</span>
                 <h3>{course.title}</h3>
                 <div className="reading-line"><span>{analytics.readingCompleted}/{analytics.readingTotal} sections</span><b>{analytics.readingPercentage}%</b></div>
                 <ProgressBar value={analytics.readingPercentage} label={`${course.title} reading progress`} />
+                <p><strong>Active modules:</strong> {analytics.activeModuleCount}</p>
                 <h4>Legacy quiz</h4>
                 <dl className="compact-metrics">
                   <div><dt>Saved attempts</dt><dd>{analytics.savedResultCount}</dd></div>
@@ -76,6 +82,12 @@ export function ProgressHub({
                   <div><dt>Best</dt><dd>{displayPercent(analytics.bestPercentage)}</dd></div>
                   <div><dt>Recent average</dt><dd>{displayPercent(analytics.recentAveragePercentage)}</dd></div>
                 </dl>
+                {isHvp ? (
+                  <div className="separate-score-note">
+                    <h4>Curated practice</h4>
+                    <p>{hvpEnabled ? 'Verified evidence is shown in the separately labelled summary above.' : 'Available only when curated practice is enabled.'}</p>
+                  </div>
+                ) : null}
                 <button className="secondary" onClick={() => go('course', course.id)}>Open course</button>
               </article>
             );
@@ -103,16 +115,16 @@ export function ProgressHub({
       </section>
       <section className="hub-section">
         <div className="section-heading"><div><h2>Recent quiz and practice activity</h2><p>Reading completion is excluded because reading records have no timestamps.</p></div></div>
-        {activity.length ? (
-          <div className="activity-list">{activity.map((item) => (
+        {hvpEnabled ? curatedActivityPanel : legacyActivity.length ? (
+          <div className="activity-list">{legacyActivity.map((item) => (
             <article key={item.id}>
-              <div><strong>{item.label}</strong><span>{moduleMap.get(item.moduleId)?.title}</span></div>
+              <div><strong>{item.label}</strong><span>{item.detail ?? moduleMap.get(item.moduleId)?.title}</span></div>
               <span>{displayDate(item.timestamp)}</span>
               <b>{displayPercent(item.scorePercentage)}</b>
-              <button className="text-button" onClick={() => go(item.destination.view as never, item.destination.moduleId)}>Open</button>
+              <button className="text-button" onClick={() => go(item.destination.view, item.destination.moduleId)}>{item.actionLabel}</button>
             </article>
           ))}</div>
-        ) : <div className="empty-state"><h3>No saved activity yet</h3><p>Read a module or begin practice to build your browser-local progress.</p><button className="primary" onClick={() => go('practice-hub')}>Choose practice</button></div>}
+        ) : <div className="empty-state"><h3>No saved activity yet</h3><p>Begin a quiz or practice session to build your browser-local activity.</p><button className="primary" onClick={() => go('practice-hub')}>Choose practice</button></div>}
       </section>
     </>
   );

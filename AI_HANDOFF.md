@@ -104,3 +104,43 @@
 
 - Production deployment: not performed and not authorized for PR 11.
 - PR 12: not started.
+
+## PR 11 review corrections
+
+- Replaced separate legacy and curated recommendations with one lazy
+  HVP-aware coordinator implementing all ten reviewed priorities.
+- Added recovery-aware scored and Written active-session states; incompatible
+  or multiple HVP candidates route to the controlled landing.
+- Merged compatible legacy, curated and Written activity before deterministic
+  sorting and the eight-item limit. Exact HVP results remain directly
+  reviewable; older legacy results route truthfully to module history.
+- Added five-level mastery distribution to summary and detail views, plus
+  active state, compatible scored count, profile/strategy distributions,
+  gradable encounters, integrity omissions and newest-first Written sessions.
+- Added safe date, percentage, progress-bar and legacy score handling. Invalid
+  raw records remain untouched and are excluded from unsafe calculations.
+- Replaced the HVP registry exception with an explicit analytics-failure
+  result and neutral UI state.
+- Added active-module course counts, separately labelled HVP Legacy quiz and
+  Curated practice sections, complete Practice navigation state and typed
+  destinations without route casts.
+- Focused regression suites passed: 13 files and 96 tests.
+- Full test suite passed: **116 files and 678 tests**.
+- Lint passed with the four pre-existing `<img>` warnings.
+- TypeScript checking passed.
+- Both committed assessment flags remain `false`; StoreV2, question banks,
+  review statuses and preserved HVP hashes are unchanged.
+- No deployment, merge or PR 12 work occurred.
+- Lockfile installation passed under bundled Node 24. The Windows system npm
+  launcher initially exposed its optional-binding bug, and a child process
+  briefly resolved unsupported Node 22.11; pinning npm and all children to
+  bundled Node 24 restored the exact clean install without source or lockfile
+  changes.
+- Aqueous validation, strict validation, report and blueprint passed.
+- HVP validation, report and blueprint passed with the unchanged 79 authoring
+  warnings.
+- Disabled and HVP-enabled production builds passed with Aqueous disabled.
+- Final `npm run check` and `git diff --check` passed.
+- Chrome-only QA passed in enabled and disabled modes: one recommendation,
+  unified truthful activity, recovery routing, mastery distribution, written
+  `Not scored`, navigation/history, no overflow and zero new console errors.

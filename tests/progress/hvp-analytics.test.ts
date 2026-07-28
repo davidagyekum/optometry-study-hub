@@ -30,6 +30,35 @@ function registry() {
   if (!built.ok) throw new Error('HVP registry fixture failed');
   return built.value;
 }
+function progressSummary(store: ReturnType<typeof createEmptyStoreV2>) {
+  const result = calculateHvpProgress(store);
+  if (!result.ok) throw new Error('HVP progress fixture failed');
+  return result.summary;
+}
+
+function activeFromResult(
+  result: ReturnType<typeof fullResult> | ReturnType<typeof writtenResult>,
+  id: string,
+) {
+  const created = createAssessmentAttempt({
+    registry: registry(),
+    questionIds: result.orderedQuestionIds,
+    mode: 'study',
+    courseId: result.courseId,
+    moduleId: result.moduleId,
+    blueprintId: result.blueprintId,
+    practiceSelection: result.practiceSelection,
+    gradingPolicy: result.gradingPolicy,
+    initializeDraftResponses: true,
+    allowedReviewStatuses: ['draft'],
+    random: () => 0.5,
+    now: () => new Date('2026-07-05T08:00:00.000Z'),
+    idFactory: () => id,
+  });
+  if (!created.ok) throw new Error('Active HVP fixture failed');
+  return created.value;
+}
+
 
 function fullResult(
   id: string,
@@ -117,7 +146,7 @@ function writtenResult() {
 
 describe('HVP curated progress analytics', () => {
   it('returns an explicit empty current-version summary', () => {
-    const summary = calculateHvpProgress(createEmptyStoreV2());
+    const summary = progressSummary(createEmptyStoreV2());
     expect(summary.compatibleScoredResultCount).toBe(0);
     expect(summary.eligibleAutomaticQuestionTotal).toBe(118);
     expect(summary.coveragePercentage).toBe(0);
@@ -135,7 +164,7 @@ describe('HVP curated progress analytics', () => {
       .filter((grade) => grade.status !== 'unanswered');
     const exactAccuracy = answeredGrades.reduce((sum, grade) => sum + (grade.score ?? 0), 0)
       / answeredGrades.reduce((sum, grade) => sum + grade.maxScore, 0) * 100;
-    const summary = calculateHvpProgress(store);
+    const summary = progressSummary(store);
     expect(summary.compatibleScoredResultCount).toBe(2);
     expect(summary.latestPercentage).toBe(0);
     expect(summary.partialCount).toBe(1);
@@ -163,11 +192,57 @@ describe('HVP curated progress analytics', () => {
       id: 'aqueous',
       blueprintId: 'aqueous-vitreous-pilot-v1',
     };
-    const summary = calculateHvpProgress(store);
+    const summary = progressSummary(store);
     expect(summary.compatibleScoredResultCount).toBe(1);
     expect(summary.omittedResultCount).toBe(1);
     expect(summary.writtenSubmissions).toBe(1);
     expect(summary.writtenResponsesSupplied).toBe(1);
     expect(summary.writtenUnansweredPrompts).toBe(1);
+  });
+  it('returns an explicit failure without mutating the store when registry construction fails', () => {
+    const store = createEmptyStoreV2();
+    const before = structuredClone(store);
+    const result = calculateHvpProgress(store, () => ({ ok: false, issues: [] }));
+    expect(result).toEqual({
+      ok: false,
+      issues: [{ code: 'HVP_REGISTRY_UNAVAILABLE', message: expect.any(String) }],
+    });
+    expect(store).toEqual(before);
+  });
+  it('distinguishes scored, written and recovery-required active HVP sessions', () => {
+    const store = createEmptyStoreV2();
+    const scored = fullResult('active-source', '2026-07-06T09:00:00.000Z', 'none');
+    const scoredAttempt = activeFromResult(scored, 'active-scored');
+    store.assessment.activeAttempts[scoredAttempt.id] = scoredAttempt;
+    expect(progressSummary(store).activeSession.state).toBe('scored-practice');
+    delete store.assessment.activeAttempts[scoredAttempt.id];
+    const written = writtenResult();
+    const writtenAttempt = activeFromResult(written, 'active-written');
+    store.assessment.activeAttempts[writtenAttempt.id] = writtenAttempt;
+    expect(progressSummary(store).activeSession.state).toBe('written-practice');
+    delete store.assessment.activeAttempts[writtenAttempt.id];
+    store.assessment.activeAttempts[scoredAttempt.id] = scoredAttempt;
+    store.assessment.activeAttempts[writtenAttempt.id] = writtenAttempt;
+    const summary = progressSummary(store);
+    expect(summary.activeSession.state).toBe('recovery-required');
+    if (summary.activeSession.state === 'recovery-required') {
+      expect(summary.activeSession.candidateCount).toBe(2);
+      expect(summary.activeSession.issueCodes).toContain('PILOT_MULTIPLE_ACTIVE_ATTEMPTS');
+    }
+  });
+  it('returns written sessions newest first with manual-only activity', () => {
+    const store = createEmptyStoreV2();
+    const older = writtenResult();
+    older.id = 'written-older';
+    older.submittedAt = '2026-07-01T09:00:00.000Z';
+    const newer = structuredClone(older);
+    newer.id = 'written-newer';
+    newer.submittedAt = '2026-07-02T09:00:00.000Z';
+    store.assessment.results[older.id] = older;
+    store.assessment.results[newer.id] = newer;
+    const summary = progressSummary(store);
+    expect(summary.writtenSessions.map((session) => session.resultId)).toEqual(['written-newer', 'written-older']);
+    expect(summary.recentActivity.filter((item) => item.kind === 'written-completed')).toHaveLength(2);
+    expect(summary.recentActivity.filter((item) => item.kind === 'written-completed').every((item) => item.scorePercentage === undefined)).toBe(true);
   });
 });

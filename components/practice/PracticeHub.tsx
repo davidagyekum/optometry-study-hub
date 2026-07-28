@@ -24,7 +24,10 @@ export function PracticeHub({
 }) {
   const activeLegacy = modules.filter((module) => store.active[module.id]);
   const controlledCount = Object.values(store.assessment.activeAttempts).filter(
-    (attempt) => attempt.blueprintId === 'opt374-hvp-curated-v1',
+    (attempt) => (
+      attempt.blueprintId === 'opt374-hvp-curated-v1'
+      || attempt.blueprintId === 'opt374-hvp-written-v1'
+    ),
   ).length;
   return (
     <>

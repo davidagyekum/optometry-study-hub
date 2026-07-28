@@ -1,6 +1,20 @@
 import type { GoToRoute } from '@/hooks/useClientRoute';
 import type { ClientView } from '@/lib/navigation/clientRoute';
 
+const PRACTICE_VIEWS: ClientView[] = [
+  'practice-hub',
+  'practice',
+  'quiz',
+  'results',
+  'pilot',
+  'assessment',
+  'assessment-result',
+];
+
+export function isPracticeNavigationView(view: ClientView): boolean {
+  return PRACTICE_VIEWS.includes(view);
+}
+
 export function SiteHeader({ go, view }: { go: GoToRoute; view: ClientView }) {
   return (
     <header className="site-header">
@@ -11,7 +25,7 @@ export function SiteHeader({ go, view }: { go: GoToRoute; view: ClientView }) {
       <nav aria-label="Primary navigation" className="site-nav">
         <button aria-current={view === 'home' ? 'page' : undefined} onClick={() => go('home')}>Home</button>
         <button
-          aria-current={view === 'practice-hub' || view === 'practice' ? 'page' : undefined}
+          aria-current={isPracticeNavigationView(view) ? 'page' : undefined}
           onClick={() => go('practice-hub')}
         >
           Practice

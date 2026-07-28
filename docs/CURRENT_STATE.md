@@ -156,3 +156,19 @@ results before showing current-version evidence or mastery. Written practice
 remains Not scored, Aqueous remains excluded, and legacy and curated scores
 are never combined. Analytics are read-only; StoreV2, both storage keys,
 reset behavior, and both committed false feature flags are unchanged.
+
+### PR 11 review corrections
+
+The Progress Hub now selects one recommendation across verified HVP and legacy
+signals and merges eligible activity across both systems before sorting and
+limiting it. Compatible scored and Written HVP attempts are represented
+explicitly; incompatible or multiple HVP candidates route to controlled
+recovery. HVP summaries expose the five-level current-question mastery
+distribution, active state, compatible-session/profile/strategy counts,
+gradable encounters, integrity omissions and individually reviewable Written
+sessions, which remain unscored.
+
+Legacy malformed dates, scores and totals now fail safely in read-only
+analytics without deleting or rewriting stored records. Older legacy activity
+links to module history rather than pretending the latest-result route can
+open an exact historical result.

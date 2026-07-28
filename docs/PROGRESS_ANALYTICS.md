@@ -119,3 +119,44 @@ Both committed assessment feature flags remain `false`. PR 11 adds the
 read-only hubs and analytics but does not deploy or promote any question.
 PR 12 remains the release-hardening, reviewed enablement, and deployment
 phase.
+
+## Unified recommendation coordinator
+
+The overall Progress Hub renders exactly one primary recommendation. With HVP
+disabled, it selects from pure legacy candidates without importing the HVP
+bank or registry. With HVP enabled, the lazy HVP coordinator merges those
+legacy candidates with verified HVP signals and applies this order:
+
+1. recover or resume one compatible scored or Written HVP session;
+2. resume a legacy quiz;
+3. retry missed HVP questions when at least ten family-compatible items exist;
+4. practise weak HVP topics at the same threshold;
+5. practise unseen HVP questions at the same threshold;
+6. offer HVP Quick only when no compatible scored HVP result exists;
+7. continue the least-complete notes;
+8. take a legacy quiz with no saved result;
+9. retake a latest valid legacy score below 70%;
+10. review the latest result.
+
+Reading percentage is compared before authored course/module order for priority
+seven. Other ties use authored course order, module order, then stable ID.
+Recovery routes to the controlled landing; dashboard actions never create,
+discard or replace an attempt.
+
+## Unified recent activity
+
+The enabled coordinator merges compatible legacy, scored HVP and Written HVP
+events before sorting and applying the eight-item maximum. It uses only stored
+`startedAt` and `submittedAt`, excludes reading and the Aqueous pilot, and
+deterministically tie-breaks equal timestamps. Written events always say
+`Not scored`. Compatible HVP results link to their exact assessment-result ID.
+Only the currently routable latest legacy result says `Review latest`; older
+retained results say `View module history` and route to module progress.
+
+## Failure safety
+
+Invalid dates and non-finite percentages render as an em dash. Legacy score
+math requires a finite score, finite total and `total > 0`; malformed records
+remain stored but are excluded from averages and score-driven recommendations.
+HVP registry construction returns an explicit failure result, and the UI shows
+a neutral analytics-unavailable state without rewriting saved data.

@@ -1,15 +1,23 @@
 import type { MasteryLevel } from '@/lib/progress/types';
 
 export function displayPercent(value?: number): string {
-  return value === undefined ? '—' : `${Math.round(value)}%`;
+  return value === undefined || !Number.isFinite(value)
+    ? '—'
+    : `${Math.round(value)}%`;
 }
 
 export function displayDate(value?: string): string {
   if (!value) return '—';
-  return new Intl.DateTimeFormat(undefined, {
-    dateStyle: 'medium',
-    timeStyle: 'short',
-  }).format(new Date(value));
+  try {
+    const date = new Date(value);
+    if (!Number.isFinite(date.getTime())) return '—';
+    return new Intl.DateTimeFormat(undefined, {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    }).format(date);
+  } catch {
+    return '—';
+  }
 }
 
 export function ProgressBar({
@@ -19,7 +27,8 @@ export function ProgressBar({
   value: number;
   label: string;
 }) {
-  const bounded = Math.max(0, Math.min(100, value));
+  const finite = Number.isFinite(value) ? value : 0;
+  const bounded = Math.max(0, Math.min(100, finite));
   return (
     <div
       aria-label={label}
@@ -36,6 +45,30 @@ export function ProgressBar({
 
 export function MasteryBadge({ level }: { level: MasteryLevel }) {
   return <span className={`mastery mastery-${level}`}>{level}</span>;
+}
+
+export function MasteryDistribution({
+  values,
+}: {
+  values: Record<MasteryLevel, number>;
+}) {
+  const levels: MasteryLevel[] = [
+    'unseen',
+    'learning',
+    'developing',
+    'proficient',
+    'mastered',
+  ];
+  return (
+    <dl className="outcome-strip mastery-distribution" aria-label="Question mastery distribution">
+      {levels.map((level) => (
+        <div key={level}>
+          <dt>{level[0].toUpperCase() + level.slice(1)}</dt>
+          <dd>{values[level]}</dd>
+        </div>
+      ))}
+    </dl>
+  );
 }
 
 export function Metric({

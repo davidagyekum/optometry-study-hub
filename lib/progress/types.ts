@@ -1,5 +1,6 @@
 import type { AssessmentAttemptSnapshot } from '@/lib/storage/schemas';
 import type { Result } from '@/lib/legacy/types';
+import type { ClientView } from '@/lib/navigation/clientRoute';
 
 export type MasteryLevel =
   | 'unseen'
@@ -7,6 +8,11 @@ export type MasteryLevel =
   | 'developing'
   | 'proficient'
   | 'mastered';
+
+export type ProgressDestination = {
+  view: ClientView;
+  moduleId: string;
+};
 
 export type LegacyModuleAnalytics = {
   moduleId: string;
@@ -86,12 +92,15 @@ export type ProgressActivity = {
     | 'legacy-completed'
     | 'curated-started'
     | 'curated-completed'
+    | 'written-started'
     | 'written-completed';
   moduleId: string;
   timestamp: string;
   label: string;
+  detail?: string;
   scorePercentage?: number;
-  destination: { view: string; moduleId: string };
+  actionLabel: string;
+  destination: ProgressDestination;
 };
 
 export type ProgressRecommendation = {
@@ -100,7 +109,8 @@ export type ProgressRecommendation = {
   reason: string;
   priority: number;
   moduleId: string;
-  destination: { view: string; moduleId: string };
+  readingPercentage?: number;
+  destination: ProgressDestination;
 };
 
 export type CompatibleCuratedResult = {
@@ -112,6 +122,26 @@ export type CompatibleCuratedResult = {
   percentage: number;
 };
 
+export type WrittenPracticeSession = {
+  resultId: string;
+  submittedAt: string;
+  responsesSupplied: number;
+  unansweredPrompts: number;
+};
+
+export type HvpActiveSession =
+  | { state: 'none' }
+  | {
+    state: 'scored-practice' | 'written-practice';
+    attemptId: string;
+    attempt: AssessmentAttemptSnapshot;
+  }
+  | {
+    state: 'recovery-required';
+    candidateCount: number;
+    issueCodes: string[];
+  };
+
 export type HvpCuratedSummary = {
   compatibleScoredResultCount: number;
   omittedResultCount: number;
@@ -121,7 +151,7 @@ export type HvpCuratedSummary = {
   averageSessionPercentage?: number;
   weightedAnsweredAccuracy?: number;
   lastSubmittedAt?: string;
-  activePractice?: AssessmentAttemptSnapshot;
+  activeSession: HvpActiveSession;
   distinctCurrentQuestionsEncountered: number;
   eligibleAutomaticQuestionTotal: number;
   coveragePercentage: number;
@@ -139,6 +169,7 @@ export type HvpCuratedSummary = {
   latestWrittenSubmissionAt?: string;
   writtenResponsesSupplied: number;
   writtenUnansweredPrompts: number;
+  writtenSessions: WrittenPracticeSession[];
   questions: QuestionMasteryEvidence[];
   sections: MasteryGroup[];
   objectives: MasteryGroup[];
@@ -147,4 +178,14 @@ export type HvpCuratedSummary = {
   bloomLevels: MasteryGroup[];
   masteryDistribution: Record<MasteryLevel, number>;
   recentSessions: CompatibleCuratedResult[];
+  recentActivity: ProgressActivity[];
 };
+
+export type HvpProgressIssue = {
+  code: 'HVP_REGISTRY_UNAVAILABLE';
+  message: string;
+};
+
+export type HvpProgressResult =
+  | { ok: true; summary: HvpCuratedSummary }
+  | { ok: false; issues: HvpProgressIssue[] };

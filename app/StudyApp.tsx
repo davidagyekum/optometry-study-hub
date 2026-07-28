@@ -26,6 +26,8 @@ import {
 import { createAttempt } from '@/lib/legacy/attempts';
 import type { CourseSummary, Module } from '@/lib/legacy/types';
 import type { ClientView } from '@/lib/navigation/clientRoute';
+import { legacyRecentActivity } from '@/lib/progress/activity';
+import { legacyRecommendations } from '@/lib/progress/recommendations';
 import {
   courseResetConfirmation,
   moduleResetConfirmation,
@@ -55,6 +57,11 @@ export default function StudyApp() {
   const { store, setStore } = useLegacyStore();
   const pilotEnabled = isAssessmentPilotEnabled();
   const hvpPracticeEnabled = isHvpCuratedPracticeEnabled();
+  const legacyRecommendationCandidates = legacyRecommendations(store);
+  const unboundedLegacyActivity = legacyRecentActivity(
+    store,
+    Number.POSITIVE_INFINITY,
+  );
   const isControlledView = CONTROLLED_VIEWS.includes(route.view);
   const routedAttempt = route.view === 'assessment'
     ? store.assessment.activeAttempts[route.moduleId]
@@ -194,6 +201,26 @@ export default function StudyApp() {
               <HvpProgressPanel store={store} go={go} variant="summary" />
             </Suspense>
           ) : undefined}
+          curatedRecommendationPanel={hvpPracticeEnabled ? (
+            <Suspense fallback={<div className="analytics-loading" role="status">Loading recommendation…</div>}>
+              <HvpProgressPanel
+                store={store}
+                go={go}
+                variant="recommendation"
+                legacyCandidates={legacyRecommendationCandidates}
+              />
+            </Suspense>
+          ) : undefined}
+          curatedActivityPanel={hvpPracticeEnabled ? (
+            <Suspense fallback={<div className="analytics-loading" role="status">Loading activity…</div>}>
+              <HvpProgressPanel
+                store={store}
+                go={go}
+                variant="activity"
+                legacyActivity={unboundedLegacyActivity}
+              />
+            </Suspense>
+          ) : undefined}
         />
       ) : null}
       {route.view === 'progress' && activeModule ? (
@@ -205,7 +232,12 @@ export default function StudyApp() {
           curatedPanel={
             activeModule.id === 'human-visual-perception' && hvpPracticeEnabled ? (
               <Suspense fallback={<div className="analytics-loading" role="status">Loading mastery evidence…</div>}>
-                <HvpProgressPanel store={store} go={go} variant="detail" />
+                <HvpProgressPanel
+                  store={store}
+                  go={go}
+                  variant="detail"
+                  legacyCandidates={legacyRecommendationCandidates}
+                />
               </Suspense>
             ) : undefined
           }

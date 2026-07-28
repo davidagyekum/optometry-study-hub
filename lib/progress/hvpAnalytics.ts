@@ -1,26 +1,34 @@
 import { humanVisualPerceptionCandidateBank } from '@/content/question-bank/opt374/human-visual-perception/bank';
-import { validateHvpCuratedAttempt, validateHvpCuratedResult } from '@/lib/assessment/hvp/compatibility';
-import { HVP_CURATED_BLUEPRINT_ID } from '@/lib/assessment/hvp/config';
+import { validateHvpCuratedResult } from '@/lib/assessment/hvp/compatibility';
+import {
+  HVP_CURATED_BLUEPRINT_ID,
+  HVP_CURATED_PRACTICE_ID,
+} from '@/lib/assessment/hvp/config';
 import { HVP_WRITTEN_BLUEPRINT_ID } from '@/lib/assessment/hvp/practiceBlueprint';
 import { buildDraftOnlyHvpRegistry } from '@/lib/assessment/hvp/registry';
+import { selectActiveHvpAttempt } from '@/lib/assessment/hvp/selectors';
 import {
   familyConstrainedCount,
   retryMissedQuestionIds,
   unseenQuestionIds,
   weakTopicQuestionIds,
 } from '@/lib/assessment/practice/history';
+import type { QuestionRegistry } from '@/lib/assessment/session/registry';
 import type { AssessmentGradingReport } from '@/lib/assessment/grading/types';
+import { sortProgressActivity } from '@/lib/progress/activity';
 import { accuracyPercentage, groupMastery, questionMastery } from '@/lib/progress/mastery';
 import type {
   CompatibleCuratedResult,
-  HvpCuratedSummary,
+  HvpActiveSession,
+  HvpProgressResult,
   MasteryEvidence,
   MasteryGroup,
   MasteryLevel,
+  ProgressActivity,
   QuestionMasteryEvidence,
+  WrittenPracticeSession,
 } from '@/lib/progress/types';
 import {
-  assessmentAttemptSnapshotSchema,
   assessmentResultSnapshotSchema,
   type StoreV2,
 } from '@/lib/storage/schemas';
@@ -58,8 +66,13 @@ function latest(left?: string, right?: string): string | undefined {
 }
 
 function percentage(report: AssessmentGradingReport): number | undefined {
-  return report.score !== null && report.maxScore
-    ? (report.score / report.maxScore) * 100
+  const { score, maxScore } = report;
+  return score !== null
+    && maxScore !== null
+    && Number.isFinite(score)
+    && Number.isFinite(maxScore)
+    && maxScore > 0
+    ? (score / maxScore) * 100
     : undefined;
 }
 
@@ -102,9 +115,43 @@ function strategyOf(result: StoreV2['assessment']['results'][string]): string {
   return result.practiceSelection?.strategy ?? 'mixed';
 }
 
-export function calculateHvpProgress(store: StoreV2): HvpCuratedSummary {
-  const built = buildDraftOnlyHvpRegistry();
-  if (!built.ok) throw new Error('The current HVP registry could not be built.');
+function activeSession(
+  store: StoreV2,
+  registry: QuestionRegistry,
+): HvpActiveSession {
+  const selection = selectActiveHvpAttempt(store, registry);
+  if (!selection.candidates.length) return { state: 'none' };
+  if (!selection.compatibleAttempt || selection.issues.length) {
+    return {
+      state: 'recovery-required',
+      candidateCount: selection.candidates.length,
+      issueCodes: [...new Set(selection.issues.map((issue) => issue.code))].sort(),
+    };
+  }
+  const attempt = selection.compatibleAttempt;
+  return {
+    state: attempt.blueprintId === HVP_WRITTEN_BLUEPRINT_ID
+      ? 'written-practice'
+      : 'scored-practice',
+    attemptId: attempt.id,
+    attempt,
+  };
+}
+
+export function calculateHvpProgress(
+  store: StoreV2,
+  registryBuilder: typeof buildDraftOnlyHvpRegistry = buildDraftOnlyHvpRegistry,
+): HvpProgressResult {
+  const built = registryBuilder();
+  if (!built.ok) {
+    return {
+      ok: false,
+      issues: [{
+        code: 'HVP_REGISTRY_UNAVAILABLE',
+        message: 'Curated analytics are temporarily unavailable because the question registry could not be built.',
+      }],
+    };
+  }
   const registry = built.value;
   const automaticResults: Array<{
     result: StoreV2['assessment']['results'][string];
@@ -139,8 +186,14 @@ export function calculateHvpProgress(store: StoreV2): HvpCuratedSummary {
       automaticResults.push({ result: candidate, report: validated.value.report });
     }
   });
-  automaticResults.sort((a, b) => b.result.submittedAt.localeCompare(a.result.submittedAt));
-  writtenResults.sort((a, b) => b.result.submittedAt.localeCompare(a.result.submittedAt));
+  automaticResults.sort((a, b) => (
+    b.result.submittedAt.localeCompare(a.result.submittedAt)
+    || a.result.id.localeCompare(b.result.id)
+  ));
+  writtenResults.sort((a, b) => (
+    b.result.submittedAt.localeCompare(a.result.submittedAt)
+    || a.result.id.localeCompare(b.result.id)
+  ));
 
   const evidenceById = new Map<string, QuestionMasteryEvidence>();
   AUTOMATIC.forEach((question) => {
@@ -232,14 +285,7 @@ export function calculateHvpProgress(store: StoreV2): HvpCuratedSummary {
     increment(profileDistribution, profileOf(result));
     increment(strategyDistribution, strategyOf(result));
   });
-  const compatibleAttempts = Object.values(store.assessment.activeAttempts)
-    .filter((attempt) => attempt.blueprintId === HVP_CURATED_BLUEPRINT_ID)
-    .flatMap((attempt) => {
-      const parsed = assessmentAttemptSnapshotSchema.safeParse(attempt);
-      return parsed.success ? [parsed.data] : [];
-    })
-    .filter((attempt) => validateHvpCuratedAttempt(attempt, registry).ok)
-    .sort((a, b) => b.startedAt.localeCompare(a.startedAt));
+  const sessionState = activeSession(store, registry);
   const recentSessions: CompatibleCuratedResult[] = automaticResults.map(({ result, report }) => ({
     resultId: result.id,
     submittedAt: result.submittedAt,
@@ -248,67 +294,122 @@ export function calculateHvpProgress(store: StoreV2): HvpCuratedSummary {
     questionCount: result.orderedQuestionIds.length,
     percentage: percentage(report) ?? 0,
   }));
+  const writtenSessions: WrittenPracticeSession[] = writtenResults.map(({ result, report }) => ({
+    resultId: result.id,
+    submittedAt: result.submittedAt,
+    responsesSupplied: report.manualRequiredCount,
+    unansweredPrompts: report.unansweredCount,
+  }));
   const masteryDistribution = Object.fromEntries(LEVELS.map((level) => [
     level,
     questions.filter((question) => question.mastery === level).length,
   ])) as Record<MasteryLevel, number>;
+  const recentActivity: ProgressActivity[] = [];
+  if (
+    sessionState.state === 'scored-practice'
+    || sessionState.state === 'written-practice'
+  ) {
+    const written = sessionState.state === 'written-practice';
+    recentActivity.push({
+      id: `${written ? 'written' : 'curated'}-started:${sessionState.attemptId}`,
+      kind: written ? 'written-started' : 'curated-started',
+      moduleId: 'human-visual-perception',
+      timestamp: sessionState.attempt.startedAt,
+      label: written ? 'Written practice started' : 'Curated practice started',
+      detail: written ? 'Not scored' : `${sessionState.attempt.orderedQuestionIds.length} questions`,
+      actionLabel: 'Resume practice',
+      destination: { view: 'assessment', moduleId: sessionState.attemptId },
+    });
+  }
+  automaticResults.forEach(({ result, report }) => {
+    recentActivity.push({
+      id: `curated-completed:${result.id}`,
+      kind: 'curated-completed',
+      moduleId: 'human-visual-perception',
+      timestamp: result.submittedAt,
+      label: 'Curated practice completed',
+      detail: `${result.orderedQuestionIds.length} questions`,
+      scorePercentage: percentage(report),
+      actionLabel: 'Review exact result',
+      destination: { view: 'assessment-result', moduleId: result.id },
+    });
+  });
+  writtenSessions.forEach((session) => {
+    recentActivity.push({
+      id: `written-completed:${session.resultId}`,
+      kind: 'written-completed',
+      moduleId: 'human-visual-perception',
+      timestamp: session.submittedAt,
+      label: 'Written practice completed',
+      detail: 'Not scored',
+      actionLabel: 'Review exact result',
+      destination: { view: 'assessment-result', moduleId: session.resultId },
+    });
+  });
 
   return {
-    compatibleScoredResultCount: automaticResults.length,
-    omittedResultCount,
-    integrityIssueCategories,
-    latestPercentage: percentages[0],
-    bestPercentage: percentages.length ? Math.max(...percentages) : undefined,
-    averageSessionPercentage: percentages.length
-      ? percentages.reduce((sum, value) => sum + value, 0) / percentages.length
-      : undefined,
-    weightedAnsweredAccuracy: accuracyPercentage(totalEarned, totalPossible),
-    lastSubmittedAt: automaticResults[0]?.result.submittedAt,
-    activePractice: compatibleAttempts[0],
-    distinctCurrentQuestionsEncountered: questions.filter((question) => question.encounterCount > 0).length,
-    eligibleAutomaticQuestionTotal: questions.length,
-    coveragePercentage: questions.length
-      ? (questions.filter((question) => question.encounterCount > 0).length / questions.length) * 100
-      : 0,
-    gradableAnsweredEncounters: questions.reduce((sum, question) => sum + question.gradableAttemptCount, 0),
-    correctCount: automaticResults.reduce((sum, item) => sum + item.report.correctCount, 0),
-    partialCount: automaticResults.reduce((sum, item) => sum + item.report.partialCount, 0),
-    incorrectCount: automaticResults.reduce((sum, item) => sum + item.report.incorrectCount, 0),
-    unansweredCount: automaticResults.reduce((sum, item) => sum + item.report.unansweredCount, 0),
-    profileDistribution,
-    strategyDistribution,
-    retryMissedAvailable: familyConstrainedCount(
-      retryMissedQuestionIds(AUTOMATIC, store.assessment.questionHistory), AUTOMATIC, 2,
-    ),
-    weakTopicAvailable: familyConstrainedCount(
-      weakTopicQuestionIds(AUTOMATIC, store.assessment.questionHistory), AUTOMATIC, 2,
-    ),
-    unseenAvailable: familyConstrainedCount(
-      unseenQuestionIds(AUTOMATIC, store.assessment.questionHistory), AUTOMATIC, 2,
-    ),
-    writtenSubmissions: writtenResults.length,
-    latestWrittenSubmissionAt: writtenResults[0]?.result.submittedAt,
-    writtenResponsesSupplied: writtenResults.reduce(
-      (sum, item) => sum + item.report.manualRequiredCount, 0,
-    ),
-    writtenUnansweredPrompts: writtenResults.reduce(
-      (sum, item) => sum + item.report.unansweredCount, 0,
-    ),
-    questions,
-    sections: group(Object.keys(SECTION_LABELS), (question) => question.sectionId, SECTION_LABELS),
-    objectives,
-    formats,
-    difficulties: group(
-      ['foundation', 'intermediate', 'advanced'],
-      (question) => question.difficulty,
-      { foundation: 'Foundation', intermediate: 'Intermediate', advanced: 'Advanced' },
-    ),
-    bloomLevels: group(
-      ['remember', 'understand', 'apply', 'analyze', 'evaluate', 'create'],
-      (question) => question.bloomLevel,
-      { remember: 'Remember', understand: 'Understand', apply: 'Apply', analyze: 'Analyze', evaluate: 'Evaluate', create: 'Create' },
-    ),
-    masteryDistribution,
-    recentSessions,
+    ok: true,
+    summary: {
+      compatibleScoredResultCount: automaticResults.length,
+      omittedResultCount,
+      integrityIssueCategories,
+      latestPercentage: percentages[0],
+      bestPercentage: percentages.length ? Math.max(...percentages) : undefined,
+      averageSessionPercentage: percentages.length
+        ? percentages.reduce((sum, value) => sum + value, 0) / percentages.length
+        : undefined,
+      weightedAnsweredAccuracy: accuracyPercentage(totalEarned, totalPossible),
+      lastSubmittedAt: automaticResults[0]?.result.submittedAt,
+      activeSession: sessionState,
+      distinctCurrentQuestionsEncountered: questions.filter((question) => question.encounterCount > 0).length,
+      eligibleAutomaticQuestionTotal: questions.length,
+      coveragePercentage: questions.length
+        ? (questions.filter((question) => question.encounterCount > 0).length / questions.length) * 100
+        : 0,
+      gradableAnsweredEncounters: questions.reduce((sum, question) => sum + question.gradableAttemptCount, 0),
+      correctCount: automaticResults.reduce((sum, item) => sum + item.report.correctCount, 0),
+      partialCount: automaticResults.reduce((sum, item) => sum + item.report.partialCount, 0),
+      incorrectCount: automaticResults.reduce((sum, item) => sum + item.report.incorrectCount, 0),
+      unansweredCount: automaticResults.reduce((sum, item) => sum + item.report.unansweredCount, 0),
+      profileDistribution,
+      strategyDistribution,
+      retryMissedAvailable: familyConstrainedCount(
+        retryMissedQuestionIds(AUTOMATIC, store.assessment.questionHistory), AUTOMATIC, 2,
+      ),
+      weakTopicAvailable: familyConstrainedCount(
+        weakTopicQuestionIds(AUTOMATIC, store.assessment.questionHistory), AUTOMATIC, 2,
+      ),
+      unseenAvailable: familyConstrainedCount(
+        unseenQuestionIds(AUTOMATIC, store.assessment.questionHistory), AUTOMATIC, 2,
+      ),
+      writtenSubmissions: writtenResults.length,
+      latestWrittenSubmissionAt: writtenResults[0]?.result.submittedAt,
+      writtenResponsesSupplied: writtenResults.reduce(
+        (sum, item) => sum + item.report.manualRequiredCount, 0,
+      ),
+      writtenUnansweredPrompts: writtenResults.reduce(
+        (sum, item) => sum + item.report.unansweredCount, 0,
+      ),
+      writtenSessions,
+      questions,
+      sections: group(Object.keys(SECTION_LABELS), (question) => question.sectionId, SECTION_LABELS),
+      objectives,
+      formats,
+      difficulties: group(
+        ['foundation', 'intermediate', 'advanced'],
+        (question) => question.difficulty,
+        { foundation: 'Foundation', intermediate: 'Intermediate', advanced: 'Advanced' },
+      ),
+      bloomLevels: group(
+        ['remember', 'understand', 'apply', 'analyze', 'evaluate', 'create'],
+        (question) => question.bloomLevel,
+        { remember: 'Remember', understand: 'Understand', apply: 'Apply', analyze: 'Analyze', evaluate: 'Evaluate', create: 'Create' },
+      ),
+      masteryDistribution,
+      recentSessions,
+      recentActivity: sortProgressActivity(recentActivity),
+    },
   };
 }
+
+export { HVP_CURATED_PRACTICE_ID };
