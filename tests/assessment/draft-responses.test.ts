@@ -39,6 +39,8 @@ function completeDraft(question: AssessmentQuestion): AssessmentDraftResponse {
   switch (question.format) {
     case 'single_best_answer':
       return { format: question.format, optionId: question.correctOptionId };
+    case 'true_false':
+      return { format: question.format, answer: question.correctAnswer };
     case 'multiple_response':
       return { format: question.format, optionIds: [...question.correctOptionIds] };
     case 'ordering':
@@ -63,6 +65,8 @@ function differentResponse(
   response: PersistedResponse,
 ): PersistedResponse {
   switch (question.format) {
+    case 'true_false':
+      return { format: question.format, answer: !question.correctAnswer };
     case 'single_best_answer':
       return {
         format: question.format,

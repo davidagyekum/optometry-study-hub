@@ -50,6 +50,15 @@ export function ResponseSummary({
           </ul>
         </div>
       );
+    case 'true_false':
+      return (
+        <div className="response-comparison">
+          <p><strong>Your response</strong>{response?.format === question.format
+            ? (response.answer ? 'True' : 'False')
+            : 'No response'}</p>
+          <p><strong>Expected response</strong>{question.correctAnswer ? 'True' : 'False'}</p>
+        </div>
+      );
     case 'multiple_response': {
       const selected = response?.format === question.format ? response.optionIds : [];
       return (

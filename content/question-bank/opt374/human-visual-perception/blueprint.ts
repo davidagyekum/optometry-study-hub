@@ -12,6 +12,7 @@ export const humanVisualPerceptionBlueprint: QuestionBlueprint = {
   },
   formatTargets: {
     single_best_answer: 64,
+    true_false: 0,
     multiple_response: 16,
     matching: 10,
     extended_matching: 6,

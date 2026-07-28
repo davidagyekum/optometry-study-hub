@@ -121,3 +121,11 @@ npm run questions:review-snapshot
 ```
 
 Generated evidence remains under ignored `tmp/question-review/`. These commands do not enter the browser bundle, change question status, enable the pilot, or constitute academic review. See [Expert review campaigns](docs/EXPERT_REVIEW_CAMPAIGNS.md) and [Review resolution and promotion](docs/REVIEW_RESOLUTION_AND_PROMOTION.md).
+
+## Reusable practice platform
+
+PR 10 extends the assessment foundation with ten supported formats, versioned
+practice blueprints, deterministic HVP Quick/Standard/Full/Custom sessions,
+history-targeted practice, atomic device-local question history, and separate
+written practice. See [docs/PRACTICE_PLATFORM.md](docs/PRACTICE_PLATFORM.md).
+Both assessment feature flags remain disabled by default.

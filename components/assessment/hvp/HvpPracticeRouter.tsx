@@ -9,6 +9,10 @@ import { HvpPracticeWarning } from '@/components/assessment/hvp/HvpPracticeWarni
 import type { GoToRoute } from '@/hooks/useClientRoute';
 import { useHvpCuratedPractice } from '@/hooks/useHvpCuratedPractice';
 import { HVP_CURATED_PRACTICE_ID } from '@/lib/assessment/hvp/config';
+import {
+  HVP_WRITTEN_BLUEPRINT_ID,
+  HVP_WRITTEN_PRACTICE_ID,
+} from '@/lib/assessment/hvp/practiceBlueprint';
 import type { ClientView } from '@/lib/navigation/clientRoute';
 import type { StoreV2 } from '@/lib/storage/schemas';
 
@@ -29,47 +33,49 @@ export function HvpPracticeRouter({
   if (!practice.registry) return <HvpPracticeUnavailable go={go} />;
 
   if (view === 'practice') {
-    if (resourceId !== HVP_CURATED_PRACTICE_ID) {
-      return <HvpPracticeUnavailable go={go} />;
-    }
+    if (
+      resourceId !== HVP_CURATED_PRACTICE_ID
+      && resourceId !== HVP_WRITTEN_PRACTICE_ID
+    ) return <HvpPracticeUnavailable go={go} />;
     return (
       <HvpPracticeLanding
         attemptSelection={practice.activeAttemptSelection}
+        availability={practice.availability}
         go={go}
         latestResult={practice.latestResult}
+        latestWrittenResult={practice.latestWrittenResult}
         onDiscardCandidates={practice.discardCandidates}
         onReplaceCandidates={practice.replaceCandidates}
-        onRestart={() => {
-          if (window.confirm('Restart with a different 50-question set?')) {
-            return practice.start(true);
-          }
-          return practice.activeAttemptSelection.compatibleAttempt
-            ? {
-              ok: true as const,
-              value: practice.activeAttemptSelection.compatibleAttempt,
-            }
-            : practice.start();
-        }}
         onStart={practice.start}
       />
     );
   }
   if (view === 'assessment') {
+    const attemptSelection = practice.getAttemptSelection(resourceId);
+    const candidate = attemptSelection.candidates[0];
+    const written = candidate?.blueprintId === HVP_WRITTEN_BLUEPRINT_ID;
     return (
       <ControlledAssessmentSession
-        attemptSelection={practice.getAttemptSelection(resourceId)}
+        attemptSelection={attemptSelection}
         experience={{
           warning: <HvpPracticeWarning />,
           landingView: 'practice',
           landingResourceId: HVP_CURATED_PRACTICE_ID,
-          experienceName: 'curated practice',
-          contextDescription: 'Draft slide-aligned practice question. Correctness is shown only after submission.',
+          experienceName: written ? 'written practice' : 'curated practice',
+          contextDescription: written
+            ? 'Your response is saved locally and requires self-review against the rubric after submission.'
+            : 'Draft slide-aligned practice question. Correctness is shown only after submission.',
         }}
         go={go}
         onClear={practice.clearDraft}
         onDiscard={practice.discard}
         onMove={practice.moveTo}
-        onReplace={practice.replaceCandidates}
+        onReplace={(candidateIds) => practice.replaceCandidates(
+          candidateIds,
+          written
+            ? { profileId: 'written', requestedCount: 2 }
+            : { profileId: 'full', strategy: 'mixed', requestedCount: 50 },
+        )}
         onSubmit={practice.submit}
         onToggleFlag={practice.toggleFlag}
         onUpdateDraft={practice.updateDraft}

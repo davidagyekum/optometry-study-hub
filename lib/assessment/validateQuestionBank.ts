@@ -607,6 +607,8 @@ function validateQuestion(
     case 'single_best_answer':
       validateSingleBestAnswer(question, diagnostics);
       break;
+    case 'true_false':
+      break;
     case 'multiple_response':
       validateMultipleResponse(question, diagnostics);
       break;

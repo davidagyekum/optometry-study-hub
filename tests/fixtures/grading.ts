@@ -18,6 +18,8 @@ export function correctResponseFor(question: AssessmentQuestion): PersistedRespo
   switch (question.format) {
     case 'single_best_answer':
       return { format: question.format, optionId: question.correctOptionId };
+    case 'true_false':
+      return { format: question.format, answer: question.correctAnswer };
     case 'multiple_response':
       return { format: question.format, optionIds: [...question.correctOptionIds].reverse() };
     case 'ordering':
@@ -49,6 +51,8 @@ export function incorrectResponseFor(question: AssessmentQuestion): PersistedRes
           (option) => option.id !== question.correctOptionId,
         )?.id ?? question.options[0].id,
       };
+    case 'true_false':
+      return { format: question.format, answer: !question.correctAnswer };
     case 'multiple_response': {
       const wrong = question.options.find(
         (option) => !question.correctOptionIds.includes(option.id),

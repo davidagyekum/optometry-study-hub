@@ -7,6 +7,7 @@ import { OpenResponseRenderer } from '@/components/assessment/renderers/OpenResp
 import { OrderingRenderer } from '@/components/assessment/renderers/OrderingRenderer';
 import { ShortAnswerRenderer } from '@/components/assessment/renderers/ShortAnswerRenderer';
 import { SingleBestAnswerRenderer } from '@/components/assessment/renderers/SingleBestAnswerRenderer';
+import { TrueFalseRenderer } from '@/components/assessment/renderers/TrueFalseRenderer';
 import type { AssessmentQuestion } from '@/lib/assessment/types';
 import type {
   AssessmentDraftResponse,
@@ -47,6 +48,16 @@ export function AssessmentQuestionRenderer({
     case 'single_best_answer':
       return (
         <SingleBestAnswerRenderer
+          {...shared}
+          question={question}
+          draft={draft?.format === question.format ? draft : undefined}
+          response={response?.format === question.format ? response : undefined}
+          onDraftChange={onDraftChange}
+        />
+      );
+    case 'true_false':
+      return (
+        <TrueFalseRenderer
           {...shared}
           question={question}
           draft={draft?.format === question.format ? draft : undefined}

@@ -145,3 +145,12 @@ The expected matrix is derived from the canonical bank. Per-question Aiken's V i
 ## Review-campaign domain
 
 Review campaigns, submissions, stable issues, resolutions, chair decisions, evidence bundles, and transition diagnostics are authoring-domain records. They are not learner attempt data and are not stored in StoreV2. None of these records automatically reviews, approves, retires, launches, grades, or mutates a question.
+
+## PR 10 practice extension
+
+The discriminated question union now includes `true_false` with
+`correctAnswer: boolean`; its draft and persisted response use
+`answer: boolean`. Practice attempts/results may carry an optional strict
+version-1 selection snapshot. Absence remains valid for PR 9 Full snapshots.
+See `docs/PRACTICE_PLATFORM.md` for blueprint, strategy, history, and written
+practice contracts.

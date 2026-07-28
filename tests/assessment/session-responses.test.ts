@@ -71,7 +71,7 @@ describe('format-specific persisted response validation', () => {
   it('requires exact format discrimination for every question format', () => {
     const bank = makePilotBank();
     expect(new Set(bank.questions.map((question) => question.format)))
-      .toEqual(new Set(QUESTION_FORMATS));
+      .toEqual(new Set(QUESTION_FORMATS.filter((format) => format !== 'true_false')));
     bank.questions.forEach((question) => {
       const result = validateResponseForQuestion(question, {
         format: question.format === 'short_answer' ? 'open_response' : 'short_answer',

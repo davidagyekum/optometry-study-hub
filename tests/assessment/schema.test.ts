@@ -14,7 +14,7 @@ describe('assessment schemas', () => {
     if (!result.success) return;
 
     expect(result.data.questions.map((question) => question.format).sort()).toEqual(
-      [...QUESTION_FORMATS].sort(),
+      QUESTION_FORMATS.filter((format) => format !== 'true_false').sort(),
     );
     result.data.questions.forEach((question) => {
       expect(assessmentQuestionSchema.safeParse(question).success).toBe(true);

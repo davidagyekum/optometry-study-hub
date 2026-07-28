@@ -16,11 +16,13 @@ export function QuestionReviewCard({
   question,
   response,
   grade,
+  hideScore = false,
 }: {
   index: number;
   question: AssessmentQuestion;
   response?: PersistedResponse;
   grade: QuestionGradeOutcome;
+  hideScore?: boolean;
 }) {
   return (
     <details className={`pilot-review-card ${grade.status}`}>
@@ -28,7 +30,7 @@ export function QuestionReviewCard({
         <span>Question {index + 1}</span>
         <strong>{STATUS_LABEL[grade.status]}</strong>
         <small>{question.format.replaceAll('_', ' ')}</small>
-        <b>{grade.score === null ? 'Manual' : `${grade.score} / ${grade.maxScore}`}</b>
+        <b>{hideScore ? 'Not scored' : grade.score === null ? 'Manual' : `${grade.score} / ${grade.maxScore}`}</b>
       </summary>
       <div className="pilot-review-body">
         <h3>{question.stem}</h3>

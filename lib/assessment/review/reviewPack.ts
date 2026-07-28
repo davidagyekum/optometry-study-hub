@@ -97,6 +97,7 @@ function componentEvidence(question: AssessmentQuestion): unknown {
 function correctAnswer(question: AssessmentQuestion): unknown {
   switch (question.format) {
     case 'single_best_answer': return { correctOptionId: question.correctOptionId };
+    case 'true_false': return { correctAnswer: question.correctAnswer };
     case 'multiple_response': return { correctOptionIds: question.correctOptionIds };
     case 'ordering': return { correctOrder: question.correctOrder };
     case 'matching': return { correctMatches: question.correctMatches };

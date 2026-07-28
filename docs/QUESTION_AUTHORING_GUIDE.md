@@ -187,3 +187,10 @@ enabled only by `NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE=true`. It is not an
 approval path. No HVP item may move to reviewed or approved until genuine
 independent expert packs have been collected, merged, resolved, and supported
 by an eligible human review-chair decision.
+
+## Dedicated True/False authoring
+
+Use `format: "true_false"` with `correctAnswer: boolean`. Do not author an
+options array and do not encode booleans as strings. The learner renderer
+supplies accessible True and False choices. True/False is supported by the
+engine but is not added to either canonical bank in PR 10.

@@ -93,6 +93,10 @@ export function validateDraftResponseForQuestion(
         );
       }
       return sessionSuccess(draft);
+    case 'true_false':
+      return draft.format === question.format
+        ? sessionSuccess(draft)
+        : invalidDraft('DRAFT_FORMAT_MISMATCH', 'True/False draft format mismatch.', question.id, 'format');
     case 'multiple_response':
       if (draft.format !== question.format) break;
       if (!hasUniqueValues(draft.optionIds)) {
@@ -213,6 +217,8 @@ export function completeResponseFromDraft(
   switch (question.format) {
     case 'single_best_answer':
       return draft.format === question.format ? { ...draft } : undefined;
+    case 'true_false':
+      return draft.format === question.format ? { ...draft } : undefined;
     case 'multiple_response':
       if (draft.format !== question.format || draft.optionIds.length === 0) return undefined;
       if (
@@ -259,6 +265,8 @@ export function persistedResponsesEqual(
   switch (left.format) {
     case 'single_best_answer':
       return right.format === left.format && left.optionId === right.optionId;
+    case 'true_false':
+      return right.format === left.format && left.answer === right.answer;
     case 'multiple_response':
       return right.format === left.format
         && left.optionIds.length === right.optionIds.length

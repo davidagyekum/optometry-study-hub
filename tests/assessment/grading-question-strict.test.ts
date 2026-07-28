@@ -16,7 +16,7 @@ describe('strict per-question grading', () => {
   it('covers correct, incorrect, and unanswered outcomes for all nine formats', () => {
     const questions = makePilotBank().questions;
     expect(new Set(questions.map((question) => question.format)))
-      .toEqual(new Set(QUESTION_FORMATS));
+      .toEqual(new Set(QUESTION_FORMATS.filter((format) => format !== 'true_false')));
 
     questions.forEach((question) => {
       const correct = gradeResponseForQuestion({

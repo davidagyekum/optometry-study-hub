@@ -15,8 +15,8 @@ import { moduleMap } from '@/content/legacy/moduleCatalog';
 import { useClientRoute } from '@/hooks/useClientRoute';
 import { useLegacyStore } from '@/hooks/useLegacyStore';
 import { isAssessmentPilotEnabled } from '@/lib/assessment/pilot/config';
+import { controlledExperienceKind } from '@/lib/assessment/routing/controlledExperience';
 import {
-  HVP_CURATED_BLUEPRINT_ID,
   HVP_CURATED_PRACTICE_ID,
   isHvpCuratedPracticeEnabled,
 } from '@/lib/assessment/hvp/config';
@@ -56,12 +56,7 @@ export default function StudyApp() {
     ? store.assessment.results[route.moduleId]
     : undefined;
   const controlledBlueprint = routedAttempt?.blueprintId ?? routedResult?.blueprintId;
-  const controlledKind = route.view === 'practice'
-    || controlledBlueprint === HVP_CURATED_BLUEPRINT_ID
-    ? 'hvp'
-    : route.view === 'pilot' || controlledBlueprint === 'aqueous-vitreous-pilot-v1'
-      ? 'aqueous'
-      : 'unknown';
+  const controlledKind = controlledExperienceKind(route.view, controlledBlueprint);
 
   const updateStore = (updater: (current: StoreV2) => StoreV2) => {
     setStore((current) => updater(current));

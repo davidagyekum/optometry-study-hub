@@ -148,6 +148,12 @@ export function gradeResponseForQuestion({
         question,
         validResponse.optionId === question.correctOptionId,
       ));
+    case 'true_false':
+      if (validResponse.format !== question.format) break;
+      return validateOutcome(automaticOutcome(
+        question,
+        validResponse.answer === question.correctAnswer,
+      ));
     case 'multiple_response':
       if (validResponse.format !== question.format) break;
       return validateOutcome(automaticOutcome(
