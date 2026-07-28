@@ -3,9 +3,18 @@ import {
   cpSync,
   mkdirSync,
   rmSync,
-  writeFileSync,
 } from 'node:fs';
 import { resolve } from 'node:path';
+import {
+  assertCleanReleaseTree,
+  detectedNpmVersion,
+  releaseBuildMetadataPath,
+  releaseGitIdentity,
+  releaseOutputDirectory,
+  releaseOutputDirectoryId,
+  releaseOutputFingerprint,
+  writeReleaseBuildMetadataAtomically,
+} from '@/lib/release/buildIdentity';
 import {
   assertReleaseProfile,
   environmentForReleaseProfile,
@@ -16,19 +25,26 @@ import {
 const profileArgument = process.argv.find((argument) => argument.startsWith('--profile='))
   ?.slice('--profile='.length);
 const profile = parseReleaseProfile(profileArgument ?? process.argv[2] ?? '');
+const allowDirty = process.argv.includes('--allow-dirty');
 const environment = environmentForReleaseProfile(profile);
-assertReleaseProfile(profile, releaseFlagsFromEnvironment(environment));
+const flags = assertReleaseProfile(profile, releaseFlagsFromEnvironment(environment));
+const git = releaseGitIdentity();
+if (!allowDirty) assertCleanReleaseTree(git);
 
 const dist = resolve('dist');
-const releaseRoot = resolve('tmp', 'release');
-const output = resolve(releaseRoot, 'builds', profile);
-const metadataDirectory = resolve(releaseRoot, 'build-metadata');
+const output = releaseOutputDirectory(profile);
+const metadataPath = releaseBuildMetadataPath(profile);
+const metadataDirectory = resolve('tmp', 'release', 'build-metadata');
+rmSync(metadataPath, { force: true });
+rmSync(`${metadataPath}.development`, { force: true });
 rmSync(dist, { recursive: true, force: true });
 rmSync(output, { recursive: true, force: true });
 mkdirSync(metadataDirectory, { recursive: true });
 
 const npmExecPath = process.env.npm_execpath;
-const npmCommand = npmExecPath ? process.execPath : (process.platform === 'win32' ? 'npm.cmd' : 'npm');
+const npmCommand = npmExecPath
+  ? process.execPath
+  : (process.platform === 'win32' ? 'npm.cmd' : 'npm');
 const npmArguments = npmExecPath ? [npmExecPath, 'run', 'build'] : ['run', 'build'];
 const started = performance.now();
 const result = spawnSync(npmCommand, npmArguments, {
@@ -38,23 +54,33 @@ const result = spawnSync(npmCommand, npmArguments, {
   shell: false,
   stdio: 'inherit',
 });
-const buildDurationMs = Math.round(performance.now() - started);
+const buildDurationMs = Math.max(0, performance.now() - started);
 if (result.status !== 0) {
   process.exit(result.status ?? 1);
 }
 
 cpSync(dist, output, { recursive: true });
-writeFileSync(
-  resolve(metadataDirectory, `${profile}.json`),
-  `${JSON.stringify({
-    schemaVersion: 1,
-    profile,
-    buildDurationMs,
-    flags: {
-      assessmentPilot: false,
-      hvpCuratedPractice: profile === 'hvp-public-beta',
-    },
-  }, null, 2)}\n`,
-  'utf8',
-);
-console.log(`Release build complete: ${profile} (${buildDurationMs} ms)`);
+const outputFingerprint = releaseOutputFingerprint(output);
+const metadata = {
+  schemaVersion: 1 as const,
+  profile,
+  flags,
+  commitSha: git.commitSha,
+  treeSha: git.treeSha,
+  dirty: false as const,
+  nodeVersion: process.version,
+  npmVersion: detectedNpmVersion(),
+  builtAt: new Date().toISOString(),
+  buildDurationMs,
+  outputFingerprint,
+  outputDirectory: releaseOutputDirectoryId(output),
+};
+
+if (allowDirty && git.dirty) {
+  console.warn(
+    'Development-only dirty build completed. No release metadata was written, so audit and manifest commands will reject it.',
+  );
+} else {
+  writeReleaseBuildMetadataAtomically(metadata, metadataPath);
+}
+console.log(`Release build complete: ${profile} (${Math.round(buildDurationMs)} ms)`);

@@ -1,4 +1,15 @@
 import { spawnSync } from 'node:child_process';
+import {
+  readFileSync,
+  rmSync,
+} from 'node:fs';
+import { resolve } from 'node:path';
+import {
+  assertCleanReleaseTree,
+  readReleaseBuildMetadata,
+  releaseGitIdentity,
+} from '@/lib/release/buildIdentity';
+import { releaseManifestSchema } from '@/lib/release/types';
 
 type Command = {
   label: string;
@@ -6,8 +17,14 @@ type Command = {
   args: string[];
 };
 
+const initialGit = releaseGitIdentity();
+assertCleanReleaseTree(initialGit);
+rmSync(resolve('tmp', 'release'), { recursive: true, force: true });
+
 const npmExecPath = process.env.npm_execpath;
-const npmCommand = npmExecPath ? process.execPath : (process.platform === 'win32' ? 'npm.cmd' : 'npm');
+const npmCommand = npmExecPath
+  ? process.execPath
+  : (process.platform === 'win32' ? 'npm.cmd' : 'npm');
 const npmArgs = (...args: string[]) => npmExecPath ? [npmExecPath, ...args] : args;
 const commands: Command[] = [
   { label: 'Release profile validation', command: npmCommand, args: npmArgs('run', 'release:profile') },
@@ -39,4 +56,25 @@ for (const item of commands) {
   });
   if (result.status !== 0) process.exit(result.status ?? 1);
 }
-console.log('\nRelease verification passed.');
+
+const manifest = releaseManifestSchema.parse(JSON.parse(readFileSync(
+  resolve('tmp', 'release', 'release-manifest.json'),
+  'utf8',
+)));
+const metadata = readReleaseBuildMetadata('hvp-public-beta');
+const finalGit = releaseGitIdentity();
+assertCleanReleaseTree(finalGit);
+if (
+  finalGit.commitSha !== initialGit.commitSha
+  || finalGit.treeSha !== initialGit.treeSha
+  || manifest.git.commitSha !== metadata.commitSha
+  || manifest.git.treeSha !== metadata.treeSha
+  || manifest.releaseProfile !== metadata.profile
+  || manifest.flags.assessmentPilot !== metadata.flags.assessmentPilot
+  || manifest.flags.hvpCuratedPractice !== metadata.flags.hvpCuratedPractice
+  || manifest.build.outputFingerprint !== metadata.outputFingerprint
+  || manifest.build.identity.outputFingerprint !== metadata.outputFingerprint
+) {
+  throw new Error('Fresh release manifest identity does not match its clean build evidence.');
+}
+console.log('\nRelease verification passed with fresh, source-bound evidence.');

@@ -84,4 +84,29 @@ describe('release feature-profile smoke', () => {
         .toBeInTheDocument();
     });
   });
+
+
+  it.each(['/', '/practice', '/progress'])(
+    'renders no HVP answer content on the enabled pre-practice route %s',
+    async (path) => {
+      vi.stubEnv('NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE', 'true');
+      window.history.replaceState({}, '', path);
+      const { unmount } = render(<StudyApp />);
+      if (path !== '/') {
+        await screen.findAllByRole(
+          'heading',
+          { name: 'Curated practice' },
+          { timeout: 5_000 },
+        );
+      }
+      const rendered = document.body.textContent ?? '';
+      expect(rendered).not.toContain('Which statement best defines sensation?');
+      expect(rendered).not.toContain(
+        'Sensation is the immediate detection and neural encoding of physical stimulation',
+      );
+      expect(rendered).not.toContain('detect-and-encode');
+      expect(rendered).not.toContain('This describes sensory registration.');
+      unmount();
+    },
+  );
 });

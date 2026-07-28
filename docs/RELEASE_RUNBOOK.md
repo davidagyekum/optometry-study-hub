@@ -10,10 +10,19 @@ OpenAI Sites project. It does not authorize publication.
   `e8b9810ff6f2898c9bc85d37da72f069ee049115`; do not publish a PR branch.
 - Fetch `origin`, switch to `main`, and require a clean working tree.
 - Run `npm ci` and `npm run release:verify` with Node.js 22.13.0 or newer.
-- Inspect `tmp/release/release-manifest.json`,
+  Verification deletes all prior release evidence before building both
+  profiles.
+- Inspect `tmp/release/build-metadata/hvp-public-beta.json`,
+  `tmp/release/audits/hvp-public-beta.json`,
+  `tmp/release/release-manifest.json`,
   `tmp/release/release-manifest.sha256`, and
   `tmp/release/release-report.md`.
-- Require the manifest commit and tree to match the reviewed clean checkout.
+- Require metadata, audit, and manifest to agree on the clean Git commit, Git
+  tree, release profile, exact feature flags, copied-output fingerprint,
+  build timestamp, and Node/npm versions.
+- Recompute or rerun the audit if any output file changes. Stale, malformed,
+  wrong-profile, wrong-commit, wrong-tree, dirty, or wrong-fingerprint
+  evidence is a stop condition.
 - Require `NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT=false` and
   `NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE=true`.
 - Require the HVP bank checksum
@@ -39,7 +48,7 @@ repository CLI command to invent or substitute.
 1. Build the exact reviewed merged `main` source with the HVP public-beta
    profile. Confirm Aqueous is false and HVP is true in the manifest.
 2. Push that exact source state to the repository. The commit supplied to
-   Sites must identify the same reviewed state.
+   Sites must match the build metadata, audit, and manifest.
 3. Package the source with the tracked Sites Vite packaging integration.
 4. In the Sites publishing interface, select the existing project ID above,
    save a new version from that exact source archive and commit SHA, and record
@@ -49,7 +58,7 @@ repository CLI command to invent or substitute.
    requires otherwise.
 6. Poll the deployment until it reaches a terminal successful state. Record
    the deployed commit, Sites version, deployment timestamp, URL, manifest
-   checksum, and operator.
+   checksum, output fingerprint, and operator.
 7. Do not add D1, R2, accounts, analytics, or any environment variable beyond
    the two reviewed feature flags.
 
@@ -69,19 +78,21 @@ Use Chrome and capture evidence for:
   200% zoom, and no document-level horizontal overflow.
 - Zero new console exceptions and no unexpected external network requests.
 - Production response security headers.
-- Production manifest identity and checksum against reviewed release evidence.
+- Production output identity and checksum against reviewed release evidence.
 
 ## Stop conditions
 
 Abort or roll back if any of these is observed:
 
-- wrong commit, dirty tree, wrong manifest, wrong checksum, or wrong flags;
+- wrong commit, tree, profile, flags, fingerprint, output directory, runtime
+  metadata, dirty checkout, malformed metadata, or stale evidence;
 - Aqueous is visible or HVP status wording is missing;
 - storage is reset, migrated unexpectedly, or existing progress disappears;
 - HVP identity, grading, history, or compatibility checks fail;
 - the legacy quiz is unavailable or changed;
 - direct routes fail to refresh;
 - answer content leaks into disabled/initial bundles;
+- either HVP dynamic entry becomes eager or disappears;
 - console exceptions or unexpected external requests appear;
 - a significant accessibility, layout, or keyboard regression appears.
 

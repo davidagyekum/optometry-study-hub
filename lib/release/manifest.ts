@@ -1,5 +1,4 @@
 import { createHash } from 'node:crypto';
-import { spawnSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import hosting from '@/.openai/hosting.json';
 import { courses } from '@/content/legacy/courseCatalog';
@@ -13,12 +12,22 @@ import {
   reviewStatusCounts,
 } from '@/lib/release/assertions';
 import type { BundleAuditResult } from '@/lib/release/bundleAudit';
+import {
+  assertCleanReleaseTree,
+  releaseGitIdentity,
+  type ReleaseGitIdentity,
+} from '@/lib/release/buildIdentity';
 import { RELEASE_PROFILES } from '@/lib/release/profile';
 import {
   releaseManifestSchema,
   type ReleaseManifest,
   type ReleaseProfileId,
 } from '@/lib/release/types';
+
+export {
+  assertCleanReleaseTree,
+  releaseGitIdentity,
+} from '@/lib/release/buildIdentity';
 
 export const RELEASE_PUBLIC_ROUTES = [
   '/',
@@ -38,56 +47,18 @@ export const RELEASE_CONTROLLED_ROUTES = [
   '/pilot/aqueous-vitreous',
 ] as const;
 
-type ManifestGitIdentity = {
-  commitSha: string;
-  treeSha?: string;
-  dirty: boolean;
-};
-
 export type CreateReleaseManifestOptions = {
   profile: ReleaseProfileId;
   audit: BundleAuditResult;
-  git?: ManifestGitIdentity;
-  builtAt?: string;
-  nodeVersion?: string;
-  npmVersion?: string;
+  git?: ReleaseGitIdentity;
 };
 
-function command(command: string, args: string[]): string {
-  const result = spawnSync(command, args, {
-    cwd: process.cwd(),
-    encoding: 'utf8',
-    shell: false,
-  });
-  if (result.status !== 0) {
-    throw new Error(
-      `${command} ${args.join(' ')} failed: ${(result.stderr || result.stdout).trim()}`,
-    );
-  }
-  return result.stdout.trim();
-}
-
-export function releaseGitIdentity(): ManifestGitIdentity {
-  const commitSha = command('git', ['rev-parse', 'HEAD']);
-  const treeSha = command('git', ['rev-parse', 'HEAD^{tree}']);
-  const dirty = command('git', ['status', '--porcelain']).length > 0;
-  return { commitSha, treeSha, dirty };
-}
-
-export function assertCleanReleaseTree(identity: ManifestGitIdentity): void {
-  if (identity.dirty) {
-    throw new Error(
-      'A final release manifest requires a clean Git working tree.',
-    );
-  }
-}
-
-function detectedNpmVersion(): string {
-  if (process.env.npm_execpath) {
-    return command(process.execPath, [process.env.npm_execpath, '--version']);
-  }
-  const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
-  return command(npmCommand, ['--version']);
+function sameFlags(
+  left: { assessmentPilot: boolean; hvpCuratedPractice: boolean },
+  right: { assessmentPilot: boolean; hvpCuratedPractice: boolean },
+): boolean {
+  return left.assessmentPilot === right.assessmentPilot
+    && left.hvpCuratedPractice === right.hvpCuratedPractice;
 }
 
 export function createReleaseManifest(
@@ -95,8 +66,35 @@ export function createReleaseManifest(
 ): ReleaseManifest {
   const git = options.git ?? releaseGitIdentity();
   assertCleanReleaseTree(git);
+  const { audit } = options;
+  const identity = audit.buildIdentity;
+  const expectedFlags = RELEASE_PROFILES[options.profile];
+  if (audit.profile !== options.profile) {
+    throw new Error('Release manifest profile does not match the supplied bundle audit.');
+  }
+  if (identity.profile !== options.profile) {
+    throw new Error('Release manifest profile does not match the audited build identity.');
+  }
+  if (!sameFlags(identity.flags, expectedFlags)) {
+    throw new Error('Audited build flags do not match the requested release profile.');
+  }
+  if (identity.flags.assessmentPilot) {
+    throw new Error('The Aqueous engineering pilot must remain disabled.');
+  }
+  if (identity.commitSha !== git.commitSha || identity.treeSha !== git.treeSha) {
+    throw new Error('Audited build Git identity does not match the manifest Git identity.');
+  }
+  if (
+    audit.fingerprint !== identity.outputFingerprint
+    || audit.fingerprint !== audit.buildIdentity.outputFingerprint
+  ) {
+    throw new Error('Audited output fingerprint does not match the build identity.');
+  }
+  if (identity.dirty || git.dirty) {
+    throw new Error('Release manifest identity must be clean.');
+  }
+
   const assertions = assertReleaseAssertions();
-  const flags = RELEASE_PROFILES[options.profile];
   const sectionCount = modules.reduce((total, module) => total + module.sections.length, 0);
   const legacyQuestionCount = modules.reduce(
     (total, module) => total + module.facts.length,
@@ -106,17 +104,17 @@ export function createReleaseManifest(
     schemaVersion: 1,
     releaseProfile: options.profile,
     git,
-    builtAt: options.builtAt ?? new Date().toISOString(),
+    builtAt: identity.builtAt,
     runtime: {
-      node: options.nodeVersion ?? process.version,
-      npm: options.npmVersion ?? detectedNpmVersion(),
+      node: identity.nodeVersion,
+      npm: identity.npmVersion,
     },
     hosting: {
       projectId: hosting.project_id,
       d1: hosting.d1,
       r2: hosting.r2,
     },
-    flags,
+    flags: identity.flags,
     storage: {
       version: 2,
       key: 'optometry-study-hub:v2',
@@ -157,12 +155,13 @@ export function createReleaseManifest(
       controlled: [...RELEASE_CONTROLLED_ROUTES],
     },
     build: {
-      outputFingerprint: options.audit.fingerprint,
-      metrics: options.audit.metrics,
+      outputFingerprint: audit.fingerprint,
+      identity,
+      metrics: audit.metrics,
     },
     assertions: [
       ...assertions,
-      ...options.audit.assertions.map((item) => ({
+      ...audit.assertions.map((item) => ({
         id: `bundle-${item.id}`,
         passed: item.passed,
         detail: item.detail,
@@ -179,6 +178,13 @@ export function releaseManifestIdentity(manifest: ReleaseManifest): string {
     runtime: { ...manifest.runtime, node: '<node>', npm: '<npm>' },
     build: {
       ...manifest.build,
+      identity: {
+        ...manifest.build.identity,
+        builtAt: '<timestamp>',
+        nodeVersion: '<node>',
+        npmVersion: '<npm>',
+        buildDurationMs: 0,
+      },
       metrics: { ...manifest.build.metrics, buildDurationMs: 0 },
     },
   };
@@ -204,8 +210,12 @@ export function renderReleaseReport(
 
 - Profile: \`${manifest.releaseProfile}\`
 - Commit: \`${manifest.git.commitSha}\`
-- Tree: \`${manifest.git.treeSha ?? 'unavailable'}\`
+- Tree: \`${manifest.git.treeSha}\`
 - Built: ${manifest.builtAt}
+- Build profile: \`${manifest.build.identity.profile}\`
+- Build flags: Aqueous \`${manifest.build.identity.flags.assessmentPilot}\`, HVP \`${manifest.build.identity.flags.hvpCuratedPractice}\`
+- Build fingerprint: \`${manifest.build.identity.outputFingerprint}\`
+- Build runtime: Node \`${manifest.build.identity.nodeVersion}\`, npm \`${manifest.build.identity.npmVersion}\`
 - Manifest SHA-256: \`${manifestChecksum}\`
 - Sites project: \`${manifest.hosting.projectId}\`
 - Aqueous pilot: disabled
@@ -229,13 +239,19 @@ export function renderReleaseReport(
 
 - Total output: ${manifest.build.metrics.totalOutputBytes} bytes
 - Client JavaScript: ${manifest.build.metrics.clientJavaScriptBytes} bytes
-- Initial Home route JavaScript: ${manifest.build.metrics.initialHomeJavaScriptBytes} bytes
-- Practice Hub JavaScript: ${manifest.build.metrics.practiceHubJavaScriptBytes} bytes
-- Progress Hub JavaScript: ${manifest.build.metrics.progressHubJavaScriptBytes} bytes
-- Lazy HVP JavaScript: ${manifest.build.metrics.lazyHvpJavaScriptBytes} bytes
+- Initial Home JavaScript: ${manifest.build.metrics.initialHomeJavaScriptBytes} bytes
+- Disabled Practice Hub JavaScript: ${manifest.build.metrics.disabledPracticeHubJavaScriptBytes} bytes
+- Disabled Progress Hub JavaScript: ${manifest.build.metrics.disabledProgressHubJavaScriptBytes} bytes
+- HVP-enabled Practice Hub JavaScript including analytics: ${manifest.build.metrics.hvpEnabledPracticeHubJavaScriptBytes} bytes
+- HVP-enabled Progress Hub JavaScript including analytics: ${manifest.build.metrics.hvpEnabledProgressHubJavaScriptBytes} bytes
+- Incremental controlled HVP JavaScript: ${manifest.build.metrics.incrementalControlledHvpJavaScriptBytes} bytes
+- Incremental HVP analytics JavaScript: ${manifest.build.metrics.incrementalHvpAnalyticsJavaScriptBytes} bytes
+- Combined incremental HVP JavaScript: ${manifest.build.metrics.combinedIncrementalHvpJavaScriptBytes} bytes
 - Largest emitted asset: ${manifest.build.metrics.largestAssetBytes} bytes
 - Build duration: ${manifest.build.metrics.buildDurationMs} ms
 - Output fingerprint: \`${manifest.build.outputFingerprint}\`
+
+This exact output fingerprint was built from this exact clean Git commit and tree using this exact release profile and feature-flag pair.
 
 ## Release assertions
 

@@ -22,14 +22,34 @@ export const releaseBuildMetricsSchema = z.strictObject({
   totalOutputBytes: z.number().int().nonnegative(),
   clientJavaScriptBytes: z.number().int().nonnegative(),
   initialHomeJavaScriptBytes: z.number().int().nonnegative(),
-  practiceHubJavaScriptBytes: z.number().int().nonnegative(),
-  progressHubJavaScriptBytes: z.number().int().nonnegative(),
-  lazyHvpJavaScriptBytes: z.number().int().nonnegative(),
+  disabledPracticeHubJavaScriptBytes: z.number().int().nonnegative(),
+  disabledProgressHubJavaScriptBytes: z.number().int().nonnegative(),
+  hvpEnabledPracticeHubJavaScriptBytes: z.number().int().nonnegative(),
+  hvpEnabledProgressHubJavaScriptBytes: z.number().int().nonnegative(),
+  incrementalControlledHvpJavaScriptBytes: z.number().int().nonnegative(),
+  incrementalHvpAnalyticsJavaScriptBytes: z.number().int().nonnegative(),
+  combinedIncrementalHvpJavaScriptBytes: z.number().int().nonnegative(),
   largestAssetBytes: z.number().int().nonnegative(),
   buildDurationMs: z.number().int().nonnegative(),
   fileCount: z.number().int().nonnegative(),
 });
 export type ReleaseBuildMetrics = z.infer<typeof releaseBuildMetricsSchema>;
+
+export const releaseBuildMetadataSchema = z.strictObject({
+  schemaVersion: z.literal(1),
+  profile: releaseProfileIdSchema,
+  flags: releaseFlagsSchema,
+  commitSha: z.string().regex(/^[0-9a-f]{40}$/),
+  treeSha: z.string().regex(/^[0-9a-f]{40}$/),
+  dirty: z.literal(false),
+  nodeVersion: z.string().min(1),
+  npmVersion: z.string().min(1),
+  builtAt: z.iso.datetime(),
+  buildDurationMs: z.number().finite().nonnegative(),
+  outputFingerprint: z.string().regex(/^[0-9a-f]{64}$/),
+  outputDirectory: z.string().regex(/^tmp\/release\/builds\/(disabled|hvp-public-beta)$/),
+});
+export type ReleaseBuildMetadata = z.infer<typeof releaseBuildMetadataSchema>;
 
 const reviewCountsSchema = z.record(
   z.enum(REVIEW_STATUSES),
@@ -41,8 +61,8 @@ export const releaseManifestSchema = z.strictObject({
   releaseProfile: releaseProfileIdSchema,
   git: z.strictObject({
     commitSha: z.string().regex(/^[0-9a-f]{40}$/),
-    treeSha: z.string().regex(/^[0-9a-f]{40}$/).optional(),
-    dirty: z.boolean(),
+    treeSha: z.string().regex(/^[0-9a-f]{40}$/),
+    dirty: z.literal(false),
   }),
   builtAt: z.iso.datetime(),
   runtime: z.strictObject({
@@ -98,6 +118,7 @@ export const releaseManifestSchema = z.strictObject({
   }),
   build: z.strictObject({
     outputFingerprint: z.string().regex(/^[0-9a-f]{64}$/),
+    identity: releaseBuildMetadataSchema,
     metrics: releaseBuildMetricsSchema,
   }),
   assertions: z.array(releaseAssertionSchema).min(1),

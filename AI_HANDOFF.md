@@ -113,3 +113,26 @@
   approval, and separate explicit authorization under
   `docs/RELEASE_RUNBOOK.md`.
 - No subsequent PR was started.
+
+## Remaining release-audit review corrections
+
+- Added strict, atomic build metadata binding each copied release output to its schema version, exact profile and flags, clean Git commit and tree, Node/npm versions, timestamp, duration, output directory, and SHA-256 fingerprint.
+- Made release builds remove stale profile metadata before work starts and withhold final metadata after any failed or explicitly dirty development build.
+- Made standalone bundle auditing reject missing, malformed, stale, wrong-profile, wrong-flag, Aqueous-enabled, wrong-commit, wrong-tree, dirty-tree, wrong-directory, and wrong-fingerprint evidence.
+- Bound manifest creation independently to the audit profile, validated build identity, current clean Git identity, required flags, and copied-output fingerprint. The human report includes the complete bound identity.
+- Audited both `HvpPracticeRouter` and `HvpProgressPanel` dynamic entries, with separate initial, controlled, analytics, and combined closures.
+- Corrected disabled and HVP-enabled Practice/Progress measurements, separated controlled and analytics incremental bytes, and used a union to avoid double-counting shared chunks.
+- Re-measured the untouched PR 11 base `e8b9810ff6f2898c9bc85d37da72f069ee049115` with the corrected algorithm and reset byte budgets to approximately ten per cent headroom.
+- Expanded isolation scans across multiple sections and formats, including representative answer identities. Reports expose only marker counts and pass/fail details.
+- Added enabled Home, Practice, and Progress DOM tests proving that stems, explanations, correct-answer identifiers, and option rationales are not rendered before controlled practice.
+- Added regression coverage for identity mismatches, missing/malformed metadata, both lazy-entry failures and eagerness, route closure inclusion, and shared-chunk de-duplication.
+- `release:verify` now requires a clean tree before deleting all prior release evidence, rebuilds both profiles, and confirms the fresh manifest matches the HVP build metadata.
+
+## Review-correction validation
+
+- Locked dependency reinstall: passed under bundled Node.js 24; npm retained the existing 23 audit findings and non-fatal Windows cleanup warnings.
+- Lint: passed with the four pre-existing `<img>` warnings.
+- TypeScript: passed.
+- Full Vitest suite after the correction: **128 files and 774 passing tests**.
+- Corrected untouched-PR-11 baselines and approximately ten-per-cent budgets are recorded in `docs/RELEASE_BASELINE_AND_BUDGETS.md`.
+- Final question validation, dual clean builds, audits, source-bound manifest, `release:verify`, `npm run check`, Chrome QA, final head, and GitHub Actions status are recorded after the clean final validation.
