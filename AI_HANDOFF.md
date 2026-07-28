@@ -5,7 +5,7 @@
 - Branch: `codex/pr11-mastery-progress-ui`
 - Base branch: `main`
 - Exact base commit: `01f3f75edcd93aa88bb7c5f149634be13dc43771`
-- Draft PR: pending creation after final validation
+- Draft PR: https://github.com/davidagyekum/optometry-study-hub/pull/11
 - Suggested title: `Add the mastery dashboard and unified progress experience`
 - The implementation commit and final branch head are reported in the draft PR
   and final handoff because a committed file cannot contain its own resulting
@@ -78,6 +78,10 @@
 - Final `npm run check` and `git diff --check`: passed.
 - HVP package identity test passed with checksum
   `029dc39ff103a836445a86bb352513b231e51d266d4b2fade3f00527d00ef89a`.
+- GitHub Actions run `30329896547`, job `90182649063`, concluded failure
+  before executing repository code: the job reports an empty `steps` array,
+  consistent with the repository's known external account restriction. It was
+  not rerun or worked around; the complete local quality gate passed.
 
 ## Browser QA
 
