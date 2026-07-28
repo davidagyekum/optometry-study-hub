@@ -244,6 +244,9 @@ export const assessmentResultSnapshotSchema = assessmentResultSnapshotBaseSchema
     ) {
       addIssue(context, ['score'], 'Score cannot exceed maxScore.');
     }
+    if (result.practiceSelection?.resultMode === 'manual-only' && (result.score !== null || result.maxScore !== null)) {
+      addIssue(context, ['score'], 'Manual-only results require null score and maximum.');
+    }
     if (result.grading) {
       if (
         !result.gradingPolicy
@@ -279,7 +282,11 @@ export const assessmentResultSnapshotSchema = assessmentResultSnapshotBaseSchema
           );
         }
       });
-      if (result.grading.status === 'complete') {
+      if (result.practiceSelection?.resultMode === 'manual-only') {
+        if (result.score !== null || result.maxScore !== null) {
+          addIssue(context, ['score'], 'Manual-only result totals must remain null.');
+        }
+      } else if (result.grading.status === 'complete') {
         if (
           result.score !== result.grading.score
           || result.maxScore !== result.grading.maxScore
@@ -311,6 +318,7 @@ export const questionHistoryRecordSchema = z.strictObject({
   incorrectCount: z.number().int().nonnegative().optional(),
   unansweredCount: z.number().int().nonnegative().optional(),
   manualRequiredCount: z.number().int().nonnegative().optional(),
+  responseCount: z.number().int().nonnegative().optional(),
   lastEncounteredAt: isoDatetimeSchema.optional(),
   lastResultId: stableIdSchema.optional(),
   lastStatus: z.enum(['correct', 'incorrect', 'partial', 'unanswered', 'manual_required']).optional(),

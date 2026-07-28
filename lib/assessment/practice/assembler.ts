@@ -4,6 +4,7 @@ import {
   retryMissedQuestionIds,
   unseenQuestionIds,
   weakTopicQuestionIds,
+  isCurrentHistory,
 } from '@/lib/assessment/practice/history';
 import type {
   PracticeAssembly,
@@ -13,6 +14,7 @@ import type {
   PracticeSelectionSnapshot,
 } from '@/lib/assessment/practice/types';
 import { validatePracticeSelection } from '@/lib/assessment/practice/blueprint';
+import { withStrategyEvidence } from '@/lib/assessment/practice/evidence';
 import type {
   AssessmentQuestion,
   Difficulty,
@@ -204,6 +206,7 @@ function selectQuotaQuestions(
   random: () => number,
   maximumFamilyRepetition: number,
   minimumHigherOrder: number,
+  history: Readonly<Record<string, QuestionHistoryRecord>>,
 ): AssessmentQuestion[] | undefined {
   for (let retry = 0; retry < 24; retry += 1) {
     const selected: AssessmentQuestion[] = [];
@@ -217,8 +220,8 @@ function selectQuotaQuestions(
           candidateCells[cellIndex].filter((question) => question.difficulty === difficulty),
           random,
         ).sort((left, right) => (
-          Number(HIGHER_ORDER.has(right.bloomLevel))
-          - Number(HIGHER_ORDER.has(left.bloomLevel))
+          Number(isCurrentHistory(left, history[left.id])) - Number(isCurrentHistory(right, history[right.id]))
+          || Number(HIGHER_ORDER.has(right.bloomLevel)) - Number(HIGHER_ORDER.has(left.bloomLevel))
         ));
         let picked = 0;
         candidates.forEach((question) => {
@@ -246,7 +249,9 @@ function simpleSelection(
   maximumFamilyRepetition: number,
   history: Readonly<Record<string, QuestionHistoryRecord>>,
 ): AssessmentQuestion[] | undefined {
-  let ordered = shuffle(candidates, random);
+  let ordered = ['retry-missed', 'weak-topics', 'challenge'].includes(selection.strategy)
+    ? [...candidates]
+    : shuffle(candidates, random);
   if (selection.strategy === 'mixed') {
     ordered = ordered.sort((left, right) => (
       Number(history[left.id]?.version === left.version)
@@ -289,8 +294,7 @@ export function assemblePractice({
     && selection.sectionIds.includes(question.sectionId)
     && selection.formats.includes(question.format)
     && selection.difficulties.includes(question.difficulty)
-    && question.version === 1
-    && (blueprint.autoScoreOpenResponses || question.format !== 'open_response')
+    && (blueprint.resultMode === 'manual-only' || question.format !== 'open_response')
   ));
   if (!eligible.length) {
     return {
@@ -300,6 +304,7 @@ export function assemblePractice({
   }
   const strategy = strategyPool(eligible, selection, history);
   if (!strategy.ok) return strategy;
+  const evidencedSelection = withStrategyEvidence(selection, strategy.value.map((question) => question.id));
   const random = createHvpSeededRandom(selection.seed);
   let selected: AssessmentQuestion[] | undefined;
   if (
@@ -347,12 +352,13 @@ export function assemblePractice({
         random,
         blueprint.maximumFamilyRepetition,
         profile.higherOrderMinimum,
+        history,
       );
     }
   } else {
     selected = simpleSelection(
       strategy.value,
-      selection,
+      evidencedSelection,
       random,
       blueprint.maximumFamilyRepetition,
       history,
@@ -370,7 +376,7 @@ export function assemblePractice({
     value: {
       questions: ordered,
       questionIds: ordered.map((question) => question.id),
-      selection: structuredClone(selection),
+      selection: structuredClone(evidencedSelection),
       sectionCounts: counts(ordered, 'sectionId'),
       formatCounts: counts(ordered, 'format'),
       difficultyCounts: counts(ordered, 'difficulty'),

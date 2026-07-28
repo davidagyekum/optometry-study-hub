@@ -18,6 +18,7 @@ import {
   hvpWrittenPracticeBlueprint,
 } from '@/lib/assessment/hvp/practiceBlueprint';
 import { validatePracticeSelection } from '@/lib/assessment/practice/blueprint';
+import { hasValidStrategyEvidence } from '@/lib/assessment/practice/evidence';
 import {
   sessionFailure,
   sessionIssue,
@@ -97,6 +98,11 @@ function automaticIdentityIssues(
         `[${issue.code}] ${issue.message}`,
         { path: issue.path ?? 'practiceSelection' },
       )));
+    }
+    if (!hasValidStrategyEvidence(selection)) {
+      issues.push(sessionIssue('PILOT_QUESTION_SET_MISMATCH', 'Persisted strategy evidence is missing or has been altered.', { path: 'practiceSelection.strategyEvidenceHash' }));
+    } else if (snapshot.orderedQuestionIds.some((id) => !selection.strategyEligibleQuestionIds?.includes(id))) {
+      issues.push(sessionIssue('PILOT_QUESTION_SET_MISMATCH', 'A persisted question is outside the strategy-eligible pool.', { path: 'practiceSelection.strategyEligibleQuestionIds' }));
     }
   }
   const requestedCount = selection?.requestedCount ?? 50;
@@ -199,10 +205,28 @@ function writtenIdentityIssues(
     : undefined;
   if (!selected || !selected.ok) {
     issues.push(sessionIssue('PILOT_QUESTION_SET_MISMATCH', 'Written practice requires its persisted version-1 selection identity.', { path: 'practiceSelection' }));
+  } else if (!snapshot.practiceSelection || !hasValidStrategyEvidence(snapshot.practiceSelection)) {
+    issues.push(sessionIssue('PILOT_QUESTION_SET_MISMATCH', 'Written practice strategy evidence is missing or altered.', { path: 'practiceSelection.strategyEvidenceHash' }));
   }
   const canonical = registry.questionIds()
     .filter((id) => registry.get(id)?.format === 'open_response')
     .sort();
+  if (
+    snapshot.practiceSelection
+    && hasValidStrategyEvidence(snapshot.practiceSelection)
+    && (
+      snapshot.practiceSelection.strategyEligibleQuestionIds?.length !== canonical.length
+      || snapshot.practiceSelection.strategyEligibleQuestionIds.some(
+        (id, index) => id !== canonical[index],
+      )
+    )
+  ) {
+    issues.push(sessionIssue(
+      'PILOT_QUESTION_SET_MISMATCH',
+      'Written-practice evidence must identify exactly the canonical open-response pool.',
+      { path: 'practiceSelection.strategyEligibleQuestionIds' },
+    ));
+  }
   if (
     snapshot.orderedQuestionIds.length !== 2
     || new Set(snapshot.orderedQuestionIds).size !== 2
@@ -245,7 +269,10 @@ export function validateHvpCuratedResult(
   result: AssessmentResultSnapshot,
   registry: QuestionRegistry,
 ): SessionResult<{ result: AssessmentResultSnapshot; report: AssessmentGradingReport }> {
-  const issues = identityIssues(result, registry).map((issue) => ({ ...issue, attemptId: result.attemptId }));
+  const issues: SessionIssue[] = identityIssues(result, registry).map((issue) => ({ ...issue, attemptId: result.attemptId }));
+  if (result.blueprintId === HVP_WRITTEN_BLUEPRINT_ID && (result.score !== null || result.maxScore !== null)) {
+    issues.push(sessionIssue('PILOT_RESULT_INCOMPATIBLE', 'Written practice is manual-only and cannot carry numeric totals.', { attemptId: result.attemptId, path: 'score' }));
+  }
   if (issues.length) return sessionFailure(issues);
   const graded = gradeAssessmentResult({ result, registry });
   if (!graded.ok) {

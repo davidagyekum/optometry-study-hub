@@ -132,8 +132,14 @@ The assessment engine now supports ten formats, including dedicated boolean
 True/False, while the unchanged HVP and Aqueous banks continue using nine
 formats. HVP Full remains backward-compatible with PR 9 snapshots and exact
 50-question quotas. New strict selection snapshots identify Quick, Standard,
-Full, Custom, targeted, and written sessions. HVP finalization can atomically
-update backward-compatible, version-aware question history; the Aqueous pilot
+Full, Custom, targeted, and written sessions. Strategy snapshots retain
+tamper-evident eligible-ID evidence; fixed profiles prefer unseen questions
+without weakening quotas; weak sections require genuine low-accuracy/recent-miss
+evidence. Written results are blueprint-bound manual-only results even when
+unanswered, and manual responses cannot alter automatic mastery. HVP
+finalization compares blueprint/history policy and deterministically regrades
+before atomically updating backward-compatible, version-aware question
+history; the Aqueous pilot
 remains excluded. The storage key/version, legacy data, legacy scores, both
 committed feature flags, and privacy model are unchanged. Details are in
 `docs/PRACTICE_PLATFORM.md`. The dashboard is deferred to PR 11.

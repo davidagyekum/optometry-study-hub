@@ -1,3 +1,5 @@
+import { isCurrentHistory } from '@/lib/assessment/practice/history';
+import type { QuestionHistoryRecord } from '@/lib/storage/schemas';
 import type {
   AssessmentQuestion,
   Difficulty,
@@ -282,6 +284,7 @@ function selectQuestions(
   candidatesByCell: AssessmentQuestion[][],
   allocations: DifficultyCounts[],
   random: () => number,
+  history: Readonly<Record<string, QuestionHistoryRecord>>,
 ): AssessmentQuestion[] | undefined {
   const selected: AssessmentQuestion[] = [];
   const familyCounts = new Map<string, number>();
@@ -295,8 +298,8 @@ function selectQuestions(
         ),
         random,
       ).sort((left, right) => (
-        Number(HIGHER_ORDER.has(right.bloomLevel))
-        - Number(HIGHER_ORDER.has(left.bloomLevel))
+        Number(isCurrentHistory(left, history[left.id])) - Number(isCurrentHistory(right, history[right.id]))
+        || Number(HIGHER_ORDER.has(right.bloomLevel)) - Number(HIGHER_ORDER.has(left.bloomLevel))
       ));
       let picked = 0;
       for (const question of candidates) {
@@ -319,16 +322,17 @@ export function assembleHvpCuratedPractice({
   questions,
   seed,
   allowDifficultyRelaxation = false,
+  history = {},
 }: {
   questions: readonly AssessmentQuestion[];
   seed: string | number;
   allowDifficultyRelaxation?: boolean;
+  history?: Readonly<Record<string, QuestionHistoryRecord>>;
 }): HvpAssemblyResult {
   const random = createHvpSeededRandom(seed);
   const cellList = cells();
   const eligible = questions.filter((question) => (
     question.reviewStatus === 'draft'
-    && question.version === 1
     && question.courseId === 'human-visual-perception'
     && question.moduleId === 'human-visual-perception'
     && question.format !== 'open_response'
@@ -359,12 +363,37 @@ export function assembleHvpCuratedPractice({
       random,
     );
     if (!allocation) continue;
-    const selected = selectQuestions(
-      cellList,
-      candidatesByCell,
-      allocation,
-      random,
-    );
+    let selected: AssessmentQuestion[] | undefined;
+    for (let retry = 0; retry < 24 && !selected; retry += 1) {
+      const candidate = selectQuestions(
+        cellList,
+        candidatesByCell,
+        allocation,
+        random,
+        history,
+      );
+      if (
+        candidate
+        && candidate.filter((question) => HIGHER_ORDER.has(question.bloomLevel)).length
+          >= HVP_MINIMUM_HIGHER_ORDER_QUESTIONS
+      ) selected = candidate;
+    }
+    if (!selected && Object.keys(history).length > 0) {
+      for (let retry = 0; retry < 24 && !selected; retry += 1) {
+        const candidate = selectQuestions(
+          cellList,
+          candidatesByCell,
+          allocation,
+          random,
+          {},
+        );
+        if (
+          candidate
+          && candidate.filter((question) => HIGHER_ORDER.has(question.bloomLevel)).length
+            >= HVP_MINIMUM_HIGHER_ORDER_QUESTIONS
+        ) selected = candidate;
+      }
+    }
     if (!selected) continue;
     const higherOrderCount = selected.filter(
       (question) => HIGHER_ORDER.has(question.bloomLevel),

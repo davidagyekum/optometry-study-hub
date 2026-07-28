@@ -48,10 +48,11 @@ export const practiceBlueprintSchema = z.strictObject({
   defaultMode: z.enum(['study', 'exam', 'mastery']),
   gradingPolicy: gradingPolicyReferenceSchema,
   eligibleFormats: z.array(questionFormatSchema).min(1),
-  autoScoreOpenResponses: z.boolean(),
+  resultMode: z.enum(['automatic', 'manual-only']),
   profiles: z.array(practiceProfileSchema).min(1),
   maximumFamilyRepetition: z.number().int().positive(),
   historyPolicy: z.enum(['disabled', 'scored', 'encounter-and-manual']),
+  sectionIds: uniqueIds,
   custom: z.strictObject({
     minimumCount: z.number().int().positive(),
     maximumCount: z.number().int().positive(),
@@ -72,7 +73,24 @@ export const practiceBlueprintSchema = z.strictObject({
       message: 'Custom minimum cannot exceed maximum.',
     });
   }
-  if (!blueprint.autoScoreOpenResponses && blueprint.eligibleFormats.includes('open_response')) {
+  if (new Set(blueprint.eligibleFormats).size !== blueprint.eligibleFormats.length) {
+    context.addIssue({ code: 'custom', path: ['eligibleFormats'], message: 'Eligible formats must be unique.' });
+  }
+  if (new Set(blueprint.allowedReviewStatuses).size !== blueprint.allowedReviewStatuses.length) {
+    context.addIssue({ code: 'custom', path: ['allowedReviewStatuses'], message: 'Allowed review statuses must be unique.' });
+  }
+  blueprint.profiles.forEach((profile, index) => {
+    (['sectionTargets', 'formatTargets', 'difficultyTargets'] as const).forEach((field) => {
+      const targets = profile[field];
+      if (targets && Object.values(targets).reduce((sum, count) => sum + count, 0) !== profile.count) {
+        context.addIssue({ code: 'custom', path: ['profiles', index, field], message: `${field} must total the profile count.` });
+      }
+    });
+    if (profile.higherOrderMinimum > profile.count) {
+      context.addIssue({ code: 'custom', path: ['profiles', index, 'higherOrderMinimum'], message: 'Higher-order minimum cannot exceed profile count.' });
+    }
+  });
+  if (blueprint.resultMode === 'automatic' && blueprint.eligibleFormats.includes('open_response')) {
     context.addIssue({
       code: 'custom',
       path: ['eligibleFormats'],
@@ -98,4 +116,8 @@ export const practiceSelectionSnapshotSchema = z.strictObject({
     'Difficulties must be unique.',
   ),
   seed: z.string().trim().min(1),
+  resultMode: z.enum(['automatic', 'manual-only']).default('automatic'),
+  historyPolicy: z.enum(['disabled', 'scored', 'encounter-and-manual']).default('scored'),
+  strategyEligibleQuestionIds: uniqueIds.optional(),
+  strategyEvidenceHash: z.string().regex(/^fnv1a-[0-9a-f]{8}$/).optional(),
 });

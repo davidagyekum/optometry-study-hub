@@ -3,6 +3,7 @@ import { QuestionReviewCard } from '@/components/assessment/review/QuestionRevie
 import { HvpPracticeWarning } from '@/components/assessment/hvp/HvpPracticeWarning';
 import type { GoToRoute } from '@/hooks/useClientRoute';
 import { HVP_CURATED_PRACTICE_ID } from '@/lib/assessment/hvp/config';
+import { HVP_WRITTEN_BLUEPRINT_ID } from '@/lib/assessment/hvp/practiceBlueprint';
 import { gradeAssessmentResult } from '@/lib/assessment/grading/gradeResult';
 import type { GradingIssue } from '@/lib/assessment/grading/types';
 import type { QuestionRegistry } from '@/lib/assessment/session/registry';
@@ -77,7 +78,7 @@ export function HvpPracticeResults({
   const sections = summarize((question) => question.sectionId);
   const formats = summarize((question) => question.format);
   const selection = result.practiceSelection;
-  const written = graded.value.status === 'manual_required';
+  const written = result.blueprintId === HVP_WRITTEN_BLUEPRINT_ID;
 
   return (
     <div className="pilot-results-page">
@@ -85,10 +86,16 @@ export function HvpPracticeResults({
         ← Back to curated practice
       </button>
       <HvpPracticeWarning />
-      <GradeSummary
-        report={graded.value}
-        title={written ? 'Written practice review' : 'Curated practice result'}
-      />
+      {written ? (
+        <section className="pilot-grade-summary" aria-labelledby="written-review-title">
+          <h1 id="written-review-title">Written practice review</h1>
+          <p>Manual review required</p>
+          <dl className="pilot-facts">
+            <div><dt>Answered for review</dt><dd>{graded.value.manualRequiredCount}</dd></div>
+            <div><dt>Unanswered</dt><dd>{graded.value.unansweredCount}</dd></div>
+          </dl>
+        </section>
+      ) : <GradeSummary report={graded.value} title="Curated practice result" />}
       <section className="pilot-review-section" aria-labelledby="practice-context">
         <h2 id="practice-context">Practice context</h2>
         <dl className="pilot-facts">
@@ -133,6 +140,7 @@ export function HvpPracticeResults({
             return grade ? (
               <QuestionReviewCard
                 grade={grade}
+                hideScore={written}
                 index={index}
                 key={question.id}
                 question={question}

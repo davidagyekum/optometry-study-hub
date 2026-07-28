@@ -56,7 +56,8 @@ export const hvpCuratedPracticeBlueprint: PracticeBlueprint = practiceBlueprintS
   defaultMode: 'study',
   gradingPolicy: HVP_CURATED_POLICY,
   eligibleFormats: HVP_AUTOMATIC_FORMATS,
-  autoScoreOpenResponses: false,
+  resultMode: 'automatic',
+  sectionIds: HVP_SECTIONS,
   profiles: [
     proportionalProfile('quick', 'Quick practice', 10),
     proportionalProfile('standard', 'Standard practice', 25),
@@ -93,7 +94,8 @@ export const hvpWrittenPracticeBlueprint: PracticeBlueprint = practiceBlueprintS
   defaultMode: 'study',
   gradingPolicy: HVP_CURATED_POLICY,
   eligibleFormats: ['open_response'],
-  autoScoreOpenResponses: true,
+  resultMode: 'manual-only',
+  sectionIds: HVP_SECTIONS,
   profiles: [{
     id: 'written',
     label: 'Written practice',
@@ -133,6 +135,8 @@ export function createHvpPracticeSelection({
     formats: [...formats],
     difficulties: [...difficulties],
     seed,
+    resultMode: 'automatic',
+    historyPolicy: 'scored',
   };
 }
 
@@ -148,5 +152,7 @@ export function createHvpWrittenSelection(seed: string): PracticeSelectionSnapsh
     formats: ['open_response'],
     difficulties: HVP_DIFFICULTIES,
     seed,
+    resultMode: 'manual-only',
+    historyPolicy: 'encounter-and-manual',
   };
 }

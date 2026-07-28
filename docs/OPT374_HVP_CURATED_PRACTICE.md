@@ -163,6 +163,12 @@ requirements added in PRs 7 and 8.
 The original Full 50 remains exact and PR 9 snapshots without selection
 metadata remain resumable. Quick 10 and Standard 25 use documented
 largest-remainder proportional targets; Custom uses explicit filters; targeted
-strategies use compatible current-version device history. The two canonical
-open-response items are available only in separate Written practice and are
-never automatically marked. See `docs/PRACTICE_PLATFORM.md`.
+strategies use compatible current-version device history. Quick, Standard
+and Full prefer unseen candidates without weakening their exact quotas.
+Targeted snapshots retain a tamper-evident eligible-ID pool so resumed attempts
+and results fail closed if strategy membership changes. Weak-topic practice is
+section-level and requires at least two gradable attempts plus sub-80% accuracy
+or a recent current-version miss. The two canonical open-response items are
+available only in separate Written practice; its blueprint is always
+manual-only, including when both prompts are unanswered. See
+`docs/PRACTICE_PLATFORM.md`.

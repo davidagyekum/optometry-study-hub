@@ -5,6 +5,8 @@ import type {
   QuestionHistoryRecord,
 } from '@/lib/storage/schemas';
 
+export const WEAK_TOPIC_ACCURACY_THRESHOLD = 0.8;
+
 export type HistoryStrategyAvailability = {
   eligibleIds: string[];
   availableCount: number;
@@ -54,50 +56,52 @@ export function weakTopicQuestionIds(
   const topicStats = new Map<string, { attempts: number; correct: number; recentMisses: number }>();
   questions.forEach((question) => {
     const record = history[question.id];
-    if (!isCurrentHistory(question, record) || (record.encounterCount ?? 0) < 2) return;
-    const current = topicStats.get(question.sectionId) ?? {
-      attempts: 0,
-      correct: 0,
-      recentMisses: 0,
-    };
+    if (!isCurrentHistory(question, record)) return;
+    const current = topicStats.get(question.sectionId) ?? { attempts: 0, correct: 0, recentMisses: 0 };
     current.attempts += record.attemptCount;
     current.correct += record.correctCount;
-    current.recentMisses += Number(
-      record.lastStatus === 'incorrect' || record.lastStatus === 'partial',
-    );
+    current.recentMisses += Number(record.lastStatus === 'incorrect' || record.lastStatus === 'partial');
     topicStats.set(question.sectionId, current);
   });
   const weakSections = [...topicStats]
-    .filter(([, stats]) => stats.attempts >= 2)
+    .filter(([, stats]) => stats.attempts >= 2 && (
+      stats.correct / stats.attempts < WEAK_TOPIC_ACCURACY_THRESHOLD || stats.recentMisses > 0
+    ))
     .sort(([leftId, left], [rightId, right]) => (
-      left.correct / Math.max(1, left.attempts)
-      - right.correct / Math.max(1, right.attempts)
+      left.correct / left.attempts - right.correct / right.attempts
       || right.recentMisses - left.recentMisses
       || leftId.localeCompare(rightId)
     ))
     .map(([sectionId]) => sectionId);
   const rank = new Map(weakSections.map((sectionId, index) => [sectionId, index]));
-  return questions
-    .filter((question) => rank.has(question.sectionId))
-    .sort((left, right) => (
-      (rank.get(left.sectionId) ?? 0) - (rank.get(right.sectionId) ?? 0)
-      || left.id.localeCompare(right.id)
-    ))
-    .map((question) => question.id);
+  return questions.filter((question) => rank.has(question.sectionId)).sort((left, right) => (
+    (rank.get(left.sectionId) ?? 0) - (rank.get(right.sectionId) ?? 0) || left.id.localeCompare(right.id)
+  )).map((question) => question.id);
 }
 
 export function challengeQuestionIds(
   questions: readonly AssessmentQuestion[],
 ): string[] {
   const higher = new Set(['apply', 'analyze', 'evaluate', 'create']);
+  const priority = (question: AssessmentQuestion) => question.difficulty === 'advanced' && higher.has(question.bloomLevel)
+    ? 0 : question.difficulty === 'advanced' ? 1 : 2;
   return questions
     .filter((question) => question.difficulty === 'advanced' || higher.has(question.bloomLevel))
-    .sort((left, right) => (
-      Number(right.difficulty === 'advanced') - Number(left.difficulty === 'advanced')
-      || Number(higher.has(right.bloomLevel)) - Number(higher.has(left.bloomLevel))
-      || left.id.localeCompare(right.id)
-    ))
+    .sort((left, right) => priority(left) - priority(right) || left.id.localeCompare(right.id))
     .map((question) => question.id);
+}
+
+export function familyConstrainedCount(
+  eligibleIds: readonly string[],
+  questions: readonly AssessmentQuestion[],
+  maximumFamilyRepetition: number,
+): number {
+  const eligible = new Set(eligibleIds);
+  const families = new Map<string, number>();
+  questions.forEach((question) => {
+    if (eligible.has(question.id)) families.set(question.familyId, (families.get(question.familyId) ?? 0) + 1);
+  });
+  return [...families.values()].reduce((sum, count) => sum + Math.min(count, maximumFamilyRepetition), 0);
 }
 
 export function strategyAvailability(
@@ -146,10 +150,11 @@ export function nextHistoryRecord(
   base.lastStatus = status;
   base.version = version;
   if (answered) {
-    base.attemptCount += 1;
+    base.responseCount = (base.responseCount ?? 0) + 1;
     base.lastAnsweredAt = result.submittedAt;
   }
-  if (policy === 'scored') {
+  if (policy === 'scored' && answered && status !== 'manual_required') {
+    base.attemptCount += 1;
     if (status === 'correct') base.correctCount += 1;
     if (status === 'partial') base.partialCount = (base.partialCount ?? 0) + 1;
     if (status === 'incorrect') base.incorrectCount = (base.incorrectCount ?? 0) + 1;

@@ -8,6 +8,8 @@ import type {
   SessionResult,
 } from '@/lib/assessment/session/types';
 import { nextHistoryRecord } from '@/lib/assessment/practice/history';
+import { gradeAssessmentResult } from '@/lib/assessment/grading/gradeResult';
+import type { QuestionRegistry } from '@/lib/assessment/session/registry';
 import {
   storeV2Schema,
   type AssessmentAttemptSnapshot,
@@ -171,6 +173,7 @@ export function finalizeAssessmentStore(
   result: AssessmentResultSnapshot,
   options: {
     historyPolicy?: 'disabled' | 'scored' | 'encounter-and-manual';
+    registry?: QuestionRegistry;
   } = {},
 ): SessionResult<StoreV2> {
   const active = getActiveAssessmentAttempt(store, attemptKey);
@@ -205,6 +208,7 @@ export function finalizeAssessmentStore(
     }
   };
   compare('attemptId', result.attemptId, active.value.id);
+  compare('blueprintId', result.blueprintId, active.value.blueprintId);
   compare('courseId', result.courseId, active.value.courseId);
   compare('moduleId', result.moduleId, active.value.moduleId);
   compare(
@@ -222,10 +226,27 @@ export function finalizeAssessmentStore(
   compare('practiceSelection', result.practiceSelection, active.value.practiceSelection);
   if (snapshotIssues.length > 0) return sessionFailure(snapshotIssues);
 
+  const expectedHistoryPolicy = active.value.practiceSelection?.historyPolicy ?? options.historyPolicy ?? 'disabled';
+  const historyPolicy = options.historyPolicy ?? expectedHistoryPolicy;
+  if (historyPolicy !== expectedHistoryPolicy) {
+    return sessionFailure(sessionIssue(
+      'PRACTICE_HISTORY_POLICY_MISMATCH',
+      `History policy "${historyPolicy}" does not match the active blueprint selection policy "${expectedHistoryPolicy}".`,
+      { attemptId: attemptKey, path: 'practiceSelection.historyPolicy' },
+    ));
+  }
+  if (historyPolicy !== 'disabled') {
+    if (!options.registry) {
+      return sessionFailure(sessionIssue('INVALID_STORE', 'History-enabled finalization requires the canonical question registry.', { attemptId: attemptKey, path: 'grading' }));
+    }
+    const verified = gradeAssessmentResult({ result, registry: options.registry });
+    if (!verified.ok) {
+      return sessionFailure(sessionIssue('GRADING_SNAPSHOT_MISMATCH', 'History-enabled finalization requires deterministic grading verification.', { attemptId: attemptKey, path: 'grading' }));
+    }
+  }
   const activeAttempts = { ...store.assessment.activeAttempts };
   delete activeAttempts[attemptKey];
   const questionHistory = structuredClone(store.assessment.questionHistory);
-  const historyPolicy = options.historyPolicy ?? 'disabled';
   if (historyPolicy !== 'disabled') {
     if (!result.grading) {
       return sessionFailure(sessionIssue(

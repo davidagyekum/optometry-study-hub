@@ -31,7 +31,7 @@ function storedAttempt(questionId: string, response?: ReturnType<typeof correctR
   if (!finalized.ok) throw new Error(finalized.issues.map((issue) => issue.code).join(','));
   const inserted = putActiveAssessmentAttempt(createEmptyStoreV2(), attempt.id, attempt);
   if (!inserted.ok) throw new Error(inserted.issues.map((issue) => issue.code).join(','));
-  return { store: inserted.value, attempt, result: finalized.value.result };
+  return { store: inserted.value, attempt, result: finalized.value.result, registry };
 }
 
 function finalize(questionId: string, response?: ReturnType<typeof correctResponseFor>) {
@@ -41,7 +41,7 @@ function finalize(questionId: string, response?: ReturnType<typeof correctRespon
     fixture.attempt.id,
     fixture.result.id,
     fixture.result,
-    { historyPolicy: 'scored' },
+    { historyPolicy: 'scored', registry: fixture.registry },
   );
 }
 
@@ -93,14 +93,39 @@ describe('atomic assessment question history', () => {
       fixture.attempt.id,
       fixture.result.id,
       fixture.result,
-      { historyPolicy: 'encounter-and-manual' },
+      { historyPolicy: 'encounter-and-manual', registry: fixture.registry },
     );
     expect(manual.ok && manual.value.assessment.questionHistory[open.id]).toMatchObject({
       encounterCount: 1,
-      attemptCount: 1,
+      attemptCount: 0,
+      responseCount: 1,
       correctCount: 0,
       manualRequiredCount: 1,
       lastStatus: 'manual_required',
+    });
+
+    const priorAutomaticMastery: QuestionHistoryRecord = {
+      questionId: open.id,
+      version: fixture.result.questionVersions[open.id],
+      attemptCount: 4,
+      correctCount: 3,
+      partialCount: 0,
+      incorrectCount: 1,
+      encounterCount: 4,
+    };
+    expect(nextHistoryRecord(
+      priorAutomaticMastery,
+      fixture.result,
+      open.id,
+      'encounter-and-manual',
+    )).toMatchObject({
+      encounterCount: 5,
+      responseCount: 1,
+      attemptCount: 4,
+      correctCount: 3,
+      partialCount: 0,
+      incorrectCount: 1,
+      manualRequiredCount: 1,
     });
   });
 
@@ -119,7 +144,7 @@ describe('atomic assessment question history', () => {
       fixture.attempt.id,
       fixture.result.id,
       fixture.result,
-      { historyPolicy: 'scored' },
+      { historyPolicy: 'scored', registry: fixture.registry },
     );
     expect(updated.ok && updated.value.assessment.questionHistory[question.id]).toMatchObject({
       attemptCount: 5,
@@ -170,7 +195,7 @@ describe('atomic assessment question history', () => {
       fixture.attempt.id,
       fixture.result.id,
       fixture.result,
-      { historyPolicy: 'scored' },
+      { historyPolicy: 'scored', registry: fixture.registry },
     );
     expect(failed.ok).toBe(false);
     expect(fixture.store).toEqual(before);
@@ -187,7 +212,7 @@ describe('atomic assessment question history', () => {
       fixture.attempt.id,
       fixture.result.id,
       fixture.result,
-      { historyPolicy: 'scored' },
+      { historyPolicy: 'scored', registry: fixture.registry },
     );
     expect(collision.ok).toBe(false);
     expect(fixture.store.assessment.questionHistory).toEqual({});
@@ -198,7 +223,7 @@ describe('atomic assessment question history', () => {
       fixture.attempt.id,
       fixture.result.id,
       fixture.result,
-      { historyPolicy: 'scored' },
+      { historyPolicy: 'scored', registry: fixture.registry },
     );
     expect(first.ok).toBe(true);
     if (!first.ok) return;
@@ -207,7 +232,7 @@ describe('atomic assessment question history', () => {
       fixture.attempt.id,
       fixture.result.id,
       fixture.result,
-      { historyPolicy: 'scored' },
+      { historyPolicy: 'scored', registry: fixture.registry },
     );
     expect(repeated.ok).toBe(false);
     expect(first.value.assessment.questionHistory[question.id].encounterCount).toBe(1);

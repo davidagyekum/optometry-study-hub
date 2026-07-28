@@ -59,9 +59,10 @@ export function finalizeGradedAssessmentAttempt({
   const graded = gradeAssessmentAttempt({ attempt: locked.value, registry });
   if (!graded.ok) return graded;
   const report: AssessmentGradingReport = graded.value;
+  const manualOnly = locked.value.practiceSelection?.resultMode === 'manual-only';
   const finalized = finalizeAssessmentAttempt({
     attempt: locked.value,
-    evaluation: report.status === 'complete'
+    evaluation: report.status === 'complete' && !manualOnly
       ? { score: report.score, maxScore: report.maxScore }
       : { score: null, maxScore: null },
     ...(now ? { now } : {}),

@@ -17,6 +17,8 @@ import {
   HVP_CURATED_MODULE_ID,
   HVP_CURATED_POLICY,
 } from '@/lib/assessment/hvp/config';
+import { validatePracticeSelection } from '@/lib/assessment/practice/blueprint';
+import { withStrategyEvidence } from '@/lib/assessment/practice/evidence';
 import {
   createHvpPracticeSelection,
   createHvpWrittenSelection,
@@ -37,6 +39,7 @@ import {
 import { assemblePractice } from '@/lib/assessment/practice/assembler';
 import {
   challengeQuestionIds,
+  familyConstrainedCount,
   retryMissedQuestionIds,
   unseenQuestionIds,
   weakTopicQuestionIds,
@@ -146,6 +149,7 @@ export function useHvpCuratedPractice({
         .filter((question) => question.format === 'open_response')
         .map((question) => question.id)
         .sort();
+      selection = withStrategyEvidence(selection, questionIds);
     } else {
       const profile = hvpCuratedPracticeBlueprint.profiles.find(
         (candidate) => candidate.id === request.profileId,
@@ -160,6 +164,13 @@ export function useHvpCuratedPractice({
         difficulties: request.difficulties ?? HVP_DIFFICULTIES,
         seed,
       });
+      const validatedSelection = validatePracticeSelection(selection, hvpCuratedPracticeBlueprint);
+      if (!validatedSelection.ok) {
+        return sessionFailure(validatedSelection.issues.map((issue) => sessionIssue(
+          'PILOT_QUESTION_SET_MISMATCH', `[${issue.code}] ${issue.message}`,
+          { path: issue.path ?? 'practiceSelection' },
+        )));
+      }
       const isPreservedFull = selection.profileId === 'full'
         && selection.strategy === 'mixed'
         && selection.sectionIds.length === HVP_SECTIONS.length
@@ -170,6 +181,7 @@ export function useHvpCuratedPractice({
           questions: humanVisualPerceptionCandidateBank.questions,
           seed,
           allowDifficultyRelaxation: false,
+          history: latestStoreRef.current.assessment.questionHistory,
         });
         if (!assembly.ok) {
           return sessionFailure(assembly.issues.map((issue) => sessionIssue(
@@ -179,6 +191,16 @@ export function useHvpCuratedPractice({
           )));
         }
         questionIds = assembly.value.questionIds;
+        const eligibleIds = humanVisualPerceptionCandidateBank.questions.filter((question) => (
+          question.courseId === HVP_CURATED_COURSE_ID
+          && question.moduleId === HVP_CURATED_MODULE_ID
+          && question.reviewStatus === 'draft'
+          && question.format !== 'open_response'
+          && selection.sectionIds.includes(question.sectionId)
+          && selection.formats.includes(question.format)
+          && selection.difficulties.includes(question.difficulty)
+        )).map((question) => question.id);
+        selection = withStrategyEvidence(selection, eligibleIds);
       } else {
         const assembly = assemblePractice({
           questions: humanVisualPerceptionCandidateBank.questions,
@@ -195,6 +217,7 @@ export function useHvpCuratedPractice({
           )));
         }
         questionIds = assembly.value.questionIds;
+        selection = assembly.value.selection;
       }
     }
     const blueprint = written ? hvpWrittenPracticeBlueprint : hvpCuratedPracticeBlueprint;
@@ -359,7 +382,7 @@ export function useHvpCuratedPractice({
         latestAttempt.value.id,
         finalized.value.result.id,
         finalized.value.result,
-        { historyPolicy },
+        { historyPolicy, registry },
       );
       return stored.ok
         ? sessionSuccess({ store: stored.value, value: finalized.value.result })
@@ -384,11 +407,16 @@ export function useHvpCuratedPractice({
     (question) => question.format !== 'open_response',
   );
   const history = store.assessment.questionHistory;
+  const available = (ids: string[]) => familyConstrainedCount(
+    ids,
+    automaticQuestions,
+    hvpCuratedPracticeBlueprint.maximumFamilyRepetition,
+  );
   const availability = {
-    unseen: unseenQuestionIds(automaticQuestions, history).length,
-    missed: retryMissedQuestionIds(automaticQuestions, history).length,
-    weakTopics: weakTopicQuestionIds(automaticQuestions, history).length,
-    challenge: challengeQuestionIds(automaticQuestions).length,
+    unseen: available(unseenQuestionIds(automaticQuestions, history)),
+    missed: available(retryMissedQuestionIds(automaticQuestions, history)),
+    weakTopics: available(weakTopicQuestionIds(automaticQuestions, history)),
+    challenge: available(challengeQuestionIds(automaticQuestions)),
   };
 
   return {

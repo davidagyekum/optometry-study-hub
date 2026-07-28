@@ -8,6 +8,7 @@ import {
   validateHvpCuratedAttempt,
   validateHvpCuratedResult,
 } from '@/lib/assessment/hvp/compatibility';
+import { withStrategyEvidence } from '@/lib/assessment/practice/evidence';
 import {
   createHvpPracticeSelection,
   createHvpWrittenSelection,
@@ -190,7 +191,7 @@ describe('separate HVP written practice', () => {
       courseId: hvpWrittenPracticeBlueprint.courseId,
       moduleId: hvpWrittenPracticeBlueprint.moduleId,
       blueprintId: HVP_WRITTEN_BLUEPRINT_ID,
-      practiceSelection: selection,
+      practiceSelection: withStrategyEvidence(selection, ids),
       gradingPolicy: hvpWrittenPracticeBlueprint.gradingPolicy,
       initializeDraftResponses: true,
       allowedReviewStatuses: ['draft'],
@@ -201,6 +202,12 @@ describe('separate HVP written practice', () => {
     expect(created.ok).toBe(true);
     if (!created.ok) return;
     expect(validateHvpCuratedAttempt(created.value, registry).ok).toBe(true);
+    const alteredHash = structuredClone(created.value);
+    alteredHash.practiceSelection!.strategyEvidenceHash = '00000000';
+    expect(validateHvpCuratedAttempt(alteredHash, registry).ok).toBe(false);
+    const fabricatedPool = structuredClone(created.value);
+    fabricatedPool.practiceSelection = withStrategyEvidence(selection, ids.slice(1));
+    expect(validateHvpCuratedAttempt(fabricatedPool, registry).ok).toBe(false);
     ids.forEach((id) => {
       created.value.responses[id] = {
         format: 'open_response',
@@ -215,7 +222,7 @@ describe('separate HVP written practice', () => {
     });
     expect(finalized.ok).toBe(true);
     if (!finalized.ok) return;
-    expect(finalized.value.result.practiceSelection).toEqual(selection);
+    expect(finalized.value.result.practiceSelection).toEqual(withStrategyEvidence(selection, ids));
     expect(finalized.value.report.status).toBe('manual_required');
     expect(finalized.value.result.score).toBeNull();
     expect(finalized.value.result.maxScore).toBeNull();

@@ -71,12 +71,41 @@ export function validatePracticeSelection(
       path: 'formats',
     });
   }
-  if (!blueprint.autoScoreOpenResponses && selection.formats.includes('open_response')) {
+  if (selection.resultMode !== blueprint.resultMode || selection.historyPolicy !== blueprint.historyPolicy) {
+    selectionIssues.push({ code: 'PRACTICE_SELECTION_INVALID', message: 'Selection result/history policy does not match its blueprint.', path: 'resultMode' });
+  }
+  if (selection.sectionIds.some((id) => !blueprint.sectionIds.includes(id))) {
+    selectionIssues.push({ code: 'PRACTICE_INCOMPATIBLE_FILTERS', message: 'Selection contains an unrecognised section.', path: 'sectionIds' });
+  }
+  if (blueprint.resultMode === 'automatic' && selection.formats.includes('open_response')) {
     selectionIssues.push({
       code: 'PRACTICE_INCOMPATIBLE_FILTERS',
       message: 'Open responses are not permitted in automatically scored practice.',
       path: 'formats',
     });
+  }
+  const targeted = new Set(['unseen', 'retry-missed', 'weak-topics', 'challenge']);
+  if (selection.strategy === 'custom' && selection.profileId !== 'custom') {
+    selectionIssues.push({ code: 'PRACTICE_SELECTION_INVALID', message: 'The custom strategy requires the Custom profile.', path: 'strategy' });
+  }
+  if (selection.profileId === 'targeted' && !targeted.has(selection.strategy)) {
+    selectionIssues.push({ code: 'PRACTICE_SELECTION_INVALID', message: 'Targeted profiles require a targeted strategy.', path: 'strategy' });
+  }
+  if (targeted.has(selection.strategy) && selection.profileId !== 'targeted') {
+    selectionIssues.push({ code: 'PRACTICE_SELECTION_INVALID', message: 'Targeted strategies require the Targeted profile.', path: 'strategy' });
+  }
+  if (profile && ['quick', 'standard', 'full', 'written'].includes(profile.id) && selection.strategy !== 'mixed') {
+    selectionIssues.push({ code: 'PRACTICE_SELECTION_INVALID', message: `Profile "${profile.id}" requires mixed strategy.`, path: 'strategy' });
+  }
+  const sameSet = (values: string[], expected: string[]) => values.length === expected.length && values.every((value) => expected.includes(value));
+  if (profile?.sectionTargets && !sameSet(selection.sectionIds, Object.keys(profile.sectionTargets))) {
+    selectionIssues.push({ code: 'PRACTICE_SELECTION_INVALID', message: 'Fixed profile sections must exactly match targets.', path: 'sectionIds' });
+  }
+  if (profile?.formatTargets && !sameSet(selection.formats, Object.keys(profile.formatTargets))) {
+    selectionIssues.push({ code: 'PRACTICE_SELECTION_INVALID', message: 'Fixed profile formats must exactly match targets.', path: 'formats' });
+  }
+  if (profile?.difficultyTargets && !sameSet(selection.difficulties, Object.keys(profile.difficultyTargets))) {
+    selectionIssues.push({ code: 'PRACTICE_SELECTION_INVALID', message: 'Fixed profile difficulties must exactly match targets.', path: 'difficulties' });
   }
   if (selection.profileId === 'custom') {
     if (

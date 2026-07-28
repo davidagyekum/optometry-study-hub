@@ -125,6 +125,9 @@ The versioned engines remain separate from the legacy quiz. PR 6 connects them o
 PR 10 copies an immutable optional practice-selection identity from attempt to
 result and includes it in exact atomic snapshot comparison. History-enabled
 finalization removes the attempt, inserts the verified result, and updates
-version-aware history in one validated StoreV2 candidate. Any failure commits
-nothing. Aqueous uses the default disabled history policy. See
+version-aware history in one validated StoreV2 candidate. The transaction
+also compares blueprint identity, enforces the persisted selection's history
+policy and deterministically regrades with the registry before history changes.
+Manual-only responses never alter automatic mastery counters. Any failure
+commits nothing. Aqueous uses the default disabled history policy. See
 `docs/PRACTICE_PLATFORM.md`.
