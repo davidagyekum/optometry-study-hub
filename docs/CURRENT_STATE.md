@@ -2,7 +2,7 @@
 
 ## Verified state
 
-- PR 11 exact base commit: `01f3f75edcd93aa88bb7c5f149634be13dc43771`
+- PR 11 is merged; PR 12 exact base commit: `e8b9810ff6f2898c9bc85d37da72f069ee049115`
 - Courses: 5
 - Modules: 8
 - Study sections: 39
@@ -30,15 +30,18 @@
 
 Each live module contains sections and 50 fact records. The isolated legacy `questionsFor()` generator converts each fact into a single-best-answer-style question and selects three distractors positionally from related facts. Generated questions are cached by module for the browser session.
 
-The new assessment domain lives alongside—not inside—the live engine. It defines stable IDs, nine discriminated question formats, objectives, sources, Bloom levels, difficulty, rationales, misconception tags, review states, structured diagnostics, and deterministic coverage reports. The Aqueous and Vitreous pilot is not registered with the live quiz.
+The new assessment domain lives alongside—not inside—the live engine. It defines stable IDs, ten discriminated question formats, objectives, sources, Bloom levels, difficulty, rationales, misconception tags, review states, structured diagnostics, and deterministic coverage reports. The Aqueous and Vitreous pilot is not registered with the live quiz.
 
-A headless session layer can register approved questions through a defensive validated registry, create deterministic arbitrary-length attempts, validate all nine persisted response shapes, update attempts immutably, diagnose stale snapshots, finalize through an external evaluation, and update keyed StoreV2 assessment maps with exact atomic snapshot checks.
+A headless session layer can register approved questions through a defensive validated registry, create deterministic arbitrary-length attempts, validate all ten persisted response shapes, update attempts immutably, diagnose stale snapshots, finalize through an external evaluation, and update keyed StoreV2 assessment maps with exact atomic snapshot checks.
 
 A separate grading layer provides immutable strict and diagnostic version-1 policies, mode defaults, explicit historical policy adoption, one-point normalized outcomes, exact-fraction diagnostic aggregation, manual open-response boundaries, compact result snapshots, and deterministic exact-version regrading. PR 6 connects it only to a default-disabled Aqueous engineering pilot with accessible renderers for all nine formats. The controlled route now enforces the exact nine-question identity and current versions, composes mutations through a latest-store transaction, retains incompatible exact-blueprint candidates for guarded discard or atomic replacement, detects multiple pilot candidates, enforces draft/response coherence, partitions question validation from session alerts, and provides focus/reduced-motion-safe submission and navigation.
 
 Client route state supports:
 
 - `/`
+- `/practice`
+- `/progress`
+- `/progress/:moduleId`
 - `/course/:courseId`
 - `/study/:moduleId`
 - `/quiz/:moduleId`
@@ -172,3 +175,22 @@ Legacy malformed dates, scores and totals now fail safely in read-only
 analytics without deleting or rewriting stored records. Older legacy activity
 links to module history rather than pretending the latest-result route can
 open an exact historical result.
+
+## PR 12 release-hardening boundary
+
+PR 11 is merged and PR 12 is the current draft release phase. Committed feature
+defaults remain false. The intended reviewed HVP public-beta artifact uses
+Aqueous false and HVP true, but production HVP has not been published during
+this draft PR. All 36 Aqueous questions, 13 Aqueous objectives, 120 HVP
+questions, and 23 HVP objectives remain draft.
+
+Release tooling now validates content identity, storage compatibility, exact
+profiles, bundle isolation, byte budgets, Sites configuration, security
+headers, route identity, and a clean-tree manifest. HVP question history is
+active in StoreV2 when compatible curated results are finalized; it stays
+separate from legacy scores. No migration is added by the release.
+
+The current production baseline remains the pre-redesign Sites release
+inspected read-only in Chrome. Publishing requires the reviewed PR to merge,
+release verification on the exact new `main` commit, reviewer approval, and
+separate explicit deployment authorization. Aqueous remains disabled.

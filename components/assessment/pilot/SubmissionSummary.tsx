@@ -8,6 +8,7 @@ export function SubmissionSummary({
   hasOpenResponse,
   onCancel,
   onConfirm,
+  submitLabel = 'Submit pilot',
 }: {
   answered: number;
   inProgress: number;
@@ -16,6 +17,7 @@ export function SubmissionSummary({
   hasOpenResponse: boolean;
   onCancel: () => void;
   onConfirm: () => void;
+  submitLabel?: string;
 }) {
   const headingRef = useRef<HTMLHeadingElement>(null);
 
@@ -45,7 +47,7 @@ export function SubmissionSummary({
       ) : null}
       <div>
         <button className="secondary" onClick={onCancel} type="button">Continue working</button>
-        <button className="primary" onClick={onConfirm} type="button">Submit pilot</button>
+        <button className="primary" onClick={onConfirm} type="button">{submitLabel}</button>
       </div>
     </section>
   );

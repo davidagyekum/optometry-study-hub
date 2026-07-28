@@ -1,6 +1,6 @@
 'use client';
 
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect, type ReactNode } from 'react';
 import { CourseView } from '@/components/course/CourseView';
 import { HomeView } from '@/components/home/HomeView';
 import { SiteFooter } from '@/components/layout/SiteFooter';
@@ -15,7 +15,7 @@ import { LegacyResultsView } from '@/components/results/LegacyResultsView';
 import { StudyView } from '@/components/study/StudyView';
 import { courses } from '@/content/legacy/courseCatalog';
 import { moduleMap } from '@/content/legacy/moduleCatalog';
-import { useClientRoute } from '@/hooks/useClientRoute';
+import { useClientRoute, type GoToRoute } from '@/hooks/useClientRoute';
 import { useLegacyStore } from '@/hooks/useLegacyStore';
 import { isAssessmentPilotEnabled } from '@/lib/assessment/pilot/config';
 import { controlledExperienceKind } from '@/lib/assessment/routing/controlledExperience';
@@ -26,6 +26,7 @@ import {
 import { createAttempt } from '@/lib/legacy/attempts';
 import type { CourseSummary, Module } from '@/lib/legacy/types';
 import type { ClientView } from '@/lib/navigation/clientRoute';
+import { documentTitleForRoute } from '@/lib/navigation/documentIdentity';
 import { legacyRecentActivity } from '@/lib/progress/activity';
 import { legacyRecommendations } from '@/lib/progress/recommendations';
 import {
@@ -52,6 +53,27 @@ const HvpProgressPanel = lazy(() => (
     .then((module) => ({ default: module.HvpProgressPanel }))
 ));
 
+function AppFrame({
+  children,
+  go,
+  view,
+}: {
+  children: ReactNode;
+  go: GoToRoute;
+  view: ClientView;
+}) {
+  return (
+    <div className="shell">
+      <a className="skip-link" href="#main-content">Skip to main content</a>
+      <SiteHeader go={go} view={view} />
+      <main className="app-main" id="main-content" tabIndex={-1}>
+        {children}
+      </main>
+      <SiteFooter go={go} />
+    </div>
+  );
+}
+
 export default function StudyApp() {
   const { route, go } = useClientRoute();
   const { store, setStore } = useLegacyStore();
@@ -77,6 +99,29 @@ export default function StudyApp() {
   };
   const activeModule = moduleMap.get(route.moduleId);
   const activeCourse = courses.find((course) => course.id === route.moduleId);
+  const controlledAvailable = controlledKind === 'hvp'
+    ? hvpPracticeEnabled
+    : controlledKind === 'aqueous'
+      ? pilotEnabled
+      : false;
+
+  useEffect(() => {
+    document.title = documentTitleForRoute(route, {
+      courseTitle: activeCourse?.title,
+      moduleTitle: activeModule?.shortTitle ?? activeModule?.title,
+      controlledKind,
+      available: controlledAvailable,
+      resultAvailable: Boolean(routedResult),
+    });
+  }, [
+    activeCourse?.title,
+    activeModule?.shortTitle,
+    activeModule?.title,
+    controlledAvailable,
+    controlledKind,
+    route,
+    routedResult,
+  ]);
 
   const startQuiz = (target: Module, force = false) => {
     const existing = store.active[target.id];
@@ -129,13 +174,24 @@ export default function StudyApp() {
 
   if (route.view === 'course' && !activeCourse) {
     return (
-      <main className="shell">
-        <SiteHeader go={go} view={route.view} />
+      <AppFrame go={go} view={route.view}>
         <div className="empty">
           <h1>Course not found</h1>
           <button onClick={() => go('home')} type="button">Return home</button>
         </div>
-      </main>
+      </AppFrame>
+    );
+  }
+
+  if (route.view === 'not-found') {
+    return (
+      <AppFrame go={go} view={route.view}>
+        <div className="empty">
+          <h1>Page not found</h1>
+          <p>The requested study route does not exist.</p>
+          <button onClick={() => go('home')} type="button">Return home</button>
+        </div>
+      </AppFrame>
     );
   }
 
@@ -148,25 +204,23 @@ export default function StudyApp() {
     && !['home', 'course'].includes(route.view)
   ) {
     return (
-      <main className="shell">
-        <SiteHeader go={go} view={route.view} />
+      <AppFrame go={go} view={route.view}>
         <div className="empty">
           <h1>Module not found</h1>
           <button onClick={() => go('home')} type="button">Return home</button>
         </div>
-      </main>
+      </AppFrame>
     );
   }
 
   return (
-    <main className="shell">
-      <SiteHeader go={go} view={route.view} />
+    <AppFrame go={go} view={route.view}>
       {route.view === 'home' ? (
         <HomeView
           store={store}
           go={go}
           resetAll={() => {
-            if (window.confirm('Reset all study progress and scores on this device?')) {
+            if (window.confirm('Reset all reading progress, legacy quiz data, controlled practice, written responses and question history on this device?')) {
               resetAllStudyData();
               setStore(createEmptyStoreV2());
             }
@@ -331,7 +385,6 @@ export default function StudyApp() {
           <HvpPracticeUnavailable go={go} />
         ) : <AssessmentPilotUnavailable go={go} />
       ) : null}
-      <SiteFooter go={go} />
-    </main>
+    </AppFrame>
   );
 }

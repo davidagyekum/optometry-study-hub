@@ -334,6 +334,7 @@ export function ControlledAssessmentSession({
                 window.setTimeout(() => submitButtonRef.current?.focus(), 0);
               }}
               onConfirm={() => captureController(onSubmit(attempt.id))}
+              submitLabel={`Submit ${experience.experienceName}`}
               unanswered={unanswered}
             />
           ) : null}

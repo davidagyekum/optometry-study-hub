@@ -27,7 +27,13 @@
     "questions:review-merge": "tsx scripts/merge-question-reviews.ts",
     "questions:review-readiness": "tsx scripts/report-review-readiness.ts",
     "questions:review-verify": "tsx scripts/verify-review-decision.ts",
-    "questions:review-snapshot": "tsx scripts/export-question-bank-snapshot.ts"
+    "questions:review-snapshot": "tsx scripts/export-question-bank-snapshot.ts",
+    "release:profile": "tsx scripts/verify-release-profile.ts",
+    "release:build:disabled": "tsx scripts/run-release-build.ts --profile=disabled",
+    "release:build:hvp": "tsx scripts/run-release-build.ts --profile=hvp-public-beta",
+    "release:audit": "tsx scripts/audit-release-bundle.ts",
+    "release:manifest": "tsx scripts/create-release-manifest.ts --profile=hvp-public-beta",
+    "release:verify": "tsx scripts/verify-release.ts"
   },
   "dependencies": {
     "drizzle-orm": "0.45.2",

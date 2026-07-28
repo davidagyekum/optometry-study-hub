@@ -24,7 +24,7 @@ describe('client route helpers', () => {
       view: 'assessment', moduleId: 'attempt-pilot',
     }],
     ['/pilot/unknown', { view: 'pilot', moduleId: 'unknown' }],
-    ['/unknown/value', { view: 'home', moduleId: '' }],
+    ['/unknown/value', { view: 'not-found', moduleId: '' }],
     ['/quiz/aqueous-vitreous?attempt=1#current', {
       view: 'quiz', moduleId: 'aqueous-vitreous',
     }],

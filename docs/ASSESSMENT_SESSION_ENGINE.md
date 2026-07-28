@@ -139,3 +139,12 @@ selectors validate persisted schemas, enforce the existing compatibility
 contract, and deterministically regrade current-version results before
 deriving analytics. Invalid snapshots fail closed and remain stored. Mastery,
 activity, and recommendations are calculated in memory and are never persisted.
+
+## PR 12 release compatibility
+
+The release does not change session, grading, StoreV2, or question-history
+schemas. Automated fixtures verify valid V1-to-V2 upgrade, direct V2 retention,
+malformed-record fallback without destructive rewrite, HVP disable/re-enable
+data preservation, and global reset of both supported storage generations.
+The assessment engine supports ten formats. Aqueous remains disabled and all
+schema questions remain draft.

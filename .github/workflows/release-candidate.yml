@@ -1,0 +1,33 @@
+name: Release candidate
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out selected commit
+        uses: actions/checkout@v4
+      - name: Use Node.js 22.13.0
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.13.0
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Verify release candidate
+        run: npm run release:verify
+      - name: Upload release evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: optometry-study-hub-release-candidate
+          path: |
+            tmp/release/release-manifest.json
+            tmp/release/release-manifest.sha256
+            tmp/release/release-report.md
+          if-no-files-found: error
+          retention-days: 30

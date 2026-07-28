@@ -1,5 +1,6 @@
 export type ClientView =
   | 'home'
+  | 'not-found'
   | 'practice-hub'
   | 'progress'
   | 'course'
@@ -23,6 +24,9 @@ const ROUTED_VIEWS: ClientView[] = [
 export function parseClientRoute(pathname: string): ClientRoute {
   const cleanPath = pathname.split(/[?#]/, 1)[0];
   const parts = cleanPath.split('/').filter(Boolean);
+  if (parts.length === 0) {
+    return { view: 'home', moduleId: '' };
+  }
   if (parts[0] === 'practice' && parts.length === 1) {
     return { view: 'practice-hub', moduleId: '' };
   }
@@ -33,7 +37,7 @@ export function parseClientRoute(pathname: string): ClientRoute {
   if (view && ROUTED_VIEWS.includes(view)) {
     return { view, moduleId: parts[1] ?? '' };
   }
-  return { view: 'home', moduleId: '' };
+  return { view: 'not-found', moduleId: '' };
 }
 
 export function buildClientPath(route: ClientRoute): string {
