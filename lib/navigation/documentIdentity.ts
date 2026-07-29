@@ -47,6 +47,9 @@ export function documentTitleForRoute(
     return suffix(context.curatedSummary?.documentTitles.session ?? 'Assessment Session');
   }
   if (route.view === 'assessment-result') {
+    if (context.curatedSummary && context.available === false) {
+      return suffix(context.curatedSummary.documentTitles.unavailable);
+    }
     if (context.resultAvailable === false) return suffix('Assessment Recovery');
     return suffix(context.curatedSummary?.documentTitles.result ?? 'Assessment Result');
   }

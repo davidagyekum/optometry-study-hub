@@ -3,6 +3,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { loadCuratedProgressModule } from '@/lib/assessment/curated/loaders';
 import { isCuratedExperienceEnabled } from '@/lib/assessment/curated/experienceRegistry';
+import {
+  validateCuratedProgressContribution,
+} from '@/lib/assessment/curated/progressContribution';
 import type {
   CuratedExperienceAdapter,
   CuratedProgressContribution,
@@ -49,7 +52,11 @@ export function useCuratedProgressContributions(
     Promise.all(enabled.map(async (adapter) => {
       try {
         const loaded = await loadCuratedProgressModule(adapter);
-        return { contribution: loaded.getContribution(store) };
+        const contribution = validateCuratedProgressContribution(
+          adapter,
+          loaded.getContribution(store),
+        );
+        return { contribution };
       } catch {
         return { failed: true as const };
       }

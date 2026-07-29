@@ -90,4 +90,64 @@ describe('route-aware document identity', () => {
       { controlledKind: 'unknown', available: true },
     )).toBe('Assessment Session | Optometry Study Hub');
   });
+
+  it.each([
+    [
+      'enabled HVP result',
+      hvpSummary,
+      true,
+      true,
+      'HVP Practice Result | Optometry Study Hub',
+    ],
+    [
+      'disabled HVP result with saved data',
+      hvpSummary,
+      false,
+      true,
+      'Curated Practice Unavailable | Optometry Study Hub',
+    ],
+    [
+      'enabled second-module result',
+      dummyCuratedSummary,
+      true,
+      true,
+      'Dummy Practice Result | Optometry Study Hub',
+    ],
+    [
+      'disabled second-module result with saved data',
+      dummyCuratedSummary,
+      false,
+      true,
+      'Dummy Practice Unavailable | Optometry Study Hub',
+    ],
+  ])('uses the correct title for %s', (
+    _case,
+    summary,
+    available,
+    resultAvailable,
+    expected,
+  ) => {
+    expect(documentTitleForRoute(
+      { view: 'assessment-result', moduleId: 'saved-result' },
+      {
+        controlledKind: 'curated',
+        curatedSummary: summary,
+        available,
+        resultAvailable,
+      },
+    )).toBe(expected);
+  });
+
+  it('uses recovery identity when a result is missing', () => {
+    expect(documentTitleForRoute(
+      { view: 'assessment-result', moduleId: 'missing-result' },
+      {
+        controlledKind: 'curated',
+        curatedSummary: hvpSummary,
+        available: true,
+        resultAvailable: false,
+      },
+    )).toBe('Assessment Recovery | Optometry Study Hub');
+  });
+
 });

@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import '@testing-library/jest-dom/vitest';
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import { act, cleanup, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ProgressHub } from '@/components/progress/ProgressHub';
 import { modules } from '@/content/legacy/moduleCatalog';
@@ -226,4 +226,128 @@ describe('global curated progress coordination', () => {
     expect(screen.getAllByText('Recommended next step')).toHaveLength(1);
     expect(container.querySelectorAll('.activity-list')).toHaveLength(1);
   });
+
+  it('withholds global recommendation and activity until all contributions settle', async () => {
+    const store = createEmptyStoreV2();
+    const active = createAttempt(modules[0], () => 0.25, () => (
+      new Date('2026-07-29T10:00:00.000Z')
+    ));
+    store.active[modules[0].id] = active;
+    let resolveProgress!: (value: {
+      ProgressPanel: () => null;
+      getContribution: () => CuratedProgressContribution;
+    }) => void;
+    const pendingProgress = new Promise<{
+      ProgressPanel: () => null;
+      getContribution: () => CuratedProgressContribution;
+    }>((resolve) => {
+      resolveProgress = resolve;
+    });
+    const pendingAdapter = makeDummyCuratedExperience({
+      progressLoader: () => pendingProgress,
+    });
+    const registry = createCuratedExperienceRegistry([pendingAdapter]);
+
+    const { container } = render(
+      <ProgressHub
+        curatedExperiences={registry.map((entry) => entry.summary)}
+        curatedRegistry={registry}
+        go={vi.fn()}
+        store={store}
+      />,
+    );
+
+    expect(screen.getByText('Loading curated progress…')).toBeInTheDocument();
+    expect(screen.getByText('Loading recent activity…')).toBeInTheDocument();
+    expect(screen.queryByRole('heading', {
+      name: `Resume ${modules[0].shortTitle}`,
+    })).not.toBeInTheDocument();
+    expect(screen.queryByText('Legacy quiz started')).not.toBeInTheDocument();
+    expect(container.querySelector('.activity-list')).not.toBeInTheDocument();
+
+    await act(async () => {
+      resolveProgress({
+        ProgressPanel: () => null,
+        getContribution: () => contribution(
+          'dummy-curated',
+          'dummy-module',
+          'Curated recovery',
+          1,
+          'curated-settled-activity',
+        ),
+      });
+      await pendingProgress;
+    });
+
+    expect(await screen.findByRole('heading', { name: 'Curated recovery' }))
+      .toBeInTheDocument();
+    expect(screen.getAllByText('Recommended next step')).toHaveLength(1);
+    expect(screen.queryByText('Loading curated progress…')).not.toBeInTheDocument();
+    expect(screen.queryByText('Loading recent activity…')).not.toBeInTheDocument();
+    expect(screen.getByText('Curated recovery activity')).toBeInTheDocument();
+    expect(screen.getByText('Legacy quiz started')).toBeInTheDocument();
+    expect(container.querySelectorAll('.activity-list')).toHaveLength(1);
+  });
+
+  it('fails one invalid contribution closed without suppressing valid or legacy evidence', async () => {
+    const store = createEmptyStoreV2();
+    const active = createAttempt(modules[0], () => 0.25, () => (
+      new Date('2026-07-29T10:00:00.000Z')
+    ));
+    store.active[modules[0].id] = active;
+    const before = JSON.stringify(store);
+    const valid = makeDummyCuratedExperience({
+      progressLoader: async () => ({
+        ProgressPanel: () => null,
+        getContribution: () => contribution(
+          'dummy-curated',
+          'dummy-module',
+          'Valid owned recommendation',
+          1,
+          'valid-owned-activity',
+        ),
+      }),
+    });
+    const invalid = makeDummyCuratedExperience({
+      progressLoader: async () => ({
+        ProgressPanel: () => null,
+        getContribution: () => contribution(
+          'copied-wrong-experience',
+          'invalid-module',
+          'Invalid copied recommendation',
+          0,
+          'invalid-copied-activity',
+        ),
+      }),
+    });
+    invalid.summary = {
+      ...invalid.summary,
+      experienceId: 'invalid-curated',
+      moduleId: 'invalid-module',
+      routeSegment: 'invalid-curated',
+      blueprintIds: ['invalid-v1'],
+    };
+    const registry = createCuratedExperienceRegistry([valid, invalid]);
+
+    render(
+      <ProgressHub
+        curatedExperiences={registry.map((entry) => entry.summary)}
+        curatedRegistry={registry}
+        go={vi.fn()}
+        store={store}
+      />,
+    );
+
+    expect(await screen.findByRole('heading', {
+      name: 'Valid owned recommendation',
+    })).toBeInTheDocument();
+    expect(screen.queryByText('Invalid copied recommendation')).not.toBeInTheDocument();
+    expect(screen.getByText('Valid owned recommendation activity')).toBeInTheDocument();
+    expect(screen.getByText('Legacy quiz started')).toBeInTheDocument();
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      'Some curated progress is temporarily unavailable',
+    );
+    expect(JSON.stringify(store)).toBe(before);
+  });
+
 });

@@ -1,4 +1,4 @@
-# AI Handoff — PR 13 review corrections
+# AI Handoff — PR 13 final review corrections
 
 ## Pull request
 
@@ -7,38 +7,51 @@
 - Branch: `codex/pr13-generalize-curated-practice`
 - Base: `main`
 - Exact base commit: `14a884235e7a2976a7da8de881f4411b6265b1d5`
-- Reviewed head replaced: `d70ef723caf8de75a6c4b4d43b9bc2329b507f7c`
-- The exact correction head, tree, changed-file count and Actions identifiers
-  are recorded in the updated draft PR description and final report.
+- Reviewed head replaced: `283d97892d1002e39ba80397c6287ab33fff86fe`
+- The exact final head, tree, changed-file count, source-bound release manifest
+  hash, release identity and Actions identifiers are recorded in the updated
+  draft PR description and final report. Embedding the final source-bound
+  identity in this committed file would change that identity.
 
-## Review corrections
+## Final review corrections
 
-- Global progress adapters now return pure contributions. One outer coordinator
-  combines them with legacy evidence, chooses one deterministic recommendation,
-  and deduplicates, sorts and caps one activity feed at eight items.
-- Safe summary metadata now owns landing, session, result and unavailable
-  document titles. Controlled routing models arbitrary curated experiences;
-  HVP titles remain byte-for-byte equivalent.
-- A configuration-driven definition and reusable controller own start/resume,
-  guarded atomic replacement/discard, draft updates, movement, flags,
-  submission, deterministic regrading, finalization, history and result lookup.
-- Shared landing, controlled-session, result-review and mastery components serve
-  HVP and a tiny valid synthetic bank. HVP assembly and compatibility rules
-  remain module-specific and unchanged.
-- The Node-only release audit uses an experience registry for lazy entries,
-  authored and answer markers, allowed/excluded cross-bank markers and profile
-  enablement. Synthetic two-experience closures prove shared chunks count once.
-- Practice and Progress disclose saved records owned by disabled curated
-  experiences even when a different curated experience remains enabled.
-- Practice and progress loaders validate exports, cache by adapter identity,
-  evict failures and permit retry.
-- Registry identities use the stable slug contract. Summaries and blueprint
-  arrays are defensively cloned and deeply frozen; adapter records are frozen.
-- Course cards count every registered curated module rather than selecting one.
+- Progress Hub withholds both the global recommendation and final activity feed
+  while any enabled curated contribution is still loading. It renders explicit
+  loading states, then makes one deterministic recommendation decision and one
+  deduplicated, newest-first, eight-item activity decision after all loaders
+  settle.
+- A failed contribution remains isolated: successfully validated curated
+  contributions and legacy evidence remain visible, the integrity notice is
+  shown, and the original browser-local store is not mutated.
+- Every loaded progress contribution is schema-validated before aggregation.
+  Contributions must be non-null objects with arrays, a boolean stored-data
+  flag, a finite non-negative integer omission count, and experience/module
+  ownership matching the adapter summary. Invalid or copied cross-module
+  contributions fail closed.
+- Saved curated result routes now use the registered unavailable title whenever
+  their resolved experience is disabled. Enabled results retain their
+  experience-specific title, while genuinely missing results use Assessment
+  Recovery.
+- Deferred-loader, ownership/malformed-data, multi-adapter failure isolation,
+  byte-for-byte storage preservation, HVP title, second-module title and missing
+  result regressions cover the requested behavior.
+
+## Existing PR 13 architecture retained
+
+- One outer progress coordinator combines pure curated contributions with
+  legacy evidence.
+- Safe summary metadata owns all route titles without loading answer-bearing
+  banks.
+- Shared definition, controller, router, landing, result and mastery components
+  support HVP plus a synthetic non-medical fixture.
+- Practice/progress lazy loaders remain adapter-keyed, retryable and isolated.
+- Registry identities remain stable, deeply cloned and frozen.
+- The Node-only release audit remains registry-driven and verifies independent
+  and shared chunk boundaries.
+- Production registry contains HVP only.
 
 ## Preserved contracts
 
-- Production registry contains HVP only.
 - HVP remains 120 draft questions, 23 draft objectives, 19 sources and six SVG
   diagrams. Canonical checksum:
   `029dc39ff103a836445a86bb352513b231e51d266d4b2fade3f00527d00ef89a`.
@@ -48,33 +61,31 @@
   unchanged.
 - StoreV2 remains `optometry-study-hub:v2`, version 2, with rollback key
   `opt376-study-state:v1`.
-- Existing HVP routes, attempts, results, Full-50 snapshots and question history
-  remain compatible. Both committed feature flags remain false.
-- No question/objective content, review status, deployment or PR #14 work was
-  added.
+- Existing HVP routes, attempts, results, Full-50 snapshots, question history
+  and all legacy data remain compatible.
+- Both committed feature flags remain false.
+- No question/objective content, review status, deployment, merge or PR #14
+  work was added.
 
 ## Validation
 
-- Bundled Node.js 24 is used for all commands.
-- Lint passes with the four pre-existing `<img>` warnings and no errors.
-- TypeScript, production build and all focused correction suites pass.
-- Aqueous validation/blueprint: 36 questions, 13 objectives, 22 higher-order,
-  zero diagnostics.
-- HVP validation/blueprint: 120 questions, 23 objectives, 19 sources,
-  55 higher-order, zero errors and the unchanged 79 advisory warnings.
-- `npm ci` passed from the committed lockfile after two stale HTTP-500
-  development servers were stopped to release Windows native-module locks.
+- Bundled Node.js 24.14.0 was used for all successful commands.
+- `npm ci` passed from the committed lockfile.
+- Lint passed with zero errors and the four pre-existing `<img>` warnings.
+- TypeScript passed.
+- Vitest passed: 142 test files and 834 tests.
+- Aqueous validation/blueprint passed: 36 questions, 13 objectives,
+  22 higher-order questions and zero diagnostics.
+- HVP validation/blueprint passed: 120 questions, 23 objectives, 19 sources,
+  55 higher-order questions, zero errors and the unchanged 79 advisory warnings.
+- Production build passed.
 - `npm run check` passed end to end.
-- Vitest passed: 141 test files and 817 tests.
-- The first cold post-install test pass had one unrelated five-second
-  review-campaign subprocess timeout; that test passed alone in 1.8 seconds and
-  the complete rerun passed without changing its timeout or product behavior.
-- Production build and `git diff --check` passed.
-- Clean-head `npm run release:verify`, Chrome QA, release metrics and the exact
-  final head are recorded in the PR description and final report.
+- `git diff --check` passed.
+- Clean committed-head `npm run release:verify`, its source-bound manifest
+  hash and release identity are recorded in the PR description and final report.
 
 ## Publishing
 
 - PR #13 remains draft.
-- No deployment was performed.
+- No deployment or merge was performed.
 - PR #14 was not started.

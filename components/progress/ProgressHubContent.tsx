@@ -135,19 +135,23 @@ export function ProgressHub({
   const legacyCandidates = legacyRecommendations(store);
   const legacyActivity = legacyRecentActivity(store, Number.POSITIVE_INFINITY);
   const contributionState = useCuratedProgressContributions(curatedRegistry, store);
-  const recommendation = selectRecommendation([
-    ...legacyCandidates,
-    ...contributionState.contributions.flatMap(
-      (contribution) => contribution.recommendationCandidates,
-    ),
-  ]);
-  const activity = mergeProgressActivity(
-    legacyActivity,
-    contributionState.contributions.flatMap(
-      (contribution) => contribution.activity,
-    ),
-    8,
-  );
+  const recommendation = contributionState.loading
+    ? undefined
+    : selectRecommendation([
+      ...legacyCandidates,
+      ...contributionState.contributions.flatMap(
+        (contribution) => contribution.recommendationCandidates,
+      ),
+    ]);
+  const activity = contributionState.loading
+    ? []
+    : mergeProgressActivity(
+      legacyActivity,
+      contributionState.contributions.flatMap(
+        (contribution) => contribution.activity,
+      ),
+      8,
+    );
   const hidden = hiddenCuratedData(store, allCuratedExperiences);
   const hasHidden = hidden.activeAttemptCount + hidden.resultCount > 0;
 
@@ -178,12 +182,13 @@ export function ProgressHub({
             detail="Curated sessions are reported separately when available"
           />
         </div>
-        {curatedRecommendationPanel ?? (recommendation ? <RecommendationCard item={recommendation} go={go} /> : null)}
-        {contributionState.loading ? (
+        {curatedRecommendationPanel ?? (contributionState.loading ? (
           <div className="analytics-loading" role="status">
             Loading curated progress…
           </div>
-        ) : null}
+        ) : recommendation ? (
+          <RecommendationCard item={recommendation} go={go} />
+        ) : null)}
         {contributionState.failureCount ? (
           <p className="integrity-note" role="alert">
             Some curated progress is temporarily unavailable. Valid legacy and
@@ -290,7 +295,11 @@ export function ProgressHub({
             <p>Reading completion is excluded because reading records have no timestamps.</p>
           </div>
         </div>
-        {curatedActivityPanel ?? (activity.length ? (
+        {curatedActivityPanel ?? (contributionState.loading ? (
+          <div className="analytics-loading" role="status">
+            Loading recent activity…
+          </div>
+        ) : activity.length ? (
           <ActivityList items={activity} go={go} />
         ) : (
           <div className="empty-state">
