@@ -48,6 +48,37 @@ describe('generic curated Practice Hub discovery', () => {
     expect(screen.getByRole('heading', {
       name: 'Curated practice',
     })).toBeInTheDocument();
-    expect(await screen.findByText('Dummy progress adapter')).toBeInTheDocument();
+    expect(await screen.findByText('Current question mastery')).toBeInTheDocument();
+  });
+
+  it('discloses disabled curated data while another experience remains enabled', () => {
+    const store = createEmptyStoreV2();
+    store.assessment.activeAttempts['dummy-active'] = {
+      id: 'dummy-active',
+      blueprintId: 'dummy-automatic-v1',
+    } as never;
+    const enabledHvp = {
+      ...dummyCuratedSummary,
+      experienceId: 'human-visual-perception',
+      courseId: 'human-visual-perception',
+      moduleId: 'human-visual-perception',
+      routeSegment: 'human-visual-perception-curated',
+      blueprintIds: ['opt374-hvp-curated-v1'],
+      enabled: true,
+    };
+    render(
+      <PracticeHub
+        allCuratedExperiences={[
+          enabledHvp,
+          { ...dummyCuratedSummary, enabled: false },
+        ]}
+        curatedExperiences={[enabledHvp]}
+        go={vi.fn()}
+        startQuiz={vi.fn()}
+        store={store}
+      />,
+    );
+    expect(screen.getByText(/currently disabled curated module remains on this device/i))
+      .toBeInTheDocument();
   });
 });

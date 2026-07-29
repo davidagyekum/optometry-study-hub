@@ -4,6 +4,7 @@ import type {
   SetStateAction,
 } from 'react';
 import { z } from 'zod';
+import { STABLE_ID_PATTERN } from '@/lib/assessment/constants';
 import type { GoToRoute } from '@/hooks/useClientRoute';
 import type { ClientView } from '@/lib/navigation/clientRoute';
 import type {
@@ -12,25 +13,36 @@ import type {
 } from '@/lib/progress/types';
 import type { StoreV2 } from '@/lib/storage/schemas';
 
-export const curatedExperienceSummarySchema = z.object({
-  experienceId: z.string().min(1),
-  courseId: z.string().min(1),
-  moduleId: z.string().min(1),
-  title: z.string().min(1),
-  shortTitle: z.string().min(1),
-  courseCode: z.string().min(1),
-  routeSegment: z.string().min(1).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
-  blueprintIds: z.array(z.string().min(1)).min(1),
-  statusLabel: z.string().min(1),
+const stableIdSchema = z.string().regex(
+  STABLE_ID_PATTERN,
+  'Expected a stable slug-style ID',
+);
+
+export const curatedExperienceSummarySchema = z.strictObject({
+  experienceId: stableIdSchema,
+  courseId: stableIdSchema,
+  moduleId: stableIdSchema,
+  title: z.string().trim().min(1),
+  shortTitle: z.string().trim().min(1),
+  courseCode: z.string().trim().min(1),
+  routeSegment: stableIdSchema,
+  blueprintIds: z.array(stableIdSchema).min(1),
+  statusLabel: z.string().trim().min(1),
   enabled: z.boolean(),
   supportsAutomaticPractice: z.boolean(),
   supportsWrittenPractice: z.boolean(),
-  studyEntryTitle: z.string().min(1),
-  studyEntryDescription: z.string().min(1),
-  releaseStatus: z.object({
-    ariaLabel: z.string().min(1),
-    title: z.string().min(1),
-    lines: z.array(z.string().min(1)).min(1),
+  studyEntryTitle: z.string().trim().min(1),
+  studyEntryDescription: z.string().trim().min(1),
+  documentTitles: z.strictObject({
+    landing: z.string().trim().min(1),
+    session: z.string().trim().min(1),
+    result: z.string().trim().min(1),
+    unavailable: z.string().trim().min(1),
+  }),
+  releaseStatus: z.strictObject({
+    ariaLabel: z.string().trim().min(1),
+    title: z.string().trim().min(1),
+    lines: z.array(z.string().trim().min(1)).min(1),
   }),
 });
 
@@ -46,19 +58,22 @@ export type CuratedPracticeRouterProps = {
   go: GoToRoute;
 };
 
-export type CuratedProgressVariant =
-  | 'resume'
-  | 'summary'
-  | 'detail'
-  | 'recommendation'
-  | 'activity';
+export type CuratedProgressVariant = 'resume' | 'summary' | 'detail';
 
 export type CuratedProgressPanelProps = {
   store: StoreV2;
   go: GoToRoute;
   variant: CuratedProgressVariant;
   legacyCandidates?: ProgressRecommendation[];
-  legacyActivity?: ProgressActivity[];
+};
+
+export type CuratedProgressContribution = {
+  experienceId: string;
+  moduleId: string;
+  recommendationCandidates: ProgressRecommendation[];
+  activity: ProgressActivity[];
+  hasStoredData: boolean;
+  integrityOmissionCount: number;
 };
 
 export type CuratedPracticeModule = {
@@ -67,6 +82,7 @@ export type CuratedPracticeModule = {
 
 export type CuratedProgressModule = {
   ProgressPanel: ComponentType<CuratedProgressPanelProps>;
+  getContribution: (store: StoreV2) => CuratedProgressContribution;
 };
 
 export type CuratedExperienceAdapter = {

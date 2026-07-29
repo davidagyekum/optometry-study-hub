@@ -13,6 +13,14 @@ import {
 } from '@/lib/assessment/curated/types';
 
 
+function deepFreeze<T>(value: T): T {
+  if (value && typeof value === 'object' && !Object.isFrozen(value)) {
+    Object.freeze(value);
+    Object.values(value as Record<string, unknown>).forEach(deepFreeze);
+  }
+  return value;
+}
+
 function duplicateValue(
   entries: readonly CuratedExperienceAdapter[],
   value: (entry: CuratedExperienceAdapter) => string,
@@ -29,10 +37,17 @@ function duplicateValue(
 export function createCuratedExperienceRegistry(
   input: readonly CuratedExperienceAdapter[],
 ): readonly CuratedExperienceAdapter[] {
-  const entries = input.map((entry) => ({
-    ...entry,
-    summary: curatedExperienceSummarySchema.parse(entry.summary),
-  }));
+  const entries = input.map((entry) => {
+    const summary = deepFreeze(structuredClone(
+      curatedExperienceSummarySchema.parse(entry.summary),
+    ));
+    return Object.freeze({
+      summary,
+      isEnabled: entry.isEnabled,
+      loadPracticeModule: entry.loadPracticeModule,
+      loadProgressModule: entry.loadProgressModule,
+    });
+  });
   const duplicateExperience = duplicateValue(
     entries,
     (entry) => entry.summary.experienceId,
@@ -82,10 +97,10 @@ export function createCuratedExperienceRegistry(
       blueprintIds.add(blueprintId);
     }
   }
-  return Object.freeze(entries);
+  return Object.freeze([...entries]);
 }
 
-const hvpSummary: CuratedExperienceSummary = {
+export const hvpCuratedSummary: CuratedExperienceSummary = deepFreeze({
   experienceId: 'human-visual-perception',
   courseId: HVP_CURATED_COURSE_ID,
   moduleId: HVP_CURATED_MODULE_ID,
@@ -101,6 +116,12 @@ const hvpSummary: CuratedExperienceSummary = {
   studyEntryTitle: 'Curated slide-aligned practice',
   studyEntryDescription:
     'Build a 50-question mixed-format practice set from 120 questions aligned with the supplied OPT 374 slides. This does not affect your legacy quiz score.',
+  documentTitles: {
+    landing: 'HVP Curated Practice',
+    session: 'HVP Practice Session',
+    result: 'HVP Practice Result',
+    unavailable: 'Curated Practice Unavailable',
+  },
   releaseStatus: {
     ariaLabel: 'Curated practice release status',
     title: 'Curated study practice',
@@ -110,11 +131,11 @@ const hvpSummary: CuratedExperienceSummary = {
       'Stored only on this device.',
     ],
   },
-};
+});
 
 export const curatedExperienceRegistry = createCuratedExperienceRegistry([
   {
-    summary: hvpSummary,
+    summary: hvpCuratedSummary,
     isEnabled: isHvpCuratedPracticeEnabled,
     loadPracticeModule: async () => {
       const loadedModule = await import(
@@ -124,7 +145,10 @@ export const curatedExperienceRegistry = createCuratedExperienceRegistry([
     },
     loadProgressModule: async () => {
       const loadedModule = await import('@/components/progress/HvpProgressPanel');
-      return { ProgressPanel: loadedModule.HvpProgressPanel };
+      return {
+        ProgressPanel: loadedModule.HvpProgressPanel,
+        getContribution: loadedModule.getHvpProgressContribution,
+      };
     },
   },
 ]);

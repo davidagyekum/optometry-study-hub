@@ -1,5 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import { documentTitleForRoute } from '@/lib/navigation/documentIdentity';
+import { dummyCuratedSummary } from '@/tests/fixtures/assessment/dummyCuratedExperience';
+
+const hvpSummary = {
+  ...dummyCuratedSummary,
+  documentTitles: {
+    landing: 'HVP Curated Practice',
+    session: 'HVP Practice Session',
+    result: 'HVP Practice Result',
+    unavailable: 'Curated Practice Unavailable',
+  },
+};
 
 describe('route-aware document identity', () => {
   it.each([
@@ -22,13 +33,13 @@ describe('route-aware document identity', () => {
       { moduleTitle: 'Human Visual Perception' },
       'Human Visual Perception Legacy Results | Optometry Study Hub'],
     [{ view: 'practice', moduleId: 'human-visual-perception-curated' } as const,
-      { controlledKind: 'hvp' as const, available: true },
+      { controlledKind: 'curated' as const, curatedSummary: hvpSummary, available: true },
       'HVP Curated Practice | Optometry Study Hub'],
     [{ view: 'assessment', moduleId: 'attempt-one' } as const,
-      { controlledKind: 'hvp' as const, available: true },
+      { controlledKind: 'curated' as const, curatedSummary: hvpSummary, available: true },
       'HVP Practice Session | Optometry Study Hub'],
     [{ view: 'assessment-result', moduleId: 'result-one' } as const,
-      { controlledKind: 'hvp' as const, resultAvailable: false },
+      { controlledKind: 'curated' as const, resultAvailable: false },
       'Assessment Recovery | Optometry Study Hub'],
     [{ view: 'pilot', moduleId: 'aqueous-vitreous' } as const,
       { controlledKind: 'aqueous' as const, available: false },
@@ -41,7 +52,42 @@ describe('route-aware document identity', () => {
   it('never places attempt or result identifiers in a title', () => {
     expect(documentTitleForRoute(
       { view: 'assessment', moduleId: 'student-attempt-secret' },
-      { controlledKind: 'hvp', available: true },
+      { controlledKind: 'curated', curatedSummary: hvpSummary, available: true },
     )).not.toContain('student-attempt-secret');
+  });
+
+  it('uses registered titles for a second and disabled curated experience', () => {
+    expect(documentTitleForRoute(
+      { view: 'practice', moduleId: dummyCuratedSummary.routeSegment },
+      { controlledKind: 'curated', curatedSummary: dummyCuratedSummary, available: true },
+    )).toBe('Dummy Curated Practice | Optometry Study Hub');
+    expect(documentTitleForRoute(
+      { view: 'assessment', moduleId: 'dummy-attempt' },
+      { controlledKind: 'curated', curatedSummary: dummyCuratedSummary, available: true },
+    )).toBe('Dummy Practice Session | Optometry Study Hub');
+    expect(documentTitleForRoute(
+      { view: 'assessment-result', moduleId: 'dummy-result' },
+      {
+        controlledKind: 'curated',
+        curatedSummary: dummyCuratedSummary,
+        available: true,
+        resultAvailable: true,
+      },
+    )).toBe('Dummy Practice Result | Optometry Study Hub');
+    expect(documentTitleForRoute(
+      { view: 'practice', moduleId: dummyCuratedSummary.routeSegment },
+      { controlledKind: 'curated', curatedSummary: dummyCuratedSummary, available: false },
+    )).toBe('Dummy Practice Unavailable | Optometry Study Hub');
+  });
+
+  it('fails closed with generic titles when no summary resolves', () => {
+    expect(documentTitleForRoute(
+      { view: 'practice', moduleId: 'unknown-curated' },
+      { controlledKind: 'unknown', available: false },
+    )).toBe('Curated Practice Unavailable | Optometry Study Hub');
+    expect(documentTitleForRoute(
+      { view: 'assessment', moduleId: 'unknown-attempt' },
+      { controlledKind: 'unknown', available: true },
+    )).toBe('Assessment Session | Optometry Study Hub');
   });
 });

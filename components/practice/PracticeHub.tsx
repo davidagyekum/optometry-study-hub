@@ -1,6 +1,7 @@
 import { courses } from '@/content/legacy/courseCatalog';
 import { modules } from '@/content/legacy/moduleCatalog';
 import type { GoToRoute } from '@/hooks/useClientRoute';
+import { hiddenCuratedData } from '@/lib/assessment/curated/storedData';
 import type { CuratedExperienceSummary } from '@/lib/assessment/curated/types';
 import { legacyModuleAnalytics } from '@/lib/progress/legacyAnalytics';
 import { displayPercent, ProgressBar } from '@/components/progress/ProgressPrimitives';
@@ -15,6 +16,7 @@ export function PracticeHub({
   curatedPanel,
   curatedResumePanel,
   curatedExperiences,
+  allCuratedExperiences = curatedExperiences,
 }: {
   store: StoreV2;
   go: GoToRoute;
@@ -22,6 +24,7 @@ export function PracticeHub({
   curatedPanel?: ReactNode;
   curatedResumePanel?: ReactNode;
   curatedExperiences: readonly CuratedExperienceSummary[];
+  allCuratedExperiences?: readonly CuratedExperienceSummary[];
 }) {
   const activeLegacy = modules.filter((module) => store.active[module.id]);
   const curatedBlueprintIds = new Set(
@@ -31,6 +34,8 @@ export function PracticeHub({
     (attempt) => curatedBlueprintIds.has(attempt.blueprintId ?? ''),
   ).length;
   const curatedEnabled = curatedExperiences.length > 0;
+  const hidden = hiddenCuratedData(store, allCuratedExperiences);
+  const hasHidden = hidden.activeAttemptCount + hidden.resultCount > 0;
   return (
     <>
       <section className="hub-hero">
@@ -101,8 +106,11 @@ export function PracticeHub({
           {curatedPanel}
         </section>
       ) : null}
-      {!curatedEnabled && (Object.keys(store.assessment.results).length || Object.keys(store.assessment.activeAttempts).length) ? (
-        <p className="integrity-note">Additional controlled-practice data is stored on this device, but that feature is currently disabled.</p>
+      {hasHidden ? (
+        <p className="integrity-note">
+          Saved controlled-practice data for a currently disabled curated
+          module remains on this device. It was not deleted or migrated.
+        </p>
       ) : null}
       <section className="privacy-panel">
         <div><h2>Private by design</h2><p>Practice records remain in this browser. No account, leaderboard, telemetry or cross-device synchronization is used.</p></div>

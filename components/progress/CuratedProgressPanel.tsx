@@ -5,25 +5,12 @@ import {
   curatedExperienceRegistry,
   isCuratedExperienceEnabled,
 } from '@/lib/assessment/curated/experienceRegistry';
+import { loadCuratedProgressModule } from '@/lib/assessment/curated/loaders';
 import { resolveCuratedExperienceById } from '@/lib/assessment/curated/resolveExperience';
 import type {
   CuratedExperienceAdapter,
-  CuratedProgressModule,
   CuratedProgressPanelProps,
 } from '@/lib/assessment/curated/types';
-
-const progressModuleCache = new Map<string, Promise<CuratedProgressModule>>();
-
-function loadProgressModule(
-  adapter: CuratedExperienceAdapter,
-): Promise<CuratedProgressModule> | undefined {
-  if (!adapter.loadProgressModule) return undefined;
-  const cached = progressModuleCache.get(adapter.summary.experienceId);
-  if (cached) return cached;
-  const pending = adapter.loadProgressModule();
-  progressModuleCache.set(adapter.summary.experienceId, pending);
-  return pending;
-}
 
 function CuratedProgressAdapterHost({
   adapter,
@@ -41,10 +28,8 @@ function CuratedProgressAdapterHost({
 
   useEffect(() => {
     let active = true;
-    const pending = loadProgressModule(adapter);
-    if (!pending) return undefined;
-    pending
-      .then((loadedModule) => {
+    const pending = loadCuratedProgressModule(adapter);
+    pending.then((loadedModule) => {
         if (active) setProgressComponent(() => loadedModule.ProgressPanel);
       })
       .catch(() => {

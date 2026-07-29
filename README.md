@@ -156,12 +156,20 @@ budgets](docs/RELEASE_BASELINE_AND_BUDGETS.md).
 
 ## Curated-experience registry
 
-PR 13 generalizes the learner-facing curated-practice shell behind validated,
-answer-free discovery metadata and lazy answer-bearing adapters. HVP is the
-only production registry entry and preserves its existing route, profiles,
-stored identities and public-beta behavior. The Aqueous engineering pilot
-remains separate and disabled. A synthetic second experience exists only in
-tests.
+PR 13 generalizes curated practice behind validated, immutable answer-free
+discovery metadata and retryable lazy answer-bearing adapters. HVP is the only
+production registry entry and preserves its route, profiles, stored identities
+and public-beta behavior. The shared platform now owns start/resume, guarded
+replacement and discard, draft persistence, navigation, flagging, submission,
+history finalization, landing, results and mastery presentation. Educational
+assembly, compatibility and progress calculation remain module-defined.
+
+One coordinator selects a single recommendation and builds a deduplicated,
+eight-item activity feed across legacy and every enabled curated contribution.
+Disabled curated records remain stored and are disclosed even when another
+curated module is enabled. The Aqueous engineering pilot remains separate and
+disabled. A tiny valid synthetic bank exercises the complete generic lifecycle
+only in tests.
 
 Future curated banks must keep question and grading content behind lazy
 loaders, use unique route/module/blueprint identities, preserve StoreV2

@@ -164,9 +164,16 @@ closed.
 
 HVP is the only production registry entry. It retains the canonical route,
 automatic and Written blueprint IDs, selection profiles, exact compatibility
-checks and browser-local transaction behavior. The generic transaction hook
-only extracts latest-store composition; HVP selection, compatibility,
-autosave, finalization and history rules remain unchanged behind its adapter.
+checks and browser-local behavior. A configuration-driven definition supplies
+its assembler, compatibility validators, registry, history policy and learner
+labels. The shared controller owns start/resume, guarded atomic replacement and
+discard, autosave, movement, flagging, submission, deterministic regrading,
+finalization, history updates and result lookup. Shared components render
+Quick, Standard, Full, Custom, targeted and Written launch choices, controlled
+sessions and exact result review.
+
+The test-only synthetic bank uses that same controller and UI to prove launch,
+draft persistence, result dispatch and progress without HVP IDs or labels.
 The Aqueous engineering pilot remains separate, disabled and absent from the
 curated learner registry.
 

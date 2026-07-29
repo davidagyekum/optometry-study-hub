@@ -20,7 +20,8 @@ import { useClientRoute, type GoToRoute } from '@/hooks/useClientRoute';
 import { useLegacyStore } from '@/hooks/useLegacyStore';
 import { isAssessmentPilotEnabled } from '@/lib/assessment/pilot/config';
 import {
-  enabledCuratedExperienceSummaries,
+  curatedExperienceRegistry,
+  curatedExperienceSummaries,
   isCuratedExperienceEnabled,
 } from '@/lib/assessment/curated/experienceRegistry';
 import {
@@ -32,7 +33,6 @@ import { createAttempt } from '@/lib/legacy/attempts';
 import type { CourseSummary, Module } from '@/lib/legacy/types';
 import type { ClientView } from '@/lib/navigation/clientRoute';
 import { documentTitleForRoute } from '@/lib/navigation/documentIdentity';
-import { legacyRecentActivity } from '@/lib/progress/activity';
 import { legacyRecommendations } from '@/lib/progress/recommendations';
 import {
   courseResetConfirmation,
@@ -75,13 +75,12 @@ export default function StudyApp() {
   const { route, go } = useClientRoute();
   const { store, setStore } = useLegacyStore();
   const pilotEnabled = isAssessmentPilotEnabled();
-  const curatedExperiences = enabledCuratedExperienceSummaries();
+  const allCuratedExperiences = curatedExperienceSummaries();
+  const curatedExperiences = allCuratedExperiences.filter(
+    (experience) => experience.enabled,
+  );
   const curatedEnabled = curatedExperiences.length > 0;
   const legacyRecommendationCandidates = legacyRecommendations(store);
-  const unboundedLegacyActivity = legacyRecentActivity(
-    store,
-    Number.POSITIVE_INFINITY,
-  );
   const isControlledView = CONTROLLED_VIEWS.includes(route.view);
   const routedAttempt = route.view === 'assessment'
     ? store.assessment.activeAttempts[route.moduleId]
@@ -117,6 +116,7 @@ export default function StudyApp() {
       courseTitle: activeCourse?.title,
       moduleTitle: activeModule?.shortTitle ?? activeModule?.title,
       controlledKind,
+      curatedSummary: controlledCuratedExperience?.summary,
       available: controlledAvailable,
       resultAvailable: Boolean(routedResult),
     });
@@ -126,6 +126,7 @@ export default function StudyApp() {
     activeModule?.title,
     controlledAvailable,
     controlledKind,
+    controlledCuratedExperience,
     route,
     routedResult,
   ]);
@@ -240,6 +241,7 @@ export default function StudyApp() {
           go={go}
           startQuiz={startQuiz}
           curatedExperiences={curatedExperiences}
+          allCuratedExperiences={allCuratedExperiences}
           curatedResumePanel={curatedExperiences.map((experience) => (
             <CuratedProgressPanel
               experienceId={experience.experienceId}
@@ -267,6 +269,8 @@ export default function StudyApp() {
           store={store}
           go={go}
           curatedExperiences={curatedExperiences}
+          allCuratedExperiences={allCuratedExperiences}
+          curatedRegistry={curatedExperienceRegistry}
           curatedPanel={curatedExperiences.map((experience) => (
             <CuratedProgressPanel
               experienceId={experience.experienceId}
@@ -275,28 +279,6 @@ export default function StudyApp() {
               key={experience.experienceId}
               store={store}
               variant="summary"
-            />
-          ))}
-          curatedRecommendationPanel={curatedExperiences.map((experience) => (
-            <CuratedProgressPanel
-              experienceId={experience.experienceId}
-              fallbackLabel={`Loading ${experience.shortTitle} recommendation…`}
-              go={go}
-              key={experience.experienceId}
-              legacyCandidates={legacyRecommendationCandidates}
-              store={store}
-              variant="recommendation"
-            />
-          ))}
-          curatedActivityPanel={curatedExperiences.map((experience) => (
-            <CuratedProgressPanel
-              experienceId={experience.experienceId}
-              fallbackLabel={`Loading ${experience.shortTitle} activity…`}
-              go={go}
-              key={experience.experienceId}
-              legacyActivity={unboundedLegacyActivity}
-              store={store}
-              variant="activity"
             />
           ))}
         />

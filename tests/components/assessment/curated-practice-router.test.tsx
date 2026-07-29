@@ -1,11 +1,18 @@
 // @vitest-environment jsdom
 import '@testing-library/jest-dom/vitest';
 import { cleanup, render, screen } from '@testing-library/react';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { CuratedPracticeRouter } from '@/components/assessment/curated/CuratedPracticeRouter';
 import { createCuratedExperienceRegistry } from '@/lib/assessment/curated/experienceRegistry';
 import { createEmptyStoreV2 } from '@/lib/storage/migrations';
-import { makeDummyCuratedExperience } from '@/tests/fixtures/assessment/dummyCuratedExperience';
+import {
+  dummyCuratedDefinition,
+  makeDummyCuratedExperience,
+} from '@/tests/fixtures/assessment/dummyCuratedExperience';
+
+beforeAll(() => {
+  Element.prototype.scrollIntoView = vi.fn();
+});
 
 afterEach(cleanup);
 
@@ -26,16 +33,22 @@ describe('generic curated-practice router', () => {
       makeDummyCuratedExperience({ onPracticeLoad: load }),
     ]);
     render(<CuratedPracticeRouter {...props()} registry={registry} />);
-    expect(await screen.findByText('Dummy practice adapter')).toBeInTheDocument();
+    expect(await screen.findByText('Dummy curated practice')).toBeInTheDocument();
     expect(load).toHaveBeenCalledOnce();
   });
 
   it('dispatches an attempt by its persisted blueprint identity', async () => {
     const store = createEmptyStoreV2();
-    store.assessment.activeAttempts['attempt-dummy'] = {
-      id: 'attempt-dummy',
-      blueprintId: 'dummy-automatic-v1',
-    } as never;
+    if (!dummyCuratedDefinition.registryResult.ok) {
+      throw new Error('Dummy registry unavailable');
+    }
+    const created = dummyCuratedDefinition.createAttempt(
+      dummyCuratedDefinition.defaultRequest(),
+      store,
+      dummyCuratedDefinition.registryResult.value,
+    );
+    if (!created.ok) throw new Error('Dummy attempt unavailable');
+    store.assessment.activeAttempts[created.value.id] = created.value;
     const registry = createCuratedExperienceRegistry([
       makeDummyCuratedExperience(),
     ]);
@@ -43,12 +56,12 @@ describe('generic curated-practice router', () => {
       <CuratedPracticeRouter
         {...props()}
         registry={registry}
-        resourceId="attempt-dummy"
+        resourceId="dummy-attempt"
         store={store}
         view="assessment"
       />,
     );
-    expect(await screen.findByText('Dummy practice adapter')).toBeInTheDocument();
+    expect(await screen.findByText(/Question 1 of 1/)).toBeInTheDocument();
   });
 
   it('fails closed without loading disabled or unknown experiences', () => {

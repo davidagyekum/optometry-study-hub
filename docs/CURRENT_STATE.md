@@ -209,6 +209,17 @@ The Aqueous nine-question engineering pilot remains a separate,
 default-disabled route and is not registered in the learner Practice Hub.
 Both committed feature flags remain false. The storage keys, StoreV2 schema
 version, five courses, eight modules, 39 sections, 400 legacy questions and
-legacy Latest/Best behavior are unchanged. A synthetic non-medical adapter
-exists only under tests to prove the shell is not HVP-specific. PR 13 adds no
-new bank, status promotion, migration, backend or deployment.
+legacy Latest/Best behavior are unchanged. A synthetic non-medical bank and definition exist only under tests. They use
+the production generic controller and shared landing, result and mastery
+presentation to prove launch, draft persistence, finalization, history, result
+dispatch and progress without HVP assumptions.
+
+Global progress now loads pure contributions from every enabled experience,
+selects one recommendation, and deduplicates and caps one activity feed.
+Registry identities use stable slug IDs and immutable defensive snapshots;
+failed lazy imports may retry. Route document titles come from safe registered
+summary metadata. Saved records for disabled curated modules remain disclosed
+even if another module stays enabled. The Node-only release audit iterates a
+curated boundary registry and supports multiple practice/progress entries with
+shared chunks counted once. PR 13 adds no production bank, status promotion,
+migration, backend or deployment.

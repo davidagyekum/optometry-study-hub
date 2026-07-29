@@ -126,4 +126,35 @@ describe('curated-experience registry', () => {
       'unknown',
     )).toBeUndefined();
   });
+
+  it.each([
+    ['experienceId', 'Bad Experience'],
+    ['courseId', 'bad/course'],
+    ['moduleId', 'bad_module'],
+    ['routeSegment', 'BadRoute'],
+  ])('rejects a non-stable %s identity', (field, invalid) => {
+    const adapter = makeDummyCuratedExperience();
+    adapter.summary = { ...adapter.summary, [field]: invalid };
+    expect(() => createCuratedExperienceRegistry([adapter])).toThrow();
+  });
+
+  it('defensively clones and deeply freezes registry identities', () => {
+    const adapter = makeDummyCuratedExperience();
+    const sourceBlueprints = adapter.summary.blueprintIds;
+    const registry = createCuratedExperienceRegistry([adapter]);
+    adapter.summary.routeSegment = 'mutated-after-registration';
+    sourceBlueprints.push('mutated-blueprint');
+    expect(registry[0].summary.routeSegment).toBe('dummy-curated');
+    expect(registry[0].summary.blueprintIds).toEqual([
+      'dummy-automatic-v1',
+      'dummy-written-v1',
+    ]);
+    expect(Object.isFrozen(registry)).toBe(true);
+    expect(Object.isFrozen(registry[0])).toBe(true);
+    expect(Object.isFrozen(registry[0].summary)).toBe(true);
+    expect(Object.isFrozen(registry[0].summary.blueprintIds)).toBe(true);
+    expect(() => {
+      (registry[0].summary.blueprintIds as string[]).push('forbidden');
+    }).toThrow();
+  });
 });

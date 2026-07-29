@@ -6,7 +6,10 @@ import {
   writeFileSync,
 } from 'node:fs';
 import { relative, resolve } from 'node:path';
-import { aqueousVitreousCandidateBank } from '@/content/question-bank/opt376/aqueous-vitreous/bank';
+import {
+  curatedReleaseAuditRegistry,
+  type CuratedReleaseAuditDefinition,
+} from '@/lib/release/curatedAuditRegistry';
 import { RELEASE_BUDGETS, type ReleaseBudget } from '@/lib/release/budgets';
 import {
   assertCleanReleaseTree,
@@ -36,10 +39,8 @@ export type ViteManifestEntry = {
 
 export type ViteManifest = Record<string, ViteManifestEntry>;
 
-export const HVP_CONTROLLED_ENTRY =
-  'components/assessment/hvp/HvpPracticeRouter.tsx';
-export const HVP_ANALYTICS_ENTRY =
-  'components/progress/HvpProgressPanel.tsx';
+export const HVP_CONTROLLED_ENTRY = curatedReleaseAuditRegistry[0].practiceEntry;
+export const HVP_ANALYTICS_ENTRY = curatedReleaseAuditRegistry[0].progressEntry;
 
 export type BundleAuditResult = {
   profile: ReleaseProfileId;
@@ -55,8 +56,20 @@ export type BundleAuditResult = {
   assertions: Array<{ id: string; passed: boolean; detail: string }>;
 };
 
+export type CuratedExperienceClosureAnalysis = {
+  practice: Set<string>;
+  progress: Set<string>;
+  combined: Set<string>;
+  incrementalPractice: Set<string>;
+  incrementalProgress: Set<string>;
+  incrementalCombined: Set<string>;
+};
+
 export type ReleaseClosureAnalysis = {
   initial: Set<string>;
+  experiences: Record<string, CuratedExperienceClosureAnalysis>;
+  allCurated: Set<string>;
+  incrementalAllCurated: Set<string>;
   controlled: Set<string>;
   analytics: Set<string>;
   combined: Set<string>;
@@ -98,30 +111,55 @@ function subtract(source: Set<string>, excluded: Set<string>): Set<string> {
   return new Set([...source].filter((entry) => !excluded.has(entry)));
 }
 
-export function analyzeReleaseClosures(manifest: ViteManifest): ReleaseClosureAnalysis {
+export function analyzeReleaseClosures(
+  manifest: ViteManifest,
+  definitions: readonly CuratedReleaseAuditDefinition[] = curatedReleaseAuditRegistry,
+): ReleaseClosureAnalysis {
   const browserEntry = Object.entries(manifest).find(([, entry]) => entry.isEntry)?.[0];
   if (!browserEntry) throw new Error('The client build has no browser entry.');
-  for (const key of [HVP_CONTROLLED_ENTRY, HVP_ANALYTICS_ENTRY]) {
-    if (!manifest[key]) throw new Error(`Build manifest entry is missing: ${key}`);
-    if (!manifest[key].isDynamicEntry) {
-      throw new Error(`HVP lazy entry is not dynamic: ${key}`);
-    }
-  }
   const initial = manifestClosure(manifest, [browserEntry], ['app/StudyApp.tsx']);
-  if (initial.has(HVP_CONTROLLED_ENTRY) || initial.has(HVP_ANALYTICS_ENTRY)) {
-    throw new Error('An HVP lazy entry unexpectedly entered the initial learner closure.');
+  const experiences: Record<string, CuratedExperienceClosureAnalysis> = {};
+  for (const definition of definitions) {
+    for (const key of [definition.practiceEntry, definition.progressEntry]) {
+      if (!manifest[key]) throw new Error(`Build manifest entry is missing: ${key}`);
+      if (!manifest[key].isDynamicEntry) {
+        throw new Error(`Curated lazy entry is not dynamic: ${key}`);
+      }
+      if (initial.has(key)) {
+        throw new Error(
+          `Curated lazy entry for ${definition.experienceId} entered the initial learner closure: ${key}`,
+        );
+      }
+    }
+    const practice = manifestClosure(manifest, [definition.practiceEntry]);
+    const progress = manifestClosure(manifest, [definition.progressEntry]);
+    const combined = union(practice, progress);
+    experiences[definition.experienceId] = {
+      practice,
+      progress,
+      combined,
+      incrementalPractice: subtract(practice, initial),
+      incrementalProgress: subtract(progress, initial),
+      incrementalCombined: subtract(combined, initial),
+    };
   }
-  const controlled = manifestClosure(manifest, [HVP_CONTROLLED_ENTRY]);
-  const analytics = manifestClosure(manifest, [HVP_ANALYTICS_ENTRY]);
-  const combined = union(controlled, analytics);
+  const first = experiences[curatedReleaseAuditRegistry[0].experienceId]
+    ?? Object.values(experiences)[0];
+  if (!first) throw new Error('No curated release-audit definitions are registered.');
+  const allCurated = union(...Object.values(experiences).map(
+    (experience) => experience.combined,
+  ));
   return {
     initial,
-    controlled,
-    analytics,
-    combined,
-    incrementalControlled: subtract(controlled, initial),
-    incrementalAnalytics: subtract(analytics, initial),
-    incrementalCombined: subtract(combined, initial),
+    experiences,
+    allCurated,
+    incrementalAllCurated: subtract(allCurated, initial),
+    controlled: first.practice,
+    analytics: first.progress,
+    combined: first.combined,
+    incrementalControlled: first.incrementalPractice,
+    incrementalAnalytics: first.incrementalProgress,
+    incrementalCombined: first.incrementalCombined,
   };
 }
 
@@ -169,70 +207,16 @@ function scanText(
   };
 }
 
-type BankQuestion = {
-  id: string;
-  sectionId: string;
-  format: string;
-  stem: string;
-  explanation: string;
-  correctOptionId?: string;
-  correctOptionIds?: string[];
-  correctOrder?: string[];
-  correctRegionIds?: string[];
-  correctMatches?: Record<string, string>;
-  correctAnswers?: Record<string, string>;
-  correctLabels?: Record<string, string>;
-};
-
-function stableMarkers() {
-  const hvp = JSON.parse(readFileSync(
-    'content/question-bank/opt374/human-visual-perception/bank.json',
-    'utf8',
-  )) as { questions: BankQuestion[] };
-  const sections = ['hvp-foundations', 'hvp-retina', 'hvp-lgn', 'hvp-extrastriate'];
-  const sectionQuestions = sections.map((sectionId) => {
-    const question = hvp.questions.find((candidate) => (
-      candidate.sectionId === sectionId && candidate.stem.length > 35
-    ));
-    if (!question) throw new Error(`HVP marker question is missing for ${sectionId}.`);
-    return question;
-  });
-  const formats = [
-    'single_best_answer',
-    'multiple_response',
-    'matching',
-    'ordering',
-    'image_hotspot',
-    'image_label',
-  ];
-  const answerQuestions = formats.map((format) => {
-    const question = hvp.questions.find((candidate) => candidate.format === format);
-    if (!question) throw new Error(`HVP answer marker question is missing for ${format}.`);
-    return question;
-  });
-  const answerIdentity = answerQuestions.flatMap((question) => [
-    ...(question.correctOptionId ? [question.correctOptionId] : []),
-    ...(question.correctOptionIds ?? []),
-    ...(question.correctOrder ?? []),
-    ...(question.correctRegionIds ?? []),
-    ...Object.values(question.correctMatches ?? {}),
-    ...Object.values(question.correctAnswers ?? {}),
-    ...Object.values(question.correctLabels ?? {}),
-  ]).filter((value, index, values) => value.length > 5 && values.indexOf(value) === index)
-    .slice(0, 12);
-  const aqueousQuestions = aqueousVitreousCandidateBank.questions.slice(0, 3);
+function stableMarkers(
+  definition: CuratedReleaseAuditDefinition = curatedReleaseAuditRegistry[0],
+) {
   return {
-    hvpAuthored: sectionQuestions.flatMap((question) => [
-      question.stem,
-      question.explanation,
-    ]),
-    hvpAnswerIdentity: answerIdentity,
-    controlledUi: ['Curated slide-aligned practice', 'Quick practice'],
-    analyticsUi: ['Current-version mastery', 'Written practice'],
-    aqueous: aqueousQuestions.flatMap((question) => [
-      question.stem,
-      question.explanation,
-    ]),
+    hvpAuthored: definition.authoredContentMarkers(),
+    hvpAnswerIdentity: definition.answerIdentityMarkers(),
+    controlledUi: [...definition.practiceUiMarkers],
+    analyticsUi: [...definition.progressUiMarkers],
+    allowedCrossBank: definition.allowedCrossBankMarkers(),
+    aqueous: definition.excludedCrossBankMarkers(),
   };
 }
 
@@ -375,63 +359,8 @@ export function auditReleaseBundle(
   const controlledHvpFiles = filesForEntries(manifest, closures.incrementalControlled);
   const hvpAnalyticsFiles = filesForEntries(manifest, closures.incrementalAnalytics);
   const combinedHvpFiles = filesForEntries(manifest, closures.incrementalCombined);
-  const contentMarkers = stableMarkers();
-  const initialHvpAuthored = scanText(
-    outputDirectory,
-    initialFiles,
-    contentMarkers.hvpAuthored,
-  );
-  const initialHvpAnswers = scanText(
-    outputDirectory,
-    initialFiles,
-    contentMarkers.hvpAnswerIdentity,
-  );
-  const initialAqueous = scanText(outputDirectory, initialFiles, contentMarkers.aqueous);
-  const controlledHvpAuthored = scanText(
-    outputDirectory,
-    controlledHvpFiles,
-    contentMarkers.hvpAuthored,
-  );
-  const controlledHvpAnswers = scanText(
-    outputDirectory,
-    controlledHvpFiles,
-    contentMarkers.hvpAnswerIdentity,
-  );
-  const analyticsHvpAuthored = scanText(
-    outputDirectory,
-    hvpAnalyticsFiles,
-    contentMarkers.hvpAuthored,
-  );
-  const analyticsHvpAnswers = scanText(
-    outputDirectory,
-    hvpAnalyticsFiles,
-    contentMarkers.hvpAnswerIdentity,
-  );
-  const controlledUi = scanText(
-    outputDirectory,
-    controlledHvpFiles,
-    contentMarkers.controlledUi,
-  );
-  const analyticsUi = scanText(
-    outputDirectory,
-    hvpAnalyticsFiles,
-    contentMarkers.analyticsUi,
-  );
-  const controlledAqueous = scanText(
-    outputDirectory,
-    controlledHvpFiles,
-    contentMarkers.aqueous,
-  );
-  const analyticsAqueous = scanText(
-    outputDirectory,
-    hvpAnalyticsFiles,
-    contentMarkers.aqueous,
-  );
   const serverEntry = resolve(outputDirectory, 'server', 'index.js');
   const serverEntryText = existsSync(serverEntry) ? readFileSync(serverEntry, 'utf8') : '';
-  const serverAnswerCount = contentMarkers.hvpAnswerIdentity.filter(
-    (marker) => serverEntryText.includes(marker),
-  ).length;
   const complete = (scan: MarkerScan) => (
     scan.matchedMarkerCount === scan.markerCount && scan.markerCount > 0
   );
@@ -439,62 +368,83 @@ export function auditReleaseBundle(
   const describe = (scan: MarkerScan) => (
     `${scan.matchedMarkerCount}/${scan.markerCount} markers across ${scan.matchedFileCount} files`
   );
+  const curatedAssertions = curatedReleaseAuditRegistry.flatMap((definition) => {
+    const closure = closures.experiences[definition.experienceId];
+    if (!closure) {
+      return [{
+        id: `${definition.experienceId}-closure-present`,
+        passed: false,
+        detail: 'No closure was produced for the registered curated experience.',
+      }];
+    }
+    const markers = stableMarkers(definition);
+    const practiceFiles = filesForEntries(manifest, closure.incrementalPractice);
+    const progressFiles = filesForEntries(manifest, closure.incrementalProgress);
+    const initialAuthored = scanText(outputDirectory, initialFiles, markers.hvpAuthored);
+    const initialAnswers = scanText(outputDirectory, initialFiles, markers.hvpAnswerIdentity);
+    const initialExcluded = scanText(outputDirectory, initialFiles, markers.aqueous);
+    const practiceAuthored = scanText(outputDirectory, practiceFiles, markers.hvpAuthored);
+    const practiceAnswers = scanText(outputDirectory, practiceFiles, markers.hvpAnswerIdentity);
+    const practiceUi = scanText(outputDirectory, practiceFiles, markers.controlledUi);
+    const progressAuthored = scanText(outputDirectory, progressFiles, markers.hvpAuthored);
+    const progressAnswers = scanText(outputDirectory, progressFiles, markers.hvpAnswerIdentity);
+    const progressUi = scanText(outputDirectory, progressFiles, markers.analyticsUi);
+    const practiceExcluded = scanText(outputDirectory, practiceFiles, markers.aqueous);
+    const progressExcluded = scanText(outputDirectory, progressFiles, markers.aqueous);
+    const serverAnswerCount = markers.hvpAnswerIdentity.filter(
+      (marker) => serverEntryText.includes(marker),
+    ).length;
+    return [
+      {
+        id: `${definition.experienceId}-profile-enablement-declared`,
+        passed: typeof definition.enabledInProfile(profile) === 'boolean',
+        detail: `Registry enablement for ${profile}: ${definition.enabledInProfile(profile)}.`,
+      },
+      {
+        id: `${definition.experienceId}-practice-lazy-entry`,
+        passed: Boolean(manifest[definition.practiceEntry]?.isDynamicEntry),
+        detail: 'Registered curated practice entry is present and dynamic.',
+      },
+      {
+        id: `${definition.experienceId}-progress-lazy-entry`,
+        passed: Boolean(manifest[definition.progressEntry]?.isDynamicEntry),
+        detail: 'Registered curated progress entry is present and dynamic.',
+      },
+      {
+        id: `${definition.experienceId}-lazy-isolation`,
+        passed: !closures.initial.has(definition.practiceEntry)
+          && !closures.initial.has(definition.progressEntry),
+        detail: 'Registered lazy entries remain outside the initial learner closure.',
+      },
+      {
+        id: `${definition.experienceId}-initial-content-isolation`,
+        passed: empty(initialAuthored) && empty(initialAnswers) && empty(initialExcluded),
+        detail: `Initial scans: authored ${describe(initialAuthored)}; answers ${describe(initialAnswers)}; excluded bank ${describe(initialExcluded)}.`,
+      },
+      {
+        id: `${definition.experienceId}-practice-content-present`,
+        passed: complete(practiceAuthored) && complete(practiceAnswers) && complete(practiceUi),
+        detail: `Practice scans: authored ${describe(practiceAuthored)}; answers ${describe(practiceAnswers)}; UI ${describe(practiceUi)}.`,
+      },
+      {
+        id: `${definition.experienceId}-progress-content-present`,
+        passed: complete(progressAuthored) && complete(progressAnswers) && complete(progressUi),
+        detail: `Progress scans: authored ${describe(progressAuthored)}; answers ${describe(progressAnswers)}; UI ${describe(progressUi)}.`,
+      },
+      {
+        id: `${definition.experienceId}-cross-bank-isolation`,
+        passed: empty(practiceExcluded) && empty(progressExcluded),
+        detail: `Practice ${describe(practiceExcluded)}; progress ${describe(progressExcluded)}.`,
+      },
+      {
+        id: `${definition.experienceId}-server-answer-isolation`,
+        passed: serverAnswerCount === 0,
+        detail: `${serverAnswerCount}/${markers.hvpAnswerIdentity.length} answer-identity markers in server entry.`,
+      },
+    ];
+  });
   const assertions = [
-    {
-      id: 'hvp-controlled-lazy-entry',
-      passed: Boolean(manifest[HVP_CONTROLLED_ENTRY]?.isDynamicEntry),
-      detail: 'Controlled HVP entry is present and dynamic.',
-    },
-    {
-      id: 'hvp-analytics-lazy-entry',
-      passed: Boolean(manifest[HVP_ANALYTICS_ENTRY]?.isDynamicEntry),
-      detail: 'HVP analytics entry is present and dynamic.',
-    },
-    {
-      id: 'hvp-lazy-entries-excluded-from-initial',
-      passed: !closures.initial.has(HVP_CONTROLLED_ENTRY)
-        && !closures.initial.has(HVP_ANALYTICS_ENTRY),
-      detail: 'Both HVP lazy entries remain outside the initial learner closure.',
-    },
-    {
-      id: 'initial-hvp-authored-isolation',
-      passed: empty(initialHvpAuthored),
-      detail: `Initial authored-content scan: ${describe(initialHvpAuthored)}.`,
-    },
-    {
-      id: 'initial-hvp-answer-isolation',
-      passed: empty(initialHvpAnswers),
-      detail: `Initial answer-identity scan: ${describe(initialHvpAnswers)}.`,
-    },
-    {
-      id: 'initial-aqueous-isolation',
-      passed: empty(initialAqueous),
-      detail: `Initial hidden-Aqueous scan: ${describe(initialAqueous)}.`,
-    },
-    {
-      id: 'controlled-hvp-content-present',
-      passed: complete(controlledHvpAuthored)
-        && complete(controlledHvpAnswers)
-        && complete(controlledUi),
-      detail: `Controlled HVP scan: authored ${describe(controlledHvpAuthored)}; answer identity ${describe(controlledHvpAnswers)}; UI ${describe(controlledUi)}.`,
-    },
-    {
-      id: 'analytics-hvp-content-present',
-      passed: complete(analyticsHvpAuthored)
-        && complete(analyticsHvpAnswers)
-        && complete(analyticsUi),
-      detail: `Analytics HVP scan: authored ${describe(analyticsHvpAuthored)}; answer identity ${describe(analyticsHvpAnswers)}; UI ${describe(analyticsUi)}.`,
-    },
-    {
-      id: 'hvp-boundaries-exclude-aqueous',
-      passed: empty(controlledAqueous) && empty(analyticsAqueous),
-      detail: `Controlled ${describe(controlledAqueous)}; analytics ${describe(analyticsAqueous)}.`,
-    },
-    {
-      id: 'server-entry-answer-isolation',
-      passed: serverAnswerCount === 0,
-      detail: `${serverAnswerCount}/${contentMarkers.hvpAnswerIdentity.length} HVP answer-identity markers in server entry.`,
-    },
+    ...curatedAssertions,
     ...Object.entries(budget).map(([key, limit]) => ({
       id: `budget-${key}`,
       passed: metrics[key as keyof ReleaseBudget] <= limit,

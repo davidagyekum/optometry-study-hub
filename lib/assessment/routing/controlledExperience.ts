@@ -4,7 +4,7 @@ import {
 } from '@/lib/assessment/curated/resolveExperience';
 import type { ClientView } from '@/lib/navigation/clientRoute';
 
-export type ControlledExperienceKind = 'hvp' | 'aqueous' | 'unknown';
+export type ControlledExperienceKind = 'curated' | 'aqueous' | 'unknown';
 
 export function controlledExperienceKind(
   view: ClientView,
@@ -14,7 +14,7 @@ export function controlledExperienceKind(
   const curated = view === 'practice'
     ? resolveCuratedExperienceByRoute(resourceId)
     : resolveCuratedExperienceByBlueprint(blueprintId);
-  if (curated?.summary.experienceId === 'human-visual-perception') return 'hvp';
+  if (curated) return 'curated';
   if (view === 'pilot' || blueprintId === 'aqueous-vitreous-pilot-v1') return 'aqueous';
   return 'unknown';
 }

@@ -7,10 +7,12 @@ import {
   render,
   screen,
 } from '@testing-library/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import StudyApp from '@/app/StudyApp';
 import { useClientRoute } from '@/hooks/useClientRoute';
+import { documentTitleForRoute } from '@/lib/navigation/documentIdentity';
+import { dummyCuratedSummary } from '@/tests/fixtures/assessment/dummyCuratedExperience';
 
 function FocusHarness() {
   const { route, go } = useClientRoute();
@@ -26,6 +28,40 @@ function FocusHarness() {
         </label>
       </main>
     </>
+  );
+}
+
+
+const hvpSummary = {
+  ...dummyCuratedSummary,
+  routeSegment: 'human-visual-perception-curated',
+  documentTitles: {
+    landing: 'HVP Curated Practice',
+    session: 'HVP Practice Session',
+    result: 'HVP Practice Result',
+    unavailable: 'Curated Practice Unavailable',
+  },
+};
+
+function IdentityHarness() {
+  const { route, go } = useClientRoute();
+  const summary = route.moduleId === dummyCuratedSummary.routeSegment
+    ? dummyCuratedSummary
+    : route.moduleId === hvpSummary.routeSegment
+      ? hvpSummary
+      : undefined;
+  useEffect(() => {
+    document.title = documentTitleForRoute(route, {
+      controlledKind: summary ? 'curated' : 'unknown',
+      curatedSummary: summary,
+      available: Boolean(summary),
+    });
+  }, [route, summary]);
+  return (
+    <main id="main-content" tabIndex={-1}>
+      <button onClick={() => go('practice', hvpSummary.routeSegment)} type="button">Open HVP</button>
+      <button onClick={() => go('practice', dummyCuratedSummary.routeSegment)} type="button">Open dummy</button>
+    </main>
   );
 }
 
@@ -84,5 +120,17 @@ describe('release accessibility and navigation focus', () => {
     fireEvent.change(input, { target: { value: 'Retinal ganglion cell' } });
     expect(input).toHaveFocus();
     expect(input).toHaveValue('Retinal ganglion cell');
+  });
+
+  it('restores each curated document identity across browser history', () => {
+    render(<IdentityHarness />);
+    fireEvent.click(screen.getByRole('button', { name: 'Open HVP' }));
+    expect(document.title).toBe('HVP Curated Practice | Optometry Study Hub');
+    fireEvent.click(screen.getByRole('button', { name: 'Open dummy' }));
+    expect(document.title).toBe('Dummy Curated Practice | Optometry Study Hub');
+
+    window.history.replaceState({}, '', '/practice/human-visual-perception-curated');
+    act(() => window.dispatchEvent(new PopStateEvent('popstate')));
+    expect(document.title).toBe('HVP Curated Practice | Optometry Study Hub');
   });
 });

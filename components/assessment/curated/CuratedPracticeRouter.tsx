@@ -6,26 +6,14 @@ import {
   curatedExperienceRegistry,
   isCuratedExperienceEnabled,
 } from '@/lib/assessment/curated/experienceRegistry';
+import { loadCuratedPracticeModule } from '@/lib/assessment/curated/loaders';
 import {
   resolveCuratedExperienceForControlledRoute,
 } from '@/lib/assessment/curated/resolveExperience';
 import type {
   CuratedExperienceAdapter,
-  CuratedPracticeModule,
   CuratedPracticeRouterProps,
 } from '@/lib/assessment/curated/types';
-
-const practiceModuleCache = new Map<string, Promise<CuratedPracticeModule>>();
-
-function loadPracticeModule(
-  adapter: CuratedExperienceAdapter,
-): Promise<CuratedPracticeModule> {
-  const cached = practiceModuleCache.get(adapter.summary.experienceId);
-  if (cached) return cached;
-  const pending = adapter.loadPracticeModule();
-  practiceModuleCache.set(adapter.summary.experienceId, pending);
-  return pending;
-}
 
 function CuratedPracticeAdapterHost({
   adapter,
@@ -41,7 +29,7 @@ function CuratedPracticeAdapterHost({
 
   useEffect(() => {
     let active = true;
-    loadPracticeModule(adapter)
+    loadCuratedPracticeModule(adapter)
       .then((loadedModule) => {
         if (active) setPracticeComponent(() => loadedModule.PracticeRouter);
       })
