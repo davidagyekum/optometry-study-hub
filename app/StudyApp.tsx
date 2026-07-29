@@ -9,7 +9,8 @@ import { PracticeHub } from '@/components/practice/PracticeHub';
 import { ModuleProgressView } from '@/components/progress/ModuleProgressView';
 import { ProgressHub } from '@/components/progress/ProgressHub';
 import { AssessmentPilotUnavailable } from '@/components/assessment/pilot/AssessmentPilotUnavailable';
-import { HvpPracticeUnavailable } from '@/components/assessment/hvp/HvpPracticeUnavailable';
+import { CuratedPracticeRouter } from '@/components/assessment/curated/CuratedPracticeRouter';
+import { CuratedProgressPanel } from '@/components/progress/CuratedProgressPanel';
 import { LegacyQuizView } from '@/components/quiz/LegacyQuizView';
 import { LegacyResultsView } from '@/components/results/LegacyResultsView';
 import { StudyView } from '@/components/study/StudyView';
@@ -18,11 +19,15 @@ import { moduleMap } from '@/content/legacy/moduleCatalog';
 import { useClientRoute, type GoToRoute } from '@/hooks/useClientRoute';
 import { useLegacyStore } from '@/hooks/useLegacyStore';
 import { isAssessmentPilotEnabled } from '@/lib/assessment/pilot/config';
-import { controlledExperienceKind } from '@/lib/assessment/routing/controlledExperience';
 import {
-  HVP_CURATED_PRACTICE_ID,
-  isHvpCuratedPracticeEnabled,
-} from '@/lib/assessment/hvp/config';
+  enabledCuratedExperienceSummaries,
+  isCuratedExperienceEnabled,
+} from '@/lib/assessment/curated/experienceRegistry';
+import {
+  resolveCuratedExperienceForControlledRoute,
+  summaryForModule,
+} from '@/lib/assessment/curated/resolveExperience';
+import { controlledExperienceKind } from '@/lib/assessment/routing/controlledExperience';
 import { createAttempt } from '@/lib/legacy/attempts';
 import type { CourseSummary, Module } from '@/lib/legacy/types';
 import type { ClientView } from '@/lib/navigation/clientRoute';
@@ -43,14 +48,6 @@ const CONTROLLED_VIEWS: ClientView[] = ['pilot', 'practice', 'assessment', 'asse
 const AssessmentPilotRouter = lazy(() => (
   import('@/components/assessment/pilot/AssessmentPilotRouter')
     .then((module) => ({ default: module.AssessmentPilotRouter }))
-));
-const HvpPracticeRouter = lazy(() => (
-  import('@/components/assessment/hvp/HvpPracticeRouter')
-    .then((module) => ({ default: module.HvpPracticeRouter }))
-));
-const HvpProgressPanel = lazy(() => (
-  import('@/components/progress/HvpProgressPanel')
-    .then((module) => ({ default: module.HvpProgressPanel }))
 ));
 
 function AppFrame({
@@ -78,7 +75,8 @@ export default function StudyApp() {
   const { route, go } = useClientRoute();
   const { store, setStore } = useLegacyStore();
   const pilotEnabled = isAssessmentPilotEnabled();
-  const hvpPracticeEnabled = isHvpCuratedPracticeEnabled();
+  const curatedExperiences = enabledCuratedExperienceSummaries();
+  const curatedEnabled = curatedExperiences.length > 0;
   const legacyRecommendationCandidates = legacyRecommendations(store);
   const unboundedLegacyActivity = legacyRecentActivity(
     store,
@@ -92,15 +90,24 @@ export default function StudyApp() {
     ? store.assessment.results[route.moduleId]
     : undefined;
   const controlledBlueprint = routedAttempt?.blueprintId ?? routedResult?.blueprintId;
-  const controlledKind = controlledExperienceKind(route.view, controlledBlueprint);
+  const controlledCuratedExperience = resolveCuratedExperienceForControlledRoute(
+    route.view,
+    route.moduleId,
+    controlledBlueprint,
+  );
+  const controlledKind = controlledExperienceKind(
+    route.view,
+    controlledBlueprint,
+    route.moduleId,
+  );
 
   const updateStore = (updater: (current: StoreV2) => StoreV2) => {
     setStore((current) => updater(current));
   };
   const activeModule = moduleMap.get(route.moduleId);
   const activeCourse = courses.find((course) => course.id === route.moduleId);
-  const controlledAvailable = controlledKind === 'hvp'
-    ? hvpPracticeEnabled
+  const controlledAvailable = controlledCuratedExperience
+    ? isCuratedExperienceEnabled(controlledCuratedExperience)
     : controlledKind === 'aqueous'
       ? pilotEnabled
       : false;
@@ -143,7 +150,7 @@ export default function StudyApp() {
   };
 
   const clearModule = (id: string) => {
-    if (!window.confirm(moduleResetConfirmation(store, id, pilotEnabled || hvpPracticeEnabled))) return;
+    if (!window.confirm(moduleResetConfirmation(store, id, pilotEnabled || curatedEnabled))) return;
     updateStore((current) => resetAssessmentModule({
       ...current,
       read: { ...current.read, [id]: [] },
@@ -157,7 +164,7 @@ export default function StudyApp() {
       store,
       course.id,
       course.title,
-      pilotEnabled || hvpPracticeEnabled,
+      pilotEnabled || curatedEnabled,
     ))) return;
     updateStore((current) => {
       const read = { ...current.read };
@@ -232,49 +239,66 @@ export default function StudyApp() {
           store={store}
           go={go}
           startQuiz={startQuiz}
-          hvpEnabled={hvpPracticeEnabled}
-          curatedResumePanel={hvpPracticeEnabled ? (
-            <Suspense fallback={<div className="analytics-loading" role="status">Loading curated progress…</div>}>
-              <HvpProgressPanel store={store} go={go} variant="resume" />
-            </Suspense>
-          ) : undefined}
-          curatedPanel={hvpPracticeEnabled ? (
-            <Suspense fallback={<div className="analytics-loading" role="status">Loading curated summary…</div>}>
-              <HvpProgressPanel store={store} go={go} variant="summary" />
-            </Suspense>
-          ) : undefined}
+          curatedExperiences={curatedExperiences}
+          curatedResumePanel={curatedExperiences.map((experience) => (
+            <CuratedProgressPanel
+              experienceId={experience.experienceId}
+              fallbackLabel={`Loading ${experience.shortTitle} progress…`}
+              go={go}
+              key={experience.experienceId}
+              store={store}
+              variant="resume"
+            />
+          ))}
+          curatedPanel={curatedExperiences.map((experience) => (
+            <CuratedProgressPanel
+              experienceId={experience.experienceId}
+              fallbackLabel={`Loading ${experience.shortTitle} summary…`}
+              go={go}
+              key={experience.experienceId}
+              store={store}
+              variant="summary"
+            />
+          ))}
         />
       ) : null}
       {route.view === 'progress' && !route.moduleId ? (
         <ProgressHub
           store={store}
           go={go}
-          hvpEnabled={hvpPracticeEnabled}
-          curatedPanel={hvpPracticeEnabled ? (
-            <Suspense fallback={<div className="analytics-loading" role="status">Loading curated progress…</div>}>
-              <HvpProgressPanel store={store} go={go} variant="summary" />
-            </Suspense>
-          ) : undefined}
-          curatedRecommendationPanel={hvpPracticeEnabled ? (
-            <Suspense fallback={<div className="analytics-loading" role="status">Loading recommendation…</div>}>
-              <HvpProgressPanel
-                store={store}
-                go={go}
-                variant="recommendation"
-                legacyCandidates={legacyRecommendationCandidates}
-              />
-            </Suspense>
-          ) : undefined}
-          curatedActivityPanel={hvpPracticeEnabled ? (
-            <Suspense fallback={<div className="analytics-loading" role="status">Loading activity…</div>}>
-              <HvpProgressPanel
-                store={store}
-                go={go}
-                variant="activity"
-                legacyActivity={unboundedLegacyActivity}
-              />
-            </Suspense>
-          ) : undefined}
+          curatedExperiences={curatedExperiences}
+          curatedPanel={curatedExperiences.map((experience) => (
+            <CuratedProgressPanel
+              experienceId={experience.experienceId}
+              fallbackLabel={`Loading ${experience.shortTitle} progress…`}
+              go={go}
+              key={experience.experienceId}
+              store={store}
+              variant="summary"
+            />
+          ))}
+          curatedRecommendationPanel={curatedExperiences.map((experience) => (
+            <CuratedProgressPanel
+              experienceId={experience.experienceId}
+              fallbackLabel={`Loading ${experience.shortTitle} recommendation…`}
+              go={go}
+              key={experience.experienceId}
+              legacyCandidates={legacyRecommendationCandidates}
+              store={store}
+              variant="recommendation"
+            />
+          ))}
+          curatedActivityPanel={curatedExperiences.map((experience) => (
+            <CuratedProgressPanel
+              experienceId={experience.experienceId}
+              fallbackLabel={`Loading ${experience.shortTitle} activity…`}
+              go={go}
+              key={experience.experienceId}
+              legacyActivity={unboundedLegacyActivity}
+              store={store}
+              variant="activity"
+            />
+          ))}
         />
       ) : null}
       {route.view === 'progress' && activeModule ? (
@@ -283,18 +307,19 @@ export default function StudyApp() {
           store={store}
           go={go}
           startQuiz={startQuiz}
-          curatedPanel={
-            activeModule.id === 'human-visual-perception' && hvpPracticeEnabled ? (
-              <Suspense fallback={<div className="analytics-loading" role="status">Loading mastery evidence…</div>}>
-                <HvpProgressPanel
-                  store={store}
-                  go={go}
-                  variant="detail"
-                  legacyCandidates={legacyRecommendationCandidates}
-                />
-              </Suspense>
-            ) : undefined
-          }
+          curatedPanel={(() => {
+            const experience = summaryForModule(activeModule.id, curatedExperiences);
+            return experience ? (
+              <CuratedProgressPanel
+                experienceId={experience.experienceId}
+                fallbackLabel={`Loading ${experience.shortTitle} mastery evidence…`}
+                go={go}
+                legacyCandidates={legacyRecommendationCandidates}
+                store={store}
+                variant="detail"
+              />
+            ) : undefined;
+          })()}
         />
       ) : null}
       {route.view === 'course' && activeCourse ? (
@@ -325,8 +350,8 @@ export default function StudyApp() {
           startQuiz={startQuiz}
           pilotEnabled={pilotEnabled}
           openPilot={() => go('pilot', 'aqueous-vitreous')}
-          hvpPracticeEnabled={hvpPracticeEnabled}
-          openHvpPractice={() => go('practice', HVP_CURATED_PRACTICE_ID)}
+          curatedExperience={summaryForModule(activeModule.id, curatedExperiences)}
+          openCuratedPractice={(routeSegment) => go('practice', routeSegment)}
         />
       ) : null}
       {route.view === 'quiz' && activeModule ? (
@@ -361,16 +386,14 @@ export default function StudyApp() {
         />
       ) : null}
       {isControlledView ? (
-        controlledKind === 'hvp' && hvpPracticeEnabled ? (
-          <Suspense fallback={<div className="pilot-loading" role="status">Loading curated practice…</div>}>
-            <HvpPracticeRouter
-              go={go}
-              resourceId={route.moduleId}
-              setStore={setStore}
-              store={store}
-              view={route.view}
-            />
-          </Suspense>
+        route.view === 'practice' || controlledCuratedExperience ? (
+          <CuratedPracticeRouter
+            go={go}
+            resourceId={route.moduleId}
+            setStore={setStore}
+            store={store}
+            view={route.view}
+          />
         ) : controlledKind === 'aqueous' && pilotEnabled ? (
           <Suspense fallback={<div className="pilot-loading" role="status">Loading experimental assessment…</div>}>
             <AssessmentPilotRouter
@@ -381,8 +404,6 @@ export default function StudyApp() {
               view={route.view}
             />
           </Suspense>
-        ) : controlledKind === 'hvp' ? (
-          <HvpPracticeUnavailable go={go} />
         ) : <AssessmentPilotUnavailable go={go} />
       ) : null}
     </AppFrame>

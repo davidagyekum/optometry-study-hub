@@ -153,3 +153,18 @@ Use `npm run release:verify` from a clean reviewed commit. See the
 checklist](docs/RELEASE_CHECKLIST.md), [rollback
 runbook](docs/ROLLBACK_RUNBOOK.md), and [baseline
 budgets](docs/RELEASE_BASELINE_AND_BUDGETS.md).
+
+## Curated-experience registry
+
+PR 13 generalizes the learner-facing curated-practice shell behind validated,
+answer-free discovery metadata and lazy answer-bearing adapters. HVP is the
+only production registry entry and preserves its existing route, profiles,
+stored identities and public-beta behavior. The Aqueous engineering pilot
+remains separate and disabled. A synthetic second experience exists only in
+tests.
+
+Future curated banks must keep question and grading content behind lazy
+loaders, use unique route/module/blueprint identities, preserve StoreV2
+compatibility, pass import-isolation and release-profile checks, and complete
+the documented academic-review process. PR 13 adds no new question content,
+storage migration, legacy-score conversion or deployment.

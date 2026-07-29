@@ -152,3 +152,27 @@ question-history identity, selection contracts, and manual-only Written
 Practice boundary. The repository defaults remain false. Bundle audits require
 authored HVP content to stay lazy and reject hidden Aqueous content. This draft
 does not publish or alter any review status.
+
+## PR 13 curated-experience registry
+
+The learner-facing curated-practice shell now discovers experiences through a
+validated registry. Eager summaries contain only answer-free identity,
+availability, route and display metadata. Each registered adapter lazy-loads
+its answer-bearing practice controller and optional analytics panel. Duplicate
+experience IDs, route segments, course/module bindings and blueprint IDs fail
+closed.
+
+HVP is the only production registry entry. It retains the canonical route,
+automatic and Written blueprint IDs, selection profiles, exact compatibility
+checks and browser-local transaction behavior. The generic transaction hook
+only extracts latest-store composition; HVP selection, compatibility,
+autosave, finalization and history rules remain unchanged behind its adapter.
+The Aqueous engineering pilot remains separate, disabled and absent from the
+curated learner registry.
+
+To add a future bank, first complete content provenance and independent review,
+then define answer-free summary metadata, keep the bank and compatibility
+logic behind lazy loaders, register unique route/module/blueprint identities,
+and run import-isolation, compatibility, release-profile and Chrome tests.
+Registration alone must never promote draft content or enable a feature.
+PR 13 adds no bank, storage migration, legacy-score conversion or deployment.

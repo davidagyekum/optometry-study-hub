@@ -8,6 +8,7 @@ import {
   HVP_CURATED_COURSE_ID,
   HVP_CURATED_MODULE_ID,
   HVP_CURATED_POLICY,
+  HVP_WRITTEN_BLUEPRINT_ID,
 } from '@/lib/assessment/hvp/config';
 import { largestRemainderAllocation } from '@/lib/assessment/practice/allocation';
 import { practiceBlueprintSchema } from '@/lib/assessment/practice/schemas';
@@ -21,7 +22,6 @@ import type {
   QuestionFormat,
 } from '@/lib/assessment/types';
 
-export const HVP_WRITTEN_BLUEPRINT_ID = 'opt374-hvp-written-v1';
 export const HVP_WRITTEN_PRACTICE_ID = 'human-visual-perception-written';
 export const HVP_PRACTICE_FAMILY_ID = 'opt374-hvp-practice';
 export const HVP_SECTIONS = Object.keys(HVP_PRACTICE_SECTION_TARGETS);
@@ -156,3 +156,5 @@ export function createHvpWrittenSelection(seed: string): PracticeSelectionSnapsh
     historyPolicy: 'encounter-and-manual',
   };
 }
+
+export { HVP_WRITTEN_BLUEPRINT_ID };

@@ -194,3 +194,21 @@ The current production baseline remains the pre-redesign Sites release
 inspected read-only in Chrome. Publishing requires the reviewed PR to merge,
 release verification on the exact new `main` commit, reviewer approval, and
 separate explicit deployment authorization. Aqueous remains disabled.
+
+## PR 13 curated-practice architecture
+
+PR 13 is based on main commit
+`14a884235e7a2976a7da8de881f4411b6265b1d5`. It introduces an answer-free
+curated-experience registry plus lazy practice and progress adapters. HVP is
+the first and only production entry. Its canonical 120-question package,
+23 objectives, 19 sources, six diagrams, persisted blueprint identities,
+routes, practice profiles, compatibility rules and question-history semantics
+are unchanged.
+
+The Aqueous nine-question engineering pilot remains a separate,
+default-disabled route and is not registered in the learner Practice Hub.
+Both committed feature flags remain false. The storage keys, StoreV2 schema
+version, five courses, eight modules, 39 sections, 400 legacy questions and
+legacy Latest/Best behavior are unchanged. A synthetic non-medical adapter
+exists only under tests to prove the shell is not HVP-specific. PR 13 adds no
+new bank, status promotion, migration, backend or deployment.

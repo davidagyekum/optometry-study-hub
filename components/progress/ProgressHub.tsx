@@ -1,6 +1,7 @@
 import { courses } from '@/content/legacy/courseCatalog';
 import { moduleMap, modules } from '@/content/legacy/moduleCatalog';
 import type { GoToRoute } from '@/hooks/useClientRoute';
+import type { CuratedExperienceSummary } from '@/lib/assessment/curated/types';
 import { legacyRecentActivity } from '@/lib/progress/activity';
 import {
   allLegacyCourseAnalytics,
@@ -22,10 +23,10 @@ export function ProgressHub({
   curatedPanel,
   curatedRecommendationPanel,
   curatedActivityPanel,
-  hvpEnabled,
+  curatedExperiences,
 }: {
   store: StoreV2;
-  hvpEnabled: boolean;
+  curatedExperiences: readonly CuratedExperienceSummary[];
   go: GoToRoute;
   curatedPanel?: ReactNode;
   curatedRecommendationPanel?: ReactNode;
@@ -39,6 +40,7 @@ export function ProgressHub({
   const activeSessions = moduleAnalytics.filter((item) => item.activeAttempt).length;
   const legacyActivity = legacyRecentActivity(store);
   const recommendation = legacyRecommendations(store)[0];
+  const curatedEnabled = curatedExperiences.length > 0;
   return (
     <>
       <section className="hub-hero">
@@ -51,7 +53,7 @@ export function ProgressHub({
           <Metric label="Saved legacy results" value={savedResults} detail="Recent saved attempts, not lifetime attempts" />
           <Metric label="Active legacy sessions" value={activeSessions} detail="Curated sessions are reported separately when available" />
         </div>
-        {hvpEnabled ? curatedRecommendationPanel : recommendation ? (
+        {curatedEnabled ? curatedRecommendationPanel : recommendation ? (
           <article className="recommendation">
             <div><span>Recommended next step</span><h2>{recommendation.title}</h2><p>{recommendation.reason}</p></div>
             <button className="primary" onClick={() => go(recommendation.destination.view, recommendation.destination.moduleId)}>Continue</button>
@@ -59,7 +61,7 @@ export function ProgressHub({
         ) : null}
         {curatedPanel}
       </section>
-      {!hvpEnabled && (Object.keys(store.assessment.activeAttempts).length || Object.keys(store.assessment.results).length) ? (
+      {!curatedEnabled && (Object.keys(store.assessment.activeAttempts).length || Object.keys(store.assessment.results).length) ? (
         <p className="integrity-note">Additional controlled-practice data is stored on this device, but that feature is currently disabled.</p>
       ) : null}
       <section className="hub-section">
@@ -67,7 +69,9 @@ export function ProgressHub({
         <div className="course-progress-grid">
           {courses.map((course, index) => {
             const analytics = courseAnalytics[index];
-            const isHvp = course.id === 'human-visual-perception';
+            const curatedExperience = curatedExperiences.find(
+              (experience) => experience.courseId === course.id,
+            );
             return (
               <article key={course.id}>
                 <span className="course-code">{course.code}</span>
@@ -82,10 +86,10 @@ export function ProgressHub({
                   <div><dt>Best</dt><dd>{displayPercent(analytics.bestPercentage)}</dd></div>
                   <div><dt>Recent average</dt><dd>{displayPercent(analytics.recentAveragePercentage)}</dd></div>
                 </dl>
-                {isHvp ? (
+                {curatedExperience ? (
                   <div className="separate-score-note">
-                    <h4>Curated practice</h4>
-                    <p>{hvpEnabled ? 'Verified evidence is shown in the separately labelled summary above.' : 'Available only when curated practice is enabled.'}</p>
+                    <h4>{curatedExperience.statusLabel}</h4>
+                    <p>Verified evidence is shown in the separately labelled summary above.</p>
                   </div>
                 ) : null}
                 <button className="secondary" onClick={() => go('course', course.id)}>Open course</button>
@@ -115,7 +119,7 @@ export function ProgressHub({
       </section>
       <section className="hub-section">
         <div className="section-heading"><div><h2>Recent quiz and practice activity</h2><p>Reading completion is excluded because reading records have no timestamps.</p></div></div>
-        {hvpEnabled ? curatedActivityPanel : legacyActivity.length ? (
+        {curatedEnabled ? curatedActivityPanel : legacyActivity.length ? (
           <div className="activity-list">{legacyActivity.map((item) => (
             <article key={item.id}>
               <div><strong>{item.label}</strong><span>{item.detail ?? moduleMap.get(item.moduleId)?.title}</span></div>

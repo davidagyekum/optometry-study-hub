@@ -168,3 +168,18 @@ its lazy, compatibility-checked analytics without persisting dashboard state or
 combining curated mastery with legacy Latest/Best scores. Disabling HVP again
 hides the panels but preserves compatible StoreV2 attempts, results, and
 question history. PR 12 does not publish the profile.
+
+## Registry-driven curated analytics
+
+PR 13 adds a generic read-only progress adapter boundary. Practice and Progress
+hubs discover enabled experiences from answer-free registry summaries, while
+each experience's result compatibility, registry construction and
+question-level analytics remain in its lazy module. The shared layer does not
+assume HVP section names, objectives, formats or profile counts.
+
+HVP is the sole production analytics adapter and retains all existing
+inclusion, omission, mastery, recommendation, activity and exact-result
+behavior. Legacy and curated metrics remain separate, Written Practice remains
+**Not scored**, malformed records remain stored but omitted, and no analytics
+state is persisted. Aqueous remains excluded. No storage migration or legacy
+score conversion is introduced.

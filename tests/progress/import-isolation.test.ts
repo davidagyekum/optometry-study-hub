@@ -18,7 +18,11 @@ describe('disabled HVP dashboard import isolation', () => {
       expect(source, path).not.toMatch(/human-visual-perception\/bank|hvp\/registry|hvpAnalytics/);
     });
     const app = readFileSync('app/StudyApp.tsx', 'utf8');
-    expect(app).toContain("import('@/components/progress/HvpProgressPanel')");
+    const registry = readFileSync(
+      'lib/assessment/curated/experienceRegistry.ts',
+      'utf8',
+    );
+    expect(registry).toContain('@/components/progress/HvpProgressPanel');
     expect(app).not.toContain("from '@/components/progress/HvpProgressPanel'");
   });
 });

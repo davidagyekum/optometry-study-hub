@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, type Dispatch, type SetStateAction } from 'react';
+import { type Dispatch, type SetStateAction } from 'react';
 import { humanVisualPerceptionCandidateBank } from '@/content/question-bank/opt374/human-visual-perception/bank';
 import { finalizeGradedAssessmentAttempt } from '@/lib/assessment/grading/finalizeGradedAttempt';
 import {
@@ -68,6 +68,7 @@ import {
 } from '@/lib/assessment/session/errors';
 import type { SessionResult } from '@/lib/assessment/session/types';
 import type { GoToRoute } from '@/hooks/useClientRoute';
+import { useCuratedPractice } from '@/hooks/useCuratedPractice';
 import {
   finalizeAssessmentStore,
   getActiveAssessmentAttempt,
@@ -84,7 +85,6 @@ import type {
 
 const HVP_REGISTRY_RESULT = buildDraftOnlyHvpRegistry();
 
-type TransactionValue<T> = { store: StoreV2; value: T };
 
 export type HvpPracticeRequest = {
   profileId: 'quick' | 'standard' | 'full' | 'targeted' | 'custom' | 'written';
@@ -113,10 +113,7 @@ export function useHvpCuratedPractice({
   setStore: Dispatch<SetStateAction<StoreV2>>;
   go: GoToRoute;
 }) {
-  const latestStoreRef = useRef(store);
-  useEffect(() => {
-    latestStoreRef.current = store;
-  }, [store]);
+  const { latestStoreRef, transact } = useCuratedPractice({ store, setStore });
 
   const registryResult = HVP_REGISTRY_RESULT;
   const registry = registryResult.ok ? registryResult.value : undefined;
@@ -125,16 +122,6 @@ export function useHvpCuratedPractice({
       ? sessionIssue('MALFORMED_QUESTION_BANK', 'HVP registry is unavailable.')
       : registryResult.issues,
   );
-  const transact = <T,>(
-    operation: (latest: StoreV2) => SessionResult<TransactionValue<T>>,
-  ): SessionResult<T> => {
-    const result = operation(latestStoreRef.current);
-    if (!result.ok) return result;
-    latestStoreRef.current = result.value.store;
-    setStore(result.value.store);
-    return sessionSuccess(result.value.value);
-  };
-
   const createPracticeAttempt = (
     request: HvpPracticeRequest = defaultRequest(),
   ): SessionResult<AssessmentAttemptSnapshot> => {

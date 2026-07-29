@@ -19,7 +19,7 @@ describe('progress and practice learner UI', () => {
         store={createEmptyStoreV2()}
         go={vi.fn()}
         startQuiz={vi.fn()}
-        hvpEnabled={false}
+        curatedExperiences={[]}
       />,
     );
     expect(screen.getByRole('heading', { name: 'Practice Hub' })).toBeInTheDocument();
@@ -46,7 +46,7 @@ describe('progress and practice learner UI', () => {
         store={store}
         go={vi.fn()}
         startQuiz={vi.fn()}
-        hvpEnabled={false}
+        curatedExperiences={[]}
       />,
     );
     expect(screen.getByRole('heading', { name: 'Resume active sessions' })).toBeInTheDocument();
@@ -56,7 +56,7 @@ describe('progress and practice learner UI', () => {
   it('renders an honest new-browser Progress Hub and legacy-only module detail', () => {
     const store = createEmptyStoreV2();
     const targetModule = moduleMap.get('aqueous-vitreous')!;
-    const { rerender } = render(<ProgressHub store={store} go={vi.fn()} hvpEnabled={false} />);
+    const { rerender } = render(<ProgressHub store={store} go={vi.fn()} curatedExperiences={[]} />);
     expect(screen.getByRole('heading', { name: 'Progress Hub' })).toBeInTheDocument();
     expect(screen.getByText('No saved activity yet')).toBeInTheDocument();
     expect(screen.getAllByText('—').length).toBeGreaterThan(0);

@@ -6,7 +6,8 @@ import {
   unifiedRecommendation,
 } from '@/lib/progress/curatedRecommendations';
 import { mergeProgressActivity } from '@/lib/progress/activity';
-import { calculateHvpProgress } from '@/lib/progress/hvpAnalytics';
+import { calculateCuratedProgress } from '@/lib/progress/curatedAnalytics';
+import { hvpProgressAdapter } from '@/lib/progress/hvpAnalytics';
 import {
   displayDate,
   displayPercent,
@@ -118,7 +119,7 @@ export function HvpProgressPanel({
   legacyCandidates?: ProgressRecommendation[];
   legacyActivity?: ProgressActivity[];
 }) {
-  const result = calculateHvpProgress(store);
+  const result = calculateCuratedProgress(hvpProgressAdapter, store);
   if (!result.ok) {
     if (variant === 'recommendation') {
       const recommendation = selectRecommendation(legacyCandidates);

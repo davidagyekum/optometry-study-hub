@@ -5,6 +5,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { HvpPracticeUnavailable } from '@/components/assessment/hvp/HvpPracticeUnavailable';
 import { StudyView } from '@/components/study/StudyView';
 import { moduleMap } from '@/content/legacy/moduleCatalog';
+import { curatedExperienceSummaries } from '@/lib/assessment/curated/experienceRegistry';
 
 afterEach(cleanup);
 
@@ -19,24 +20,24 @@ describe('HVP curated-practice UI gate', () => {
       go: vi.fn(),
       startQuiz: vi.fn(),
       openPilot: vi.fn(),
-      openHvpPractice: vi.fn(),
+      openCuratedPractice: vi.fn(),
       pilotEnabled: false,
     };
+    const [hvpExperience] = curatedExperienceSummaries();
     const { rerender } = render(
       <StudyView
         {...props}
-        hvpPracticeEnabled={false}
         module={hvp}
       />,
     );
     expect(screen.queryByText('Curated slide-aligned practice')).not.toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Start 50-question quiz' })).toBeInTheDocument();
 
-    rerender(<StudyView {...props} hvpPracticeEnabled module={hvp} />);
+    rerender(<StudyView {...props} curatedExperience={hvpExperience} module={hvp} />);
     expect(screen.getByText('Curated slide-aligned practice')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Open curated practice' })).toBeInTheDocument();
 
-    rerender(<StudyView {...props} hvpPracticeEnabled module={aqueous} />);
+    rerender(<StudyView {...props} curatedExperience={hvpExperience} module={aqueous} />);
     expect(screen.queryByText('Curated slide-aligned practice')).not.toBeInTheDocument();
   });
 

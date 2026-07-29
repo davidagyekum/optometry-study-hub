@@ -2,6 +2,8 @@ import { humanVisualPerceptionCandidateBank } from '@/content/question-bank/opt3
 import { validateHvpCuratedResult } from '@/lib/assessment/hvp/compatibility';
 import {
   HVP_CURATED_BLUEPRINT_ID,
+  HVP_CURATED_COURSE_ID,
+  HVP_CURATED_MODULE_ID,
   HVP_CURATED_PRACTICE_ID,
 } from '@/lib/assessment/hvp/config';
 import { HVP_WRITTEN_BLUEPRINT_ID } from '@/lib/assessment/hvp/practiceBlueprint';
@@ -16,6 +18,7 @@ import {
 import type { QuestionRegistry } from '@/lib/assessment/session/registry';
 import type { AssessmentGradingReport } from '@/lib/assessment/grading/types';
 import { sortProgressActivity } from '@/lib/progress/activity';
+import type { CuratedProgressDataAdapter } from '@/lib/progress/curatedAnalytics';
 import { accuracyPercentage, groupMastery, questionMastery } from '@/lib/progress/mastery';
 import type {
   CompatibleCuratedResult,
@@ -411,5 +414,15 @@ export function calculateHvpProgress(
     },
   };
 }
+
+export const hvpProgressAdapter: CuratedProgressDataAdapter<
+  Extract<HvpProgressResult, { ok: true }>['summary'],
+  Extract<HvpProgressResult, { ok: false }>['issues'][number]
+> = {
+  experienceId: 'human-visual-perception',
+  courseId: HVP_CURATED_COURSE_ID,
+  moduleId: HVP_CURATED_MODULE_ID,
+  calculate: calculateHvpProgress,
+};
 
 export { HVP_CURATED_PRACTICE_ID };
