@@ -272,3 +272,24 @@ The corresponding practice/progress, incremental, combined and largest-asset
 metrics are stored exactly in `lib/release/budgets.ts`. Each receives the
 standard ten-per-cent derived ceiling. The measurement-only temporary ceilings
 were replaced rather than retained.
+## Autonomic Pharmacology preview baseline
+
+The clean source-bound build for the non-publishable `autonomic-pharmacology-preview` profile measured the default-disabled 80-question bank behind independent lazy practice and progress boundaries:
+
+| Metric | Autonomic Pharmacology preview |
+|---|---:|
+| Total output | 8,866,345 bytes |
+| Client JavaScript | 1,971,237 bytes |
+| Initial Home JavaScript | 509,145 bytes |
+| Disabled Practice Hub JavaScript | 509,145 bytes |
+| Disabled Progress Hub JavaScript | 509,145 bytes |
+| Enabled Practice Hub JavaScript | 856,865 bytes |
+| Enabled Progress Hub JavaScript | 856,865 bytes |
+| Incremental controlled HVP JavaScript | 427,837 bytes |
+| Incremental HVP analytics JavaScript | 347,720 bytes |
+| Combined incremental HVP JavaScript | 450,027 bytes |
+| Largest emitted asset | 631,819 bytes |
+| Output files | 183 |
+| Observed build duration | 7,477 ms |
+
+The generic audit verified initial/server answer isolation, the Pharmacology practice and progress closures, cross-bank exclusion and shared-chunk de-duplication. Exact measured bytes receive the standard ten-per-cent headroom; duration remains observational. The profile is preview-only and cannot produce a publishable Sites manifest.
