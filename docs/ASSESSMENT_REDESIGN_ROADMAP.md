@@ -86,3 +86,9 @@ backend, analytics service, account, deployment or next content bank is added.
 ## Ocular Adnexa curated-practice checkpoint
 
 The default-disabled `ocular-adnexa` experience adds an 80-question OPT 376 draft bank, 18 draft objectives, eight sources and five original SVG diagrams through the generic PR 13 platform. The legacy 50-question quiz and all storage identities remain unchanged. The next checkpoint begins only after this focused branch passes review and is squash-merged.
+
+## Aqueous and Vitreous full curated-practice checkpoint
+
+Starting from merged Ocular Adnexa commit `c88e06c50d4bb54addeed86cad2131f2c09d50ad`, this checkpoint expands the canonical Aqueous/Vitreous bank from 36 to 80 draft questions without modifying the original 36 objects, 13 objective identities or nine pilot semantic hashes. Four original neutral SVGs support the full curated experience.
+
+The separate `aqueous-vitreous-curated` adapter remains default-disabled and lazy. Quick 10, Standard 25 and Full 50 enforce exact section, format and difficulty contracts across 1,000 deterministic seeds each; Custom, targeted and manual-only Written modes use the shared platform. The legacy quiz, engineering pilot, StoreV2, HVP, Tissue and Ocular identities remain unchanged. This focused checkpoint does not deploy.

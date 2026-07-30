@@ -33,7 +33,7 @@ describe('review submission merging', () => {
           .map((reviewer) => pack(reviewer.id, manifest)),
       });
       expect(result.issues).toEqual([]);
-      expect(result.merged?.submissions).toHaveLength(338 * count);
+      expect(result.merged?.submissions).toHaveLength(741 * count);
       expect(result.merged?.sourcePacks).toHaveLength(count);
       expect(result.merged?.campaignHash).toBe(manifest.campaignHash);
       expect(result.merged?.mergedHash).toBe(

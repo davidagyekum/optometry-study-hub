@@ -25,7 +25,7 @@ This audit records how PR 7 handled claims before authoring draft questions. It 
 
 ## Image-rights review
 
-The candidate bank reuses only two existing local module figures: the course site’s attributed OpenStax/educational anterior-segment image and the existing National Eye Institute vitreous image. Both remain draft question assets. Their neutral alternative text and interaction labels do not reveal answers. Coordinate review is required again before academic approval and after any source-image replacement.
+The expanded bank uses four original answer-neutral SVG diagrams for chamber flow, conventional outflow, IOP determinants and vitreous attachments. Each has descriptive alternative text, fixed dimensions and normalized interaction coordinates. No slide artwork was copied, and no diagram embeds the correct response.
 
 ## Registered external sources
 
@@ -38,6 +38,6 @@ The candidate bank reuses only two existing local module figures: the course sit
 - [OpenStax Biology 2e: Vision](https://openstax.org/books/biology-2e/pages/36-5-vision)
 ## Review follow-up
 
-Image candidates continue to use only existing attributed module assets. The generated expert dossier records the path, dimensions, alternative text, normalized coordinates, source candidates, and a current pending expert-confirmation rights status. OpenStax/course-attributed anterior-segment assets and the National Eye Institute vitreous asset remain draft-only; reuse basis and coordinates must be confirmed before approval.
+The generated expert dossier records each original SVG path, dimensions, alternative text, normalized coordinates and registered evidence sources. Coordinates and accessibility text must be independently checked before any future review-status transition.
 
 The follow-up corrected all detected encoding corruption, preserved qualified variable values (including 98–99% vitreous water), and did not broaden the source boundary or alter the live notes.

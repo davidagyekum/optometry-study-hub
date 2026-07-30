@@ -11,6 +11,8 @@ export const RELEASE_FLAG_NAMES = {
     'NEXT_PUBLIC_ENABLE_TISSUE_FOUNDATIONS_CURATED_PRACTICE',
   ocularAdnexaCuratedPractice:
     'NEXT_PUBLIC_ENABLE_OCULAR_ADNEXA_CURATED_PRACTICE',
+  aqueousVitreousCuratedPractice:
+    'NEXT_PUBLIC_ENABLE_AQUEOUS_VITREOUS_CURATED_PRACTICE',
 } as const;
 
 export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
@@ -19,24 +21,28 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     hvpCuratedPractice: false,
     tissueFoundationsCuratedPractice: false,
     ocularAdnexaCuratedPractice: false,
+    aqueousVitreousCuratedPractice: false,
   },
   'hvp-public-beta': {
     assessmentPilot: false,
     hvpCuratedPractice: true,
     tissueFoundationsCuratedPractice: false,
     ocularAdnexaCuratedPractice: false,
+    aqueousVitreousCuratedPractice: false,
   },
   'tissue-foundations-preview': {
     assessmentPilot: false,
     hvpCuratedPractice: false,
     tissueFoundationsCuratedPractice: true,
     ocularAdnexaCuratedPractice: false,
+    aqueousVitreousCuratedPractice: false,
   },
   'hvp-tissue-preview': {
     assessmentPilot: false,
     hvpCuratedPractice: true,
     tissueFoundationsCuratedPractice: true,
     ocularAdnexaCuratedPractice: false,
+    aqueousVitreousCuratedPractice: false,
   },
 };
 
@@ -85,6 +91,10 @@ export function releaseFlagsFromEnvironment(
       RELEASE_FLAG_NAMES.ocularAdnexaCuratedPractice,
       environment[RELEASE_FLAG_NAMES.ocularAdnexaCuratedPractice],
     ),
+    aqueousVitreousCuratedPractice: parseReleaseFlag(
+      RELEASE_FLAG_NAMES.aqueousVitreousCuratedPractice,
+      environment[RELEASE_FLAG_NAMES.aqueousVitreousCuratedPractice],
+    ),
   };
 }
 
@@ -105,6 +115,8 @@ export function assertReleaseProfile(
       !== expected.tissueFoundationsCuratedPractice
     || flags.ocularAdnexaCuratedPractice
       !== expected.ocularAdnexaCuratedPractice
+    || flags.aqueousVitreousCuratedPractice
+      !== expected.aqueousVitreousCuratedPractice
   ) {
     throw new ReleaseProfileError(
       `Release profile ${profile} does not match its required feature flags.`,
@@ -126,6 +138,8 @@ export function environmentForReleaseProfile(
       String(flags.tissueFoundationsCuratedPractice),
     [RELEASE_FLAG_NAMES.ocularAdnexaCuratedPractice]:
       String(flags.ocularAdnexaCuratedPractice),
+    [RELEASE_FLAG_NAMES.aqueousVitreousCuratedPractice]:
+      String(flags.aqueousVitreousCuratedPractice),
     OPTOMETRY_RELEASE_PROFILE: profile,
   };
 }

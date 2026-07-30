@@ -1,0 +1,18 @@
+{
+  "quick": {
+    "count": 10,
+    "sections": [2, 2, 2, 2, 1, 1]
+  },
+  "standard": {
+    "count": 25,
+    "sections": [4, 4, 5, 4, 4, 4]
+  },
+  "full": {
+    "count": 50,
+    "sections": [7, 8, 9, 9, 8, 9]
+  },
+  "written": {
+    "count": 2,
+    "format": "open_response"
+  }
+}

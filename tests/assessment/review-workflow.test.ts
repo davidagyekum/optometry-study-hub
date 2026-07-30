@@ -18,8 +18,8 @@ describe("Aiken's V", () => {
   });
   it('builds the complete expected matrix for zero, one, two, and three reviewers', () => {
     const empty = summarizeAikenRatings(aqueousVitreousCandidateBank, []);
-    expect(empty.coverage).toMatchObject({ applicableCriterionCount: 338, ratedCriterionCount: 0, unratedCriterionCount: 338, uniqueReviewerCount: 0, questionsWithRatings: 0 });
-    expect(empty.values).toHaveLength(338); expect(empty.questionValues).toHaveLength(36); expect(empty.warnings.every((issue) => issue.code === 'NO_REVIEW_RATINGS')).toBe(true);
+    expect(empty.coverage).toMatchObject({ applicableCriterionCount: 741, ratedCriterionCount: 0, unratedCriterionCount: 741, uniqueReviewerCount: 0, questionsWithRatings: 0 });
+    expect(empty.values).toHaveLength(741); expect(empty.questionValues).toHaveLength(80); expect(empty.warnings.every((issue) => issue.code === 'NO_REVIEW_RATINGS')).toBe(true);
     for (const count of [1, 2, 3]) {
       const rows = Array.from({ length: count }, (_, index) => stringRow({ reviewerId: `reviewer-${String.fromCharCode(97 + index)}`, rating: index === 2 ? '4' : '5' }));
       const parsed = parseAikenRatings(csv(...rows), aqueousVitreousCandidateBank); expect(parsed.issues).toEqual([]);
@@ -89,14 +89,14 @@ describe('review CSV integrity and reviewer identity', () => {
 });
 
 describe('self-contained expert review dossier', () => {
-  it('is deterministic, contains 338 applicable rows, and retains evidence hashes', () => {
+  it('is deterministic, contains 741 applicable rows, and retains evidence hashes', () => {
     const first = buildReviewPackRows(aqueousVitreousCandidateBank); const second = buildReviewPackRows(aqueousVitreousCandidateBank);
-    expect(reviewRowsToCsv(first)).toBe(reviewRowsToCsv(second)); expect(first).toHaveLength(338); expect(new Set(first.map((entry) => entry.questionHash)).size).toBe(36);
+    expect(reviewRowsToCsv(first)).toBe(reviewRowsToCsv(second)); expect(first).toHaveLength(741); expect(new Set(first.map((entry) => entry.questionHash)).size).toBe(80);
     for (const reviewRow of first) { const question = aqueousVitreousCandidateBank.questions.find((item) => item.id === reviewRow.questionId)!; expect(applicableCriteria(question.format).map((criterion) => criterion.id)).toContain(reviewRow.criterion); expect(reviewRow.reviewerId).toBe(''); expect(reviewRow.rating).toBe(''); }
   });
   it('contains complete question structures, objectives, sources, answers, and criterion evidence', () => {
     const dossier = buildReviewDossier(aqueousVitreousCandidateBank) as { questions: { question: typeof aqueousVitreousCandidateBank.questions[number]; objective: { statement: string }; sources: SourceReference[]; applicableCriteria: { id: string; definition?: string; evidence: object }[]; imageAudit?: { rightsStatus: string } }[] };
-    expect(dossier.questions).toHaveLength(36);
+    expect(dossier.questions).toHaveLength(80);
     for (const item of dossier.questions) {
       expect(item.question.stem).toBeDefined(); expect(item.question.explanation).toBeTruthy(); expect(item.objective.statement).toBeTruthy(); expect(item.sources.every((source) => source.title)).toBe(true);
       for (const criterion of applicableCriteria(item.question.format)) {

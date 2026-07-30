@@ -2,15 +2,15 @@
 
 ## Verified state
 
-- PR 13 is merged; PR 14 exact base commit: `443c638de39985bc566436f443ef596aa184f6b6`
+- PR 16 Ocular Adnexa is merged; Aqueous/Vitreous checkpoint exact base commit: `c88e06c50d4bb54addeed86cad2131f2c09d50ad`
 - Courses: 5
 - Modules: 8
 - Study sections: 39
 - Live legacy-generated questions: 400, with 50 questions per module
 - Current persistence key: `optometry-study-hub:v2`
 - Rollback key retained after migration: `opt376-study-state:v1`
-- Canonical Aqueous and Vitreous candidate bank: 36 draft questions across 6 sections and 13 objectives
-- Assessment pilot: the exact 9 engineering questions, derived from the canonical bank
+- Canonical Aqueous and Vitreous candidate bank: 80 draft questions across 6 sections and 13 objectives; the original 36 remain byte-order compatible
+- Assessment pilot: the exact 9 engineering questions, derived by stable ID with unchanged semantic hashes
 - Canonical OPT 374 Human Visual Perception bank: 120 draft questions, 23 objectives, and 19 sources
 - HVP curated practice: reviewed public-beta behavior is unchanged
 - Canonical OPT 376 Tissue Foundations bank: 80 draft questions, 18 objectives, 10 sources, and 4 SVG assessment diagrams
@@ -102,14 +102,14 @@ The canonical source of truth is `content/question-bank/opt376/aqueous-vitreous/
 Question validation and reporting now use the canonical bank. `questions:blueprint` enforces the declared distribution and minimum objective coverage. `questions:review-pack` exports blank, applicable expert-review criteria, and `questions:aiken` validates real 1–5 ratings and reports Aiken’s V without mutating review status. No expert ratings have been collected, no item is academically approved, and the live 400-question quiz and browser storage contracts are unchanged.
 ## PR 7 review correction state
 
-The 36-question Aqueous and Vitreous candidate bank remains draft-only and the exact nine-question pilot remains disabled by default. The expert export now generates a 338-row evidence-bound CSV plus complete Markdown/JSON item dossiers. No real reviewer identity, rating, reviewed status, or approved status is present. Aiken reporting uses only `overall-content-validity` for per-question V and reports the full applicable/rated/unrated matrix. The learner-facing application, StoreV2, legacy 400-question bank, and pilot feature gate are unchanged.
+The expanded 80-question Aqueous and Vitreous candidate bank remains draft-only and the exact nine-question pilot remains disabled by default. The expert export now generates a 741-row evidence-bound CSV plus complete Markdown/JSON item dossiers. No real reviewer identity, rating, reviewed status, or approved status is present. Aiken reporting uses only `overall-content-validity` for per-question V and reports the full applicable/rated/unrated matrix. The learner-facing application, StoreV2, legacy 400-question bank, and pilot feature gate are unchanged.
 ## Final PR 7 review isolation correction
 
-The disabled nine-question pilot is assembled directly from `questions/preservedPilot.ts`, filtered objectives, and filtered registered sources. Its import graph does not reach `bank.ts` or any of the 27 hidden candidate-question modules. The canonical 36-question authoring bank remains available only to authoring, validation, blueprint, and expert-review tooling.
+The disabled nine-question pilot is assembled directly from `questions/preservedPilot.ts`, filtered objectives, and filtered registered sources. Its import graph does not reach `bank.ts` or any non-pilot curated question module. The canonical 80-question authoring bank remains behind the separate default-disabled curated experience and authoring/review tooling.
 
 ## PR 8 operational expert-review workflow
 
-The repository can create evidence-bound campaigns, prefill one 338-row pack per registered reviewer, merge validated packs in deterministic order, preserve comment-only evidence, analyze criterion-specific Aiken values, generate stable issues, validate resolutions and chair decisions, export a bank snapshot, and verify a future status transition. Generated output is ignored and no campaign module is imported by the browser application. All current questions and objectives remain draft, no real ratings or identities are committed, and the pilot feature flag remains false.
+The repository can create evidence-bound campaigns, prefill one 741-row pack per registered reviewer, merge validated packs in deterministic order, preserve comment-only evidence, analyze criterion-specific Aiken values, generate stable issues, validate resolutions and chair decisions, export a bank snapshot, and verify a future status transition. Generated output is ignored and no campaign module is imported by the browser application. All current questions and objectives remain draft, no real ratings or identities are committed, and the pilot feature flag remains false.
 
 
 ## PR 8 review hardening
@@ -185,7 +185,7 @@ open an exact historical result.
 PR 11 is merged and PR 12 is the current draft release phase. Committed feature
 defaults remain false. The intended reviewed HVP public-beta artifact uses
 Aqueous false and HVP true, but production HVP has not been published during
-this draft PR. All 36 Aqueous questions, 13 Aqueous objectives, 120 HVP
+this draft PR. All 80 Aqueous questions, 13 Aqueous objectives, 120 HVP
 questions, and 23 HVP objectives remain draft.
 
 Release tooling now validates content identity, storage compatibility, exact
@@ -255,3 +255,9 @@ Tissue 50-question quiz and its Latest/Best scores. HVP behavior and checksum,
 the Aqueous pilot and hashes, both storage keys, five courses, eight modules,
 39 sections and 400 legacy questions remain unchanged. No question status,
 backend, analytics service, account, deployment or next content bank is added.
+
+## Aqueous and Vitreous curated-practice checkpoint
+
+The default-disabled `aqueous-vitreous-curated` experience expands the canonical OPT 376 bank from 36 to 80 draft questions while preserving the first 36 objects, all 13 objective identities and the exact nine engineering-pilot semantic hashes. It adds four original answer-neutral SVGs and uses the generic curated platform for Quick 10, Standard 25, Full 50, Custom 5-50, targeted 10 and manual-only Written 2 sessions.
+
+The curated route is `/practice/aqueous-vitreous-curated`, the automatic blueprint is `opt376-aqueous-vitreous-curated-v1`, and the written blueprint is `opt376-aqueous-vitreous-written-v1`. Both `NEXT_PUBLIC_ENABLE_AQUEOUS_VITREOUS_CURATED_PRACTICE` and `NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT` remain false by default. Curated Aqueous progress is module-scoped and excludes pilot, legacy and incompatible records without rewriting StoreV2.

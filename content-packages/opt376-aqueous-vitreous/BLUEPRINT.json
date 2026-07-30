@@ -1,0 +1,49 @@
+{
+  "id": "aqueous-vitreous-candidate-v1",
+  "bankId": "aqueous-vitreous-candidate",
+  "totalQuestions": 80,
+  "sectionTargets": {
+    "media-chambers": 12,
+    "production": 13,
+    "flow": 15,
+    "iop": 14,
+    "vitreous-anatomy": 13,
+    "vitreous-clinical": 13
+  },
+  "formatTargets": {
+    "single_best_answer": 26,
+    "true_false": 6,
+    "multiple_response": 10,
+    "ordering": 7,
+    "matching": 9,
+    "extended_matching": 7,
+    "image_hotspot": 5,
+    "image_label": 4,
+    "short_answer": 4,
+    "open_response": 2
+  },
+  "bloomTargets": {
+    "remember": 10,
+    "understand": 17,
+    "apply": 32,
+    "analyze": 14,
+    "evaluate": 6,
+    "create": 1
+  },
+  "difficultyTargets": {
+    "foundation": 21,
+    "intermediate": 41,
+    "advanced": 18
+  },
+  "stimulusTargets": {
+    "text": 13,
+    "diagram": 9,
+    "table": 7,
+    "clinical_vignette": 20,
+    "pathway": 10,
+    "comparison": 12,
+    "error_analysis": 9
+  },
+  "minimumHigherOrderShare": 0.6625,
+  "minimumQuestionsPerObjective": 2
+}

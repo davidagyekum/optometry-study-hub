@@ -216,3 +216,7 @@ backend, analytics service, account, deployment or next content bank is added.
 ## Ocular Adnexa progress boundary
 
 When enabled, the Ocular Adnexa progress adapter contributes only compatible current-version curated evidence for module `ocular-adnexa`. It does not combine curated outcomes with legacy Latest/Best scores, and malformed or incompatible assessment snapshots remain isolated without rewriting StoreV2.
+
+## Aqueous and Vitreous curated progress boundary
+
+When `NEXT_PUBLIC_ENABLE_AQUEOUS_VITREOUS_CURATED_PRACTICE=true`, the Aqueous/Vitreous progress adapter contributes only compatible current-version results and attempts for experience `aqueous-vitreous-curated`. It excludes the nine-question engineering pilot, legacy quiz scores, manual Written results from scored aggregates, malformed records and other experiences. Disabling the adapter removes its contribution without deleting or rewriting StoreV2 data.

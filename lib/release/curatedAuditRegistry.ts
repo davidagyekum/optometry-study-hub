@@ -118,6 +118,83 @@ function tissueMarkers() {
   return { authored, answers };
 }
 
+function moduleMarkers(
+  path: string,
+  sectionIds: readonly string[],
+  label: string,
+) {
+  const bank = JSON.parse(readFileSync(path, 'utf8')) as {
+    questions: BankQuestion[];
+  };
+  const authored = sectionIds.flatMap((sectionId) => {
+    const question = bank.questions.find((candidate) => (
+      candidate.sectionId === sectionId && candidate.stem.length > 35
+    ));
+    if (!question) {
+      throw new Error(`${label} marker question is missing for ${sectionId}.`);
+    }
+    return [question.stem, question.explanation];
+  });
+  const formats = [
+    'single_best_answer',
+    'multiple_response',
+    'matching',
+    'extended_matching',
+    'ordering',
+    'image_hotspot',
+    'image_label',
+  ];
+  const answers = formats.flatMap((format) => {
+    const question = bank.questions.find(
+      (candidate) => candidate.format === format,
+    );
+    if (!question) {
+      throw new Error(`${label} answer marker question is missing for ${format}.`);
+    }
+    return [
+      ...(question.correctOptionId ? [question.correctOptionId] : []),
+      ...(question.correctOptionIds ?? []),
+      ...(question.correctOrder ?? []),
+      ...(question.correctRegionIds ?? []),
+      ...Object.values(question.correctMatches ?? {}),
+      ...Object.values(question.correctAnswers ?? {}),
+      ...Object.values(question.correctLabels ?? {}),
+    ];
+  }).filter(
+    (value, index, values) => value.length > 5 && values.indexOf(value) === index,
+  ).slice(0, 12);
+  return { authored, answers };
+}
+
+function ocularAdnexaMarkers() {
+  return moduleMarkers(
+    'content/question-bank/opt376/ocular-adnexa/bank.json',
+    [
+      'landmarks',
+      'muscles',
+      'tarsus-glands',
+      'lower-lid-blood',
+      'lacrimal-gland',
+      'tears',
+    ],
+    'Ocular Adnexa',
+  );
+}
+
+function aqueousCuratedMarkers() {
+  return moduleMarkers(
+    'content/question-bank/opt376/aqueous-vitreous/bank.json',
+    [
+      'media-chambers',
+      'production',
+      'flow',
+      'iop',
+      'vitreous-anatomy',
+      'vitreous-clinical',
+    ],
+    'Aqueous and Vitreous',
+  );
+}
 function aqueousMarkers(): string[] {
   return aqueousVitreousCandidateBank.questions.slice(0, 3).flatMap(
     (question) => [question.stem, question.explanation],
@@ -136,6 +213,10 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     allowedCrossBankMarkers: () => [],
     excludedCrossBankMarkers: () => [
       ...aqueousMarkers(),
+      ...aqueousCuratedMarkers().authored,
+      ...aqueousCuratedMarkers().answers,
+      ...ocularAdnexaMarkers().authored,
+      ...ocularAdnexaMarkers().answers,
       ...tissueMarkers().authored,
       ...tissueMarkers().answers,
     ],
@@ -157,6 +238,10 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     allowedCrossBankMarkers: () => [],
     excludedCrossBankMarkers: () => [
       ...aqueousMarkers(),
+      ...aqueousCuratedMarkers().authored,
+      ...aqueousCuratedMarkers().answers,
+      ...ocularAdnexaMarkers().authored,
+      ...ocularAdnexaMarkers().answers,
       ...hvpMarkers().authored,
       ...hvpMarkers().answers,
     ],
@@ -164,5 +249,44 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
       profile === 'tissue-foundations-preview'
       || profile === 'hvp-tissue-preview'
     ),
+  }),
+  Object.freeze({
+    experienceId: 'ocular-adnexa',
+    practiceEntry: 'lib/assessment/ocular-adnexa/definition.tsx',
+    progressEntry: 'lib/progress/ocularAdnexaProgressModule.tsx',
+    authoredContentMarkers: () => ocularAdnexaMarkers().authored,
+    answerIdentityMarkers: () => ocularAdnexaMarkers().answers,
+    practiceUiMarkers: ['Curated slide-aligned practice', 'Quick practice'],
+    progressUiMarkers: ['Current-version mastery', 'Written practice'],
+    allowedCrossBankMarkers: () => [],
+    excludedCrossBankMarkers: () => [
+      ...aqueousMarkers(),
+      ...aqueousCuratedMarkers().authored,
+      ...aqueousCuratedMarkers().answers,
+      ...hvpMarkers().authored,
+      ...hvpMarkers().answers,
+      ...tissueMarkers().authored,
+      ...tissueMarkers().answers,
+    ],
+    enabledInProfile: () => false,
+  }),
+  Object.freeze({
+    experienceId: 'aqueous-vitreous-curated',
+    practiceEntry: 'lib/assessment/aqueous-vitreous-curated/definition.tsx',
+    progressEntry: 'lib/progress/aqueousVitreousCuratedProgressModule.tsx',
+    authoredContentMarkers: () => aqueousCuratedMarkers().authored,
+    answerIdentityMarkers: () => aqueousCuratedMarkers().answers,
+    practiceUiMarkers: ['Curated slide-aligned practice', 'Quick practice'],
+    progressUiMarkers: ['Current-version mastery', 'Written practice'],
+    allowedCrossBankMarkers: () => [],
+    excludedCrossBankMarkers: () => [
+      ...hvpMarkers().authored,
+      ...hvpMarkers().answers,
+      ...tissueMarkers().authored,
+      ...tissueMarkers().answers,
+      ...ocularAdnexaMarkers().authored,
+      ...ocularAdnexaMarkers().answers,
+    ],
+    enabledInProfile: () => false,
   }),
 ]);

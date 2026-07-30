@@ -18,7 +18,7 @@ import {
 
 describe('curated-experience registry', () => {
   it('contains safe discovery metadata for every production adapter', () => {
-    expect(curatedExperienceRegistry).toHaveLength(3);
+    expect(curatedExperienceRegistry).toHaveLength(4);
     expect(curatedExperienceSummaries()).toEqual([
       expect.objectContaining({
         experienceId: 'human-visual-perception',
@@ -52,7 +52,17 @@ describe('curated-experience registry', () => {
         ],
         enabled: false,
       }),
-    ]);
+      expect.objectContaining({
+        experienceId: 'aqueous-vitreous-curated',
+        courseId: 'neuro-anatomy',
+        moduleId: 'aqueous-vitreous',
+        routeSegment: 'aqueous-vitreous-curated',
+        blueprintIds: [
+          'opt376-aqueous-vitreous-curated-v1',
+          'opt376-aqueous-vitreous-written-v1',
+        ],
+        enabled: false,
+      }),    ]);
   });
 
   it.each([
@@ -121,7 +131,7 @@ describe('curated-experience registry', () => {
     expect(summaryForModule('dummy-module', [dummyCuratedSummary])).toEqual(
       dummyCuratedSummary,
     );
-    expect(curatedExperienceRegistry).toHaveLength(3);
+    expect(curatedExperienceRegistry).toHaveLength(4);
   });
 
   it('does not invoke answer-bearing loaders during registry discovery', () => {

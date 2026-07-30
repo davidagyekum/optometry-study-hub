@@ -16,25 +16,25 @@ import {
 } from './reviewTestFixtures';
 
 describe('reviewer-specific packs', () => {
-  it('contains the exact immutable 338-row evidence matrix', () => {
+  it('contains the exact immutable 741-row evidence matrix', () => {
     const manifest = syntheticCampaign();
     const rows = campaignReviewRows(
       manifest,
       reviewTestContext.bank,
       'reviewer-a',
     );
-    expect(rows).toHaveLength(338);
+    expect(rows).toHaveLength(741);
     expect(rows.every((row) => row.reviewerId === 'reviewer-a')).toBe(true);
     expect(rows.every((row) => row.campaignHash === manifest.campaignHash)).toBe(true);
     expect(rows.every((row) => row.rating === '' && row.comment === '')).toBe(true);
-    expect(new Set(rows.map((row) => row.questionHash)).size).toBe(36);
+    expect(new Set(rows.map((row) => row.questionHash)).size).toBe(80);
   });
 
   it('keeps the complete expert dossier alongside campaign packs', () => {
     const dossier = buildReviewDossier(reviewTestContext.bank) as {
       questions: Array<{ question: { id: string }; objective: object; sources: object[] }>;
     };
-    expect(dossier.questions).toHaveLength(36);
+    expect(dossier.questions).toHaveLength(80);
     expect(
       dossier.questions.every(
         (item) => item.objective && item.sources.length > 0,
@@ -63,7 +63,7 @@ describe('reviewer-pack validation', () => {
       manifest,
     );
     expect(complete.issues).toEqual([]);
-    expect(complete.submissions).toHaveLength(338);
+    expect(complete.submissions).toHaveLength(741);
     expect(complete.packHash).toMatch(/^[a-f0-9]{64}$/);
 
     const comment = 'Line one, with “quotes”\nLine two: Δ and ×';

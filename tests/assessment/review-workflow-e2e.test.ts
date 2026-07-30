@@ -35,7 +35,7 @@ describe('review campaign end-to-end workflow', () => {
       merged: merged.merged!,
       policy: reviewTestContext.policy,
     });
-    expect(analysis.summary.readyForHumanDecision).toBe(36);
+    expect(analysis.summary.readyForHumanDecision).toBe(80);
     const bundle = createEvidenceBundle({
       manifest,
       merged: merged.merged!,
@@ -102,8 +102,8 @@ describe('current repository invariants remain outside review tooling', () => {
     expect(modules.reduce((sum, module) => sum + module.sections.length, 0)).toBe(39);
     expect(modules.every((module) => module.facts.length === 50)).toBe(true);
     expect(modules.reduce((sum, module) => sum + module.facts.length, 0)).toBe(400);
-    expect(aqueousVitreousCandidateBank.questions).toHaveLength(36);
-    expect(aqueousVitreousCandidateBank.questions.length - aqueousVitreousPilotBank.questions.length).toBe(27);
+    expect(aqueousVitreousCandidateBank.questions).toHaveLength(80);
+    expect(aqueousVitreousCandidateBank.questions.length - aqueousVitreousPilotBank.questions.length).toBe(71);
     expect(aqueousVitreousPilotBank.questions).toHaveLength(9);
     expect(aqueousVitreousCandidateBank.objectives).toHaveLength(13);
   });

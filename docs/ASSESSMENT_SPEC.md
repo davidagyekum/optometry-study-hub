@@ -33,7 +33,7 @@ The schema supports:
 - short answer with explicit normalization;
 - open response with a non-automatic rubric.
 
-The canonical Aqueous and Vitreous candidate bank contains 36 draft questions; the controlled pilot derives the exact original nine examples, one per format, by stable ID. These examples are not registered with the live quiz. PR 6 may register them only through a clearly named draft-only registry inside an exact-string, default-disabled pilot boundary.
+The canonical Aqueous and Vitreous candidate bank contains 80 draft questions; its first 36 preserve the original bank objects and the controlled pilot derives the exact original nine examples, one per format, by stable ID and unchanged semantic hash. The pilot remains separate from the legacy quiz and the default-disabled full curated experience.
 Image-hotspot regions separate interactionLabel and neutral marker (used before submission) from the anatomical label (feedback only). Validation rejects duplicate markers/interaction labels and interaction text that repeats the answer label.
 
 Image-labelling answers are one-to-one: every declared target maps to one existing label, and each label may appear at most once in `correctLabels`. The persisted response contract also prohibits label reuse, so an authored correct answer is always representable by a valid response.

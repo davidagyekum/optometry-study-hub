@@ -25,6 +25,9 @@ export const EXPECTED_TISSUE_CHECKSUM =
 export const EXPECTED_OCULAR_ADNEXA_CHECKSUM =
   'fe96d664bdad67b40a4711332612e59e26a2b5a2c3844aae279dc71f662ecb9f';
 
+export const EXPECTED_AQUEOUS_VITREOUS_CHECKSUM =
+  '97c1bc76cbae20681b1c4494bb7d35d282420f8c03a9181927720e024ae9dccb';
+
 export const EXPECTED_AQUEOUS_PILOT_HASHES: Record<string, string> = {
   'aqueous-flow-sba-001': 'fd062b040d1f52b25797007ba5e0c2abbbacb98d4c8903c0c988ea566fd8b0f4',
   'aqueous-production-mr-001': '778fe8252688ff8e131932b2c6e16c56552688ae08ddea12f74863e50ff42658',
@@ -75,12 +78,20 @@ export function ocularAdnexaChecksum(): string {
     .digest('hex');
 }
 
+export function aqueousVitreousChecksum(): string {
+  return createHash('sha256')
+    .update(readFileSync(
+      'content/question-bank/opt376/aqueous-vitreous/bank.json',
+    ))
+    .digest('hex');
+}
+
 export function trackedEnabledReleaseEnvironmentFiles(): string[] {
   const files = execFileSync('git', ['ls-files', '--', '.env*', '*.env'], {
     cwd: process.cwd(),
     encoding: 'utf8',
   }).split(/\r?\n/).filter(Boolean);
-  return files.filter((file) => /NEXT_PUBLIC_ENABLE_(?:ASSESSMENT_PILOT|HVP_CURATED_PRACTICE|TISSUE_FOUNDATIONS_CURATED_PRACTICE|OCULAR_ADNEXA_CURATED_PRACTICE)=true/.test(
+  return files.filter((file) => /NEXT_PUBLIC_ENABLE_(?:ASSESSMENT_PILOT|HVP_CURATED_PRACTICE|TISSUE_FOUNDATIONS_CURATED_PRACTICE|OCULAR_ADNEXA_CURATED_PRACTICE|AQUEOUS_VITREOUS_CURATED_PRACTICE)=true/.test(
     readFileSync(file, 'utf8'),
   ));
 }
@@ -113,6 +124,11 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
       ? [question.image.src]
       : []),
   )).size;
+  const aqueousVitreousSvgCount = new Set(aqueousVitreousCandidateBank.questions.flatMap(
+    (question) => ('image' in question && question.image.src.endsWith('.svg')
+      ? [question.image.src]
+      : []),
+  )).size;
   const envExample = readFileSync('.env.example', 'utf8');
   const pilotHashes = aqueousPilotHashes();
 
@@ -128,9 +144,20 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
     ),
     assertion(
       'aqueous-content',
-      aqueousVitreousCandidateBank.questions.length === 36
-        && aqueousVitreousCandidateBank.objectives.length === 13,
-      `${aqueousVitreousCandidateBank.questions.length} questions; ${aqueousVitreousCandidateBank.objectives.length} objectives`,
+      aqueousVitreousCandidateBank.questions.length === 80
+        && aqueousVitreousCandidateBank.objectives.length === 13
+        && aqueousVitreousCandidateBank.sources.length === 8,
+      `${aqueousVitreousCandidateBank.questions.length} questions; ${aqueousVitreousCandidateBank.objectives.length} objectives; ${aqueousVitreousCandidateBank.sources.length} sources`,
+    ),
+    assertion(
+      'aqueous-svg-assets',
+      aqueousVitreousSvgCount === 4,
+      `${aqueousVitreousSvgCount} unique SVG diagrams`,
+    ),
+    assertion(
+      'aqueous-checksum',
+      aqueousVitreousChecksum() === EXPECTED_AQUEOUS_VITREOUS_CHECKSUM,
+      `SHA-256 ${aqueousVitreousChecksum()}`,
     ),
     assertion(
       'aqueous-pilot',
@@ -175,7 +202,8 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
       'ocular-adnexa-checksum',
       ocularAdnexaChecksum() === EXPECTED_OCULAR_ADNEXA_CHECKSUM,
       `SHA-256 ${ocularAdnexaChecksum()}`,
-    ),    assertion(
+    ),
+    assertion(
       'assessment-formats',
       QUESTION_FORMATS.length === 10,
       `${QUESTION_FORMATS.length} supported formats`,
@@ -236,6 +264,9 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
         )
         && envExample.includes(
           'NEXT_PUBLIC_ENABLE_OCULAR_ADNEXA_CURATED_PRACTICE=false',
+        )
+        && envExample.includes(
+          'NEXT_PUBLIC_ENABLE_AQUEOUS_VITREOUS_CURATED_PRACTICE=false',
         )
         && !envExample.includes('=true'),
       'All committed feature defaults are false.',

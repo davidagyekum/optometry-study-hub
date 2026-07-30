@@ -1,0 +1,29 @@
+{
+  "packageId": "opt376-aqueous-vitreous-curated-v1",
+  "sourceDeckSha256": "3f1f0e8b0e0e3ef6d5bd869e73796feff1c41a83edac29c65a9f74d2f1428dc7",
+  "bankSha256": "97c1bc76cbae20681b1c4494bb7d35d282420f8c03a9181927720e024ae9dccb",
+  "assetSha256": {
+    "aqueous-chamber-flow.svg": "566a410aa5b087fdb7e4bdf9732009239e0394b3328f6721aa36a052768ff37f",
+    "conventional-outflow.svg": "d27046d898d1d22c2107abf68198761074c06c0db873cf1cf2f325a8a8635c22",
+    "iop-determinants.svg": "2c96b4c32e9111e028d42716ef073b3d13685dd93c16f1283615f5f470690933",
+    "vitreous-attachments.svg": "31422d93c75a6da982061cf235f64f6eae222cd4a83b2287a6c288a664b72263"
+  },
+  "files": [
+    "README.md",
+    "CONTENT_AUDIT.md",
+    "QUESTION_BLUEPRINT.md",
+    "BLUEPRINT.json",
+    "QUESTION_BANK.md",
+    "QUESTION_BANK.json",
+    "ASSET_SPEC.md",
+    "REFERENCE_PRACTICE_SETS.json",
+    "PACKAGE_VALIDATION.md",
+    "PACKAGE_VALIDATION.json",
+    "CODEX_IMPLEMENTATION_PROMPT.md",
+    "PACKAGE_MANIFEST.json",
+    "assets/aqueous-chamber-flow.svg",
+    "assets/conventional-outflow.svg",
+    "assets/iop-determinants.svg",
+    "assets/vitreous-attachments.svg"
+  ]
+}
