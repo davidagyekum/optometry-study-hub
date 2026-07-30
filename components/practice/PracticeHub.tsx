@@ -64,9 +64,18 @@ export function PracticeHub({
           </div>
         </section>
       ) : null}
+      {curatedEnabled && curatedPanel ? (
+        <section className="hub-section">
+          <div className="section-heading">
+            <div><h2>Curated practice</h2><p>Verified current-version evidence stays separate from legacy quiz scores.</p></div>
+          </div>
+          {curatedPanel}
+        </section>
+      ) : null}
       <section className="hub-section">
         <div className="section-heading">
-          <div><h2>Module practice</h2><p>Legacy quizzes contain 50 shuffled questions and retain up to 20 recent saved results per module.</p></div>
+          <div><h2>Legacy quiz archive</h2><p>Retained for compatibility and historical comparison. Curated practice is the recommended assessment.</p></div>
+          <button className="secondary" onClick={() => go('legacy')} type="button">Open legacy archive</button>
         </div>
         <div className="practice-module-grid">
           {modules.map((module) => {
@@ -85,27 +94,19 @@ export function PracticeHub({
                 </dl>
                 <div className="card-actions wrap">
                   <button className="secondary" onClick={() => go('study', module.id)}>Read notes</button>
-                  <button className="primary small" onClick={() => startQuiz(module)}>
-                    {analytics.activeAttempt ? 'Resume quiz' : 'Take quiz'}
+                  <button className="secondary" onClick={() => startQuiz(module)}>
+                    {analytics.activeAttempt ? 'Resume legacy quiz' : 'Start legacy quiz'}
                   </button>
                   {analytics.latestResult ? (
-                    <button className="text-button" onClick={() => go('results', module.id)}>Review latest</button>
+                    <button className="text-button" onClick={() => go('results', module.id)}>Legacy results/history</button>
                   ) : null}
-                  <button className="text-button" onClick={() => go('progress', module.id)}>View progress</button>
+                  <button className="text-button" onClick={() => go('legacy', module.id)}>Open module archive</button>
                 </div>
               </article>
             );
           })}
         </div>
       </section>
-      {curatedEnabled && curatedPanel ? (
-        <section className="hub-section">
-          <div className="section-heading">
-            <div><h2>Curated practice</h2><p>Verified current-version evidence stays separate from legacy quiz scores.</p></div>
-          </div>
-          {curatedPanel}
-        </section>
-      ) : null}
       {hasHidden ? (
         <p className="integrity-note">
           Saved controlled-practice data for a currently disabled curated

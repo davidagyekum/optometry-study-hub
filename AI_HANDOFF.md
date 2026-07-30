@@ -24,3 +24,15 @@
 - Preliminary manifest SHA-256: `60cd4bfe70e817cb1b9358b8b56075900fb78d4bf40dd47f4e9117f174445516`.
 - Preliminary deterministic identity: `387a4794f7fb69a25bc2a10a79543e791755241b688c450ec5eb7049a5e910ec`.
 - The first comprehensive run passed `npm run check` (182 files, 969 tests) and all module reports, then correctly stopped on stale disabled-profile total/client byte ceilings before any publish step. The measured eight-module ceilings were updated; the exact final release verification and browser matrix are recorded in the PR because a committed handoff cannot contain its own resulting commit SHA.
+
+## Curated-primary cutover
+
+All eight modules now present curated practice as the recommended learner path. The Practice Hub lists curated evidence before the explicit /legacy compatibility archive; active legacy attempts, historical results, the frozen generator, StoreV2 and all canonical identities remain unchanged. See docs/CURATED_PRIMARY_CUTOVER.md.
+
+### Cutover validation
+
+- npm run check: passed with 183 test files and 975 tests.
+- All eight curated validators and blueprint reports passed.
+- Production build passed; four accepted legacy <img> lint warnings remain.
+- git diff --check: passed.
+- No deployment was performed in this checkpoint.

@@ -3,6 +3,7 @@
 import { lazy, Suspense, useEffect, type ReactNode } from 'react';
 import { CourseView } from '@/components/course/CourseView';
 import { HomeView } from '@/components/home/HomeView';
+import { LegacyArchive } from '@/components/legacy/LegacyArchive';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { PracticeHub } from '@/components/practice/PracticeHub';
@@ -198,6 +199,7 @@ export default function StudyApp() {
   }
 
   const globalView = route.view === 'practice-hub'
+    || route.view === 'legacy'
     || (route.view === 'progress' && !route.moduleId);
   if (
     !isControlledView
@@ -257,6 +259,9 @@ export default function StudyApp() {
             />
           ))}
         />
+      ) : null}
+      {route.view === 'legacy' ? (
+        <LegacyArchive moduleId={route.moduleId} store={store} go={go} startQuiz={startQuiz} />
       ) : null}
       {route.view === 'progress' && !route.moduleId ? (
         <ProgressHub

@@ -24,7 +24,7 @@ describe('progress and practice learner UI', () => {
     );
     expect(screen.getByRole('heading', { name: 'Practice Hub' })).toBeInTheDocument();
     expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(modules.length);
-    expect(screen.getByText(/retain up to 20 recent saved results/i)).toBeInTheDocument();
+    expect(screen.getByText(/retained for compatibility and historical comparison/i)).toBeInTheDocument();
     expect(screen.queryByText(/lifetime attempt/i)).not.toBeInTheDocument();
   });
 

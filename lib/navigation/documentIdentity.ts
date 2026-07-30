@@ -19,6 +19,9 @@ export function documentTitleForRoute(
   const suffix = (title: string) => `${title} | ${SITE_TITLE}`;
   if (route.view === 'home') return SITE_TITLE;
   if (route.view === 'practice-hub') return suffix('Practice Hub');
+  if (route.view === 'legacy') {
+    return suffix(context.moduleTitle ? `${context.moduleTitle} Legacy Quiz Archive` : 'Legacy Quiz Archive');
+  }
   if (route.view === 'progress') {
     return suffix(context.moduleTitle
       ? `${context.moduleTitle} Progress`

@@ -2,6 +2,7 @@ export type ClientView =
   | 'home'
   | 'not-found'
   | 'practice-hub'
+  | 'legacy'
   | 'progress'
   | 'course'
   | 'study'
@@ -18,7 +19,7 @@ export type ClientRoute = {
 };
 
 const ROUTED_VIEWS: ClientView[] = [
-  'course', 'study', 'quiz', 'results', 'pilot', 'practice', 'assessment', 'assessment-result',
+  'course', 'study', 'legacy', 'quiz', 'results', 'pilot', 'practice', 'assessment', 'assessment-result',
 ];
 
 export function parseClientRoute(pathname: string): ClientRoute {
@@ -43,6 +44,7 @@ export function parseClientRoute(pathname: string): ClientRoute {
 export function buildClientPath(route: ClientRoute): string {
   if (route.view === 'home') return '/';
   if (route.view === 'practice-hub') return '/practice';
+  if (route.view === 'legacy' && !route.moduleId) return '/legacy';
   if (route.view === 'progress') {
     return route.moduleId ? `/progress/${route.moduleId}` : '/progress';
   }

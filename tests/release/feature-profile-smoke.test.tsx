@@ -95,7 +95,7 @@ describe('release feature-profile smoke', () => {
       if (path !== '/') {
         await screen.findAllByRole(
           'heading',
-          { name: 'Curated practice' },
+          { name: 'Human Visual Perception' },
           { timeout: 5_000 },
         );
       }

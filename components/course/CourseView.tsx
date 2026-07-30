@@ -69,6 +69,7 @@ export function CourseView({
       ) : null}
       <section className="module-grid">
         {courseModules.map((item) => {
+          const curated = enabledCurated.find((experience) => experience.moduleId === item.id);
           const moduleProgress = moduleReadingPercentage(item, store.read[item.id] ?? []);
           const history = store.results[item.id] ?? [];
           const latest = history[0];
@@ -90,7 +91,13 @@ export function CourseView({
                 </div>
                 <div className="card-actions">
                   <button className="secondary" onClick={() => go('study', item.id)}>Read notes</button>
-                  <button className="primary small" onClick={() => startQuiz(item)}>{store.active[item.id] ? 'Resume quiz' : 'Take quiz'}</button>
+                  {curated ? (
+                    <button className="primary small" onClick={() => go('practice', curated.routeSegment)}>Practice this module</button>
+                  ) : null}
+                  <button className="text-button" onClick={() => startQuiz(item)}>
+                    {store.active[item.id] ? 'Resume legacy quiz' : 'Start legacy quiz'}
+                  </button>
+                  <button className="text-button" onClick={() => go('legacy', item.id)}>Legacy quiz archive</button>
                 </div>
                 <button className="text-button danger" onClick={() => clearModule(item.id)}>Clear module data</button>
               </div>
