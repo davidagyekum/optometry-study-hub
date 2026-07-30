@@ -1,13 +1,19 @@
 import { z } from 'zod';
 import { QUESTION_FORMATS, REVIEW_STATUSES } from '@/lib/assessment/constants';
 
-export const RELEASE_PROFILE_IDS = ['disabled', 'hvp-public-beta'] as const;
+export const RELEASE_PROFILE_IDS = [
+  'disabled',
+  'hvp-public-beta',
+  'tissue-foundations-preview',
+  'hvp-tissue-preview',
+] as const;
 export const releaseProfileIdSchema = z.enum(RELEASE_PROFILE_IDS);
 export type ReleaseProfileId = z.infer<typeof releaseProfileIdSchema>;
 
 export const releaseFlagsSchema = z.strictObject({
   assessmentPilot: z.boolean(),
   hvpCuratedPractice: z.boolean(),
+  tissueFoundationsCuratedPractice: z.boolean(),
 });
 export type ReleaseFlags = z.infer<typeof releaseFlagsSchema>;
 
@@ -47,7 +53,9 @@ export const releaseBuildMetadataSchema = z.strictObject({
   builtAt: z.iso.datetime(),
   buildDurationMs: z.number().finite().nonnegative(),
   outputFingerprint: z.string().regex(/^[0-9a-f]{64}$/),
-  outputDirectory: z.string().regex(/^tmp\/release\/builds\/(disabled|hvp-public-beta)$/),
+  outputDirectory: z.string().regex(
+    /^tmp\/release\/builds\/(disabled|hvp-public-beta|tissue-foundations-preview|hvp-tissue-preview)$/,
+  ),
 });
 export type ReleaseBuildMetadata = z.infer<typeof releaseBuildMetadataSchema>;
 
@@ -95,11 +103,20 @@ export const releaseManifestSchema = z.strictObject({
     hvpChecksum: z.literal(
       '029dc39ff103a836445a86bb352513b231e51d266d4b2fade3f00527d00ef89a',
     ),
+    tissueQuestions: z.literal(80),
+    tissueObjectives: z.literal(18),
+    tissueSources: z.literal(10),
+    tissueSvgDiagrams: z.literal(4),
+    tissueChecksum: z.literal(
+      '500454bab37a5846ed46efd442149c105cbaf6ea5c9dd270ba3605170a2d9c08',
+    ),
     reviewStatuses: z.strictObject({
       aqueousQuestions: reviewCountsSchema,
       aqueousObjectives: reviewCountsSchema,
       hvpQuestions: reviewCountsSchema,
       hvpObjectives: reviewCountsSchema,
+      tissueQuestions: reviewCountsSchema,
+      tissueObjectives: reviewCountsSchema,
     }),
     academicStatus: z.literal(
       'Curated draft educational practice; not lecturer-approved examination items.',

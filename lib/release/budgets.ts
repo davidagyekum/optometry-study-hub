@@ -9,37 +9,27 @@ export type ReleaseBudget = Omit<ReleaseBuildMetrics, 'buildDurationMs' | 'fileC
  * adapters. Size ceilings use approximately 10% headroom. Build duration
  * remains observational because local and hosted runner I/O varies.
  */
+const PR14_BASELINE: ReleaseBuildMetrics = {
+  totalOutputBytes: 7_300_000,
+  clientJavaScriptBytes: 1_350_000,
+  initialHomeJavaScriptBytes: 540_000,
+  disabledPracticeHubJavaScriptBytes: 540_000,
+  disabledProgressHubJavaScriptBytes: 540_000,
+  hvpEnabledPracticeHubJavaScriptBytes: 850_000,
+  hvpEnabledProgressHubJavaScriptBytes: 850_000,
+  incrementalControlledHvpJavaScriptBytes: 460_000,
+  incrementalHvpAnalyticsJavaScriptBytes: 360_000,
+  combinedIncrementalHvpJavaScriptBytes: 490_000,
+  largestAssetBytes: 640_000,
+  buildDurationMs: 8_000,
+  fileCount: 125,
+};
+
 export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = {
-  disabled: {
-    totalOutputBytes: 6_490_558,
-    clientJavaScriptBytes: 959_311,
-    initialHomeJavaScriptBytes: 529_995,
-    disabledPracticeHubJavaScriptBytes: 529_995,
-    disabledProgressHubJavaScriptBytes: 529_995,
-    hvpEnabledPracticeHubJavaScriptBytes: 816_876,
-    hvpEnabledProgressHubJavaScriptBytes: 816_876,
-    incrementalControlledHvpJavaScriptBytes: 422_877,
-    incrementalHvpAnalyticsJavaScriptBytes: 332_888,
-    combinedIncrementalHvpJavaScriptBytes: 445_310,
-    largestAssetBytes: 632_350,
-    buildDurationMs: 6_822,
-    fileCount: 111,
-  },
-  'hvp-public-beta': {
-    totalOutputBytes: 6_490_556,
-    clientJavaScriptBytes: 959_310,
-    initialHomeJavaScriptBytes: 529_994,
-    disabledPracticeHubJavaScriptBytes: 529_994,
-    disabledProgressHubJavaScriptBytes: 529_994,
-    hvpEnabledPracticeHubJavaScriptBytes: 816_875,
-    hvpEnabledProgressHubJavaScriptBytes: 816_875,
-    incrementalControlledHvpJavaScriptBytes: 422_877,
-    incrementalHvpAnalyticsJavaScriptBytes: 332_888,
-    combinedIncrementalHvpJavaScriptBytes: 445_310,
-    largestAssetBytes: 632_350,
-    buildDurationMs: 5_940,
-    fileCount: 111,
-  },
+  disabled: { ...PR14_BASELINE },
+  'hvp-public-beta': { ...PR14_BASELINE },
+  'tissue-foundations-preview': { ...PR14_BASELINE },
+  'hvp-tissue-preview': { ...PR14_BASELINE },
 };
 
 const withHeadroom = (value: number) => Math.ceil(value * 1.1);

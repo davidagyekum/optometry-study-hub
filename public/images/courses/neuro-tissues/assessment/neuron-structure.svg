@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+<title id="title">Neutral neuron structure schematic</title><desc id="desc">A branching cell at left, a long process, and terminal branches at right, with markers A through D.</desc>
+<rect width="1200" height="700" fill="#ffffff"/>
+<g stroke="#222" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<path d="M290 345 C220 285 155 245 78 190 M255 315 C185 315 120 305 55 330 M270 380 C190 420 130 470 75 535 M315 295 C300 220 280 155 245 90 M335 300 C375 225 410 165 462 112"/>
+<ellipse cx="350" cy="355" rx="115" ry="105" fill="#f2f2f2"/>
+<circle cx="350" cy="355" r="35" fill="#d7d7d7"/>
+<path d="M455 355 C505 350 530 350 565 355 C650 365 750 352 845 355"/>
+<g stroke-width="26"><path d="M585 355 L675 355 M710 355 L800 355"/></g>
+<path d="M845 355 C920 300 960 240 1005 180 M845 355 C930 350 995 350 1085 330 M845 355 C920 420 965 475 1025 535 M960 260 L1095 210 M970 455 L1110 500"/>
+</g>
+<g font-family="Arial, sans-serif" font-size="34" font-weight="700" text-anchor="middle">
+<circle cx="115" cy="120" r="28" fill="#fff" stroke="#222" stroke-width="4"/><text x="115" y="132">A</text>
+<circle cx="350" cy="355" r="28" fill="#fff" stroke="#222" stroke-width="4"/><text x="350" y="367">B</text>
+<circle cx="505" cy="310" r="28" fill="#fff" stroke="#222" stroke-width="4"/><text x="505" y="322">C</text>
+<circle cx="1075" cy="145" r="28" fill="#fff" stroke="#222" stroke-width="4"/><text x="1075" y="157">D</text>
+</g></svg>

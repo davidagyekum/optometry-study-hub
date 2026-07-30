@@ -22,6 +22,11 @@ import {
   type ReleaseBuildMetadata,
 } from '@/lib/release/types';
 
+const TISSUE_CONTROLLED_ENTRY =
+  'lib/assessment/tissue-foundations/definition.tsx';
+const TISSUE_ANALYTICS_ENTRY =
+  'lib/progress/tissueFoundationsProgressModule.tsx';
+
 const git = {
   commitSha: '1'.repeat(40),
   treeSha: '2'.repeat(40),
@@ -34,7 +39,7 @@ function metadata(
   return {
     schemaVersion: 1,
     profile: 'hvp-public-beta',
-    flags: { assessmentPilot: false, hvpCuratedPractice: true },
+    flags: { assessmentPilot: false, hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false },
     commitSha: git.commitSha,
     treeSha: git.treeSha,
     dirty: false,
@@ -61,11 +66,18 @@ function manifest(): ViteManifest {
       file: 'assets/study.js',
       isDynamicEntry: true,
       imports: ['framework'],
-      dynamicImports: [HVP_CONTROLLED_ENTRY, HVP_ANALYTICS_ENTRY],
+      dynamicImports: [
+        HVP_CONTROLLED_ENTRY,
+        HVP_ANALYTICS_ENTRY,
+        TISSUE_CONTROLLED_ENTRY,
+        TISSUE_ANALYTICS_ENTRY,
+      ],
     },
     shared: { file: 'assets/shared.js' },
     controlledOnly: { file: 'assets/controlled-only.js' },
     analyticsOnly: { file: 'assets/analytics-only.js' },
+    tissueControlledOnly: { file: 'assets/tissue-controlled-only.js' },
+    tissueAnalyticsOnly: { file: 'assets/tissue-analytics-only.js' },
     [HVP_CONTROLLED_ENTRY]: {
       file: 'assets/controlled.js',
       isDynamicEntry: true,
@@ -75,6 +87,16 @@ function manifest(): ViteManifest {
       file: 'assets/analytics.js',
       isDynamicEntry: true,
       imports: ['shared', 'analyticsOnly'],
+    },
+    [TISSUE_CONTROLLED_ENTRY]: {
+      file: 'assets/tissue-controlled.js',
+      isDynamicEntry: true,
+      imports: ['shared', 'tissueControlledOnly'],
+    },
+    [TISSUE_ANALYTICS_ENTRY]: {
+      file: 'assets/tissue-analytics.js',
+      isDynamicEntry: true,
+      imports: ['shared', 'tissueAnalyticsOnly'],
     },
   };
 }
@@ -115,7 +137,7 @@ describe('release build identity', () => {
     [
       'wrong feature flags',
       'hvp-public-beta' as const,
-      metadata({ flags: { assessmentPilot: false, hvpCuratedPractice: false } }),
+      metadata({ flags: { assessmentPilot: false, hvpCuratedPractice: false, tissueFoundationsCuratedPractice: false } }),
       git,
       'a'.repeat(64),
       /flags/i,
@@ -123,7 +145,7 @@ describe('release build identity', () => {
     [
       'Aqueous enabled',
       'hvp-public-beta' as const,
-      metadata({ flags: { assessmentPilot: true, hvpCuratedPractice: true } }),
+      metadata({ flags: { assessmentPilot: true, hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false } }),
       git,
       'a'.repeat(64),
       /Aqueous/i,
@@ -194,7 +216,7 @@ describe('release build identity', () => {
       releaseOutputDirectory('hvp-public-beta'),
       metadata({
         profile: 'disabled',
-        flags: { assessmentPilot: false, hvpCuratedPractice: false },
+        flags: { assessmentPilot: false, hvpCuratedPractice: false, tissueFoundationsCuratedPractice: false },
         outputDirectory: 'tmp/release/builds/disabled',
       }),
       git,
@@ -255,6 +277,10 @@ describe('release bundle closures', () => {
       'assets/analytics-only.js': 13,
       'assets/controlled.js': 30,
       'assets/analytics.js': 40,
+      'assets/tissue-controlled-only.js': 9,
+      'assets/tissue-analytics-only.js': 8,
+      'assets/tissue-controlled.js': 25,
+      'assets/tissue-analytics.js': 31,
     };
     for (const [file, size] of Object.entries(sizes)) {
       const filePath = resolve(output, 'client', file);

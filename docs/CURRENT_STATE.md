@@ -2,7 +2,7 @@
 
 ## Verified state
 
-- PR 11 is merged; PR 12 exact base commit: `e8b9810ff6f2898c9bc85d37da72f069ee049115`
+- PR 13 is merged; PR 14 exact base commit: `443c638de39985bc566436f443ef596aa184f6b6`
 - Courses: 5
 - Modules: 8
 - Study sections: 39
@@ -12,7 +12,9 @@
 - Canonical Aqueous and Vitreous candidate bank: 36 draft questions across 6 sections and 13 objectives
 - Assessment pilot: the exact 9 engineering questions, derived from the canonical bank
 - Canonical OPT 374 Human Visual Perception bank: 120 draft questions, 23 objectives, and 19 sources
-- HVP curated practice: default-disabled deterministic 50-question sets, isolated from legacy metrics
+- HVP curated practice: reviewed public-beta behavior is unchanged
+- Canonical OPT 376 Tissue Foundations bank: 80 draft questions, 18 objectives, 10 sources, and 4 SVG assessment diagrams
+- Tissue Foundations curated practice: default-disabled Quick 10, Standard 25, Full 50, Custom, targeted, and manual-only Written 2 sessions
 
 ## Courses and modules
 
@@ -223,3 +225,28 @@ even if another module stays enabled. The Node-only release audit iterates a
 curated boundary registry and supports multiple practice/progress entries with
 shared chunks counted once. PR 13 adds no production bank, status promotion,
 migration, backend or deployment.
+
+## PR 14 Tissue Foundations curated-practice boundary
+
+PR 14 starts from merged PR 13 commit
+`443c638de39985bc566436f443ef596aa184f6b6`. It imports the byte-identical
+80-question OPT 376 Tissue Foundations bank with 18 objectives, 10 registered
+sources and four original neutral SVG diagrams. All questions and objectives
+remain draft.
+
+The answer-free registry now exposes a second production adapter, but
+`NEXT_PUBLIC_ENABLE_TISSUE_FOUNDATIONS_CURATED_PRACTICE=false` remains the
+committed default. Answer-bearing content stays behind retryable lazy practice
+and progress loaders. The shared curated controller and presentation support
+Quick 10, Standard 25, Full 50, Custom 5-50, targeted 10 and manual-only
+Written 2 sessions without a Tissue-specific router, hook or component tree.
+Full practice covers all 18 objectives; every fixed profile enforces exact
+section, format and difficulty quotas, a bounded Apply-or-higher range and a
+two-question family maximum.
+
+Tissue attempts, results and current-version history use the unchanged StoreV2
+assessment maps. Curated mastery remains separate from the preserved legacy
+Tissue 50-question quiz and its Latest/Best scores. HVP behavior and checksum,
+the Aqueous pilot and hashes, both storage keys, five courses, eight modules,
+39 sections and 400 legacy questions remain unchanged. No question status,
+backend, analytics service, account, deployment or next content bank is added.

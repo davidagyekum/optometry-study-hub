@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" role="img" aria-labelledby="title desc">
+<title id="title">Neutral peripheral nerve cross-section schematic</title><desc id="desc">A large oval containing several bundles; one bundle is enlarged with concentric boundaries and markers A through C.</desc>
+<rect width="1000" height="700" fill="#ffffff"/>
+<ellipse cx="500" cy="350" rx="440" ry="285" fill="#f8f8f8" stroke="#222" stroke-width="16"/>
+<g fill="#ededed" stroke="#333" stroke-width="10">
+<ellipse cx="310" cy="300" rx="180" ry="145"/><ellipse cx="670" cy="245" rx="170" ry="125"/><ellipse cx="670" cy="485" rx="185" ry="125"/>
+</g>
+<g fill="#fff" stroke="#555" stroke-width="4">
+<circle cx="235" cy="250" r="27"/><circle cx="320" cy="235" r="24"/><circle cx="385" cy="315" r="26"/><circle cx="260" cy="360" r="24"/><circle cx="340" cy="375" r="23"/>
+<circle cx="610" cy="220" r="20"/><circle cx="690" cy="200" r="22"/><circle cx="740" cy="275" r="20"/><circle cx="630" cy="300" r="19"/>
+<circle cx="600" cy="460" r="20"/><circle cx="690" cy="440" r="21"/><circle cx="765" cy="500" r="23"/><circle cx="630" cy="530" r="19"/>
+</g>
+<g font-family="Arial, sans-serif" font-size="32" font-weight="700" text-anchor="middle">
+<circle cx="235" cy="250" r="25" fill="#fff" stroke="#222" stroke-width="4"/><text x="235" y="261">A</text>
+<circle cx="120" cy="300" r="28" fill="#fff" stroke="#222" stroke-width="4"/><text x="120" y="312">B</text>
+<circle cx="900" cy="120" r="28" fill="#fff" stroke="#222" stroke-width="4"/><text x="900" y="132">C</text>
+</g></svg>

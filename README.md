@@ -12,7 +12,7 @@ Live site: https://opt-376-eye-anatomy-review.davorion7.chatgpt.site
 - **Ocular Pharmacology** — adrenergic and cholinergic foundations relevant to eye care.
 - **Systemic Pathology** — breast, cardiovascular, gastrointestinal, lymphoid, renal, and respiratory pathology.
 
-The current application contains five courses, eight modules, 39 study sections, and 400 legacy-generated multiple-choice questions. The versioned assessment engine supports ten formats; all Aqueous and HVP schema questions remain draft.
+The current application contains five courses, eight modules, 39 study sections, and 400 legacy-generated multiple-choice questions. The versioned assessment engine supports ten formats; all Aqueous, HVP, and Tissue Foundations schema questions remain draft.
 
 ## Architecture today
 
@@ -55,9 +55,10 @@ To inspect the draft pilot locally, create an untracked `.env.local`:
 ```text
 NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT=true
 NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE=true
+NEXT_PUBLIC_ENABLE_TISSUE_FOUNDATIONS_CURATED_PRACTICE=true
 ```
 
-Only the exact string `true` enables either experience. These flags control client exposure, not security, and all candidate questions remain draft rather than academically approved. The repository defaults keep both flags false. The reviewed future release profile keeps Aqueous false and enables only HVP, but HVP has not been published during PR 12.
+Only the exact string `true` enables an experience. These flags control client exposure, not security, and all candidate questions remain draft rather than academically approved. The repository defaults keep both flags false. The reviewed future release profile keeps Aqueous false and enables only HVP, but HVP has not been published during PR 12.
 
 ## Quality commands
 
@@ -72,6 +73,9 @@ npm run questions:blueprint
 npm run questions:validate:hvp
 npm run questions:report:hvp
 npm run questions:blueprint:hvp
+npm run questions:validate:tissue
+npm run questions:report:tissue
+npm run questions:blueprint:tissue
 npm run questions:review-pack
 npm run questions:aiken -- --input tests/fixtures/review/valid-ratings.csv
 npm run build
@@ -157,9 +161,9 @@ budgets](docs/RELEASE_BASELINE_AND_BUDGETS.md).
 ## Curated-experience registry
 
 PR 13 generalizes curated practice behind validated, immutable answer-free
-discovery metadata and retryable lazy answer-bearing adapters. HVP is the only
-production registry entry and preserves its route, profiles, stored identities
-and public-beta behavior. The shared platform now owns start/resume, guarded
+discovery metadata and retryable lazy answer-bearing adapters. HVP and the default-disabled Tissue Foundations experience are registered
+through the same answer-free discovery boundary. HVP preserves its route,
+profiles, stored identities and public-beta behavior. The shared platform now owns start/resume, guarded
 replacement and discard, draft persistence, navigation, flagging, submission,
 history finalization, landing, results and mastery presentation. Educational
 assembly, compatibility and progress calculation remain module-defined.
@@ -174,5 +178,16 @@ only in tests.
 Future curated banks must keep question and grading content behind lazy
 loaders, use unique route/module/blueprint identities, preserve StoreV2
 compatibility, pass import-isolation and release-profile checks, and complete
-the documented academic-review process. PR 13 adds no new question content,
-storage migration, legacy-score conversion or deployment.
+the documented academic-review process. PR 13 added no new question content, storage migration, legacy-score
+conversion or deployment. PR 14 adds the default-disabled Tissue bank without
+changing those storage or deployment boundaries.
+
+## OPT 376 Tissue Foundations curated practice
+
+PR 14 registers the canonical 80-question Tissue Foundations package through
+the generic curated-experience platform. The feature is disabled by default,
+uses StoreV2 device-local assessment maps, keeps the legacy 50-question quiz
+unchanged, and does not alter HVP or Aqueous behavior. Fixed profiles enforce
+their exact quotas and evidence contracts, while the two open responses remain
+manual-only and display **Not scored**. No question has been promoted beyond
+draft and no deployment is part of the pull request.

@@ -7,6 +7,7 @@ import { modules } from '@/content/legacy/moduleCatalog';
 import { aqueousVitreousCandidateBank } from '@/content/question-bank/opt376/aqueous-vitreous/bank';
 import { aqueousVitreousPilotBank } from '@/content/question-bank/opt376/aqueous-vitreous/pilotSubset';
 import { humanVisualPerceptionCandidateBank } from '@/content/question-bank/opt374/human-visual-perception/bank';
+import { tissueFoundationsCandidateBank } from '@/content/question-bank/opt376/tissue-foundations/bank';
 import { QUESTION_FORMATS, REVIEW_STATUSES } from '@/lib/assessment/constants';
 import { AQUEOUS_PILOT_QUESTION_IDS } from '@/lib/assessment/pilot/blueprint';
 import { questionsFor } from '@/lib/legacy/questionGenerator';
@@ -16,6 +17,9 @@ import type { ReleaseAssertion } from '@/lib/release/types';
 
 export const EXPECTED_HVP_CHECKSUM =
   '029dc39ff103a836445a86bb352513b231e51d266d4b2fade3f00527d00ef89a';
+
+export const EXPECTED_TISSUE_CHECKSUM =
+  '500454bab37a5846ed46efd442149c105cbaf6ea5c9dd270ba3605170a2d9c08';
 
 export const EXPECTED_AQUEOUS_PILOT_HASHES: Record<string, string> = {
   'aqueous-flow-sba-001': 'fd062b040d1f52b25797007ba5e0c2abbbacb98d4c8903c0c988ea566fd8b0f4',
@@ -51,12 +55,20 @@ export function hvpChecksum(): string {
     .digest('hex');
 }
 
+export function tissueChecksum(): string {
+  return createHash('sha256')
+    .update(readFileSync(
+      'content/question-bank/opt376/tissue-foundations/bank.json',
+    ))
+    .digest('hex');
+}
+
 export function trackedEnabledReleaseEnvironmentFiles(): string[] {
   const files = execFileSync('git', ['ls-files', '--', '.env*', '*.env'], {
     cwd: process.cwd(),
     encoding: 'utf8',
   }).split(/\r?\n/).filter(Boolean);
-  return files.filter((file) => /NEXT_PUBLIC_ENABLE_(?:ASSESSMENT_PILOT|HVP_CURATED_PRACTICE)=true/.test(
+  return files.filter((file) => /NEXT_PUBLIC_ENABLE_(?:ASSESSMENT_PILOT|HVP_CURATED_PRACTICE|TISSUE_FOUNDATIONS_CURATED_PRACTICE)=true/.test(
     readFileSync(file, 'utf8'),
   ));
 }
@@ -75,6 +87,11 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
     0,
   );
   const hvpSvgCount = new Set(humanVisualPerceptionCandidateBank.questions.flatMap(
+    (question) => ('image' in question && question.image.src.endsWith('.svg')
+      ? [question.image.src]
+      : []),
+  )).size;
+  const tissueSvgCount = new Set(tissueFoundationsCandidateBank.questions.flatMap(
     (question) => ('image' in question && question.image.src.endsWith('.svg')
       ? [question.image.src]
       : []),
@@ -114,6 +131,18 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
     ),
     assertion('hvp-svg-assets', hvpSvgCount === 6, `${hvpSvgCount} unique SVG diagrams`),
     assertion(
+      'tissue-content',
+      tissueFoundationsCandidateBank.questions.length === 80
+        && tissueFoundationsCandidateBank.objectives.length === 18
+        && tissueFoundationsCandidateBank.sources.length === 10,
+      `${tissueFoundationsCandidateBank.questions.length} questions; ${tissueFoundationsCandidateBank.objectives.length} objectives; ${tissueFoundationsCandidateBank.sources.length} sources`,
+    ),
+    assertion(
+      'tissue-svg-assets',
+      tissueSvgCount === 4,
+      `${tissueSvgCount} unique SVG diagrams`,
+    ),
+    assertion(
       'assessment-formats',
       QUESTION_FORMATS.length === 10,
       `${QUESTION_FORMATS.length} supported formats`,
@@ -124,12 +153,19 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
       `SHA-256 ${hvpChecksum()}`,
     ),
     assertion(
+      'tissue-checksum',
+      tissueChecksum() === EXPECTED_TISSUE_CHECKSUM,
+      `SHA-256 ${tissueChecksum()}`,
+    ),
+    assertion(
       'draft-status',
       aqueousVitreousCandidateBank.questions.every((question) => question.reviewStatus === 'draft')
         && aqueousVitreousCandidateBank.objectives.every((objective) => objective.reviewStatus === 'draft')
         && humanVisualPerceptionCandidateBank.questions.every((question) => question.reviewStatus === 'draft')
-        && humanVisualPerceptionCandidateBank.objectives.every((objective) => objective.reviewStatus === 'draft'),
-      'All Aqueous and HVP questions and objectives remain draft.',
+        && humanVisualPerceptionCandidateBank.objectives.every((objective) => objective.reviewStatus === 'draft')
+        && tissueFoundationsCandidateBank.questions.every((question) => question.reviewStatus === 'draft')
+        && tissueFoundationsCandidateBank.objectives.every((objective) => objective.reviewStatus === 'draft'),
+      'All Aqueous, HVP and Tissue questions and objectives remain draft.',
     ),
     assertion(
       'storage-identity',
@@ -160,8 +196,11 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
       'committed-feature-defaults',
       envExample.includes('NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT=false')
         && envExample.includes('NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE=false')
+        && envExample.includes(
+          'NEXT_PUBLIC_ENABLE_TISSUE_FOUNDATIONS_CURATED_PRACTICE=false',
+        )
         && !envExample.includes('=true'),
-      'Both committed feature defaults are false.',
+      'All committed feature defaults are false.',
     ),
   ];
 }

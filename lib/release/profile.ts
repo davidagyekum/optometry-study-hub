@@ -7,16 +7,30 @@ import {
 export const RELEASE_FLAG_NAMES = {
   assessmentPilot: 'NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT',
   hvpCuratedPractice: 'NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE',
+  tissueFoundationsCuratedPractice:
+    'NEXT_PUBLIC_ENABLE_TISSUE_FOUNDATIONS_CURATED_PRACTICE',
 } as const;
 
 export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
   disabled: {
     assessmentPilot: false,
     hvpCuratedPractice: false,
+    tissueFoundationsCuratedPractice: false,
   },
   'hvp-public-beta': {
     assessmentPilot: false,
     hvpCuratedPractice: true,
+    tissueFoundationsCuratedPractice: false,
+  },
+  'tissue-foundations-preview': {
+    assessmentPilot: false,
+    hvpCuratedPractice: false,
+    tissueFoundationsCuratedPractice: true,
+  },
+  'hvp-tissue-preview': {
+    assessmentPilot: false,
+    hvpCuratedPractice: true,
+    tissueFoundationsCuratedPractice: true,
   },
 };
 
@@ -39,7 +53,7 @@ export function parseReleaseProfile(value: string): ReleaseProfileId {
   const parsed = releaseProfileIdSchema.safeParse(value);
   if (!parsed.success) {
     throw new ReleaseProfileError(
-      `Unknown release profile ${JSON.stringify(value)}. Expected disabled or hvp-public-beta.`,
+      `Unknown release profile ${JSON.stringify(value)}. Expected one of the registered release profiles.`,
     );
   }
   return parsed.data;
@@ -57,6 +71,10 @@ export function releaseFlagsFromEnvironment(
       RELEASE_FLAG_NAMES.hvpCuratedPractice,
       environment[RELEASE_FLAG_NAMES.hvpCuratedPractice],
     ),
+    tissueFoundationsCuratedPractice: parseReleaseFlag(
+      RELEASE_FLAG_NAMES.tissueFoundationsCuratedPractice,
+      environment[RELEASE_FLAG_NAMES.tissueFoundationsCuratedPractice],
+    ),
   };
 }
 
@@ -73,6 +91,8 @@ export function assertReleaseProfile(
   if (
     flags.assessmentPilot !== expected.assessmentPilot
     || flags.hvpCuratedPractice !== expected.hvpCuratedPractice
+    || flags.tissueFoundationsCuratedPractice
+      !== expected.tissueFoundationsCuratedPractice
   ) {
     throw new ReleaseProfileError(
       `Release profile ${profile} does not match its required feature flags.`,
@@ -90,6 +110,8 @@ export function environmentForReleaseProfile(
     ...base,
     [RELEASE_FLAG_NAMES.assessmentPilot]: String(flags.assessmentPilot),
     [RELEASE_FLAG_NAMES.hvpCuratedPractice]: String(flags.hvpCuratedPractice),
+    [RELEASE_FLAG_NAMES.tissueFoundationsCuratedPractice]:
+      String(flags.tissueFoundationsCuratedPractice),
     OPTOMETRY_RELEASE_PROFILE: profile,
   };
 }

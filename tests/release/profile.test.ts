@@ -10,9 +10,12 @@ import {
 } from '@/lib/release/profile';
 
 describe('release profiles', () => {
-  it('parses only the two declared profiles', () => {
+  it('parses only the four declared profiles', () => {
     expect(parseReleaseProfile('disabled')).toBe('disabled');
     expect(parseReleaseProfile('hvp-public-beta')).toBe('hvp-public-beta');
+    expect(parseReleaseProfile('tissue-foundations-preview'))
+      .toBe('tissue-foundations-preview');
+    expect(parseReleaseProfile('hvp-tissue-preview')).toBe('hvp-tissue-preview');
     expect(() => parseReleaseProfile('production')).toThrow(/unknown release profile/i);
   });
 
@@ -27,16 +30,21 @@ describe('release profiles', () => {
   it('rejects Aqueous exposure and mismatched profile flags', () => {
     expect(() => assertReleaseProfile('hvp-public-beta', {
       assessmentPilot: true,
-      hvpCuratedPractice: true,
+      hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false,
     })).toThrow(/Aqueous/i);
     expect(() => assertReleaseProfile('disabled', {
       assessmentPilot: false,
-      hvpCuratedPractice: true,
+      hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false,
     })).toThrow(/does not match/i);
   });
 
-  it('builds exact cross-platform environments for both profiles', () => {
-    for (const profile of ['disabled', 'hvp-public-beta'] as const) {
+  it('builds exact cross-platform environments for every profile', () => {
+    for (const profile of [
+      'disabled',
+      'hvp-public-beta',
+      'tissue-foundations-preview',
+      'hvp-tissue-preview',
+    ] as const) {
       const environment = environmentForReleaseProfile(profile, { NODE_ENV: 'test' });
       expect(releaseFlagsFromEnvironment(environment)).toEqual(RELEASE_PROFILES[profile]);
       expect(environment.OPTOMETRY_RELEASE_PROFILE).toBe(profile);
@@ -47,6 +55,9 @@ describe('release profiles', () => {
     const example = readFileSync('.env.example', 'utf8');
     expect(example).toContain('NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT=false');
     expect(example).toContain('NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE=false');
+    expect(example).toContain(
+      'NEXT_PUBLIC_ENABLE_TISSUE_FOUNDATIONS_CURATED_PRACTICE=false',
+    );
     expect(example).not.toMatch(/NEXT_PUBLIC_ENABLE_\w+=true/);
   });
 });

@@ -1,4 +1,4 @@
-import { createHvpSeededRandom } from '@/lib/assessment/hvp/assembler';
+import { createSeededRandom } from '@/lib/assessment/practice/random';
 import {
   challengeQuestionIds,
   retryMissedQuestionIds,
@@ -159,9 +159,18 @@ function findDifficultyAllocation(
   candidateCells: AssessmentQuestion[][],
   targets: DifficultyCounts,
   minimumHigherOrder: number,
+  maximumHigherOrder: number,
 ): DifficultyCounts[] | undefined {
-  type State = { allocations: DifficultyCounts[]; higherCapacity: number };
-  let states = new Map<string, State>([['0:0:0', { allocations: [], higherCapacity: 0 }]]);
+  type State = {
+    allocations: DifficultyCounts[];
+    higherCapacity: number;
+    minimumHigherOrder: number;
+  };
+  let states = new Map<string, State>([['0:0:0', {
+    allocations: [],
+    higherCapacity: 0,
+    minimumHigherOrder: 0,
+  }]]);
   cells.forEach((cell, cellIndex) => {
     const next = new Map<string, State>();
     const options = allocationsForCell(cell, candidateCells[cellIndex]);
@@ -182,11 +191,57 @@ function findDifficultyAllocation(
             ).length,
           )
         ), 0);
+        const minimumHigherOrderForOption = DIFFICULTIES.reduce(
+          (sum, difficulty) => {
+            const lowerAvailable = candidateCells[cellIndex].filter(
+              (question) => question.difficulty === difficulty
+                && !HIGHER_ORDER.has(question.bloomLevel),
+            ).length;
+            return sum + Math.max(0, option[difficulty] - lowerAvailable);
+          },
+          0,
+        );
+        const minimumCapacity =
+          state.minimumHigherOrder + minimumHigherOrderForOption;
+        const candidateFeasible = higherCapacity >= minimumHigherOrder
+          && minimumCapacity <= maximumHigherOrder;
         const previous = next.get(nextKey);
-        if (!previous || higherCapacity > previous.higherCapacity) {
+        const previousFeasible = previous
+          ? previous.higherCapacity >= minimumHigherOrder
+            && previous.minimumHigherOrder <= maximumHigherOrder
+          : false;
+        const totalTarget = DIFFICULTIES.reduce(
+          (sum, difficulty) => sum + targets[difficulty],
+          0,
+        );
+        const boundedHigherOrder = maximumHigherOrder < totalTarget;
+        if (
+          !previous
+          || (
+            !boundedHigherOrder
+            && higherCapacity > previous.higherCapacity
+          )
+          || (
+            boundedHigherOrder
+            && (
+              (candidateFeasible && !previousFeasible)
+              || (
+                candidateFeasible === previousFeasible
+                && (
+                  minimumCapacity < previous.minimumHigherOrder
+                  || (
+                    minimumCapacity === previous.minimumHigherOrder
+                    && higherCapacity > previous.higherCapacity
+                  )
+                )
+              )
+            )
+          )
+        ) {
           next.set(nextKey, {
             allocations: [...state.allocations, option],
             higherCapacity,
+            minimumHigherOrder: minimumCapacity,
           });
         }
       });
@@ -194,7 +249,9 @@ function findDifficultyAllocation(
     states = next;
   });
   const resolved = states.get(DIFFICULTIES.map((difficulty) => targets[difficulty]).join(':'));
-  return resolved && resolved.higherCapacity >= minimumHigherOrder
+  return resolved
+    && resolved.higherCapacity >= minimumHigherOrder
+    && resolved.minimumHigherOrder <= maximumHigherOrder
     ? resolved.allocations
     : undefined;
 }
@@ -206,6 +263,8 @@ function selectQuotaQuestions(
   random: () => number,
   maximumFamilyRepetition: number,
   minimumHigherOrder: number,
+  maximumHigherOrder: number,
+  requiredObjectiveIds: readonly string[],
   history: Readonly<Record<string, QuestionHistoryRecord>>,
 ): AssessmentQuestion[] | undefined {
   type QuotaBucket = {
@@ -241,22 +300,43 @@ function selectQuotaQuestions(
   ));
   const remainingHigherOrder = Array.from({ length: buckets.length + 1 }, () => 0);
   const remainingUnseen = Array.from({ length: buckets.length + 1 }, () => 0);
+  const remainingObjectives = Array.from(
+    { length: buckets.length + 1 },
+    () => new Set<string>(),
+  );
   for (let index = buckets.length - 1; index >= 0; index -= 1) {
     remainingHigherOrder[index] = remainingHigherOrder[index + 1] + buckets[index].maximumHigherOrder;
     remainingUnseen[index] = remainingUnseen[index + 1] + buckets[index].maximumUnseen;
+    remainingObjectives[index] = new Set([
+      ...remainingObjectives[index + 1],
+      ...buckets[index].candidates.map((question) => question.objectiveId),
+    ]);
   }
   let best: AssessmentQuestion[] | undefined;
   let bestUnseenCount = -1;
   const theoreticalMaximumUnseen = remainingUnseen[0];
   const selected: AssessmentQuestion[] = [];
   const familyCounts = new Map<string, number>();
+  const objectiveCounts = new Map<string, number>();
 
   function visitBucket(bucketIndex: number, higherOrderCount: number, unseenCount: number): void {
     if (bestUnseenCount === theoreticalMaximumUnseen) return;
+    if (higherOrderCount > maximumHigherOrder) return;
     if (higherOrderCount + remainingHigherOrder[bucketIndex] < minimumHigherOrder) return;
     if (unseenCount + remainingUnseen[bucketIndex] < bestUnseenCount) return;
+    if (requiredObjectiveIds.some(
+      (objectiveId) => (
+        !objectiveCounts.has(objectiveId)
+        && !remainingObjectives[bucketIndex].has(objectiveId)
+      ),
+    )) return;
     if (bucketIndex === buckets.length) {
-      if (higherOrderCount >= minimumHigherOrder && unseenCount > bestUnseenCount) {
+      if (
+        higherOrderCount >= minimumHigherOrder
+        && higherOrderCount <= maximumHigherOrder
+        && requiredObjectiveIds.every((objectiveId) => objectiveCounts.has(objectiveId))
+        && unseenCount > bestUnseenCount
+      ) {
         best = [...selected];
         bestUnseenCount = unseenCount;
       }
@@ -277,6 +357,10 @@ function selectQuotaQuestions(
         chosen.forEach((question) => {
           selected.push(question);
           familyCounts.set(question.familyId, (familyCounts.get(question.familyId) ?? 0) + 1);
+          objectiveCounts.set(
+            question.objectiveId,
+            (objectiveCounts.get(question.objectiveId) ?? 0) + 1,
+          );
         });
         visitBucket(
           bucketIndex + 1,
@@ -288,6 +372,9 @@ function selectQuotaQuestions(
           const count = (familyCounts.get(question.familyId) ?? 1) - 1;
           if (count === 0) familyCounts.delete(question.familyId);
           else familyCounts.set(question.familyId, count);
+          const objectiveCount = (objectiveCounts.get(question.objectiveId) ?? 1) - 1;
+          if (objectiveCount === 0) objectiveCounts.delete(question.objectiveId);
+          else objectiveCounts.set(question.objectiveId, objectiveCount);
         });
         return;
       }
@@ -381,7 +468,7 @@ export function assemblePractice({
   const strategy = strategyPool(eligible, selection, history);
   if (!strategy.ok) return strategy;
   const evidencedSelection = withStrategyEvidence(selection, strategy.value.map((question) => question.id));
-  const random = createHvpSeededRandom(selection.seed);
+  const random = createSeededRandom(selection.seed);
   let selected: AssessmentQuestion[] | undefined;
   if (
     profile?.sectionTargets
@@ -419,6 +506,7 @@ export function assemblePractice({
       candidateCells,
       difficultyTargets,
       profile.higherOrderMinimum,
+      profile.higherOrderMaximum ?? profile.count,
     );
     if (allocation) {
       selected = selectQuotaQuestions(
@@ -428,6 +516,8 @@ export function assemblePractice({
         random,
         blueprint.maximumFamilyRepetition,
         profile.higherOrderMinimum,
+        profile.higherOrderMaximum ?? profile.count,
+        profile.requiredObjectiveIds ?? [],
         history,
       );
     }

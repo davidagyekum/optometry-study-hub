@@ -40,9 +40,12 @@ const example = readFileSync('.env.example', 'utf8');
 if (
   !example.includes('NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT=false')
   || !example.includes('NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE=false')
-  || /NEXT_PUBLIC_ENABLE_(?:ASSESSMENT_PILOT|HVP_CURATED_PRACTICE)=true/.test(example)
+  || !example.includes(
+    'NEXT_PUBLIC_ENABLE_TISSUE_FOUNDATIONS_CURATED_PRACTICE=false',
+  )
+  || /NEXT_PUBLIC_ENABLE_(?:ASSESSMENT_PILOT|HVP_CURATED_PRACTICE|TISSUE_FOUNDATIONS_CURATED_PRACTICE)=true/.test(example)
 ) {
-  throw new Error('Committed feature defaults must keep both assessment flags false.');
+  throw new Error('Committed feature defaults must keep all assessment flags false.');
 }
 
 console.log('Release profiles and repository guardrails passed.');
