@@ -275,6 +275,6 @@ describe('complete Neuro Anatomy curated integration', () => {
       'opt376-aqueous-vitreous-curated-v1',
       'curated-attempt',
     )).toBe('curated');
-    expect(curatedExperienceRegistry).toHaveLength(5);
+    expect(curatedExperienceRegistry).toHaveLength(6);
   });
 });

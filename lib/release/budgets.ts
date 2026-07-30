@@ -89,6 +89,21 @@ export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = 
     buildDurationMs: 22_743,
     fileCount: 165,
   },
+  'environmental-vision-preview': {
+    totalOutputBytes: 8_500_000,
+    clientJavaScriptBytes: 1_900_000,
+    initialHomeJavaScriptBytes: 510_000,
+    disabledPracticeHubJavaScriptBytes: 510_000,
+    disabledProgressHubJavaScriptBytes: 510_000,
+    hvpEnabledPracticeHubJavaScriptBytes: 860_000,
+    hvpEnabledProgressHubJavaScriptBytes: 860_000,
+    incrementalControlledHvpJavaScriptBytes: 430_000,
+    incrementalHvpAnalyticsJavaScriptBytes: 350_000,
+    combinedIncrementalHvpJavaScriptBytes: 455_000,
+    largestAssetBytes: 650_000,
+    buildDurationMs: 10_000,
+    fileCount: 170,
+  },
 };
 
 const withHeadroom = (value: number) => Math.ceil(value * 1.1);

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650" width="1000" height="650" role="img" aria-labelledby="title desc">
+  <title id="title">Neutral mechanical ocular injury paths</title>
+  <desc id="desc">A simplified eye cross-section with a surface impact, a single-entry trajectory ending inside the globe and a trajectory passing through entry and exit wounds.</desc>
+  <rect width="1000" height="650" fill="#f7f8fa"/>
+  <path d="M315 325 C345 130 525 80 710 110 C840 132 920 220 925 325 C920 430 840 518 710 540 C525 570 345 520 315 325Z" fill="#fff" stroke="#263238" stroke-width="8"/>
+  <path d="M315 325 C330 245 360 205 405 175 C380 245 380 405 405 475 C360 445 330 405 315 325Z" fill="#d9f2fb" stroke="#3185a8" stroke-width="6"/>
+  <ellipse cx="472" cy="325" rx="55" ry="118" fill="#edf1cd" stroke="#7b8d2a" stroke-width="7"/>
+  <path d="M865 205 C905 260 930 305 925 325 C930 345 905 390 865 445" fill="none" stroke="#c15b67" stroke-width="16"/>
+  <path d="M80 145 L285 225" stroke="#59636b" stroke-width="16" stroke-linecap="round"/>
+  <circle cx="294" cy="229" r="24" fill="#d9d9d9" stroke="#444" stroke-width="6"/>
+  <path d="M80 310 L570 325" stroke="#d97706" stroke-width="14" stroke-linecap="round"/>
+  <path d="M570 325 L530 300 M570 325 L530 350" stroke="#d97706" stroke-width="12" stroke-linecap="round"/>
+  <path d="M80 500 L940 440" stroke="#b91c1c" stroke-width="14" stroke-linecap="round"/>
+  <path d="M940 440 L895 420 M940 440 L900 470" stroke="#b91c1c" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="330" cy="482" r="16" fill="#f8d7da" stroke="#b91c1c" stroke-width="5"/>
+  <circle cx="900" cy="443" r="16" fill="#f8d7da" stroke="#b91c1c" stroke-width="5"/>
+</svg>

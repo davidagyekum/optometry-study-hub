@@ -304,6 +304,8 @@ export function validateBuildIdentity(
       !== expectedFlags.aqueousVitreousCuratedPractice
     || metadata.flags.bloodSupplyCuratedPractice
       !== expectedFlags.bloodSupplyCuratedPractice
+    || metadata.flags.environmentalVisionCuratedPractice
+      !== expectedFlags.environmentalVisionCuratedPractice
   ) {
     throw new Error(`Release build metadata flags do not match profile ${profile}.`);
   }

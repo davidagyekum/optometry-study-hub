@@ -12,7 +12,7 @@ import {
 } from '@/lib/release/profile';
 
 describe('release profiles', () => {
-  it('parses only the five declared profiles', () => {
+  it('parses only the six declared profiles', () => {
     expect(parseReleaseProfile('disabled')).toBe('disabled');
     expect(parseReleaseProfile('hvp-public-beta')).toBe('hvp-public-beta');
     expect(parseReleaseProfile('tissue-foundations-preview'))
@@ -34,11 +34,11 @@ describe('release profiles', () => {
   it('rejects Aqueous exposure and mismatched profile flags', () => {
     expect(() => assertReleaseProfile('hvp-public-beta', {
       assessmentPilot: true,
-      hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false,
+      hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false,
     })).toThrow(/Aqueous/i);
     expect(() => assertReleaseProfile('disabled', {
       assessmentPilot: false,
-      hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false,
+      hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false,
     })).toThrow(/does not match/i);
   });
 
@@ -59,6 +59,7 @@ describe('release profiles', () => {
   it('marks the Neuro Anatomy profile as preview-only', () => {
     expect(isPublishableReleaseProfile('hvp-public-beta')).toBe(true);
     expect(isPublishableReleaseProfile('neuro-anatomy-preview')).toBe(false);
+    expect(isPublishableReleaseProfile('environmental-vision-preview')).toBe(false);
     expect(assertPublishableReleaseProfile('hvp-public-beta'))
       .toBe('hvp-public-beta');
     expect(() => assertPublishableReleaseProfile('neuro-anatomy-preview'))
@@ -80,6 +81,9 @@ describe('release profiles', () => {
     );
     expect(example).toContain(
       'NEXT_PUBLIC_ENABLE_BLOOD_SUPPLY_CURATED_PRACTICE=false',
+    );
+    expect(example).toContain(
+      'NEXT_PUBLIC_ENABLE_ENVIRONMENTAL_VISION_CURATED_PRACTICE=false',
     );
     expect(example).not.toMatch(/NEXT_PUBLIC_ENABLE_\w+=true/);
   });

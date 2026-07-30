@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 680" width="1000" height="680" role="img" aria-labelledby="title desc">
+  <title id="title">Neutral workplace lighting distribution schematic</title>
+  <desc id="desc">A room with a direct fixture, an indirect fixture, a local task light, work surfaces and a glossy reflective panel.</desc>
+  <rect width="1000" height="680" fill="#f7f8fa"/>
+  <path d="M60 70 H940 V610 H60Z" fill="#fff" stroke="#455a64" stroke-width="8"/>
+  <rect x="135" y="82" width="170" height="70" rx="12" fill="#f4e9a8" stroke="#5f5732" stroke-width="7"/>
+  <path d="M170 158 L115 455 M220 158 L220 455 M270 158 L330 455" stroke="#f1c40f" stroke-width="8" opacity="0.45"/>
+  <rect x="615" y="92" width="170" height="58" rx="12" fill="#e7edf3" stroke="#455a64" stroke-width="7"/>
+  <path d="M650 88 L620 55 M700 88 L700 42 M750 88 L785 55" stroke="#f1c40f" stroke-width="8" opacity="0.55"/>
+  <path d="M615 55 C665 20 735 20 785 55" fill="none" stroke="#f1c40f" stroke-width="8" opacity="0.35"/>
+  <path d="M640 155 C670 245 650 310 610 395 M700 155 C700 250 700 310 700 395 M760 155 C730 245 750 310 790 395" stroke="#f1c40f" stroke-width="7" opacity="0.22"/>
+  <rect x="150" y="460" width="720" height="42" rx="8" fill="#a87958" stroke="#68452e" stroke-width="7"/>
+  <path d="M220 502 V610 M800 502 V610" stroke="#68452e" stroke-width="18"/>
+  <path d="M410 410 V520" stroke="#455a64" stroke-width="11"/>
+  <path d="M410 412 C420 365 455 335 500 335" fill="none" stroke="#455a64" stroke-width="11" stroke-linecap="round"/>
+  <path d="M485 320 L550 340 L520 400 L460 375Z" fill="#f2d46b" stroke="#6f5d1d" stroke-width="6"/>
+  <path d="M485 385 L430 455" stroke="#f4c542" stroke-width="8" opacity="0.5"/>
+  <rect x="680" y="480" width="165" height="58" rx="8" fill="#394a56" stroke="#202a31" stroke-width="7"/>
+  <path d="M700 492 L825 525" stroke="#d8ecf7" stroke-width="7" opacity="0.75"/>
+  <path d="M705 465 C745 420 800 420 840 465" fill="none" stroke="#7fc8ea" stroke-width="8" opacity="0.6"/>
+</svg>

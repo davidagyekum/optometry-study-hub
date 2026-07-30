@@ -57,7 +57,7 @@ describe("package scripts", () => {
       "questions:review-snapshot": "tsx scripts/export-question-bank-snapshot.ts",
       "release:build:neuro":
         "tsx scripts/run-release-build.ts --profile=neuro-anatomy-preview",
-      check: "npm run lint && npm run typecheck && npm run test && npm run questions:validate && npm run questions:blueprint && npm run questions:validate:hvp && npm run questions:blueprint:hvp && npm run questions:validate:tissue && npm run questions:blueprint:tissue && npm run questions:validate:ocular -- --strict && npm run questions:blueprint:ocular && npm run questions:validate:blood -- --strict && npm run questions:blueprint:blood && npm run build",
+      check: "npm run lint && npm run typecheck && npm run test && npm run questions:validate && npm run questions:blueprint && npm run questions:validate:hvp && npm run questions:blueprint:hvp && npm run questions:validate:tissue && npm run questions:blueprint:tissue && npm run questions:validate:ocular -- --strict && npm run questions:blueprint:ocular && npm run questions:validate:blood -- --strict && npm run questions:blueprint:blood && npm run questions:validate:environmental-vision -- --strict && npm run questions:blueprint:environmental-vision && npm run build",
     });
   });
 

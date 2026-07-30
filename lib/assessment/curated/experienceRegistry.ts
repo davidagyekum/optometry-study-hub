@@ -43,6 +43,15 @@ import {
   isBloodSupplyCuratedPracticeEnabled,
 } from '@/lib/assessment/blood-supply/config';
 import {
+  ENVIRONMENTAL_VISION_BLUEPRINT_ID,
+  ENVIRONMENTAL_VISION_COURSE_ID,
+  ENVIRONMENTAL_VISION_EXPERIENCE_ID,
+  ENVIRONMENTAL_VISION_MODULE_ID,
+  ENVIRONMENTAL_VISION_ROUTE_ID,
+  ENVIRONMENTAL_VISION_WRITTEN_BLUEPRINT_ID,
+  isEnvironmentalVisionCuratedPracticeEnabled,
+} from '@/lib/assessment/environmental-vision/config';
+import {
   curatedExperienceSummarySchema,
   type CuratedExperienceAdapter,
   type CuratedExperienceSummary,
@@ -311,6 +320,43 @@ export const bloodSupplyCuratedSummary: CuratedExperienceSummary = deepFreeze({
   },
 });
 
+export const environmentalVisionCuratedSummary: CuratedExperienceSummary =
+  deepFreeze({
+    experienceId: ENVIRONMENTAL_VISION_EXPERIENCE_ID,
+    courseId: ENVIRONMENTAL_VISION_COURSE_ID,
+    moduleId: ENVIRONMENTAL_VISION_MODULE_ID,
+    title: 'Environmental Vision curated practice',
+    shortTitle: 'Environmental Vision',
+    courseCode: 'OPT 508',
+    routeSegment: ENVIRONMENTAL_VISION_ROUTE_ID,
+    blueprintIds: [
+      ENVIRONMENTAL_VISION_BLUEPRINT_ID,
+      ENVIRONMENTAL_VISION_WRITTEN_BLUEPRINT_ID,
+    ],
+    statusLabel: 'Curated study practice',
+    enabled: false,
+    supportsAutomaticPractice: true,
+    supportsWrittenPractice: true,
+    studyEntryTitle: 'Curated slide-aligned practice',
+    studyEntryDescription:
+      'Build mixed-format practice from 80 Environmental Vision questions while preserving the separate legacy quiz.',
+    documentTitles: {
+      landing: 'Environmental Vision Curated Practice',
+      session: 'Environmental Vision Practice Session',
+      result: 'Environmental Vision Practice Result',
+      unavailable: 'Environmental Vision Curated Practice Unavailable',
+    },
+    releaseStatus: {
+      ariaLabel: 'Environmental Vision curated practice release status',
+      title: 'Curated study practice',
+      lines: [
+        'Internally checked and aligned to the supplied Environmental Vision decks.',
+        'Not lecturer-approved examination material.',
+        'Progress is stored only on this device.',
+      ],
+    },
+  });
+
 export const curatedExperienceRegistry = createCuratedExperienceRegistry([
   {
     summary: hvpCuratedSummary,
@@ -403,6 +449,25 @@ export const curatedExperienceRegistry = createCuratedExperienceRegistry([
         '@/lib/progress/bloodSupplyProgressModule'
       );
       return loadedModule.bloodSupplyProgressModule;
+    },
+  },
+  {
+    summary: environmentalVisionCuratedSummary,
+    isEnabled: isEnvironmentalVisionCuratedPracticeEnabled,
+    loadPracticeModule: async () => {
+      const [factory, environmentalVision] = await Promise.all([
+        import('@/components/assessment/curated/createCuratedPracticeModule'),
+        import('@/lib/assessment/environmental-vision/definition'),
+      ]);
+      return factory.createCuratedPracticeModule(
+        environmentalVision.environmentalVisionPracticeDefinition,
+      );
+    },
+    loadProgressModule: async () => {
+      const loadedModule = await import(
+        '@/lib/progress/environmentalVisionProgressModule'
+      );
+      return loadedModule.environmentalVisionProgressModule;
     },
   },
 ]);

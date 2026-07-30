@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 720" width="1000" height="720" role="img" aria-labelledby="title desc">
+  <title id="title">Neutral workstation ergonomics schematic</title>
+  <desc id="desc">A seated user with eye line, desk, central monitor, alternative monitor zones, document holder, task light, keyboard and chair.</desc>
+  <rect width="1000" height="720" fill="#f7f8fa"/>
+  <circle cx="270" cy="195" r="50" fill="#ead3c0" stroke="#4d4d4d" stroke-width="7"/>
+  <circle cx="309" cy="190" r="6" fill="#263238"/>
+  <path d="M255 245 C205 300 202 470 250 555 L350 555 C376 450 360 310 300 250Z" fill="#9db7d5" stroke="#40566d" stroke-width="7"/>
+  <path d="M315 318 L447 430" stroke="#40566d" stroke-width="28" stroke-linecap="round"/>
+  <path d="M250 552 L205 650 M325 552 L385 650" stroke="#40566d" stroke-width="30" stroke-linecap="round"/>
+  <path d="M309 194 H760" stroke="#78909c" stroke-width="5" stroke-dasharray="14 12"/>
+  <rect x="470" y="410" width="430" height="35" rx="8" fill="#a7744d" stroke="#62452f" stroke-width="6"/>
+  <path d="M520 445 V660 M845 445 V660" stroke="#62452f" stroke-width="18"/>
+  <rect x="490" y="205" width="220" height="230" rx="12" fill="#dce9f3" stroke="#263238" stroke-width="8"/>
+  <rect x="515" y="230" width="170" height="160" rx="5" fill="#f8fbfd" stroke="#6f8796" stroke-width="4"/>
+  <path d="M600 435 V475 M550 475 H650" stroke="#263238" stroke-width="10" stroke-linecap="round"/>
+  <rect x="490" y="35" width="220" height="150" rx="12" fill="none" stroke="#a5b4be" stroke-width="6" stroke-dasharray="12 10"/>
+  <rect x="330" y="225" width="120" height="190" rx="12" fill="none" stroke="#c0a5a5" stroke-width="6" stroke-dasharray="12 10"/>
+  <path d="M715 425 L770 335 L800 345 L760 435Z" fill="#f4ead5" stroke="#6d624e" stroke-width="6"/>
+  <path d="M845 205 V365" stroke="#455a64" stroke-width="12"/>
+  <path d="M845 210 C830 170 845 135 885 120" fill="none" stroke="#455a64" stroke-width="12" stroke-linecap="round"/>
+  <path d="M865 125 L930 145 L900 205 L840 180Z" fill="#f2d46b" stroke="#6f5d1d" stroke-width="6"/>
+  <path d="M850 200 L770 335" stroke="#f4c542" stroke-width="8" opacity="0.45"/>
+  <rect x="430" y="420" width="160" height="20" rx="5" fill="#4d5963"/>
+  <path d="M160 360 H240 V560 H165Z" fill="#536b7a" stroke="#263238" stroke-width="7"/>
+  <path d="M165 560 L125 665 M235 560 L275 665" stroke="#263238" stroke-width="18"/>
+</svg>

@@ -48,6 +48,8 @@ const commands: Command[] = [
   { label: 'Combined HVP and Tissue bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=hvp-tissue-preview') },
   { label: 'Neuro Anatomy preview build', command: npmCommand, args: npmArgs('run', 'release:build:neuro') },
   { label: 'Neuro Anatomy preview bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=neuro-anatomy-preview') },
+  { label: 'Environmental Vision preview build', command: npmCommand, args: npmArgs('run', 'release:build:environmental-vision') },
+  { label: 'Environmental Vision preview bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=environmental-vision-preview') },
   { label: 'Release manifest', command: npmCommand, args: npmArgs('run', 'release:manifest') },
   { label: 'Whitespace validation', command: 'git', args: ['diff', '--check'] },
 ];
@@ -86,6 +88,8 @@ if (
     !== metadata.flags.aqueousVitreousCuratedPractice
   || manifest.flags.bloodSupplyCuratedPractice
     !== metadata.flags.bloodSupplyCuratedPractice
+  || manifest.flags.environmentalVisionCuratedPractice
+    !== metadata.flags.environmentalVisionCuratedPractice
   || manifest.build.outputFingerprint !== metadata.outputFingerprint
   || manifest.build.identity.outputFingerprint !== metadata.outputFingerprint
 ) {

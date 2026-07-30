@@ -93,6 +93,14 @@ describe('generic curated release-audit registry', () => {
       'neuro-anatomy-preview',
     )).toBe(false);
   });
+  it('enables only Environmental Vision in its preview profile', () => {
+    expect(curatedReleaseAuditRegistry.filter(
+      (definition) => definition.enabledInProfile('environmental-vision-preview'),
+    ).map((definition) => definition.experienceId)).toEqual([
+      'environmental-vision',
+    ]);
+  });
+
   it('analyzes two lazy boundaries and counts shared chunks once', () => {
     const closures = analyzeReleaseClosures(manifest, definitions);
     expect(Object.keys(closures.experiences)).toEqual(['first', 'second']);

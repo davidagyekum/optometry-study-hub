@@ -8,6 +8,7 @@ import { humanVisualPerceptionCandidateBank } from '@/content/question-bank/opt3
 import { tissueFoundationsCandidateBank } from '@/content/question-bank/opt376/tissue-foundations/bank';
 import { ocularAdnexaCandidateBank } from '@/content/question-bank/opt376/ocular-adnexa/bank';
 import { bloodSupplyCandidateBank } from '@/content/question-bank/opt376/blood-supply/bank';
+import { environmentalVisionCandidateBank } from '@/content/question-bank/opt508/environmental-vision/bank';
 import { QUESTION_FORMATS } from '@/lib/assessment/constants';
 import {
   assertReleaseAssertions,
@@ -16,6 +17,7 @@ import {
   EXPECTED_OCULAR_ADNEXA_CHECKSUM,
   EXPECTED_AQUEOUS_VITREOUS_CHECKSUM,
   EXPECTED_BLOOD_SUPPLY_CHECKSUM,
+  EXPECTED_ENVIRONMENTAL_VISION_CHECKSUM,
   reviewStatusCounts,
 } from '@/lib/release/assertions';
 import type { BundleAuditResult } from '@/lib/release/bundleAudit';
@@ -68,6 +70,7 @@ function sameFlags(
     ocularAdnexaCuratedPractice: boolean;
     aqueousVitreousCuratedPractice: boolean;
     bloodSupplyCuratedPractice: boolean;
+    environmentalVisionCuratedPractice: boolean;
   },
   right: {
     assessmentPilot: boolean;
@@ -76,6 +79,7 @@ function sameFlags(
     ocularAdnexaCuratedPractice: boolean;
     aqueousVitreousCuratedPractice: boolean;
     bloodSupplyCuratedPractice: boolean;
+    environmentalVisionCuratedPractice: boolean;
   },
 ): boolean {
   return left.assessmentPilot === right.assessmentPilot
@@ -87,7 +91,9 @@ function sameFlags(
     && left.aqueousVitreousCuratedPractice
       === right.aqueousVitreousCuratedPractice
     && left.bloodSupplyCuratedPractice
-      === right.bloodSupplyCuratedPractice;
+      === right.bloodSupplyCuratedPractice
+    && left.environmentalVisionCuratedPractice
+      === right.environmentalVisionCuratedPractice;
 }
 
 export function createReleaseManifest(
@@ -200,6 +206,17 @@ export function createReleaseManifest(
           : []),
       )).size,
       bloodSupplyChecksum: EXPECTED_BLOOD_SUPPLY_CHECKSUM,
+      environmentalVisionQuestions: environmentalVisionCandidateBank.questions.length,
+      environmentalVisionObjectives: environmentalVisionCandidateBank.objectives.length,
+      environmentalVisionSources: environmentalVisionCandidateBank.sources.length,
+      environmentalVisionSvgDiagrams: new Set(
+        environmentalVisionCandidateBank.questions.flatMap(
+          (question) => ('image' in question && question.image.src.endsWith('.svg')
+            ? [question.image.src]
+            : []),
+        ),
+      ).size,
+      environmentalVisionChecksum: EXPECTED_ENVIRONMENTAL_VISION_CHECKSUM,
       reviewStatuses: {
         aqueousQuestions: reviewStatusCounts(aqueousVitreousCandidateBank.questions),
         aqueousObjectives: reviewStatusCounts(aqueousVitreousCandidateBank.objectives),
@@ -211,6 +228,12 @@ export function createReleaseManifest(
         ocularAdnexaObjectives: reviewStatusCounts(ocularAdnexaCandidateBank.objectives),
         bloodSupplyQuestions: reviewStatusCounts(bloodSupplyCandidateBank.questions),
         bloodSupplyObjectives: reviewStatusCounts(bloodSupplyCandidateBank.objectives),
+        environmentalVisionQuestions: reviewStatusCounts(
+          environmentalVisionCandidateBank.questions,
+        ),
+        environmentalVisionObjectives: reviewStatusCounts(
+          environmentalVisionCandidateBank.objectives,
+        ),
       },
       academicStatus:
         'Curated draft educational practice; not lecturer-approved examination items.',
@@ -282,7 +305,7 @@ export function renderReleaseReport(
 - Tree: \`${manifest.git.treeSha}\`
 - Built: ${manifest.builtAt}
 - Build profile: \`${manifest.build.identity.profile}\`
-- Build flags: Aqueous pilot \`${manifest.build.identity.flags.assessmentPilot}\`, HVP \`${manifest.build.identity.flags.hvpCuratedPractice}\`, Tissue \`${manifest.build.identity.flags.tissueFoundationsCuratedPractice}\`, Ocular Adnexa \`${manifest.build.identity.flags.ocularAdnexaCuratedPractice}\`, Aqueous curated \`${manifest.build.identity.flags.aqueousVitreousCuratedPractice}\`, Blood Supply \`${manifest.build.identity.flags.bloodSupplyCuratedPractice}\`
+- Build flags: Aqueous pilot \`${manifest.build.identity.flags.assessmentPilot}\`, HVP \`${manifest.build.identity.flags.hvpCuratedPractice}\`, Tissue \`${manifest.build.identity.flags.tissueFoundationsCuratedPractice}\`, Ocular Adnexa \`${manifest.build.identity.flags.ocularAdnexaCuratedPractice}\`, Aqueous curated \`${manifest.build.identity.flags.aqueousVitreousCuratedPractice}\`, Blood Supply \`${manifest.build.identity.flags.bloodSupplyCuratedPractice}\`, Environmental Vision \`${manifest.build.identity.flags.environmentalVisionCuratedPractice}\`
 - Build fingerprint: \`${manifest.build.identity.outputFingerprint}\`
 - Build runtime: Node \`${manifest.build.identity.nodeVersion}\`, npm \`${manifest.build.identity.npmVersion}\`
 - Manifest SHA-256: \`${manifestChecksum}\`
@@ -293,11 +316,13 @@ export function renderReleaseReport(
 - Ocular Adnexa curated practice: ${manifest.flags.ocularAdnexaCuratedPractice ? 'enabled' : 'disabled'}
 - Aqueous and Vitreous curated practice: ${manifest.flags.aqueousVitreousCuratedPractice ? 'enabled' : 'disabled'}
 - Blood Supply curated practice: ${manifest.flags.bloodSupplyCuratedPractice ? 'enabled' : 'disabled'}
+- Environmental Vision curated practice: ${manifest.flags.environmentalVisionCuratedPractice ? 'enabled' : 'disabled'}
 - Storage: \`${manifest.storage.key}\` with rollback key \`${manifest.storage.rollbackKey}\`
 - HVP bank SHA-256: \`${manifest.content.hvpChecksum}\`
 - Ocular Adnexa bank SHA-256: \`${manifest.content.ocularAdnexaChecksum}\`
 - Aqueous and Vitreous bank SHA-256: \`${manifest.content.aqueousChecksum}\`
 - Blood Supply bank SHA-256: \`${manifest.content.bloodSupplyChecksum}\`
+- Environmental Vision bank SHA-256: \`${manifest.content.environmentalVisionChecksum}\`
 - Academic status: ${manifest.content.academicStatus}
 
 ## Content identity
@@ -308,6 +333,7 @@ export function renderReleaseReport(
 - ${manifest.content.legacyQuestions} legacy questions
 - ${manifest.content.aqueousQuestions} Aqueous questions and ${manifest.content.aqueousObjectives} objectives
 - ${manifest.content.bloodSupplyQuestions} Blood Supply questions, ${manifest.content.bloodSupplyObjectives} objectives, ${manifest.content.bloodSupplySources} sources and ${manifest.content.bloodSupplySvgDiagrams} SVG diagrams
+- ${manifest.content.environmentalVisionQuestions} Environmental Vision questions, ${manifest.content.environmentalVisionObjectives} objectives, ${manifest.content.environmentalVisionSources} sources and ${manifest.content.environmentalVisionSvgDiagrams} SVG diagrams
 - ${manifest.content.hvpQuestions} HVP questions, ${manifest.content.hvpObjectives} objectives, ${manifest.content.hvpSources} sources
 - ${manifest.content.hvpSvgDiagrams} HVP SVG diagrams
 - ${manifest.content.tissueQuestions} Tissue questions, ${manifest.content.tissueObjectives} objectives,
