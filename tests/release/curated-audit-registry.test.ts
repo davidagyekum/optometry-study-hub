@@ -107,6 +107,18 @@ describe('generic curated release-audit registry', () => {
     ).map((definition) => definition.experienceId)).toEqual([
       'autonomic-pharmacology',
     ]);
+  });  it('enables only Systemic Pathology in its preview profile', () => {
+    expect(curatedReleaseAuditRegistry.filter(
+      (definition) => definition.enabledInProfile('systemic-pathology-preview'),
+    ).map((definition) => definition.experienceId)).toEqual([
+      'systemic-pathology',
+    ]);
+  });
+
+  it('enables all eight curated experiences in the full preview profile', () => {
+    expect(curatedReleaseAuditRegistry.filter(
+      (definition) => definition.enabledInProfile('full-curated-preview'),
+    )).toHaveLength(8);
   });
   it('analyzes two lazy boundaries and counts shared chunks once', () => {
     const closures = analyzeReleaseClosures(manifest, definitions);

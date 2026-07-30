@@ -12,6 +12,7 @@ import { ocularAdnexaCandidateBank } from '@/content/question-bank/opt376/ocular
 import { bloodSupplyCandidateBank } from '@/content/question-bank/opt376/blood-supply/bank';
 import { environmentalVisionCandidateBank } from '@/content/question-bank/opt508/environmental-vision/bank';
 import { autonomicPharmacologyCandidateBank } from '@/content/question-bank/pharmacology/autonomic-pharmacology/bank';
+import { systemicPathologyCandidateBank } from '@/content/question-bank/systemic-pathology/systemic-pathology/bank';
 import { QUESTION_FORMATS, REVIEW_STATUSES } from '@/lib/assessment/constants';
 import { AQUEOUS_PILOT_QUESTION_IDS } from '@/lib/assessment/pilot/blueprint';
 import { questionsFor } from '@/lib/legacy/questionGenerator';
@@ -39,6 +40,9 @@ export const EXPECTED_ENVIRONMENTAL_VISION_CHECKSUM =
 
 export const EXPECTED_AUTONOMIC_PHARMACOLOGY_CHECKSUM =
   '7f8c0d7915bccd3c3ffcf2ac96bc44758366928198ec55e68ee5e5c55d43e143';
+
+export const EXPECTED_SYSTEMIC_PATHOLOGY_CHECKSUM =
+  '06ed91a7323147e8eb9ce1fe6d4813209d986d0b4e4664d55136a012d544b379';
 
 export const EXPECTED_AQUEOUS_PILOT_HASHES: Record<string, string> = {
   'aqueous-flow-sba-001': 'fd062b040d1f52b25797007ba5e0c2abbbacb98d4c8903c0c988ea566fd8b0f4',
@@ -114,6 +118,14 @@ export function autonomicPharmacologyChecksum(): string {
     .digest('hex');
 }
 
+export function systemicPathologyChecksum(): string {
+  return createHash('sha256')
+    .update(readFileSync(
+      'content/question-bank/systemic-pathology/systemic-pathology/bank.json',
+    ))
+    .digest('hex');
+}
+
 export function aqueousVitreousChecksum(): string {
   return createHash('sha256')
     .update(readFileSync(
@@ -127,7 +139,7 @@ export function trackedEnabledReleaseEnvironmentFiles(): string[] {
     cwd: process.cwd(),
     encoding: 'utf8',
   }).split(/\r?\n/).filter(Boolean);
-  return files.filter((file) => /NEXT_PUBLIC_ENABLE_(?:ASSESSMENT_PILOT|HVP_CURATED_PRACTICE|TISSUE_FOUNDATIONS_CURATED_PRACTICE|OCULAR_ADNEXA_CURATED_PRACTICE|AQUEOUS_VITREOUS_CURATED_PRACTICE|BLOOD_SUPPLY_CURATED_PRACTICE|ENVIRONMENTAL_VISION_CURATED_PRACTICE|AUTONOMIC_PHARMACOLOGY_CURATED_PRACTICE)=true/.test(
+  return files.filter((file) => /NEXT_PUBLIC_ENABLE_(?:ASSESSMENT_PILOT|HVP_CURATED_PRACTICE|TISSUE_FOUNDATIONS_CURATED_PRACTICE|OCULAR_ADNEXA_CURATED_PRACTICE|AQUEOUS_VITREOUS_CURATED_PRACTICE|BLOOD_SUPPLY_CURATED_PRACTICE|ENVIRONMENTAL_VISION_CURATED_PRACTICE|AUTONOMIC_PHARMACOLOGY_CURATED_PRACTICE|SYSTEMIC_PATHOLOGY_CURATED_PRACTICE)=true/.test(
     readFileSync(file, 'utf8'),
   ));
 }
@@ -179,6 +191,13 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
   ).size;
   const autonomicPharmacologySvgCount = new Set(
     autonomicPharmacologyCandidateBank.questions.flatMap(
+      (question) => ('image' in question && question.image.src.endsWith('.svg')
+        ? [question.image.src]
+        : []),
+    ),
+  ).size;
+  const systemicPathologySvgCount = new Set(
+    systemicPathologyCandidateBank.questions.flatMap(
       (question) => ('image' in question && question.image.src.endsWith('.svg')
         ? [question.image.src]
         : []),
@@ -308,7 +327,25 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
       'autonomic-pharmacology-checksum',
       autonomicPharmacologyChecksum() === EXPECTED_AUTONOMIC_PHARMACOLOGY_CHECKSUM,
       `SHA-256 ${autonomicPharmacologyChecksum()}`,
-    ),    assertion(
+    ),
+    assertion(
+      'systemic-pathology-content',
+      systemicPathologyCandidateBank.questions.length === 80
+        && systemicPathologyCandidateBank.objectives.length === 20
+        && systemicPathologyCandidateBank.sources.length === 19,
+      `${systemicPathologyCandidateBank.questions.length} questions; ${systemicPathologyCandidateBank.objectives.length} objectives; ${systemicPathologyCandidateBank.sources.length} sources`,
+    ),
+    assertion(
+      'systemic-pathology-svg-assets',
+      systemicPathologySvgCount === 5,
+      `${systemicPathologySvgCount} unique SVG diagrams`,
+    ),
+    assertion(
+      'systemic-pathology-checksum',
+      systemicPathologyChecksum() === EXPECTED_SYSTEMIC_PATHOLOGY_CHECKSUM,
+      `SHA-256 ${systemicPathologyChecksum()}`,
+    ),
+    assertion(
       'assessment-formats',
       QUESTION_FORMATS.length === 10,
       `${QUESTION_FORMATS.length} supported formats`,
@@ -340,8 +377,20 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
         )
         && environmentalVisionCandidateBank.objectives.every(
           (objective) => objective.reviewStatus === 'draft',
+        )
+        && autonomicPharmacologyCandidateBank.questions.every(
+          (question) => question.reviewStatus === 'draft',
+        )
+        && autonomicPharmacologyCandidateBank.objectives.every(
+          (objective) => objective.reviewStatus === 'draft',
+        )
+        && systemicPathologyCandidateBank.questions.every(
+          (question) => question.reviewStatus === 'draft',
+        )
+        && systemicPathologyCandidateBank.objectives.every(
+          (objective) => objective.reviewStatus === 'draft',
         ),
-      'All Aqueous, HVP, Tissue, Ocular Adnexa, Blood Supply and Environmental Vision questions and objectives remain draft.',
+      'All curated questions and objectives remain draft.',
     ),
     assertion(
       'storage-identity',

@@ -18,7 +18,7 @@ import {
 
 describe('curated-experience registry', () => {
   it('contains safe discovery metadata for every production adapter', () => {
-    expect(curatedExperienceRegistry).toHaveLength(7);
+    expect(curatedExperienceRegistry).toHaveLength(8);
     expect(curatedExperienceSummaries()).toEqual([
       expect.objectContaining({
         experienceId: 'human-visual-perception',
@@ -95,7 +95,19 @@ describe('curated-experience registry', () => {
           'autonomic-pharmacology-written-v1',
         ],
         enabled: false,
-      }),    ]);
+      }),
+      expect.objectContaining({
+        experienceId: 'systemic-pathology',
+        courseId: 'systemic-pathology',
+        moduleId: 'systemic-pathology',
+        routeSegment: 'systemic-pathology-curated',
+        blueprintIds: [
+          'systemic-pathology-curated-v1',
+          'systemic-pathology-written-v1',
+        ],
+        enabled: false,
+      }),
+    ]);
   });
 
   it.each([
@@ -164,7 +176,7 @@ describe('curated-experience registry', () => {
     expect(summaryForModule('dummy-module', [dummyCuratedSummary])).toEqual(
       dummyCuratedSummary,
     );
-    expect(curatedExperienceRegistry).toHaveLength(7);
+    expect(curatedExperienceRegistry).toHaveLength(8);
   });
 
   it('does not invoke answer-bearing loaders during registry discovery', () => {

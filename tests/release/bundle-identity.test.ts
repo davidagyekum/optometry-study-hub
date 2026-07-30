@@ -46,6 +46,10 @@ const AUTONOMIC_PHARMACOLOGY_CONTROLLED_ENTRY =
   'lib/assessment/autonomic-pharmacology/definition.tsx';
 const AUTONOMIC_PHARMACOLOGY_ANALYTICS_ENTRY =
   'lib/progress/autonomicPharmacologyProgressModule.tsx';
+const SYSTEMIC_PATHOLOGY_CONTROLLED_ENTRY =
+  'lib/assessment/systemic-pathology/definition.tsx';
+const SYSTEMIC_PATHOLOGY_ANALYTICS_ENTRY =
+  'lib/progress/systemicPathologyProgressModule.tsx';
 
 const git = {
   commitSha: '1'.repeat(40),
@@ -59,7 +63,7 @@ function metadata(
   return {
     schemaVersion: 1,
     profile: 'hvp-public-beta',
-    flags: { assessmentPilot: false, hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false },
+    flags: { assessmentPilot: false, hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false },
     commitSha: git.commitSha,
     treeSha: git.treeSha,
     dirty: false,
@@ -101,6 +105,8 @@ function manifest(): ViteManifest {
         ENVIRONMENTAL_VISION_ANALYTICS_ENTRY,
         AUTONOMIC_PHARMACOLOGY_CONTROLLED_ENTRY,
         AUTONOMIC_PHARMACOLOGY_ANALYTICS_ENTRY,
+        SYSTEMIC_PATHOLOGY_CONTROLLED_ENTRY,
+        SYSTEMIC_PATHOLOGY_ANALYTICS_ENTRY,
       ],
     },
     shared: { file: 'assets/shared.js' },
@@ -178,6 +184,16 @@ function manifest(): ViteManifest {
       isDynamicEntry: true,
       imports: ['shared'],
     },
+    [SYSTEMIC_PATHOLOGY_CONTROLLED_ENTRY]: {
+      file: 'assets/systemic-pathology-controlled.js',
+      isDynamicEntry: true,
+      imports: ['shared'],
+    },
+    [SYSTEMIC_PATHOLOGY_ANALYTICS_ENTRY]: {
+      file: 'assets/systemic-pathology-analytics.js',
+      isDynamicEntry: true,
+      imports: ['shared'],
+    },
   };
 }
 
@@ -217,7 +233,7 @@ describe('release build identity', () => {
     [
       'wrong feature flags',
       'hvp-public-beta' as const,
-      metadata({ flags: { assessmentPilot: false, hvpCuratedPractice: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false } }),
+      metadata({ flags: { assessmentPilot: false, hvpCuratedPractice: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false } }),
       git,
       'a'.repeat(64),
       /flags/i,
@@ -225,7 +241,7 @@ describe('release build identity', () => {
     [
       'Aqueous enabled',
       'hvp-public-beta' as const,
-      metadata({ flags: { assessmentPilot: true, hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false } }),
+      metadata({ flags: { assessmentPilot: true, hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false } }),
       git,
       'a'.repeat(64),
       /Aqueous/i,
@@ -234,7 +250,7 @@ describe('release build identity', () => {
       'Aqueous curated practice enabled in the HVP profile',
       'hvp-public-beta' as const,
       metadata({ flags: { assessmentPilot: false, hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false,
-        ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: true, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false } }),
+        ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: true, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false } }),
       git,
       'a'.repeat(64),
       /flags/i,
@@ -305,7 +321,7 @@ describe('release build identity', () => {
       releaseOutputDirectory('hvp-public-beta'),
       metadata({
         profile: 'disabled',
-        flags: { assessmentPilot: false, hvpCuratedPractice: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false },
+        flags: { assessmentPilot: false, hvpCuratedPractice: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false },
         outputDirectory: 'tmp/release/builds/disabled',
       }),
       git,
@@ -380,6 +396,8 @@ describe('release bundle closures', () => {
       'assets/environmental-vision-analytics.js': 1,
       'assets/autonomic-pharmacology-controlled.js': 1,
       'assets/autonomic-pharmacology-analytics.js': 1,
+      'assets/systemic-pathology-controlled.js': 1,
+      'assets/systemic-pathology-analytics.js': 1,
     };
     for (const [file, size] of Object.entries(sizes)) {
       const filePath = resolve(output, 'client', file);

@@ -215,6 +215,13 @@ function autonomicPharmacologyMarkers() {
     'Autonomic Pharmacology',
   );
 }
+function systemicPathologyMarkers() {
+  return moduleMarkers(
+    'content/question-bank/systemic-pathology/systemic-pathology/bank.json',
+    ['path-breast', 'path-cardio', 'path-endocrine', 'path-gi', 'path-renal'],
+    'Systemic Pathology',
+  );
+}
 function aqueousCuratedMarkers() {
   return moduleMarkers(
     'content/question-bank/opt376/aqueous-vitreous/bank.json',
@@ -246,6 +253,8 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     progressUiMarkers: ['Current-version mastery', 'Written practice'],
     allowedCrossBankMarkers: () => [],
     excludedCrossBankMarkers: () => [
+      ...systemicPathologyMarkers().authored,
+      ...systemicPathologyMarkers().answers,
       ...autonomicPharmacologyMarkers().authored,
       ...autonomicPharmacologyMarkers().answers,
       ...aqueousMarkers(),
@@ -262,6 +271,7 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     ],
     enabledInProfile: (profile: ReleaseProfileId) => (
       profile === 'hvp-public-beta' || profile === 'hvp-tissue-preview'
+      || profile === 'full-curated-preview'
     ),
   }),
   Object.freeze({
@@ -277,6 +287,8 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     progressUiMarkers: ['Current-version mastery', 'Written practice'],
     allowedCrossBankMarkers: () => [],
     excludedCrossBankMarkers: () => [
+      ...systemicPathologyMarkers().authored,
+      ...systemicPathologyMarkers().answers,
       ...autonomicPharmacologyMarkers().authored,
       ...autonomicPharmacologyMarkers().answers,
       ...aqueousMarkers(),
@@ -295,6 +307,7 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
       profile === 'tissue-foundations-preview'
       || profile === 'hvp-tissue-preview'
       || profile === 'neuro-anatomy-preview'
+      || profile === 'full-curated-preview'
     ),
   }),
   Object.freeze({
@@ -307,6 +320,8 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     progressUiMarkers: ['Current-version mastery', 'Written practice'],
     allowedCrossBankMarkers: () => [],
     excludedCrossBankMarkers: () => [
+      ...systemicPathologyMarkers().authored,
+      ...systemicPathologyMarkers().answers,
       ...autonomicPharmacologyMarkers().authored,
       ...autonomicPharmacologyMarkers().answers,
       ...aqueousMarkers(),
@@ -323,6 +338,7 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     ],
     enabledInProfile: (profile: ReleaseProfileId) => (
       profile === 'neuro-anatomy-preview'
+      || profile === 'full-curated-preview'
     ),
   }),
   Object.freeze({
@@ -335,6 +351,8 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     progressUiMarkers: ['Current-version mastery', 'Written practice'],
     allowedCrossBankMarkers: () => [],
     excludedCrossBankMarkers: () => [
+      ...systemicPathologyMarkers().authored,
+      ...systemicPathologyMarkers().answers,
       ...autonomicPharmacologyMarkers().authored,
       ...autonomicPharmacologyMarkers().answers,
       ...hvpMarkers().authored,
@@ -350,6 +368,7 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     ],
     enabledInProfile: (profile: ReleaseProfileId) => (
       profile === 'neuro-anatomy-preview'
+      || profile === 'full-curated-preview'
     ),
   }),
   Object.freeze({
@@ -362,6 +381,8 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     progressUiMarkers: ['Current-version mastery', 'Written practice'],
     allowedCrossBankMarkers: () => [],
     excludedCrossBankMarkers: () => [
+      ...systemicPathologyMarkers().authored,
+      ...systemicPathologyMarkers().answers,
       ...autonomicPharmacologyMarkers().authored,
       ...autonomicPharmacologyMarkers().answers,
       ...aqueousMarkers(),
@@ -378,6 +399,7 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     ],
     enabledInProfile: (profile: ReleaseProfileId) => (
       profile === 'neuro-anatomy-preview'
+      || profile === 'full-curated-preview'
     ),
   }),
   Object.freeze({
@@ -390,6 +412,8 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     progressUiMarkers: ['Current-version mastery', 'Written practice'],
     allowedCrossBankMarkers: () => [],
     excludedCrossBankMarkers: () => [
+      ...systemicPathologyMarkers().authored,
+      ...systemicPathologyMarkers().answers,
       ...aqueousMarkers(),
       ...aqueousCuratedMarkers().authored,
       ...aqueousCuratedMarkers().answers,
@@ -406,8 +430,41 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     ],
     enabledInProfile: (profile: ReleaseProfileId) => (
       profile === 'autonomic-pharmacology-preview'
+      || profile === 'full-curated-preview'
     ),
-  }),  Object.freeze({
+  }),
+  Object.freeze({
+    experienceId: 'systemic-pathology',
+    practiceEntry: 'lib/assessment/systemic-pathology/definition.tsx',
+    progressEntry: 'lib/progress/systemicPathologyProgressModule.tsx',
+    authoredContentMarkers: () => systemicPathologyMarkers().authored,
+    answerIdentityMarkers: () => systemicPathologyMarkers().answers,
+    practiceUiMarkers: ['Curated slide-aligned practice', 'Quick practice'],
+    progressUiMarkers: ['Current-version mastery', 'Written practice'],
+    allowedCrossBankMarkers: () => [],
+    excludedCrossBankMarkers: () => [
+      ...aqueousMarkers(),
+      ...aqueousCuratedMarkers().authored,
+      ...aqueousCuratedMarkers().answers,
+      ...hvpMarkers().authored,
+      ...hvpMarkers().answers,
+      ...tissueMarkers().authored,
+      ...tissueMarkers().answers,
+      ...ocularAdnexaMarkers().authored,
+      ...ocularAdnexaMarkers().answers,
+      ...bloodSupplyMarkers().authored,
+      ...bloodSupplyMarkers().answers,
+      ...environmentalVisionMarkers().authored,
+      ...environmentalVisionMarkers().answers,
+      ...autonomicPharmacologyMarkers().authored,
+      ...autonomicPharmacologyMarkers().answers,
+    ],
+    enabledInProfile: (profile: ReleaseProfileId) => (
+      profile === 'systemic-pathology-preview'
+      || profile === 'full-curated-preview'
+    ),
+  }),
+  Object.freeze({
     experienceId: 'environmental-vision',
     practiceEntry: 'lib/assessment/environmental-vision/definition.tsx',
     progressEntry: 'lib/progress/environmentalVisionProgressModule.tsx',
@@ -417,6 +474,8 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     progressUiMarkers: ['Current-version mastery', 'Written practice'],
     allowedCrossBankMarkers: () => [],
     excludedCrossBankMarkers: () => [
+      ...systemicPathologyMarkers().authored,
+      ...systemicPathologyMarkers().answers,
       ...autonomicPharmacologyMarkers().authored,
       ...autonomicPharmacologyMarkers().answers,
       ...aqueousMarkers(),
@@ -433,6 +492,7 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     ],
     enabledInProfile: (profile: ReleaseProfileId) => (
       profile === 'environmental-vision-preview'
+      || profile === 'full-curated-preview'
     ),
   }),
 ]);

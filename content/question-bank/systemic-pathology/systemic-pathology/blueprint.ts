@@ -1,0 +1,50 @@
+import type { QuestionBlueprint } from '@/lib/assessment/blueprint/types';
+
+export const systemicPathologyBlueprint: QuestionBlueprint = {
+  id: 'systemic-pathology-five-block-blueprint-v1',
+  bankId: 'systemic-pathology-five-block-candidate',
+  totalQuestions: 80,
+  sectionTargets: {
+    'path-breast': 16,
+    'path-cardio': 16,
+    'path-endocrine': 16,
+    'path-gi': 16,
+    'path-renal': 16,
+  },
+  formatTargets: {
+    single_best_answer: 40,
+    true_false: 5,
+    multiple_response: 8,
+    matching: 7,
+    extended_matching: 5,
+    ordering: 4,
+    image_hotspot: 3,
+    image_label: 3,
+    short_answer: 3,
+    open_response: 2,
+  },
+  bloomTargets: {
+    remember: 3,
+    understand: 9,
+    apply: 35,
+    analyze: 30,
+    evaluate: 2,
+    create: 1,
+  },
+  difficultyTargets: {
+    foundation: 22,
+    intermediate: 43,
+    advanced: 15,
+  },
+  stimulusTargets: {
+    text: 4,
+    diagram: 6,
+    table: 0,
+    clinical_vignette: 45,
+    pathway: 5,
+    comparison: 16,
+    error_analysis: 4,
+  },
+  minimumHigherOrderShare: 68 / 80,
+  minimumQuestionsPerObjective: 3,
+};

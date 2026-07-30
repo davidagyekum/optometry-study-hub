@@ -19,6 +19,8 @@ export const RELEASE_FLAG_NAMES = {
     'NEXT_PUBLIC_ENABLE_ENVIRONMENTAL_VISION_CURATED_PRACTICE',
   autonomicPharmacologyCuratedPractice:
     'NEXT_PUBLIC_ENABLE_AUTONOMIC_PHARMACOLOGY_CURATED_PRACTICE',
+  systemicPathologyCuratedPractice:
+    'NEXT_PUBLIC_ENABLE_SYSTEMIC_PATHOLOGY_CURATED_PRACTICE',
 } as const;
 
 export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
@@ -31,6 +33,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     bloodSupplyCuratedPractice: false,
     environmentalVisionCuratedPractice: false,
     autonomicPharmacologyCuratedPractice: false,
+    systemicPathologyCuratedPractice: false,
   },
   'hvp-public-beta': {
     assessmentPilot: false,
@@ -41,6 +44,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     bloodSupplyCuratedPractice: false,
     environmentalVisionCuratedPractice: false,
     autonomicPharmacologyCuratedPractice: false,
+    systemicPathologyCuratedPractice: false,
   },
   'tissue-foundations-preview': {
     assessmentPilot: false,
@@ -51,6 +55,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     bloodSupplyCuratedPractice: false,
     environmentalVisionCuratedPractice: false,
     autonomicPharmacologyCuratedPractice: false,
+    systemicPathologyCuratedPractice: false,
   },
   'hvp-tissue-preview': {
     assessmentPilot: false,
@@ -61,6 +66,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     bloodSupplyCuratedPractice: false,
     environmentalVisionCuratedPractice: false,
     autonomicPharmacologyCuratedPractice: false,
+    systemicPathologyCuratedPractice: false,
   },
   'neuro-anatomy-preview': {
     assessmentPilot: false,
@@ -71,6 +77,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     bloodSupplyCuratedPractice: true,
     environmentalVisionCuratedPractice: false,
     autonomicPharmacologyCuratedPractice: false,
+    systemicPathologyCuratedPractice: false,
   },
   'environmental-vision-preview': {
     assessmentPilot: false,
@@ -81,6 +88,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     bloodSupplyCuratedPractice: false,
     environmentalVisionCuratedPractice: true,
     autonomicPharmacologyCuratedPractice: false,
+    systemicPathologyCuratedPractice: false,
   },
   'autonomic-pharmacology-preview': {
     assessmentPilot: false,
@@ -91,6 +99,29 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     bloodSupplyCuratedPractice: false,
     environmentalVisionCuratedPractice: false,
     autonomicPharmacologyCuratedPractice: true,
+    systemicPathologyCuratedPractice: false,
+  },
+  'systemic-pathology-preview': {
+    assessmentPilot: false,
+    hvpCuratedPractice: false,
+    tissueFoundationsCuratedPractice: false,
+    ocularAdnexaCuratedPractice: false,
+    aqueousVitreousCuratedPractice: false,
+    bloodSupplyCuratedPractice: false,
+    environmentalVisionCuratedPractice: false,
+    autonomicPharmacologyCuratedPractice: false,
+    systemicPathologyCuratedPractice: true,
+  },
+  'full-curated-preview': {
+    assessmentPilot: false,
+    hvpCuratedPractice: true,
+    tissueFoundationsCuratedPractice: true,
+    ocularAdnexaCuratedPractice: true,
+    aqueousVitreousCuratedPractice: true,
+    bloodSupplyCuratedPractice: true,
+    environmentalVisionCuratedPractice: true,
+    autonomicPharmacologyCuratedPractice: true,
+    systemicPathologyCuratedPractice: true,
   },
 };
 
@@ -175,6 +206,10 @@ export function releaseFlagsFromEnvironment(
       RELEASE_FLAG_NAMES.autonomicPharmacologyCuratedPractice,
       environment[RELEASE_FLAG_NAMES.autonomicPharmacologyCuratedPractice],
     ),
+    systemicPathologyCuratedPractice: parseReleaseFlag(
+      RELEASE_FLAG_NAMES.systemicPathologyCuratedPractice,
+      environment[RELEASE_FLAG_NAMES.systemicPathologyCuratedPractice],
+    ),
   };
 }
 
@@ -203,6 +238,8 @@ export function assertReleaseProfile(
       !== expected.environmentalVisionCuratedPractice
     || flags.autonomicPharmacologyCuratedPractice
       !== expected.autonomicPharmacologyCuratedPractice
+    || flags.systemicPathologyCuratedPractice
+      !== expected.systemicPathologyCuratedPractice
   ) {
     throw new ReleaseProfileError(
       `Release profile ${profile} does not match its required feature flags.`,
@@ -232,6 +269,8 @@ export function environmentForReleaseProfile(
       String(flags.environmentalVisionCuratedPractice),
     [RELEASE_FLAG_NAMES.autonomicPharmacologyCuratedPractice]:
       String(flags.autonomicPharmacologyCuratedPractice),
+    [RELEASE_FLAG_NAMES.systemicPathologyCuratedPractice]:
+      String(flags.systemicPathologyCuratedPractice),
     OPTOMETRY_RELEASE_PROFILE: profile,
   };
 }
