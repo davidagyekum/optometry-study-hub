@@ -53,6 +53,19 @@ describe('Tissue Foundations curated experience', () => {
     })).toBeInTheDocument();
   });
 
+  it('opens curated practice from the study-page entry', async () => {
+    window.history.replaceState({}, '', '/study/tissue-foundations');
+    render(<StudyApp />);
+    fireEvent.click(screen.getByRole('button', {
+      name: 'Open curated practice',
+    }));
+    expect(await screen.findByRole('heading', {
+      name: 'Curated slide-aligned practice',
+    }, { timeout: 5_000 })).toBeInTheDocument();
+    expect(window.location.pathname).toBe(
+      '/practice/tissue-foundations-curated',
+    );
+  });
   it('loads the generic route lazily and starts a valid Quick 10 session', async () => {
     window.history.replaceState({}, '', '/practice/tissue-foundations-curated');
     render(<StudyApp />);

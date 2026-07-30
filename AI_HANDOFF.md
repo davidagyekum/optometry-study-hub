@@ -1,4 +1,4 @@
-# AI Handoff — PR 14 Tissue Foundations curated bank
+# AI Handoff - PR 14 Tissue Foundations curated bank
 
 ## Pull request
 
@@ -6,7 +6,7 @@
 - Branch: `codex/pr14-tissue-foundations-curated-bank`
 - Exact merged PR 13 base: `443c638de39985bc566436f443ef596aa184f6b6`
 - Proposed title: `Add the OPT 376 Tissue Foundations curated question bank`
-- Status: implementation validation in progress; open the PR as draft
+- Status: open as a draft after final source-bound verification
 
 ## Canonical package
 
@@ -33,7 +33,12 @@
 - Quick 10, Standard 25 and Full 50 enforce exact section, format and
   difficulty quotas, bounded Apply-or-higher counts and the two-question family
   maximum. Full also requires all 18 objectives.
-- Custom 5–50 and targeted 10 use the generic deterministic history-aware
+- Required-objective fixed profiles now satisfy all hard contracts before
+  maximizing unseen current-version questions. A deterministic dynamic-
+  programming fast path keeps Tissue Full responsive after Quick and Standard
+  history, while profiles with larger objective sets or nonredundant family
+  constraints use the generic backtracking fallback.
+- Custom 5-50 and targeted 10 use the generic deterministic history-aware
   selector. Written 2 uses only the two open responses and remains Not scored.
 - Adds a generic curated mastery engine and generic recommendation helper; the
   Tissue progress module is a thin configuration adapter.
@@ -54,24 +59,45 @@
   `029dc39ff103a836445a86bb352513b231e51d266d4b2fade3f00527d00ef89a`.
 - Aqueous remains 36 draft questions and its exact nine-question pilot remains
   disabled with unchanged hashes.
-- The Aqueous and HVP committed flags remain false; Tissue is also false.
+- The Aqueous, HVP and Tissue committed flags remain false.
 - No deployment, review-status transition or next content-bank work occurred.
 
-## Validation so far
+## Validation
 
 - Bundled Node.js 24 is used.
 - Lint passes with zero errors and four pre-existing `<img>` warnings.
 - TypeScript passes.
-- Vitest passes: 147 test files and 850 tests.
 - The fixed-profile solver passes Quick, Standard and Full contracts across
   1,000 deterministic seeds.
+- A history-saturated Full regression completes in tens of milliseconds while
+  retaining every quota, objective, family, higher-order and determinism
+  contract; its test limit is 2 seconds.
 - Tissue validation passes: 80 questions, 18 objectives, 10 sources, exact
   checksum and zero errors. Eleven supplied-bank lint advisories are explicitly
   baselined by code/question ID; strict mode rejects any new warning.
 - Tissue blueprint and report commands pass.
-- The production build passes.
-- Final source-bound release verification, Chrome-only QA and exact final Git
-  identity will be recorded after the clean implementation commit.
+- The production build and release profiles pass. Exact final test totals,
+  source-bound release identity, manifest hash and branch head are recorded in
+  the draft PR description and final report after the clean commit.
+
+## Chrome QA
+
+Chrome-only QA covered enabled Tissue practice at phone, portrait-tablet,
+landscape-tablet and desktop widths. Study entry, Practice Hub and direct route
+loading worked; Quick 10, Standard 25, Full 50, Custom 7, targeted 10 and
+manual-only Written 2 launched correctly. Answering, flagging, autosave,
+refresh resume, incomplete-submit warning, scored review, manual-only review,
+progress details and module-scoped clearing were exercised. Full 50 remained
+responsive with existing Quick and Standard history after the optimizer fix.
+The legacy Tissue 50-question quiz remained available, HVP still loaded, and
+the Aqueous pilot remained unavailable. Disabled-profile QA showed the Tissue
+unavailable state without answer leakage while leaving notes and the legacy
+quiz accessible. No new console errors, horizontal overflow or missing SVGs
+were observed.
+
+The study-page launch action also has a direct UI regression test, and temporary
+Chrome QA tabs and the local server were closed. The pre-existing ignored local
+`.env.local` was restored; no feature flag change is committed.
 
 ## Stop conditions
 

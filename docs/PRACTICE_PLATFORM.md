@@ -200,7 +200,10 @@ Quick 10, Standard 25, Full 50, Custom 5-50, targeted 10 and manual-only
 Written 2 sessions without a Tissue-specific router, hook or component tree.
 Full practice covers all 18 objectives; every fixed profile enforces exact
 section, format and difficulty quotas, a bounded Apply-or-higher range and a
-two-question family maximum.
+two-question family maximum. Required-objective fixed profiles use a deterministic
+quota-aware optimizer that satisfies all hard contracts before maximizing unseen
+current-version questions; larger or family-constrained profiles retain the generic
+backtracking fallback.
 
 Tissue attempts, results and current-version history use the unchanged StoreV2
 assessment maps. Curated mastery remains separate from the preserved legacy
