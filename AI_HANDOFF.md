@@ -14,7 +14,7 @@
 - Supplied deck: `Aqueous_Vitreous_OPT_376.pptx`
 - Source deck SHA-256: `3f1f0e8b0e0e3ef6d5bd869e73796feff1c41a83edac29c65a9f74d2f1428dc7`
 - Canonical bank SHA-256: `97c1bc76cbae20681b1c4494bb7d35d282420f8c03a9181927720e024ae9dccb`
-- Package ZIP SHA-256: `06f72baf68ac93f48d048763b7d6208d3d64984d13c2ec3b5596851cbd50806a`
+- Package ZIP SHA-256: `f4ca51383ad80bcea8238014621a45eb425e8fb63216bc94c87bf60e83007239`
 - 80 unique questions: 78 automatically gradable and two manual-only open responses
 - 13 objectives, eight registered sources and four original neutral SVG diagrams
 - Section totals: media/chambers 12; production 13; flow 15; IOP 14; vitreous anatomy 13; vitreous clinical 13
@@ -56,7 +56,7 @@
 
 - Lint: passed with zero errors and the four existing `<img>` warnings.
 - TypeScript: passed.
-- Tests: 158 files and 884 tests passed in the clean-commit verifier with bundled Node 24 and one Windows-safe worker.
+- Tests: 158 files and 885 tests passed in the clean-commit verifier with bundled Node 24 and one Windows-safe worker.
 - Strict Aqueous validation: 80 questions, 13 objectives, eight sources, zero errors and zero warnings.
 - Blueprint report: passed; 53 Apply-or-higher questions.
 - Quick, Standard and Full: passed all exact contracts across 1,000 deterministic seeds each.
