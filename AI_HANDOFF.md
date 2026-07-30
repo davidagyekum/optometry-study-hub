@@ -61,6 +61,10 @@ No slide artwork was copied. The five assessment diagrams are original neutral S
 - Blueprint report: passed; 59 Apply-or-higher questions (73.75%).
 - Quick, Standard and Full: passed all exact contracts across 1,000 deterministic seeds each.
 - Disabled and Ocular-enabled production builds: passed.
+- The four source-bound release profiles were remeasured on clean commit
+  `c842b199af97e77d81d2541184519051e507dd5c`; the new Ocular bytes remain in
+  answer-isolated dynamic closures and the standard ten-per-cent budget policy
+  is unchanged.
 - `git diff --check` and clean-checkout verification are recorded after the checkpoint commit.
 
 ## Chrome QA
