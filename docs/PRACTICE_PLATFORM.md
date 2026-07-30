@@ -246,3 +246,6 @@ history retain the unchanged StoreV2 identity and cannot overwrite HVP, Neuro
 Anatomy or legacy quiz data. Written results remain `Not scored` and do not
 contribute automatic mastery. The legacy 50-question Environmental quiz and its
 Latest/Best history remain available separately.
+## Autonomic Pharmacology practice
+
+The `autonomic-pharmacology` adapter uses the shared curated controller with exact Quick 10, Standard 25 and Full 50 quota contracts, deterministic Custom and targeted assembly, and a separate manual-only Written 2 blueprint. The answer-bearing bank remains behind lazy practice/progress boundaries and the non-publishable preview flag is false by default.

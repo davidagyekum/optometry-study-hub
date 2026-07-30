@@ -306,6 +306,8 @@ export function validateBuildIdentity(
       !== expectedFlags.bloodSupplyCuratedPractice
     || metadata.flags.environmentalVisionCuratedPractice
       !== expectedFlags.environmentalVisionCuratedPractice
+    || metadata.flags.autonomicPharmacologyCuratedPractice
+      !== expectedFlags.autonomicPharmacologyCuratedPractice
   ) {
     throw new Error(`Release build metadata flags do not match profile ${profile}.`);
   }

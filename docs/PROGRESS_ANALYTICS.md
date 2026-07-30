@@ -245,3 +245,6 @@ Not scored. Legacy Latest/Best scores are never averaged with curated mastery.
 Malformed, stale or foreign snapshots are omitted without rewriting StoreV2.
 Disabling the adapter hides the contribution while preserving all device-local
 data and answer-bearing modules remain outside the answer-free coordinator.
+## Autonomic Pharmacology progress
+
+Autonomic Pharmacology contributes module-scoped current-version mastery, activity and recommendations through the generic progress adapter. Its evidence never alters legacy Latest/Best scores, other modules, StoreV2 identity or the Aqueous pilot.

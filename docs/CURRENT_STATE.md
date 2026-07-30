@@ -21,6 +21,8 @@
 - Blood Supply curated practice: default-disabled Quick 10, Standard 25, Full 50, Custom, targeted, and manual-only Written 2 sessions
 - Canonical OPT 508 Environmental Vision bank: 80 draft questions, 18 objectives, 21 sources, and 5 original SVG assessment diagrams
 - Environmental Vision curated practice: default-disabled Quick 10, Standard 25, Full 50, Custom, targeted, and manual-only Written 2 sessions
+- Canonical Autonomic Pharmacology bank: 80 draft questions, 20 objectives, 18 sources, and 5 original SVG assessment diagrams
+- Autonomic Pharmacology curated practice: default-disabled Quick 10, Standard 25, Full 50, Custom, targeted, and manual-only Written 2 sessions
 
 ## Courses and modules
 
@@ -309,3 +311,8 @@ Aqueous/Vitreous curated practice and Blood Supply, with the engineering pilot
 and HVP disabled. It is explicitly preview-only and cannot produce a
 publishable release manifest. Every committed feature default remains false;
 this checkpoint does not deploy or promote any question beyond draft.
+## Autonomic Pharmacology curated-practice checkpoint
+
+The default-disabled `autonomic-pharmacology-curated` experience registers the exact 80-question Adrenergic and Cholinergic Pharmacology bank under the generic curated platform. Its two preserved sections contain 40 questions each; 78 questions are automatically gradable and two open responses form manual-only Written Practice.
+
+The automatic blueprint is `autonomic-pharmacology-curated-v1`, the written blueprint is `autonomic-pharmacology-written-v1`, and `NEXT_PUBLIC_ENABLE_AUTONOMIC_PHARMACOLOGY_CURATED_PRACTICE=false` remains the committed default. StoreV2, legacy Pharmacology scores and history, HVP identities, the Aqueous pilot and every existing module remain unchanged.

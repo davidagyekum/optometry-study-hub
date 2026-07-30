@@ -104,6 +104,21 @@ export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = 
     buildDurationMs: 8779,
     fileCount: 174,
   },
+  'autonomic-pharmacology-preview': {
+    totalOutputBytes: 8866345,
+    clientJavaScriptBytes: 1971237,
+    initialHomeJavaScriptBytes: 509145,
+    disabledPracticeHubJavaScriptBytes: 509145,
+    disabledProgressHubJavaScriptBytes: 509145,
+    hvpEnabledPracticeHubJavaScriptBytes: 856865,
+    hvpEnabledProgressHubJavaScriptBytes: 856865,
+    incrementalControlledHvpJavaScriptBytes: 427837,
+    incrementalHvpAnalyticsJavaScriptBytes: 347720,
+    combinedIncrementalHvpJavaScriptBytes: 450027,
+    largestAssetBytes: 631819,
+    buildDurationMs: 7477,
+    fileCount: 183,
+  },
 };
 
 const withHeadroom = (value: number) => Math.ceil(value * 1.1);

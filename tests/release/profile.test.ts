@@ -12,7 +12,7 @@ import {
 } from '@/lib/release/profile';
 
 describe('release profiles', () => {
-  it('parses only the six declared profiles', () => {
+  it('parses only the seven declared profiles', () => {
     expect(parseReleaseProfile('disabled')).toBe('disabled');
     expect(parseReleaseProfile('hvp-public-beta')).toBe('hvp-public-beta');
     expect(parseReleaseProfile('tissue-foundations-preview'))
@@ -20,6 +20,10 @@ describe('release profiles', () => {
     expect(parseReleaseProfile('hvp-tissue-preview')).toBe('hvp-tissue-preview');
     expect(parseReleaseProfile('neuro-anatomy-preview'))
       .toBe('neuro-anatomy-preview');
+    expect(parseReleaseProfile('environmental-vision-preview'))
+      .toBe('environmental-vision-preview');
+    expect(parseReleaseProfile('autonomic-pharmacology-preview'))
+      .toBe('autonomic-pharmacology-preview');
     expect(() => parseReleaseProfile('production')).toThrow(/unknown release profile/i);
   });
 
@@ -34,11 +38,11 @@ describe('release profiles', () => {
   it('rejects Aqueous exposure and mismatched profile flags', () => {
     expect(() => assertReleaseProfile('hvp-public-beta', {
       assessmentPilot: true,
-      hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false,
+      hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false,
     })).toThrow(/Aqueous/i);
     expect(() => assertReleaseProfile('disabled', {
       assessmentPilot: false,
-      hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false,
+      hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false,
     })).toThrow(/does not match/i);
   });
 
@@ -49,6 +53,8 @@ describe('release profiles', () => {
       'tissue-foundations-preview',
       'hvp-tissue-preview',
       'neuro-anatomy-preview',
+      'environmental-vision-preview',
+      'autonomic-pharmacology-preview',
     ] as const) {
       const environment = environmentForReleaseProfile(profile, { NODE_ENV: 'test' });
       expect(releaseFlagsFromEnvironment(environment)).toEqual(RELEASE_PROFILES[profile]);
@@ -60,6 +66,7 @@ describe('release profiles', () => {
     expect(isPublishableReleaseProfile('hvp-public-beta')).toBe(true);
     expect(isPublishableReleaseProfile('neuro-anatomy-preview')).toBe(false);
     expect(isPublishableReleaseProfile('environmental-vision-preview')).toBe(false);
+    expect(isPublishableReleaseProfile('autonomic-pharmacology-preview')).toBe(false);
     expect(assertPublishableReleaseProfile('hvp-public-beta'))
       .toBe('hvp-public-beta');
     expect(() => assertPublishableReleaseProfile('neuro-anatomy-preview'))
@@ -84,6 +91,9 @@ describe('release profiles', () => {
     );
     expect(example).toContain(
       'NEXT_PUBLIC_ENABLE_ENVIRONMENTAL_VISION_CURATED_PRACTICE=false',
+    );
+    expect(example).toContain(
+      'NEXT_PUBLIC_ENABLE_AUTONOMIC_PHARMACOLOGY_CURATED_PRACTICE=false',
     );
     expect(example).not.toMatch(/NEXT_PUBLIC_ENABLE_\w+=true/);
   });

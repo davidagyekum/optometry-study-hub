@@ -52,6 +52,15 @@ import {
   isEnvironmentalVisionCuratedPracticeEnabled,
 } from '@/lib/assessment/environmental-vision/config';
 import {
+  AUTONOMIC_PHARMACOLOGY_BLUEPRINT_ID,
+  AUTONOMIC_PHARMACOLOGY_COURSE_ID,
+  AUTONOMIC_PHARMACOLOGY_EXPERIENCE_ID,
+  AUTONOMIC_PHARMACOLOGY_MODULE_ID,
+  AUTONOMIC_PHARMACOLOGY_ROUTE_ID,
+  AUTONOMIC_PHARMACOLOGY_WRITTEN_BLUEPRINT_ID,
+  isAutonomicPharmacologyCuratedPracticeEnabled,
+} from '@/lib/assessment/autonomic-pharmacology/config';
+import {
   curatedExperienceSummarySchema,
   type CuratedExperienceAdapter,
   type CuratedExperienceSummary,
@@ -357,6 +366,42 @@ export const environmentalVisionCuratedSummary: CuratedExperienceSummary =
     },
   });
 
+export const autonomicPharmacologyCuratedSummary: CuratedExperienceSummary =
+  deepFreeze({
+    experienceId: AUTONOMIC_PHARMACOLOGY_EXPERIENCE_ID,
+    courseId: AUTONOMIC_PHARMACOLOGY_COURSE_ID,
+    moduleId: AUTONOMIC_PHARMACOLOGY_MODULE_ID,
+    title: 'Autonomic Pharmacology curated practice',
+    shortTitle: 'Autonomic Pharmacology',
+    courseCode: 'Pharmacology',
+    routeSegment: AUTONOMIC_PHARMACOLOGY_ROUTE_ID,
+    blueprintIds: [
+      AUTONOMIC_PHARMACOLOGY_BLUEPRINT_ID,
+      AUTONOMIC_PHARMACOLOGY_WRITTEN_BLUEPRINT_ID,
+    ],
+    statusLabel: 'Curated study practice',
+    enabled: false,
+    supportsAutomaticPractice: true,
+    supportsWrittenPractice: true,
+    studyEntryTitle: 'Curated slide-aligned practice',
+    studyEntryDescription:
+      'Build mixed-format practice from 80 Autonomic Pharmacology questions while preserving the separate legacy quiz.',
+    documentTitles: {
+      landing: 'Autonomic Pharmacology Curated Practice',
+      session: 'Autonomic Pharmacology Practice Session',
+      result: 'Autonomic Pharmacology Practice Result',
+      unavailable: 'Autonomic Pharmacology Curated Practice Unavailable',
+    },
+    releaseStatus: {
+      ariaLabel: 'Autonomic Pharmacology curated practice release status',
+      title: 'Curated study practice',
+      lines: [
+        'Internally checked and aligned to the supplied pharmacology decks.',
+        'Not lecturer-approved examination material.',
+        'Progress is stored only on this device.',
+      ],
+    },
+  });
 export const curatedExperienceRegistry = createCuratedExperienceRegistry([
   {
     summary: hvpCuratedSummary,
@@ -470,7 +515,25 @@ export const curatedExperienceRegistry = createCuratedExperienceRegistry([
       return loadedModule.environmentalVisionProgressModule;
     },
   },
-]);
+  {
+    summary: autonomicPharmacologyCuratedSummary,
+    isEnabled: isAutonomicPharmacologyCuratedPracticeEnabled,
+    loadPracticeModule: async () => {
+      const [factory, pharmacology] = await Promise.all([
+        import('@/components/assessment/curated/createCuratedPracticeModule'),
+        import('@/lib/assessment/autonomic-pharmacology/definition'),
+      ]);
+      return factory.createCuratedPracticeModule(
+        pharmacology.autonomicPharmacologyPracticeDefinition,
+      );
+    },
+    loadProgressModule: async () => {
+      const loadedModule = await import(
+        '@/lib/progress/autonomicPharmacologyProgressModule'
+      );
+      return loadedModule.autonomicPharmacologyProgressModule;
+    },
+  },]);
 
 export function isCuratedExperienceEnabled(
   adapter: CuratedExperienceAdapter,

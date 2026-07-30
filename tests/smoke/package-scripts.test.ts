@@ -55,9 +55,17 @@ describe("package scripts", () => {
       "questions:review-readiness": "tsx scripts/report-review-readiness.ts",
       "questions:review-verify": "tsx scripts/verify-review-decision.ts",
       "questions:review-snapshot": "tsx scripts/export-question-bank-snapshot.ts",
+      'questions:validate:autonomic-pharmacology':
+        'tsx scripts/validate-autonomic-pharmacology-question-bank.ts',
+      'questions:report:autonomic-pharmacology':
+        'tsx scripts/report-autonomic-pharmacology-question-bank.ts',
+      'questions:blueprint:autonomic-pharmacology':
+        'tsx scripts/report-autonomic-pharmacology-question-blueprint.ts',
+      'release:build:autonomic-pharmacology':
+        'tsx scripts/run-release-build.ts --profile=autonomic-pharmacology-preview',
       "release:build:neuro":
         "tsx scripts/run-release-build.ts --profile=neuro-anatomy-preview",
-      check: "npm run lint && npm run typecheck && npm run test && npm run questions:validate && npm run questions:blueprint && npm run questions:validate:hvp && npm run questions:blueprint:hvp && npm run questions:validate:tissue && npm run questions:blueprint:tissue && npm run questions:validate:ocular -- --strict && npm run questions:blueprint:ocular && npm run questions:validate:blood -- --strict && npm run questions:blueprint:blood && npm run questions:validate:environmental-vision -- --strict && npm run questions:blueprint:environmental-vision && npm run build",
+      check: "npm run lint && npm run typecheck && npm run test && npm run questions:validate && npm run questions:blueprint && npm run questions:validate:hvp && npm run questions:blueprint:hvp && npm run questions:validate:tissue && npm run questions:blueprint:tissue && npm run questions:validate:ocular -- --strict && npm run questions:blueprint:ocular && npm run questions:validate:blood -- --strict && npm run questions:blueprint:blood && npm run questions:validate:environmental-vision -- --strict && npm run questions:blueprint:environmental-vision && npm run questions:validate:autonomic-pharmacology -- --strict && npm run questions:blueprint:autonomic-pharmacology && npm run build",
     });
   });
 

@@ -9,6 +9,7 @@ import { tissueFoundationsCandidateBank } from '@/content/question-bank/opt376/t
 import { ocularAdnexaCandidateBank } from '@/content/question-bank/opt376/ocular-adnexa/bank';
 import { bloodSupplyCandidateBank } from '@/content/question-bank/opt376/blood-supply/bank';
 import { environmentalVisionCandidateBank } from '@/content/question-bank/opt508/environmental-vision/bank';
+import { autonomicPharmacologyCandidateBank } from '@/content/question-bank/pharmacology/autonomic-pharmacology/bank';
 import { QUESTION_FORMATS } from '@/lib/assessment/constants';
 import {
   assertReleaseAssertions,
@@ -18,6 +19,7 @@ import {
   EXPECTED_AQUEOUS_VITREOUS_CHECKSUM,
   EXPECTED_BLOOD_SUPPLY_CHECKSUM,
   EXPECTED_ENVIRONMENTAL_VISION_CHECKSUM,
+  EXPECTED_AUTONOMIC_PHARMACOLOGY_CHECKSUM,
   reviewStatusCounts,
 } from '@/lib/release/assertions';
 import type { BundleAuditResult } from '@/lib/release/bundleAudit';
@@ -71,6 +73,7 @@ function sameFlags(
     aqueousVitreousCuratedPractice: boolean;
     bloodSupplyCuratedPractice: boolean;
     environmentalVisionCuratedPractice: boolean;
+    autonomicPharmacologyCuratedPractice: boolean;
   },
   right: {
     assessmentPilot: boolean;
@@ -80,6 +83,7 @@ function sameFlags(
     aqueousVitreousCuratedPractice: boolean;
     bloodSupplyCuratedPractice: boolean;
     environmentalVisionCuratedPractice: boolean;
+    autonomicPharmacologyCuratedPractice: boolean;
   },
 ): boolean {
   return left.assessmentPilot === right.assessmentPilot
@@ -93,7 +97,9 @@ function sameFlags(
     && left.bloodSupplyCuratedPractice
       === right.bloodSupplyCuratedPractice
     && left.environmentalVisionCuratedPractice
-      === right.environmentalVisionCuratedPractice;
+      === right.environmentalVisionCuratedPractice
+    && left.autonomicPharmacologyCuratedPractice
+      === right.autonomicPharmacologyCuratedPractice;
 }
 
 export function createReleaseManifest(
@@ -217,6 +223,17 @@ export function createReleaseManifest(
         ),
       ).size,
       environmentalVisionChecksum: EXPECTED_ENVIRONMENTAL_VISION_CHECKSUM,
+      autonomicPharmacologyQuestions: autonomicPharmacologyCandidateBank.questions.length,
+      autonomicPharmacologyObjectives: autonomicPharmacologyCandidateBank.objectives.length,
+      autonomicPharmacologySources: autonomicPharmacologyCandidateBank.sources.length,
+      autonomicPharmacologySvgDiagrams: new Set(
+        autonomicPharmacologyCandidateBank.questions.flatMap(
+          (question) => ('image' in question && question.image.src.endsWith('.svg')
+            ? [question.image.src]
+            : []),
+        ),
+      ).size,
+      autonomicPharmacologyChecksum: EXPECTED_AUTONOMIC_PHARMACOLOGY_CHECKSUM,
       reviewStatuses: {
         aqueousQuestions: reviewStatusCounts(aqueousVitreousCandidateBank.questions),
         aqueousObjectives: reviewStatusCounts(aqueousVitreousCandidateBank.objectives),
@@ -233,6 +250,12 @@ export function createReleaseManifest(
         ),
         environmentalVisionObjectives: reviewStatusCounts(
           environmentalVisionCandidateBank.objectives,
+        ),
+        autonomicPharmacologyQuestions: reviewStatusCounts(
+          autonomicPharmacologyCandidateBank.questions,
+        ),
+        autonomicPharmacologyObjectives: reviewStatusCounts(
+          autonomicPharmacologyCandidateBank.objectives,
         ),
       },
       academicStatus:
