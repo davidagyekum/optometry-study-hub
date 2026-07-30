@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Ciliary circulation around the globe</title>
+  <desc id="desc">A side-view globe schematic with posterior branching vessels, an anteriorly directed vessel and an anterior arterial ring marked A through D.</desc>
+  <rect width="1200" height="675" rx="32" fill="#f7fbfd"/>
+  <ellipse cx="700" cy="335" rx="360" ry="245" fill="#e9f6f7" stroke="#176c75" stroke-width="10"/>
+  <path d="M358 335H168" stroke="#d55757" stroke-width="30" stroke-linecap="round"/>
+  <path d="M360 335c45-85 80-130 132-170M360 335c40-25 83-40 135-42M360 335c45 78 88 120 148 153" fill="none" stroke="#ef8b78" stroke-width="18" stroke-linecap="round"/>
+  <path d="M365 285C510 150 765 160 967 262" fill="none" stroke="#c94a4a" stroke-width="24" stroke-linecap="round"/>
+  <ellipse cx="995" cy="335" rx="88" ry="142" fill="none" stroke="#d55757" stroke-width="20"/>
+  <path d="M1010 190l60-65M1010 480l62 62" stroke="#e46a63" stroke-width="18" stroke-linecap="round"/>
+  <g fill="#11385c" font-family="Arial, sans-serif" font-weight="700" font-size="34" text-anchor="middle">
+    <circle cx="180" cy="335" r="29" fill="#fff" stroke="#11385c" stroke-width="5"/><text x="180" y="347">A</text>
+    <circle cx="470" cy="215" r="29" fill="#fff" stroke="#11385c" stroke-width="5"/><text x="470" y="227">B</text>
+    <circle cx="780" cy="215" r="29" fill="#fff" stroke="#11385c" stroke-width="5"/><text x="780" y="227">C</text>
+    <circle cx="1040" cy="335" r="29" fill="#fff" stroke="#11385c" stroke-width="5"/><text x="1040" y="347">D</text>
+  </g>
+  <text x="600" y="625" fill="#476277" font-family="Arial, sans-serif" font-size="24" text-anchor="middle">Compare posterior branching, anterior travel and the anterior arterial ring.</text>
+</svg>

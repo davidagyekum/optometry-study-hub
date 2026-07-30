@@ -16,7 +16,7 @@
     "questions:validate:hvp": "tsx scripts/validate-hvp-question-bank.ts",
     "questions:report": "tsx scripts/report-question-bank.ts",
     "questions:report:hvp": "tsx scripts/report-hvp-question-bank.ts",
-    "check": "npm run lint && npm run typecheck && npm run test && npm run questions:validate && npm run questions:blueprint && npm run questions:validate:hvp && npm run questions:blueprint:hvp && npm run questions:validate:tissue && npm run questions:blueprint:tissue && npm run questions:validate:ocular -- --strict && npm run questions:blueprint:ocular && npm run build",
+    "check": "npm run lint && npm run typecheck && npm run test && npm run questions:validate && npm run questions:blueprint && npm run questions:validate:hvp && npm run questions:blueprint:hvp && npm run questions:validate:tissue && npm run questions:blueprint:tissue && npm run questions:validate:ocular -- --strict && npm run questions:blueprint:ocular && npm run questions:validate:blood -- --strict && npm run questions:blueprint:blood && npm run build",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next --ignore-pattern tmp",
     "db:generate": "drizzle-kit generate",
     "questions:blueprint": "tsx scripts/report-question-blueprint.ts",
@@ -40,6 +40,9 @@
     "questions:validate:ocular": "tsx scripts/validate-ocular-adnexa-question-bank.ts",
     "questions:report:ocular": "tsx scripts/report-ocular-adnexa-question-bank.ts",
     "questions:blueprint:ocular": "tsx scripts/report-ocular-adnexa-question-blueprint.ts",
+    "questions:validate:blood": "tsx scripts/validate-blood-supply-question-bank.ts",
+    "questions:report:blood": "tsx scripts/report-blood-supply-question-bank.ts",
+    "questions:blueprint:blood": "tsx scripts/report-blood-supply-question-blueprint.ts",
     "release:build:tissue": "tsx scripts/run-release-build.ts --profile=tissue-foundations-preview",
     "release:build:hvp-tissue": "tsx scripts/run-release-build.ts --profile=hvp-tissue-preview"
   },

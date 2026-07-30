@@ -34,6 +34,15 @@ import {
   isAqueousVitreousCuratedPracticeEnabled,
 } from '@/lib/assessment/aqueous-vitreous-curated/config';
 import {
+  BLOOD_SUPPLY_BLUEPRINT_ID,
+  BLOOD_SUPPLY_COURSE_ID,
+  BLOOD_SUPPLY_EXPERIENCE_ID,
+  BLOOD_SUPPLY_MODULE_ID,
+  BLOOD_SUPPLY_ROUTE_ID,
+  BLOOD_SUPPLY_WRITTEN_BLUEPRINT_ID,
+  isBloodSupplyCuratedPracticeEnabled,
+} from '@/lib/assessment/blood-supply/config';
+import {
   curatedExperienceSummarySchema,
   type CuratedExperienceAdapter,
   type CuratedExperienceSummary,
@@ -266,6 +275,42 @@ export const aqueousVitreousCuratedSummary: CuratedExperienceSummary = deepFreez
     ],
   },
 });
+export const bloodSupplyCuratedSummary: CuratedExperienceSummary = deepFreeze({
+  experienceId: BLOOD_SUPPLY_EXPERIENCE_ID,
+  courseId: BLOOD_SUPPLY_COURSE_ID,
+  moduleId: BLOOD_SUPPLY_MODULE_ID,
+  title: 'OPT 376 Blood Supply curated practice',
+  shortTitle: 'Blood Supply curated practice',
+  courseCode: 'OPT 376',
+  routeSegment: BLOOD_SUPPLY_ROUTE_ID,
+  blueprintIds: [
+    BLOOD_SUPPLY_BLUEPRINT_ID,
+    BLOOD_SUPPLY_WRITTEN_BLUEPRINT_ID,
+  ],
+  statusLabel: 'Curated study practice',
+  enabled: false,
+  supportsAutomaticPractice: true,
+  supportsWrittenPractice: true,
+  studyEntryTitle: 'Curated slide-aligned practice',
+  studyEntryDescription:
+    'Build mixed-format practice from 80 Blood Supply to the Eye questions while preserving the separate legacy quiz.',
+  documentTitles: {
+    landing: 'Blood Supply Curated Practice',
+    session: 'Blood Supply Practice Session',
+    result: 'Blood Supply Practice Result',
+    unavailable: 'Blood Supply Curated Practice Unavailable',
+  },
+  releaseStatus: {
+    ariaLabel: 'Blood Supply curated practice release status',
+    title: 'Curated study practice',
+    lines: [
+      'Internally checked and slide-aligned.',
+      'Not lecturer-approved examination items.',
+      'Progress is stored only on this device.',
+    ],
+  },
+});
+
 export const curatedExperienceRegistry = createCuratedExperienceRegistry([
   {
     summary: hvpCuratedSummary,
@@ -339,6 +384,25 @@ export const curatedExperienceRegistry = createCuratedExperienceRegistry([
         '@/lib/progress/aqueousVitreousCuratedProgressModule'
       );
       return loadedModule.aqueousVitreousCuratedProgressModule;
+    },
+  },
+  {
+    summary: bloodSupplyCuratedSummary,
+    isEnabled: isBloodSupplyCuratedPracticeEnabled,
+    loadPracticeModule: async () => {
+      const [factory, bloodSupply] = await Promise.all([
+        import('@/components/assessment/curated/createCuratedPracticeModule'),
+        import('@/lib/assessment/blood-supply/definition'),
+      ]);
+      return factory.createCuratedPracticeModule(
+        bloodSupply.bloodSupplyPracticeDefinition,
+      );
+    },
+    loadProgressModule: async () => {
+      const loadedModule = await import(
+        '@/lib/progress/bloodSupplyProgressModule'
+      );
+      return loadedModule.bloodSupplyProgressModule;
     },
   },
 ]);

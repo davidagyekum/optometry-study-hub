@@ -9,6 +9,7 @@ import { aqueousVitreousPilotBank } from '@/content/question-bank/opt376/aqueous
 import { humanVisualPerceptionCandidateBank } from '@/content/question-bank/opt374/human-visual-perception/bank';
 import { tissueFoundationsCandidateBank } from '@/content/question-bank/opt376/tissue-foundations/bank';
 import { ocularAdnexaCandidateBank } from '@/content/question-bank/opt376/ocular-adnexa/bank';
+import { bloodSupplyCandidateBank } from '@/content/question-bank/opt376/blood-supply/bank';
 import { QUESTION_FORMATS, REVIEW_STATUSES } from '@/lib/assessment/constants';
 import { AQUEOUS_PILOT_QUESTION_IDS } from '@/lib/assessment/pilot/blueprint';
 import { questionsFor } from '@/lib/legacy/questionGenerator';
@@ -27,6 +28,9 @@ export const EXPECTED_OCULAR_ADNEXA_CHECKSUM =
 
 export const EXPECTED_AQUEOUS_VITREOUS_CHECKSUM =
   '97c1bc76cbae20681b1c4494bb7d35d282420f8c03a9181927720e024ae9dccb';
+
+export const EXPECTED_BLOOD_SUPPLY_CHECKSUM =
+  '1ce2628c3c74ac124b7034d7c34efba63a10dc4d6dcaab079e5eed73a01ccf8d';
 
 export const EXPECTED_AQUEOUS_PILOT_HASHES: Record<string, string> = {
   'aqueous-flow-sba-001': 'fd062b040d1f52b25797007ba5e0c2abbbacb98d4c8903c0c988ea566fd8b0f4',
@@ -78,6 +82,14 @@ export function ocularAdnexaChecksum(): string {
     .digest('hex');
 }
 
+export function bloodSupplyChecksum(): string {
+  return createHash('sha256')
+    .update(readFileSync(
+      'content/question-bank/opt376/blood-supply/bank.json',
+    ))
+    .digest('hex');
+}
+
 export function aqueousVitreousChecksum(): string {
   return createHash('sha256')
     .update(readFileSync(
@@ -91,7 +103,7 @@ export function trackedEnabledReleaseEnvironmentFiles(): string[] {
     cwd: process.cwd(),
     encoding: 'utf8',
   }).split(/\r?\n/).filter(Boolean);
-  return files.filter((file) => /NEXT_PUBLIC_ENABLE_(?:ASSESSMENT_PILOT|HVP_CURATED_PRACTICE|TISSUE_FOUNDATIONS_CURATED_PRACTICE|OCULAR_ADNEXA_CURATED_PRACTICE|AQUEOUS_VITREOUS_CURATED_PRACTICE)=true/.test(
+  return files.filter((file) => /NEXT_PUBLIC_ENABLE_(?:ASSESSMENT_PILOT|HVP_CURATED_PRACTICE|TISSUE_FOUNDATIONS_CURATED_PRACTICE|OCULAR_ADNEXA_CURATED_PRACTICE|AQUEOUS_VITREOUS_CURATED_PRACTICE|BLOOD_SUPPLY_CURATED_PRACTICE)=true/.test(
     readFileSync(file, 'utf8'),
   ));
 }
@@ -125,6 +137,11 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
       : []),
   )).size;
   const aqueousVitreousSvgCount = new Set(aqueousVitreousCandidateBank.questions.flatMap(
+    (question) => ('image' in question && question.image.src.endsWith('.svg')
+      ? [question.image.src]
+      : []),
+  )).size;
+  const bloodSupplySvgCount = new Set(bloodSupplyCandidateBank.questions.flatMap(
     (question) => ('image' in question && question.image.src.endsWith('.svg')
       ? [question.image.src]
       : []),
@@ -204,6 +221,23 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
       `SHA-256 ${ocularAdnexaChecksum()}`,
     ),
     assertion(
+      'blood-supply-content',
+      bloodSupplyCandidateBank.questions.length === 80
+        && bloodSupplyCandidateBank.objectives.length === 18
+        && bloodSupplyCandidateBank.sources.length === 8,
+      `${bloodSupplyCandidateBank.questions.length} questions; ${bloodSupplyCandidateBank.objectives.length} objectives; ${bloodSupplyCandidateBank.sources.length} sources`,
+    ),
+    assertion(
+      'blood-supply-svg-assets',
+      bloodSupplySvgCount === 5,
+      `${bloodSupplySvgCount} unique SVG diagrams`,
+    ),
+    assertion(
+      'blood-supply-checksum',
+      bloodSupplyChecksum() === EXPECTED_BLOOD_SUPPLY_CHECKSUM,
+      `SHA-256 ${bloodSupplyChecksum()}`,
+    ),
+    assertion(
       'assessment-formats',
       QUESTION_FORMATS.length === 10,
       `${QUESTION_FORMATS.length} supported formats`,
@@ -227,8 +261,10 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
         && tissueFoundationsCandidateBank.questions.every((question) => question.reviewStatus === 'draft')
         && tissueFoundationsCandidateBank.objectives.every((objective) => objective.reviewStatus === 'draft')
         && ocularAdnexaCandidateBank.questions.every((question) => question.reviewStatus === 'draft')
-        && ocularAdnexaCandidateBank.objectives.every((objective) => objective.reviewStatus === 'draft'),
-      'All Aqueous, HVP, Tissue and Ocular Adnexa questions and objectives remain draft.',
+        && ocularAdnexaCandidateBank.objectives.every((objective) => objective.reviewStatus === 'draft')
+        && bloodSupplyCandidateBank.questions.every((question) => question.reviewStatus === 'draft')
+        && bloodSupplyCandidateBank.objectives.every((objective) => objective.reviewStatus === 'draft'),
+      'All Aqueous, HVP, Tissue, Ocular Adnexa and Blood Supply questions and objectives remain draft.',
     ),
     assertion(
       'storage-identity',
@@ -267,6 +303,9 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
         )
         && envExample.includes(
           'NEXT_PUBLIC_ENABLE_AQUEOUS_VITREOUS_CURATED_PRACTICE=false',
+        )
+        && envExample.includes(
+          'NEXT_PUBLIC_ENABLE_BLOOD_SUPPLY_CURATED_PRACTICE=false',
         )
         && !envExample.includes('=true'),
       'All committed feature defaults are false.',

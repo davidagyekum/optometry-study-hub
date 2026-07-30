@@ -1,0 +1,19 @@
+{
+  "status": "focused-gates-passed",
+  "questions": 80,
+  "automaticQuestions": 78,
+  "writtenQuestions": 2,
+  "objectives": 18,
+  "sources": 8,
+  "assets": 5,
+  "strictWarnings": 0,
+  "applyOrHigher": 56,
+  "fixedProfileSeedsPerProfile": 1000,
+  "testFiles": 163,
+  "tests": 901,
+  "disabledBuild": "passed",
+  "enabledBuild": "passed",
+  "chromeQa": "passed-enabled-and-disabled",
+  "reviewStatus": "draft",
+  "deployed": false
+}

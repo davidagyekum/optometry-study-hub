@@ -1,0 +1,26 @@
+{
+  "quick": {
+    "count": 10,
+    "sections": [1, 2, 2, 1, 2, 2],
+    "difficulty": [3, 5, 2],
+    "higherOrderMinimum": 5
+  },
+  "standard": {
+    "count": 25,
+    "sections": [3, 5, 6, 2, 4, 5],
+    "difficulty": [7, 13, 5],
+    "higherOrderMinimum": 14
+  },
+  "full": {
+    "count": 50,
+    "sections": [8, 9, 10, 9, 7, 7],
+    "difficulty": [13, 26, 11],
+    "higherOrderMinimum": 34,
+    "coversAllObjectives": true
+  },
+  "written": {
+    "count": 2,
+    "format": "open_response",
+    "resultMode": "manual-only"
+  }
+}

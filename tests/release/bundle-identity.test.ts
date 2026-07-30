@@ -34,6 +34,10 @@ const AQUEOUS_CONTROLLED_ENTRY =
   'lib/assessment/aqueous-vitreous-curated/definition.tsx';
 const AQUEOUS_ANALYTICS_ENTRY =
   'lib/progress/aqueousVitreousCuratedProgressModule.tsx';
+const BLOOD_CONTROLLED_ENTRY =
+  'lib/assessment/blood-supply/definition.tsx';
+const BLOOD_ANALYTICS_ENTRY =
+  'lib/progress/bloodSupplyProgressModule.tsx';
 
 const git = {
   commitSha: '1'.repeat(40),
@@ -47,7 +51,7 @@ function metadata(
   return {
     schemaVersion: 1,
     profile: 'hvp-public-beta',
-    flags: { assessmentPilot: false, hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false },
+    flags: { assessmentPilot: false, hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false },
     commitSha: git.commitSha,
     treeSha: git.treeSha,
     dirty: false,
@@ -83,6 +87,8 @@ function manifest(): ViteManifest {
         OCULAR_ANALYTICS_ENTRY,
         AQUEOUS_CONTROLLED_ENTRY,
         AQUEOUS_ANALYTICS_ENTRY,
+        BLOOD_CONTROLLED_ENTRY,
+        BLOOD_ANALYTICS_ENTRY,
       ],
     },
     shared: { file: 'assets/shared.js' },
@@ -129,7 +135,18 @@ function manifest(): ViteManifest {
       file: 'assets/aqueous-analytics.js',
       isDynamicEntry: true,
       imports: ['shared'],
-    },  };
+    },
+    [BLOOD_CONTROLLED_ENTRY]: {
+      file: 'assets/blood-controlled.js',
+      isDynamicEntry: true,
+      imports: ['shared'],
+    },
+    [BLOOD_ANALYTICS_ENTRY]: {
+      file: 'assets/blood-analytics.js',
+      isDynamicEntry: true,
+      imports: ['shared'],
+    },
+  };
 }
 
 describe('release build identity', () => {
@@ -168,7 +185,7 @@ describe('release build identity', () => {
     [
       'wrong feature flags',
       'hvp-public-beta' as const,
-      metadata({ flags: { assessmentPilot: false, hvpCuratedPractice: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false } }),
+      metadata({ flags: { assessmentPilot: false, hvpCuratedPractice: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false } }),
       git,
       'a'.repeat(64),
       /flags/i,
@@ -176,7 +193,7 @@ describe('release build identity', () => {
     [
       'Aqueous enabled',
       'hvp-public-beta' as const,
-      metadata({ flags: { assessmentPilot: true, hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false } }),
+      metadata({ flags: { assessmentPilot: true, hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false } }),
       git,
       'a'.repeat(64),
       /Aqueous/i,
@@ -185,7 +202,7 @@ describe('release build identity', () => {
       'Aqueous curated practice enabled in the HVP profile',
       'hvp-public-beta' as const,
       metadata({ flags: { assessmentPilot: false, hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false,
-        ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: true } }),
+        ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: true, bloodSupplyCuratedPractice: false } }),
       git,
       'a'.repeat(64),
       /flags/i,
@@ -256,7 +273,7 @@ describe('release build identity', () => {
       releaseOutputDirectory('hvp-public-beta'),
       metadata({
         profile: 'disabled',
-        flags: { assessmentPilot: false, hvpCuratedPractice: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false },
+        flags: { assessmentPilot: false, hvpCuratedPractice: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false },
         outputDirectory: 'tmp/release/builds/disabled',
       }),
       git,
@@ -325,6 +342,8 @@ describe('release bundle closures', () => {
       'assets/ocular-analytics.js': 1,
       'assets/aqueous-controlled.js': 1,
       'assets/aqueous-analytics.js': 1,
+      'assets/blood-controlled.js': 1,
+      'assets/blood-analytics.js': 1,
     };
     for (const [file, size] of Object.entries(sizes)) {
       const filePath = resolve(output, 'client', file);

@@ -16,6 +16,7 @@ export const releaseFlagsSchema = z.strictObject({
   tissueFoundationsCuratedPractice: z.boolean(),
   ocularAdnexaCuratedPractice: z.boolean(),
   aqueousVitreousCuratedPractice: z.boolean(),
+  bloodSupplyCuratedPractice: z.boolean(),
 });
 export type ReleaseFlags = z.infer<typeof releaseFlagsSchema>;
 
@@ -124,6 +125,13 @@ export const releaseManifestSchema = z.strictObject({
     ocularAdnexaChecksum: z.literal(
       'fe96d664bdad67b40a4711332612e59e26a2b5a2c3844aae279dc71f662ecb9f',
     ),
+    bloodSupplyQuestions: z.literal(80),
+    bloodSupplyObjectives: z.literal(18),
+    bloodSupplySources: z.literal(8),
+    bloodSupplySvgDiagrams: z.literal(5),
+    bloodSupplyChecksum: z.literal(
+      '1ce2628c3c74ac124b7034d7c34efba63a10dc4d6dcaab079e5eed73a01ccf8d',
+    ),
     reviewStatuses: z.strictObject({
       aqueousQuestions: reviewCountsSchema,
       aqueousObjectives: reviewCountsSchema,
@@ -133,6 +141,8 @@ export const releaseManifestSchema = z.strictObject({
       tissueObjectives: reviewCountsSchema,
       ocularAdnexaQuestions: reviewCountsSchema,
       ocularAdnexaObjectives: reviewCountsSchema,
+      bloodSupplyQuestions: reviewCountsSchema,
+      bloodSupplyObjectives: reviewCountsSchema,
     }),
     academicStatus: z.literal(
       'Curated draft educational practice; not lecturer-approved examination items.',
