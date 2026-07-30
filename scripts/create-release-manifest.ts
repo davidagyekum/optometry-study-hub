@@ -11,11 +11,16 @@ import {
   releaseManifestIdentity,
   renderReleaseReport,
 } from '@/lib/release/manifest';
-import { parseReleaseProfile } from '@/lib/release/profile';
+import {
+  assertPublishableReleaseProfile,
+  parseReleaseProfile,
+} from '@/lib/release/profile';
 
 const profileArgument = process.argv.find((argument) => argument.startsWith('--profile='))
   ?.slice('--profile='.length);
-const profile = parseReleaseProfile(profileArgument ?? 'hvp-public-beta');
+const profile = assertPublishableReleaseProfile(
+  parseReleaseProfile(profileArgument ?? 'hvp-public-beta'),
+);
 const audit = auditReleaseBundle(profile);
 const manifest = createReleaseManifest({ profile, audit });
 assertManifestHasNoSensitivePaths(manifest);

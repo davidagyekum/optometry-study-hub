@@ -1,5 +1,6 @@
 import { moduleMap } from '@/content/legacy/moduleCatalog';
 import type { GoToRoute } from '@/hooks/useClientRoute';
+import type { CuratedExperienceSummary } from '@/lib/assessment/curated/types';
 import { bestScore, courseReadingCompletion, moduleReadingPercentage } from '@/lib/legacy/progress';
 import type { CourseSummary, LegacyStoreData, Module } from '@/lib/legacy/types';
 
@@ -10,6 +11,7 @@ export function CourseView({
   startQuiz,
   clearModule,
   clearCourse,
+  curatedExperiences,
 }: {
   course: CourseSummary;
   store: LegacyStoreData;
@@ -17,9 +19,16 @@ export function CourseView({
   startQuiz: (module: Module) => void;
   clearModule: (id: string) => void;
   clearCourse: () => void;
+  curatedExperiences: readonly CuratedExperienceSummary[];
 }) {
   const courseModules = course.moduleIds.map((id) => moduleMap.get(id)).filter(Boolean) as Module[];
   const completion = courseReadingCompletion(courseModules, store);
+  const registeredCurated = curatedExperiences.filter(
+    (experience) => experience.courseId === course.id,
+  );
+  const enabledCurated = registeredCurated.filter(
+    (experience) => experience.enabled,
+  );
 
   return (
     <>
@@ -40,6 +49,24 @@ export function CourseView({
         </div>
         <div className="overall-progress"><strong>{completion.completed}/{completion.total}</strong><span>sections reviewed</span></div>
       </section>
+      {registeredCurated.length ? (
+        <section
+          aria-label={`${course.title} curated practice availability`}
+          className="privacy-panel course-curated-status"
+        >
+          <div>
+            <span className="course-code">CURATED PRACTICE</span>
+            <h2>
+              Curated modules enabled: {enabledCurated.length} of{' '}
+              {registeredCurated.length}
+            </h2>
+            <p>
+              Curated results and mastery evidence remain separate for each
+              module and do not replace legacy Latest or Best scores.
+            </p>
+          </div>
+        </section>
+      ) : null}
       <section className="module-grid">
         {courseModules.map((item) => {
           const moduleProgress = moduleReadingPercentage(item, store.read[item.id] ?? []);

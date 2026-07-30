@@ -74,6 +74,21 @@ export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = 
     buildDurationMs: 6_723,
     fileCount: 165,
   },
+  'neuro-anatomy-preview': {
+    totalOutputBytes: 7_996_819,
+    clientJavaScriptBytes: 1_596_037,
+    initialHomeJavaScriptBytes: 504_544,
+    disabledPracticeHubJavaScriptBytes: 504_544,
+    disabledProgressHubJavaScriptBytes: 504_544,
+    hvpEnabledPracticeHubJavaScriptBytes: 852_264,
+    hvpEnabledProgressHubJavaScriptBytes: 852_264,
+    incrementalControlledHvpJavaScriptBytes: 427_837,
+    incrementalHvpAnalyticsJavaScriptBytes: 347_720,
+    combinedIncrementalHvpJavaScriptBytes: 450_027,
+    largestAssetBytes: 630_806,
+    buildDurationMs: 6_385,
+    fileCount: 165,
+  },
 };
 
 const withHeadroom = (value: number) => Math.ceil(value * 1.1);

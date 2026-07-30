@@ -46,6 +46,8 @@ const commands: Command[] = [
   { label: 'Tissue bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=tissue-foundations-preview') },
   { label: 'Combined HVP and Tissue release build', command: npmCommand, args: npmArgs('run', 'release:build:hvp-tissue') },
   { label: 'Combined HVP and Tissue bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=hvp-tissue-preview') },
+  { label: 'Neuro Anatomy preview build', command: npmCommand, args: npmArgs('run', 'release:build:neuro') },
+  { label: 'Neuro Anatomy preview bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=neuro-anatomy-preview') },
   { label: 'Release manifest', command: npmCommand, args: npmArgs('run', 'release:manifest') },
   { label: 'Whitespace validation', command: 'git', args: ['diff', '--check'] },
 ];

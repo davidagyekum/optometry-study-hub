@@ -3,7 +3,9 @@ import { RELEASE_BASELINES, RELEASE_BUDGETS } from '@/lib/release/budgets';
 
 describe('release bundle budgets', () => {
   it('provides approximately ten percent measured headroom', () => {
-    for (const profile of ['disabled', 'hvp-public-beta'] as const) {
+    for (const profile of Object.keys(RELEASE_BASELINES) as Array<
+      keyof typeof RELEASE_BASELINES
+    >) {
       const baseline = RELEASE_BASELINES[profile];
       const budget = RELEASE_BUDGETS[profile];
       for (const [key, limit] of Object.entries(budget)) {

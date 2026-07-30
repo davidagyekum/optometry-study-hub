@@ -1,8 +1,10 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import {
+  assertPublishableReleaseProfile,
   assertReleaseProfile,
   environmentForReleaseProfile,
+  isPublishableReleaseProfile,
   parseReleaseFlag,
   parseReleaseProfile,
   releaseFlagsFromEnvironment,
@@ -10,12 +12,14 @@ import {
 } from '@/lib/release/profile';
 
 describe('release profiles', () => {
-  it('parses only the four declared profiles', () => {
+  it('parses only the five declared profiles', () => {
     expect(parseReleaseProfile('disabled')).toBe('disabled');
     expect(parseReleaseProfile('hvp-public-beta')).toBe('hvp-public-beta');
     expect(parseReleaseProfile('tissue-foundations-preview'))
       .toBe('tissue-foundations-preview');
     expect(parseReleaseProfile('hvp-tissue-preview')).toBe('hvp-tissue-preview');
+    expect(parseReleaseProfile('neuro-anatomy-preview'))
+      .toBe('neuro-anatomy-preview');
     expect(() => parseReleaseProfile('production')).toThrow(/unknown release profile/i);
   });
 
@@ -44,11 +48,21 @@ describe('release profiles', () => {
       'hvp-public-beta',
       'tissue-foundations-preview',
       'hvp-tissue-preview',
+      'neuro-anatomy-preview',
     ] as const) {
       const environment = environmentForReleaseProfile(profile, { NODE_ENV: 'test' });
       expect(releaseFlagsFromEnvironment(environment)).toEqual(RELEASE_PROFILES[profile]);
       expect(environment.OPTOMETRY_RELEASE_PROFILE).toBe(profile);
     }
+  });
+
+  it('marks the Neuro Anatomy profile as preview-only', () => {
+    expect(isPublishableReleaseProfile('hvp-public-beta')).toBe(true);
+    expect(isPublishableReleaseProfile('neuro-anatomy-preview')).toBe(false);
+    expect(assertPublishableReleaseProfile('hvp-public-beta'))
+      .toBe('hvp-public-beta');
+    expect(() => assertPublishableReleaseProfile('neuro-anatomy-preview'))
+      .toThrow(/preview-only/i);
   });
 
   it('keeps committed defaults disabled', () => {

@@ -264,6 +264,7 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     enabledInProfile: (profile: ReleaseProfileId) => (
       profile === 'tissue-foundations-preview'
       || profile === 'hvp-tissue-preview'
+      || profile === 'neuro-anatomy-preview'
     ),
   }),
   Object.freeze({
@@ -286,7 +287,9 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
       ...bloodSupplyMarkers().authored,
       ...bloodSupplyMarkers().answers,
     ],
-    enabledInProfile: () => false,
+    enabledInProfile: (profile: ReleaseProfileId) => (
+      profile === 'neuro-anatomy-preview'
+    ),
   }),
   Object.freeze({
     experienceId: 'aqueous-vitreous-curated',
@@ -307,7 +310,9 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
       ...bloodSupplyMarkers().authored,
       ...bloodSupplyMarkers().answers,
     ],
-    enabledInProfile: () => false,
+    enabledInProfile: (profile: ReleaseProfileId) => (
+      profile === 'neuro-anatomy-preview'
+    ),
   }),
   Object.freeze({
     experienceId: 'blood-supply',
@@ -329,6 +334,8 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
       ...ocularAdnexaMarkers().authored,
       ...ocularAdnexaMarkers().answers,
     ],
-    enabledInProfile: () => false,
+    enabledInProfile: (profile: ReleaseProfileId) => (
+      profile === 'neuro-anatomy-preview'
+    ),
   }),
 ]);
