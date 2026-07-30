@@ -1,0 +1,3 @@
+# Canonical package fixtures and original assessment art are byte-identical evidence.
+content/question-bank/**/bank.json -text
+public/images/**/assessment/*.svg -text
