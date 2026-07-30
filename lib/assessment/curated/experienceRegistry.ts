@@ -16,6 +16,15 @@ import {
   isTissueFoundationsCuratedPracticeEnabled,
 } from '@/lib/assessment/tissue-foundations/config';
 import {
+  OCULAR_ADNEXA_BLUEPRINT_ID,
+  OCULAR_ADNEXA_COURSE_ID,
+  OCULAR_ADNEXA_EXPERIENCE_ID,
+  OCULAR_ADNEXA_MODULE_ID,
+  OCULAR_ADNEXA_ROUTE_ID,
+  OCULAR_ADNEXA_WRITTEN_BLUEPRINT_ID,
+  isOcularAdnexaCuratedPracticeEnabled,
+} from '@/lib/assessment/ocular-adnexa/config';
+import {
   curatedExperienceSummarySchema,
   type CuratedExperienceAdapter,
   type CuratedExperienceSummary,
@@ -178,6 +187,41 @@ export const tissueCuratedSummary: CuratedExperienceSummary = deepFreeze({
   },
 });
 
+export const ocularAdnexaCuratedSummary: CuratedExperienceSummary = deepFreeze({
+  experienceId: OCULAR_ADNEXA_EXPERIENCE_ID,
+  courseId: OCULAR_ADNEXA_COURSE_ID,
+  moduleId: OCULAR_ADNEXA_MODULE_ID,
+  title: 'OPT 376 Ocular Adnexa curated practice',
+  shortTitle: 'Ocular Adnexa curated practice',
+  courseCode: 'OPT 376',
+  routeSegment: OCULAR_ADNEXA_ROUTE_ID,
+  blueprintIds: [
+    OCULAR_ADNEXA_BLUEPRINT_ID,
+    OCULAR_ADNEXA_WRITTEN_BLUEPRINT_ID,
+  ],
+  statusLabel: 'Curated study practice',
+  enabled: false,
+  supportsAutomaticPractice: true,
+  supportsWrittenPractice: true,
+  studyEntryTitle: 'Curated slide-aligned practice',
+  studyEntryDescription:
+    'Build mixed-format practice from 80 Ocular Adnexa and Lacrimal Apparatus questions while preserving the separate legacy quiz.',
+  documentTitles: {
+    landing: 'Ocular Adnexa Curated Practice',
+    session: 'Ocular Adnexa Practice Session',
+    result: 'Ocular Adnexa Practice Result',
+    unavailable: 'Ocular Adnexa Curated Practice Unavailable',
+  },
+  releaseStatus: {
+    ariaLabel: 'Ocular Adnexa curated practice release status',
+    title: 'Curated study practice',
+    lines: [
+      'Internally checked and slide-aligned.',
+      'Not lecturer-approved examination items.',
+      'Progress is stored only on this device.',
+    ],
+  },
+});
 export const curatedExperienceRegistry = createCuratedExperienceRegistry([
   {
     summary: hvpCuratedSummary,
@@ -213,6 +257,25 @@ export const curatedExperienceRegistry = createCuratedExperienceRegistry([
         '@/lib/progress/tissueFoundationsProgressModule'
       );
       return loadedModule.tissueFoundationsProgressModule;
+    },
+  },
+  {
+    summary: ocularAdnexaCuratedSummary,
+    isEnabled: isOcularAdnexaCuratedPracticeEnabled,
+    loadPracticeModule: async () => {
+      const [factory, ocular] = await Promise.all([
+        import('@/components/assessment/curated/createCuratedPracticeModule'),
+        import('@/lib/assessment/ocular-adnexa/definition'),
+      ]);
+      return factory.createCuratedPracticeModule(
+        ocular.ocularAdnexaPracticeDefinition,
+      );
+    },
+    loadProgressModule: async () => {
+      const loadedModule = await import(
+        '@/lib/progress/ocularAdnexaProgressModule'
+      );
+      return loadedModule.ocularAdnexaProgressModule;
     },
   },
 ]);

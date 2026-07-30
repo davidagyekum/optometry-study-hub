@@ -17,8 +17,8 @@ import {
 } from '@/tests/fixtures/assessment/dummyCuratedExperience';
 
 describe('curated-experience registry', () => {
-  it('contains safe discovery metadata for both production adapters', () => {
-    expect(curatedExperienceRegistry).toHaveLength(2);
+  it('contains safe discovery metadata for every production adapter', () => {
+    expect(curatedExperienceRegistry).toHaveLength(3);
     expect(curatedExperienceSummaries()).toEqual([
       expect.objectContaining({
         experienceId: 'human-visual-perception',
@@ -38,6 +38,17 @@ describe('curated-experience registry', () => {
         blueprintIds: [
           'opt376-tissue-foundations-curated-blueprint-v1',
           'opt376-tissue-foundations-written-v1',
+        ],
+        enabled: false,
+      }),
+      expect.objectContaining({
+        experienceId: 'ocular-adnexa',
+        courseId: 'neuro-anatomy',
+        moduleId: 'ocular-adnexa',
+        routeSegment: 'ocular-adnexa-curated',
+        blueprintIds: [
+          'opt376-ocular-adnexa-curated-v1',
+          'opt376-ocular-adnexa-written-v1',
         ],
         enabled: false,
       }),
@@ -110,7 +121,7 @@ describe('curated-experience registry', () => {
     expect(summaryForModule('dummy-module', [dummyCuratedSummary])).toEqual(
       dummyCuratedSummary,
     );
-    expect(curatedExperienceRegistry).toHaveLength(2);
+    expect(curatedExperienceRegistry).toHaveLength(3);
   });
 
   it('does not invoke answer-bearing loaders during registry discovery', () => {

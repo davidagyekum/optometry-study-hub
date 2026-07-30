@@ -213,3 +213,6 @@ Tissue 50-question quiz and its Latest/Best scores. HVP behavior and checksum,
 the Aqueous pilot and hashes, both storage keys, five courses, eight modules,
 39 sections and 400 legacy questions remain unchanged. No question status,
 backend, analytics service, account, deployment or next content bank is added.
+## Ocular Adnexa progress boundary
+
+When enabled, the Ocular Adnexa progress adapter contributes only compatible current-version curated evidence for module `ocular-adnexa`. It does not combine curated outcomes with legacy Latest/Best scores, and malformed or incompatible assessment snapshots remain isolated without rewriting StoreV2.

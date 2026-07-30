@@ -6,11 +6,13 @@ import { modules } from '@/content/legacy/moduleCatalog';
 import { aqueousVitreousCandidateBank } from '@/content/question-bank/opt376/aqueous-vitreous/bank';
 import { humanVisualPerceptionCandidateBank } from '@/content/question-bank/opt374/human-visual-perception/bank';
 import { tissueFoundationsCandidateBank } from '@/content/question-bank/opt376/tissue-foundations/bank';
+import { ocularAdnexaCandidateBank } from '@/content/question-bank/opt376/ocular-adnexa/bank';
 import { QUESTION_FORMATS } from '@/lib/assessment/constants';
 import {
   assertReleaseAssertions,
   EXPECTED_HVP_CHECKSUM,
   EXPECTED_TISSUE_CHECKSUM,
+  EXPECTED_OCULAR_ADNEXA_CHECKSUM,
   reviewStatusCounts,
 } from '@/lib/release/assertions';
 import type { BundleAuditResult } from '@/lib/release/bundleAudit';
@@ -60,17 +62,21 @@ function sameFlags(
     assessmentPilot: boolean;
     hvpCuratedPractice: boolean;
     tissueFoundationsCuratedPractice: boolean;
+    ocularAdnexaCuratedPractice: boolean;
   },
   right: {
     assessmentPilot: boolean;
     hvpCuratedPractice: boolean;
     tissueFoundationsCuratedPractice: boolean;
+    ocularAdnexaCuratedPractice: boolean;
   },
 ): boolean {
   return left.assessmentPilot === right.assessmentPilot
     && left.hvpCuratedPractice === right.hvpCuratedPractice
     && left.tissueFoundationsCuratedPractice
-      === right.tissueFoundationsCuratedPractice;
+      === right.tissueFoundationsCuratedPractice
+    && left.ocularAdnexaCuratedPractice
+      === right.ocularAdnexaCuratedPractice;
 }
 
 export function createReleaseManifest(
@@ -158,6 +164,15 @@ export function createReleaseManifest(
           : []),
       )).size,
       tissueChecksum: EXPECTED_TISSUE_CHECKSUM,
+      ocularAdnexaQuestions: ocularAdnexaCandidateBank.questions.length,
+      ocularAdnexaObjectives: ocularAdnexaCandidateBank.objectives.length,
+      ocularAdnexaSources: ocularAdnexaCandidateBank.sources.length,
+      ocularAdnexaSvgDiagrams: new Set(ocularAdnexaCandidateBank.questions.flatMap(
+        (question) => ('image' in question && question.image.src.endsWith('.svg')
+          ? [question.image.src]
+          : []),
+      )).size,
+      ocularAdnexaChecksum: EXPECTED_OCULAR_ADNEXA_CHECKSUM,
       reviewStatuses: {
         aqueousQuestions: reviewStatusCounts(aqueousVitreousCandidateBank.questions),
         aqueousObjectives: reviewStatusCounts(aqueousVitreousCandidateBank.objectives),
@@ -165,6 +180,8 @@ export function createReleaseManifest(
         hvpObjectives: reviewStatusCounts(humanVisualPerceptionCandidateBank.objectives),
         tissueQuestions: reviewStatusCounts(tissueFoundationsCandidateBank.questions),
         tissueObjectives: reviewStatusCounts(tissueFoundationsCandidateBank.objectives),
+        ocularAdnexaQuestions: reviewStatusCounts(ocularAdnexaCandidateBank.questions),
+        ocularAdnexaObjectives: reviewStatusCounts(ocularAdnexaCandidateBank.objectives),
       },
       academicStatus:
         'Curated draft educational practice; not lecturer-approved examination items.',
@@ -236,7 +253,7 @@ export function renderReleaseReport(
 - Tree: \`${manifest.git.treeSha}\`
 - Built: ${manifest.builtAt}
 - Build profile: \`${manifest.build.identity.profile}\`
-- Build flags: Aqueous \`${manifest.build.identity.flags.assessmentPilot}\`, HVP \`${manifest.build.identity.flags.hvpCuratedPractice}\`, Tissue \`${manifest.build.identity.flags.tissueFoundationsCuratedPractice}\`
+- Build flags: Aqueous \`${manifest.build.identity.flags.assessmentPilot}\`, HVP \`${manifest.build.identity.flags.hvpCuratedPractice}\`, Tissue \`${manifest.build.identity.flags.tissueFoundationsCuratedPractice}\`, Ocular Adnexa \`${manifest.build.identity.flags.ocularAdnexaCuratedPractice}\`
 - Build fingerprint: \`${manifest.build.identity.outputFingerprint}\`
 - Build runtime: Node \`${manifest.build.identity.nodeVersion}\`, npm \`${manifest.build.identity.npmVersion}\`
 - Manifest SHA-256: \`${manifestChecksum}\`
@@ -244,8 +261,10 @@ export function renderReleaseReport(
 - Aqueous pilot: disabled
 - HVP curated practice: ${manifest.flags.hvpCuratedPractice ? 'enabled' : 'disabled'}
 - Tissue Foundations curated practice: ${manifest.flags.tissueFoundationsCuratedPractice ? 'enabled' : 'disabled'}
+- Ocular Adnexa curated practice: ${manifest.flags.ocularAdnexaCuratedPractice ? 'enabled' : 'disabled'}
 - Storage: \`${manifest.storage.key}\` with rollback key \`${manifest.storage.rollbackKey}\`
 - HVP bank SHA-256: \`${manifest.content.hvpChecksum}\`
+- Ocular Adnexa bank SHA-256: \`${manifest.content.ocularAdnexaChecksum}\`
 - Academic status: ${manifest.content.academicStatus}
 
 ## Content identity

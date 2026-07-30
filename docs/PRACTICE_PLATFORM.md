@@ -211,3 +211,6 @@ Tissue 50-question quiz and its Latest/Best scores. HVP behavior and checksum,
 the Aqueous pilot and hashes, both storage keys, five courses, eight modules,
 39 sections and 400 legacy questions remain unchanged. No question status,
 backend, analytics service, account, deployment or next content bank is added.
+## Ocular Adnexa adapter
+
+The Ocular Adnexa module uses the generic curated definition, router, controller, compatibility validator and mastery presentation. Quick 10, Standard 25 and Full 50 have exact section, format and difficulty contracts; Full requires all 18 objectives. Custom 5-50, targeted 10 and manual-only Written 2 retain the shared history and answer-isolation rules. `NEXT_PUBLIC_ENABLE_OCULAR_ADNEXA_CURATED_PRACTICE` is committed as `false`.

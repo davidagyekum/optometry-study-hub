@@ -1,0 +1,41 @@
+{
+  "bankId": "opt376-ocular-adnexa-candidate",
+  "automaticBlueprintId": "opt376-ocular-adnexa-curated-v1",
+  "writtenBlueprintId": "opt376-ocular-adnexa-written-v1",
+  "questionCount": 80,
+  "objectiveCount": 18,
+  "counts": {
+    "sections": {
+      "lacrimal-gland": 12,
+      "landmarks": 10,
+      "lower-lid-blood": 8,
+      "muscles": 16,
+      "tarsus-glands": 18,
+      "tears": 16
+    },
+    "formats": {
+      "extended_matching": 4,
+      "image_hotspot": 3,
+      "image_label": 2,
+      "matching": 7,
+      "multiple_response": 9,
+      "open_response": 2,
+      "ordering": 4,
+      "short_answer": 3,
+      "single_best_answer": 40,
+      "true_false": 6
+    },
+    "difficulties": {
+      "advanced": 18,
+      "foundation": 21,
+      "intermediate": 41
+    },
+    "bloomLevels": {
+      "analyze": 16,
+      "apply": 41,
+      "create": 1,
+      "evaluate": 1,
+      "understand": 21
+    }
+  }
+}

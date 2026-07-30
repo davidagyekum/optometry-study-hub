@@ -78,6 +78,8 @@ if (
   || manifest.flags.hvpCuratedPractice !== metadata.flags.hvpCuratedPractice
   || manifest.flags.tissueFoundationsCuratedPractice
     !== metadata.flags.tissueFoundationsCuratedPractice
+  || manifest.flags.ocularAdnexaCuratedPractice
+    !== metadata.flags.ocularAdnexaCuratedPractice
   || manifest.build.outputFingerprint !== metadata.outputFingerprint
   || manifest.build.identity.outputFingerprint !== metadata.outputFingerprint
 ) {

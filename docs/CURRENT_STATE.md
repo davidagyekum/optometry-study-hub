@@ -15,6 +15,8 @@
 - HVP curated practice: reviewed public-beta behavior is unchanged
 - Canonical OPT 376 Tissue Foundations bank: 80 draft questions, 18 objectives, 10 sources, and 4 SVG assessment diagrams
 - Tissue Foundations curated practice: default-disabled Quick 10, Standard 25, Full 50, Custom, targeted, and manual-only Written 2 sessions
+- Canonical OPT 376 Ocular Adnexa bank: 80 draft questions, 18 objectives, 8 sources, and 5 original SVG assessment diagrams
+- Ocular Adnexa curated practice: default-disabled Quick 10, Standard 25, Full 50, Custom, targeted, and manual-only Written 2 sessions
 
 ## Courses and modules
 

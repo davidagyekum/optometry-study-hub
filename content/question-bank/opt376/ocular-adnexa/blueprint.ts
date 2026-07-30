@@ -1,0 +1,51 @@
+import type { QuestionBlueprint } from '@/lib/assessment/blueprint/types';
+
+export const ocularAdnexaBlueprint: QuestionBlueprint = {
+  id: 'opt376-ocular-adnexa-candidate-v1',
+  bankId: 'opt376-ocular-adnexa-candidate',
+  totalQuestions: 80,
+  sectionTargets: {
+    landmarks: 10,
+    muscles: 16,
+    'tarsus-glands': 18,
+    'lower-lid-blood': 8,
+    'lacrimal-gland': 12,
+    tears: 16,
+  },
+  formatTargets: {
+    single_best_answer: 40,
+    true_false: 6,
+    multiple_response: 9,
+    matching: 7,
+    extended_matching: 4,
+    ordering: 4,
+    image_hotspot: 3,
+    image_label: 2,
+    short_answer: 3,
+    open_response: 2,
+  },
+  bloomTargets: {
+    remember: 0,
+    understand: 21,
+    apply: 41,
+    analyze: 16,
+    evaluate: 1,
+    create: 1,
+  },
+  difficultyTargets: {
+    foundation: 21,
+    intermediate: 41,
+    advanced: 18,
+  },
+  stimulusTargets: {
+    text: 75,
+    diagram: 5,
+    table: 0,
+    clinical_vignette: 0,
+    pathway: 0,
+    comparison: 0,
+    error_analysis: 0,
+  },
+  minimumHigherOrderShare: 59 / 80,
+  minimumQuestionsPerObjective: 2,
+};

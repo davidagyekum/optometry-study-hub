@@ -1,107 +1,72 @@
-# AI Handoff - PR 14 Tissue Foundations curated bank
+# AI Handoff - Ocular Adnexa curated-bank checkpoint
 
-## Pull request
+## Checkpoint
 
 - Repository: `davidagyekum/optometry-study-hub`
-- Branch: `codex/pr14-tissue-foundations-curated-bank`
-- Exact merged PR 13 base: `443c638de39985bc566436f443ef596aa184f6b6`
-- Proposed title: `Add the OPT 376 Tissue Foundations curated question bank`
-- Status: open as a draft after final source-bound verification
+- Branch: `codex/ocular-adnexa-curated-bank`
+- Exact merged base: `0b82bbd179e278777e0ab0cea8968fbe486dd1b7`
+- Proposed title: `Add the OPT 376 Ocular Adnexa curated question bank`
+- Status: ready for a focused draft pull request and autonomous checkpoint review
+- No deployment occurred.
 
-## Canonical package
+## Source and canonical package
 
-- Post-PR13 package ZIP SHA-256:
-  `12dec77b40c3961f2e1b8cde8d970dd70a6af50cf9fab3f40d73da53595f4470`
-- Canonical bank SHA-256:
-  `500454bab37a5846ed46efd442149c105cbaf6ea5c9dd270ba3605170a2d9c08`
-- 80 questions: 78 automatically gradable and two manual-only open responses
-- 18 objectives, 10 registered sources and four original neutral SVG assets
-- Section totals: nervous tissue 44, epithelium 20, connective tissue 16
-- All questions and objectives remain `draft`; no reviewer identity or
-  independent-expert evidence was added
-- The bank JSON and SVG assets retain their exact supplied bytes
+- Supplied deck: `07_The ocular_adnexa_and_lacrimal_apparatus.pptx`
+- Source deck SHA-256: `bd745221c12b076fd4873f26a3c29b06707b54a68f26b3e1467ce3e1fe04d9cf`
+- Canonical bank SHA-256: `fe96d664bdad67b40a4711332612e59e26a2b5a2c3844aae279dc71f662ecb9f`
+- Package ZIP SHA-256: `4ca67327e648796513b979c3ccdea986a15308442c6b694d14bb27e5bd27607d`
+- 80 unique questions: 78 automatically gradable and two manual-only open responses
+- 18 objectives, eight registered sources and five original neutral SVG diagrams
+- Section totals: landmarks 10; muscles 16; tarsus/conjunctiva/glands 18; lower lid/blood supply 8; lacrimal gland 12; tears 16
+- Format totals: 40 SBA, 6 true/false, 9 multiple response, 7 matching, 4 extended matching, 4 ordering, 3 hotspot, 2 image label, 3 short answer and 2 open response
+- All questions and objectives remain `draft`; no reviewer identity or expert evidence was added.
+
+## Content corrections
+
+The deck was audited slide-by-slide with speaker notes. The bank keeps its teaching boundary while source-backing two explicit corrections:
+
+- Parasympathetic fibres provide the dominant lacrimal secretomotor drive.
+- Postganglionic sympathetic fibres reach the nerve of the pterygoid canal through the deep petrosal nerve, not the greater petrosal nerve.
+
+No slide artwork was copied. The five assessment diagrams are original neutral SVGs with descriptive alternative text, normalized coordinates and no embedded answer labels.
 
 ## Implementation
 
-- Registers `opt376-tissue-foundations-curated-v1` through the PR 13
-  answer-free registry and retryable lazy loaders.
-- Reuses the shared curated router, controller, landing, session, results and
-  mastery presentation. There is no Tissue-specific router, hook or component
-  tree.
-- Adds reusable bounded higher-order and required-objective profile contracts
-  to the generic practice solver while preserving HVP behavior.
-- Quick 10, Standard 25 and Full 50 enforce exact section, format and
-  difficulty quotas, bounded Apply-or-higher counts and the two-question family
-  maximum. Full also requires all 18 objectives.
-- Required-objective fixed profiles now satisfy all hard contracts before
-  maximizing unseen current-version questions. A deterministic dynamic-
-  programming fast path keeps Tissue Full responsive after Quick and Standard
-  history, while profiles with larger objective sets or nonredundant family
-  constraints use the generic backtracking fallback.
-- Custom 5-50 and targeted 10 use the generic deterministic history-aware
-  selector. Written 2 uses only the two open responses and remains Not scored.
-- Adds a generic curated mastery engine and generic recommendation helper; the
-  Tissue progress module is a thin configuration adapter.
-- Adds disabled, Tissue-only and combined HVP/Tissue release-profile
-  declarations and registry-driven content/isolation audit coverage.
-- Committed default:
-  `NEXT_PUBLIC_ENABLE_TISSUE_FOUNDATIONS_CURATED_PRACTICE=false`.
+- Registers experience `ocular-adnexa` at `/practice/ocular-adnexa-curated` through the answer-free generic registry and lazy practice/progress loaders.
+- Uses automatic blueprint `opt376-ocular-adnexa-curated-v1` and written blueprint `opt376-ocular-adnexa-written-v1`.
+- Quick 10, Standard 25 and Full 50 enforce exact section, format and difficulty quotas, bounded higher-order counts and the family maximum. Full requires all 18 objectives.
+- Custom 5-50, targeted 10 and manual-only Written 2 use the shared curated platform.
+- Adds module-scoped mastery/progress contribution without combining curated evidence with legacy Latest/Best scores.
+- Committed default: `NEXT_PUBLIC_ENABLE_OCULAR_ADNEXA_CURATED_PRACTICE=false`.
+- The canonical bank and assessment SVGs are protected from Windows line-ending conversion.
 
 ## Preserved contracts
 
-- Five courses, eight modules, 39 study sections and all 400 legacy questions
-  are unchanged.
-- The legacy Tissue Foundations 50-question quiz, active attempts, saved
-  results, Latest/Best calculations and reading progress are unchanged.
-- StoreV2 remains version 2 at `optometry-study-hub:v2`; rollback remains
-  `opt376-study-state:v1`. No migration or reset behavior changed.
-- HVP remains 120 questions with checksum
-  `029dc39ff103a836445a86bb352513b231e51d266d4b2fade3f00527d00ef89a`.
-- Aqueous remains 36 draft questions and its exact nine-question pilot remains
-  disabled with unchanged hashes.
-- The Aqueous, HVP and Tissue committed flags remain false.
-- No deployment, review-status transition or next content-bank work occurred.
+- Five courses, eight modules, 39 legacy study sections and all 400 legacy questions are unchanged.
+- The legacy Ocular Adnexa 50-question quiz, active attempts, results, Latest/Best scores and reading progress remain available and unchanged.
+- StoreV2 remains version 2 at `optometry-study-hub:v2`; rollback remains `opt376-study-state:v1`.
+- HVP identity/checksum and Tissue identity/checksum are unchanged.
+- Aqueous remains 36 draft questions; the exact nine-question pilot identity and hashes are unchanged and disabled.
+- Answer-bearing banks remain behind lazy, feature-gated imports.
+- No backend, account, telemetry, data migration, production flag enablement or deployment was added.
 
 ## Validation
 
-- Bundled Node.js 24 is used.
-- Lint passes with zero errors and four pre-existing `<img>` warnings.
-- TypeScript passes.
-- The fixed-profile solver passes Quick, Standard and Full contracts across
-  1,000 deterministic seeds.
-- A history-saturated Full regression completes in tens of milliseconds while
-  retaining every quota, objective, family, higher-order and determinism
-  contract; its test limit is 2 seconds.
-- Tissue validation passes: 80 questions, 18 objectives, 10 sources, exact
-  checksum and zero errors. Eleven supplied-bank lint advisories are explicitly
-  baselined by code/question ID; strict mode rejects any new warning.
-- Tissue blueprint and report commands pass.
-- The production build and release profiles pass. Exact final test totals,
-  source-bound release identity, manifest hash and branch head are recorded in
-  the draft PR description and final report after the clean commit.
+- `npm ci`: passed with bundled Node.js 24.
+- Lint: passed with zero errors and the four existing `<img>` warnings.
+- TypeScript: passed.
+- Full `npm run check`: passed.
+- Tests: 153 files, 868 passing tests.
+- Strict Ocular validation: 80 questions, 18 objectives, eight sources, zero errors and zero warnings.
+- Blueprint report: passed; 59 Apply-or-higher questions (73.75%).
+- Quick, Standard and Full: passed all exact contracts across 1,000 deterministic seeds each.
+- Disabled and Ocular-enabled production builds: passed.
+- `git diff --check` and clean-checkout verification are recorded after the checkpoint commit.
 
 ## Chrome QA
 
-Chrome-only QA covered enabled Tissue practice at phone, portrait-tablet,
-landscape-tablet and desktop widths. Study entry, Practice Hub and direct route
-loading worked; Quick 10, Standard 25, Full 50, Custom 7, targeted 10 and
-manual-only Written 2 launched correctly. Answering, flagging, autosave,
-refresh resume, incomplete-submit warning, scored review, manual-only review,
-progress details and module-scoped clearing were exercised. Full 50 remained
-responsive with existing Quick and Standard history after the optimizer fix.
-The legacy Tissue 50-question quiz remained available, HVP still loaded, and
-the Aqueous pilot remained unavailable. Disabled-profile QA showed the Tissue
-unavailable state without answer leakage while leaving notes and the legacy
-quiz accessible. No new console errors, horizontal overflow or missing SVGs
-were observed.
+Chrome-only QA verified the enabled study entry, preserved legacy quiz action, direct curated route, Quick 10 launch, answer selection, flagging, numbered navigation, autosave and refresh resume, incomplete-submit warning, scored result review and related-note links. A disabled-server pass showed the unavailable state without answer leakage while preserving notes and the legacy quiz. No new error-level console messages appeared. Temporary Chrome tabs and preview servers were closed.
 
-The study-page launch action also has a direct UI regression test, and temporary
-Chrome QA tabs and the local server were closed. The pre-existing ignored local
-`.env.local` was restored; no feature flag change is committed.
+## Checkpoint boundary
 
-## Stop conditions
-
-- Keep the pull request draft.
-- Do not deploy or enable production flags.
-- Do not promote any question or objective.
-- Do not begin the Ocular Adnexa content PR.
+Do not deploy or change review status in this checkpoint. After the draft PR is self-reviewed and every gate remains green on the committed head, squash-merge it, synchronize `main`, and begin the Aqueous/Vitreous expansion only from that exact merged commit.

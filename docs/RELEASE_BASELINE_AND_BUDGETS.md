@@ -130,3 +130,6 @@ neither bank appears in the initial learner closure, each enabled closure
 contains its own authored and answer markers, and HVP and Tissue markers remain
 isolated from one another. The standard ten-per-cent byte headroom is derived
 from these measurements; duration remains observational.
+## Ocular Adnexa checkpoint evidence
+
+The Ocular Adnexa bank contains 80 draft questions, 18 draft objectives, eight registered sources and five original SVGs. Its SHA-256 is `fe96d664bdad67b40a4711332612e59e26a2b5a2c3844aae279dc71f662ecb9f`. The focused checkpoint passed disabled and Ocular-enabled production builds; the committed release profiles still keep the new feature false and no deployment is authorized here.
