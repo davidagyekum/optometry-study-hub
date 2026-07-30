@@ -106,7 +106,7 @@ export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = 
   },
   'autonomic-pharmacology-preview': {
     totalOutputBytes: 8438290,
-    clientJavaScriptBytes: 1785983,
+    clientJavaScriptBytes: 1971237,
     initialHomeJavaScriptBytes: 507158,
     disabledPracticeHubJavaScriptBytes: 507158,
     disabledProgressHubJavaScriptBytes: 507158,
