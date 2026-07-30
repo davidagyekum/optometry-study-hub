@@ -182,6 +182,15 @@ describe('release build identity', () => {
       /Aqueous/i,
     ],
     [
+      'Aqueous curated practice enabled in the HVP profile',
+      'hvp-public-beta' as const,
+      metadata({ flags: { assessmentPilot: false, hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false,
+        ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: true } }),
+      git,
+      'a'.repeat(64),
+      /flags/i,
+    ],
+    [
       'stale commit',
       'hvp-public-beta' as const,
       metadata({ commitSha: '3'.repeat(40) }),

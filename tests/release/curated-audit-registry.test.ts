@@ -3,7 +3,10 @@ import {
   analyzeReleaseClosures,
   type ViteManifest,
 } from '@/lib/release/bundleAudit';
-import type { CuratedReleaseAuditDefinition } from '@/lib/release/curatedAuditRegistry';
+import {
+  curatedReleaseAuditRegistry,
+  type CuratedReleaseAuditDefinition,
+} from '@/lib/release/curatedAuditRegistry';
 
 const markerProvider = () => ['marker'];
 const definitions: CuratedReleaseAuditDefinition[] = [
@@ -63,6 +66,20 @@ const manifest: ViteManifest = {
 };
 
 describe('generic curated release-audit registry', () => {
+  it('uses twelve unique, collision-resistant answer markers per real experience', () => {
+    for (const definition of curatedReleaseAuditRegistry) {
+      const markers = definition.answerIdentityMarkers();
+      expect(markers).toHaveLength(12);
+      expect(new Set(markers).size).toBe(12);
+      expect(markers).not.toContain('anterior-chamber');
+      expect(markers.some((marker) => (
+        /^(?:option|choice|item|region|label|target|prompt|stem)-/.test(marker)
+      ))).toBe(false);
+      expect(definition.excludedCrossBankMarkers().some(
+        (marker) => markers.includes(marker),
+      )).toBe(false);
+    }
+  });
   it('analyzes two lazy boundaries and counts shared chunks once', () => {
     const closures = analyzeReleaseClosures(manifest, definitions);
     expect(Object.keys(closures.experiences)).toEqual(['first', 'second']);

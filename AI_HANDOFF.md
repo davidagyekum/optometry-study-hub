@@ -14,7 +14,7 @@
 - Supplied deck: `Aqueous_Vitreous_OPT_376.pptx`
 - Source deck SHA-256: `3f1f0e8b0e0e3ef6d5bd869e73796feff1c41a83edac29c65a9f74d2f1428dc7`
 - Canonical bank SHA-256: `97c1bc76cbae20681b1c4494bb7d35d282420f8c03a9181927720e024ae9dccb`
-- Package ZIP SHA-256: `0a2ffce7d649da8a79fb2e1c003591b371efa79773e1c4cc347a01abd14b5e67`
+- Package ZIP SHA-256: `06f72baf68ac93f48d048763b7d6208d3d64984d13c2ec3b5596851cbd50806a`
 - 80 unique questions: 78 automatically gradable and two manual-only open responses
 - 13 objectives, eight registered sources and four original neutral SVG diagrams
 - Section totals: media/chambers 12; production 13; flow 15; IOP 14; vitreous anatomy 13; vitreous clinical 13
@@ -56,7 +56,7 @@
 
 - Lint: passed with zero errors and the four existing `<img>` warnings.
 - TypeScript: passed.
-- Tests: 158 files and 883 tests passed across eight deterministic single-worker shards after Windows worker contention prevented one monolithic Vitest process from completing reliably. Every test file ran exactly once.
+- Tests: 158 files and 884 tests passed in the clean-commit verifier with bundled Node 24 and one Windows-safe worker.
 - Strict Aqueous validation: 80 questions, 13 objectives, eight sources, zero errors and zero warnings.
 - Blueprint report: passed; 53 Apply-or-higher questions.
 - Quick, Standard and Full: passed all exact contracts across 1,000 deterministic seeds each.
@@ -64,6 +64,7 @@
 - Original-36 identity and all nine pilot semantic compatibility fixtures: passed.
 - Four SVG asset identities, dimensions, neutral labels and normalized coordinates: passed.
 - `git diff --check`: passed.
+- Self-review replaced generic answer-ID audit markers that collided with other lazy banks and added an explicit build-identity check for the new feature flag.
 - The final committed-head release verification, manifest identity and clean-tree checks are recorded in the draft PR description after the source commit exists.
 
 ## Chrome QA

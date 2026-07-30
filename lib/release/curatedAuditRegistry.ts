@@ -135,34 +135,31 @@ function moduleMarkers(
     }
     return [question.stem, question.explanation];
   });
-  const formats = [
-    'single_best_answer',
-    'multiple_response',
-    'matching',
-    'extended_matching',
-    'ordering',
-    'image_hotspot',
-    'image_label',
-  ];
-  const answers = formats.flatMap((format) => {
-    const question = bank.questions.find(
-      (candidate) => candidate.format === format,
-    );
-    if (!question) {
-      throw new Error(`${label} answer marker question is missing for ${format}.`);
-    }
-    return [
-      ...(question.correctOptionId ? [question.correctOptionId] : []),
-      ...(question.correctOptionIds ?? []),
-      ...(question.correctOrder ?? []),
-      ...(question.correctRegionIds ?? []),
-      ...Object.values(question.correctMatches ?? {}),
-      ...Object.values(question.correctAnswers ?? {}),
-      ...Object.values(question.correctLabels ?? {}),
-    ];
-  }).filter(
-    (value, index, values) => value.length > 5 && values.indexOf(value) === index,
-  ).slice(0, 12);
+  const answerIds = bank.questions.flatMap((question) => [
+    ...(question.correctOptionId ? [question.correctOptionId] : []),
+    ...(question.correctOptionIds ?? []),
+    ...(question.correctOrder ?? []),
+    ...(question.correctRegionIds ?? []),
+    ...Object.values(question.correctMatches ?? {}),
+    ...Object.values(question.correctAnswers ?? {}),
+    ...Object.values(question.correctLabels ?? {}),
+  ]).filter(
+    (value, index, values) => (
+      value.length >= 18
+      && !/^(?:option|choice|item|region|label|target|prompt|stem)-/.test(value)
+      && values.indexOf(value) === index
+    ),
+  );
+  // Some imported banks intentionally use generic answer IDs. Stable question IDs
+  // are collision-resistant fallback markers for those banks; authored markers still
+  // prove that the full question content is present only in the lazy closure.
+  const answers = [
+    ...answerIds,
+    ...bank.questions.map((question) => question.id),
+  ].filter((value, index, values) => values.indexOf(value) === index).slice(0, 12);
+  if (answers.length < 12) {
+    throw new Error(`${label} requires 12 collision-resistant answer markers.`);
+  }
   return { authored, answers };
 }
 
