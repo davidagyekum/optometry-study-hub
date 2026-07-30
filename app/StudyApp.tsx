@@ -37,8 +37,8 @@ import { legacyRecommendations } from '@/lib/progress/recommendations';
 import {
   courseResetConfirmation,
   moduleResetConfirmation,
-  resetAssessmentCourse,
   resetAssessmentModule,
+  resetCourseStudyData,
 } from '@/lib/storage/assessmentReset';
 import { createEmptyStoreV2 } from '@/lib/storage/migrations';
 import type { StoreV2 } from '@/lib/storage/schemas';
@@ -167,17 +167,11 @@ export default function StudyApp() {
       course.title,
       pilotEnabled || curatedEnabled,
     ))) return;
-    updateStore((current) => {
-      const read = { ...current.read };
-      const active = { ...current.active };
-      const results = { ...current.results };
-      course.moduleIds.forEach((id) => {
-        read[id] = [];
-        active[id] = undefined;
-        results[id] = [];
-      });
-      return resetAssessmentCourse({ ...current, read, active, results }, course.id);
-    });
+    updateStore((current) => resetCourseStudyData(
+      current,
+      course.id,
+      course.moduleIds,
+    ));
   };
 
   if (route.view === 'course' && !activeCourse) {
@@ -312,6 +306,7 @@ export default function StudyApp() {
           startQuiz={startQuiz}
           clearModule={clearModule}
           clearCourse={() => clearCourse(activeCourse)}
+          curatedExperiences={allCuratedExperiences}
         />
       ) : null}
       {route.view === 'study' && activeModule ? (

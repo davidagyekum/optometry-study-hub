@@ -37,13 +37,19 @@ if (
   );
 }
 const example = readFileSync('.env.example', 'utf8');
+const committedFlagNames = [
+  'ASSESSMENT_PILOT',
+  'HVP_CURATED_PRACTICE',
+  'TISSUE_FOUNDATIONS_CURATED_PRACTICE',
+  'OCULAR_ADNEXA_CURATED_PRACTICE',
+  'AQUEOUS_VITREOUS_CURATED_PRACTICE',
+  'BLOOD_SUPPLY_CURATED_PRACTICE',
+];
 if (
-  !example.includes('NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT=false')
-  || !example.includes('NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE=false')
-  || !example.includes(
-    'NEXT_PUBLIC_ENABLE_TISSUE_FOUNDATIONS_CURATED_PRACTICE=false',
+  committedFlagNames.some(
+    (name) => !example.includes(`NEXT_PUBLIC_ENABLE_${name}=false`),
   )
-  || /NEXT_PUBLIC_ENABLE_(?:ASSESSMENT_PILOT|HVP_CURATED_PRACTICE|TISSUE_FOUNDATIONS_CURATED_PRACTICE)=true/.test(example)
+  || /NEXT_PUBLIC_ENABLE_\w+=true/.test(example)
 ) {
   throw new Error('Committed feature defaults must keep all assessment flags false.');
 }

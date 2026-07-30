@@ -1,73 +1,83 @@
-# AI Handoff - Blood Supply curated-bank checkpoint
+# AI Handoff - Complete Neuro Anatomy curated integration
 
 ## Checkpoint
 
 - Repository: `davidagyekum/optometry-study-hub`
-- Branch: `codex/blood-supply-curated-bank`
-- Exact merged base: `9d8e268701aa2e7f2458ef163848f540667f0b33`
-- Proposed title: `Add Blood Supply curated practice`
-- Status: ready for final source gates, a focused draft pull request and autonomous checkpoint review
+- Branch: `codex/neuro-anatomy-curated-integration`
+- Exact merged base: `a97c72b172f18dbf03af20ac6bdab5a4e5051783`
+- Proposed title: `Verify complete Neuro Anatomy curated integration`
+- Status: ready for a focused draft pull request and autonomous checkpoint review
 - No deployment occurred.
 
-## Source and canonical package
+## Integration scope
 
-- Supplied deck: `Blood_Supply_OPT_376.pptx`
-- Source deck SHA-256: `e951a09a05c848ba3f93ce6c2bc6f066fa61b761479edb329806a9bf187b9af4`
-- Canonical bank SHA-256: `1ce2628c3c74ac124b7034d7c34efba63a10dc4d6dcaab079e5eed73a01ccf8d`
-- Package ZIP SHA-256: `e053ca49a196c6bbd096698ae584b885db696c1c19dc11777665f588d5ead11b`
-- 80 unique questions: 78 automatically gradable and two manual-only open responses
-- 18 objectives, eight registered sources and five original neutral SVG diagrams
-- Section totals: arterial origins 12; ciliary circulation 15; retinal circulation 15; barriers 14; microcirculation 12; clinical integration 12
-- Format totals: 30 SBA, 6 true/false, 10 multiple response, 8 matching, 6 extended matching, 6 ordering, 4 hotspot, 4 image label, 4 short answer and 2 open response
-- Bloom totals: Remember 6; Understand 18; Apply 48; Analyze 6; Evaluate 1; Create 1
-- Difficulty totals: Foundation 20; Intermediate 42; Advanced 18
-- All questions and objectives remain `draft`; no reviewer identity or expert evidence was added.
+- Verifies all four curated Neuro Anatomy module routes and identities:
+  - Tissue Foundations: `/practice/tissue-foundations-curated`
+  - Ocular Adnexa: `/practice/ocular-adnexa-curated`
+  - Aqueous Humour and Vitreous Body: `/practice/aqueous-vitreous-curated`
+  - Blood Supply to the Eye: `/practice/blood-supply-curated`
+- Adds the visible course summary `Curated modules enabled: 4 of 4`.
+- Keeps curated results and mastery evidence separate for each module and separate from legacy Latest and Best scores.
+- Adds a pure course-scoped reset that removes only Neuro Anatomy legacy and controlled-assessment attempts/results after explicit confirmation.
+- Preserves global version-aware question history so it remains useful across modules and future question versions.
+- Adds the non-publishable `neuro-anatomy-preview` release profile and rejects preview profiles from the publishable release-manifest path.
 
-## Implementation
+## Isolation and compatibility evidence
 
-- Registers the generic curated experience at `/practice/blood-supply-curated`.
-- Uses automatic blueprint `opt376-blood-supply-curated-v1` and written blueprint `opt376-blood-supply-written-v1`.
-- Quick 10, Standard 25 and Full 50 enforce exact section, format and difficulty quotas, bounded higher-order counts and the family maximum across 1,000 deterministic seeds each. Full covers all 18 objectives.
-- Custom 5-50, targeted 10 and manual-only Written 2 use the shared curated platform.
-- Adds module-scoped progress contribution without combining curated evidence with legacy Latest/Best scores.
-- Adds five 1200 by 675 original answer-neutral SVGs with accessible titles, descriptions and normalized interaction coordinates.
-- Committed default: `NEXT_PUBLIC_ENABLE_BLOOD_SUPPLY_CURATED_PRACTICE=false`.
-
-## Preserved contracts
-
-- Five courses, eight modules, 39 legacy study sections and all 400 legacy questions are unchanged.
-- The legacy Blood Supply 50-question quiz, active attempts, results, Latest/Best scores and reading progress remain available and unchanged.
+- Route, experience, automatic-blueprint and written-blueprint identities are distinct for all four modules.
+- Independent Quick sessions produce and retain distinct results, score totals and histories for all four modules.
+- The Neuro course reset preserves HVP legacy and controlled-assessment data and preserves global question history.
+- HVP route and persistence contracts remain compatible.
+- The Aqueous engineering pilot remains disabled and is routed separately from Aqueous curated practice.
+- Five courses, eight modules, 39 legacy sections and 400 legacy questions remain unchanged.
 - StoreV2 remains version 2 at `optometry-study-hub:v2`; rollback remains `opt376-study-state:v1`.
-- HVP, Tissue Foundations, Ocular Adnexa, Aqueous/Vitreous and the engineering-pilot identities are unchanged.
-- Answer-bearing banks remain behind lazy, feature-gated imports.
-- No backend, account, telemetry, data migration, production flag enablement or deployment was added.
+- No question content, review status, reviewer identity, storage version, backend, account or telemetry was changed.
+- Every committed feature flag remains `false`.
 
 ## Validation
 
-- TypeScript: passed.
-- Tests: 163 files and 901 tests passed with bundled Node 24.
-- Strict Blood Supply validation: 80 questions, 18 objectives, eight sources, zero errors and zero warnings.
-- Blueprint report: passed; 56 Apply-or-higher questions.
-- Quick, Standard and Full: passed all exact contracts across 1,000 deterministic seeds each.
-- Five SVG identities, 1200 by 675 dimensions, neutral labels and normalized coordinates: passed.
+- `npm ci`: passed with bundled Node 24.
+- `npm run check`: passed.
+- Tests: 165 files and 909 tests passed.
 - Lint: passed with zero errors and the four existing `<img>` warnings.
-- Disabled and Blood-only enabled production builds: passed.
+- TypeScript: passed.
+- All five curated validators and blueprint reports: passed.
+- Disabled, HVP public-beta, Tissue preview, HVP plus Tissue preview and Neuro preview release builds: passed.
+- All release bundle audits: passed.
+- A fresh publishable HVP manifest and deterministic release identity were generated from the clean checkpoint tree; their exact final values are recorded in the PR description and final report because a committed handoff cannot embed its own resulting commit identity.
 - `git diff --check`: passed.
-- Clean `npm ci` and `npm run check`: passed in an isolated worktree.
-- Self-review caught the inherited Ocular total-client budget ceiling after the cumulative full Aqueous and Blood lazy chunks were added. Four exact clean-build baselines were recorded with the standard ten-per-cent headroom; initial and server answer isolation remained intact.
-- Final clean-commit release verification will be recorded after the corrected baseline commit exists.
+
+## Neuro preview measurements
+
+- Total output: 7,998,921 bytes.
+- Client JavaScript: 1,596,645 bytes.
+- Initial route: 505,152 bytes.
+- Disabled practice route: 505,152 bytes.
+- Disabled progress route: 505,152 bytes.
+- Enabled practice route: 852,872 bytes.
+- Enabled progress route: 852,872 bytes.
+- HVP controlled incremental chunk: 427,837 bytes.
+- HVP analytics incremental chunk: 347,720 bytes.
+- Combined HVP chunk: 450,027 bytes.
+- Largest single file: 630,938 bytes.
+- Output file count: 165.
+- Clean baseline build duration: 22,743 milliseconds.
 
 ## Chrome QA
 
-Chrome-only QA passed for the enabled study entry, preserved legacy quiz,
-direct curated route, 80-question landing, Quick 10 and Standard 25 launch,
-answer selection, flagging, navigation, autosave and hard-refresh resume,
-incomplete-submit warning, scored result review, original SVG hotspot
-interaction, desktop/tablet/mobile overflow and console health. A disabled
-server pass showed the unavailable route without question content, hid the
-curated study entry, and preserved the notes and legacy quiz. No error-level
-or warning-level console messages appeared. Temporary Chrome tabs and preview
-servers were closed.
+Chrome-only QA passed at desktop, tablet and mobile widths:
+
+- the Neuro course displays `Curated modules enabled: 4 of 4`;
+- each of the four module routes exposes an 80-question curated landing;
+- legacy module Latest and Best scores remain visibly separate;
+- responsive layouts have no horizontal overflow;
+- the HVP curated route displays its disabled recovery view in the Neuro preview;
+- the Aqueous engineering-pilot route displays its disabled recovery view;
+- the course-reset confirmation was dismissed and no learner data was cleared;
+- no warning-level or error-level console messages appeared.
+
+The temporary Chrome QA tab, viewport override and local preview server were
+closed after verification.
 
 ## Checkpoint boundary
 

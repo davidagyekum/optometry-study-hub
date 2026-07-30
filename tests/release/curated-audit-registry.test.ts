@@ -80,6 +80,19 @@ describe('generic curated release-audit registry', () => {
       )).toBe(false);
     }
   });
+  it('enables exactly the four Neuro Anatomy adapters in its preview profile', () => {
+    expect(curatedReleaseAuditRegistry.filter(
+      (definition) => definition.enabledInProfile('neuro-anatomy-preview'),
+    ).map((definition) => definition.experienceId)).toEqual([
+      'opt376-tissue-foundations-curated-v1',
+      'ocular-adnexa',
+      'aqueous-vitreous-curated',
+      'blood-supply',
+    ]);
+    expect(curatedReleaseAuditRegistry[0].enabledInProfile(
+      'neuro-anatomy-preview',
+    )).toBe(false);
+  });
   it('analyzes two lazy boundaries and counts shared chunks once', () => {
     const closures = analyzeReleaseClosures(manifest, definitions);
     expect(Object.keys(closures.experiences)).toEqual(['first', 'second']);

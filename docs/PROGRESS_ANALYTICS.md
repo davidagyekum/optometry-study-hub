@@ -220,3 +220,17 @@ When enabled, the Ocular Adnexa progress adapter contributes only compatible cur
 ## Aqueous and Vitreous curated progress boundary
 
 When `NEXT_PUBLIC_ENABLE_AQUEOUS_VITREOUS_CURATED_PRACTICE=true`, the Aqueous/Vitreous progress adapter contributes only compatible current-version results and attempts for experience `aqueous-vitreous-curated`. It excludes the nine-question engineering pilot, legacy quiz scores, manual Written results from scored aggregates, malformed records and other experiences. Disabling the adapter removes its contribution without deleting or rewriting StoreV2 data.
+
+## Complete Neuro Anatomy integration
+
+Each of the four Neuro Anatomy curated adapters contributes only compatible
+current-version evidence for its own module. Course-level availability may
+show `Curated modules enabled: X of 4`, but scores, mastery groups,
+recommendations and result links remain module-scoped. The global coordinator
+may rank valid recommendations and activity across modules without combining
+or overwriting their score evidence.
+
+A confirmed Neuro Anatomy course reset removes legacy and controlled attempts
+and results only for those four module IDs. It retains global version-aware
+question history and leaves HVP and every other course unchanged. The Aqueous
+engineering pilot remains excluded from curated progress.

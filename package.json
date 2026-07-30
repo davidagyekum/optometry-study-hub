@@ -44,7 +44,8 @@
     "questions:report:blood": "tsx scripts/report-blood-supply-question-bank.ts",
     "questions:blueprint:blood": "tsx scripts/report-blood-supply-question-blueprint.ts",
     "release:build:tissue": "tsx scripts/run-release-build.ts --profile=tissue-foundations-preview",
-    "release:build:hvp-tissue": "tsx scripts/run-release-build.ts --profile=hvp-tissue-preview"
+    "release:build:hvp-tissue": "tsx scripts/run-release-build.ts --profile=hvp-tissue-preview",
+    "release:build:neuro": "tsx scripts/run-release-build.ts --profile=neuro-anatomy-preview"
   },
   "dependencies": {
     "drizzle-orm": "0.45.2",

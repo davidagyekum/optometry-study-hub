@@ -62,3 +62,24 @@ export function resetAssessmentModule(store: StoreV2, moduleId: string): StoreV2
 export function resetAssessmentCourse(store: StoreV2, courseId: string): StoreV2 {
   return resetAssessmentWhere(store, (record) => record.courseId === courseId);
 }
+
+export function resetCourseStudyData(
+  store: StoreV2,
+  courseId: string,
+  moduleIds: readonly string[],
+): StoreV2 {
+  const read = { ...store.read };
+  const active = { ...store.active };
+  const results = { ...store.results };
+  moduleIds.forEach((moduleId) => {
+    read[moduleId] = [];
+    active[moduleId] = undefined;
+    results[moduleId] = [];
+  });
+  return resetAssessmentCourse({
+    ...store,
+    read,
+    active,
+    results,
+  }, courseId);
+}

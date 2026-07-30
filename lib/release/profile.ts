@@ -50,7 +50,35 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     aqueousVitreousCuratedPractice: false,
     bloodSupplyCuratedPractice: false,
   },
+  'neuro-anatomy-preview': {
+    assessmentPilot: false,
+    hvpCuratedPractice: false,
+    tissueFoundationsCuratedPractice: true,
+    ocularAdnexaCuratedPractice: true,
+    aqueousVitreousCuratedPractice: true,
+    bloodSupplyCuratedPractice: true,
+  },
 };
+
+export const PUBLISHABLE_RELEASE_PROFILES: ReadonlySet<ReleaseProfileId> =
+  new Set<ReleaseProfileId>(['hvp-public-beta']);
+
+export function isPublishableReleaseProfile(
+  profile: ReleaseProfileId,
+): boolean {
+  return PUBLISHABLE_RELEASE_PROFILES.has(profile);
+}
+
+export function assertPublishableReleaseProfile(
+  profile: ReleaseProfileId,
+): ReleaseProfileId {
+  if (!isPublishableReleaseProfile(profile)) {
+    throw new ReleaseProfileError(
+      `Release profile ${profile} is preview-only and cannot produce a publishable manifest.`,
+    );
+  }
+  return profile;
+}
 
 export class ReleaseProfileError extends Error {
   constructor(message: string) {
