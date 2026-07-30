@@ -192,3 +192,33 @@ JavaScript increased by only 3,863 bytes from the Ocular baseline, and every
 bank remained absent from the initial and server answer scans. These exact
 measurements—not a waiver—replace the preceding baselines and receive the
 standard ten-per-cent headroom.
+
+## Neuro Anatomy preview baseline
+
+The clean integration commit `707bf08` added a non-publishable
+`neuro-anatomy-preview` profile. It enables the four Neuro Anatomy curated
+experiences while keeping HVP and the Aqueous engineering pilot disabled. The
+source-bound build and registry-driven bundle audit measured:
+
+| Metric | Neuro Anatomy preview |
+|---|---:|
+| Total output | 7,998,921 |
+| Client JavaScript | 1,596,645 |
+| Initial Home JavaScript | 505,152 |
+| Disabled Practice Hub JavaScript | 505,152 |
+| Disabled Progress Hub JavaScript | 505,152 |
+| Enabled Practice Hub JavaScript | 852,872 |
+| Enabled Progress Hub JavaScript | 852,872 |
+| Incremental controlled HVP JavaScript | 427,837 |
+| Incremental HVP analytics JavaScript | 347,720 |
+| Combined incremental HVP JavaScript | 450,027 |
+| Largest emitted asset | 630,938 |
+| Output files | 165 |
+| Observed build duration | 22,743 ms |
+
+The historical HVP metric names remain schema-compatible; the generic audit
+also verifies all four Neuro Anatomy practice/progress closures, cross-bank
+answer isolation and initial/server exclusion. Exact measured bytes receive
+the standard ten-per-cent headroom. Duration is observational. Preview
+profiles are rejected by publishable-manifest creation and are never Sites
+deployment inputs.

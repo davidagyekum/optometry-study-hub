@@ -285,3 +285,25 @@ The route is `/practice/blood-supply-curated`, the automatic blueprint is
 default. Blood Supply curated mastery stays separate from legacy Latest/Best
 scores; the existing notes and 50-question quiz remain available. No migration,
 review-status transition, backend or deployment is part of the checkpoint.
+
+## Complete Neuro Anatomy curated integration checkpoint
+
+The four OPT 376 Neuro Anatomy modules now have distinct generic curated
+experiences, routes, automatic and Written blueprint identities, results and
+current-version question history. The course page reports
+`Curated modules enabled: X of 4`; each module keeps its own curated score and
+mastery evidence separate from legacy Latest/Best values.
+
+Course reset is centralized as one pure, schema-validated operation. It clears
+only the four Neuro Anatomy modules' reading records, legacy attempts/results
+and controlled-practice attempts/results after explicit confirmation. Other
+courses remain untouched, and the intentionally global version-aware question
+history remains retained. HVP compatibility is unchanged. The independent
+nine-question Aqueous engineering pilot stays disabled and is not treated as
+the Aqueous curated experience.
+
+`neuro-anatomy-preview` enables only Tissue Foundations, Ocular Adnexa,
+Aqueous/Vitreous curated practice and Blood Supply, with the engineering pilot
+and HVP disabled. It is explicitly preview-only and cannot produce a
+publishable release manifest. Every committed feature default remains false;
+this checkpoint does not deploy or promote any question beyond draft.

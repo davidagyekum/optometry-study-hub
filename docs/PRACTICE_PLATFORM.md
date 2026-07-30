@@ -214,3 +214,17 @@ backend, analytics service, account, deployment or next content bank is added.
 ## Ocular Adnexa adapter
 
 The Ocular Adnexa module uses the generic curated definition, router, controller, compatibility validator and mastery presentation. Quick 10, Standard 25 and Full 50 have exact section, format and difficulty contracts; Full requires all 18 objectives. Custom 5-50, targeted 10 and manual-only Written 2 retain the shared history and answer-isolation rules. `NEXT_PUBLIC_ENABLE_OCULAR_ADNEXA_CURATED_PRACTICE` is committed as `false`.
+
+## Complete Neuro Anatomy integration
+
+The Neuro Anatomy course binds four independent generic curated definitions:
+Tissue Foundations, Ocular Adnexa, Aqueous/Vitreous and Blood Supply. Their
+route segments, automatic/Written blueprint IDs, active attempts, results and
+question-history records are disjoint. Course-level availability reports an
+exact enabled count out of four while legacy quizzes remain available.
+
+The `neuro-anatomy-preview` build profile enables those four flags only. HVP
+and the Aqueous engineering pilot remain disabled. The profile is registered
+for deterministic build and bundle auditing but is rejected by the
+publishable-manifest command, so it cannot be mistaken for a production
+artifact.
