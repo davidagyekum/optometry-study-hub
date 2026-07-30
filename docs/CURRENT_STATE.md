@@ -324,3 +324,8 @@ All eight modules now render through a strict, answer-free Notes V2 model while 
 Systemic Pathology now presents breast, cardiovascular, endocrine, gastrointestinal and renal sections as the current lecture-aligned sequence. The historical lymphoreticular and respiratory sections remain readable as clearly marked legacy supplemental notes, keep their completion records and are not represented as current curated-bank coverage.
 
 Notes V2 imports no assessment bank, correct answer or rationale. Malformed or mismatched structured content falls back to the original notes without writing or deleting progress. StoreV2, both storage keys, unknown historical IDs, the frozen legacy generator, all curated bank identities and every default-disabled feature flag remain unchanged. This checkpoint does not deploy.
+## Full-curated release-hardening checkpoint
+
+The release model now includes a publishable `full-curated-public-beta` profile that enables all eight curated modules while keeping the Aqueous engineering pilot disabled. All pre-existing preview profiles remain non-publishable, `.env.example` remains entirely false, and the release assertions bind exactly 680 curated questions, all canonical bank identities, 400 legacy questions, unchanged StoreV2 keys and no D1/R2 bindings.
+
+The source-bound build, audit and manifest pipeline now targets the full public-beta output and retains the HVP-only public profile for historical reproducibility. Deployment remains a separate final checkpoint after curated-primary UI cutover and an exact merged-main verification.

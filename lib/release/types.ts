@@ -11,6 +11,7 @@ export const RELEASE_PROFILE_IDS = [
   'autonomic-pharmacology-preview',
   'systemic-pathology-preview',
   'full-curated-preview',
+  'full-curated-public-beta',
 ] as const;
 export const releaseProfileIdSchema = z.enum(RELEASE_PROFILE_IDS);
 export type ReleaseProfileId = z.infer<typeof releaseProfileIdSchema>;
@@ -65,7 +66,7 @@ export const releaseBuildMetadataSchema = z.strictObject({
   buildDurationMs: z.number().finite().nonnegative(),
   outputFingerprint: z.string().regex(/^[0-9a-f]{64}$/),
   outputDirectory: z.string().regex(
-    /^tmp\/release\/builds\/(disabled|hvp-public-beta|tissue-foundations-preview|hvp-tissue-preview|neuro-anatomy-preview|environmental-vision-preview|autonomic-pharmacology-preview|systemic-pathology-preview|full-curated-preview)$/,
+    /^tmp\/release\/builds\/(disabled|hvp-public-beta|tissue-foundations-preview|hvp-tissue-preview|neuro-anatomy-preview|environmental-vision-preview|autonomic-pharmacology-preview|systemic-pathology-preview|full-curated-preview|full-curated-public-beta)$/,
   ),
 });
 export type ReleaseBuildMetadata = z.infer<typeof releaseBuildMetadataSchema>;
@@ -105,6 +106,7 @@ export const releaseManifestSchema = z.strictObject({
     modules: z.literal(8),
     studySections: z.literal(39),
     legacyQuestions: z.literal(400),
+    curatedQuestions: z.literal(680),
     aqueousQuestions: z.literal(80),
     aqueousObjectives: z.literal(13),
     aqueousSources: z.literal(8),

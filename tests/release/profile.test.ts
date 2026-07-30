@@ -12,7 +12,7 @@ import {
 } from '@/lib/release/profile';
 
 describe('release profiles', () => {
-  it('parses only the nine declared profiles', () => {
+  it('parses only the ten declared profiles', () => {
     expect(parseReleaseProfile('disabled')).toBe('disabled');
     expect(parseReleaseProfile('hvp-public-beta')).toBe('hvp-public-beta');
     expect(parseReleaseProfile('tissue-foundations-preview'))
@@ -28,6 +28,8 @@ describe('release profiles', () => {
       .toBe('systemic-pathology-preview');
     expect(parseReleaseProfile('full-curated-preview'))
       .toBe('full-curated-preview');
+    expect(parseReleaseProfile('full-curated-public-beta'))
+      .toBe('full-curated-public-beta');
     expect(() => parseReleaseProfile('production')).toThrow(/unknown release profile/i);
   });
 
@@ -61,6 +63,7 @@ describe('release profiles', () => {
       'autonomic-pharmacology-preview',
       'systemic-pathology-preview',
       'full-curated-preview',
+      'full-curated-public-beta',
     ] as const) {
       const environment = environmentForReleaseProfile(profile, { NODE_ENV: 'test' });
       expect(releaseFlagsFromEnvironment(environment)).toEqual(RELEASE_PROFILES[profile]);
@@ -70,6 +73,7 @@ describe('release profiles', () => {
 
   it('marks the Neuro Anatomy profile as preview-only', () => {
     expect(isPublishableReleaseProfile('hvp-public-beta')).toBe(true);
+    expect(isPublishableReleaseProfile('full-curated-public-beta')).toBe(true);
     expect(isPublishableReleaseProfile('neuro-anatomy-preview')).toBe(false);
     expect(isPublishableReleaseProfile('environmental-vision-preview')).toBe(false);
     expect(isPublishableReleaseProfile('autonomic-pharmacology-preview')).toBe(false);
@@ -77,6 +81,8 @@ describe('release profiles', () => {
     expect(isPublishableReleaseProfile('full-curated-preview')).toBe(false);
     expect(assertPublishableReleaseProfile('hvp-public-beta'))
       .toBe('hvp-public-beta');
+    expect(assertPublishableReleaseProfile('full-curated-public-beta'))
+      .toBe('full-curated-public-beta');
     expect(() => assertPublishableReleaseProfile('neuro-anatomy-preview'))
       .toThrow(/preview-only/i);
   });

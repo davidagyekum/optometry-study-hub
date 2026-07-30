@@ -62,6 +62,8 @@ const commands: Command[] = [
   { label: 'Systemic Pathology preview bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=systemic-pathology-preview') },
   { label: 'Full curated preview build', command: npmCommand, args: npmArgs('run', 'release:build:full-curated') },
   { label: 'Full curated preview bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=full-curated-preview') },
+  { label: 'Full curated public-beta build', command: npmCommand, args: npmArgs('run', 'release:build:full-curated-public') },
+  { label: 'Full curated public-beta bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=full-curated-public-beta') },
   { label: 'Release manifest', command: npmCommand, args: npmArgs('run', 'release:manifest') },
   { label: 'Whitespace validation', command: 'git', args: ['diff', '--check'] },
 ];
@@ -81,7 +83,7 @@ const manifest = releaseManifestSchema.parse(JSON.parse(readFileSync(
   resolve('tmp', 'release', 'release-manifest.json'),
   'utf8',
 )));
-const metadata = readReleaseBuildMetadata('hvp-public-beta');
+const metadata = readReleaseBuildMetadata('full-curated-public-beta');
 const finalGit = releaseGitIdentity();
 assertCleanReleaseTree(finalGit);
 if (

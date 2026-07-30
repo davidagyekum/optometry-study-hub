@@ -157,6 +157,16 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
     (total, module) => total + questionsFor(module).length,
     0,
   );
+  const curatedQuestionCount = [
+    aqueousVitreousCandidateBank,
+    humanVisualPerceptionCandidateBank,
+    tissueFoundationsCandidateBank,
+    ocularAdnexaCandidateBank,
+    bloodSupplyCandidateBank,
+    environmentalVisionCandidateBank,
+    autonomicPharmacologyCandidateBank,
+    systemicPathologyCandidateBank,
+  ].reduce((total, bank) => total + bank.questions.length, 0);
   const hvpSvgCount = new Set(humanVisualPerceptionCandidateBank.questions.flatMap(
     (question) => ('image' in question && question.image.src.endsWith('.svg')
       ? [question.image.src]
@@ -216,6 +226,7 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
         && modules.every((module) => questionsFor(module).length === 50),
       `${legacyQuestionCount} total; ${modules.map((module) => questionsFor(module).length).join(', ')} by module`,
     ),
+    assertion('curated-questions', curatedQuestionCount === 680, String(curatedQuestionCount) + ' curated questions across eight modules'),
     assertion(
       'aqueous-content',
       aqueousVitreousCandidateBank.questions.length === 80
@@ -435,6 +446,12 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
         )
         && envExample.includes(
           'NEXT_PUBLIC_ENABLE_ENVIRONMENTAL_VISION_CURATED_PRACTICE=false',
+        )
+        && envExample.includes(
+          'NEXT_PUBLIC_ENABLE_AUTONOMIC_PHARMACOLOGY_CURATED_PRACTICE=false',
+        )
+        && envExample.includes(
+          'NEXT_PUBLIC_ENABLE_SYSTEMIC_PATHOLOGY_CURATED_PRACTICE=false',
         )
         && !envExample.includes('=true'),
       'All committed feature defaults are false.',

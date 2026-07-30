@@ -150,6 +150,21 @@ export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = 
     buildDurationMs: 7161,
     fileCount: 192,
   },
+  'full-curated-public-beta': {
+    totalOutputBytes: 9265879,
+    clientJavaScriptBytes: 2143178,
+    initialHomeJavaScriptBytes: 511105,
+    disabledPracticeHubJavaScriptBytes: 511105,
+    disabledProgressHubJavaScriptBytes: 511105,
+    hvpEnabledPracticeHubJavaScriptBytes: 858833,
+    hvpEnabledProgressHubJavaScriptBytes: 858833,
+    incrementalControlledHvpJavaScriptBytes: 427842,
+    incrementalHvpAnalyticsJavaScriptBytes: 347728,
+    combinedIncrementalHvpJavaScriptBytes: 450035,
+    largestAssetBytes: 632271,
+    buildDurationMs: 7161,
+    fileCount: 192,
+  },
 };
 
 const withHeadroom = (value: number) => Math.ceil(value * 1.1);
