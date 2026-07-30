@@ -222,3 +222,53 @@ answer isolation and initial/server exclusion. Exact measured bytes receive
 the standard ten-per-cent headroom. Duration is observational. Preview
 profiles are rejected by publishable-manifest creation and are never Sites
 deployment inputs.
+
+## Environmental Vision preview baseline
+
+The clean measurement commit `1304bf7` includes the default-disabled OPT 508
+Environmental Vision experience and a non-publishable
+`environmental-vision-preview` profile. The source-bound build and
+registry-driven bundle audit measured:
+
+| Metric | Environmental Vision preview |
+|---|---:|
+| Total output | 8,438,290 bytes |
+| Client JavaScript | 1,785,983 bytes |
+| Initial Home JavaScript | 507,158 bytes |
+| Disabled Practice Hub JavaScript | 507,158 bytes |
+| Disabled Progress Hub JavaScript | 507,158 bytes |
+| Enabled Practice Hub JavaScript | 854,873 bytes |
+| Enabled Progress Hub JavaScript | 854,873 bytes |
+| Incremental controlled HVP JavaScript | 427,832 bytes |
+| Incremental HVP analytics JavaScript | 347,715 bytes |
+| Combined incremental HVP JavaScript | 450,022 bytes |
+| Largest emitted asset | 631,378 bytes |
+| Output files | 174 |
+| Observed build duration | 8,779 ms |
+
+The historical HVP metric property names remain schema-compatible. The generic
+audit independently verifies the Environmental practice and progress closures,
+all registered cross-bank exclusions, initial and server answer isolation, and
+shared-chunk de-duplication. The exact byte measurements receive the standard
+ten-per-cent headroom; duration remains observational. The preview profile is
+rejected by publishable-manifest creation and is not a Sites deployment input.
+### Cumulative profile remeasurement
+
+Because a newly registered answer-isolated bank adds emitted lazy chunks to the
+client artifact even when its flag is false, every inherited profile was
+remeasured from the same clean `1304bf7` source tree. No bank entered an
+initial, server or unrelated experience closure.
+
+| Profile | Total bytes | Client JS | Initial JS | Files | Duration |
+|---|---:|---:|---:|---:|---:|
+| Disabled | 8,438,292 | 1,785,984 | 507,159 | 174 | 8,352 ms |
+| HVP public beta | 8,438,290 | 1,785,983 | 507,158 | 174 | 8,365 ms |
+| Tissue preview | 8,438,290 | 1,785,983 | 507,158 | 174 | 8,279 ms |
+| HVP + Tissue preview | 8,438,288 | 1,785,982 | 507,157 | 174 | 8,168 ms |
+| Neuro Anatomy preview | 8,438,284 | 1,785,980 | 507,155 | 174 | 8,166 ms |
+| Environmental Vision preview | 8,438,290 | 1,785,983 | 507,158 | 174 | 8,779 ms |
+
+The corresponding practice/progress, incremental, combined and largest-asset
+metrics are stored exactly in `lib/release/budgets.ts`. Each receives the
+standard ten-per-cent derived ceiling. The measurement-only temporary ceilings
+were replaced rather than retained.

@@ -10,6 +10,7 @@ import { humanVisualPerceptionCandidateBank } from '@/content/question-bank/opt3
 import { tissueFoundationsCandidateBank } from '@/content/question-bank/opt376/tissue-foundations/bank';
 import { ocularAdnexaCandidateBank } from '@/content/question-bank/opt376/ocular-adnexa/bank';
 import { bloodSupplyCandidateBank } from '@/content/question-bank/opt376/blood-supply/bank';
+import { environmentalVisionCandidateBank } from '@/content/question-bank/opt508/environmental-vision/bank';
 import { QUESTION_FORMATS, REVIEW_STATUSES } from '@/lib/assessment/constants';
 import { AQUEOUS_PILOT_QUESTION_IDS } from '@/lib/assessment/pilot/blueprint';
 import { questionsFor } from '@/lib/legacy/questionGenerator';
@@ -31,6 +32,9 @@ export const EXPECTED_AQUEOUS_VITREOUS_CHECKSUM =
 
 export const EXPECTED_BLOOD_SUPPLY_CHECKSUM =
   '1ce2628c3c74ac124b7034d7c34efba63a10dc4d6dcaab079e5eed73a01ccf8d';
+
+export const EXPECTED_ENVIRONMENTAL_VISION_CHECKSUM =
+  'cd453b8dd2f691db44bc93eb550f290d0c7213e44f16dc1913e5d75559b99385';
 
 export const EXPECTED_AQUEOUS_PILOT_HASHES: Record<string, string> = {
   'aqueous-flow-sba-001': 'fd062b040d1f52b25797007ba5e0c2abbbacb98d4c8903c0c988ea566fd8b0f4',
@@ -90,6 +94,14 @@ export function bloodSupplyChecksum(): string {
     .digest('hex');
 }
 
+export function environmentalVisionChecksum(): string {
+  return createHash('sha256')
+    .update(readFileSync(
+      'content/question-bank/opt508/environmental-vision/bank.json',
+    ))
+    .digest('hex');
+}
+
 export function aqueousVitreousChecksum(): string {
   return createHash('sha256')
     .update(readFileSync(
@@ -103,7 +115,7 @@ export function trackedEnabledReleaseEnvironmentFiles(): string[] {
     cwd: process.cwd(),
     encoding: 'utf8',
   }).split(/\r?\n/).filter(Boolean);
-  return files.filter((file) => /NEXT_PUBLIC_ENABLE_(?:ASSESSMENT_PILOT|HVP_CURATED_PRACTICE|TISSUE_FOUNDATIONS_CURATED_PRACTICE|OCULAR_ADNEXA_CURATED_PRACTICE|AQUEOUS_VITREOUS_CURATED_PRACTICE|BLOOD_SUPPLY_CURATED_PRACTICE)=true/.test(
+  return files.filter((file) => /NEXT_PUBLIC_ENABLE_(?:ASSESSMENT_PILOT|HVP_CURATED_PRACTICE|TISSUE_FOUNDATIONS_CURATED_PRACTICE|OCULAR_ADNEXA_CURATED_PRACTICE|AQUEOUS_VITREOUS_CURATED_PRACTICE|BLOOD_SUPPLY_CURATED_PRACTICE|ENVIRONMENTAL_VISION_CURATED_PRACTICE)=true/.test(
     readFileSync(file, 'utf8'),
   ));
 }
@@ -146,6 +158,13 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
       ? [question.image.src]
       : []),
   )).size;
+  const environmentalVisionSvgCount = new Set(
+    environmentalVisionCandidateBank.questions.flatMap(
+      (question) => ('image' in question && question.image.src.endsWith('.svg')
+        ? [question.image.src]
+        : []),
+    ),
+  ).size;
   const envExample = readFileSync('.env.example', 'utf8');
   const pilotHashes = aqueousPilotHashes();
 
@@ -238,6 +257,23 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
       `SHA-256 ${bloodSupplyChecksum()}`,
     ),
     assertion(
+      'environmental-vision-content',
+      environmentalVisionCandidateBank.questions.length === 80
+        && environmentalVisionCandidateBank.objectives.length === 18
+        && environmentalVisionCandidateBank.sources.length === 21,
+      `${environmentalVisionCandidateBank.questions.length} questions; ${environmentalVisionCandidateBank.objectives.length} objectives; ${environmentalVisionCandidateBank.sources.length} sources`,
+    ),
+    assertion(
+      'environmental-vision-svg-assets',
+      environmentalVisionSvgCount === 5,
+      `${environmentalVisionSvgCount} unique SVG diagrams`,
+    ),
+    assertion(
+      'environmental-vision-checksum',
+      environmentalVisionChecksum() === EXPECTED_ENVIRONMENTAL_VISION_CHECKSUM,
+      `SHA-256 ${environmentalVisionChecksum()}`,
+    ),
+    assertion(
       'assessment-formats',
       QUESTION_FORMATS.length === 10,
       `${QUESTION_FORMATS.length} supported formats`,
@@ -263,8 +299,14 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
         && ocularAdnexaCandidateBank.questions.every((question) => question.reviewStatus === 'draft')
         && ocularAdnexaCandidateBank.objectives.every((objective) => objective.reviewStatus === 'draft')
         && bloodSupplyCandidateBank.questions.every((question) => question.reviewStatus === 'draft')
-        && bloodSupplyCandidateBank.objectives.every((objective) => objective.reviewStatus === 'draft'),
-      'All Aqueous, HVP, Tissue, Ocular Adnexa and Blood Supply questions and objectives remain draft.',
+        && bloodSupplyCandidateBank.objectives.every((objective) => objective.reviewStatus === 'draft')
+        && environmentalVisionCandidateBank.questions.every(
+          (question) => question.reviewStatus === 'draft',
+        )
+        && environmentalVisionCandidateBank.objectives.every(
+          (objective) => objective.reviewStatus === 'draft',
+        ),
+      'All Aqueous, HVP, Tissue, Ocular Adnexa, Blood Supply and Environmental Vision questions and objectives remain draft.',
     ),
     assertion(
       'storage-identity',
@@ -306,6 +348,9 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
         )
         && envExample.includes(
           'NEXT_PUBLIC_ENABLE_BLOOD_SUPPLY_CURATED_PRACTICE=false',
+        )
+        && envExample.includes(
+          'NEXT_PUBLIC_ENABLE_ENVIRONMENTAL_VISION_CURATED_PRACTICE=false',
         )
         && !envExample.includes('=true'),
       'All committed feature defaults are false.',

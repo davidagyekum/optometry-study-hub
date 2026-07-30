@@ -1,0 +1,51 @@
+import type { QuestionBlueprint } from '@/lib/assessment/blueprint/types';
+
+export const environmentalVisionBlueprint: QuestionBlueprint = {
+  id: 'opt508-environmental-vision-blueprint-v1',
+  bankId: 'opt508-environmental-vision-candidate',
+  totalQuestions: 80,
+  sectionTargets: {
+    'env-optics': 14,
+    'env-task': 14,
+    'env-ergonomics': 14,
+    'env-hazards': 15,
+    'env-protection': 13,
+    'env-lighting': 10,
+  },
+  formatTargets: {
+    single_best_answer: 40,
+    true_false: 5,
+    multiple_response: 8,
+    matching: 7,
+    extended_matching: 5,
+    ordering: 4,
+    image_hotspot: 3,
+    image_label: 3,
+    short_answer: 3,
+    open_response: 2,
+  },
+  bloomTargets: {
+    remember: 4,
+    understand: 11,
+    apply: 33,
+    analyze: 26,
+    evaluate: 5,
+    create: 1,
+  },
+  difficultyTargets: {
+    foundation: 26,
+    intermediate: 39,
+    advanced: 15,
+  },
+  stimulusTargets: {
+    text: 9,
+    diagram: 6,
+    table: 0,
+    clinical_vignette: 43,
+    pathway: 4,
+    comparison: 15,
+    error_analysis: 3,
+  },
+  minimumHigherOrderShare: 65 / 80,
+  minimumQuestionsPerObjective: 2,
+};

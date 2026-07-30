@@ -7,6 +7,7 @@ export const RELEASE_PROFILE_IDS = [
   'tissue-foundations-preview',
   'hvp-tissue-preview',
   'neuro-anatomy-preview',
+  'environmental-vision-preview',
 ] as const;
 export const releaseProfileIdSchema = z.enum(RELEASE_PROFILE_IDS);
 export type ReleaseProfileId = z.infer<typeof releaseProfileIdSchema>;
@@ -18,6 +19,7 @@ export const releaseFlagsSchema = z.strictObject({
   ocularAdnexaCuratedPractice: z.boolean(),
   aqueousVitreousCuratedPractice: z.boolean(),
   bloodSupplyCuratedPractice: z.boolean(),
+  environmentalVisionCuratedPractice: z.boolean(),
 });
 export type ReleaseFlags = z.infer<typeof releaseFlagsSchema>;
 
@@ -58,7 +60,7 @@ export const releaseBuildMetadataSchema = z.strictObject({
   buildDurationMs: z.number().finite().nonnegative(),
   outputFingerprint: z.string().regex(/^[0-9a-f]{64}$/),
   outputDirectory: z.string().regex(
-    /^tmp\/release\/builds\/(disabled|hvp-public-beta|tissue-foundations-preview|hvp-tissue-preview|neuro-anatomy-preview)$/,
+    /^tmp\/release\/builds\/(disabled|hvp-public-beta|tissue-foundations-preview|hvp-tissue-preview|neuro-anatomy-preview|environmental-vision-preview)$/,
   ),
 });
 export type ReleaseBuildMetadata = z.infer<typeof releaseBuildMetadataSchema>;
@@ -133,6 +135,13 @@ export const releaseManifestSchema = z.strictObject({
     bloodSupplyChecksum: z.literal(
       '1ce2628c3c74ac124b7034d7c34efba63a10dc4d6dcaab079e5eed73a01ccf8d',
     ),
+    environmentalVisionQuestions: z.literal(80),
+    environmentalVisionObjectives: z.literal(18),
+    environmentalVisionSources: z.literal(21),
+    environmentalVisionSvgDiagrams: z.literal(5),
+    environmentalVisionChecksum: z.literal(
+      'cd453b8dd2f691db44bc93eb550f290d0c7213e44f16dc1913e5d75559b99385',
+    ),
     reviewStatuses: z.strictObject({
       aqueousQuestions: reviewCountsSchema,
       aqueousObjectives: reviewCountsSchema,
@@ -144,6 +153,8 @@ export const releaseManifestSchema = z.strictObject({
       ocularAdnexaObjectives: reviewCountsSchema,
       bloodSupplyQuestions: reviewCountsSchema,
       bloodSupplyObjectives: reviewCountsSchema,
+      environmentalVisionQuestions: reviewCountsSchema,
+      environmentalVisionObjectives: reviewCountsSchema,
     }),
     academicStatus: z.literal(
       'Curated draft educational practice; not lecturer-approved examination items.',

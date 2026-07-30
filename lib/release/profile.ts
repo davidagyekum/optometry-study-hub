@@ -15,6 +15,8 @@ export const RELEASE_FLAG_NAMES = {
     'NEXT_PUBLIC_ENABLE_AQUEOUS_VITREOUS_CURATED_PRACTICE',
   bloodSupplyCuratedPractice:
     'NEXT_PUBLIC_ENABLE_BLOOD_SUPPLY_CURATED_PRACTICE',
+  environmentalVisionCuratedPractice:
+    'NEXT_PUBLIC_ENABLE_ENVIRONMENTAL_VISION_CURATED_PRACTICE',
 } as const;
 
 export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
@@ -25,6 +27,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     ocularAdnexaCuratedPractice: false,
     aqueousVitreousCuratedPractice: false,
     bloodSupplyCuratedPractice: false,
+    environmentalVisionCuratedPractice: false,
   },
   'hvp-public-beta': {
     assessmentPilot: false,
@@ -33,6 +36,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     ocularAdnexaCuratedPractice: false,
     aqueousVitreousCuratedPractice: false,
     bloodSupplyCuratedPractice: false,
+    environmentalVisionCuratedPractice: false,
   },
   'tissue-foundations-preview': {
     assessmentPilot: false,
@@ -41,6 +45,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     ocularAdnexaCuratedPractice: false,
     aqueousVitreousCuratedPractice: false,
     bloodSupplyCuratedPractice: false,
+    environmentalVisionCuratedPractice: false,
   },
   'hvp-tissue-preview': {
     assessmentPilot: false,
@@ -49,6 +54,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     ocularAdnexaCuratedPractice: false,
     aqueousVitreousCuratedPractice: false,
     bloodSupplyCuratedPractice: false,
+    environmentalVisionCuratedPractice: false,
   },
   'neuro-anatomy-preview': {
     assessmentPilot: false,
@@ -57,6 +63,16 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     ocularAdnexaCuratedPractice: true,
     aqueousVitreousCuratedPractice: true,
     bloodSupplyCuratedPractice: true,
+    environmentalVisionCuratedPractice: false,
+  },
+  'environmental-vision-preview': {
+    assessmentPilot: false,
+    hvpCuratedPractice: false,
+    tissueFoundationsCuratedPractice: false,
+    ocularAdnexaCuratedPractice: false,
+    aqueousVitreousCuratedPractice: false,
+    bloodSupplyCuratedPractice: false,
+    environmentalVisionCuratedPractice: true,
   },
 };
 
@@ -133,6 +149,10 @@ export function releaseFlagsFromEnvironment(
       RELEASE_FLAG_NAMES.bloodSupplyCuratedPractice,
       environment[RELEASE_FLAG_NAMES.bloodSupplyCuratedPractice],
     ),
+    environmentalVisionCuratedPractice: parseReleaseFlag(
+      RELEASE_FLAG_NAMES.environmentalVisionCuratedPractice,
+      environment[RELEASE_FLAG_NAMES.environmentalVisionCuratedPractice],
+    ),
   };
 }
 
@@ -157,6 +177,8 @@ export function assertReleaseProfile(
       !== expected.aqueousVitreousCuratedPractice
     || flags.bloodSupplyCuratedPractice
       !== expected.bloodSupplyCuratedPractice
+    || flags.environmentalVisionCuratedPractice
+      !== expected.environmentalVisionCuratedPractice
   ) {
     throw new ReleaseProfileError(
       `Release profile ${profile} does not match its required feature flags.`,
@@ -182,6 +204,8 @@ export function environmentForReleaseProfile(
       String(flags.aqueousVitreousCuratedPractice),
     [RELEASE_FLAG_NAMES.bloodSupplyCuratedPractice]:
       String(flags.bloodSupplyCuratedPractice),
+    [RELEASE_FLAG_NAMES.environmentalVisionCuratedPractice]:
+      String(flags.environmentalVisionCuratedPractice),
     OPTOMETRY_RELEASE_PROFILE: profile,
   };
 }

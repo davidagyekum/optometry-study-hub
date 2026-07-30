@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" width="1000" height="620" role="img" aria-labelledby="title desc">
+  <title id="title">Neutral sagittal eye schematic</title>
+  <desc id="desc">A simplified eye cross-section with an anterior curved surface, iris aperture, biconvex lens, vitreous chamber and posterior neural lining.</desc>
+  <rect width="1000" height="620" fill="#f7f8fa"/>
+  <path d="M168 310 C200 115 395 62 640 92 C822 114 905 213 910 310 C905 407 822 506 640 528 C395 558 200 505 168 310Z" fill="#ffffff" stroke="#263238" stroke-width="8"/>
+  <path d="M168 310 C182 233 215 188 260 160 C236 222 232 398 260 460 C215 432 182 387 168 310Z" fill="#d9f2fb" stroke="#3185a8" stroke-width="6"/>
+  <path d="M318 178 C343 218 352 263 352 310 C352 357 343 402 318 442" fill="none" stroke="#546e7a" stroke-width="28" stroke-linecap="round"/>
+  <ellipse cx="342" cy="310" rx="18" ry="47" fill="#f7f8fa" stroke="#263238" stroke-width="5"/>
+  <path d="M405 190 C470 220 490 270 490 310 C490 350 470 400 405 430 C375 386 375 234 405 190Z" fill="#eef4d4" stroke="#7b8d2a" stroke-width="7"/>
+  <path d="M490 310 C610 270 735 270 862 310" fill="none" stroke="#f4b400" stroke-width="10" stroke-linecap="round" opacity="0.75"/>
+  <path d="M865 170 C900 225 913 270 910 310 C913 350 900 395 865 450" fill="none" stroke="#cc4b5f" stroke-width="15" stroke-linecap="round"/>
+  <path d="M850 175 C830 225 822 270 824 310 C822 350 830 395 850 445" fill="none" stroke="#f8c9d1" stroke-width="22" stroke-linecap="round" opacity="0.9"/>
+  <ellipse cx="626" cy="310" rx="238" ry="184" fill="#eaf6ff" opacity="0.35"/>
+  <path d="M85 275 H160" stroke="#6a5acd" stroke-width="8" stroke-linecap="round"/>
+  <path d="M85 310 H160" stroke="#2e86de" stroke-width="8" stroke-linecap="round"/>
+  <path d="M85 345 H160" stroke="#c0392b" stroke-width="8" stroke-linecap="round"/>
+</svg>

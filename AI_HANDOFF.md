@@ -1,87 +1,96 @@
-# AI Handoff - Complete Neuro Anatomy curated integration
+# AI Handoff - OPT 508 Environmental Vision curated bank
 
 ## Checkpoint
 
 - Repository: `davidagyekum/optometry-study-hub`
-- Branch: `codex/neuro-anatomy-curated-integration`
-- Exact merged base: `a97c72b172f18dbf03af20ac6bdab5a4e5051783`
-- Proposed title: `Verify complete Neuro Anatomy curated integration`
-- Status: ready for a focused draft pull request and autonomous checkpoint review
-- No deployment occurred.
+- Branch: `codex/environmental-vision-curated-bank`
+- Exact merged base: `cee3b9c64c8fdf24bb5211837336965bd0f21221`
+- Proposed title: `Add the OPT 508 Environmental Vision curated question bank`
+- Status: focused checkpoint ready for draft PR, Chrome QA and self-review
+- No deployment, merge, academic-status transition or later-bank work occurred.
 
-## Integration scope
+## Canonical content
 
-- Verifies all four curated Neuro Anatomy module routes and identities:
-  - Tissue Foundations: `/practice/tissue-foundations-curated`
-  - Ocular Adnexa: `/practice/ocular-adnexa-curated`
-  - Aqueous Humour and Vitreous Body: `/practice/aqueous-vitreous-curated`
-  - Blood Supply to the Eye: `/practice/blood-supply-curated`
-- Adds the visible course summary `Curated modules enabled: 4 of 4`.
-- Keeps curated results and mastery evidence separate for each module and separate from legacy Latest and Best scores.
-- Adds a pure course-scoped reset that removes only Neuro Anatomy legacy and controlled-assessment attempts/results after explicit confirmation.
-- Preserves global version-aware question history so it remains useful across modules and future question versions.
-- Adds the non-publishable `neuro-anatomy-preview` release profile and rejects preview profiles from the publishable release-manifest path.
+- Package ZIP SHA-256: `197618b0d58b25d3096b4df33aa1e81281acc49aa411b4db9743755562250a98`
+- Canonical bank SHA-256: `cd453b8dd2f691db44bc93eb550f290d0c7213e44f16dc1913e5d75559b99385`
+- Bank identity: `opt508-environmental-vision-candidate`
+- 80 questions: 78 automatically gradable and 2 manual open response.
+- 18 objectives, 21 registered sources and five original neutral SVG diagrams.
+- Six preserved note-section identities: `env-optics`, `env-task`,
+  `env-ergonomics`, `env-hazards`, `env-protection`, and `env-lighting`.
+- All questions and objectives remain `draft`; no reviewer or approval data was added.
+- The canonical JSON and all five SVGs retain their exact supplied bytes.
 
-## Isolation and compatibility evidence
+## Learner experience
 
-- Route, experience, automatic-blueprint and written-blueprint identities are distinct for all four modules.
-- Independent Quick sessions produce and retain distinct results, score totals and histories for all four modules.
-- The Neuro course reset preserves HVP legacy and controlled-assessment data and preserves global question history.
-- HVP route and persistence contracts remain compatible.
-- The Aqueous engineering pilot remains disabled and is routed separately from Aqueous curated practice.
-- Five courses, eight modules, 39 legacy sections and 400 legacy questions remain unchanged.
-- StoreV2 remains version 2 at `optometry-study-hub:v2`; rollback remains `opt376-study-state:v1`.
-- No question content, review status, reviewer identity, storage version, backend, account or telemetry was changed.
-- Every committed feature flag remains `false`.
+- Route: `/practice/environmental-vision-curated`
+- Automatic blueprint: `opt508-environmental-vision-curated-v1`
+- Written blueprint: `opt508-environmental-vision-written-v1`
+- Default flag: `NEXT_PUBLIC_ENABLE_ENVIRONMENTAL_VISION_CURATED_PRACTICE=false`
+- Quick 10, Standard 25 and Full 50 enforce exact section, format and
+  difficulty quotas, Apply-or-higher minima, current versions, uniqueness and
+  a two-question family maximum across 1,000 deterministic seeds.
+- Full covers all 18 objectives. Custom is 5-50; targeted strategies require
+  genuine family-compatible availability; Written uses the exact two package
+  prompts and is always `Not scored`.
+- The existing legacy 50-question quiz, Latest/Best scores and reading progress
+  remain separate and unchanged.
 
-## Validation
+## Compatibility and isolation
 
-- `npm ci`: passed with bundled Node 24.
-- `npm run check`: passed.
-- Tests: 165 files and 909 tests passed.
-- Lint: passed with zero errors and the four existing `<img>` warnings.
-- TypeScript: passed.
-- All five curated validators and blueprint reports: passed.
-- Disabled, HVP public-beta, Tissue preview, HVP plus Tissue preview and Neuro preview release builds: passed.
-- All release bundle audits: passed.
-- A fresh publishable HVP manifest and deterministic release identity were generated from the clean checkpoint tree; their exact final values are recorded in the PR description and final report because a committed handoff cannot embed its own resulting commit identity.
+- StoreV2 remains version 2 at `optometry-study-hub:v2`; rollback remains
+  `opt376-study-state:v1`.
+- Answer-bearing bank, grading and progress code load only through the
+  Environmental experience-specific lazy boundaries.
+- Registry discovery remains answer-free and the disabled route fails closed.
+- Bundle audits exclude Environmental authored/answer markers from initial,
+  server and unrelated curated closures, and exclude HVP, every Neuro bank and
+  the Aqueous engineering pilot from Environmental closures.
+- HVP identity/checksum, all four Neuro banks, the Aqueous pilot identities,
+  five courses, eight modules, 39 legacy sections and 400 legacy questions are
+  unchanged.
+- All committed feature flags remain false. No account, telemetry, backend,
+  D1, R2, storage migration or learner-data conversion was introduced.
+
+## Validation evidence
+
+- Bundled Node 24 used throughout.
+- `npm run lint`: passed with zero errors and four existing `<img>` warnings.
+- `npm run typecheck`: passed.
+- Tests: 170 files and 926 tests passed.
+- Environmental strict validator: 80 questions, 18 objectives, 21 sources,
+  zero errors and zero unexpected warnings; 18 package-known generic lint notes
+  are explicitly identity-bound rather than hidden.
+- Environmental report and blueprint: passed; 65 Apply-or-higher questions,
+  exact format/Bloom/difficulty/section distributions and zero diagnostics.
+- Six clean release-profile builds and registry-driven audits passed after
+  cumulative remeasurement. Temporary measurement ceilings were replaced by
+  exact baselines with ten-per-cent derived headroom.
 - `git diff --check`: passed.
+- The exact final head, tree, complete clean-head `npm run check`,
+  `npm run release:verify`, Chrome matrix, Actions run/job IDs and PR URL are
+  recorded in the pull-request description/final report because a committed
+  handoff cannot embed its own resulting commit SHA.
 
-## Neuro preview measurements
+## Release measurements
 
-- Total output: 7,998,921 bytes.
-- Client JavaScript: 1,596,645 bytes.
-- Initial route: 505,152 bytes.
-- Disabled practice route: 505,152 bytes.
-- Disabled progress route: 505,152 bytes.
-- Enabled practice route: 852,872 bytes.
-- Enabled progress route: 852,872 bytes.
-- HVP controlled incremental chunk: 427,837 bytes.
-- HVP analytics incremental chunk: 347,720 bytes.
-- Combined HVP chunk: 450,027 bytes.
-- Largest single file: 630,938 bytes.
-- Output file count: 165.
-- Clean baseline build duration: 22,743 milliseconds.
+| Profile | Total bytes | Client JS | Initial JS | Files | Duration |
+|---|---:|---:|---:|---:|---:|
+| Disabled | 8,438,292 | 1,785,984 | 507,159 | 174 | 8,352 ms |
+| HVP public beta | 8,438,290 | 1,785,983 | 507,158 | 174 | 8,365 ms |
+| Tissue preview | 8,438,290 | 1,785,983 | 507,158 | 174 | 8,279 ms |
+| HVP + Tissue preview | 8,438,288 | 1,785,982 | 507,157 | 174 | 8,168 ms |
+| Neuro Anatomy preview | 8,438,284 | 1,785,980 | 507,155 | 174 | 8,166 ms |
+| Environmental Vision preview | 8,438,290 | 1,785,983 | 507,158 | 174 | 8,779 ms |
 
-## Chrome QA
-
-Chrome-only QA passed at desktop, tablet and mobile widths:
-
-- the Neuro course displays `Curated modules enabled: 4 of 4`;
-- each of the four module routes exposes an 80-question curated landing;
-- legacy module Latest and Best scores remain visibly separate;
-- responsive layouts have no horizontal overflow;
-- the HVP curated route displays its disabled recovery view in the Neuro preview;
-- the Aqueous engineering-pilot route displays its disabled recovery view;
-- the course-reset confirmation was dismissed and no learner data was cleared;
-- no warning-level or error-level console messages appeared.
-
-The temporary Chrome QA tab, viewport override and local preview server were
-closed after verification.
+The historical HVP metric names remain schema-compatible. The Environmental
+preview itself measured 854,873 bytes for enabled Practice/Progress,
+427,832 controlled incremental bytes, 347,715 analytics incremental bytes,
+450,022 combined incremental bytes and a 631,378-byte largest asset.
 
 ## Checkpoint boundary
 
-Do not deploy or change academic review status in this checkpoint. After the
-focused draft pull request is self-reviewed and every committed-head gate
-passes, squash-merge it, synchronize `main`, and continue only from the exact
-merged commit.
+Keep this PR focused and default-disabled. Perform Chrome-only QA, push/open a
+draft PR, self-review, and merge only after every exact-head gate passes. Do
+not deploy at this checkpoint. After merge, synchronize `main` and continue the
+autonomous migration with the Pharmacology package.

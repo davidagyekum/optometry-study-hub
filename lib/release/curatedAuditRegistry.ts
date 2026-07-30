@@ -193,6 +193,21 @@ function bloodSupplyMarkers() {
   );
 }
 
+function environmentalVisionMarkers() {
+  return moduleMarkers(
+    'content/question-bank/opt508/environmental-vision/bank.json',
+    [
+      'env-optics',
+      'env-task',
+      'env-ergonomics',
+      'env-hazards',
+      'env-protection',
+      'env-lighting',
+    ],
+    'Environmental Vision',
+  );
+}
+
 function aqueousCuratedMarkers() {
   return moduleMarkers(
     'content/question-bank/opt376/aqueous-vitreous/bank.json',
@@ -233,6 +248,8 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
       ...tissueMarkers().answers,
       ...bloodSupplyMarkers().authored,
       ...bloodSupplyMarkers().answers,
+      ...environmentalVisionMarkers().authored,
+      ...environmentalVisionMarkers().answers,
     ],
     enabledInProfile: (profile: ReleaseProfileId) => (
       profile === 'hvp-public-beta' || profile === 'hvp-tissue-preview'
@@ -260,6 +277,8 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
       ...hvpMarkers().answers,
       ...bloodSupplyMarkers().authored,
       ...bloodSupplyMarkers().answers,
+      ...environmentalVisionMarkers().authored,
+      ...environmentalVisionMarkers().answers,
     ],
     enabledInProfile: (profile: ReleaseProfileId) => (
       profile === 'tissue-foundations-preview'
@@ -286,6 +305,8 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
       ...tissueMarkers().answers,
       ...bloodSupplyMarkers().authored,
       ...bloodSupplyMarkers().answers,
+      ...environmentalVisionMarkers().authored,
+      ...environmentalVisionMarkers().answers,
     ],
     enabledInProfile: (profile: ReleaseProfileId) => (
       profile === 'neuro-anatomy-preview'
@@ -309,6 +330,8 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
       ...ocularAdnexaMarkers().answers,
       ...bloodSupplyMarkers().authored,
       ...bloodSupplyMarkers().answers,
+      ...environmentalVisionMarkers().authored,
+      ...environmentalVisionMarkers().answers,
     ],
     enabledInProfile: (profile: ReleaseProfileId) => (
       profile === 'neuro-anatomy-preview'
@@ -333,9 +356,37 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
       ...tissueMarkers().answers,
       ...ocularAdnexaMarkers().authored,
       ...ocularAdnexaMarkers().answers,
+      ...environmentalVisionMarkers().authored,
+      ...environmentalVisionMarkers().answers,
     ],
     enabledInProfile: (profile: ReleaseProfileId) => (
       profile === 'neuro-anatomy-preview'
+    ),
+  }),
+  Object.freeze({
+    experienceId: 'environmental-vision',
+    practiceEntry: 'lib/assessment/environmental-vision/definition.tsx',
+    progressEntry: 'lib/progress/environmentalVisionProgressModule.tsx',
+    authoredContentMarkers: () => environmentalVisionMarkers().authored,
+    answerIdentityMarkers: () => environmentalVisionMarkers().answers,
+    practiceUiMarkers: ['Curated slide-aligned practice', 'Quick practice'],
+    progressUiMarkers: ['Current-version mastery', 'Written practice'],
+    allowedCrossBankMarkers: () => [],
+    excludedCrossBankMarkers: () => [
+      ...aqueousMarkers(),
+      ...aqueousCuratedMarkers().authored,
+      ...aqueousCuratedMarkers().answers,
+      ...hvpMarkers().authored,
+      ...hvpMarkers().answers,
+      ...tissueMarkers().authored,
+      ...tissueMarkers().answers,
+      ...ocularAdnexaMarkers().authored,
+      ...ocularAdnexaMarkers().answers,
+      ...bloodSupplyMarkers().authored,
+      ...bloodSupplyMarkers().answers,
+    ],
+    enabledInProfile: (profile: ReleaseProfileId) => (
+      profile === 'environmental-vision-preview'
     ),
   }),
 ]);
