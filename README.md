@@ -12,7 +12,7 @@ Live site: https://opt-376-eye-anatomy-review.davorion7.chatgpt.site
 - **Ocular Pharmacology** — adrenergic and cholinergic foundations relevant to eye care.
 - **Systemic Pathology** — breast, cardiovascular, gastrointestinal, lymphoid, renal, and respiratory pathology.
 
-The current application contains five courses, eight modules, 39 study sections, and 400 legacy-generated multiple-choice questions. The versioned assessment engine supports ten formats; all Aqueous, HVP, and Tissue Foundations schema questions remain draft.
+The current application contains five courses, eight modules, 39 study sections, and 400 legacy-generated multiple-choice questions. The versioned assessment engine supports ten formats; all Aqueous, HVP, Tissue Foundations, Ocular Adnexa, and Blood Supply schema questions remain draft.
 
 ## Architecture today
 
@@ -56,9 +56,12 @@ To inspect the draft pilot locally, create an untracked `.env.local`:
 NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT=true
 NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE=true
 NEXT_PUBLIC_ENABLE_TISSUE_FOUNDATIONS_CURATED_PRACTICE=true
+NEXT_PUBLIC_ENABLE_OCULAR_ADNEXA_CURATED_PRACTICE=true
+NEXT_PUBLIC_ENABLE_AQUEOUS_VITREOUS_CURATED_PRACTICE=true
+NEXT_PUBLIC_ENABLE_BLOOD_SUPPLY_CURATED_PRACTICE=true
 ```
 
-Only the exact string `true` enables an experience. These flags control client exposure, not security, and all candidate questions remain draft rather than academically approved. The repository defaults keep both flags false. The reviewed future release profile keeps Aqueous false and enables only HVP, but HVP has not been published during PR 12.
+Only the exact string `true` enables an experience. These flags control client exposure, not security, and all candidate questions remain draft rather than academically approved. Every committed feature default remains false.
 
 ## Quality commands
 
@@ -191,3 +194,13 @@ unchanged, and does not alter HVP or Aqueous behavior. Fixed profiles enforce
 their exact quotas and evidence contracts, while the two open responses remain
 manual-only and display **Not scored**. No question has been promoted beyond
 draft and no deployment is part of the pull request.
+
+## OPT 376 Blood Supply curated practice
+
+The Blood Supply checkpoint registers a canonical 80-question draft bank
+through the generic curated platform. It supports exact Quick 10, Standard 25
+and Full 50 profiles, Custom and targeted sessions, and manual-only Written 2
+practice. Five original answer-neutral SVG diagrams support image formats. The
+feature remains disabled by default, StoreV2 and legacy score identities are
+unchanged, and the existing Blood Supply notes and 50-question quiz remain
+available.

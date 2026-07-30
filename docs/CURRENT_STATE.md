@@ -2,7 +2,7 @@
 
 ## Verified state
 
-- PR 16 Ocular Adnexa is merged; Aqueous/Vitreous checkpoint exact base commit: `c88e06c50d4bb54addeed86cad2131f2c09d50ad`
+- Aqueous/Vitreous is merged; Blood Supply checkpoint exact base commit: `9d8e268701aa2e7f2458ef163848f540667f0b33`
 - Courses: 5
 - Modules: 8
 - Study sections: 39
@@ -17,6 +17,8 @@
 - Tissue Foundations curated practice: default-disabled Quick 10, Standard 25, Full 50, Custom, targeted, and manual-only Written 2 sessions
 - Canonical OPT 376 Ocular Adnexa bank: 80 draft questions, 18 objectives, 8 sources, and 5 original SVG assessment diagrams
 - Ocular Adnexa curated practice: default-disabled Quick 10, Standard 25, Full 50, Custom, targeted, and manual-only Written 2 sessions
+- Canonical OPT 376 Blood Supply bank: 80 draft questions, 18 objectives, 8 sources, and 5 original SVG assessment diagrams
+- Blood Supply curated practice: default-disabled Quick 10, Standard 25, Full 50, Custom, targeted, and manual-only Written 2 sessions
 
 ## Courses and modules
 
@@ -261,3 +263,25 @@ backend, analytics service, account, deployment or next content bank is added.
 The default-disabled `aqueous-vitreous-curated` experience expands the canonical OPT 376 bank from 36 to 80 draft questions while preserving the first 36 objects, all 13 objective identities and the exact nine engineering-pilot semantic hashes. It adds four original answer-neutral SVGs and uses the generic curated platform for Quick 10, Standard 25, Full 50, Custom 5-50, targeted 10 and manual-only Written 2 sessions.
 
 The curated route is `/practice/aqueous-vitreous-curated`, the automatic blueprint is `opt376-aqueous-vitreous-curated-v1`, and the written blueprint is `opt376-aqueous-vitreous-written-v1`. Both `NEXT_PUBLIC_ENABLE_AQUEOUS_VITREOUS_CURATED_PRACTICE` and `NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT` remain false by default. Curated Aqueous progress is module-scoped and excludes pilot, legacy and incompatible records without rewriting StoreV2.
+
+## Blood Supply curated-practice checkpoint
+
+The default-disabled `blood-supply-curated` experience registers a canonical
+80-question OPT 376 bank with 18 objectives, eight registered sources and five
+original answer-neutral SVG diagrams. Seventy-eight questions are automatically
+gradable and two open responses remain manual-only. All questions and objectives
+remain draft.
+
+Quick 10, Standard 25 and Full 50 enforce exact section, format and difficulty
+quotas, bounded higher-order counts, uniqueness and a two-question family
+maximum across deterministic seeds. Full practice covers all 18 objectives.
+Custom 5-50, targeted 10 and Written 2 use the shared curated platform and
+unchanged StoreV2 assessment maps.
+
+The route is `/practice/blood-supply-curated`, the automatic blueprint is
+`opt376-blood-supply-curated-v1`, and the written blueprint is
+`opt376-blood-supply-written-v1`.
+`NEXT_PUBLIC_ENABLE_BLOOD_SUPPLY_CURATED_PRACTICE=false` remains the committed
+default. Blood Supply curated mastery stays separate from legacy Latest/Best
+scores; the existing notes and 50-question quiz remain available. No migration,
+review-status transition, backend or deployment is part of the checkpoint.

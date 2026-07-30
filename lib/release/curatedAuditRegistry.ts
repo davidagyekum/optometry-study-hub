@@ -178,6 +178,21 @@ function ocularAdnexaMarkers() {
   );
 }
 
+function bloodSupplyMarkers() {
+  return moduleMarkers(
+    'content/question-bank/opt376/blood-supply/bank.json',
+    [
+      'arterial-origins',
+      'ciliary',
+      'retinal',
+      'barriers',
+      'microcirculation',
+      'clinical-blood',
+    ],
+    'Blood Supply',
+  );
+}
+
 function aqueousCuratedMarkers() {
   return moduleMarkers(
     'content/question-bank/opt376/aqueous-vitreous/bank.json',
@@ -216,6 +231,8 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
       ...ocularAdnexaMarkers().answers,
       ...tissueMarkers().authored,
       ...tissueMarkers().answers,
+      ...bloodSupplyMarkers().authored,
+      ...bloodSupplyMarkers().answers,
     ],
     enabledInProfile: (profile: ReleaseProfileId) => (
       profile === 'hvp-public-beta' || profile === 'hvp-tissue-preview'
@@ -241,6 +258,8 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
       ...ocularAdnexaMarkers().answers,
       ...hvpMarkers().authored,
       ...hvpMarkers().answers,
+      ...bloodSupplyMarkers().authored,
+      ...bloodSupplyMarkers().answers,
     ],
     enabledInProfile: (profile: ReleaseProfileId) => (
       profile === 'tissue-foundations-preview'
@@ -264,6 +283,8 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
       ...hvpMarkers().answers,
       ...tissueMarkers().authored,
       ...tissueMarkers().answers,
+      ...bloodSupplyMarkers().authored,
+      ...bloodSupplyMarkers().answers,
     ],
     enabledInProfile: () => false,
   }),
@@ -277,6 +298,30 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     progressUiMarkers: ['Current-version mastery', 'Written practice'],
     allowedCrossBankMarkers: () => [],
     excludedCrossBankMarkers: () => [
+      ...hvpMarkers().authored,
+      ...hvpMarkers().answers,
+      ...tissueMarkers().authored,
+      ...tissueMarkers().answers,
+      ...ocularAdnexaMarkers().authored,
+      ...ocularAdnexaMarkers().answers,
+      ...bloodSupplyMarkers().authored,
+      ...bloodSupplyMarkers().answers,
+    ],
+    enabledInProfile: () => false,
+  }),
+  Object.freeze({
+    experienceId: 'blood-supply',
+    practiceEntry: 'lib/assessment/blood-supply/definition.tsx',
+    progressEntry: 'lib/progress/bloodSupplyProgressModule.tsx',
+    authoredContentMarkers: () => bloodSupplyMarkers().authored,
+    answerIdentityMarkers: () => bloodSupplyMarkers().answers,
+    practiceUiMarkers: ['Curated slide-aligned practice', 'Quick practice'],
+    progressUiMarkers: ['Current-version mastery', 'Written practice'],
+    allowedCrossBankMarkers: () => [],
+    excludedCrossBankMarkers: () => [
+      ...aqueousMarkers(),
+      ...aqueousCuratedMarkers().authored,
+      ...aqueousCuratedMarkers().answers,
       ...hvpMarkers().authored,
       ...hvpMarkers().answers,
       ...tissueMarkers().authored,

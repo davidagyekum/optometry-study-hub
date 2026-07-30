@@ -302,6 +302,8 @@ export function validateBuildIdentity(
       !== expectedFlags.ocularAdnexaCuratedPractice
     || metadata.flags.aqueousVitreousCuratedPractice
       !== expectedFlags.aqueousVitreousCuratedPractice
+    || metadata.flags.bloodSupplyCuratedPractice
+      !== expectedFlags.bloodSupplyCuratedPractice
   ) {
     throw new Error(`Release build metadata flags do not match profile ${profile}.`);
   }

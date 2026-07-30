@@ -1,0 +1,51 @@
+import type { QuestionBlueprint } from '@/lib/assessment/blueprint/types';
+
+export const bloodSupplyBlueprint: QuestionBlueprint = {
+  id: 'opt376-blood-supply-candidate-v1',
+  bankId: 'opt376-blood-supply-candidate',
+  totalQuestions: 80,
+  sectionTargets: {
+    'arterial-origins': 12,
+    ciliary: 15,
+    retinal: 15,
+    barriers: 14,
+    microcirculation: 12,
+    'clinical-blood': 12,
+  },
+  formatTargets: {
+    single_best_answer: 30,
+    true_false: 6,
+    multiple_response: 10,
+    matching: 8,
+    extended_matching: 6,
+    ordering: 6,
+    image_hotspot: 4,
+    image_label: 4,
+    short_answer: 4,
+    open_response: 2,
+  },
+  bloomTargets: {
+    remember: 6,
+    understand: 18,
+    apply: 48,
+    analyze: 6,
+    evaluate: 1,
+    create: 1,
+  },
+  difficultyTargets: {
+    foundation: 20,
+    intermediate: 42,
+    advanced: 18,
+  },
+  stimulusTargets: {
+    text: 24,
+    diagram: 8,
+    table: 0,
+    clinical_vignette: 22,
+    pathway: 10,
+    comparison: 16,
+    error_analysis: 0,
+  },
+  minimumHigherOrderShare: 56 / 80,
+  minimumQuestionsPerObjective: 2,
+};

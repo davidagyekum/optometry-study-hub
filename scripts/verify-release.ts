@@ -80,6 +80,10 @@ if (
     !== metadata.flags.tissueFoundationsCuratedPractice
   || manifest.flags.ocularAdnexaCuratedPractice
     !== metadata.flags.ocularAdnexaCuratedPractice
+  || manifest.flags.aqueousVitreousCuratedPractice
+    !== metadata.flags.aqueousVitreousCuratedPractice
+  || manifest.flags.bloodSupplyCuratedPractice
+    !== metadata.flags.bloodSupplyCuratedPractice
   || manifest.build.outputFingerprint !== metadata.outputFingerprint
   || manifest.build.identity.outputFingerprint !== metadata.outputFingerprint
 ) {

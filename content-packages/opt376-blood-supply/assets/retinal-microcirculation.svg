@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Retinal microcirculation schematic</title>
+  <desc id="desc">A flow schematic moving from a muscular arteriole through a capillary network to a venule, with a pericyte marker and neutral labels A through D.</desc>
+  <rect width="1200" height="675" rx="32" fill="#f7fbfd"/>
+  <path d="M80 335H330" stroke="#c94a4a" stroke-width="62" stroke-linecap="round"/>
+  <path d="M80 335H330" stroke="#f9d6d0" stroke-width="30" stroke-linecap="round"/>
+  <g fill="none" stroke="#df6b63" stroke-width="18" stroke-linecap="round">
+    <path d="M330 335C430 335 420 195 540 195H720C805 195 805 275 885 275"/>
+    <path d="M330 335C440 335 430 335 540 335H720C805 335 805 335 885 335"/>
+    <path d="M330 335C430 335 420 475 540 475H720C805 475 805 395 885 395"/>
+    <path d="M540 195v280M720 195v280"/>
+  </g>
+  <path d="M885 335H1120" stroke="#6c78ad" stroke-width="58" stroke-linecap="round"/>
+  <path d="M885 335H1120" stroke="#dfe4f6" stroke-width="28" stroke-linecap="round"/>
+  <g fill="#167581" stroke="#0e5661" stroke-width="5"><ellipse cx="610" cy="160" rx="30" ry="18"/><ellipse cx="650" cy="510" rx="30" ry="18"/></g>
+  <path d="M155 282v106M205 282v106M255 282v106" stroke="#8f3333" stroke-width="9"/>
+  <g fill="#11385c" font-family="Arial, sans-serif" font-weight="700" font-size="34" text-anchor="middle">
+    <circle cx="180" cy="335" r="29" fill="#fff" stroke="#11385c" stroke-width="5"/><text x="180" y="347">A</text>
+    <circle cx="470" cy="270" r="29" fill="#fff" stroke="#11385c" stroke-width="5"/><text x="470" y="282">B</text>
+    <circle cx="680" cy="180" r="29" fill="#fff" stroke="#11385c" stroke-width="5"/><text x="680" y="192">C</text>
+    <circle cx="1040" cy="335" r="29" fill="#fff" stroke="#11385c" stroke-width="5"/><text x="1040" y="347">D</text>
+  </g>
+  <text x="600" y="610" fill="#476277" font-family="Arial, sans-serif" font-size="24" text-anchor="middle">Trace resistance control, capillary exchange, mural support and venous collection.</text>
+</svg>

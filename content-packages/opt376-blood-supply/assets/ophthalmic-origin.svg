@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Ophthalmic arterial branch schematic</title>
+  <desc id="desc">A neutral teaching schematic with a parent artery, an orbital branch point and two ocular branches marked A through D.</desc>
+  <rect width="1200" height="675" rx="32" fill="#f7fbfd"/>
+  <path d="M82 338H388" fill="none" stroke="#d55757" stroke-width="34" stroke-linecap="round"/>
+  <path d="M388 338C510 338 522 215 690 215H870" fill="none" stroke="#e46a63" stroke-width="28" stroke-linecap="round"/>
+  <path d="M388 338C525 338 575 455 760 455H1085" fill="none" stroke="#c94a4a" stroke-width="28" stroke-linecap="round"/>
+  <path d="M700 455c50-48 100-48 150 0s100 48 150 0" fill="none" stroke="#ef8b78" stroke-width="15" stroke-linecap="round"/>
+  <ellipse cx="915" cy="215" rx="145" ry="98" fill="#dff3f4" stroke="#176c75" stroke-width="8"/>
+  <circle cx="915" cy="215" r="38" fill="#fff" stroke="#167581" stroke-width="7"/>
+  <g fill="#11385c" font-family="Arial, sans-serif" font-weight="700" font-size="34" text-anchor="middle">
+    <circle cx="190" cy="338" r="29" fill="#fff" stroke="#11385c" stroke-width="5"/><text x="190" y="350">A</text>
+    <circle cx="466" cy="272" r="29" fill="#fff" stroke="#11385c" stroke-width="5"/><text x="466" y="284">B</text>
+    <circle cx="780" cy="215" r="29" fill="#fff" stroke="#11385c" stroke-width="5"/><text x="780" y="227">C</text>
+    <circle cx="1040" cy="455" r="29" fill="#fff" stroke="#11385c" stroke-width="5"/><text x="1040" y="467">D</text>
+  </g>
+  <text x="600" y="610" fill="#476277" font-family="Arial, sans-serif" font-size="24" text-anchor="middle">Follow the parent vessel to its orbital branch point and ocular territories.</text>
+</svg>

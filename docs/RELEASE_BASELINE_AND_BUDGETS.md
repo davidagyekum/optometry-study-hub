@@ -160,3 +160,35 @@ progress entries remain outside the initial learner closure, that the initial
 and server entries contain no Ocular answer markers, and that HVP, Tissue,
 Ocular and hidden Aqueous content remain isolated. These measured values—not a
 waiver—form the next standard ten-per-cent ceilings.
+
+## Blood Supply checkpoint baselines
+
+The clean Blood Supply implementation commit
+`b79cb795261f4354c43528f5f13045e758a4587f` was measured after both the full
+Aqueous/Vitreous and Blood Supply answer-isolated dynamic experiences were
+registered. The inherited Ocular ceiling correctly failed on total client
+JavaScript, while initial-route and per-experience closure checks continued to
+pass. The four clean builds measured:
+
+| Metric | Disabled | HVP only | Tissue only | HVP + Tissue |
+|---|---:|---:|---:|---:|
+| Total output | 7,996,819 | 7,996,817 | 7,996,817 | 7,996,815 |
+| Client JavaScript | 1,596,037 | 1,596,036 | 1,596,036 | 1,596,035 |
+| Initial Home JavaScript | 504,544 | 504,543 | 504,543 | 504,542 |
+| Disabled Practice Hub JavaScript | 504,544 | 504,543 | 504,543 | 504,542 |
+| Disabled Progress Hub JavaScript | 504,544 | 504,543 | 504,543 | 504,542 |
+| Enabled Practice Hub JavaScript | 852,264 | 852,263 | 852,263 | 852,262 |
+| Enabled Progress Hub JavaScript | 852,264 | 852,263 | 852,263 | 852,262 |
+| Incremental controlled practice JavaScript | 427,837 | 427,837 | 427,837 | 427,837 |
+| Incremental analytics JavaScript | 347,720 | 347,720 | 347,720 | 347,720 |
+| Combined incremental curated JavaScript | 450,027 | 450,027 | 450,027 | 450,027 |
+| Largest emitted asset | 630,806 | 630,806 | 630,806 | 630,806 |
+| Output files | 165 | 165 | 165 | 165 |
+| Observed build duration | 6,385 ms | 6,981 ms | 6,523 ms | 6,723 ms |
+
+The total-client increase is attributable to the new lazy answer-bearing
+Aqueous/Vitreous and Blood Supply practice/progress chunks. Initial learner
+JavaScript increased by only 3,863 bytes from the Ocular baseline, and every
+bank remained absent from the initial and server answer scans. These exact
+measurements—not a waiver—replace the preceding baselines and receive the
+standard ten-per-cent headroom.
