@@ -1,0 +1,16 @@
+{
+    "status":  "integration-gates-passed",
+    "questions":  80,
+    "objectives":  18,
+    "sources":  8,
+    "assets":  5,
+    "strictWarnings":  0,
+    "fixedProfileSeedsPerProfile":  1000,
+    "testFiles":  153,
+    "tests":  868,
+    "disabledBuild":  true,
+    "enabledBuild":  true,
+    "chromeQa":  "passed",
+    "reviewStatus":  "draft",
+    "deployed":  false
+}

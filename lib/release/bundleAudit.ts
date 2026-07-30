@@ -298,6 +298,8 @@ export function validateBuildIdentity(
     || metadata.flags.hvpCuratedPractice !== expectedFlags.hvpCuratedPractice
     || metadata.flags.tissueFoundationsCuratedPractice
       !== expectedFlags.tissueFoundationsCuratedPractice
+    || metadata.flags.ocularAdnexaCuratedPractice
+      !== expectedFlags.ocularAdnexaCuratedPractice
   ) {
     throw new Error(`Release build metadata flags do not match profile ${profile}.`);
   }

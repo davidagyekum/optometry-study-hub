@@ -83,3 +83,6 @@ Tissue 50-question quiz and its Latest/Best scores. HVP behavior and checksum,
 the Aqueous pilot and hashes, both storage keys, five courses, eight modules,
 39 sections and 400 legacy questions remain unchanged. No question status,
 backend, analytics service, account, deployment or next content bank is added.
+## Ocular Adnexa curated-practice checkpoint
+
+The default-disabled `ocular-adnexa` experience adds an 80-question OPT 376 draft bank, 18 draft objectives, eight sources and five original SVG diagrams through the generic PR 13 platform. The legacy 50-question quiz and all storage identities remain unchanged. The next checkpoint begins only after this focused branch passes review and is squash-merged.

@@ -1,0 +1,31 @@
+{
+  "packageId": "opt376-ocular-adnexa-curated-v1",
+  "sourceDeckSha256": "bd745221c12b076fd4873f26a3c29b06707b54a68f26b3e1467ce3e1fe04d9cf",
+  "bankSha256": "fe96d664bdad67b40a4711332612e59e26a2b5a2c3844aae279dc71f662ecb9f",
+  "assetSha256": {
+    "eyelid-landmarks.svg": "188fdc6d542dd9c45aad1b2517eac5d0df5775d58d2ab07361cff32b722efeae",
+    "eyelid-layers.svg": "ca6d2e0c400068728451810e6d237d305300e33e9116f99e134bc3888c695e0b",
+    "lacrimal-gland.svg": "82c59b74b4d534933ee073d9438d0602f88deb651b30c67b4161300c72387d88",
+    "lacrimal-innervation.svg": "c31d2e62caea8407cf9f08743a52be8c78f889cf7301e0ffc71eeeecabb83a1d",
+    "tear-drainage.svg": "76763793e8ffe5c8bd353963833147e826e0a1e30aca9c7bbff1ad6019f51462"
+  },
+  "files": [
+    "README.md",
+    "CONTENT_AUDIT.md",
+    "QUESTION_BLUEPRINT.md",
+    "BLUEPRINT.json",
+    "QUESTION_BANK.md",
+    "QUESTION_BANK.json",
+    "ASSET_SPEC.md",
+    "REFERENCE_PRACTICE_SETS.json",
+    "PACKAGE_VALIDATION.md",
+    "PACKAGE_VALIDATION.json",
+    "CODEX_IMPLEMENTATION_PROMPT.md",
+    "PACKAGE_MANIFEST.json",
+    "assets/eyelid-landmarks.svg",
+    "assets/eyelid-layers.svg",
+    "assets/lacrimal-gland.svg",
+    "assets/lacrimal-innervation.svg",
+    "assets/tear-drainage.svg"
+  ]
+}

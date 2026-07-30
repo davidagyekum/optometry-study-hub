@@ -36,6 +36,12 @@ describe("package scripts", () => {
         "tsx scripts/report-tissue-foundations-question-bank.ts",
       "questions:blueprint:tissue":
         "tsx scripts/report-tissue-foundations-question-blueprint.ts",
+      "questions:validate:ocular":
+        "tsx scripts/validate-ocular-adnexa-question-bank.ts",
+      "questions:report:ocular":
+        "tsx scripts/report-ocular-adnexa-question-bank.ts",
+      "questions:blueprint:ocular":
+        "tsx scripts/report-ocular-adnexa-question-blueprint.ts",
       "questions:review-pack": "tsx scripts/export-question-review-pack.ts",
       "questions:aiken": "tsx scripts/calculate-aiken-v.ts",
       "questions:review-campaign": "tsx scripts/create-review-campaign.ts",
@@ -43,7 +49,7 @@ describe("package scripts", () => {
       "questions:review-readiness": "tsx scripts/report-review-readiness.ts",
       "questions:review-verify": "tsx scripts/verify-review-decision.ts",
       "questions:review-snapshot": "tsx scripts/export-question-bank-snapshot.ts",
-      check: "npm run lint && npm run typecheck && npm run test && npm run questions:validate && npm run questions:blueprint && npm run questions:validate:hvp && npm run questions:blueprint:hvp && npm run questions:validate:tissue && npm run questions:blueprint:tissue && npm run build",
+      check: "npm run lint && npm run typecheck && npm run test && npm run questions:validate && npm run questions:blueprint && npm run questions:validate:hvp && npm run questions:blueprint:hvp && npm run questions:validate:tissue && npm run questions:blueprint:tissue && npm run questions:validate:ocular -- --strict && npm run questions:blueprint:ocular && npm run build",
     });
   });
 

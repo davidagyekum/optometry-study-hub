@@ -130,3 +130,33 @@ neither bank appears in the initial learner closure, each enabled closure
 contains its own authored and answer markers, and HVP and Tissue markers remain
 isolated from one another. The standard ten-per-cent byte headroom is derived
 from these measurements; duration remains observational.
+## Ocular Adnexa checkpoint evidence
+
+The Ocular Adnexa bank contains 80 draft questions, 18 draft objectives, eight registered sources and five original SVGs. Its SHA-256 is `fe96d664bdad67b40a4711332612e59e26a2b5a2c3844aae279dc71f662ecb9f`. The focused checkpoint passed disabled and Ocular-enabled production builds; the committed release profiles still keep the new feature false and no deployment is authorized here.
+
+The clean implementation commit `c842b199af97e77d81d2541184519051e507dd5c`
+also remeasured the four existing release profiles after adding the Ocular
+practice and progress chunks:
+
+| Metric | Disabled | HVP only | Tissue only | HVP + Tissue |
+|---|---:|---:|---:|---:|
+| Total output | 7,343,926 | 7,343,924 | 7,343,924 | 7,343,922 |
+| Client JavaScript | 1,319,742 | 1,319,741 | 1,319,741 | 1,319,740 |
+| Initial Home JavaScript | 500,681 | 500,680 | 500,680 | 500,679 |
+| Disabled Practice Hub JavaScript | 500,681 | 500,680 | 500,680 | 500,679 |
+| Disabled Progress Hub JavaScript | 500,681 | 500,680 | 500,680 | 500,679 |
+| Enabled Practice Hub JavaScript | 848,396 | 848,395 | 848,395 | 848,394 |
+| Enabled Progress Hub JavaScript | 848,396 | 848,395 | 848,395 | 848,394 |
+| Incremental controlled practice JavaScript | 427,832 | 427,832 | 427,832 | 427,832 |
+| Incremental analytics JavaScript | 347,715 | 347,715 | 347,715 | 347,715 |
+| Combined incremental curated JavaScript | 450,022 | 450,022 | 450,022 | 450,022 |
+| Largest emitted asset | 630,171 | 630,171 | 630,171 | 630,171 |
+| Output files | 146 | 146 | 146 | 146 |
+| Observed build duration | 8,102 ms | 8,515 ms | 8,233 ms | 8,325 ms |
+
+The increase in total emitted client JavaScript is the new answer-bearing
+Ocular dynamic closure. Registry-driven audits prove that its practice and
+progress entries remain outside the initial learner closure, that the initial
+and server entries contain no Ocular answer markers, and that HVP, Tissue,
+Ocular and hidden Aqueous content remain isolated. These measured values—not a
+waiver—form the next standard ten-per-cent ceilings.
