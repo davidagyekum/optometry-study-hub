@@ -38,6 +38,9 @@ const commands: Command[] = [
   { label: 'HVP validation', command: npmCommand, args: npmArgs('run', 'questions:validate:hvp') },
   { label: 'HVP report', command: npmCommand, args: npmArgs('run', 'questions:report:hvp') },
   { label: 'HVP blueprint', command: npmCommand, args: npmArgs('run', 'questions:blueprint:hvp') },
+  { label: 'Autonomic Pharmacology validation', command: npmCommand, args: npmArgs('run', 'questions:validate:autonomic-pharmacology', '--', '--strict') },
+  { label: 'Autonomic Pharmacology report', command: npmCommand, args: npmArgs('run', 'questions:report:autonomic-pharmacology') },
+  { label: 'Autonomic Pharmacology blueprint', command: npmCommand, args: npmArgs('run', 'questions:blueprint:autonomic-pharmacology') },
   { label: 'Disabled release build', command: npmCommand, args: npmArgs('run', 'release:build:disabled') },
   { label: 'Disabled bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=disabled') },
   { label: 'HVP release build', command: npmCommand, args: npmArgs('run', 'release:build:hvp') },
@@ -50,6 +53,8 @@ const commands: Command[] = [
   { label: 'Neuro Anatomy preview bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=neuro-anatomy-preview') },
   { label: 'Environmental Vision preview build', command: npmCommand, args: npmArgs('run', 'release:build:environmental-vision') },
   { label: 'Environmental Vision preview bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=environmental-vision-preview') },
+  { label: 'Autonomic Pharmacology preview build', command: npmCommand, args: npmArgs('run', 'release:build:autonomic-pharmacology') },
+  { label: 'Autonomic Pharmacology preview bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=autonomic-pharmacology-preview') },
   { label: 'Release manifest', command: npmCommand, args: npmArgs('run', 'release:manifest') },
   { label: 'Whitespace validation', command: 'git', args: ['diff', '--check'] },
 ];
@@ -90,6 +95,8 @@ if (
     !== metadata.flags.bloodSupplyCuratedPractice
   || manifest.flags.environmentalVisionCuratedPractice
     !== metadata.flags.environmentalVisionCuratedPractice
+  || manifest.flags.autonomicPharmacologyCuratedPractice
+    !== metadata.flags.autonomicPharmacologyCuratedPractice
   || manifest.build.outputFingerprint !== metadata.outputFingerprint
   || manifest.build.identity.outputFingerprint !== metadata.outputFingerprint
 ) {

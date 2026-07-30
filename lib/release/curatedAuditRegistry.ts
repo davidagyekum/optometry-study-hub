@@ -208,6 +208,13 @@ function environmentalVisionMarkers() {
   );
 }
 
+function autonomicPharmacologyMarkers() {
+  return moduleMarkers(
+    'content/question-bank/pharmacology/autonomic-pharmacology/bank.json',
+    ['pharm-adrenergic', 'pharm-cholinergic'],
+    'Autonomic Pharmacology',
+  );
+}
 function aqueousCuratedMarkers() {
   return moduleMarkers(
     'content/question-bank/opt376/aqueous-vitreous/bank.json',
@@ -239,6 +246,8 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     progressUiMarkers: ['Current-version mastery', 'Written practice'],
     allowedCrossBankMarkers: () => [],
     excludedCrossBankMarkers: () => [
+      ...autonomicPharmacologyMarkers().authored,
+      ...autonomicPharmacologyMarkers().answers,
       ...aqueousMarkers(),
       ...aqueousCuratedMarkers().authored,
       ...aqueousCuratedMarkers().answers,
@@ -268,6 +277,8 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     progressUiMarkers: ['Current-version mastery', 'Written practice'],
     allowedCrossBankMarkers: () => [],
     excludedCrossBankMarkers: () => [
+      ...autonomicPharmacologyMarkers().authored,
+      ...autonomicPharmacologyMarkers().answers,
       ...aqueousMarkers(),
       ...aqueousCuratedMarkers().authored,
       ...aqueousCuratedMarkers().answers,
@@ -296,6 +307,8 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     progressUiMarkers: ['Current-version mastery', 'Written practice'],
     allowedCrossBankMarkers: () => [],
     excludedCrossBankMarkers: () => [
+      ...autonomicPharmacologyMarkers().authored,
+      ...autonomicPharmacologyMarkers().answers,
       ...aqueousMarkers(),
       ...aqueousCuratedMarkers().authored,
       ...aqueousCuratedMarkers().answers,
@@ -322,6 +335,8 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     progressUiMarkers: ['Current-version mastery', 'Written practice'],
     allowedCrossBankMarkers: () => [],
     excludedCrossBankMarkers: () => [
+      ...autonomicPharmacologyMarkers().authored,
+      ...autonomicPharmacologyMarkers().answers,
       ...hvpMarkers().authored,
       ...hvpMarkers().answers,
       ...tissueMarkers().authored,
@@ -347,6 +362,8 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     progressUiMarkers: ['Current-version mastery', 'Written practice'],
     allowedCrossBankMarkers: () => [],
     excludedCrossBankMarkers: () => [
+      ...autonomicPharmacologyMarkers().authored,
+      ...autonomicPharmacologyMarkers().answers,
       ...aqueousMarkers(),
       ...aqueousCuratedMarkers().authored,
       ...aqueousCuratedMarkers().answers,
@@ -364,6 +381,33 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     ),
   }),
   Object.freeze({
+    experienceId: 'autonomic-pharmacology',
+    practiceEntry: 'lib/assessment/autonomic-pharmacology/definition.tsx',
+    progressEntry: 'lib/progress/autonomicPharmacologyProgressModule.tsx',
+    authoredContentMarkers: () => autonomicPharmacologyMarkers().authored,
+    answerIdentityMarkers: () => autonomicPharmacologyMarkers().answers,
+    practiceUiMarkers: ['Curated slide-aligned practice', 'Quick practice'],
+    progressUiMarkers: ['Current-version mastery', 'Written practice'],
+    allowedCrossBankMarkers: () => [],
+    excludedCrossBankMarkers: () => [
+      ...aqueousMarkers(),
+      ...aqueousCuratedMarkers().authored,
+      ...aqueousCuratedMarkers().answers,
+      ...hvpMarkers().authored,
+      ...hvpMarkers().answers,
+      ...tissueMarkers().authored,
+      ...tissueMarkers().answers,
+      ...ocularAdnexaMarkers().authored,
+      ...ocularAdnexaMarkers().answers,
+      ...bloodSupplyMarkers().authored,
+      ...bloodSupplyMarkers().answers,
+      ...environmentalVisionMarkers().authored,
+      ...environmentalVisionMarkers().answers,
+    ],
+    enabledInProfile: (profile: ReleaseProfileId) => (
+      profile === 'autonomic-pharmacology-preview'
+    ),
+  }),  Object.freeze({
     experienceId: 'environmental-vision',
     practiceEntry: 'lib/assessment/environmental-vision/definition.tsx',
     progressEntry: 'lib/progress/environmentalVisionProgressModule.tsx',
@@ -373,6 +417,8 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     progressUiMarkers: ['Current-version mastery', 'Written practice'],
     allowedCrossBankMarkers: () => [],
     excludedCrossBankMarkers: () => [
+      ...autonomicPharmacologyMarkers().authored,
+      ...autonomicPharmacologyMarkers().answers,
       ...aqueousMarkers(),
       ...aqueousCuratedMarkers().authored,
       ...aqueousCuratedMarkers().answers,

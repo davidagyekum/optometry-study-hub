@@ -8,6 +8,7 @@ export const RELEASE_PROFILE_IDS = [
   'hvp-tissue-preview',
   'neuro-anatomy-preview',
   'environmental-vision-preview',
+  'autonomic-pharmacology-preview',
 ] as const;
 export const releaseProfileIdSchema = z.enum(RELEASE_PROFILE_IDS);
 export type ReleaseProfileId = z.infer<typeof releaseProfileIdSchema>;
@@ -20,6 +21,7 @@ export const releaseFlagsSchema = z.strictObject({
   aqueousVitreousCuratedPractice: z.boolean(),
   bloodSupplyCuratedPractice: z.boolean(),
   environmentalVisionCuratedPractice: z.boolean(),
+  autonomicPharmacologyCuratedPractice: z.boolean(),
 });
 export type ReleaseFlags = z.infer<typeof releaseFlagsSchema>;
 
@@ -60,7 +62,7 @@ export const releaseBuildMetadataSchema = z.strictObject({
   buildDurationMs: z.number().finite().nonnegative(),
   outputFingerprint: z.string().regex(/^[0-9a-f]{64}$/),
   outputDirectory: z.string().regex(
-    /^tmp\/release\/builds\/(disabled|hvp-public-beta|tissue-foundations-preview|hvp-tissue-preview|neuro-anatomy-preview|environmental-vision-preview)$/,
+    /^tmp\/release\/builds\/(disabled|hvp-public-beta|tissue-foundations-preview|hvp-tissue-preview|neuro-anatomy-preview|environmental-vision-preview|autonomic-pharmacology-preview)$/,
   ),
 });
 export type ReleaseBuildMetadata = z.infer<typeof releaseBuildMetadataSchema>;
@@ -139,6 +141,13 @@ export const releaseManifestSchema = z.strictObject({
     environmentalVisionObjectives: z.literal(18),
     environmentalVisionSources: z.literal(21),
     environmentalVisionSvgDiagrams: z.literal(5),
+    autonomicPharmacologyQuestions: z.literal(80),
+    autonomicPharmacologyObjectives: z.literal(20),
+    autonomicPharmacologySources: z.literal(18),
+    autonomicPharmacologySvgDiagrams: z.literal(5),
+    autonomicPharmacologyChecksum: z.literal(
+      '7f8c0d7915bccd3c3ffcf2ac96bc44758366928198ec55e68ee5e5c55d43e143',
+    ),
     environmentalVisionChecksum: z.literal(
       'cd453b8dd2f691db44bc93eb550f290d0c7213e44f16dc1913e5d75559b99385',
     ),
@@ -155,6 +164,8 @@ export const releaseManifestSchema = z.strictObject({
       bloodSupplyObjectives: reviewCountsSchema,
       environmentalVisionQuestions: reviewCountsSchema,
       environmentalVisionObjectives: reviewCountsSchema,
+      autonomicPharmacologyQuestions: reviewCountsSchema,
+      autonomicPharmacologyObjectives: reviewCountsSchema,
     }),
     academicStatus: z.literal(
       'Curated draft educational practice; not lecturer-approved examination items.',

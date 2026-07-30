@@ -17,6 +17,8 @@ export const RELEASE_FLAG_NAMES = {
     'NEXT_PUBLIC_ENABLE_BLOOD_SUPPLY_CURATED_PRACTICE',
   environmentalVisionCuratedPractice:
     'NEXT_PUBLIC_ENABLE_ENVIRONMENTAL_VISION_CURATED_PRACTICE',
+  autonomicPharmacologyCuratedPractice:
+    'NEXT_PUBLIC_ENABLE_AUTONOMIC_PHARMACOLOGY_CURATED_PRACTICE',
 } as const;
 
 export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
@@ -28,6 +30,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     aqueousVitreousCuratedPractice: false,
     bloodSupplyCuratedPractice: false,
     environmentalVisionCuratedPractice: false,
+    autonomicPharmacologyCuratedPractice: false,
   },
   'hvp-public-beta': {
     assessmentPilot: false,
@@ -37,6 +40,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     aqueousVitreousCuratedPractice: false,
     bloodSupplyCuratedPractice: false,
     environmentalVisionCuratedPractice: false,
+    autonomicPharmacologyCuratedPractice: false,
   },
   'tissue-foundations-preview': {
     assessmentPilot: false,
@@ -46,6 +50,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     aqueousVitreousCuratedPractice: false,
     bloodSupplyCuratedPractice: false,
     environmentalVisionCuratedPractice: false,
+    autonomicPharmacologyCuratedPractice: false,
   },
   'hvp-tissue-preview': {
     assessmentPilot: false,
@@ -55,6 +60,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     aqueousVitreousCuratedPractice: false,
     bloodSupplyCuratedPractice: false,
     environmentalVisionCuratedPractice: false,
+    autonomicPharmacologyCuratedPractice: false,
   },
   'neuro-anatomy-preview': {
     assessmentPilot: false,
@@ -64,6 +70,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     aqueousVitreousCuratedPractice: true,
     bloodSupplyCuratedPractice: true,
     environmentalVisionCuratedPractice: false,
+    autonomicPharmacologyCuratedPractice: false,
   },
   'environmental-vision-preview': {
     assessmentPilot: false,
@@ -73,6 +80,17 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     aqueousVitreousCuratedPractice: false,
     bloodSupplyCuratedPractice: false,
     environmentalVisionCuratedPractice: true,
+    autonomicPharmacologyCuratedPractice: false,
+  },
+  'autonomic-pharmacology-preview': {
+    assessmentPilot: false,
+    hvpCuratedPractice: false,
+    tissueFoundationsCuratedPractice: false,
+    ocularAdnexaCuratedPractice: false,
+    aqueousVitreousCuratedPractice: false,
+    bloodSupplyCuratedPractice: false,
+    environmentalVisionCuratedPractice: false,
+    autonomicPharmacologyCuratedPractice: true,
   },
 };
 
@@ -153,6 +171,10 @@ export function releaseFlagsFromEnvironment(
       RELEASE_FLAG_NAMES.environmentalVisionCuratedPractice,
       environment[RELEASE_FLAG_NAMES.environmentalVisionCuratedPractice],
     ),
+    autonomicPharmacologyCuratedPractice: parseReleaseFlag(
+      RELEASE_FLAG_NAMES.autonomicPharmacologyCuratedPractice,
+      environment[RELEASE_FLAG_NAMES.autonomicPharmacologyCuratedPractice],
+    ),
   };
 }
 
@@ -179,6 +201,8 @@ export function assertReleaseProfile(
       !== expected.bloodSupplyCuratedPractice
     || flags.environmentalVisionCuratedPractice
       !== expected.environmentalVisionCuratedPractice
+    || flags.autonomicPharmacologyCuratedPractice
+      !== expected.autonomicPharmacologyCuratedPractice
   ) {
     throw new ReleaseProfileError(
       `Release profile ${profile} does not match its required feature flags.`,
@@ -206,6 +230,8 @@ export function environmentForReleaseProfile(
       String(flags.bloodSupplyCuratedPractice),
     [RELEASE_FLAG_NAMES.environmentalVisionCuratedPractice]:
       String(flags.environmentalVisionCuratedPractice),
+    [RELEASE_FLAG_NAMES.autonomicPharmacologyCuratedPractice]:
+      String(flags.autonomicPharmacologyCuratedPractice),
     OPTOMETRY_RELEASE_PROFILE: profile,
   };
 }

@@ -101,6 +101,13 @@ describe('generic curated release-audit registry', () => {
     ]);
   });
 
+  it('enables only Autonomic Pharmacology in its preview profile', () => {
+    expect(curatedReleaseAuditRegistry.filter(
+      (definition) => definition.enabledInProfile('autonomic-pharmacology-preview'),
+    ).map((definition) => definition.experienceId)).toEqual([
+      'autonomic-pharmacology',
+    ]);
+  });
   it('analyzes two lazy boundaries and counts shared chunks once', () => {
     const closures = analyzeReleaseClosures(manifest, definitions);
     expect(Object.keys(closures.experiences)).toEqual(['first', 'second']);
