@@ -19,7 +19,7 @@ import {
 const profileArgument = process.argv.find((argument) => argument.startsWith('--profile='))
   ?.slice('--profile='.length);
 const profile = assertPublishableReleaseProfile(
-  parseReleaseProfile(profileArgument ?? 'hvp-public-beta'),
+  parseReleaseProfile(profileArgument ?? 'full-curated-public-beta'),
 );
 const audit = auditReleaseBundle(profile);
 const manifest = createReleaseManifest({ profile, audit });

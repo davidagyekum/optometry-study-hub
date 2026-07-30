@@ -272,6 +272,7 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     enabledInProfile: (profile: ReleaseProfileId) => (
       profile === 'hvp-public-beta' || profile === 'hvp-tissue-preview'
       || profile === 'full-curated-preview'
+      || profile === 'full-curated-public-beta'
     ),
   }),
   Object.freeze({
@@ -308,6 +309,7 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
       || profile === 'hvp-tissue-preview'
       || profile === 'neuro-anatomy-preview'
       || profile === 'full-curated-preview'
+      || profile === 'full-curated-public-beta'
     ),
   }),
   Object.freeze({
@@ -339,6 +341,7 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     enabledInProfile: (profile: ReleaseProfileId) => (
       profile === 'neuro-anatomy-preview'
       || profile === 'full-curated-preview'
+      || profile === 'full-curated-public-beta'
     ),
   }),
   Object.freeze({
@@ -369,6 +372,7 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     enabledInProfile: (profile: ReleaseProfileId) => (
       profile === 'neuro-anatomy-preview'
       || profile === 'full-curated-preview'
+      || profile === 'full-curated-public-beta'
     ),
   }),
   Object.freeze({
@@ -400,6 +404,7 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     enabledInProfile: (profile: ReleaseProfileId) => (
       profile === 'neuro-anatomy-preview'
       || profile === 'full-curated-preview'
+      || profile === 'full-curated-public-beta'
     ),
   }),
   Object.freeze({
@@ -431,6 +436,7 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     enabledInProfile: (profile: ReleaseProfileId) => (
       profile === 'autonomic-pharmacology-preview'
       || profile === 'full-curated-preview'
+      || profile === 'full-curated-public-beta'
     ),
   }),
   Object.freeze({
@@ -462,6 +468,7 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     enabledInProfile: (profile: ReleaseProfileId) => (
       profile === 'systemic-pathology-preview'
       || profile === 'full-curated-preview'
+      || profile === 'full-curated-public-beta'
     ),
   }),
   Object.freeze({
@@ -493,6 +500,7 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
     enabledInProfile: (profile: ReleaseProfileId) => (
       profile === 'environmental-vision-preview'
       || profile === 'full-curated-preview'
+      || profile === 'full-curated-public-beta'
     ),
   }),
 ]);

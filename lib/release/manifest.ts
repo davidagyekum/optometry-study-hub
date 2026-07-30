@@ -173,6 +173,16 @@ export function createReleaseManifest(
       modules: modules.length,
       studySections: sectionCount,
       legacyQuestions: legacyQuestionCount,
+      curatedQuestions: [
+        aqueousVitreousCandidateBank,
+        humanVisualPerceptionCandidateBank,
+        tissueFoundationsCandidateBank,
+        ocularAdnexaCandidateBank,
+        bloodSupplyCandidateBank,
+        environmentalVisionCandidateBank,
+        autonomicPharmacologyCandidateBank,
+        systemicPathologyCandidateBank,
+      ].reduce((total, bank) => total + bank.questions.length, 0),
       aqueousQuestions: aqueousVitreousCandidateBank.questions.length,
       aqueousObjectives: aqueousVitreousCandidateBank.objectives.length,
       aqueousSources: aqueousVitreousCandidateBank.sources.length,
@@ -379,6 +389,7 @@ export function renderReleaseReport(
 - ${manifest.content.modules} modules
 - ${manifest.content.studySections} study sections
 - ${manifest.content.legacyQuestions} legacy questions
+- ${manifest.content.curatedQuestions} curated questions across eight modules
 - ${manifest.content.aqueousQuestions} Aqueous questions and ${manifest.content.aqueousObjectives} objectives
 - ${manifest.content.bloodSupplyQuestions} Blood Supply questions, ${manifest.content.bloodSupplyObjectives} objectives, ${manifest.content.bloodSupplySources} sources and ${manifest.content.bloodSupplySvgDiagrams} SVG diagrams
 - ${manifest.content.environmentalVisionQuestions} Environmental Vision questions, ${manifest.content.environmentalVisionObjectives} objectives, ${manifest.content.environmentalVisionSources} sources and ${manifest.content.environmentalVisionSvgDiagrams} SVG diagrams

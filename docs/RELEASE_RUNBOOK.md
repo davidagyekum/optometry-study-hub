@@ -1,99 +1,37 @@
-# Release runbook
+# Full-curated public-beta release runbook
 
-This runbook prepares a reviewed HVP public-beta release for the existing
-OpenAI Sites project. It does not authorize publication.
+This runbook prepares and publishes the reviewed eight-module curated release to the existing OpenAI Sites project. Preview profiles are never publishable.
+
+## Required profile
+
+`full-curated-public-beta` is the only full publishable profile. It enables curated practice for Human Visual Perception, Tissue Foundations, Ocular Adnexa, Aqueous/Vitreous, Blood Supply, Environmental Vision, Autonomic Pharmacology and Systemic Pathology. `NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT` remains false. Every committed flag in `.env.example` remains false.
 
 ## Pre-publish
 
-- Obtain explicit reviewer approval and separate publication authorization.
-- Record the exact reviewed, merged `main` SHA. The PR 12 base is
-  `e8b9810ff6f2898c9bc85d37da72f069ee049115`; do not publish a PR branch.
-- Fetch `origin`, switch to `main`, and require a clean working tree.
-- Run `npm ci` and `npm run release:verify` with Node.js 22.13.0 or newer.
-  Verification deletes all prior release evidence before building both
-  profiles.
-- Inspect `tmp/release/build-metadata/hvp-public-beta.json`,
-  `tmp/release/audits/hvp-public-beta.json`,
-  `tmp/release/release-manifest.json`,
-  `tmp/release/release-manifest.sha256`, and
-  `tmp/release/release-report.md`.
-- Require metadata, audit, and manifest to agree on the clean Git commit, Git
-  tree, release profile, exact feature flags, copied-output fingerprint,
-  build timestamp, and Node/npm versions.
-- Recompute or rerun the audit if any output file changes. Stale, malformed,
-  wrong-profile, wrong-commit, wrong-tree, dirty, or wrong-fingerprint
-  evidence is a stop condition.
-- Require `NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT=false` and
-  `NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE=true`.
-- Require the HVP bank checksum
-  `029dc39ff103a836445a86bb352513b231e51d266d4b2fade3f00527d00ef89a`.
-- Require five courses, eight modules, 39 sections, 400 legacy questions, 36
-  draft Aqueous questions, and 120 draft HVP questions.
-- Require StoreV2 key `optometry-study-hub:v2`, rollback key
-  `opt376-study-state:v1`, and no release migration.
-- Require Sites project `appgprj_6a5614a4d1288191966f6f3570f99f22`
-  with no D1 and no R2 binding.
-- Record the currently published release as the rollback target. At PR 12
-  inspection time this was Sites version 3, source commit
-  `18ba5aebdef82402e26c1937d4e2bb1638a7a116`, archive content hash
-  `sha256:06cf3d451a20b183fa0b0a8493795b75262498515f3b6de9dcf06dac31061688`.
-- Preserve the current public URL:
-  `https://opt-376-eye-anatomy-review.davorion7.chatgpt.site`.
+- Use an exact clean merged `main` checkout with Node.js 22.13.0 or newer.
+- Run `npm ci`, `npm run check` and `npm run release:verify`.
+- Require 680 curated questions, 400 frozen legacy questions, eight modules and five courses.
+- Require every recorded canonical bank checksum, the original 36 Aqueous objects, the nine pilot identities and draft status for every question and objective.
+- Review `tmp/release/build-metadata/full-curated-public-beta.json`, `tmp/release/audits/full-curated-public-beta.json`, `tmp/release/release-manifest.json`, its SHA-256 file and the release report.
+- Require metadata, audit and manifest to agree on commit, tree, profile, flags, output directory, fingerprint, runtime and clean-tree status.
+- Require initial and server closures to contain no answer identity; each experience must retain distinct lazy practice and progress closures.
+- Require StoreV2 key `optometry-study-hub:v2`, rollback key `opt376-study-state:v1`, and no migration, D1 or R2 binding.
+- Query Sites project `appgprj_6a5614a4d1288191966f6f3570f99f22` and record the current version and deployment as the rollback target.
 
 ## Publish
 
-OpenAI Sites publication is a save-then-deploy operation; there is no
-repository CLI command to invent or substitute.
-
-1. Build the exact reviewed merged `main` source with the HVP public-beta
-   profile. Confirm Aqueous is false and HVP is true in the manifest.
-2. Push that exact source state to the repository. The commit supplied to
-   Sites must match the build metadata, audit, and manifest.
-3. Package the source with the tracked Sites Vite packaging integration.
-4. In the Sites publishing interface, select the existing project ID above,
-   save a new version from that exact source archive and commit SHA, and record
-   the returned version ID. Do not create a new site.
-5. Deploy only the saved version after explicit publication authorization.
-   Retain public access and the current URL unless a separately reviewed change
-   requires otherwise.
-6. Poll the deployment until it reaches a terminal successful state. Record
-   the deployed commit, Sites version, deployment timestamp, URL, manifest
-   checksum, output fingerprint, and operator.
-7. Do not add D1, R2, accounts, analytics, or any environment variable beyond
-   the two reviewed feature flags.
+1. Build the exact merged `main` using `npm run release:build:full-curated-public`.
+2. Audit that exact output and create the source-bound manifest.
+3. Push the exact source state identified by the manifest.
+4. Package that exact source through the tracked Sites integration.
+5. Save one new version in the existing Sites project; do not create another project.
+6. Deploy only the saved version and poll it to a terminal successful state.
+7. Record the Sites version, deployment ID, commit, tree, archive identity, output fingerprint, manifest checksum, timestamp and operator.
 
 ## Post-publish
 
-Use Chrome and capture evidence for:
+Use the browser QA matrix for all five course pages and eight modules. Verify Notes V2, curated Quick/Standard/Full/Custom/targeted/Written entry points, autosave and resume, result review, global progress, legacy archive/history, direct-route refresh, device-local persistence, keyboard and modal focus, reduced motion, mobile overflow, response headers and static images. The Aqueous engineering pilot must remain unavailable, Written Practice must remain `Not scored`, and pre-practice routes must expose no answer content.
 
-- Home, Practice Hub, Progress Hub, HVP study notes, the legacy HVP quiz, and
-  direct-route refresh.
-- HVP status wording: curated study practice, internally verified and
-  slide-aligned, not lecturer-approved examination items, device-local data.
-- HVP Quick practice, all rendered answer controls, flags, autosave, resume,
-  submission, results, and integrity handling.
-- Written Practice remaining manual-only and visibly `Not scored`.
-- Reading progress and both legacy and curated persistence after refresh.
-- Mobile layout, keyboard focus, skip navigation, modal focus, reduced motion,
-  200% zoom, and no document-level horizontal overflow.
-- Zero new console exceptions and no unexpected external network requests.
-- Production response security headers.
-- Production output identity and checksum against reviewed release evidence.
+## Rollback
 
-## Stop conditions
-
-Abort or roll back if any of these is observed:
-
-- wrong commit, tree, profile, flags, fingerprint, output directory, runtime
-  metadata, dirty checkout, malformed metadata, or stale evidence;
-- Aqueous is visible or HVP status wording is missing;
-- storage is reset, migrated unexpectedly, or existing progress disappears;
-- HVP identity, grading, history, or compatibility checks fail;
-- the legacy quiz is unavailable or changed;
-- direct routes fail to refresh;
-- answer content leaks into disabled/initial bundles;
-- either HVP dynamic entry becomes eager or disappears;
-- console exceptions or unexpected external requests appear;
-- a significant accessibility, layout, or keyboard regression appears.
-
-No production action is permitted from the draft PR.
+Immediately restore the recorded prior Sites version for a blank route, answer leakage, learner-data loss or corruption, cross-module collision, widespread start/resume/submit failure, critical security-header regression or persistent Worker error. Document the exact finding and do not publish an unverified hotfix.

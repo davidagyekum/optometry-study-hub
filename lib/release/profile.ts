@@ -123,10 +123,21 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     autonomicPharmacologyCuratedPractice: true,
     systemicPathologyCuratedPractice: true,
   },
+  'full-curated-public-beta': {
+    assessmentPilot: false,
+    hvpCuratedPractice: true,
+    tissueFoundationsCuratedPractice: true,
+    ocularAdnexaCuratedPractice: true,
+    aqueousVitreousCuratedPractice: true,
+    bloodSupplyCuratedPractice: true,
+    environmentalVisionCuratedPractice: true,
+    autonomicPharmacologyCuratedPractice: true,
+    systemicPathologyCuratedPractice: true,
+  },
 };
 
 export const PUBLISHABLE_RELEASE_PROFILES: ReadonlySet<ReleaseProfileId> =
-  new Set<ReleaseProfileId>(['hvp-public-beta']);
+  new Set<ReleaseProfileId>(['hvp-public-beta', 'full-curated-public-beta']);
 
 export function isPublishableReleaseProfile(
   profile: ReleaseProfileId,

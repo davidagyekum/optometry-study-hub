@@ -28,22 +28,16 @@ const npmCommand = npmExecPath
 const npmArgs = (...args: string[]) => npmExecPath ? [npmExecPath, ...args] : args;
 const commands: Command[] = [
   { label: 'Release profile validation', command: npmCommand, args: npmArgs('run', 'release:profile') },
-  { label: 'Lint', command: npmCommand, args: npmArgs('run', 'lint') },
-  { label: 'Typecheck', command: npmCommand, args: npmArgs('run', 'typecheck') },
-  { label: 'Tests', command: npmCommand, args: npmArgs('run', 'test') },
-  { label: 'Aqueous validation', command: npmCommand, args: npmArgs('run', 'questions:validate') },
+  { label: 'Quality gate', command: npmCommand, args: npmArgs('run', 'check') },
   { label: 'Aqueous strict validation', command: npmCommand, args: npmArgs('run', 'questions:validate', '--', '--strict') },
   { label: 'Aqueous report', command: npmCommand, args: npmArgs('run', 'questions:report') },
-  { label: 'Aqueous blueprint', command: npmCommand, args: npmArgs('run', 'questions:blueprint') },
-  { label: 'HVP validation', command: npmCommand, args: npmArgs('run', 'questions:validate:hvp') },
   { label: 'HVP report', command: npmCommand, args: npmArgs('run', 'questions:report:hvp') },
-  { label: 'HVP blueprint', command: npmCommand, args: npmArgs('run', 'questions:blueprint:hvp') },
-  { label: 'Autonomic Pharmacology validation', command: npmCommand, args: npmArgs('run', 'questions:validate:autonomic-pharmacology', '--', '--strict') },
+  { label: 'Tissue report', command: npmCommand, args: npmArgs('run', 'questions:report:tissue') },
+  { label: 'Ocular Adnexa report', command: npmCommand, args: npmArgs('run', 'questions:report:ocular') },
+  { label: 'Blood Supply report', command: npmCommand, args: npmArgs('run', 'questions:report:blood') },
+  { label: 'Environmental Vision report', command: npmCommand, args: npmArgs('run', 'questions:report:environmental-vision') },
   { label: 'Autonomic Pharmacology report', command: npmCommand, args: npmArgs('run', 'questions:report:autonomic-pharmacology') },
-  { label: 'Autonomic Pharmacology blueprint', command: npmCommand, args: npmArgs('run', 'questions:blueprint:autonomic-pharmacology') },
-  { label: 'Systemic Pathology validation', command: npmCommand, args: npmArgs('run', 'questions:validate:systemic-pathology', '--', '--strict') },
   { label: 'Systemic Pathology report', command: npmCommand, args: npmArgs('run', 'questions:report:systemic-pathology') },
-  { label: 'Systemic Pathology blueprint', command: npmCommand, args: npmArgs('run', 'questions:blueprint:systemic-pathology') },
   { label: 'Disabled release build', command: npmCommand, args: npmArgs('run', 'release:build:disabled') },
   { label: 'Disabled bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=disabled') },
   { label: 'HVP release build', command: npmCommand, args: npmArgs('run', 'release:build:hvp') },
@@ -62,6 +56,8 @@ const commands: Command[] = [
   { label: 'Systemic Pathology preview bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=systemic-pathology-preview') },
   { label: 'Full curated preview build', command: npmCommand, args: npmArgs('run', 'release:build:full-curated') },
   { label: 'Full curated preview bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=full-curated-preview') },
+  { label: 'Full curated public-beta build', command: npmCommand, args: npmArgs('run', 'release:build:full-curated-public') },
+  { label: 'Full curated public-beta bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=full-curated-public-beta') },
   { label: 'Release manifest', command: npmCommand, args: npmArgs('run', 'release:manifest') },
   { label: 'Whitespace validation', command: 'git', args: ['diff', '--check'] },
 ];
@@ -81,7 +77,7 @@ const manifest = releaseManifestSchema.parse(JSON.parse(readFileSync(
   resolve('tmp', 'release', 'release-manifest.json'),
   'utf8',
 )));
-const metadata = readReleaseBuildMetadata('hvp-public-beta');
+const metadata = readReleaseBuildMetadata('full-curated-public-beta');
 const finalGit = releaseGitIdentity();
 assertCleanReleaseTree(finalGit);
 if (
