@@ -11,7 +11,8 @@ export type ReleaseBudget = Omit<ReleaseBuildMetrics, 'buildDurationMs' | 'fileC
  * answer-isolated Aqueous/Vitreous and Blood Supply dynamic chunks crossed
  * the preceding Ocular Adnexa ceiling without entering an initial route
  * closure. Size ceilings use approximately 10% headroom. Build duration
- * remains observational because local and hosted runner I/O varies.
+ * remains observational because local and hosted runner I/O varies. Systemic and
+ * full-curated profiles were measured on clean checkpoint commit `7ac2a47`.
  */
 export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = {
   disabled: {
@@ -120,34 +121,34 @@ export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = 
     fileCount: 183,
   },
   'systemic-pathology-preview': {
-    totalOutputBytes: 8866345,
-    clientJavaScriptBytes: 1971237,
-    initialHomeJavaScriptBytes: 509145,
-    disabledPracticeHubJavaScriptBytes: 509145,
-    disabledProgressHubJavaScriptBytes: 509145,
-    hvpEnabledPracticeHubJavaScriptBytes: 856865,
-    hvpEnabledProgressHubJavaScriptBytes: 856865,
-    incrementalControlledHvpJavaScriptBytes: 427837,
-    incrementalHvpAnalyticsJavaScriptBytes: 347720,
-    combinedIncrementalHvpJavaScriptBytes: 450027,
-    largestAssetBytes: 631819,
-    buildDurationMs: 7477,
-    fileCount: 183,
+    totalOutputBytes: 9265893,
+    clientJavaScriptBytes: 2143185,
+    initialHomeJavaScriptBytes: 511112,
+    disabledPracticeHubJavaScriptBytes: 511112,
+    disabledProgressHubJavaScriptBytes: 511112,
+    hvpEnabledPracticeHubJavaScriptBytes: 858840,
+    hvpEnabledProgressHubJavaScriptBytes: 858840,
+    incrementalControlledHvpJavaScriptBytes: 427842,
+    incrementalHvpAnalyticsJavaScriptBytes: 347728,
+    combinedIncrementalHvpJavaScriptBytes: 450035,
+    largestAssetBytes: 632271,
+    buildDurationMs: 7600,
+    fileCount: 192,
   },
   'full-curated-preview': {
-    totalOutputBytes: 8866345,
-    clientJavaScriptBytes: 1971237,
-    initialHomeJavaScriptBytes: 509145,
-    disabledPracticeHubJavaScriptBytes: 509145,
-    disabledProgressHubJavaScriptBytes: 509145,
-    hvpEnabledPracticeHubJavaScriptBytes: 856865,
-    hvpEnabledProgressHubJavaScriptBytes: 856865,
-    incrementalControlledHvpJavaScriptBytes: 427837,
-    incrementalHvpAnalyticsJavaScriptBytes: 347720,
-    combinedIncrementalHvpJavaScriptBytes: 450027,
-    largestAssetBytes: 631819,
-    buildDurationMs: 7477,
-    fileCount: 183,
+    totalOutputBytes: 9265879,
+    clientJavaScriptBytes: 2143178,
+    initialHomeJavaScriptBytes: 511105,
+    disabledPracticeHubJavaScriptBytes: 511105,
+    disabledProgressHubJavaScriptBytes: 511105,
+    hvpEnabledPracticeHubJavaScriptBytes: 858833,
+    hvpEnabledProgressHubJavaScriptBytes: 858833,
+    incrementalControlledHvpJavaScriptBytes: 427842,
+    incrementalHvpAnalyticsJavaScriptBytes: 347728,
+    combinedIncrementalHvpJavaScriptBytes: 450035,
+    largestAssetBytes: 632271,
+    buildDurationMs: 7161,
+    fileCount: 192,
   },
 };
 

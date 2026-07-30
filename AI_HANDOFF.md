@@ -35,7 +35,9 @@
 - Registry/release contract tests: 11 files, 70 tests passed
 - Strict bank validation: 80 questions, 0 errors, 0 unexpected warnings; 17 canonical lint notes recorded without changing authored content
 - Blueprint validation: passed with 0 diagnostics
-- Final full-suite totals, source-bound preview metrics, Chrome QA and exact commit identity will be recorded in the draft PR after the clean checkpoint run.
+- Clean source-bound Systemic preview build/audit passed: 9,265,893 total bytes; 2,143,185 client JS bytes; 511,112 initial-route JS bytes; 192 files; 7,600 ms observed.
+- Clean source-bound full-curated preview build/audit passed: 9,265,879 total bytes; 2,143,178 client JS bytes; 511,105 initial-route JS bytes; 192 files; 7,161 ms observed.
+- Final full-suite totals, Chrome QA and exact final commit identity will be recorded in the draft PR after the checkpoint gate.
 
 ## Release boundaries
 
