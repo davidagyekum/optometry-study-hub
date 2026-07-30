@@ -34,10 +34,10 @@
 - Registry/release contract tests: passed
 - Strict bank validation: 80 questions, 0 errors, 0 unexpected warnings; 30 canonical lint notes recorded without changing authored content
 - Blueprint validation: passed with 0 diagnostics
-- Full-suite checkpoint: 175 files and 942 tests; two expected registry/fixture-count failures were corrected and their focused reruns passed
+- Final `npm run check`: passed with 175 test files and 943 tests; lint retained only the four established `<img>` warnings
 - Clean source-bound Pharmacology preview build and bundle audit: passed
 - Preview metrics: 8,866,345 total bytes; 1,971,237 client JS bytes; 509,145 initial-route JS bytes; 183 files; 7,477 ms observed build
-- Final `npm run check`, browser QA and final commit identity are recorded in the draft PR after completion
+- Browser QA and final commit identity are recorded in the draft PR after completion
 
 ## Preserved boundaries
 
