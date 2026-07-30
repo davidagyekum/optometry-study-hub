@@ -65,6 +65,12 @@ No slide artwork was copied. The five assessment diagrams are original neutral S
   `c842b199af97e77d81d2541184519051e507dd5c`; the new Ocular bytes remain in
   answer-isolated dynamic closures and the standard ten-per-cent budget policy
   is unchanged.
+- A preliminary release audit correctly rejected the obsolete PR14 aggregate
+  client-JavaScript ceiling. After recording the clean Ocular measurements,
+  `npm run release:verify` passed all four profile builds and registry-driven
+  bundle audits with fresh source-bound evidence.
+- Final release-manifest SHA and deterministic identity are reported in the PR
+  description because a committed handoff cannot embed its own resulting head.
 - `git diff --check` and clean-checkout verification are recorded after the checkpoint commit.
 
 ## Chrome QA
