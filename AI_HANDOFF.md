@@ -10,8 +10,8 @@
 
 ## Canonical package
 
-- Package ZIP SHA-256:
-  `2f9c42335ad4d6fc4ae039915c1b5a666cabc4ee5abffbad1e9a3e5023b7c690`
+- Post-PR13 package ZIP SHA-256:
+  `12dec77b40c3961f2e1b8cde8d970dd70a6af50cf9fab3f40d73da53595f4470`
 - Canonical bank SHA-256:
   `500454bab37a5846ed46efd442149c105cbaf6ea5c9dd270ba3605170a2d9c08`
 - 80 questions: 78 automatically gradable and two manual-only open responses
