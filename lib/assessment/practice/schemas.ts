@@ -35,6 +35,8 @@ export const practiceProfileSchema = z.strictObject({
   formatTargets: practiceCountMapSchema.optional(),
   difficultyTargets: practiceCountMapSchema.optional(),
   higherOrderMinimum: z.number().int().nonnegative().default(0),
+  higherOrderMaximum: z.number().int().nonnegative().optional(),
+  requiredObjectiveIds: uniqueIds.optional(),
   recommended: z.boolean().optional(),
 });
 
@@ -88,6 +90,29 @@ export const practiceBlueprintSchema = z.strictObject({
     });
     if (profile.higherOrderMinimum > profile.count) {
       context.addIssue({ code: 'custom', path: ['profiles', index, 'higherOrderMinimum'], message: 'Higher-order minimum cannot exceed profile count.' });
+    }
+    if (
+      profile.higherOrderMaximum !== undefined
+      && (
+        profile.higherOrderMaximum < profile.higherOrderMinimum
+        || profile.higherOrderMaximum > profile.count
+      )
+    ) {
+      context.addIssue({
+        code: 'custom',
+        path: ['profiles', index, 'higherOrderMaximum'],
+        message: 'Higher-order maximum must be between the minimum and profile count.',
+      });
+    }
+    if (
+      profile.requiredObjectiveIds
+      && profile.requiredObjectiveIds.length > profile.count
+    ) {
+      context.addIssue({
+        code: 'custom',
+        path: ['profiles', index, 'requiredObjectiveIds'],
+        message: 'Required objective coverage cannot exceed profile count.',
+      });
     }
   });
   if (blueprint.resultMode === 'automatic' && blueprint.eligibleFormats.includes('open_response')) {

@@ -7,6 +7,15 @@ import {
   isHvpCuratedPracticeEnabled,
 } from '@/lib/assessment/hvp/config';
 import {
+  TISSUE_CURATED_BLUEPRINT_ID,
+  TISSUE_CURATED_COURSE_ID,
+  TISSUE_CURATED_EXPERIENCE_ID,
+  TISSUE_CURATED_MODULE_ID,
+  TISSUE_CURATED_ROUTE_ID,
+  TISSUE_WRITTEN_BLUEPRINT_ID,
+  isTissueFoundationsCuratedPracticeEnabled,
+} from '@/lib/assessment/tissue-foundations/config';
+import {
   curatedExperienceSummarySchema,
   type CuratedExperienceAdapter,
   type CuratedExperienceSummary,
@@ -133,6 +142,42 @@ export const hvpCuratedSummary: CuratedExperienceSummary = deepFreeze({
   },
 });
 
+export const tissueCuratedSummary: CuratedExperienceSummary = deepFreeze({
+  experienceId: TISSUE_CURATED_EXPERIENCE_ID,
+  courseId: TISSUE_CURATED_COURSE_ID,
+  moduleId: TISSUE_CURATED_MODULE_ID,
+  title: 'OPT 376 Tissue Foundations curated practice',
+  shortTitle: 'Tissue curated practice',
+  courseCode: 'OPT 376',
+  routeSegment: TISSUE_CURATED_ROUTE_ID,
+  blueprintIds: [
+    TISSUE_CURATED_BLUEPRINT_ID,
+    TISSUE_WRITTEN_BLUEPRINT_ID,
+  ],
+  statusLabel: 'Curated study practice',
+  enabled: false,
+  supportsAutomaticPractice: true,
+  supportsWrittenPractice: true,
+  studyEntryTitle: 'Curated slide-aligned practice',
+  studyEntryDescription:
+    'Build mixed-format practice from 80 Tissue Foundations questions while preserving the separate legacy quiz.',
+  documentTitles: {
+    landing: 'Tissue Foundations Curated Practice',
+    session: 'Tissue Foundations Practice Session',
+    result: 'Tissue Foundations Practice Result',
+    unavailable: 'Tissue Foundations Curated Practice Unavailable',
+  },
+  releaseStatus: {
+    ariaLabel: 'Tissue Foundations curated practice release status',
+    title: 'Curated study practice',
+    lines: [
+      'Internally checked and slide-aligned.',
+      'Not lecturer-approved examination items.',
+      'Progress is stored only on this device.',
+    ],
+  },
+});
+
 export const curatedExperienceRegistry = createCuratedExperienceRegistry([
   {
     summary: hvpCuratedSummary,
@@ -149,6 +194,25 @@ export const curatedExperienceRegistry = createCuratedExperienceRegistry([
         ProgressPanel: loadedModule.HvpProgressPanel,
         getContribution: loadedModule.getHvpProgressContribution,
       };
+    },
+  },
+  {
+    summary: tissueCuratedSummary,
+    isEnabled: isTissueFoundationsCuratedPracticeEnabled,
+    loadPracticeModule: async () => {
+      const [factory, tissue] = await Promise.all([
+        import('@/components/assessment/curated/createCuratedPracticeModule'),
+        import('@/lib/assessment/tissue-foundations/definition'),
+      ]);
+      return factory.createCuratedPracticeModule(
+        tissue.tissuePracticeDefinition,
+      );
+    },
+    loadProgressModule: async () => {
+      const loadedModule = await import(
+        '@/lib/progress/tissueFoundationsProgressModule'
+      );
+      return loadedModule.tissueFoundationsProgressModule;
     },
   },
 ]);

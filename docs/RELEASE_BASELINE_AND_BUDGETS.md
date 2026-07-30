@@ -99,3 +99,34 @@ resolution, generic progress composition, and lazy-adapter error handling.
 Answer-bearing HVP modules remain outside the initial learner closure, hidden
 Aqueous content remains excluded, and the standard ten-per-cent headroom still
 applies.
+
+## PR 14 Tissue Foundations profile baselines
+
+The clean implementation commit
+`253843835bd6b1666f8faa84ccf9eab365d30444` added the default-disabled Tissue
+Foundations curated experience and two preview profiles. The source-bound
+release verifier measured all four profiles:
+
+| Metric | Disabled | HVP only | Tissue only | HVP + Tissue |
+|---|---:|---:|---:|---:|
+| Total output | 6,985,404 | 6,985,402 | 6,985,402 | 6,985,400 |
+| Client JavaScript | 1,168,274 | 1,168,273 | 1,168,273 | 1,168,272 |
+| Initial Home JavaScript | 498,756 | 498,755 | 498,755 | 498,754 |
+| Disabled Practice Hub JavaScript | 498,756 | 498,755 | 498,755 | 498,754 |
+| Disabled Progress Hub JavaScript | 498,756 | 498,755 | 498,755 | 498,754 |
+| Enabled Practice Hub JavaScript | 844,170 | 844,169 | 844,169 | 844,168 |
+| Enabled Progress Hub JavaScript | 844,170 | 844,169 | 844,169 | 844,168 |
+| Incremental controlled practice JavaScript | 425,531 | 425,531 | 425,531 | 425,531 |
+| Incremental analytics JavaScript | 345,414 | 345,414 | 345,414 | 345,414 |
+| Combined incremental curated JavaScript | 447,721 | 447,721 | 447,721 | 447,721 |
+| Largest emitted asset | 629,617 | 629,617 | 629,617 | 629,617 |
+| Output files | 133 | 133 | 133 | 133 |
+| Observed build duration | 8,482 ms | 8,997 ms | 8,622 ms | 8,641 ms |
+
+The metric property names retain their historical HVP wording for manifest
+compatibility, but the release audit resolves both registered curated
+experiences. It proves that each practice and progress entry remains lazy,
+neither bank appears in the initial learner closure, each enabled closure
+contains its own authored and answer markers, and HVP and Tissue markers remain
+isolated from one another. The standard ten-per-cent byte headroom is derived
+from these measurements; duration remains observational.

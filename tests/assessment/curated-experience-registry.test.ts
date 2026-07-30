@@ -17,8 +17,8 @@ import {
 } from '@/tests/fixtures/assessment/dummyCuratedExperience';
 
 describe('curated-experience registry', () => {
-  it('contains only the production HVP adapter and safe discovery metadata', () => {
-    expect(curatedExperienceRegistry).toHaveLength(1);
+  it('contains safe discovery metadata for both production adapters', () => {
+    expect(curatedExperienceRegistry).toHaveLength(2);
     expect(curatedExperienceSummaries()).toEqual([
       expect.objectContaining({
         experienceId: 'human-visual-perception',
@@ -29,6 +29,17 @@ describe('curated-experience registry', () => {
           'opt374-hvp-curated-v1',
           'opt374-hvp-written-v1',
         ],
+      }),
+      expect.objectContaining({
+        experienceId: 'opt376-tissue-foundations-curated-v1',
+        courseId: 'neuro-anatomy',
+        moduleId: 'tissue-foundations',
+        routeSegment: 'tissue-foundations-curated',
+        blueprintIds: [
+          'opt376-tissue-foundations-curated-blueprint-v1',
+          'opt376-tissue-foundations-written-v1',
+        ],
+        enabled: false,
       }),
     ]);
   });
@@ -99,7 +110,7 @@ describe('curated-experience registry', () => {
     expect(summaryForModule('dummy-module', [dummyCuratedSummary])).toEqual(
       dummyCuratedSummary,
     );
-    expect(curatedExperienceRegistry).toHaveLength(1);
+    expect(curatedExperienceRegistry).toHaveLength(2);
   });
 
   it('does not invoke answer-bearing loaders during registry discovery', () => {

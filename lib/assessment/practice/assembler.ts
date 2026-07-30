@@ -1,4 +1,4 @@
-import { createHvpSeededRandom } from '@/lib/assessment/hvp/assembler';
+import { createSeededRandom } from '@/lib/assessment/practice/random';
 import {
   challengeQuestionIds,
   retryMissedQuestionIds,
@@ -159,9 +159,18 @@ function findDifficultyAllocation(
   candidateCells: AssessmentQuestion[][],
   targets: DifficultyCounts,
   minimumHigherOrder: number,
+  maximumHigherOrder: number,
 ): DifficultyCounts[] | undefined {
-  type State = { allocations: DifficultyCounts[]; higherCapacity: number };
-  let states = new Map<string, State>([['0:0:0', { allocations: [], higherCapacity: 0 }]]);
+  type State = {
+    allocations: DifficultyCounts[];
+    higherCapacity: number;
+    minimumHigherOrder: number;
+  };
+  let states = new Map<string, State>([['0:0:0', {
+    allocations: [],
+    higherCapacity: 0,
+    minimumHigherOrder: 0,
+  }]]);
   cells.forEach((cell, cellIndex) => {
     const next = new Map<string, State>();
     const options = allocationsForCell(cell, candidateCells[cellIndex]);
@@ -182,11 +191,57 @@ function findDifficultyAllocation(
             ).length,
           )
         ), 0);
+        const minimumHigherOrderForOption = DIFFICULTIES.reduce(
+          (sum, difficulty) => {
+            const lowerAvailable = candidateCells[cellIndex].filter(
+              (question) => question.difficulty === difficulty
+                && !HIGHER_ORDER.has(question.bloomLevel),
+            ).length;
+            return sum + Math.max(0, option[difficulty] - lowerAvailable);
+          },
+          0,
+        );
+        const minimumCapacity =
+          state.minimumHigherOrder + minimumHigherOrderForOption;
+        const candidateFeasible = higherCapacity >= minimumHigherOrder
+          && minimumCapacity <= maximumHigherOrder;
         const previous = next.get(nextKey);
-        if (!previous || higherCapacity > previous.higherCapacity) {
+        const previousFeasible = previous
+          ? previous.higherCapacity >= minimumHigherOrder
+            && previous.minimumHigherOrder <= maximumHigherOrder
+          : false;
+        const totalTarget = DIFFICULTIES.reduce(
+          (sum, difficulty) => sum + targets[difficulty],
+          0,
+        );
+        const boundedHigherOrder = maximumHigherOrder < totalTarget;
+        if (
+          !previous
+          || (
+            !boundedHigherOrder
+            && higherCapacity > previous.higherCapacity
+          )
+          || (
+            boundedHigherOrder
+            && (
+              (candidateFeasible && !previousFeasible)
+              || (
+                candidateFeasible === previousFeasible
+                && (
+                  minimumCapacity < previous.minimumHigherOrder
+                  || (
+                    minimumCapacity === previous.minimumHigherOrder
+                    && higherCapacity > previous.higherCapacity
+                  )
+                )
+              )
+            )
+          )
+        ) {
           next.set(nextKey, {
             allocations: [...state.allocations, option],
             higherCapacity,
+            minimumHigherOrder: minimumCapacity,
           });
         }
       });
@@ -194,7 +249,9 @@ function findDifficultyAllocation(
     states = next;
   });
   const resolved = states.get(DIFFICULTIES.map((difficulty) => targets[difficulty]).join(':'));
-  return resolved && resolved.higherCapacity >= minimumHigherOrder
+  return resolved
+    && resolved.higherCapacity >= minimumHigherOrder
+    && resolved.minimumHigherOrder <= maximumHigherOrder
     ? resolved.allocations
     : undefined;
 }
@@ -206,6 +263,8 @@ function selectQuotaQuestions(
   random: () => number,
   maximumFamilyRepetition: number,
   minimumHigherOrder: number,
+  maximumHigherOrder: number,
+  requiredObjectiveIds: readonly string[],
   history: Readonly<Record<string, QuestionHistoryRecord>>,
 ): AssessmentQuestion[] | undefined {
   type QuotaBucket = {
@@ -214,16 +273,39 @@ function selectQuotaQuestions(
     maximumHigherOrder: number;
     maximumUnseen: number;
   };
+  const requiredObjectives = new Set(requiredObjectiveIds);
+  const allCandidates = candidateCells.flat();
+  const objectiveAvailability = allCandidates.reduce<Map<string, number>>(
+    (result, question) => result.set(
+      question.objectiveId,
+      (result.get(question.objectiveId) ?? 0) + 1,
+    ),
+    new Map(),
+  );
+  const objectivesWithUnseenCandidates = new Set(
+    allCandidates
+      .filter((question) => !isCurrentHistory(question, history[question.id]))
+      .map((question) => question.objectiveId),
+  );
   const buckets: QuotaBucket[] = cells.flatMap((cell, cellIndex) => DIFFICULTIES.flatMap((difficulty) => {
     const quota = allocations[cellIndex][difficulty];
     if (quota === 0) return [];
     const candidates = shuffle(
       candidateCells[cellIndex].filter((question) => question.difficulty === difficulty),
       random,
-    ).sort((left, right) => (
-      Number(isCurrentHistory(left, history[left.id])) - Number(isCurrentHistory(right, history[right.id]))
-      || Number(HIGHER_ORDER.has(right.bloomLevel)) - Number(HIGHER_ORDER.has(left.bloomLevel))
-    ));
+    ).sort((left, right) => {
+      const leftForcedObjective = requiredObjectives.has(left.objectiveId)
+        && !objectivesWithUnseenCandidates.has(left.objectiveId);
+      const rightForcedObjective = requiredObjectives.has(right.objectiveId)
+        && !objectivesWithUnseenCandidates.has(right.objectiveId);
+      return Number(rightForcedObjective) - Number(leftForcedObjective)
+        || Number(isCurrentHistory(left, history[left.id]))
+          - Number(isCurrentHistory(right, history[right.id]))
+        || (objectiveAvailability.get(left.objectiveId) ?? 0)
+          - (objectiveAvailability.get(right.objectiveId) ?? 0)
+        || Number(HIGHER_ORDER.has(right.bloomLevel))
+          - Number(HIGHER_ORDER.has(left.bloomLevel));
+    });
     return [{
       candidates,
       quota,
@@ -239,24 +321,227 @@ function selectQuotaQuestions(
   })).sort((left, right) => (
     (left.candidates.length - left.quota) - (right.candidates.length - right.quota)
   ));
+  const familyAvailability = allCandidates.reduce<Map<string, number>>(
+    (result, question) => result.set(
+      question.familyId,
+      (result.get(question.familyId) ?? 0) + 1,
+    ),
+    new Map(),
+  );
+  const familyConstraintIsRedundant = [...familyAvailability.values()].every(
+    (count) => count <= maximumFamilyRepetition,
+  );
+
+  function selectRequiredObjectivesByDynamicProgramming():
+    AssessmentQuestion[] | undefined {
+    if (
+      !requiredObjectiveIds.length
+      || requiredObjectiveIds.length > 30
+      || !familyConstraintIsRedundant
+    ) {
+      return undefined;
+    }
+    type SelectionState = {
+      mask: number;
+      higherOrder: number;
+      unseen: number;
+      questions: AssessmentQuestion[];
+    };
+    type BucketState = SelectionState & { count: number };
+    const objectiveBits = new Map(
+      requiredObjectiveIds.map((objectiveId, index) => [
+        objectiveId,
+        1 << index,
+      ]),
+    );
+    const requiredMask = (1 << requiredObjectiveIds.length) - 1;
+    const bucketOptions = buckets.map((bucket) => {
+      let states = new Map<string, BucketState>([['0:0:0', {
+        count: 0,
+        mask: 0,
+        higherOrder: 0,
+        unseen: 0,
+        questions: [],
+      }]]);
+      bucket.candidates.forEach((question) => {
+        const next = new Map(states);
+        states.forEach((state) => {
+          if (state.count >= bucket.quota) return;
+          const count = state.count + 1;
+          const mask = state.mask | (objectiveBits.get(question.objectiveId) ?? 0);
+          const higherOrder =
+            state.higherOrder + Number(HIGHER_ORDER.has(question.bloomLevel));
+          if (higherOrder > maximumHigherOrder) return;
+          const unseen =
+            state.unseen + Number(!isCurrentHistory(question, history[question.id]));
+          const key = `${count}:${mask}:${higherOrder}`;
+          const previous = next.get(key);
+          if (!previous || unseen > previous.unseen) {
+            next.set(key, {
+              count,
+              mask,
+              higherOrder,
+              unseen,
+              questions: [...state.questions, question],
+            });
+          }
+        });
+        states = next;
+      });
+      return [...states.values()].filter((state) => state.count === bucket.quota);
+    });
+    if (bucketOptions.some((options) => options.length === 0)) return undefined;
+
+    const remainingObjectiveMasks = Array.from(
+      { length: bucketOptions.length + 1 },
+      () => 0,
+    );
+    const remainingMinimumHigherOrder = Array.from(
+      { length: bucketOptions.length + 1 },
+      () => 0,
+    );
+    const remainingMaximumHigherOrder = Array.from(
+      { length: bucketOptions.length + 1 },
+      () => 0,
+    );
+    for (let index = bucketOptions.length - 1; index >= 0; index -= 1) {
+      const options = bucketOptions[index];
+      remainingObjectiveMasks[index] = remainingObjectiveMasks[index + 1]
+        | options.reduce((mask, option) => mask | option.mask, 0);
+      remainingMinimumHigherOrder[index] =
+        remainingMinimumHigherOrder[index + 1]
+        + Math.min(...options.map((option) => option.higherOrder));
+      remainingMaximumHigherOrder[index] =
+        remainingMaximumHigherOrder[index + 1]
+        + Math.max(...options.map((option) => option.higherOrder));
+    }
+
+    let states = new Map<string, SelectionState>([['0:0', {
+      mask: 0,
+      higherOrder: 0,
+      unseen: 0,
+      questions: [],
+    }]]);
+    bucketOptions.forEach((options, bucketIndex) => {
+      const next = new Map<string, SelectionState>();
+      states.forEach((state) => {
+        options.forEach((option) => {
+          const mask = state.mask | option.mask;
+          const higherOrder = state.higherOrder + option.higherOrder;
+          if (higherOrder > maximumHigherOrder) return;
+          if (
+            higherOrder + remainingMaximumHigherOrder[bucketIndex + 1]
+            < minimumHigherOrder
+          ) return;
+          if (
+            higherOrder + remainingMinimumHigherOrder[bucketIndex + 1]
+            > maximumHigherOrder
+          ) return;
+          if (
+            (mask | remainingObjectiveMasks[bucketIndex + 1])
+            !== requiredMask
+          ) return;
+          const unseen = state.unseen + option.unseen;
+          const key = `${mask}:${higherOrder}`;
+          const previous = next.get(key);
+          if (!previous || unseen > previous.unseen) {
+            next.set(key, {
+              mask,
+              higherOrder,
+              unseen,
+              questions: [...state.questions, ...option.questions],
+            });
+          }
+        });
+      });
+      states = next;
+    });
+
+    return [...states.values()]
+      .filter((state) => (
+        state.mask === requiredMask
+        && state.higherOrder >= minimumHigherOrder
+        && state.higherOrder <= maximumHigherOrder
+      ))
+      .reduce<SelectionState | undefined>((best, state) => (
+        !best || state.unseen > best.unseen ? state : best
+      ), undefined)
+      ?.questions;
+  }
+
+  const requiredObjectiveSelection =
+    selectRequiredObjectivesByDynamicProgramming();
+  if (requiredObjectiveSelection) return requiredObjectiveSelection;
+
   const remainingHigherOrder = Array.from({ length: buckets.length + 1 }, () => 0);
   const remainingUnseen = Array.from({ length: buckets.length + 1 }, () => 0);
+  const remainingSlots = Array.from({ length: buckets.length + 1 }, () => 0);
+  const remainingObjectives = Array.from(
+    { length: buckets.length + 1 },
+    () => new Set<string>(),
+  );
+  const remainingUnseenObjectives = Array.from(
+    { length: buckets.length + 1 },
+    () => new Set<string>(),
+  );
   for (let index = buckets.length - 1; index >= 0; index -= 1) {
     remainingHigherOrder[index] = remainingHigherOrder[index + 1] + buckets[index].maximumHigherOrder;
     remainingUnseen[index] = remainingUnseen[index + 1] + buckets[index].maximumUnseen;
+    remainingSlots[index] = remainingSlots[index + 1] + buckets[index].quota;
+    remainingObjectives[index] = new Set([
+      ...remainingObjectives[index + 1],
+      ...buckets[index].candidates.map((question) => question.objectiveId),
+    ]);
+    remainingUnseenObjectives[index] = new Set([
+      ...remainingUnseenObjectives[index + 1],
+      ...buckets[index].candidates
+        .filter((question) => !isCurrentHistory(question, history[question.id]))
+        .map((question) => question.objectiveId),
+    ]);
   }
   let best: AssessmentQuestion[] | undefined;
   let bestUnseenCount = -1;
-  const theoreticalMaximumUnseen = remainingUnseen[0];
   const selected: AssessmentQuestion[] = [];
   const familyCounts = new Map<string, number>();
+  const objectiveCounts = new Map<string, number>();
+
+  function maximumPossibleUnseen(bucketIndex: number, unseenCount: number): number {
+    const forcedSeenObjectives = requiredObjectiveIds.filter(
+      (objectiveId) => (
+        !objectiveCounts.has(objectiveId)
+        && !remainingUnseenObjectives[bucketIndex].has(objectiveId)
+      ),
+    ).length;
+    return unseenCount + Math.min(
+      remainingUnseen[bucketIndex],
+      Math.max(0, remainingSlots[bucketIndex] - forcedSeenObjectives),
+    );
+  }
+
+  const theoreticalMaximumUnseen = maximumPossibleUnseen(0, 0);
 
   function visitBucket(bucketIndex: number, higherOrderCount: number, unseenCount: number): void {
     if (bestUnseenCount === theoreticalMaximumUnseen) return;
+    if (higherOrderCount > maximumHigherOrder) return;
     if (higherOrderCount + remainingHigherOrder[bucketIndex] < minimumHigherOrder) return;
-    if (unseenCount + remainingUnseen[bucketIndex] < bestUnseenCount) return;
+    if (maximumPossibleUnseen(bucketIndex, unseenCount) <= bestUnseenCount) return;
+    const missingObjectiveCount = requiredObjectiveIds.filter(
+      (objectiveId) => !objectiveCounts.has(objectiveId),
+    ).length;
+    if (missingObjectiveCount > remainingSlots[bucketIndex]) return;
+    if (requiredObjectiveIds.some(
+      (objectiveId) => (
+        !objectiveCounts.has(objectiveId)
+        && !remainingObjectives[bucketIndex].has(objectiveId)
+      ),
+    )) return;
     if (bucketIndex === buckets.length) {
-      if (higherOrderCount >= minimumHigherOrder && unseenCount > bestUnseenCount) {
+      if (
+        higherOrderCount >= minimumHigherOrder
+        && higherOrderCount <= maximumHigherOrder
+        && requiredObjectiveIds.every((objectiveId) => objectiveCounts.has(objectiveId))
+        && unseenCount > bestUnseenCount
+      ) {
         best = [...selected];
         bestUnseenCount = unseenCount;
       }
@@ -277,6 +562,10 @@ function selectQuotaQuestions(
         chosen.forEach((question) => {
           selected.push(question);
           familyCounts.set(question.familyId, (familyCounts.get(question.familyId) ?? 0) + 1);
+          objectiveCounts.set(
+            question.objectiveId,
+            (objectiveCounts.get(question.objectiveId) ?? 0) + 1,
+          );
         });
         visitBucket(
           bucketIndex + 1,
@@ -288,6 +577,9 @@ function selectQuotaQuestions(
           const count = (familyCounts.get(question.familyId) ?? 1) - 1;
           if (count === 0) familyCounts.delete(question.familyId);
           else familyCounts.set(question.familyId, count);
+          const objectiveCount = (objectiveCounts.get(question.objectiveId) ?? 1) - 1;
+          if (objectiveCount === 0) objectiveCounts.delete(question.objectiveId);
+          else objectiveCounts.set(question.objectiveId, objectiveCount);
         });
         return;
       }
@@ -381,7 +673,7 @@ export function assemblePractice({
   const strategy = strategyPool(eligible, selection, history);
   if (!strategy.ok) return strategy;
   const evidencedSelection = withStrategyEvidence(selection, strategy.value.map((question) => question.id));
-  const random = createHvpSeededRandom(selection.seed);
+  const random = createSeededRandom(selection.seed);
   let selected: AssessmentQuestion[] | undefined;
   if (
     profile?.sectionTargets
@@ -419,6 +711,7 @@ export function assemblePractice({
       candidateCells,
       difficultyTargets,
       profile.higherOrderMinimum,
+      profile.higherOrderMaximum ?? profile.count,
     );
     if (allocation) {
       selected = selectQuotaQuestions(
@@ -428,6 +721,8 @@ export function assemblePractice({
         random,
         blueprint.maximumFamilyRepetition,
         profile.higherOrderMinimum,
+        profile.higherOrderMaximum ?? profile.count,
+        profile.requiredObjectiveIds ?? [],
         history,
       );
     }

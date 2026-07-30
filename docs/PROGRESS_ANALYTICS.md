@@ -188,3 +188,28 @@ behavior. Legacy and curated metrics remain separate, Written Practice remains
 **Not scored**, malformed records remain stored but omitted, and no analytics
 state is persisted. Aqueous remains excluded. No storage migration or legacy
 score conversion is introduced.
+
+## PR 14 Tissue Foundations curated-practice boundary
+
+PR 14 starts from merged PR 13 commit
+`443c638de39985bc566436f443ef596aa184f6b6`. It imports the byte-identical
+80-question OPT 376 Tissue Foundations bank with 18 objectives, 10 registered
+sources and four original neutral SVG diagrams. All questions and objectives
+remain draft.
+
+The answer-free registry now exposes a second production adapter, but
+`NEXT_PUBLIC_ENABLE_TISSUE_FOUNDATIONS_CURATED_PRACTICE=false` remains the
+committed default. Answer-bearing content stays behind retryable lazy practice
+and progress loaders. The shared curated controller and presentation support
+Quick 10, Standard 25, Full 50, Custom 5-50, targeted 10 and manual-only
+Written 2 sessions without a Tissue-specific router, hook or component tree.
+Full practice covers all 18 objectives; every fixed profile enforces exact
+section, format and difficulty quotas, a bounded Apply-or-higher range and a
+two-question family maximum.
+
+Tissue attempts, results and current-version history use the unchanged StoreV2
+assessment maps. Curated mastery remains separate from the preserved legacy
+Tissue 50-question quiz and its Latest/Best scores. HVP behavior and checksum,
+the Aqueous pilot and hashes, both storage keys, five courses, eight modules,
+39 sections and 400 legacy questions remain unchanged. No question status,
+backend, analytics service, account, deployment or next content bank is added.

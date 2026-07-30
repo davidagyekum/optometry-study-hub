@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+<title id="title">Neutral comparison of two myelination patterns</title><desc id="desc">At left, one branching cell contacts segments of three axons. At right, separate cells wrap successive segments of one axon. Markers A, B and C identify neutral regions.</desc>
+<rect width="1200" height="700" fill="#ffffff"/>
+<line x1="600" y1="70" x2="600" y2="630" stroke="#999" stroke-width="5" stroke-dasharray="15 15"/>
+<g stroke="#222" fill="none" stroke-linecap="round">
+<circle cx="220" cy="230" r="70" fill="#ececec" stroke-width="10"/>
+<path d="M270 250 C330 270 345 315 390 340 M220 300 C245 390 295 430 375 455 M165 275 C135 365 150 465 220 520" stroke-width="10"/>
+<line x1="90" y1="345" x2="520" y2="345" stroke-width="12"/><line x1="90" y1="460" x2="520" y2="460" stroke-width="12"/><line x1="90" y1="545" x2="520" y2="545" stroke-width="12"/>
+<g stroke-width="30"><line x1="330" y1="345" x2="440" y2="345"/><line x1="350" y1="460" x2="470" y2="460"/><line x1="280" y1="545" x2="395" y2="545"/></g>
+<line x1="665" y1="470" x2="1120" y2="470" stroke-width="12"/>
+<g stroke-width="38"><line x1="690" y1="470" x2="800" y2="470"/><line x1="835" y1="470" x2="945" y2="470"/><line x1="980" y1="470" x2="1090" y2="470"/></g>
+<ellipse cx="745" cy="300" rx="85" ry="70" fill="#ececec" stroke-width="10"/><path d="M745 370 L745 425" stroke-width="10"/>
+</g>
+<g font-family="Arial, sans-serif" font-size="34" font-weight="700" text-anchor="middle">
+<circle cx="220" cy="230" r="28" fill="#fff" stroke="#222" stroke-width="4"/><text x="220" y="242">A</text>
+<circle cx="745" cy="300" r="28" fill="#fff" stroke="#222" stroke-width="4"/><text x="745" y="312">B</text>
+<circle cx="817" cy="525" r="28" fill="#fff" stroke="#222" stroke-width="4"/><text x="817" y="537">C</text>
+</g></svg>

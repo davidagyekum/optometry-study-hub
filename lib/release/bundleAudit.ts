@@ -296,6 +296,8 @@ export function validateBuildIdentity(
   if (
     metadata.flags.assessmentPilot !== expectedFlags.assessmentPilot
     || metadata.flags.hvpCuratedPractice !== expectedFlags.hvpCuratedPractice
+    || metadata.flags.tissueFoundationsCuratedPractice
+      !== expectedFlags.tissueFoundationsCuratedPractice
   ) {
     throw new Error(`Release build metadata flags do not match profile ${profile}.`);
   }
