@@ -297,3 +297,4 @@ The generic audit verified initial/server answer isolation, the Pharmacology pra
 ## Full-curated public-beta baseline
 
 The first clean source-bound full public-beta build measured 9,322,516 total output bytes, 2,161,281 client JavaScript bytes, 529,208 initial-route bytes and 192 files. The release budget retains approximately ten percent headroom and treats build duration as observational.
+The completed eight-module platform also remeasured the disabled profile at 9,322,532 total bytes and 2,161,289 client JavaScript bytes. Those maxima are used as the conservative cross-profile baseline for total/client output; route-specific and answer-closure budgets remain independently measured and unchanged.

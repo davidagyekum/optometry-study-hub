@@ -23,4 +23,4 @@
 - Pilot disabled; all eight curated adapters are distinct lazy closures; initial/server closure answer isolation passed.
 - Preliminary manifest SHA-256: `60cd4bfe70e817cb1b9358b8b56075900fb78d4bf40dd47f4e9117f174445516`.
 - Preliminary deterministic identity: `387a4794f7fb69a25bc2a10a79543e791755241b688c450ec5eb7049a5e910ec`.
-- The exact final clean-commit `npm run check`, `npm run release:verify`, browser matrix and manifest identity are recorded in the PR because a committed handoff cannot contain its own resulting commit SHA.
+- The first comprehensive run passed `npm run check` (182 files, 969 tests) and all module reports, then correctly stopped on stale disabled-profile total/client byte ceilings before any publish step. The measured eight-module ceilings were updated; the exact final release verification and browser matrix are recorded in the PR because a committed handoff cannot contain its own resulting commit SHA.
