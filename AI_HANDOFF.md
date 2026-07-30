@@ -1,44 +1,42 @@
-# AI Handoff - Systemic Pathology curated bank
+# AI Handoff - Notes V2 course content
 
 ## Checkpoint
 
-- Branch: `codex/systemic-pathology-curated-bank`
-- Base main: `239bff1950db77f74bb131d9940a997d99e085af`
-- Scope: default-disabled five-block Systemic Pathology curated practice
+- Branch: `codex/notes-v2-course-content`
+- Base main: `ba8dd1649f62b21dc4f2725a025b99fa09976030`
+- Scope: structured answer-free study notes for all eight modules
 - Deployment: none
 
-## Canonical content
+## Product changes
 
-- Package ZIP SHA-256: `7fff1bd0173e8838043c5730176d737152427e5271e860ba047d40dde2139257`
-- Bank SHA-256: `06ed91a7323147e8eb9ce1fe6d4813209d986d0b4e4664d55136a012d544b379`
-- Bank: 80 draft questions, 20 draft objectives, 19 sources
-- Assets: five exact answer-neutral SVG diagrams
-- Sections: Breast, Cardiovascular, Endocrine, Gastrointestinal and Renal pathology, 16 questions each
-- Formats: 78 automatically gradable questions across nine formats and two manual-only open responses
-- Canonical bytes: unchanged. The typed runtime view deterministically normalizes the single non-slug option ID `pituitary-tsH-deficiency` to `pituitary-tsh-deficiency`.
-- Review status: every question and objective remains `draft`; no reviewer identity was added
+- Added a strict versioned Notes V2 model and schema with 12 supported block formats.
+- Added structured rendering with breadcrumbs, objectives, sticky/collapsible contents, processes, mechanisms, comparison tables, clinical and safety callouts, misconception corrections, glossaries, sources and accessible figure enlargement.
+- Preserved all stable top-level reading IDs and the unchanged StoreV2 reading arrays.
+- Made the visible curated action `Practice this module` while keeping its established accessible route action name.
+- Moved the unchanged legacy 50-question quiz into a secondary legacy archive.
+- Added the current Systemic Pathology endocrine section and retained lymphoreticular and respiratory notes as explicitly uncovered legacy supplemental material.
 
-## Learner contract
+## Compatibility and isolation
 
-- Route: `/practice/systemic-pathology-curated`
-- Automatic blueprint: `systemic-pathology-curated-v1`
-- Written blueprint: `systemic-pathology-written-v1`
-- Profiles: Quick 10, Standard 25, Full 50, Custom 5-50, targeted 10 and Written 2
-- Exact section, format and difficulty quotas; Apply-or-higher minimums of 6, 16 and 35
-- Maximum family repetition: 2; no difficulty relaxation
-- Feature flag: `NEXT_PUBLIC_ENABLE_SYSTEMIC_PATHOLOGY_CURATED_PRACTICE=false`
-- StoreV2 identity, legacy quiz/history, HVP identities and the Aqueous pilot are unchanged
+- Notes V2 production code imports no curated question bank, correct answer or rationale.
+- The legacy fact generator, 400 legacy questions, storage keys, StoreV2 version, assessment attempts/results/history and all canonical bank identities are unchanged.
+- Unknown historical reading IDs survive round trips.
+- Malformed or mismatched Notes V2 content falls back to legacy notes without a storage write.
+- All committed assessment feature flags remain false.
 
 ## Validation
 
-- Focused Systemic Pathology tests: 5 files, 16 tests passed
-- Registry/release contract tests: 11 files, 70 tests passed
-- Strict bank validation: 80 questions, 0 errors, 0 unexpected warnings; 17 canonical lint notes recorded without changing authored content
-- Blueprint validation: passed with 0 diagnostics
-- Clean source-bound Systemic preview build/audit passed: 9,265,893 total bytes; 2,143,185 client JS bytes; 511,112 initial-route JS bytes; 192 files; 7,600 ms observed.
-- Clean source-bound full-curated preview build/audit passed: 9,265,879 total bytes; 2,143,178 client JS bytes; 511,105 initial-route JS bytes; 192 files; 7,161 ms observed.
-- Final full-suite totals, Chrome QA and exact final commit identity will be recorded in the draft PR after the checkpoint gate.
+- Focused Notes V2 and feature-gate tests: 4 files, 11 tests passed before the final suite.
+- Focused regression rerun after compatibility corrections: 8 files, 38 tests passed.
+- Final `npm run check`: passed.
+- Final test total: 182 files, 968 tests passed.
+- TypeScript: passed.
+- Question validators and blueprint reports: passed for Aqueous/Vitreous, HVP, Tissue Foundations, Ocular Adnexa, Blood Supply, Environmental Vision, Autonomic Pharmacology and Systemic Pathology.
+- Production build: passed.
+- Lint: 0 errors and the same four known `<img>` warnings.
+- In-app browser QA: Systemic direct study route rendered the exact five primary and two supplemental anchors; structured blocks, sources and curated/legacy actions were present; a reading toggle survived reload.
+- No deployment occurred.
 
-## Release boundaries
+## Remaining sequence
 
-Both `systemic-pathology-preview` and the internal `full-curated-preview` are non-publishable profiles. The full profile enables all eight curated experiences while keeping the Aqueous engineering pilot disabled. The answer-bearing bank remains behind lazy practice/progress adapters and is excluded from every unrelated answer closure. All committed feature flags remain false.
+After this checkpoint is reviewed and squash-merged, continue autonomously from the exact merged `main` into whole-site release hardening and the curated-primary cutover, followed by the final verified Sites deployment.

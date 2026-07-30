@@ -316,3 +316,11 @@ this checkpoint does not deploy or promote any question beyond draft.
 The default-disabled `autonomic-pharmacology-curated` experience registers the exact 80-question Adrenergic and Cholinergic Pharmacology bank under the generic curated platform. Its two preserved sections contain 40 questions each; 78 questions are automatically gradable and two open responses form manual-only Written Practice.
 
 The automatic blueprint is `autonomic-pharmacology-curated-v1`, the written blueprint is `autonomic-pharmacology-written-v1`, and `NEXT_PUBLIC_ENABLE_AUTONOMIC_PHARMACOLOGY_CURATED_PRACTICE=false` remains the committed default. StoreV2, legacy Pharmacology scores and history, HVP identities, the Aqueous pilot and every existing module remain unchanged.
+
+## Notes V2 checkpoint
+
+All eight modules now render through a strict, answer-free Notes V2 model while preserving every legacy top-level reading ID. The study page adds structured processes and mechanisms, comparison tables, clinical and safety callouts, misconception corrections, glossaries, source disclosure, responsive navigation and the existing accessible figure enlargement dialog. Curated practice is presented as the primary visible action when enabled; the unchanged legacy 50-question quiz remains in a secondary archive.
+
+Systemic Pathology now presents breast, cardiovascular, endocrine, gastrointestinal and renal sections as the current lecture-aligned sequence. The historical lymphoreticular and respiratory sections remain readable as clearly marked legacy supplemental notes, keep their completion records and are not represented as current curated-bank coverage.
+
+Notes V2 imports no assessment bank, correct answer or rationale. Malformed or mismatched structured content falls back to the original notes without writing or deleting progress. StoreV2, both storage keys, unknown historical IDs, the frozen legacy generator, all curated bank identities and every default-disabled feature flag remain unchanged. This checkpoint does not deploy.
