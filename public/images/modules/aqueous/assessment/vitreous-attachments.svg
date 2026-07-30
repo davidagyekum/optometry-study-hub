@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Vitreous boundaries and attachment landmarks</title>
+  <desc id="desc">Simplified sagittal eye with four neutral targets around the vitreous body.</desc>
+  <rect width="1200" height="675" rx="36" fill="#f8fbfd"/>
+  <ellipse cx="610" cy="338" rx="470" ry="270" fill="#e8eef9" stroke="#18345d" stroke-width="12"/>
+  <path d="M235 145 Q110 338 235 530 Q315 480 345 338 Q315 195 235 145Z" fill="#dff5f4" stroke="#0e7490" stroke-width="10"/>
+  <path d="M420 170 Q560 338 420 505 Q350 460 330 338 Q350 215 420 170Z" fill="#ffffff" stroke="#18345d" stroke-width="10"/>
+  <path d="M455 225 Q520 338 455 450" fill="none" stroke="#14b8a6" stroke-width="10" stroke-dasharray="18 14"/>
+  <path d="M475 180 Q515 210 535 245" fill="none" stroke="#ef6f61" stroke-width="18" stroke-linecap="round"/>
+  <path d="M1000 310 q50 28 0 56 q-45-28 0-56Z" fill="#ef6f61" stroke="#9f2d2a" stroke-width="7"/>
+  <path d="M525 338 C690 310 835 315 985 338" fill="none" stroke="#8ba3c7" stroke-width="8" stroke-dasharray="15 14"/>
+  <path d="M500 145 Q830 35 1030 250" fill="none" stroke="#14b8a6" stroke-width="8"/>
+  <g font-family="Arial, sans-serif" font-size="38" font-weight="700" text-anchor="middle">
+    <circle cx="480" cy="440" r="38" fill="#fff" stroke="#18345d" stroke-width="7"/><text x="480" y="453" fill="#18345d">A</text>
+    <circle cx="575" cy="310" r="38" fill="#fff" stroke="#18345d" stroke-width="7"/><text x="575" y="323" fill="#18345d">B</text>
+    <circle cx="1000" cy="325" r="38" fill="#fff" stroke="#18345d" stroke-width="7"/><text x="1000" y="338" fill="#18345d">C</text>
+    <circle cx="890" cy="170" r="38" fill="#fff" stroke="#18345d" stroke-width="7"/><text x="890" y="183" fill="#18345d">D</text>
+  </g>
+  <g fill="#314867" font-family="Arial, sans-serif" font-size="25"><text x="560" y="610">Neutral landmarks—not drawn to scale</text></g>
+</svg>

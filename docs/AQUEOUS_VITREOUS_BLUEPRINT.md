@@ -1,16 +1,16 @@
-# Aqueous and Vitreous Candidate Blueprint
+# Aqueous and Vitreous Curated Bank Blueprint
 
-PR 7 establishes one canonical, draft-only OPT 376 bank. It contains 36 questions: the exact nine engineering-pilot questions plus 27 new candidates. The live 50-question legacy quiz does not consume this bank.
+The canonical draft-only OPT 376 bank now contains 80 questions: the original 36 objects in preserved order plus 44 slide-aligned additions. The live 50-question legacy quiz does not consume this bank, and the exact nine-question engineering pilot remains independently feature-gated.
 
 | Dimension | Exact targets |
 |---|---|
-| Sections | 6 each: media-chambers, production, flow, iop, vitreous-anatomy, vitreous-clinical |
-| Formats | SBA 12; multiple response 4; ordering 4; matching 4; extended matching 3; hotspot 3; image label 2; short answer 2; open response 2 |
-| Bloom | Remember 6; Understand 8; Apply 12; Analyze 7; Evaluate 2; Create 1 |
-| Difficulty | Foundation 10; Intermediate 18; Advanced 8 |
-| Stimulus | Text 5; diagram 5; table 3; clinical vignette 8; pathway 6; comparison 5; error analysis 4 |
+| Sections | media-chambers 12; production 13; flow 15; iop 14; vitreous-anatomy 13; vitreous-clinical 13 |
+| Formats | SBA 26; true/false 6; multiple response 10; matching 9; extended matching 7; ordering 7; hotspot 5; image label 4; short answer 4; open response 2 |
+| Bloom | Remember 10; Understand 17; Apply 32; Analyze 14; Evaluate 6; Create 1 |
+| Difficulty | Foundation 21; Intermediate 41; Advanced 18 |
+| Stimulus | Text 13; diagram 9; table 7; clinical vignette 20; pathway 10; comparison 12; error analysis 9 |
 
-Apply, Analyze, Evaluate, and Create total 22 of 36 (61.111111%). Difficulty remains independent of Bloom level.
+Apply, Analyze, Evaluate, and Create total 53 of 80 (66.25%). Difficulty remains independent of Bloom level.
 
 ## Objective decomposition
 
@@ -64,4 +64,8 @@ This is author self-review only, not independent academic approval. Every item w
 
 ## Campaign evidence binding
 
-The exact 36-question blueprint is part of the deterministic campaign bank hash. Each campaign question also binds its version, review hash, objective, sources, and format-derived criterion matrix. All 36 questions and 13 objectives remain draft; the nine preserved pilot semantics are unchanged.
+The exact 80-question blueprint is part of the deterministic campaign bank hash. Each campaign question also binds its version, review hash, objective, sources, and format-derived criterion matrix. All 80 questions and 13 objectives remain draft; the nine preserved pilot semantics are unchanged.
+
+## Curated session contracts
+
+The default-disabled full experience uses `opt376-aqueous-vitreous-curated-v1` for automatic sessions and `opt376-aqueous-vitreous-written-v1` for manual Written sessions. Quick 10, Standard 25 and Full 50 enforce exact section, format and difficulty allocations, bounded higher-order counts and a maximum of two questions per family. Full covers all 13 objectives. All three profiles pass 1,000 deterministic seeds; Custom supports 5-50 questions and targeted mode selects 10.

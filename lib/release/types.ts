@@ -15,6 +15,7 @@ export const releaseFlagsSchema = z.strictObject({
   hvpCuratedPractice: z.boolean(),
   tissueFoundationsCuratedPractice: z.boolean(),
   ocularAdnexaCuratedPractice: z.boolean(),
+  aqueousVitreousCuratedPractice: z.boolean(),
 });
 export type ReleaseFlags = z.infer<typeof releaseFlagsSchema>;
 
@@ -95,8 +96,13 @@ export const releaseManifestSchema = z.strictObject({
     modules: z.literal(8),
     studySections: z.literal(39),
     legacyQuestions: z.literal(400),
-    aqueousQuestions: z.literal(36),
+    aqueousQuestions: z.literal(80),
     aqueousObjectives: z.literal(13),
+    aqueousSources: z.literal(8),
+    aqueousSvgDiagrams: z.literal(4),
+    aqueousChecksum: z.literal(
+      '97c1bc76cbae20681b1c4494bb7d35d282420f8c03a9181927720e024ae9dccb',
+    ),
     hvpQuestions: z.literal(120),
     hvpObjectives: z.literal(23),
     hvpSources: z.literal(19),

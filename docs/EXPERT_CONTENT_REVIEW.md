@@ -1,6 +1,6 @@
 # Expert Content Review
 
-All 36 Aqueous and Vitreous candidates and all 13 objectives remain `draft`. Registration in the canonical bank is not academic approval.
+All 80 Aqueous and Vitreous candidates and all 13 objectives remain `draft`. Registration in the canonical bank is not academic approval.
 
 ## Self-contained review pack
 

@@ -25,6 +25,15 @@ import {
   isOcularAdnexaCuratedPracticeEnabled,
 } from '@/lib/assessment/ocular-adnexa/config';
 import {
+  AQUEOUS_VITREOUS_CURATED_BLUEPRINT_ID,
+  AQUEOUS_VITREOUS_CURATED_COURSE_ID,
+  AQUEOUS_VITREOUS_CURATED_EXPERIENCE_ID,
+  AQUEOUS_VITREOUS_CURATED_MODULE_ID,
+  AQUEOUS_VITREOUS_CURATED_ROUTE_ID,
+  AQUEOUS_VITREOUS_WRITTEN_BLUEPRINT_ID,
+  isAqueousVitreousCuratedPracticeEnabled,
+} from '@/lib/assessment/aqueous-vitreous-curated/config';
+import {
   curatedExperienceSummarySchema,
   type CuratedExperienceAdapter,
   type CuratedExperienceSummary,
@@ -222,6 +231,41 @@ export const ocularAdnexaCuratedSummary: CuratedExperienceSummary = deepFreeze({
     ],
   },
 });
+export const aqueousVitreousCuratedSummary: CuratedExperienceSummary = deepFreeze({
+  experienceId: AQUEOUS_VITREOUS_CURATED_EXPERIENCE_ID,
+  courseId: AQUEOUS_VITREOUS_CURATED_COURSE_ID,
+  moduleId: AQUEOUS_VITREOUS_CURATED_MODULE_ID,
+  title: 'OPT 376 Aqueous and Vitreous curated practice',
+  shortTitle: 'Aqueous and Vitreous curated practice',
+  courseCode: 'OPT 376',
+  routeSegment: AQUEOUS_VITREOUS_CURATED_ROUTE_ID,
+  blueprintIds: [
+    AQUEOUS_VITREOUS_CURATED_BLUEPRINT_ID,
+    AQUEOUS_VITREOUS_WRITTEN_BLUEPRINT_ID,
+  ],
+  statusLabel: 'Curated study practice',
+  enabled: false,
+  supportsAutomaticPractice: true,
+  supportsWrittenPractice: true,
+  studyEntryTitle: 'Curated slide-aligned practice',
+  studyEntryDescription:
+    'Build mixed-format practice from 80 Aqueous Humour and Vitreous Body questions while preserving the separate pilot and legacy quiz.',
+  documentTitles: {
+    landing: 'Aqueous and Vitreous Curated Practice',
+    session: 'Aqueous and Vitreous Practice Session',
+    result: 'Aqueous and Vitreous Practice Result',
+    unavailable: 'Aqueous and Vitreous Curated Practice Unavailable',
+  },
+  releaseStatus: {
+    ariaLabel: 'Aqueous and Vitreous curated practice release status',
+    title: 'Curated study practice',
+    lines: [
+      'Internally checked and slide-aligned.',
+      'Not lecturer-approved examination items.',
+      'Progress is stored only on this device.',
+    ],
+  },
+});
 export const curatedExperienceRegistry = createCuratedExperienceRegistry([
   {
     summary: hvpCuratedSummary,
@@ -276,6 +320,25 @@ export const curatedExperienceRegistry = createCuratedExperienceRegistry([
         '@/lib/progress/ocularAdnexaProgressModule'
       );
       return loadedModule.ocularAdnexaProgressModule;
+    },
+  },
+  {
+    summary: aqueousVitreousCuratedSummary,
+    isEnabled: isAqueousVitreousCuratedPracticeEnabled,
+    loadPracticeModule: async () => {
+      const [factory, aqueousVitreous] = await Promise.all([
+        import('@/components/assessment/curated/createCuratedPracticeModule'),
+        import('@/lib/assessment/aqueous-vitreous-curated/definition'),
+      ]);
+      return factory.createCuratedPracticeModule(
+        aqueousVitreous.aqueousVitreousCuratedPracticeDefinition,
+      );
+    },
+    loadProgressModule: async () => {
+      const loadedModule = await import(
+        '@/lib/progress/aqueousVitreousCuratedProgressModule'
+      );
+      return loadedModule.aqueousVitreousCuratedProgressModule;
     },
   },
 ]);

@@ -55,18 +55,18 @@ describe('review analysis and readiness', () => {
         ...input,
         policy: reviewTestContext.policy,
       });
-      expect(analysis.questions).toHaveLength(36);
+      expect(analysis.questions).toHaveLength(80);
       if (count === 0) {
-        expect(analysis.summary.notStarted).toBe(36);
+        expect(analysis.summary.notStarted).toBe(80);
       } else if (count < 3) {
-        expect(analysis.summary.incomplete).toBe(36);
+        expect(analysis.summary.incomplete).toBe(80);
         expect(
           analysis.questions[0].issues.some(
             (issue) => issue.code === 'INSUFFICIENT_REVIEWERS',
           ),
         ).toBe(true);
       } else {
-        expect(analysis.summary.readyForHumanDecision).toBe(36);
+        expect(analysis.summary.readyForHumanDecision).toBe(80);
         expect(analysis.questions.every((question) => question.issues.length === 0)).toBe(true);
       }
     },
@@ -127,7 +127,7 @@ describe('review analysis and readiness', () => {
     expect(first.coverage.independentlyCoveredCriteria).toBe(0);
     expect(first.criterionValues[0].reviewerCount).toBe(2);
     expect(first.allReviewerCriterionValues[0].reviewerCount).toBe(3);
-    expect(analysis.summary.incomplete).toBe(36);
+    expect(analysis.summary.incomplete).toBe(80);
   });
 
   it('keeps three conflicted or non-independent reviewers incomplete', () => {
@@ -146,7 +146,7 @@ describe('review analysis and readiness', () => {
       policy: reviewTestContext.policy,
     });
     expect(analysis.summary.reviewerCoverage.independentReviewers).toBe(0);
-    expect(analysis.summary.incomplete).toBe(36);
+    expect(analysis.summary.incomplete).toBe(80);
     expect(analysis.summary.readyForHumanDecision).toBe(0);
   });
 
@@ -178,7 +178,7 @@ describe('review analysis and readiness', () => {
         manifest,
       }).issues.map((entry) => entry.code),
     ).toContain('REVIEW_RESOLUTION_EVIDENCE_NON_WAIVABLE');
-    expect(applyReviewResolutions(analysis, [attempted]).summary.incomplete).toBe(36);
+    expect(applyReviewResolutions(analysis, [attempted]).summary.incomplete).toBe(80);
   });
 
   it('keeps blocking evidence unresolved when marked accepted-for-discussion', () => {

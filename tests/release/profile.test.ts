@@ -30,11 +30,11 @@ describe('release profiles', () => {
   it('rejects Aqueous exposure and mismatched profile flags', () => {
     expect(() => assertReleaseProfile('hvp-public-beta', {
       assessmentPilot: true,
-      hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false,
+      hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false,
     })).toThrow(/Aqueous/i);
     expect(() => assertReleaseProfile('disabled', {
       assessmentPilot: false,
-      hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false,
+      hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false,
     })).toThrow(/does not match/i);
   });
 

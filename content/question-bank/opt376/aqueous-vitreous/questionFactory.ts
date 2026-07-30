@@ -32,6 +32,7 @@ const base = (meta: Meta) => ({
 const entries = (values: Entry[]) => values.map(([id, text, rationale, misconceptionTag]) => ({ id, text, rationale, ...(misconceptionTag ? { misconceptionTag } : {}) }));
 
 export const sba = (meta: Meta, values: Entry[], correctOptionId: string): AssessmentQuestion => ({ ...base(meta), format: 'single_best_answer', options: entries(values), correctOptionId });
+export const trueFalse = (meta: Meta, correctAnswer: boolean): AssessmentQuestion => ({ ...base(meta), format: 'true_false', correctAnswer });
 export const mr = (meta: Meta, values: Entry[], correctOptionIds: string[]): AssessmentQuestion => ({ ...base(meta), format: 'multiple_response', options: entries(values), correctOptionIds, minimumSelections: correctOptionIds.length, maximumSelections: correctOptionIds.length });
 export const ordering = (meta: Meta, values: Entry[], correctOrder: string[]): AssessmentQuestion => ({ ...base(meta), format: 'ordering', items: entries(values), correctOrder });
 export const matching = (meta: Meta, prompts: [string, string][], choices: Entry[], correctMatches: Record<string, string>): AssessmentQuestion => ({ ...base(meta), format: 'matching', prompts: prompts.map(([id, text]) => ({ id, text })), choices: entries(choices), correctMatches });

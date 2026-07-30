@@ -300,6 +300,8 @@ export function validateBuildIdentity(
       !== expectedFlags.tissueFoundationsCuratedPractice
     || metadata.flags.ocularAdnexaCuratedPractice
       !== expectedFlags.ocularAdnexaCuratedPractice
+    || metadata.flags.aqueousVitreousCuratedPractice
+      !== expectedFlags.aqueousVitreousCuratedPractice
   ) {
     throw new Error(`Release build metadata flags do not match profile ${profile}.`);
   }

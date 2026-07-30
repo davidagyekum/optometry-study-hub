@@ -75,7 +75,7 @@ describe('review campaign manifest', () => {
       }),
     );
     expect(manifest.policyHash).toBe(reviewPolicyHash(reviewTestContext.policy));
-    expect(manifest.questions).toHaveLength(36);
+    expect(manifest.questions).toHaveLength(80);
     expect(manifest.reviewers.map((reviewer) => reviewer.id)).toEqual([
       'reviewer-a',
       'reviewer-b',

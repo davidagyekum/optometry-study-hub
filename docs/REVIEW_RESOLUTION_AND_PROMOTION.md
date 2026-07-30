@@ -70,4 +70,4 @@ The ignored snapshot records bank and question hashes, versions, current statuse
 
 ## Current boundary
 
-All 36 Aqueous and Vitreous candidates and all 13 objectives remain draft. No real reviewer, rating, comment, resolution, decision, or approval is committed. Real experts still need to be recruited and their feedback resolved. A later evidence-backed change may move selected items to `reviewed`; approved status and public pilot enablement are separate decisions.
+All 80 Aqueous and Vitreous candidates and all 13 objectives remain draft. No real reviewer, rating, comment, resolution, decision, or approval is committed. Real experts still need to be recruited and their feedback resolved. A later evidence-backed change may move selected items to `reviewed`; approved status and public pilot enablement are separate decisions.

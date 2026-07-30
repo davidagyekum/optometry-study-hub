@@ -13,6 +13,7 @@ import {
   EXPECTED_HVP_CHECKSUM,
   EXPECTED_TISSUE_CHECKSUM,
   EXPECTED_OCULAR_ADNEXA_CHECKSUM,
+  EXPECTED_AQUEOUS_VITREOUS_CHECKSUM,
   reviewStatusCounts,
 } from '@/lib/release/assertions';
 import type { BundleAuditResult } from '@/lib/release/bundleAudit';
@@ -63,12 +64,14 @@ function sameFlags(
     hvpCuratedPractice: boolean;
     tissueFoundationsCuratedPractice: boolean;
     ocularAdnexaCuratedPractice: boolean;
+    aqueousVitreousCuratedPractice: boolean;
   },
   right: {
     assessmentPilot: boolean;
     hvpCuratedPractice: boolean;
     tissueFoundationsCuratedPractice: boolean;
     ocularAdnexaCuratedPractice: boolean;
+    aqueousVitreousCuratedPractice: boolean;
   },
 ): boolean {
   return left.assessmentPilot === right.assessmentPilot
@@ -76,7 +79,9 @@ function sameFlags(
     && left.tissueFoundationsCuratedPractice
       === right.tissueFoundationsCuratedPractice
     && left.ocularAdnexaCuratedPractice
-      === right.ocularAdnexaCuratedPractice;
+      === right.ocularAdnexaCuratedPractice
+    && left.aqueousVitreousCuratedPractice
+      === right.aqueousVitreousCuratedPractice;
 }
 
 export function createReleaseManifest(
@@ -146,6 +151,13 @@ export function createReleaseManifest(
       legacyQuestions: legacyQuestionCount,
       aqueousQuestions: aqueousVitreousCandidateBank.questions.length,
       aqueousObjectives: aqueousVitreousCandidateBank.objectives.length,
+      aqueousSources: aqueousVitreousCandidateBank.sources.length,
+      aqueousSvgDiagrams: new Set(aqueousVitreousCandidateBank.questions.flatMap(
+        (question) => ('image' in question && question.image.src.endsWith('.svg')
+          ? [question.image.src]
+          : []),
+      )).size,
+      aqueousChecksum: EXPECTED_AQUEOUS_VITREOUS_CHECKSUM,
       hvpQuestions: humanVisualPerceptionCandidateBank.questions.length,
       hvpObjectives: humanVisualPerceptionCandidateBank.objectives.length,
       hvpSources: humanVisualPerceptionCandidateBank.sources.length,

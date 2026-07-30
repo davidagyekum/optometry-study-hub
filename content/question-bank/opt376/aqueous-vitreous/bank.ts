@@ -7,6 +7,12 @@ import { preservedPilotQuestions } from './questions/preservedPilot';
 import { productionQuestions } from './questions/production';
 import { vitreousAnatomyQuestions } from './questions/vitreousAnatomy';
 import { vitreousClinicalQuestions } from './questions/vitreousClinical';
+import { curatedFlowQuestions } from './questions/curatedFlow';
+import { curatedIopQuestions } from './questions/curatedIop';
+import { curatedMediaChambersQuestions } from './questions/curatedMediaChambers';
+import { curatedProductionQuestions } from './questions/curatedProduction';
+import { curatedVitreousAnatomyQuestions } from './questions/curatedVitreousAnatomy';
+import { curatedVitreousClinicalQuestions } from './questions/curatedVitreousClinical';
 import type { QuestionBank } from '@/lib/assessment/types';
 
 export const aqueousVitreousCandidateBank: QuestionBank = {
@@ -15,6 +21,20 @@ export const aqueousVitreousCandidateBank: QuestionBank = {
   title: 'OPT 376 Aqueous Humour and Vitreous Body candidate bank',
   courseIds: ['neuro-anatomy'],
   objectives: aqueousVitreousObjectives,
-  questions: [...preservedPilotQuestions, ...mediaChambersQuestions, ...productionQuestions, ...flowQuestions, ...iopQuestions, ...vitreousAnatomyQuestions, ...vitreousClinicalQuestions],
+  questions: [
+    ...preservedPilotQuestions,
+    ...mediaChambersQuestions,
+    ...productionQuestions,
+    ...flowQuestions,
+    ...iopQuestions,
+    ...vitreousAnatomyQuestions,
+    ...vitreousClinicalQuestions,
+    ...curatedMediaChambersQuestions,
+    ...curatedProductionQuestions,
+    ...curatedFlowQuestions,
+    ...curatedIopQuestions,
+    ...curatedVitreousAnatomyQuestions,
+    ...curatedVitreousClinicalQuestions,
+  ],
   sources: aqueousVitreousSources,
 };

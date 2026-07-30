@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Anterior-segment outflow anatomy</title>
+  <desc id="desc">Simplified angle anatomy with neutral markers A to D and directional arrows.</desc>
+  <rect width="1200" height="675" rx="36" fill="#f8fbfd"/>
+  <path d="M145 85 Q35 338 145 590 Q245 530 285 338 Q245 145 145 85Z" fill="#dff5f4" stroke="#0e7490" stroke-width="10"/>
+  <path d="M500 150 Q660 338 500 525 Q445 480 425 338 Q445 195 500 150Z" fill="#e8eef9" stroke="#18345d" stroke-width="10"/>
+  <path d="M410 180 Q335 250 355 338 Q335 430 410 500" fill="none" stroke="#ef6f61" stroke-width="22" stroke-linecap="round"/>
+  <path d="M145 535 Q220 575 350 510" fill="none" stroke="#18345d" stroke-width="18" stroke-linecap="round"/>
+  <path d="M230 450 l55 38 l-30 55 l-62-35Z" fill="#f4c97a" stroke="#a45a18" stroke-width="8"/>
+  <ellipse cx="158" cy="420" rx="42" ry="27" fill="#ffffff" stroke="#0e7490" stroke-width="8"/>
+  <path d="M158 420 C95 405 78 365 48 345" fill="none" stroke="#14b8a6" stroke-width="12" marker-end="url(#arrow)"/>
+  <path d="M355 338 C300 340 265 380 235 445 C215 490 245 520 285 545" fill="none" stroke="#14b8a6" stroke-width="12" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <defs><marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0 L12 6 L0 12Z" fill="#14b8a6"/></marker></defs>
+  <g font-family="Arial, sans-serif" font-size="34" font-weight="700" text-anchor="middle">
+    <circle cx="510" cy="250" r="32" fill="#fff" stroke="#18345d" stroke-width="6"/><text x="510" y="262" fill="#18345d">A</text>
+    <circle cx="245" cy="375" r="32" fill="#fff" stroke="#18345d" stroke-width="6"/><text x="245" y="387" fill="#18345d">B</text>
+    <circle cx="155" cy="338" r="32" fill="#fff" stroke="#18345d" stroke-width="6"/><text x="155" y="350" fill="#18345d">C</text>
+    <circle cx="350" cy="455" r="32" fill="#fff" stroke="#18345d" stroke-width="6"/><text x="350" y="467" fill="#18345d">D</text>
+  </g>
+  <g transform="translate(700 120)"><path d="M0 0 h360" stroke="#18345d" stroke-width="8"/><path d="M0 120 h360" stroke="#14b8a6" stroke-width="8"/><path d="M0 240 h360" stroke="#ef6f61" stroke-width="8"/><path d="M0 360 h360" stroke="#f4c97a" stroke-width="8"/><g fill="#314867" font-family="Arial, sans-serif" font-size="24"><text y="40">Structural boundary</text><text y="160">Fluid movement</text><text y="280">Iris plane</text><text y="400">Muscular tissue</text></g></g>
+</svg>
