@@ -111,9 +111,15 @@ export function StudyView({
             </section>
           ) : null}
           <details className="legacy-archive">
-            <summary>Legacy quiz and score archive</summary>
-            <p>The original 50-question quiz and its saved results remain available.</p>
-            <button className="secondary full" onClick={() => startQuiz(module)} type="button">
+            <summary>Legacy compatibility archive</summary>
+            <p>The original quiz remains available for recovery and historical comparison. Curated practice is recommended.</p>
+            <button className="secondary full" onClick={() => go('legacy', module.id)} type="button">
+              Legacy quiz archive
+            </button>
+            <button className="text-button" onClick={() => go('results', module.id)} type="button">
+              Legacy results/history
+            </button>
+            <button className="text-button" onClick={() => startQuiz(module)} type="button">
               Start 50-question quiz
             </button>
           </details>

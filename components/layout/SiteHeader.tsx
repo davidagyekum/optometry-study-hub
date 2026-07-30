@@ -4,6 +4,7 @@ import type { ClientView } from '@/lib/navigation/clientRoute';
 const PRACTICE_VIEWS: ClientView[] = [
   'practice-hub',
   'practice',
+  'legacy',
   'quiz',
   'results',
   'pilot',

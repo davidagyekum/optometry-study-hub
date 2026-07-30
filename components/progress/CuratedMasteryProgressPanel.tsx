@@ -160,8 +160,8 @@ export function CuratedMasteryProgressPanel({
         <div className="section-heading">
           <div>
             <span className="course-code">{experience.courseCode}</span>
-            <h2>Curated practice</h2>
-            <p>Verified current-version assessment evidence. Kept separate from the legacy quiz.</p>
+            <h2>{experience.shortTitle}</h2>
+            <p>Curated current-version assessment. Quick, Standard and Full sessions are available alongside Custom, targeted and Written Practice options where supported.</p>
           </div>
         </div>
         <Status compact />

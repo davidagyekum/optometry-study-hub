@@ -329,3 +329,7 @@ Notes V2 imports no assessment bank, correct answer or rationale. Malformed or m
 The release model now includes a publishable `full-curated-public-beta` profile that enables all eight curated modules while keeping the Aqueous engineering pilot disabled. All pre-existing preview profiles remain non-publishable, `.env.example` remains entirely false, and the release assertions bind exactly 680 curated questions, all canonical bank identities, 400 legacy questions, unchanged StoreV2 keys and no D1/R2 bindings.
 
 The source-bound build, audit and manifest pipeline now targets the full public-beta output and retains the HVP-only public profile for historical reproducibility. Deployment remains a separate final checkpoint after curated-primary UI cutover and an exact merged-main verification.
+
+## Curated-primary cutover
+
+All eight modules now present curated practice as the recommended learner path. The Practice Hub lists curated evidence before the explicit /legacy compatibility archive; active legacy attempts, historical results, the frozen generator, StoreV2 and all canonical identities remain unchanged. See docs/CURATED_PRIMARY_CUTOVER.md.

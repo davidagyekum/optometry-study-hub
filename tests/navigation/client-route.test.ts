@@ -5,6 +5,8 @@ describe('client route helpers', () => {
   it.each([
     ['/', { view: 'home', moduleId: '' }],
     ['/practice', { view: 'practice-hub', moduleId: '' }],
+    ['/legacy', { view: 'legacy', moduleId: '' }],
+    ['/legacy/ocular-adnexa', { view: 'legacy', moduleId: 'ocular-adnexa' }],
     ['/practice/human-visual-perception-curated', {
       view: 'practice', moduleId: 'human-visual-perception-curated',
     }],
@@ -35,6 +37,8 @@ describe('client route helpers', () => {
   it.each([
     [{ view: 'home', moduleId: '' } as const, '/'],
     [{ view: 'practice-hub', moduleId: '' } as const, '/practice'],
+    [{ view: 'legacy', moduleId: '' } as const, '/legacy'],
+    [{ view: 'legacy', moduleId: 'ocular-adnexa' } as const, '/legacy/ocular-adnexa'],
     [{ view: 'practice', moduleId: 'human-visual-perception-curated' } as const,
       '/practice/human-visual-perception-curated'],
     [{ view: 'progress', moduleId: '' } as const, '/progress'],
