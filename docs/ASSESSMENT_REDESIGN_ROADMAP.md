@@ -41,3 +41,20 @@ does not deploy.
 Real independent expert evidence is still required before any question moves
 to `reviewed` or `approved`. All current schema questions and objectives
 remain draft.
+
+## PR 13 — Generalized curated-practice shell
+
+PR 13 extracts immutable safe registry metadata, retryable controlled-route
+dispatch, a configuration-driven assessment lifecycle, generic landing/result/
+mastery presentation, Practice Hub discovery, global progress coordination and
+a multi-experience release-audit registry from HVP. Answer-bearing banks and
+experience-specific assembly, compatibility and progress calculation remain
+lazy and auditable. HVP remains the only production adapter; Aqueous remains
+separate and disabled.
+
+A tiny valid test-only bank proves launch, draft persistence, submission,
+history finalization, exact result dispatch and module-local progress without
+HVP identities, labels or counts. Future course
+banks still require provenance, strict validation, independent expert review,
+human review-chair decisions, release isolation and explicit enablement.
+Nothing in this foundation makes another module curated or production-ready.

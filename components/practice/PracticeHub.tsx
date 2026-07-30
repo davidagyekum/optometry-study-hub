@@ -1,6 +1,8 @@
 import { courses } from '@/content/legacy/courseCatalog';
 import { modules } from '@/content/legacy/moduleCatalog';
 import type { GoToRoute } from '@/hooks/useClientRoute';
+import { hiddenCuratedData } from '@/lib/assessment/curated/storedData';
+import type { CuratedExperienceSummary } from '@/lib/assessment/curated/types';
 import { legacyModuleAnalytics } from '@/lib/progress/legacyAnalytics';
 import { displayPercent, ProgressBar } from '@/components/progress/ProgressPrimitives';
 import type { Module } from '@/lib/legacy/types';
@@ -13,22 +15,27 @@ export function PracticeHub({
   startQuiz,
   curatedPanel,
   curatedResumePanel,
-  hvpEnabled,
+  curatedExperiences,
+  allCuratedExperiences = curatedExperiences,
 }: {
   store: StoreV2;
   go: GoToRoute;
   startQuiz: (module: Module) => void;
   curatedPanel?: ReactNode;
   curatedResumePanel?: ReactNode;
-  hvpEnabled: boolean;
+  curatedExperiences: readonly CuratedExperienceSummary[];
+  allCuratedExperiences?: readonly CuratedExperienceSummary[];
 }) {
   const activeLegacy = modules.filter((module) => store.active[module.id]);
+  const curatedBlueprintIds = new Set(
+    curatedExperiences.flatMap((experience) => experience.blueprintIds),
+  );
   const controlledCount = Object.values(store.assessment.activeAttempts).filter(
-    (attempt) => (
-      attempt.blueprintId === 'opt374-hvp-curated-v1'
-      || attempt.blueprintId === 'opt374-hvp-written-v1'
-    ),
+    (attempt) => curatedBlueprintIds.has(attempt.blueprintId ?? ''),
   ).length;
+  const curatedEnabled = curatedExperiences.length > 0;
+  const hidden = hiddenCuratedData(store, allCuratedExperiences);
+  const hasHidden = hidden.activeAttemptCount + hidden.resultCount > 0;
   return (
     <>
       <section className="hub-hero">
@@ -38,7 +45,7 @@ export function PracticeHub({
           <p>Resume saved work or choose a module. Legacy quizzes and curated practice stay visibly separate.</p>
         </div>
       </section>
-      {(activeLegacy.length || (hvpEnabled && controlledCount)) ? (
+      {(activeLegacy.length || (curatedEnabled && controlledCount)) ? (
         <section className="hub-section">
           <div className="section-heading">
             <div><h2>Resume active sessions</h2><p>Your position and answers are saved on this browser.</p></div>
@@ -91,7 +98,7 @@ export function PracticeHub({
           })}
         </div>
       </section>
-      {curatedPanel ? (
+      {curatedEnabled && curatedPanel ? (
         <section className="hub-section">
           <div className="section-heading">
             <div><h2>Curated practice</h2><p>Verified current-version evidence stays separate from legacy quiz scores.</p></div>
@@ -99,8 +106,11 @@ export function PracticeHub({
           {curatedPanel}
         </section>
       ) : null}
-      {!hvpEnabled && (Object.keys(store.assessment.results).length || Object.keys(store.assessment.activeAttempts).length) ? (
-        <p className="integrity-note">Additional controlled-practice data is stored on this device, but that feature is currently disabled.</p>
+      {hasHidden ? (
+        <p className="integrity-note">
+          Saved controlled-practice data for a currently disabled curated
+          module remains on this device. It was not deleted or migrated.
+        </p>
       ) : null}
       <section className="privacy-panel">
         <div><h2>Private by design</h2><p>Practice records remain in this browser. No account, leaderboard, telemetry or cross-device synchronization is used.</p></div>

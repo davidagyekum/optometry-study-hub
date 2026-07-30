@@ -27,6 +27,10 @@ describe('HVP curated-practice exposure boundary', () => {
 
   it('keeps the canonical bank behind the lazy HVP boundary', () => {
     const app = readFileSync('app/StudyApp.tsx', 'utf8');
+    const registry = readFileSync(
+      'lib/assessment/curated/experienceRegistry.ts',
+      'utf8',
+    );
     const study = readFileSync('components/study/StudyView.tsx', 'utf8');
     expect(app).not.toContain(
       "from '@/content/question-bank/opt374/human-visual-perception",
@@ -34,6 +38,11 @@ describe('HVP curated-practice exposure boundary', () => {
     expect(study).not.toContain(
       "from '@/content/question-bank/opt374/human-visual-perception",
     );
-    expect(app).toContain("import('@/components/assessment/hvp/HvpPracticeRouter')");
+    expect(app).not.toContain(
+      "@/components/assessment/hvp/HvpPracticeRouter",
+    );
+    expect(registry).toContain(
+      "@/components/assessment/hvp/HvpPracticeRouter",
+    );
   });
 });

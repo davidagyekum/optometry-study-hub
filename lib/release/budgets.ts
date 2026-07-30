@@ -3,10 +3,11 @@ import type { ReleaseBuildMetrics, ReleaseProfileId } from '@/lib/release/types'
 export type ReleaseBudget = Omit<ReleaseBuildMetrics, 'buildDurationMs' | 'fileCount'>;
 
 /**
- * Measured from the untouched PR #11 main tree (e8b9810f) on bundled Node 24
- * with the corrected dual-boundary route algorithm. Size ceilings use
- * approximately 10% headroom. Build duration remains observational because
- * local and hosted runner I/O varies.
+ * Measured from the untouched PR #11 main tree (e8b9810f) on bundled Node 24,
+ * with the three curated-practice boundary metrics remeasured on the clean
+ * PR #13 implementation commit (6b0f085) after introducing the generic lazy
+ * adapters. Size ceilings use approximately 10% headroom. Build duration
+ * remains observational because local and hosted runner I/O varies.
  */
 export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = {
   disabled: {
@@ -17,9 +18,9 @@ export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = 
     disabledProgressHubJavaScriptBytes: 529_995,
     hvpEnabledPracticeHubJavaScriptBytes: 816_876,
     hvpEnabledProgressHubJavaScriptBytes: 816_876,
-    incrementalControlledHvpJavaScriptBytes: 376_558,
-    incrementalHvpAnalyticsJavaScriptBytes: 286_881,
-    combinedIncrementalHvpJavaScriptBytes: 398_751,
+    incrementalControlledHvpJavaScriptBytes: 422_877,
+    incrementalHvpAnalyticsJavaScriptBytes: 332_888,
+    combinedIncrementalHvpJavaScriptBytes: 445_310,
     largestAssetBytes: 632_350,
     buildDurationMs: 6_822,
     fileCount: 111,
@@ -32,9 +33,9 @@ export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = 
     disabledProgressHubJavaScriptBytes: 529_994,
     hvpEnabledPracticeHubJavaScriptBytes: 816_875,
     hvpEnabledProgressHubJavaScriptBytes: 816_875,
-    incrementalControlledHvpJavaScriptBytes: 376_558,
-    incrementalHvpAnalyticsJavaScriptBytes: 286_881,
-    combinedIncrementalHvpJavaScriptBytes: 398_751,
+    incrementalControlledHvpJavaScriptBytes: 422_877,
+    incrementalHvpAnalyticsJavaScriptBytes: 332_888,
+    combinedIncrementalHvpJavaScriptBytes: 445_310,
     largestAssetBytes: 632_350,
     buildDurationMs: 5_940,
     fileCount: 111,

@@ -194,3 +194,32 @@ The current production baseline remains the pre-redesign Sites release
 inspected read-only in Chrome. Publishing requires the reviewed PR to merge,
 release verification on the exact new `main` commit, reviewer approval, and
 separate explicit deployment authorization. Aqueous remains disabled.
+
+## PR 13 curated-practice architecture
+
+PR 13 is based on main commit
+`14a884235e7a2976a7da8de881f4411b6265b1d5`. It introduces an answer-free
+curated-experience registry plus lazy practice and progress adapters. HVP is
+the first and only production entry. Its canonical 120-question package,
+23 objectives, 19 sources, six diagrams, persisted blueprint identities,
+routes, practice profiles, compatibility rules and question-history semantics
+are unchanged.
+
+The Aqueous nine-question engineering pilot remains a separate,
+default-disabled route and is not registered in the learner Practice Hub.
+Both committed feature flags remain false. The storage keys, StoreV2 schema
+version, five courses, eight modules, 39 sections, 400 legacy questions and
+legacy Latest/Best behavior are unchanged. A synthetic non-medical bank and definition exist only under tests. They use
+the production generic controller and shared landing, result and mastery
+presentation to prove launch, draft persistence, finalization, history, result
+dispatch and progress without HVP assumptions.
+
+Global progress now loads pure contributions from every enabled experience,
+selects one recommendation, and deduplicates and caps one activity feed.
+Registry identities use stable slug IDs and immutable defensive snapshots;
+failed lazy imports may retry. Route document titles come from safe registered
+summary metadata. Saved records for disabled curated modules remain disclosed
+even if another module stays enabled. The Node-only release audit iterates a
+curated boundary registry and supports multiple practice/progress entries with
+shared chunks counted once. PR 13 adds no production bank, status promotion,
+migration, backend or deployment.

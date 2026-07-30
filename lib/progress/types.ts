@@ -142,7 +142,7 @@ export type HvpActiveSession =
     issueCodes: string[];
   };
 
-export type HvpCuratedSummary = {
+export type CuratedMasterySummary = {
   compatibleScoredResultCount: number;
   omittedResultCount: number;
   integrityIssueCategories: Record<string, number>;
@@ -180,6 +180,8 @@ export type HvpCuratedSummary = {
   recentSessions: CompatibleCuratedResult[];
   recentActivity: ProgressActivity[];
 };
+
+export type HvpCuratedSummary = CuratedMasterySummary;
 
 export type HvpProgressIssue = {
   code: 'HVP_REGISTRY_UNAVAILABLE';

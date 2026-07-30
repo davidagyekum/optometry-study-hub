@@ -83,3 +83,19 @@ Every byte metric remains below its corrected ceiling. The generated metadata,
 audits, and manifest bound these outputs to the exact clean correction commit.
 Final evidence is regenerated from scratch by `release:verify` on the final
 branch head.
+
+## PR 13 curated-adapter boundary update
+
+PR 13 keeps the PR 11 byte baselines for unchanged release surfaces and
+remeasures the three lazy-boundary metrics affected by the new generic curated
+practice and progress adapters. The clean implementation commit
+`6b0f085615f6a930410f4cfdbd26a123069cc3d3` produced 422,877 bytes for the
+controlled-practice increment, 332,888 bytes for the analytics increment, and
+445,310 bytes for their de-duplicated union in the disabled profile. The HVP
+public-beta profile is verified against the same boundaries.
+
+The increase is attributable to reusable routing, fail-closed registry
+resolution, generic progress composition, and lazy-adapter error handling.
+Answer-bearing HVP modules remain outside the initial learner closure, hidden
+Aqueous content remains excluded, and the standard ten-per-cent headroom still
+applies.

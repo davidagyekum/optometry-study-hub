@@ -5,6 +5,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { HvpProgressPanel } from '@/components/progress/HvpProgressPanel';
 import { ProgressHub } from '@/components/progress/ProgressHub';
+import { curatedExperienceSummaries } from '@/lib/assessment/curated/experienceRegistry';
 import type { ClientView } from '@/lib/navigation/clientRoute';
 import { createEmptyStoreV2 } from '@/lib/storage/migrations';
 
@@ -16,7 +17,7 @@ describe('reviewed dashboard UI contracts', () => {
       <ProgressHub
         store={createEmptyStoreV2()}
         go={vi.fn()}
-        hvpEnabled
+        curatedExperiences={curatedExperienceSummaries()}
         curatedRecommendationPanel={(
           <article className="recommendation">
             <h2>Unified recommendation</h2>

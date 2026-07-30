@@ -1,9 +1,10 @@
 'use client';
 
 import { type MouseEvent as ReactMouseEvent, useCallback, useRef, useState } from 'react';
-import { HvpReleaseStatus } from '@/components/assessment/hvp/HvpReleaseStatus';
+import { CuratedReleaseStatus } from '@/components/assessment/curated/CuratedReleaseStatus';
 import { FigureDialog } from '@/components/study/FigureDialog';
 import type { GoToRoute } from '@/hooks/useClientRoute';
+import type { CuratedExperienceSummary } from '@/lib/assessment/curated/types';
 import { moduleReadingPercentage } from '@/lib/legacy/progress';
 import type { Figure, Module } from '@/lib/legacy/types';
 
@@ -13,8 +14,8 @@ export function StudyView({
   onToggle,
   pilotEnabled,
   openPilot,
-  hvpPracticeEnabled = false,
-  openHvpPractice,
+  curatedExperience,
+  openCuratedPractice,
   go,
   startQuiz,
 }: {
@@ -24,8 +25,8 @@ export function StudyView({
   go: GoToRoute;
   pilotEnabled: boolean;
   openPilot: () => void;
-  hvpPracticeEnabled?: boolean;
-  openHvpPractice?: () => void;
+  curatedExperience?: CuratedExperienceSummary;
+  openCuratedPractice?: (routeSegment: string) => void;
   startQuiz: (module: Module) => void;
 }) {
   const progress = moduleReadingPercentage(module, read);
@@ -64,16 +65,16 @@ export function StudyView({
             ))}
           </nav>
           <button className="primary full" onClick={() => startQuiz(module)}>Start 50-question quiz</button>
-          {hvpPracticeEnabled && module.id === 'human-visual-perception' && openHvpPractice ? (
+          {curatedExperience?.moduleId === module.id && openCuratedPractice ? (
             <section className="pilot-entry">
-              <h2>Curated slide-aligned practice</h2>
-              <p>
-                Build a 50-question mixed-format practice set from 120 questions
-                aligned with the supplied OPT 374 slides. This does not affect
-                your legacy quiz score.
-              </p>
-              <HvpReleaseStatus compact />
-              <button className="secondary" onClick={openHvpPractice} type="button">
+              <h2>{curatedExperience.studyEntryTitle}</h2>
+              <p>{curatedExperience.studyEntryDescription}</p>
+              <CuratedReleaseStatus compact summary={curatedExperience} />
+              <button
+                className="secondary"
+                onClick={() => openCuratedPractice(curatedExperience.routeSegment)}
+                type="button"
+              >
                 Open curated practice
               </button>
             </section>

@@ -32,7 +32,11 @@ export function mergeProgressActivity(
   curated: ProgressActivity[],
   limit = 8,
 ): ProgressActivity[] {
-  return sortProgressActivity([...legacy, ...curated]).slice(0, limit);
+  const unique = new Map<string, ProgressActivity>();
+  [...legacy, ...curated].forEach((item) => {
+    if (!unique.has(item.id)) unique.set(item.id, item);
+  });
+  return sortProgressActivity([...unique.values()]).slice(0, limit);
 }
 
 export function legacyRecentActivity(
