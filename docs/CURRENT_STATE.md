@@ -19,6 +19,8 @@
 - Ocular Adnexa curated practice: default-disabled Quick 10, Standard 25, Full 50, Custom, targeted, and manual-only Written 2 sessions
 - Canonical OPT 376 Blood Supply bank: 80 draft questions, 18 objectives, 8 sources, and 5 original SVG assessment diagrams
 - Blood Supply curated practice: default-disabled Quick 10, Standard 25, Full 50, Custom, targeted, and manual-only Written 2 sessions
+- Canonical OPT 508 Environmental Vision bank: 80 draft questions, 18 objectives, 21 sources, and 5 original SVG assessment diagrams
+- Environmental Vision curated practice: default-disabled Quick 10, Standard 25, Full 50, Custom, targeted, and manual-only Written 2 sessions
 
 ## Courses and modules
 

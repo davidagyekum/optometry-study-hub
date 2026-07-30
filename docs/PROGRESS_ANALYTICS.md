@@ -234,3 +234,14 @@ A confirmed Neuro Anatomy course reset removes legacy and controlled attempts
 and results only for those four module IDs. It retains global version-aware
 question history and leaves HVP and every other course unchanged. The Aqueous
 engineering pilot remains excluded from curated progress.
+
+## Environmental Vision progress boundary
+
+When `NEXT_PUBLIC_ENABLE_ENVIRONMENTAL_VISION_CURATED_PRACTICE=true`, the
+Environmental Vision adapter contributes only compatible current-version
+attempts and results owned by course and module `environmental-vision`. Scored
+practice and manual Written activity remain distinct; Written work is always
+Not scored. Legacy Latest/Best scores are never averaged with curated mastery.
+Malformed, stale or foreign snapshots are omitted without rewriting StoreV2.
+Disabling the adapter hides the contribution while preserving all device-local
+data and answer-bearing modules remain outside the answer-free coordinator.

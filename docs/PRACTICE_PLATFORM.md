@@ -228,3 +228,21 @@ and the Aqueous engineering pilot remain disabled. The profile is registered
 for deterministic build and bundle auditing but is rejected by the
 publishable-manifest command, so it cannot be mistaken for a production
 artifact.
+## OPT 508 Environmental Vision curated practice
+
+The canonical byte-preserved Environmental Vision package provides 80 draft
+questions, 18 draft objectives, 21 registered sources and five original SVG
+assessment diagrams across the six existing `env-*` study sections. Its
+committed feature flag remains false. When enabled, the generic platform offers
+exact Quick 10, Standard 25 and Full 50 profiles, Custom 5-50, genuine targeted
+strategies and exactly two manual-only Written prompts. Fixed profiles enforce
+section, format and difficulty quotas, Apply-or-higher minima, current versions,
+unique IDs and a two-question family maximum without difficulty relaxation.
+
+The Environmental experience is discovered through answer-free registry
+metadata. Its bank, registry, grading and progress code load only through the
+experience-specific lazy boundaries. Attempts, results and current-version
+history retain the unchanged StoreV2 identity and cannot overwrite HVP, Neuro
+Anatomy or legacy quiz data. Written results remain `Not scored` and do not
+contribute automatic mastery. The legacy 50-question Environmental quiz and its
+Latest/Best history remain available separately.

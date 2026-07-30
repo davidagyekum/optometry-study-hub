@@ -222,3 +222,33 @@ answer isolation and initial/server exclusion. Exact measured bytes receive
 the standard ten-per-cent headroom. Duration is observational. Preview
 profiles are rejected by publishable-manifest creation and are never Sites
 deployment inputs.
+
+## Environmental Vision preview baseline
+
+The clean implementation commit `ee0f3a4` added the default-disabled OPT 508
+Environmental Vision experience and a non-publishable
+`environmental-vision-preview` profile. The source-bound build and
+registry-driven bundle audit measured:
+
+| Metric | Environmental Vision preview |
+|---|---:|
+| Total output | 8,438,290 bytes |
+| Client JavaScript | 1,785,983 bytes |
+| Initial Home JavaScript | 507,158 bytes |
+| Disabled Practice Hub JavaScript | 507,158 bytes |
+| Disabled Progress Hub JavaScript | 507,158 bytes |
+| Enabled Practice Hub JavaScript | 854,873 bytes |
+| Enabled Progress Hub JavaScript | 854,873 bytes |
+| Incremental controlled HVP JavaScript | 427,832 bytes |
+| Incremental HVP analytics JavaScript | 347,715 bytes |
+| Combined incremental HVP JavaScript | 450,022 bytes |
+| Largest emitted asset | 631,378 bytes |
+| Output files | 174 |
+| Observed build duration | 9,404 ms |
+
+The historical HVP metric property names remain schema-compatible. The generic
+audit independently verifies the Environmental practice and progress closures,
+all registered cross-bank exclusions, initial and server answer isolation, and
+shared-chunk de-duplication. The exact byte measurements receive the standard
+ten-per-cent headroom; duration remains observational. The preview profile is
+rejected by publishable-manifest creation and is not a Sites deployment input.

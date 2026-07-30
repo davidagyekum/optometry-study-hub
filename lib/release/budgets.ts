@@ -6,7 +6,7 @@ export type ReleaseBudget = Omit<ReleaseBuildMetrics, 'buildDurationMs' | 'fileC
  * Measured from the untouched PR #11 main tree (e8b9810f) on bundled Node 24,
  * with the three curated-practice boundary metrics remeasured on the clean
  * PR #13 implementation commit (6b0f085) after introducing the generic lazy
- * adapters. The four profiles were remeasured on the clean Blood Supply
+ * adapters. The inherited profiles were remeasured on the clean Blood Supply
  * checkpoint implementation commit (b79cb79) after the cumulative
  * answer-isolated Aqueous/Vitreous and Blood Supply dynamic chunks crossed
  * the preceding Ocular Adnexa ceiling without entering an initial route
@@ -90,19 +90,19 @@ export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = 
     fileCount: 165,
   },
   'environmental-vision-preview': {
-    totalOutputBytes: 8_500_000,
-    clientJavaScriptBytes: 1_900_000,
-    initialHomeJavaScriptBytes: 510_000,
-    disabledPracticeHubJavaScriptBytes: 510_000,
-    disabledProgressHubJavaScriptBytes: 510_000,
-    hvpEnabledPracticeHubJavaScriptBytes: 860_000,
-    hvpEnabledProgressHubJavaScriptBytes: 860_000,
-    incrementalControlledHvpJavaScriptBytes: 430_000,
-    incrementalHvpAnalyticsJavaScriptBytes: 350_000,
-    combinedIncrementalHvpJavaScriptBytes: 455_000,
-    largestAssetBytes: 650_000,
-    buildDurationMs: 10_000,
-    fileCount: 170,
+    totalOutputBytes: 8_438_290,
+    clientJavaScriptBytes: 1_785_983,
+    initialHomeJavaScriptBytes: 507_158,
+    disabledPracticeHubJavaScriptBytes: 507_158,
+    disabledProgressHubJavaScriptBytes: 507_158,
+    hvpEnabledPracticeHubJavaScriptBytes: 854_873,
+    hvpEnabledProgressHubJavaScriptBytes: 854_873,
+    incrementalControlledHvpJavaScriptBytes: 427_832,
+    incrementalHvpAnalyticsJavaScriptBytes: 347_715,
+    combinedIncrementalHvpJavaScriptBytes: 450_022,
+    largestAssetBytes: 631_378,
+    buildDurationMs: 9_404,
+    fileCount: 174,
   },
 };
 
