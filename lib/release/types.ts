@@ -9,6 +9,8 @@ export const RELEASE_PROFILE_IDS = [
   'neuro-anatomy-preview',
   'environmental-vision-preview',
   'autonomic-pharmacology-preview',
+  'systemic-pathology-preview',
+  'full-curated-preview',
 ] as const;
 export const releaseProfileIdSchema = z.enum(RELEASE_PROFILE_IDS);
 export type ReleaseProfileId = z.infer<typeof releaseProfileIdSchema>;
@@ -22,6 +24,7 @@ export const releaseFlagsSchema = z.strictObject({
   bloodSupplyCuratedPractice: z.boolean(),
   environmentalVisionCuratedPractice: z.boolean(),
   autonomicPharmacologyCuratedPractice: z.boolean(),
+  systemicPathologyCuratedPractice: z.boolean(),
 });
 export type ReleaseFlags = z.infer<typeof releaseFlagsSchema>;
 
@@ -62,7 +65,7 @@ export const releaseBuildMetadataSchema = z.strictObject({
   buildDurationMs: z.number().finite().nonnegative(),
   outputFingerprint: z.string().regex(/^[0-9a-f]{64}$/),
   outputDirectory: z.string().regex(
-    /^tmp\/release\/builds\/(disabled|hvp-public-beta|tissue-foundations-preview|hvp-tissue-preview|neuro-anatomy-preview|environmental-vision-preview|autonomic-pharmacology-preview)$/,
+    /^tmp\/release\/builds\/(disabled|hvp-public-beta|tissue-foundations-preview|hvp-tissue-preview|neuro-anatomy-preview|environmental-vision-preview|autonomic-pharmacology-preview|systemic-pathology-preview|full-curated-preview)$/,
   ),
 });
 export type ReleaseBuildMetadata = z.infer<typeof releaseBuildMetadataSchema>;
@@ -148,6 +151,13 @@ export const releaseManifestSchema = z.strictObject({
     autonomicPharmacologyChecksum: z.literal(
       '7f8c0d7915bccd3c3ffcf2ac96bc44758366928198ec55e68ee5e5c55d43e143',
     ),
+    systemicPathologyQuestions: z.literal(80),
+    systemicPathologyObjectives: z.literal(20),
+    systemicPathologySources: z.literal(19),
+    systemicPathologySvgDiagrams: z.literal(5),
+    systemicPathologyChecksum: z.literal(
+      '06ed91a7323147e8eb9ce1fe6d4813209d986d0b4e4664d55136a012d544b379',
+    ),
     environmentalVisionChecksum: z.literal(
       'cd453b8dd2f691db44bc93eb550f290d0c7213e44f16dc1913e5d75559b99385',
     ),
@@ -166,6 +176,8 @@ export const releaseManifestSchema = z.strictObject({
       environmentalVisionObjectives: reviewCountsSchema,
       autonomicPharmacologyQuestions: reviewCountsSchema,
       autonomicPharmacologyObjectives: reviewCountsSchema,
+      systemicPathologyQuestions: reviewCountsSchema,
+      systemicPathologyObjectives: reviewCountsSchema,
     }),
     academicStatus: z.literal(
       'Curated draft educational practice; not lecturer-approved examination items.',

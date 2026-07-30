@@ -10,6 +10,7 @@ import { ocularAdnexaCandidateBank } from '@/content/question-bank/opt376/ocular
 import { bloodSupplyCandidateBank } from '@/content/question-bank/opt376/blood-supply/bank';
 import { environmentalVisionCandidateBank } from '@/content/question-bank/opt508/environmental-vision/bank';
 import { autonomicPharmacologyCandidateBank } from '@/content/question-bank/pharmacology/autonomic-pharmacology/bank';
+import { systemicPathologyCandidateBank } from '@/content/question-bank/systemic-pathology/systemic-pathology/bank';
 import { QUESTION_FORMATS } from '@/lib/assessment/constants';
 import {
   assertReleaseAssertions,
@@ -20,6 +21,7 @@ import {
   EXPECTED_BLOOD_SUPPLY_CHECKSUM,
   EXPECTED_ENVIRONMENTAL_VISION_CHECKSUM,
   EXPECTED_AUTONOMIC_PHARMACOLOGY_CHECKSUM,
+  EXPECTED_SYSTEMIC_PATHOLOGY_CHECKSUM,
   reviewStatusCounts,
 } from '@/lib/release/assertions';
 import type { BundleAuditResult } from '@/lib/release/bundleAudit';
@@ -74,6 +76,7 @@ function sameFlags(
     bloodSupplyCuratedPractice: boolean;
     environmentalVisionCuratedPractice: boolean;
     autonomicPharmacologyCuratedPractice: boolean;
+    systemicPathologyCuratedPractice: boolean;
   },
   right: {
     assessmentPilot: boolean;
@@ -84,6 +87,7 @@ function sameFlags(
     bloodSupplyCuratedPractice: boolean;
     environmentalVisionCuratedPractice: boolean;
     autonomicPharmacologyCuratedPractice: boolean;
+    systemicPathologyCuratedPractice: boolean;
   },
 ): boolean {
   return left.assessmentPilot === right.assessmentPilot
@@ -99,7 +103,9 @@ function sameFlags(
     && left.environmentalVisionCuratedPractice
       === right.environmentalVisionCuratedPractice
     && left.autonomicPharmacologyCuratedPractice
-      === right.autonomicPharmacologyCuratedPractice;
+      === right.autonomicPharmacologyCuratedPractice
+    && left.systemicPathologyCuratedPractice
+      === right.systemicPathologyCuratedPractice;
 }
 
 export function createReleaseManifest(
@@ -234,6 +240,17 @@ export function createReleaseManifest(
         ),
       ).size,
       autonomicPharmacologyChecksum: EXPECTED_AUTONOMIC_PHARMACOLOGY_CHECKSUM,
+      systemicPathologyQuestions: systemicPathologyCandidateBank.questions.length,
+      systemicPathologyObjectives: systemicPathologyCandidateBank.objectives.length,
+      systemicPathologySources: systemicPathologyCandidateBank.sources.length,
+      systemicPathologySvgDiagrams: new Set(
+        systemicPathologyCandidateBank.questions.flatMap(
+          (question) => ('image' in question && question.image.src.endsWith('.svg')
+            ? [question.image.src]
+            : []),
+        ),
+      ).size,
+      systemicPathologyChecksum: EXPECTED_SYSTEMIC_PATHOLOGY_CHECKSUM,
       reviewStatuses: {
         aqueousQuestions: reviewStatusCounts(aqueousVitreousCandidateBank.questions),
         aqueousObjectives: reviewStatusCounts(aqueousVitreousCandidateBank.objectives),
@@ -256,6 +273,12 @@ export function createReleaseManifest(
         ),
         autonomicPharmacologyObjectives: reviewStatusCounts(
           autonomicPharmacologyCandidateBank.objectives,
+        ),
+        systemicPathologyQuestions: reviewStatusCounts(
+          systemicPathologyCandidateBank.questions,
+        ),
+        systemicPathologyObjectives: reviewStatusCounts(
+          systemicPathologyCandidateBank.objectives,
         ),
       },
       academicStatus:
@@ -340,6 +363,8 @@ export function renderReleaseReport(
 - Aqueous and Vitreous curated practice: ${manifest.flags.aqueousVitreousCuratedPractice ? 'enabled' : 'disabled'}
 - Blood Supply curated practice: ${manifest.flags.bloodSupplyCuratedPractice ? 'enabled' : 'disabled'}
 - Environmental Vision curated practice: ${manifest.flags.environmentalVisionCuratedPractice ? 'enabled' : 'disabled'}
+- Autonomic Pharmacology curated practice: ${manifest.flags.autonomicPharmacologyCuratedPractice ? 'enabled' : 'disabled'}
+- Systemic Pathology curated practice: ${manifest.flags.systemicPathologyCuratedPractice ? 'enabled' : 'disabled'}
 - Storage: \`${manifest.storage.key}\` with rollback key \`${manifest.storage.rollbackKey}\`
 - HVP bank SHA-256: \`${manifest.content.hvpChecksum}\`
 - Ocular Adnexa bank SHA-256: \`${manifest.content.ocularAdnexaChecksum}\`
@@ -357,6 +382,8 @@ export function renderReleaseReport(
 - ${manifest.content.aqueousQuestions} Aqueous questions and ${manifest.content.aqueousObjectives} objectives
 - ${manifest.content.bloodSupplyQuestions} Blood Supply questions, ${manifest.content.bloodSupplyObjectives} objectives, ${manifest.content.bloodSupplySources} sources and ${manifest.content.bloodSupplySvgDiagrams} SVG diagrams
 - ${manifest.content.environmentalVisionQuestions} Environmental Vision questions, ${manifest.content.environmentalVisionObjectives} objectives, ${manifest.content.environmentalVisionSources} sources and ${manifest.content.environmentalVisionSvgDiagrams} SVG diagrams
+- ${manifest.content.autonomicPharmacologyQuestions} Autonomic Pharmacology questions, ${manifest.content.autonomicPharmacologyObjectives} objectives, ${manifest.content.autonomicPharmacologySources} sources and ${manifest.content.autonomicPharmacologySvgDiagrams} SVG diagrams
+- ${manifest.content.systemicPathologyQuestions} Systemic Pathology questions, ${manifest.content.systemicPathologyObjectives} objectives, ${manifest.content.systemicPathologySources} sources and ${manifest.content.systemicPathologySvgDiagrams} SVG diagrams
 - ${manifest.content.hvpQuestions} HVP questions, ${manifest.content.hvpObjectives} objectives, ${manifest.content.hvpSources} sources
 - ${manifest.content.hvpSvgDiagrams} HVP SVG diagrams
 - ${manifest.content.tissueQuestions} Tissue questions, ${manifest.content.tissueObjectives} objectives,

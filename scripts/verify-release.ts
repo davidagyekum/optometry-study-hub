@@ -41,6 +41,9 @@ const commands: Command[] = [
   { label: 'Autonomic Pharmacology validation', command: npmCommand, args: npmArgs('run', 'questions:validate:autonomic-pharmacology', '--', '--strict') },
   { label: 'Autonomic Pharmacology report', command: npmCommand, args: npmArgs('run', 'questions:report:autonomic-pharmacology') },
   { label: 'Autonomic Pharmacology blueprint', command: npmCommand, args: npmArgs('run', 'questions:blueprint:autonomic-pharmacology') },
+  { label: 'Systemic Pathology validation', command: npmCommand, args: npmArgs('run', 'questions:validate:systemic-pathology', '--', '--strict') },
+  { label: 'Systemic Pathology report', command: npmCommand, args: npmArgs('run', 'questions:report:systemic-pathology') },
+  { label: 'Systemic Pathology blueprint', command: npmCommand, args: npmArgs('run', 'questions:blueprint:systemic-pathology') },
   { label: 'Disabled release build', command: npmCommand, args: npmArgs('run', 'release:build:disabled') },
   { label: 'Disabled bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=disabled') },
   { label: 'HVP release build', command: npmCommand, args: npmArgs('run', 'release:build:hvp') },
@@ -55,6 +58,10 @@ const commands: Command[] = [
   { label: 'Environmental Vision preview bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=environmental-vision-preview') },
   { label: 'Autonomic Pharmacology preview build', command: npmCommand, args: npmArgs('run', 'release:build:autonomic-pharmacology') },
   { label: 'Autonomic Pharmacology preview bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=autonomic-pharmacology-preview') },
+  { label: 'Systemic Pathology preview build', command: npmCommand, args: npmArgs('run', 'release:build:systemic-pathology') },
+  { label: 'Systemic Pathology preview bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=systemic-pathology-preview') },
+  { label: 'Full curated preview build', command: npmCommand, args: npmArgs('run', 'release:build:full-curated') },
+  { label: 'Full curated preview bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=full-curated-preview') },
   { label: 'Release manifest', command: npmCommand, args: npmArgs('run', 'release:manifest') },
   { label: 'Whitespace validation', command: 'git', args: ['diff', '--check'] },
 ];
@@ -97,6 +104,8 @@ if (
     !== metadata.flags.environmentalVisionCuratedPractice
   || manifest.flags.autonomicPharmacologyCuratedPractice
     !== metadata.flags.autonomicPharmacologyCuratedPractice
+  || manifest.flags.systemicPathologyCuratedPractice
+    !== metadata.flags.systemicPathologyCuratedPractice
   || manifest.build.outputFingerprint !== metadata.outputFingerprint
   || manifest.build.identity.outputFingerprint !== metadata.outputFingerprint
 ) {

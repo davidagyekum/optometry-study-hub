@@ -23,7 +23,7 @@ function identity(
   return {
     schemaVersion: 1,
     profile: 'hvp-public-beta',
-    flags: { assessmentPilot: false, hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false },
+    flags: { assessmentPilot: false, hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false },
     commitSha: git.commitSha,
     treeSha: git.treeSha,
     dirty: false,
@@ -71,7 +71,7 @@ describe('release manifest', () => {
     expect(releaseManifestSchema.parse(manifest)).toEqual(manifest);
     expect(manifest.flags).toEqual({
       assessmentPilot: false,
-      hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false,
+      hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false,
     });
     expect(manifest.build.identity.commitSha).toBe(git.commitSha);
     expect(manifest.build.identity.treeSha).toBe(git.treeSha);
@@ -127,14 +127,14 @@ describe('release manifest', () => {
       'build profile',
       audit({
         profile: 'disabled',
-        flags: { assessmentPilot: false, hvpCuratedPractice: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false },
+        flags: { assessmentPilot: false, hvpCuratedPractice: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false },
         outputDirectory: 'tmp/release/builds/disabled',
       }),
       /build identity/i,
     ],
     [
       'feature flags',
-      audit({ flags: { assessmentPilot: false, hvpCuratedPractice: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false } }),
+      audit({ flags: { assessmentPilot: false, hvpCuratedPractice: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false } }),
       /flags/i,
     ],
     ['build commit', audit({ commitSha: '3'.repeat(40) }), /Git identity/i],

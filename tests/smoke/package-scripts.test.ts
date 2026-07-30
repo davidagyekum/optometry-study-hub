@@ -63,9 +63,19 @@ describe("package scripts", () => {
         'tsx scripts/report-autonomic-pharmacology-question-blueprint.ts',
       'release:build:autonomic-pharmacology':
         'tsx scripts/run-release-build.ts --profile=autonomic-pharmacology-preview',
+      'questions:validate:systemic-pathology':
+        'tsx scripts/validate-systemic-pathology-question-bank.ts',
+      'questions:report:systemic-pathology':
+        'tsx scripts/report-systemic-pathology-question-bank.ts',
+      'questions:blueprint:systemic-pathology':
+        'tsx scripts/report-systemic-pathology-question-blueprint.ts',
+      'release:build:systemic-pathology':
+        'tsx scripts/run-release-build.ts --profile=systemic-pathology-preview',
+      'release:build:full-curated':
+        'tsx scripts/run-release-build.ts --profile=full-curated-preview',
       "release:build:neuro":
         "tsx scripts/run-release-build.ts --profile=neuro-anatomy-preview",
-      check: "npm run lint && npm run typecheck && npm run test && npm run questions:validate && npm run questions:blueprint && npm run questions:validate:hvp && npm run questions:blueprint:hvp && npm run questions:validate:tissue && npm run questions:blueprint:tissue && npm run questions:validate:ocular -- --strict && npm run questions:blueprint:ocular && npm run questions:validate:blood -- --strict && npm run questions:blueprint:blood && npm run questions:validate:environmental-vision -- --strict && npm run questions:blueprint:environmental-vision && npm run questions:validate:autonomic-pharmacology -- --strict && npm run questions:blueprint:autonomic-pharmacology && npm run build",
+      check: "npm run lint && npm run typecheck && npm run test && npm run questions:validate && npm run questions:blueprint && npm run questions:validate:hvp && npm run questions:blueprint:hvp && npm run questions:validate:tissue && npm run questions:blueprint:tissue && npm run questions:validate:ocular -- --strict && npm run questions:blueprint:ocular && npm run questions:validate:blood -- --strict && npm run questions:blueprint:blood && npm run questions:validate:environmental-vision -- --strict && npm run questions:blueprint:environmental-vision && npm run questions:validate:autonomic-pharmacology -- --strict && npm run questions:blueprint:autonomic-pharmacology && npm run questions:validate:systemic-pathology -- --strict && npm run questions:blueprint:systemic-pathology && npm run build",
     });
   });
 

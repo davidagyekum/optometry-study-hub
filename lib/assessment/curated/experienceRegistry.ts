@@ -61,6 +61,15 @@ import {
   isAutonomicPharmacologyCuratedPracticeEnabled,
 } from '@/lib/assessment/autonomic-pharmacology/config';
 import {
+  SYSTEMIC_PATHOLOGY_BLUEPRINT_ID,
+  SYSTEMIC_PATHOLOGY_COURSE_ID,
+  SYSTEMIC_PATHOLOGY_EXPERIENCE_ID,
+  SYSTEMIC_PATHOLOGY_MODULE_ID,
+  SYSTEMIC_PATHOLOGY_ROUTE_ID,
+  SYSTEMIC_PATHOLOGY_WRITTEN_BLUEPRINT_ID,
+  isSystemicPathologyCuratedPracticeEnabled,
+} from '@/lib/assessment/systemic-pathology/config';
+import {
   curatedExperienceSummarySchema,
   type CuratedExperienceAdapter,
   type CuratedExperienceSummary,
@@ -402,6 +411,42 @@ export const autonomicPharmacologyCuratedSummary: CuratedExperienceSummary =
       ],
     },
   });
+export const systemicPathologyCuratedSummary: CuratedExperienceSummary =
+  deepFreeze({
+    experienceId: SYSTEMIC_PATHOLOGY_EXPERIENCE_ID,
+    courseId: SYSTEMIC_PATHOLOGY_COURSE_ID,
+    moduleId: SYSTEMIC_PATHOLOGY_MODULE_ID,
+    title: 'Systemic Pathology curated practice',
+    shortTitle: 'Systemic Pathology',
+    courseCode: 'PATHOLOGY',
+    routeSegment: SYSTEMIC_PATHOLOGY_ROUTE_ID,
+    blueprintIds: [
+      SYSTEMIC_PATHOLOGY_BLUEPRINT_ID,
+      SYSTEMIC_PATHOLOGY_WRITTEN_BLUEPRINT_ID,
+    ],
+    statusLabel: 'Curated study practice',
+    enabled: false,
+    supportsAutomaticPractice: true,
+    supportsWrittenPractice: true,
+    studyEntryTitle: 'Curated slide-aligned practice',
+    studyEntryDescription:
+      'Build mixed-format practice from 80 questions aligned to the five current Systemic Pathology decks while preserving the separate legacy quiz.',
+    documentTitles: {
+      landing: 'Systemic Pathology Curated Practice',
+      session: 'Systemic Pathology Practice Session',
+      result: 'Systemic Pathology Practice Result',
+      unavailable: 'Systemic Pathology Curated Practice Unavailable',
+    },
+    releaseStatus: {
+      ariaLabel: 'Systemic Pathology curated practice release status',
+      title: 'Curated study practice',
+      lines: [
+        'Internally checked and aligned to the five supplied pathology decks.',
+        'Not lecturer-approved examination items.',
+        'Progress is stored only on this device.',
+      ],
+    },
+  });
 export const curatedExperienceRegistry = createCuratedExperienceRegistry([
   {
     summary: hvpCuratedSummary,
@@ -533,7 +578,27 @@ export const curatedExperienceRegistry = createCuratedExperienceRegistry([
       );
       return loadedModule.autonomicPharmacologyProgressModule;
     },
-  },]);
+  },
+  {
+    summary: systemicPathologyCuratedSummary,
+    isEnabled: isSystemicPathologyCuratedPracticeEnabled,
+    loadPracticeModule: async () => {
+      const [factory, pathology] = await Promise.all([
+        import('@/components/assessment/curated/createCuratedPracticeModule'),
+        import('@/lib/assessment/systemic-pathology/definition'),
+      ]);
+      return factory.createCuratedPracticeModule(
+        pathology.systemicPathologyPracticeDefinition,
+      );
+    },
+    loadProgressModule: async () => {
+      const loadedModule = await import(
+        '@/lib/progress/systemicPathologyProgressModule'
+      );
+      return loadedModule.systemicPathologyProgressModule;
+    },
+  },
+]);
 
 export function isCuratedExperienceEnabled(
   adapter: CuratedExperienceAdapter,

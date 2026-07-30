@@ -1,44 +1,44 @@
-# AI Handoff - Autonomic Pharmacology curated bank
+# AI Handoff - Systemic Pathology curated bank
 
 ## Checkpoint
 
-- Branch: `codex/autonomic-pharmacology-curated-bank`
-- Base main: `0e1b0d503d4b25cb91e65e7b620be0d29f1eccb8`
-- Scope: default-disabled Adrenergic and Cholinergic Pharmacology curated practice
+- Branch: `codex/systemic-pathology-curated-bank`
+- Base main: `239bff1950db77f74bb131d9940a997d99e085af`
+- Scope: default-disabled five-block Systemic Pathology curated practice
 - Deployment: none
 
 ## Canonical content
 
-- Package ZIP SHA-256: `3e92f1686bbb802d7eca535c6bf51a7fd061ad99a64fc8b0683505f6fdfc5362`
-- Bank SHA-256: `7f8c0d7915bccd3c3ffcf2ac96bc44758366928198ec55e68ee5e5c55d43e143`
-- Bank: 80 draft questions, 20 draft objectives, 18 sources
+- Package ZIP SHA-256: `7fff1bd0173e8838043c5730176d737152427e5271e860ba047d40dde2139257`
+- Bank SHA-256: `06ed91a7323147e8eb9ce1fe6d4813209d986d0b4e4664d55136a012d544b379`
+- Bank: 80 draft questions, 20 draft objectives, 19 sources
 - Assets: five exact answer-neutral SVG diagrams
-- Sections: `pharm-adrenergic` 40; `pharm-cholinergic` 40
+- Sections: Breast, Cardiovascular, Endocrine, Gastrointestinal and Renal pathology, 16 questions each
 - Formats: 78 automatically gradable questions across nine formats and two manual-only open responses
+- Canonical bytes: unchanged. The typed runtime view deterministically normalizes the single non-slug option ID `pituitary-tsH-deficiency` to `pituitary-tsh-deficiency`.
 - Review status: every question and objective remains `draft`; no reviewer identity was added
 
 ## Learner contract
 
-- Route: `/practice/autonomic-pharmacology-curated`
-- Automatic blueprint: `autonomic-pharmacology-curated-v1`
-- Written blueprint: `autonomic-pharmacology-written-v1`
+- Route: `/practice/systemic-pathology-curated`
+- Automatic blueprint: `systemic-pathology-curated-v1`
+- Written blueprint: `systemic-pathology-written-v1`
 - Profiles: Quick 10, Standard 25, Full 50, Custom 5-50, targeted 10 and Written 2
-- Exact section, format and difficulty quotas; Apply-or-higher minimums of 6, 18 and 36
+- Exact section, format and difficulty quotas; Apply-or-higher minimums of 6, 16 and 35
 - Maximum family repetition: 2; no difficulty relaxation
-- Feature flag: `NEXT_PUBLIC_ENABLE_AUTONOMIC_PHARMACOLOGY_CURATED_PRACTICE=false`
+- Feature flag: `NEXT_PUBLIC_ENABLE_SYSTEMIC_PATHOLOGY_CURATED_PRACTICE=false`
 - StoreV2 identity, legacy quiz/history, HVP identities and the Aqueous pilot are unchanged
 
 ## Validation
 
-- Focused Pharmacology tests: 5 files, 16 tests passed
-- Registry/release contract tests: passed
-- Strict bank validation: 80 questions, 0 errors, 0 unexpected warnings; 30 canonical lint notes recorded without changing authored content
+- Focused Systemic Pathology tests: 5 files, 16 tests passed
+- Registry/release contract tests: 11 files, 70 tests passed
+- Strict bank validation: 80 questions, 0 errors, 0 unexpected warnings; 17 canonical lint notes recorded without changing authored content
 - Blueprint validation: passed with 0 diagnostics
-- Final `npm run check`: passed with 175 test files and 943 tests; lint retained only the four established `<img>` warnings
-- Clean source-bound Pharmacology preview build and bundle audit: passed
-- Preview metrics: 8,866,345 total bytes; 1,971,237 client JS bytes; 509,145 initial-route JS bytes; 183 files; 7,477 ms observed build
-- Browser QA and final commit identity are recorded in the draft PR after completion
+- Clean source-bound Systemic preview build/audit passed: 9,265,893 total bytes; 2,143,185 client JS bytes; 511,112 initial-route JS bytes; 192 files; 7,600 ms observed.
+- Clean source-bound full-curated preview build/audit passed: 9,265,879 total bytes; 2,143,178 client JS bytes; 511,105 initial-route JS bytes; 192 files; 7,161 ms observed.
+- Final full-suite totals, Chrome QA and exact final commit identity will be recorded in the draft PR after the checkpoint gate.
 
-## Preserved boundaries
+## Release boundaries
 
-The answer-bearing bank is imported only by the lazy practice and progress adapters. The release audit registry excludes Pharmacology markers from every unrelated curated closure and excludes all other bank markers from Pharmacology. Committed flags remain false and the preview profile is non-publishable.
+Both `systemic-pathology-preview` and the internal `full-curated-preview` are non-publishable profiles. The full profile enables all eight curated experiences while keeping the Aqueous engineering pilot disabled. The answer-bearing bank remains behind lazy practice/progress adapters and is excluded from every unrelated answer closure. All committed feature flags remain false.
