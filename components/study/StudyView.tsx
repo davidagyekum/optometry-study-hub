@@ -21,8 +21,9 @@ export function StudyView({
   openPilot,
   curatedExperience,
   openCuratedPractice,
+  hasLegacyAttempt,
+  hasLegacyResults,
   go,
-  startQuiz,
 }: {
   module: Module;
   read: string[];
@@ -32,7 +33,8 @@ export function StudyView({
   openPilot: () => void;
   curatedExperience?: CuratedExperienceSummary;
   openCuratedPractice?: (routeSegment: string) => void;
-  startQuiz: (module: Module) => void;
+  hasLegacyAttempt: boolean;
+  hasLegacyResults: boolean;
 }) {
   const notesResolution = resolveNotesV2(module);
   const content = notesResolution.kind === 'v2' ? notesResolution.content : undefined;
@@ -84,7 +86,7 @@ export function StudyView({
             ))}
           </nav>
           {curatedExperience?.moduleId === module.id && openCuratedPractice ? (
-            <section className="pilot-entry">
+            <section className="pilot-entry curated-entry">
               <h2>{curatedExperience.studyEntryTitle}</h2>
               <p>{curatedExperience.studyEntryDescription}</p>
               <CuratedReleaseStatus compact summary={curatedExperience} />
@@ -110,19 +112,27 @@ export function StudyView({
               </button>
             </section>
           ) : null}
-          <details className="legacy-archive">
-            <summary>Legacy compatibility archive</summary>
-            <p>The original quiz remains available for recovery and historical comparison. Curated practice is recommended.</p>
-            <button className="secondary full" onClick={() => go('legacy', module.id)} type="button">
-              Legacy quiz archive
-            </button>
-            <button className="text-button" onClick={() => go('results', module.id)} type="button">
-              Legacy results/history
-            </button>
-            <button className="text-button" onClick={() => startQuiz(module)} type="button">
-              Start 50-question quiz
-            </button>
-          </details>
+          {hasLegacyAttempt || hasLegacyResults ? (
+            <details className="legacy-archive">
+              <summary>Previous quiz history</summary>
+              <p>Earlier quiz activity is retained for recovery and exact historical review. New practice starts from the curated experience above.</p>
+              {hasLegacyAttempt ? (
+                <button className="secondary full" onClick={() => go('quiz', module.id)} type="button">
+                  Resume previous quiz
+                </button>
+              ) : null}
+              {hasLegacyResults ? (
+                <>
+                  <button className="text-button" onClick={() => go('results', module.id)} type="button">
+                    Review previous result
+                  </button>
+                  <button className="text-button" onClick={() => go('legacy', module.id)} type="button">
+                    Previous quiz history
+                  </button>
+                </>
+              ) : null}
+            </details>
+          ) : null}
         </aside>
         <div className="notes">
           {content ? (

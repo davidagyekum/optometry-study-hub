@@ -9,7 +9,7 @@ export function CuratedReleaseStatus({
 }) {
   return (
     <aside
-      className={`pilot-warning hvp-release-status${compact ? ' compact' : ''}`}
+      className={`curated-status${compact ? ' compact' : ''}`}
       aria-label={summary.releaseStatus.ariaLabel}
     >
       <strong>{summary.releaseStatus.title}</strong>

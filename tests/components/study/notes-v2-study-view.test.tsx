@@ -18,9 +18,10 @@ describe('Notes V2 study experience', () => {
         read={['path-breast', 'unknown-historical-id']}
         onToggle={onToggle}
         go={vi.fn()}
-        startQuiz={vi.fn()}
         pilotEnabled={false}
         openPilot={vi.fn()}
+        hasLegacyAttempt
+        hasLegacyResults
       />,
     );
 
@@ -28,10 +29,10 @@ describe('Notes V2 study experience', () => {
     expect(screen.getByRole('heading', { name: 'Endocrine pathology' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Legacy supplemental notes' })).toBeInTheDocument();
     expect(screen.getByText(/current curated assessment does not cover them/i)).toBeInTheDocument();
-    expect(screen.getByText('Legacy compatibility archive')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Legacy quiz archive' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Legacy results/history' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Start 50-question quiz' })).toBeInTheDocument();
+    expect(screen.getAllByText('Previous quiz history')).toHaveLength(2);
+    expect(screen.getByRole('button', { name: 'Resume previous quiz' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Review previous result' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Start 50-question quiz' })).not.toBeInTheDocument();
     expect(screen.getAllByRole('region', { name: 'Terms to distinguish' }).length).toBeGreaterThan(0);
 
     const reviewed = screen.getAllByRole('button', { name: '✓ Reviewed' })[0];

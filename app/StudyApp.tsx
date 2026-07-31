@@ -30,8 +30,7 @@ import {
   summaryForModule,
 } from '@/lib/assessment/curated/resolveExperience';
 import { controlledExperienceKind } from '@/lib/assessment/routing/controlledExperience';
-import { createAttempt } from '@/lib/legacy/attempts';
-import type { CourseSummary, Module } from '@/lib/legacy/types';
+import type { CourseSummary } from '@/lib/legacy/types';
 import type { ClientView } from '@/lib/navigation/clientRoute';
 import { documentTitleForRoute } from '@/lib/navigation/documentIdentity';
 import { legacyRecommendations } from '@/lib/progress/recommendations';
@@ -132,25 +131,6 @@ export default function StudyApp() {
     routedResult,
   ]);
 
-  const startQuiz = (target: Module, force = false) => {
-    const existing = store.active[target.id];
-    if (existing && !force) {
-      go('quiz', target.id);
-      return;
-    }
-    if (
-      existing
-      && force
-      && !window.confirm('Restart this attempt? Your current answers will be cleared.')
-    ) return;
-    const attempt = createAttempt(target);
-    updateStore((current) => ({
-      ...current,
-      active: { ...current.active, [target.id]: attempt },
-    }));
-    go('quiz', target.id);
-  };
-
   const clearModule = (id: string) => {
     if (!window.confirm(moduleResetConfirmation(store, id, pilotEnabled || curatedEnabled))) return;
     updateStore((current) => resetAssessmentModule({
@@ -235,7 +215,6 @@ export default function StudyApp() {
         <PracticeHub
           store={store}
           go={go}
-          startQuiz={startQuiz}
           curatedExperiences={curatedExperiences}
           allCuratedExperiences={allCuratedExperiences}
           curatedResumePanel={curatedExperiences.map((experience) => (
@@ -261,7 +240,12 @@ export default function StudyApp() {
         />
       ) : null}
       {route.view === 'legacy' ? (
-        <LegacyArchive moduleId={route.moduleId} store={store} go={go} startQuiz={startQuiz} />
+        <LegacyArchive
+          moduleId={route.moduleId}
+          store={store}
+          go={go}
+          curatedExperiences={allCuratedExperiences}
+        />
       ) : null}
       {route.view === 'progress' && !route.moduleId ? (
         <ProgressHub
@@ -287,7 +271,6 @@ export default function StudyApp() {
           module={activeModule}
           store={store}
           go={go}
-          startQuiz={startQuiz}
           curatedPanel={(() => {
             const experience = summaryForModule(activeModule.id, curatedExperiences);
             return experience ? (
@@ -308,7 +291,6 @@ export default function StudyApp() {
           course={activeCourse}
           store={store}
           go={go}
-          startQuiz={startQuiz}
           clearModule={clearModule}
           clearCourse={() => clearCourse(activeCourse)}
           curatedExperiences={allCuratedExperiences}
@@ -329,11 +311,12 @@ export default function StudyApp() {
             };
           })}
           go={go}
-          startQuiz={startQuiz}
           pilotEnabled={pilotEnabled}
           openPilot={() => go('pilot', 'aqueous-vitreous')}
           curatedExperience={summaryForModule(activeModule.id, curatedExperiences)}
           openCuratedPractice={(routeSegment) => go('practice', routeSegment)}
+          hasLegacyAttempt={Boolean(store.active[activeModule.id])}
+          hasLegacyResults={(store.results[activeModule.id] ?? []).length > 0}
         />
       ) : null}
       {route.view === 'quiz' && activeModule ? (
@@ -356,7 +339,8 @@ export default function StudyApp() {
             },
           }))}
           go={go}
-          startQuiz={startQuiz}
+          curatedExperience={summaryForModule(activeModule.id, allCuratedExperiences)}
+          hasLegacyResults={(store.results[activeModule.id] ?? []).length > 0}
         />
       ) : null}
       {route.view === 'results' && activeModule ? (
@@ -364,7 +348,7 @@ export default function StudyApp() {
           module={activeModule}
           result={(store.results[activeModule.id] ?? [])[0]}
           go={go}
-          startQuiz={startQuiz}
+          curatedExperience={summaryForModule(activeModule.id, allCuratedExperiences)}
         />
       ) : null}
       {isControlledView ? (

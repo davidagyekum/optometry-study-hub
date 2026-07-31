@@ -56,7 +56,6 @@ describe('Neuro Anatomy course integration UI', () => {
         course={neuroCourse}
         curatedExperiences={curatedExperienceSummaries()}
         go={vi.fn()}
-        startQuiz={vi.fn()}
         store={createEmptyStoreV2()}
       />,
     );
@@ -66,7 +65,7 @@ describe('Neuro Anatomy course integration UI', () => {
       level: 2,
     })).toBeInTheDocument();
     expect(screen.getByText(
-      /Curated results and mastery evidence remain separate for each module/,
+      /Course-aligned practice is available for each enabled module/,
     )).toBeInTheDocument();
   });
 

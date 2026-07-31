@@ -39,15 +39,15 @@ describe('Environmental Vision curated experience', () => {
     vi.restoreAllMocks();
   });
 
-  it('shows the generic study entry while preserving the legacy quiz action', () => {
+  it('shows the generic study entry with curated practice as the only new assessment', () => {
     window.history.replaceState({}, '', '/study/environmental-vision');
     render(<StudyApp />);
     expect(screen.getByRole('heading', {
       name: 'Curated slide-aligned practice',
     })).toBeInTheDocument();
-    expect(screen.getByRole('button', {
+    expect(screen.queryByRole('button', {
       name: 'Start 50-question quiz',
-    })).toBeInTheDocument();
+    })).not.toBeInTheDocument();
     expect(screen.getByRole('button', {
       name: 'Open curated practice',
     })).toBeInTheDocument();

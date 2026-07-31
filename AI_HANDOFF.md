@@ -36,3 +36,13 @@ All eight modules now present curated practice as the recommended learner path. 
 - Production build passed; four accepted legacy <img> lint warnings remain.
 - git diff --check: passed.
 - No deployment was performed in this checkpoint.
+
+## PR26 hard learner-path cutover
+
+- New assessment sessions are curated-only. Existing legacy attempts and results remain read-only compatibility data; direct legacy quiz routes never create or restart an attempt.
+- Learner-facing approval language was removed. Curated status copy is neutral and course-aligned; internal draft metadata is unchanged.
+- The mobile site header now wraps the Home, Practice, and Progress navigation into a visible second row with 44px touch targets, preventing clipped navigation on narrow screens.
+- Added regression coverage for curated-only entry, direct legacy-route safety, resumable legacy attempts, neutral status copy, and all eight course cards.
+- npm run check passed: 184 test files and 979 tests, all question validators and blueprints, and production build. Lint retains four known image warnings; git diff --check passed.
+- Release verification is run after committing the final source so the clean-tree release identity can be recorded.
+

@@ -6,7 +6,8 @@
 - Courses: 5
 - Modules: 8
 - Study sections: 39
-- Live legacy-generated questions: 400, with 50 questions per module
+- Active curated questions: 680 across eight modules
+- Frozen legacy-generated questions: 400, retained only for previous-attempt and result compatibility
 - Current persistence key: `optometry-study-hub:v2`
 - Rollback key retained after migration: `opt376-study-state:v1`
 - Canonical Aqueous and Vitreous candidate bank: 80 draft questions across 6 sections and 13 objectives; the original 36 remain byte-order compatible
@@ -77,7 +78,7 @@ On first V2 load, valid V1 `read`, `active`, and `results` fields migrate exactl
 ## Strengths
 
 - A working responsive learning experience across five course areas.
-- Consistent 50-question live assessments and resumable attempts.
+- Curated Quick, Standard, Full, Custom, targeted and Written practice with resumable device-local attempts.
 - Device-local privacy with explicit reset controls.
 - Attributed instructional figures and accessible figure enlargement behavior.
 - Modular legacy architecture protected by compatibility tests.
@@ -86,8 +87,8 @@ On first V2 load, valid V1 `read`, `active`, and `results` fields migrate exactl
 
 ## Known technical debt
 
-- The legacy distractor generator can create weak or duplicate options.
-- The live 400 questions are not yet represented by the new assessment schema.
+- The frozen legacy distractor generator can contain weak or duplicate options, but it is now read-only compatibility code and cannot start new attempts.
+- All 680 active learner questions use the versioned assessment schema; the frozen 400-question compatibility generator is intentionally not migrated.
 - Client routes are parsed manually.
 - The multi-format pilot remains draft, disabled by default, and unsuitable as an approved examination bank. Disabled reset prompts keep their original wording unless matching hidden assessment data requires disclosure; reset behavior still removes that hidden data.
 - Four intentional `<img>` lint warnings remain until a later UI-focused change.
@@ -95,11 +96,11 @@ On first V2 load, valid V1 `read`, `active`, and `results` fields migrate exactl
 ## Known educational limitations
 
 - Lecture material is not automatically authoritative.
-- The live bank lacks per-question sources, Bloom levels, difficulty, reviewer status, option rationales, and misconception tags.
+- The active curated banks include sources, Bloom levels, difficulty and rationales, but remain internally draft pending independent review.
 - The schema pilot remains `draft` and is an engineering demonstration, not an approved examination bank.
 - Named lecturer attribution identifies the supplied teaching source; it does not imply approval of rewritten notes or questions.
 - Image ownership and reuse rights require ongoing review.
-- The current 400 questions should not be treated as a validated examination bank.
+- Previous legacy questions are retained only to complete or review already stored activity and cannot be started as new practice.
 
 ## PR 7 authoring and review foundation
 
@@ -332,4 +333,13 @@ The source-bound build, audit and manifest pipeline now targets the full public-
 
 ## Curated-primary cutover
 
-All eight modules now present curated practice as the recommended learner path. The Practice Hub lists curated evidence before the explicit /legacy compatibility archive; active legacy attempts, historical results, the frozen generator, StoreV2 and all canonical identities remain unchanged. See docs/CURATED_PRIMARY_CUTOVER.md.
+All eight modules now present curated practice as the only new-assessment path. The Practice Hub and Progress Hub are curated-first; `/legacy` is a read-only Previous quiz history route. Active previous attempts, historical results, the frozen generator, StoreV2 and all canonical identities remain unchanged. See docs/CURATED_HARD_CUTOVER.md.
+
+
+## Complete curated cutover
+
+PR #26 removes every learner-facing path that could create or restart a legacy quiz. Direct quiz routes resume only an already stored attempt; otherwise they fail closed to a retired-path screen. Historical result review remains exact and read-only. Primary course and progress surfaces no longer present previous Latest or Best values as current assessment evidence.
+
+Learner status copy is now neutral and compact: **Course-aligned practice**, **Built from the supplied course materials**, and **Progress is stored on this device**. Internal question and objective statuses remain draft. StoreV2, the rollback key, curated histories, previous attempts/results, question history, all canonical bank hashes and the disabled Aqueous pilot are unchanged.
+
+The mobile header now grows to its wrapped two-row height at phone widths, keeping Home, Practice and Progress fully visible.

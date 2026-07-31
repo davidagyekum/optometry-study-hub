@@ -1,14 +1,13 @@
 import { moduleMap } from '@/content/legacy/moduleCatalog';
 import type { GoToRoute } from '@/hooks/useClientRoute';
 import type { CuratedExperienceSummary } from '@/lib/assessment/curated/types';
-import { bestScore, courseReadingCompletion, moduleReadingPercentage } from '@/lib/legacy/progress';
+import { courseReadingCompletion, moduleReadingPercentage } from '@/lib/legacy/progress';
 import type { CourseSummary, LegacyStoreData, Module } from '@/lib/legacy/types';
 
 export function CourseView({
   course,
   store,
   go,
-  startQuiz,
   clearModule,
   clearCourse,
   curatedExperiences,
@@ -16,7 +15,6 @@ export function CourseView({
   course: CourseSummary;
   store: LegacyStoreData;
   go: GoToRoute;
-  startQuiz: (module: Module) => void;
   clearModule: (id: string) => void;
   clearCourse: () => void;
   curatedExperiences: readonly CuratedExperienceSummary[];
@@ -61,8 +59,8 @@ export function CourseView({
               {registeredCurated.length}
             </h2>
             <p>
-              Curated results and mastery evidence remain separate for each
-              module and do not replace legacy Latest or Best scores.
+              Course-aligned practice is available for each enabled module.
+              Progress remains private to this device.
             </p>
           </div>
         </section>
@@ -71,9 +69,9 @@ export function CourseView({
         {courseModules.map((item) => {
           const curated = enabledCurated.find((experience) => experience.moduleId === item.id);
           const moduleProgress = moduleReadingPercentage(item, store.read[item.id] ?? []);
-          const history = store.results[item.id] ?? [];
-          const latest = history[0];
-          const best = bestScore(history);
+          const hasLegacyAttempt = Boolean(store.active[item.id]);
+          const hasLegacyResults = (store.results[item.id] ?? []).length > 0;
+          const hasLegacyHistory = hasLegacyAttempt || hasLegacyResults;
           return (
             <article className={`module-card ${item.tone}`} key={item.id}>
               <div className="module-number">{item.number}</div>
@@ -85,19 +83,24 @@ export function CourseView({
                 <h3>{item.title}</h3>
                 <p>{item.description}</p>
                 <div className="progress-row"><div><i style={{ width: `${moduleProgress}%` }} /></div><span>{moduleProgress}%</span></div>
-                <div className="score-row">
-                  <span>Latest <b>{latest ? `${latest.score}/50` : '—'}</b></span>
-                  <span>Best <b>{best === undefined ? '—' : `${best}/50`}</b></span>
-                </div>
+                {curated ? (
+                  <div className="curated-availability">
+                    <strong>Curated practice available</strong>
+                    <span>Quick / Standard / Full / Custom</span>
+                  </div>
+                ) : null}
                 <div className="card-actions">
                   <button className="secondary" onClick={() => go('study', item.id)}>Read notes</button>
                   {curated ? (
                     <button className="primary small" onClick={() => go('practice', curated.routeSegment)}>Practice this module</button>
                   ) : null}
-                  <button className="text-button" onClick={() => startQuiz(item)}>
-                    {store.active[item.id] ? 'Resume legacy quiz' : 'Start legacy quiz'}
-                  </button>
-                  <button className="text-button" onClick={() => go('legacy', item.id)}>Legacy quiz archive</button>
+                  {hasLegacyAttempt ? (
+                    <button className="text-button" onClick={() => go('quiz', item.id)}>Resume previous quiz</button>
+                  ) : null}
+                  {hasLegacyHistory ? (
+                    <button className="text-button" onClick={() => go('legacy', item.id)}>Previous quiz history</button>
+                  ) : null}
+                  <button className="text-button" onClick={() => go('progress', item.id)}>View progress</button>
                 </div>
                 <button className="text-button danger" onClick={() => clearModule(item.id)}>Clear module data</button>
               </div>

@@ -54,33 +54,12 @@ export function legacyRecommendations(store: StoreV2): ProgressRecommendation[] 
         readingPercentage: analytics.readingPercentage,
         destination: { view: 'study', moduleId: module.id },
       });
-    } else if (analytics.savedResultCount === 0) {
-      items.push({
-        id: `first-legacy:${module.id}`,
-        title: `Take the ${module.shortTitle} quiz`,
-        reason: 'No saved quiz result exists on this browser.',
-        priority: 8,
-        moduleId: module.id,
-        destination: { view: 'quiz', moduleId: module.id },
-      });
-    } else if (
-      analytics.latestPercentage !== undefined
-      && analytics.latestPercentage < 70
-    ) {
-      items.push({
-        id: `retake-legacy:${module.id}`,
-        title: `Retake ${module.shortTitle}`,
-        reason: `The latest saved quiz score is ${analytics.latestPercentage}%.`,
-        priority: 9,
-        moduleId: module.id,
-        destination: { view: 'quiz', moduleId: module.id },
-      });
-    } else {
+    } else if (analytics.savedResultCount > 0) {
       items.push({
         id: `review-legacy:${module.id}`,
-        title: `Review ${module.shortTitle} results`,
+        title: `Review previous ${module.shortTitle} result`,
         reason: analytics.latestPercentage === undefined
-          ? 'The latest saved result cannot be summarized safely; open its module history.'
+          ? 'The latest retained result cannot be summarized safely; open its module history.'
           : 'Review the latest saved answers and explanations.',
         priority: 10,
         moduleId: module.id,

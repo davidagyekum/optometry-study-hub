@@ -13,19 +13,18 @@ import { createEmptyStoreV2 } from '@/lib/storage/migrations';
 afterEach(cleanup);
 
 describe('progress and practice learner UI', () => {
-  it('renders the empty Practice Hub with all legacy modules and saved-history wording', () => {
+  it('renders curated-first Practice Hub with one read-only history entry', () => {
     render(
       <PracticeHub
         store={createEmptyStoreV2()}
         go={vi.fn()}
-        startQuiz={vi.fn()}
         curatedExperiences={[]}
       />,
     );
     expect(screen.getByRole('heading', { name: 'Practice Hub' })).toBeInTheDocument();
-    expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(modules.length);
-    expect(screen.getByText(/retained for compatibility and historical comparison/i)).toBeInTheDocument();
-    expect(screen.queryByText(/lifetime attempt/i)).not.toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Previous quiz history' })).toBeInTheDocument();
+    expect(screen.getByText('No previous quiz activity on this device.')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Start legacy quiz/i })).not.toBeInTheDocument();
   });
 
   it('renders a populated active legacy practice without changing quiz behaviour', () => {
@@ -45,7 +44,6 @@ describe('progress and practice learner UI', () => {
       <PracticeHub
         store={store}
         go={vi.fn()}
-        startQuiz={vi.fn()}
         curatedExperiences={[]}
       />,
     );
@@ -65,11 +63,11 @@ describe('progress and practice learner UI', () => {
         module={targetModule}
         store={store}
         go={vi.fn()}
-        startQuiz={vi.fn()}
       />,
     );
     expect(screen.getByRole('heading', { name: targetModule.title })).toBeInTheDocument();
-    expect(screen.getByText('No saved legacy results')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Take legacy quiz/i })).not.toBeInTheDocument();
+    expect(screen.queryByText('Previous quiz history')).not.toBeInTheDocument();
   });
 
   it('shows HVP mastery evidence, written Not scored, and integrity omission notice', () => {

@@ -1,18 +1,13 @@
-import { courses } from '@/content/legacy/courseCatalog';
 import { modules } from '@/content/legacy/moduleCatalog';
 import type { GoToRoute } from '@/hooks/useClientRoute';
 import { hiddenCuratedData } from '@/lib/assessment/curated/storedData';
 import type { CuratedExperienceSummary } from '@/lib/assessment/curated/types';
-import { legacyModuleAnalytics } from '@/lib/progress/legacyAnalytics';
-import { displayPercent, ProgressBar } from '@/components/progress/ProgressPrimitives';
-import type { Module } from '@/lib/legacy/types';
 import type { StoreV2 } from '@/lib/storage/schemas';
 import type { ReactNode } from 'react';
 
 export function PracticeHub({
   store,
   go,
-  startQuiz,
   curatedPanel,
   curatedResumePanel,
   curatedExperiences,
@@ -20,7 +15,6 @@ export function PracticeHub({
 }: {
   store: StoreV2;
   go: GoToRoute;
-  startQuiz: (module: Module) => void;
   curatedPanel?: ReactNode;
   curatedResumePanel?: ReactNode;
   curatedExperiences: readonly CuratedExperienceSummary[];
@@ -34,6 +28,9 @@ export function PracticeHub({
     (attempt) => curatedBlueprintIds.has(attempt.blueprintId ?? ''),
   ).length;
   const curatedEnabled = curatedExperiences.length > 0;
+  const legacyHistoryModuleCount = modules.filter((module) => (
+    Boolean(store.active[module.id]) || (store.results[module.id] ?? []).length > 0
+  )).length;
   const hidden = hiddenCuratedData(store, allCuratedExperiences);
   const hasHidden = hidden.activeAttemptCount + hidden.resultCount > 0;
   return (
@@ -42,7 +39,7 @@ export function PracticeHub({
         <button className="back" onClick={() => go('home')}>← Home</button>
         <div>
           <h1>Practice Hub</h1>
-          <p>Resume saved work or choose a module. Legacy quizzes and curated practice stay visibly separate.</p>
+          <p>Choose course-aligned curated practice or resume saved work. Progress stays on this device.</p>
         </div>
       </section>
       {(activeLegacy.length || (curatedEnabled && controlledCount)) ? (
@@ -55,8 +52,8 @@ export function PracticeHub({
               const active = store.active[module.id]!;
               return (
                 <article key={active.id}>
-                  <div><strong>{module.title}</strong><span>{Object.keys(active.answers).length}/50 answered · {active.flags.length} flagged</span></div>
-                  <button className="primary small" onClick={() => go('quiz', module.id)}>Resume quiz</button>
+                  <div><strong>{module.title}</strong><span>Previous quiz / {Object.keys(active.answers).length}/50 answered / {active.flags.length} flagged</span></div>
+                  <button className="primary small" onClick={() => go('quiz', module.id)}>Resume previous quiz</button>
                 </article>
               );
             })}
@@ -67,45 +64,26 @@ export function PracticeHub({
       {curatedEnabled && curatedPanel ? (
         <section className="hub-section">
           <div className="section-heading">
-            <div><h2>Curated practice</h2><p>Verified current-version evidence stays separate from legacy quiz scores.</p></div>
+            <div><h2>Curated practice</h2><p>Course-aligned practice, current-version progress and saved sessions.</p></div>
           </div>
           {curatedPanel}
         </section>
       ) : null}
-      <section className="hub-section">
+      <section className="hub-section previous-history-entry">
         <div className="section-heading">
-          <div><h2>Legacy quiz archive</h2><p>Retained for compatibility and historical comparison. Curated practice is the recommended assessment.</p></div>
-          <button className="secondary" onClick={() => go('legacy')} type="button">Open legacy archive</button>
+          <div>
+            <h2>Previous quiz history</h2>
+            <p>Earlier attempts and results remain readable for compatibility. No new previous quiz can be started.</p>
+          </div>
+          <button className="secondary" onClick={() => go('legacy')} type="button">
+            Open previous quiz history
+          </button>
         </div>
-        <div className="practice-module-grid">
-          {modules.map((module) => {
-            const course = courses.find((item) => item.id === module.courseId)!;
-            const analytics = legacyModuleAnalytics(module, store);
-            return (
-              <article className="practice-module-card" key={module.id}>
-                <span className="course-code">{course.code}</span>
-                <h3>{module.title}</h3>
-                <div className="reading-line"><span>Reading</span><b>{analytics.readingPercentage}%</b></div>
-                <ProgressBar value={analytics.readingPercentage} label={`${module.title} reading progress`} />
-                <dl className="compact-metrics">
-                  <div><dt>Latest</dt><dd>{displayPercent(analytics.latestPercentage)}</dd></div>
-                  <div><dt>Best</dt><dd>{displayPercent(analytics.bestPercentage)}</dd></div>
-                  <div><dt>Saved attempts</dt><dd>{analytics.savedResultCount}</dd></div>
-                </dl>
-                <div className="card-actions wrap">
-                  <button className="secondary" onClick={() => go('study', module.id)}>Read notes</button>
-                  <button className="secondary" onClick={() => startQuiz(module)}>
-                    {analytics.activeAttempt ? 'Resume legacy quiz' : 'Start legacy quiz'}
-                  </button>
-                  {analytics.latestResult ? (
-                    <button className="text-button" onClick={() => go('results', module.id)}>Legacy results/history</button>
-                  ) : null}
-                  <button className="text-button" onClick={() => go('legacy', module.id)}>Open module archive</button>
-                </div>
-              </article>
-            );
-          })}
-        </div>
+        <p className="history-count">
+          {legacyHistoryModuleCount
+            ? legacyHistoryModuleCount + ' module' + (legacyHistoryModuleCount === 1 ? '' : 's') + ' with previous activity.'
+            : 'No previous quiz activity on this device.'}
+        </p>
       </section>
       {hasHidden ? (
         <p className="integrity-note">

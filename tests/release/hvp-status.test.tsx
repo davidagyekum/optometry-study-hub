@@ -11,11 +11,12 @@ describe('HVP release-status messaging', () => {
   it.each([
     ['shared status', <HvpReleaseStatus key="status" />],
     ['controlled warning', <HvpPracticeWarning key="warning" />],
-  ])('keeps the learner boundary visible in %s', (_label, view) => {
+  ])('shows compact neutral course status in %s', (_label, view) => {
     render(view);
-    expect(screen.getByText('Curated study practice')).toBeInTheDocument();
-    expect(screen.getByText('Internally verified and slide-aligned.')).toBeInTheDocument();
-    expect(screen.getByText('Not lecturer-approved examination items.')).toBeInTheDocument();
-    expect(screen.getByText('Stored only on this device.')).toBeInTheDocument();
+    expect(screen.getByText('Course-aligned practice')).toBeInTheDocument();
+    expect(screen.getByText('Built from the supplied course materials.')).toBeInTheDocument();
+    expect(screen.getByText('Progress is stored on this device.')).toBeInTheDocument();
+    expect(screen.queryByText(/lecturer-approved/i)).not.toBeInTheDocument();
+    expect(screen.getByRole('complementary')).toHaveClass('curated-status');
   });
 });

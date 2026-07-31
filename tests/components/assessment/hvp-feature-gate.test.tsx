@@ -18,8 +18,9 @@ describe('HVP curated-practice UI gate', () => {
       read: [],
       onToggle: vi.fn(),
       go: vi.fn(),
-      startQuiz: vi.fn(),
       openPilot: vi.fn(),
+      hasLegacyAttempt: false,
+      hasLegacyResults: false,
       openCuratedPractice: vi.fn(),
       pilotEnabled: false,
     };
@@ -31,7 +32,7 @@ describe('HVP curated-practice UI gate', () => {
       />,
     );
     expect(screen.queryByText('Curated slide-aligned practice')).not.toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Start 50-question quiz' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Start 50-question quiz' })).not.toBeInTheDocument();
 
     rerender(<StudyView {...props} curatedExperience={hvpExperience} module={hvp} />);
     expect(screen.getByText('Curated slide-aligned practice')).toBeInTheDocument();

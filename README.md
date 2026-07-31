@@ -12,15 +12,15 @@ Live site: https://opt-376-eye-anatomy-review.davorion7.chatgpt.site
 - **Ocular Pharmacology** — adrenergic and cholinergic foundations relevant to eye care.
 - **Systemic Pathology** — breast, cardiovascular, gastrointestinal, lymphoid, renal, and respiratory pathology.
 
-The current application contains five courses, eight modules, 39 study sections, and 400 legacy-generated multiple-choice questions. The versioned assessment engine supports ten formats; all Aqueous, HVP, Tissue Foundations, Ocular Adnexa, and Blood Supply schema questions remain draft.
+The current application contains five courses, eight modules, 39 study sections, and 680 active curated questions across ten supported formats. Previous legacy attempts and results are retained only as read-only compatibility data. All curated questions remain internally draft.
 
 ## Architecture today
 
 The project uses React, TypeScript, Next-compatible App Router files, Vinext, Vite, and Cloudflare Workers. Legacy content lives under `content/legacy/`; focused views live under `components/`; route, attempt, progress, and question-generation logic lives under `lib/` and `hooks/`; and `app/StudyApp.tsx` coordinates those modules.
 
-Client navigation includes `/practice`, `/progress`, `/progress/:moduleId`, the existing course/study/quiz/result routes, and controlled `/practice/:experienceId` routes. Reading progress, active legacy attempts, and up to 20 recent results per module are stored in the validated V2 browser record `optometry-study-hub:v2`. Existing `opt376-study-state:v1` data migrates locally and remains available for rollback until the learner explicitly resets all study data, which clears both storage generations.
+Client navigation includes `/practice`, `/progress`, `/progress/:moduleId`, the existing course/study/quiz/result routes, and controlled `/practice/:experienceId` routes. Reading progress, curated attempts and results, previous active legacy attempts, and up to 20 retained legacy results per module are stored in the validated V2 browser record `optometry-study-hub:v2`. Existing `opt376-study-state:v1` data migrates locally and remains available for rollback until the learner explicitly resets all study data, which clears both storage generations.
 
-PR 3 adds an assessment-domain pilot under `content/question-bank/pilot/`, validation and reporting under `lib/assessment/`, and migration-safe storage under `lib/storage/`. The live quiz still uses the legacy 400-question engine.
+PR 3 introduced the assessment-domain foundation. The production learner path now starts only the eight curated banks; the frozen legacy generator remains solely to resume previously stored attempts and render historical answer review.
 
 PR 4 adds a headless session engine under `lib/assessment/session/` plus immutable StoreV2 assessment helpers. It supports deterministic arbitrary-length attempts and all nine response formats, but intentionally provides no renderer, grading policy, or public entry point.
 
@@ -34,7 +34,7 @@ PR 8 adds evidence-bound expert-review campaigns, immutable reviewer packs, read
 
 PR 9 adds a canonical 120-question OPT 374 Human Visual Perception pool and a secondary, default-disabled 50-question curated-practice route. The existing notes and legacy quiz remain unchanged, and curated results remain isolated from legacy Latest/Best metrics.
 
-See [Current State](docs/CURRENT_STATE.md), [Progress Analytics](docs/PROGRESS_ANALYTICS.md), [Assessment Specification](docs/ASSESSMENT_SPEC.md), [Session Engine](docs/ASSESSMENT_SESSION_ENGINE.md), [Grading Policies](docs/ASSESSMENT_GRADING_POLICIES.md), and [Assessment Redesign Roadmap](docs/ASSESSMENT_REDESIGN_ROADMAP.md).
+See [Current State](docs/CURRENT_STATE.md), [Curated Hard Cutover](docs/CURATED_HARD_CUTOVER.md), [Progress Analytics](docs/PROGRESS_ANALYTICS.md), [Assessment Specification](docs/ASSESSMENT_SPEC.md), [Session Engine](docs/ASSESSMENT_SESSION_ENGINE.md), [Grading Policies](docs/ASSESSMENT_GRADING_POLICIES.md), and [Assessment Redesign Roadmap](docs/ASSESSMENT_REDESIGN_ROADMAP.md).
 
 ## Requirements
 
@@ -59,6 +59,9 @@ NEXT_PUBLIC_ENABLE_TISSUE_FOUNDATIONS_CURATED_PRACTICE=true
 NEXT_PUBLIC_ENABLE_OCULAR_ADNEXA_CURATED_PRACTICE=true
 NEXT_PUBLIC_ENABLE_AQUEOUS_VITREOUS_CURATED_PRACTICE=true
 NEXT_PUBLIC_ENABLE_BLOOD_SUPPLY_CURATED_PRACTICE=true
+NEXT_PUBLIC_ENABLE_ENVIRONMENTAL_VISION_CURATED_PRACTICE=true
+NEXT_PUBLIC_ENABLE_AUTONOMIC_PHARMACOLOGY_CURATED_PRACTICE=true
+NEXT_PUBLIC_ENABLE_SYSTEMIC_PATHOLOGY_CURATED_PRACTICE=true
 ```
 
 Only the exact string `true` enables an experience. These flags control client exposure, not security, and all candidate questions remain draft rather than academically approved. Every committed feature default remains false.
@@ -93,18 +96,18 @@ The site is hosted through OpenAI Sites using the project information in `.opena
 
 ## Privacy
 
-Student reading progress, answers, flags, quiz history, and future assessment history remain in browser local storage. There are no student names, accounts, analytics, leaderboards, or cross-device synchronization. Clearing browser data or using the confirmed global reset removes the saved study state from both supported storage generations.
+Student reading progress, curated answers, flags, assessment history, and retained previous quiz history remain in browser local storage. There are no student names, accounts, analytics, leaderboards, or cross-device synchronization. Clearing browser data or using the confirmed global reset removes the saved study state from both supported storage generations.
 
 ## Current limitations
 
-- The 400 live questions are generated from fact prompts by a positional legacy distractor algorithm.
-- The live questions and options have not yet been converted to stable assessment IDs, sources, rationales, Bloom levels, or review statuses.
+- The frozen 400-question generator is retained only for compatibility with previous attempts and results; it cannot start a new learner session.
+- The 680 active curated questions retain internal draft review status pending genuine independent expert review.
 - The 36-question Aqueous and Vitreous candidate bank and its nine-format pilot subset remain draft, disabled by default, and are not approved production assessments.
 - Navigation is client-managed rather than split into dedicated App Router routes.
 - Course notes, figures, and future production questions require ongoing academic and licensing review.
 - Open responses expose the deliberate manual-review boundary; no manual-grading workflow exists.
 
-The assessment foundation, session lifecycle, grading policies, accessible renderers, and controlled pilot are implemented alongside the live system. Academic approval, manual review, and production conversion of the 400 legacy questions remain future work.
+The assessment foundation, session lifecycle, grading policies, accessible renderers, curated banks, and controlled pilot are implemented. Independent academic review and a manual-grading workflow remain future work.
 
 ## Contributing
 

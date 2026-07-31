@@ -40,8 +40,8 @@ describe('release feature-profile smoke', () => {
     ['/progress', 'Progress Hub'],
     ['/course/human-visual-perception', 'Human Visual Perception'],
     ['/study/human-visual-perception', 'Human Visual Perception'],
-    ['/quiz/human-visual-perception', 'No active attempt'],
-    ['/results/human-visual-perception', 'No submitted result yet'],
+    ['/quiz/human-visual-perception', 'Previous quiz path retired'],
+    ['/results/human-visual-perception', 'No previous quiz result'],
   ])('loads the disabled learner route %s', (path, heading) => {
     vi.stubEnv('NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE', 'false');
     window.history.replaceState({}, '', path);
@@ -72,8 +72,11 @@ describe('release feature-profile smoke', () => {
       { name: 'Curated slide-aligned practice' },
       { timeout: 5_000 },
     )).toBeInTheDocument();
-    expect(screen.getByText('Not lecturer-approved examination items.'))
+    expect(screen.getByText('Built from the supplied course materials.'))
       .toBeInTheDocument();
+    expect(screen.getByText('Progress is stored on this device.'))
+      .toBeInTheDocument();
+    expect(screen.queryByText(/lecturer-approved/i)).not.toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Quick practice/i })).toBeInTheDocument();
     unmount();
 
@@ -92,12 +95,10 @@ describe('release feature-profile smoke', () => {
       vi.stubEnv('NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE', 'true');
       window.history.replaceState({}, '', path);
       const { unmount } = render(<StudyApp />);
-      if (path !== '/') {
-        await screen.findAllByRole(
-          'heading',
-          { name: 'Human Visual Perception' },
-          { timeout: 5_000 },
-        );
+      if (path === '/practice') {
+        expect(screen.getByRole('heading', { name: 'Practice Hub' })).toBeInTheDocument();
+      } else if (path === '/progress') {
+        expect(screen.getByRole('heading', { name: 'Progress Hub' })).toBeInTheDocument();
       }
       const rendered = document.body.textContent ?? '';
       expect(rendered).not.toContain('Which statement best defines sensation?');

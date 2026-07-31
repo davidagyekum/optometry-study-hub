@@ -24,7 +24,7 @@ function saved(score: number): Result {
 }
 
 describe('legacy recommendations', () => {
-  it('uses active, reading, first-quiz, low-score, then review priorities', () => {
+  it('recommends only resume, reading, or read-only previous-result review', () => {
     const store = createEmptyStoreV2();
     store.active[first.id] = {
       ...saved(0),
@@ -39,12 +39,12 @@ describe('legacy recommendations', () => {
     modules.forEach((module) => {
       store.read[module.id] = module.sections.map((section) => section.id);
     });
-    expect(legacyRecommendations(store)[0].id).toBe(`first-legacy:${first.id}`);
+    expect(legacyRecommendations(store)).toEqual([]);
 
     modules.forEach((module) => {
       store.results[module.id] = [{ ...saved(30), id: `low-${module.id}`, moduleId: module.id }];
     });
-    expect(legacyRecommendations(store)[0].id).toBe(`retake-legacy:${first.id}`);
+    expect(legacyRecommendations(store)[0].id).toBe(`review-legacy:${first.id}`);
 
     modules.forEach((module) => {
       store.results[module.id] = [{ ...saved(45), id: `high-${module.id}`, moduleId: module.id }];
