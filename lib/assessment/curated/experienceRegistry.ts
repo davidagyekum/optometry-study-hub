@@ -172,13 +172,13 @@ export const hvpCuratedSummary: CuratedExperienceSummary = deepFreeze({
   courseCode: 'OPT 374',
   routeSegment: HVP_CURATED_PRACTICE_ID,
   blueprintIds: [HVP_CURATED_BLUEPRINT_ID, HVP_WRITTEN_BLUEPRINT_ID],
-  statusLabel: 'Curated study practice',
+  statusLabel: 'Course-aligned practice',
   enabled: false,
   supportsAutomaticPractice: true,
   supportsWrittenPractice: true,
   studyEntryTitle: 'Curated slide-aligned practice',
   studyEntryDescription:
-    'Build a 50-question mixed-format practice set from 120 questions aligned with the supplied OPT 374 slides. This does not affect your legacy quiz score.',
+    'Build a 50-question mixed-format practice set from 120 questions aligned with the supplied OPT 374 slides..',
   documentTitles: {
     landing: 'HVP Curated Practice',
     session: 'HVP Practice Session',
@@ -187,11 +187,10 @@ export const hvpCuratedSummary: CuratedExperienceSummary = deepFreeze({
   },
   releaseStatus: {
     ariaLabel: 'Curated practice release status',
-    title: 'Curated study practice',
+    title: 'Course-aligned practice',
     lines: [
-      'Internally verified and slide-aligned.',
-      'Not lecturer-approved examination items.',
-      'Stored only on this device.',
+      'Built from the supplied course materials.',
+      'Progress is stored on this device.',
     ],
   },
 });
@@ -208,13 +207,13 @@ export const tissueCuratedSummary: CuratedExperienceSummary = deepFreeze({
     TISSUE_CURATED_BLUEPRINT_ID,
     TISSUE_WRITTEN_BLUEPRINT_ID,
   ],
-  statusLabel: 'Curated study practice',
+  statusLabel: 'Course-aligned practice',
   enabled: false,
   supportsAutomaticPractice: true,
   supportsWrittenPractice: true,
   studyEntryTitle: 'Curated slide-aligned practice',
   studyEntryDescription:
-    'Build mixed-format practice from 80 Tissue Foundations questions while preserving the separate legacy quiz.',
+    'Build mixed-format practice from 80 Tissue Foundations questions.',
   documentTitles: {
     landing: 'Tissue Foundations Curated Practice',
     session: 'Tissue Foundations Practice Session',
@@ -223,11 +222,10 @@ export const tissueCuratedSummary: CuratedExperienceSummary = deepFreeze({
   },
   releaseStatus: {
     ariaLabel: 'Tissue Foundations curated practice release status',
-    title: 'Curated study practice',
+    title: 'Course-aligned practice',
     lines: [
-      'Internally checked and slide-aligned.',
-      'Not lecturer-approved examination items.',
-      'Progress is stored only on this device.',
+      'Built from the supplied course materials.',
+      'Progress is stored on this device.',
     ],
   },
 });
@@ -244,13 +242,13 @@ export const ocularAdnexaCuratedSummary: CuratedExperienceSummary = deepFreeze({
     OCULAR_ADNEXA_BLUEPRINT_ID,
     OCULAR_ADNEXA_WRITTEN_BLUEPRINT_ID,
   ],
-  statusLabel: 'Curated study practice',
+  statusLabel: 'Course-aligned practice',
   enabled: false,
   supportsAutomaticPractice: true,
   supportsWrittenPractice: true,
   studyEntryTitle: 'Curated slide-aligned practice',
   studyEntryDescription:
-    'Build mixed-format practice from 80 Ocular Adnexa and Lacrimal Apparatus questions while preserving the separate legacy quiz.',
+    'Build mixed-format practice from 80 Ocular Adnexa and Lacrimal Apparatus questions.',
   documentTitles: {
     landing: 'Ocular Adnexa Curated Practice',
     session: 'Ocular Adnexa Practice Session',
@@ -259,11 +257,10 @@ export const ocularAdnexaCuratedSummary: CuratedExperienceSummary = deepFreeze({
   },
   releaseStatus: {
     ariaLabel: 'Ocular Adnexa curated practice release status',
-    title: 'Curated study practice',
+    title: 'Course-aligned practice',
     lines: [
-      'Internally checked and slide-aligned.',
-      'Not lecturer-approved examination items.',
-      'Progress is stored only on this device.',
+      'Built from the supplied course materials.',
+      'Progress is stored on this device.',
     ],
   },
 });
@@ -279,13 +276,13 @@ export const aqueousVitreousCuratedSummary: CuratedExperienceSummary = deepFreez
     AQUEOUS_VITREOUS_CURATED_BLUEPRINT_ID,
     AQUEOUS_VITREOUS_WRITTEN_BLUEPRINT_ID,
   ],
-  statusLabel: 'Curated study practice',
+  statusLabel: 'Course-aligned practice',
   enabled: false,
   supportsAutomaticPractice: true,
   supportsWrittenPractice: true,
   studyEntryTitle: 'Curated slide-aligned practice',
   studyEntryDescription:
-    'Build mixed-format practice from 80 Aqueous Humour and Vitreous Body questions while preserving the separate pilot and legacy quiz.',
+    'Build mixed-format practice from 80 Aqueous Humour and Vitreous Body questions.',
   documentTitles: {
     landing: 'Aqueous and Vitreous Curated Practice',
     session: 'Aqueous and Vitreous Practice Session',
@@ -294,11 +291,10 @@ export const aqueousVitreousCuratedSummary: CuratedExperienceSummary = deepFreez
   },
   releaseStatus: {
     ariaLabel: 'Aqueous and Vitreous curated practice release status',
-    title: 'Curated study practice',
+    title: 'Course-aligned practice',
     lines: [
-      'Internally checked and slide-aligned.',
-      'Not lecturer-approved examination items.',
-      'Progress is stored only on this device.',
+      'Built from the supplied course materials.',
+      'Progress is stored on this device.',
     ],
   },
 });
@@ -314,13 +310,13 @@ export const bloodSupplyCuratedSummary: CuratedExperienceSummary = deepFreeze({
     BLOOD_SUPPLY_BLUEPRINT_ID,
     BLOOD_SUPPLY_WRITTEN_BLUEPRINT_ID,
   ],
-  statusLabel: 'Curated study practice',
+  statusLabel: 'Course-aligned practice',
   enabled: false,
   supportsAutomaticPractice: true,
   supportsWrittenPractice: true,
   studyEntryTitle: 'Curated slide-aligned practice',
   studyEntryDescription:
-    'Build mixed-format practice from 80 Blood Supply to the Eye questions while preserving the separate legacy quiz.',
+    'Build mixed-format practice from 80 Blood Supply to the Eye questions.',
   documentTitles: {
     landing: 'Blood Supply Curated Practice',
     session: 'Blood Supply Practice Session',
@@ -329,11 +325,10 @@ export const bloodSupplyCuratedSummary: CuratedExperienceSummary = deepFreeze({
   },
   releaseStatus: {
     ariaLabel: 'Blood Supply curated practice release status',
-    title: 'Curated study practice',
+    title: 'Course-aligned practice',
     lines: [
-      'Internally checked and slide-aligned.',
-      'Not lecturer-approved examination items.',
-      'Progress is stored only on this device.',
+      'Built from the supplied course materials.',
+      'Progress is stored on this device.',
     ],
   },
 });
@@ -351,13 +346,13 @@ export const environmentalVisionCuratedSummary: CuratedExperienceSummary =
       ENVIRONMENTAL_VISION_BLUEPRINT_ID,
       ENVIRONMENTAL_VISION_WRITTEN_BLUEPRINT_ID,
     ],
-    statusLabel: 'Curated study practice',
+    statusLabel: 'Course-aligned practice',
     enabled: false,
     supportsAutomaticPractice: true,
     supportsWrittenPractice: true,
     studyEntryTitle: 'Curated slide-aligned practice',
     studyEntryDescription:
-      'Build mixed-format practice from 80 Environmental Vision questions while preserving the separate legacy quiz.',
+      'Build mixed-format practice from 80 Environmental Vision questions.',
     documentTitles: {
       landing: 'Environmental Vision Curated Practice',
       session: 'Environmental Vision Practice Session',
@@ -366,11 +361,10 @@ export const environmentalVisionCuratedSummary: CuratedExperienceSummary =
     },
     releaseStatus: {
       ariaLabel: 'Environmental Vision curated practice release status',
-      title: 'Curated study practice',
+      title: 'Course-aligned practice',
       lines: [
-        'Internally checked and aligned to the supplied Environmental Vision decks.',
-        'Not lecturer-approved examination material.',
-        'Progress is stored only on this device.',
+        'Built from the supplied course materials.',
+        'Progress is stored on this device.',
       ],
     },
   });
@@ -388,13 +382,13 @@ export const autonomicPharmacologyCuratedSummary: CuratedExperienceSummary =
       AUTONOMIC_PHARMACOLOGY_BLUEPRINT_ID,
       AUTONOMIC_PHARMACOLOGY_WRITTEN_BLUEPRINT_ID,
     ],
-    statusLabel: 'Curated study practice',
+    statusLabel: 'Course-aligned practice',
     enabled: false,
     supportsAutomaticPractice: true,
     supportsWrittenPractice: true,
     studyEntryTitle: 'Curated slide-aligned practice',
     studyEntryDescription:
-      'Build mixed-format practice from 80 Autonomic Pharmacology questions while preserving the separate legacy quiz.',
+      'Build mixed-format practice from 80 Autonomic Pharmacology questions.',
     documentTitles: {
       landing: 'Autonomic Pharmacology Curated Practice',
       session: 'Autonomic Pharmacology Practice Session',
@@ -403,11 +397,10 @@ export const autonomicPharmacologyCuratedSummary: CuratedExperienceSummary =
     },
     releaseStatus: {
       ariaLabel: 'Autonomic Pharmacology curated practice release status',
-      title: 'Curated study practice',
+      title: 'Course-aligned practice',
       lines: [
-        'Internally checked and aligned to the supplied pharmacology decks.',
-        'Not lecturer-approved examination material.',
-        'Progress is stored only on this device.',
+        'Built from the supplied course materials.',
+        'Progress is stored on this device.',
       ],
     },
   });
@@ -424,13 +417,13 @@ export const systemicPathologyCuratedSummary: CuratedExperienceSummary =
       SYSTEMIC_PATHOLOGY_BLUEPRINT_ID,
       SYSTEMIC_PATHOLOGY_WRITTEN_BLUEPRINT_ID,
     ],
-    statusLabel: 'Curated study practice',
+    statusLabel: 'Course-aligned practice',
     enabled: false,
     supportsAutomaticPractice: true,
     supportsWrittenPractice: true,
     studyEntryTitle: 'Curated slide-aligned practice',
     studyEntryDescription:
-      'Build mixed-format practice from 80 questions aligned to the five current Systemic Pathology decks while preserving the separate legacy quiz.',
+      'Build mixed-format practice from 80 questions aligned to the five current Systemic Pathology decks.',
     documentTitles: {
       landing: 'Systemic Pathology Curated Practice',
       session: 'Systemic Pathology Practice Session',
@@ -439,11 +432,10 @@ export const systemicPathologyCuratedSummary: CuratedExperienceSummary =
     },
     releaseStatus: {
       ariaLabel: 'Systemic Pathology curated practice release status',
-      title: 'Curated study practice',
+      title: 'Course-aligned practice',
       lines: [
-        'Internally checked and aligned to the five supplied pathology decks.',
-        'Not lecturer-approved examination items.',
-        'Progress is stored only on this device.',
+        'Built from the supplied course materials.',
+        'Progress is stored on this device.',
       ],
     },
   });

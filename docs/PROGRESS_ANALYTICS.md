@@ -104,14 +104,11 @@ Recent activity uses only timestamps that exist: legacy and assessment
 timestamp and is never placed on the activity timeline. Lists are sorted
 newest first, deterministically tie-broken, and limited to eight items.
 
-Recommendations are also pure and deterministic. Priority is: resume active
-HVP, resume active legacy, retry missed HVP when at least ten
-family-compatible questions exist, practice weak HVP topics at the same
-threshold, practice unseen HVP questions at the same threshold, start HVP
-Quick practice, continue the least-complete notes, take a first legacy quiz,
-then retake a latest legacy score below 70%. Ties follow authored course and
-module order and stable ID. Dashboard actions route to the authoritative
-practice or quiz page; they do not silently replace or start assessments.
+Recommendations are also pure and deterministic. Curated recommendations are
+prioritized with compatibility-safe recovery. Legacy recommendation candidates
+are limited to resuming an already active previous quiz, continuing incomplete
+notes, or reviewing an existing previous result. No recommendation can create,
+restart or retake a legacy quiz.
 
 ## Release boundary
 
@@ -124,24 +121,12 @@ phase. It does not deploy.
 
 The overall Progress Hub renders exactly one primary recommendation. With HVP
 disabled, it selects from pure legacy candidates without importing the HVP
-bank or registry. With HVP enabled, the lazy HVP coordinator merges those
-legacy candidates with verified HVP signals and applies this order:
-
-1. recover or resume one compatible scored or Written HVP session;
-2. resume a legacy quiz;
-3. retry missed HVP questions when at least ten family-compatible items exist;
-4. practise weak HVP topics at the same threshold;
-5. practise unseen HVP questions at the same threshold;
-6. offer HVP Quick only when no compatible scored HVP result exists;
-7. continue the least-complete notes;
-8. take a legacy quiz with no saved result;
-9. retake a latest valid legacy score below 70%;
-10. review the latest result.
-
-Reading percentage is compared before authored course/module order for priority
-seven. Other ties use authored course order, module order, then stable ID.
-Recovery routes to the controlled landing; dashboard actions never create,
-discard or replace an attempt.
+bank or registry. The generic curated coordinator merges current module contributions with safe
+reading and previous-history signals. It prioritizes compatible curated recovery,
+curated targeted practice, a stored previous-attempt resume, incomplete reading,
+and read-only previous-result review. It never recommends a first, restarted or
+retaken legacy quiz. Recovery routes to the controlled landing; dashboard
+actions never create, discard or replace an attempt implicitly.
 
 ## Unified recent activity
 
@@ -248,3 +233,6 @@ data and answer-bearing modules remain outside the answer-free coordinator.
 ## Autonomic Pharmacology progress
 
 Autonomic Pharmacology contributes module-scoped current-version mastery, activity and recommendations through the generic progress adapter. Its evidence never alters legacy Latest/Best scores, other modules, StoreV2 identity or the Aqueous pilot.
+
+
+PR #26 makes the Progress Hub curated-first. Top metrics report reading, saved curated results and active curated practice. Previous quiz values appear only in a collapsed, explicitly qualified history section and are never averaged with curated evidence.

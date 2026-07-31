@@ -5,13 +5,12 @@ export function HvpReleaseStatus({
 }) {
   return (
     <aside
-      className={`pilot-warning hvp-release-status${compact ? ' compact' : ''}`}
+      className={`curated-status${compact ? ' compact' : ''}`}
       aria-label="Curated practice release status"
     >
-      <strong>Curated study practice</strong>
-      <span>Internally verified and slide-aligned.</span>
-      <span>Not lecturer-approved examination items.</span>
-      <span>Stored only on this device.</span>
+      <strong>Course-aligned practice</strong>
+      <span>Built from the supplied course materials.</span>
+      <span>Progress is stored on this device.</span>
     </aside>
   );
 }

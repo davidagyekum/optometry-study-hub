@@ -1,6 +1,7 @@
 'use client';
 
 import type { GoToRoute } from '@/hooks/useClientRoute';
+import type { CuratedExperienceSummary } from '@/lib/assessment/curated/types';
 import { countIncorrect, countResultUnanswered } from '@/lib/legacy/attempts';
 import { scorePercentage } from '@/lib/legacy/progress';
 import { questionsFor } from '@/lib/legacy/questionGenerator';
@@ -10,21 +11,31 @@ export function LegacyResultsView({
   module,
   result,
   go,
-  startQuiz,
+  curatedExperience,
 }: {
   module: Module;
   result?: Result;
   go: GoToRoute;
-  startQuiz: (module: Module, force?: boolean) => void;
+  curatedExperience?: CuratedExperienceSummary;
 }) {
   const questions = questionsFor(module);
   const byId = new Map(questions.map((question) => [question.id, question]));
 
   if (!result) {
     return (
-      <section className="empty">
-        <h1>No submitted result yet</h1>
-        <button className="primary" onClick={() => startQuiz(module)}>Take the quiz</button>
+      <section className="empty retired-legacy-path">
+        <h1>No previous quiz result</h1>
+        <p>No historical result is stored for this module. New sessions begin in curated practice.</p>
+        <div className="result-actions">
+          {curatedExperience ? (
+            <button className="primary" onClick={() => go('practice', curatedExperience.routeSegment)} type="button">
+              Practice this module
+            </button>
+          ) : null}
+          <button className="secondary" onClick={() => go('course', module.courseId)} type="button">
+            Return to course
+          </button>
+        </div>
       </section>
     );
   }
@@ -38,15 +49,9 @@ export function LegacyResultsView({
       <button className="back" onClick={() => go('course', module.courseId)}>← Course dashboard</button>
       <div className="result-hero">
         <div>
-          <span>QUIZ COMPLETE</span>
+          <span>PREVIOUS QUIZ RESULT</span>
           <h1>{module.shortTitle}</h1>
-          <p>
-            {percent >= 80
-              ? 'Excellent work — your core understanding is strong.'
-              : percent >= 60
-                ? 'A solid attempt. Review the missed sections and try again.'
-                : 'Use the review below to target the topics that need another pass.'}
-          </p>
+          <p>This historical answer review is preserved exactly as it was submitted on this device.</p>
         </div>
         <div className="score-circle"><strong>{percent}%</strong><span>{result.score}/50 correct</span></div>
       </div>
@@ -57,8 +62,11 @@ export function LegacyResultsView({
         <span><b>{new Date(result.submittedAt).toLocaleDateString()}</b>Submitted</span>
       </div>
       <div className="result-actions">
-        <button className="primary" onClick={() => startQuiz(module, true)}>Retake shuffled quiz</button>
+        {curatedExperience ? (
+          <button className="primary" onClick={() => go('practice', curatedExperience.routeSegment)}>Practice this module</button>
+        ) : null}
         <button className="secondary" onClick={() => go('study', module.id)}>Review study notes</button>
+        <button className="text-button" onClick={() => go('legacy', module.id)}>Previous quiz history</button>
       </div>
       <h2 className="review-title">Answer review</h2>
       <div className="review-list">

@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react';
 import type { GoToRoute } from '@/hooks/useClientRoute';
+import type { CuratedExperienceSummary } from '@/lib/assessment/curated/types';
 import { calculateScore, countUnanswered } from '@/lib/legacy/attempts';
 import { questionsFor } from '@/lib/legacy/questionGenerator';
 import type { Attempt, Module, Result } from '@/lib/legacy/types';
@@ -12,24 +13,40 @@ export function LegacyQuizView({
   onAttempt,
   onSubmit,
   go,
-  startQuiz,
+  curatedExperience,
+  hasLegacyResults,
 }: {
   module: Module;
   attempt?: Attempt;
   onAttempt: (attempt: Attempt) => void;
   onSubmit: (result: Result) => void;
   go: GoToRoute;
-  startQuiz: (module: Module, force?: boolean) => void;
+  curatedExperience?: CuratedExperienceSummary;
+  hasLegacyResults: boolean;
 }) {
   const questions = useMemo(() => questionsFor(module), [module]);
   const byId = useMemo(() => new Map(questions.map((question) => [question.id, question])), [questions]);
 
   if (!attempt) {
     return (
-      <section className="empty">
-        <h1>No active attempt</h1>
-        <p>Start a fresh shuffled 50-question quiz.</p>
-        <button className="primary" onClick={() => startQuiz(module)}>Start quiz</button>
+      <section className="empty retired-legacy-path">
+        <h1>Previous quiz path retired</h1>
+        <p>New sessions now start from course-aligned curated practice. No saved quiz was created or changed.</p>
+        <div className="result-actions">
+          {curatedExperience ? (
+            <button className="primary" onClick={() => go('practice', curatedExperience.routeSegment)} type="button">
+              Open curated practice
+            </button>
+          ) : null}
+          <button className="secondary" onClick={() => go('course', module.courseId)} type="button">
+            Return to course
+          </button>
+          {hasLegacyResults ? (
+            <button className="text-button" onClick={() => go('legacy', module.id)} type="button">
+              Previous quiz history
+            </button>
+          ) : null}
+        </div>
       </section>
     );
   }
@@ -56,11 +73,11 @@ export function LegacyQuizView({
   };
 
   return (
-    <section className="quiz-shell">
+    <section className="quiz-shell" aria-label="Previous 50-question quiz">
       <div className="quiz-top">
         <button className="back" onClick={() => go('course', module.courseId)}>← Save & exit</button>
         <div><span>{module.shortTitle}</span><b>{answered}/50 answered</b></div>
-        <button className="text-button danger" onClick={() => startQuiz(module, true)}>Restart</button>
+        <span className="previous-quiz-label">Previous 50-question quiz</span>
       </div>
       <div className="quiz-progress"><i style={{ width: `${((attempt.current + 1) / 50) * 100}%` }} /></div>
       <div className="quiz-grid">

@@ -18,14 +18,15 @@ describe('pilot feature gate UI', () => {
       read: [],
       onToggle: vi.fn(),
       go: vi.fn(),
-      startQuiz: vi.fn(),
       openPilot: vi.fn(),
+      hasLegacyAttempt: false,
+      hasLegacyResults: false,
     };
     const { rerender } = render(
       <StudyView {...props} module={aqueous} pilotEnabled={false} />,
     );
     expect(screen.queryByText('Experimental mixed-format pilot')).not.toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Start 50-question quiz' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Start 50-question quiz' })).not.toBeInTheDocument();
 
     rerender(<StudyView {...props} module={aqueous} pilotEnabled />);
     expect(screen.getByText('Experimental mixed-format pilot')).toBeInTheDocument();

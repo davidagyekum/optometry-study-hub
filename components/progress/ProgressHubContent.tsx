@@ -127,11 +127,20 @@ export function ProgressHub({
     (sum, item) => sum + item.readingTotal,
     0,
   );
-  const savedResults = moduleAnalytics.reduce(
+  const previousSavedResults = moduleAnalytics.reduce(
     (sum, item) => sum + item.savedResultCount,
     0,
   );
-  const activeSessions = moduleAnalytics.filter((item) => item.activeAttempt).length;
+  const previousActiveSessions = moduleAnalytics.filter((item) => item.activeAttempt).length;
+  const curatedBlueprintIds = new Set(
+    curatedExperiences.flatMap((experience) => experience.blueprintIds),
+  );
+  const curatedSavedResults = Object.values(store.assessment.results).filter(
+    (result) => curatedBlueprintIds.has(result.blueprintId ?? ''),
+  ).length;
+  const curatedActiveSessions = Object.values(store.assessment.activeAttempts).filter(
+    (attempt) => curatedBlueprintIds.has(attempt.blueprintId ?? ''),
+  ).length;
   const legacyCandidates = legacyRecommendations(store);
   const legacyActivity = legacyRecentActivity(store, Number.POSITIVE_INFINITY);
   const contributionState = useCuratedProgressContributions(curatedRegistry, store);
@@ -161,7 +170,7 @@ export function ProgressHub({
         <button className="back" onClick={() => go('home')}>← Home</button>
         <div>
           <h1>Progress Hub</h1>
-          <p>Transparent browser-local progress, with legacy quiz and curated evidence kept separate.</p>
+          <p>Current curated practice and reading progress, with previous quiz history kept separately.</p>
         </div>
       </section>
       <section className="hub-section">
@@ -172,14 +181,14 @@ export function ProgressHub({
             detail={`${Math.round((totalCompleted / totalSections) * 100) || 0}% complete`}
           />
           <Metric
-            label="Saved legacy results"
-            value={savedResults}
-            detail="Recent saved attempts, not lifetime attempts"
+            label="Saved curated results"
+            value={curatedSavedResults}
+            detail="Current-version practice results on this device"
           />
           <Metric
-            label="Active legacy sessions"
-            value={activeSessions}
-            detail="Curated sessions are reported separately when available"
+            label="Active curated practice"
+            value={curatedActiveSessions}
+            detail="Autosaved curated sessions"
           />
         </div>
         {curatedRecommendationPanel ?? (contributionState.loading ? (
@@ -207,7 +216,7 @@ export function ProgressHub({
         <div className="section-heading">
           <div>
             <h2>Course progress</h2>
-            <p>Session averages are arithmetic means of safely readable saved percentages on this browser.</p>
+            <p>Reading and current curated-practice availability by course.</p>
           </div>
         </div>
         <div className="course-progress-grid">
@@ -229,18 +238,11 @@ export function ProgressHub({
                   value={analytics.readingPercentage}
                   label={`${course.title} reading progress`}
                 />
-                <p><strong>Active modules:</strong> {analytics.activeModuleCount}</p>
-                <h4>Legacy quiz</h4>
-                <dl className="compact-metrics">
-                  <div><dt>Saved attempts</dt><dd>{analytics.savedResultCount}</dd></div>
-                  <div><dt>Latest</dt><dd>{displayPercent(analytics.latestPercentage)}</dd></div>
-                  <div><dt>Best</dt><dd>{displayPercent(analytics.bestPercentage)}</dd></div>
-                  <div><dt>Recent average</dt><dd>{displayPercent(analytics.recentAveragePercentage)}</dd></div>
-                </dl>
+                <p><strong>Curated modules available:</strong> {enabled.length} of {registered.length}</p>
                 {registered.length ? (
                   <div className="separate-score-note">
-                    <h4>Curated modules enabled: {enabled.length} of {registered.length}</h4>
-                    <p>Module evidence remains separate and is shown only for enabled experiences.</p>
+                    <h4>Course-aligned practice</h4>
+                    <p>Quick, Standard, Full and Custom practice stays separate by module.</p>
                   </div>
                 ) : null}
                 <button
@@ -259,12 +261,15 @@ export function ProgressHub({
         <div className="section-heading">
           <div>
             <h2>All modules</h2>
-            <p>Detailed question-level analytics begin with curated practice.</p>
+            <p>Open a module for current curated mastery and reading detail.</p>
           </div>
         </div>
         <div className="module-progress-list">
           {modules.map((module, index) => {
             const analytics = moduleAnalytics[index];
+            const curated = curatedExperiences.find(
+              (experience) => experience.moduleId === module.id,
+            );
             return (
               <article key={module.id}>
                 <div>
@@ -272,10 +277,7 @@ export function ProgressHub({
                   <h3>{module.title}</h3>
                 </div>
                 <span>{analytics.readingPercentage}% read</span>
-                <span>Latest {displayPercent(analytics.latestPercentage)}</span>
-                <span>Best {displayPercent(analytics.bestPercentage)}</span>
-                <span>{analytics.savedResultCount} saved</span>
-                <span>{analytics.activeAttempt ? 'Active' : 'No active quiz'}</span>
+                <span>{curated ? 'Curated practice available' : 'Curated practice unavailable'}</span>
                 <button
                   className="text-button"
                   onClick={() => go('progress', module.id)}
@@ -287,6 +289,34 @@ export function ProgressHub({
             );
           })}
         </div>
+      </section>
+      <section className="hub-section previous-history-section">
+        <details className="previous-history-details">
+          <summary>Previous quiz history</summary>
+          <p>Earlier quiz attempts and scores remain readable but are not combined with curated practice.</p>
+          <div className="analytics-metrics">
+            <Metric label="Saved previous results" value={previousSavedResults} detail="Retained compatibility records" />
+            <Metric label="Active previous quizzes" value={previousActiveSessions} detail="May be resumed once and submitted" />
+          </div>
+          <div className="course-progress-grid">
+            {courses.map((course, index) => {
+              const analytics = courseAnalytics[index];
+              return (
+                <article key={course.id}>
+                  <span className="course-code">{course.code}</span>
+                  <h3>{course.title}</h3>
+                  <dl className="compact-metrics">
+                    <div><dt>Previous results</dt><dd>{analytics.savedResultCount}</dd></div>
+                    <div><dt>Previous latest</dt><dd>{displayPercent(analytics.latestPercentage)}</dd></div>
+                    <div><dt>Previous best</dt><dd>{displayPercent(analytics.bestPercentage)}</dd></div>
+                    <div><dt>Previous average</dt><dd>{displayPercent(analytics.recentAveragePercentage)}</dd></div>
+                  </dl>
+                </article>
+              );
+            })}
+          </div>
+          <button className="secondary" onClick={() => go('legacy')} type="button">Open previous quiz history</button>
+        </details>
       </section>
       <section className="hub-section">
         <div className="section-heading">
@@ -304,7 +334,7 @@ export function ProgressHub({
         ) : (
           <div className="empty-state">
             <h3>No saved activity yet</h3>
-            <p>Begin a quiz or practice session to build your browser-local activity.</p>
+            <p>Begin curated practice to build your browser-local activity.</p>
             <button
               className="primary"
               onClick={() => go('practice-hub')}

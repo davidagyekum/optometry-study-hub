@@ -2,13 +2,9 @@ import { courses } from '@/content/legacy/courseCatalog';
 import { moduleMap, modules } from '@/content/legacy/moduleCatalog';
 import type { GoToRoute } from '@/hooks/useClientRoute';
 import {
-  bestScorePercentage,
   courseReadingCompletion,
-  latestResult,
   overallReadingCompletion,
-  scorePercentage,
 } from '@/lib/legacy/progress';
-import { questionsFor } from '@/lib/legacy/questionGenerator';
 import type { LegacyStoreData, Module } from '@/lib/legacy/types';
 
 export function HomeView({
@@ -21,7 +17,6 @@ export function HomeView({
   resetAll: () => void;
 }) {
   const completion = overallReadingCompletion(modules, store);
-  const totalQuestions = modules.reduce((sum, item) => sum + questionsFor(item).length, 0);
 
   return (
     <>
@@ -29,7 +24,7 @@ export function HomeView({
         <div className="hero-copy">
           <span className="eyebrow">KNUST OPTOMETRY REVIEW</span>
           <h1>Five courses.<br /><em>One focused study hub.</em></h1>
-          <p>Clear lecture-based notes, source figures and {totalQuestions} shuffled practice questions across visual science, anatomy, pharmacology and pathology.</p>
+          <p>Clear lecture-based notes, source figures and 680 course-aligned curated questions across visual science, anatomy, pharmacology and pathology.</p>
           <div className="hero-actions">
             <button className="primary" onClick={() => go('course', courses[0].id)}>Explore the courses</button>
             <span>{completion.completed}/{completion.total} sections reviewed</span>
@@ -49,9 +44,6 @@ export function HomeView({
         {courses.map((course) => {
           const courseModules = course.moduleIds.map((id) => moduleMap.get(id)).filter(Boolean) as Module[];
           const progress = courseReadingCompletion(courseModules, store).percentage;
-          const attempts = courseModules.flatMap((item) => store.results[item.id] ?? []);
-          const latest = latestResult(attempts);
-          const best = bestScorePercentage(attempts);
           return (
             <article className={`course-card ${course.tone}`} key={course.id}>
               <button className="course-art" onClick={() => go('course', course.id)} aria-label={`Open ${course.title}`}>
@@ -63,12 +55,12 @@ export function HomeView({
                 <p>{course.description}</p>
                 <div className="course-meta">
                   <span>{courseModules.length} {courseModules.length === 1 ? 'module' : 'modules'}</span>
-                  <span>{courseModules.length * 50} questions</span>
+                  <span>Curated practice</span>
                 </div>
                 <div className="progress-row"><div><i style={{ width: `${progress}%` }} /></div><span>{progress}%</span></div>
-                <div className="score-row">
-                  <span>Latest <b>{latest ? `${scorePercentage(latest)}%` : '—'}</b></span>
-                  <span>Best <b>{best === undefined ? '—' : `${best}%`}</b></span>
+                <div className="curated-availability">
+                  <strong>Course-aligned practice</strong>
+                  <span>Quick / Standard / Full / Custom</span>
                 </div>
                 <button className="primary full" onClick={() => go('course', course.id)}>Open course</button>
               </div>

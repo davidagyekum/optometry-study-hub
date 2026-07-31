@@ -37,7 +37,6 @@ describe('generic curated Practice Hub discovery', () => {
         )}
         curatedResumePanel={<article>Dummy resumable session</article>}
         go={vi.fn()}
-        startQuiz={vi.fn()}
         store={store}
       />,
     );
@@ -74,7 +73,6 @@ describe('generic curated Practice Hub discovery', () => {
         ]}
         curatedExperiences={[enabledHvp]}
         go={vi.fn()}
-        startQuiz={vi.fn()}
         store={store}
       />,
     );

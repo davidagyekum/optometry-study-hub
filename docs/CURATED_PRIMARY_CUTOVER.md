@@ -1,27 +1,28 @@
 # Curated-primary learner experience
 
-The release learner path treats curated practice as the recommended assessment
-for all eight modules while preserving all browser-local legacy data.
+The release learner path treats curated practice as the only assessment that can start a new session
+for all eight modules while preserving all browser-local previous quiz data.
 
 ## Primary path
 
 - Study pages open each module's curated practice landing through **Practice
   this module**.
-- Course cards send learners to curated practice before legacy assessment.
+- Course cards expose curated practice as the only new-assessment action.
 - The Practice Hub presents curated module summaries and their Quick, Standard,
-  Full, Custom, targeted and Written Practice choices before the legacy
-  archive.
-- The Progress Hub continues to calculate curated and legacy evidence
-  independently, with one deterministic recommendation and one de-duplicated
-  activity feed.
+  Full, Custom, targeted and Written Practice choices, plus one read-only
+  Previous quiz history entry.
+- The Progress Hub presents curated evidence first and keeps previous quiz
+  metrics in a collapsed, explicitly labelled compatibility section.
 
 ## Compatibility archive
 
-`/legacy` lists all frozen 50-question quizzes. `/legacy/:moduleId` opens the
-module-scoped archive. Existing active attempts can resume and saved historical
-results remain reviewable. The archive explicitly describes curated practice
-as the recommended assessment and does not migrate, average or delete legacy
-records.
+`/legacy` and `/legacy/:moduleId` are read-only Previous quiz history routes.
+Existing active attempts can resume once and saved historical results remain
+reviewable. No route, recommendation or visible control can create or restart a
+legacy attempt. The archive does not migrate, average or delete previous data.
 
 The StoreV2 identity, version-1 rollback key, question history, saved responses,
 review statuses and canonical assessment identities are unchanged.
+
+
+PR #26 completes the hard cutover. See [Curated hard cutover](CURATED_HARD_CUTOVER.md).
