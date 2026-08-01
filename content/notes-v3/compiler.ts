@@ -186,6 +186,7 @@ function numberedItems(lines: readonly string[]): string[] {
   let current = '';
   for (const raw of lines) {
     const line = raw.trim();
+    if (/^-{3,}$/.test(line)) break;
     const match = line.match(orderedItem);
     if (match) {
       if (current) items.push(current);

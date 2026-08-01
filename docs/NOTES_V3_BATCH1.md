@@ -50,3 +50,8 @@ Autonomic Pharmacology keeps:
 
 Notes V3 has no production import of any assessment bank and does not change
 the 680 curated questions, 400 frozen legacy questions or Aqueous pilot.
+## Rewrite progress
+
+Complete: Environmental Vision, Autonomic Pharmacology, Tissue Foundations and Ocular Adnexa.
+
+Remaining: Aqueous and Vitreous, Blood Supply, Human Visual Perception and Systemic Pathology. Batch 2 details are recorded in `docs/NOTES_V3_BATCH2.md`.

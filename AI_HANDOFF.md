@@ -75,3 +75,24 @@ All eight modules now present curated practice as the recommended learner path. 
 - Chrome interaction checks passed for keyboard recall reveal, figure dialog focus, Escape close, focus restoration and back/forward navigation.
 - Qualification and course-correction callouts render without raw Markdown markers.
 - Source-bound `npm run release:verify` is run from the clean implementation commit and recorded in the draft PR because its identity is commit-bound.
+## Notes V3 Batch 2 — Tissue Foundations and Ocular Adnexa
+
+- Branch: `codex/notes-v3-tissue-ocular-adnexa`
+- Base main: `220605976e5a15a7fcf95dcb665a06c32fad3009`
+- Scope: two authored Notes V3 modules, typed route-lazy registry and safe Notes V2 fallback
+- Deployment: none
+
+### Content and compatibility
+
+- Tissue manuscript: 7,231 words, 56,334 bytes, SHA-256 `d5e6401d89cb6ae6d618f7ec04c9092cab82c1257f4fc39d55b48680e4029152`.
+- Ocular manuscript: 7,162 words, 53,502 bytes, SHA-256 `7e81766be4986edbdd601962b12c9f8c7552111aca1414b0a4ba33e049b30cfc`.
+- Preserved three Tissue and six Ocular stable section IDs, figures, source scope and device-local reading completion.
+- Preserved Tissue scope boundaries and six labelled qualifications; preserved Ocular autonomic, petrosal and reflex-pathway correction labels.
+- Replaced module conditionals with an answer-free typed loader registry. Each manuscript remains a separate dynamic route chunk and failed loads return Notes V2.
+- Prevented Markdown section separators from leaking into the last revealed recall answer while preserving Batch 1 rendering.
+- No assessment bank, answer-key field, storage contract, learner history, feature flag or deployment profile changed.
+
+### Validation
+
+- Focused Notes V3 tests cover exact manuscript hashes, structure, source ownership, recall/summary completeness, fallback, lazy imports, reading percentages, safe rendering, completion controls and figure-dialog keyboard behavior.
+- The exact final test totals, release manifest identity, bundle evidence and Chrome matrix are recorded in the draft PR after the clean implementation commit is validated.
