@@ -16,15 +16,19 @@ const expectedSections = {
   'autonomic-pharmacology': ['pharm-adrenergic', 'pharm-cholinergic'],
   'tissue-foundations': ['tissue-nervous', 'tissue-connective', 'tissue-epithelium'],
   'ocular-adnexa': ['landmarks', 'muscles', 'tarsus-glands', 'lower-lid-blood', 'lacrimal-gland', 'tears'],
+  'aqueous-vitreous': ['media-chambers', 'production', 'flow', 'iop', 'vitreous-anatomy', 'vitreous-clinical'],
+  'blood-supply': ['arterial-origins', 'ciliary', 'retinal', 'barriers', 'microcirculation', 'clinical-blood'],
 } as const;
 
 describe('authored Notes V3 catalog', () => {
-  it('resolves the four authored modules before Notes V2 with stable section IDs', async () => {
+  it('resolves the six authored modules before Notes V2 with stable section IDs', async () => {
     expect(Object.keys(expectedSections).filter(hasAuthoredNotesV3)).toEqual([
       'environmental-vision',
       'autonomic-pharmacology',
       'tissue-foundations',
       'ocular-adnexa',
+      'aqueous-vitreous',
+      'blood-supply',
     ]);
 
     for (const [moduleId, sectionIds] of Object.entries(expectedSections)) {
@@ -41,11 +45,11 @@ describe('authored Notes V3 catalog', () => {
   });
 
   it('keeps Notes V2 for other modules and falls back safely from malformed authored content', async () => {
-    const blood = moduleMap.get('blood-supply');
+    const humanVisualPerception = moduleMap.get('human-visual-perception');
     const environmental = moduleMap.get('environmental-vision');
-    if (!blood || !environmental) throw new Error('Expected modules are missing');
+    if (!humanVisualPerception || !environmental) throw new Error('Expected modules are missing');
 
-    expect((await loadNotes(blood)).kind).toBe('v2');
+    expect((await loadNotes(humanVisualPerception)).kind).toBe('v2');
     const fallback = resolveNotes(environmental, { schemaVersion: 3, moduleId: environmental.id });
     expect(fallback.kind).toBe('v2');
     if (fallback.kind === 'v2') expect(fallback.reason).toMatch(/could not be validated/i);
@@ -105,6 +109,8 @@ describe('authored Notes V3 catalog', () => {
       'environmental-vision.md': '067cd76956aa1d71ee07630db409eed2e76a47d943bc2961fe2fd24bf843a074',
       'ocular-adnexa.md': '7e81766be4986edbdd601962b12c9f8c7552111aca1414b0a4ba33e049b30cfc',
       'tissue-foundations.md': 'd5e6401d89cb6ae6d618f7ec04c9092cab82c1257f4fc39d55b48680e4029152',
+      'aqueous-vitreous.md': '4bf0b843da02d34c50c53bf67f8022ca66589a699171272725c3208d8f4e7120',
+      'blood-supply.md': '6ce9debccc5dc85305ae8782549974daf5261d2483722fd31848498698f01074',
     });
 
     const attributes = readFileSync(join(process.cwd(), '.gitattributes'), 'utf8');
@@ -112,7 +118,7 @@ describe('authored Notes V3 catalog', () => {
       'content/notes-v3/sources/*.md text eol=lf whitespace=-trailing-space',
     );
 
-    const productionFiles = ['catalog.ts', 'compiler.ts', 'schema.ts', 'types.ts', 'modules/environmental-vision.ts', 'modules/autonomic-pharmacology.ts', 'modules/tissue-foundations.ts', 'modules/ocular-adnexa.ts']
+    const productionFiles = ['catalog.ts', 'compiler.ts', 'schema.ts', 'types.ts', 'modules/environmental-vision.ts', 'modules/autonomic-pharmacology.ts', 'modules/tissue-foundations.ts', 'modules/ocular-adnexa.ts', 'modules/aqueous-vitreous.ts', 'modules/blood-supply.ts']
       .map((file) => readFileSync(join(process.cwd(), 'content', 'notes-v3', file), 'utf8'))
       .join('\n');
     expect(productionFiles).not.toMatch(/question-bank|CandidateBank|correctOptionId|correctAnswer|answerRationale/);

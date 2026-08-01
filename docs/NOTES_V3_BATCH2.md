@@ -72,11 +72,11 @@ Complete:
 - Autonomic Pharmacology
 - Tissue Foundations
 - Ocular Adnexa
+- Aqueous and Vitreous
+- Blood Supply
 
 Remaining:
 
-- Aqueous and Vitreous
-- Blood Supply
 - Human Visual Perception
 - Systemic Pathology
 
