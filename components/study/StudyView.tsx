@@ -1,13 +1,12 @@
 'use client';
 
-import { type MouseEvent as ReactMouseEvent, useCallback, useRef, useState } from 'react';
+import { type MouseEvent as ReactMouseEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { CuratedReleaseStatus } from '@/components/assessment/curated/CuratedReleaseStatus';
 import { FigureDialog } from '@/components/study/FigureDialog';
 import { NotesV2Section } from '@/components/study/NotesV2Section';
-import {
-  notesV2ReadingPercentage,
-  resolveNotesV2,
-} from '@/content/notes-v2/catalog';
+import { NotesV3Section } from '@/components/study/NotesV3Section';
+import { loadNotes, notesReadingPercentage, resolveNotes } from '@/content/notes-v3/catalog';
+import type { NotesResolution } from '@/content/notes-v3/types';
 import type { GoToRoute } from '@/hooks/useClientRoute';
 import type { CuratedExperienceSummary } from '@/lib/assessment/curated/types';
 import { moduleReadingPercentage } from '@/lib/legacy/progress';
@@ -36,13 +35,26 @@ export function StudyView({
   hasLegacyAttempt: boolean;
   hasLegacyResults: boolean;
 }) {
-  const notesResolution = resolveNotesV2(module);
-  const content = notesResolution.kind === 'v2' ? notesResolution.content : undefined;
+  const [loadedNotes, setLoadedNotes] = useState<{ moduleId: string; resolution: NotesResolution } | null>(null);
+  useEffect(() => {
+    let active = true;
+    void loadNotes(module).then((resolution) => {
+      if (active) setLoadedNotes({ moduleId: module.id, resolution });
+    });
+    return () => { active = false; };
+  }, [module]);
+  const notesResolution = loadedNotes?.moduleId === module.id
+    ? loadedNotes.resolution
+    : resolveNotes(module);
+  const content = notesResolution.kind === 'legacy' ? undefined : notesResolution.content;
   const allSections = content
-    ? [...content.sections, ...(content.legacySupplementalSections ?? [])]
+    ? [
+        ...content.sections,
+        ...(notesResolution.kind === 'v2' ? notesResolution.content.legacySupplementalSections ?? [] : []),
+      ]
     : [];
   const progress = content
-    ? notesV2ReadingPercentage(content, read)
+    ? notesReadingPercentage(content, read)
     : moduleReadingPercentage(module, read);
   const sourceMap = new Map(content?.sources.map((source) => [source.id, source]) ?? []);
   const [expanded, setExpanded] = useState<Figure | null>(null);
@@ -147,14 +159,23 @@ export function StudyView({
               </nav>
             </details>
           ) : null}
-          {notesResolution.kind === 'legacy' ? (
+          {notesResolution.kind === 'legacy' || (notesResolution.kind === 'v2' && notesResolution.reason) ? (
             <div className="notes-fallback" role="status">
-              <strong>Original notes shown</strong>
+              <strong>{notesResolution.kind === 'legacy' ? 'Original notes shown' : 'Notes V2 fallback shown'}</strong>
               <span>{notesResolution.reason}</span>
             </div>
           ) : null}
           <div className="source-note"><b>Study note</b><span>{module.sourceNote}</span></div>
-          {content ? content.sections.map((item, index) => (
+          {notesResolution.kind === 'v3' ? notesResolution.content.sections.map((item, index) => (
+            <NotesV3Section
+              key={item.id}
+              section={item}
+              index={index}
+              read={read.includes(item.id)}
+              onToggle={() => onToggle(item.id)}
+              openFigure={openFigure}
+            />
+          )) : notesResolution.kind === 'v2' ? notesResolution.content.sections.map((item, index) => (
             <NotesV2Section
               key={item.id}
               section={item}
@@ -199,7 +220,7 @@ export function StudyView({
               </button>
             </article>
           ))}
-          {content?.legacySupplementalSections?.length ? (
+          {notesResolution.kind === 'v2' && notesResolution.content.legacySupplementalSections?.length ? (
             <section className="legacy-supplemental-group" aria-labelledby="legacy-supplemental-title">
               <div className="notes-supplemental-heading">
                 <p className="eyebrow">Preserved reading history</p>
@@ -209,11 +230,11 @@ export function StudyView({
                   The current curated assessment does not cover them.
                 </p>
               </div>
-              {content.legacySupplementalSections.map((item, index) => (
+              {notesResolution.content.legacySupplementalSections.map((item, index) => (
                 <NotesV2Section
                   key={item.id}
                   section={item}
-                  index={content.sections.length + index}
+                  index={notesResolution.content.sections.length + index}
                   read={read.includes(item.id)}
                   supplemental
                   onToggle={() => onToggle(item.id)}

@@ -13,11 +13,14 @@ export type ReleaseBudget = Omit<ReleaseBuildMetrics, 'buildDurationMs' | 'fileC
  * closure. Size ceilings use approximately 10% headroom. Build duration
  * remains observational because local and hosted runner I/O varies. Systemic and
  * full-curated profiles were measured on clean checkpoint commit `7ac2a47`.
+ * The global output ceilings were remeasured on the clean Notes V3 Batch 1
+ * checkpoint after adding two route-lazy authored manuscript chunks; initial and
+ * assessment-route closure baselines remain independently constrained below.
  */
 export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = {
   disabled: {
-    totalOutputBytes: 9332178,
-    clientJavaScriptBytes: 2164407,
+    totalOutputBytes: 9611093,
+    clientJavaScriptBytes: 2290649,
     initialHomeJavaScriptBytes: 507159,
     disabledPracticeHubJavaScriptBytes: 507159,
     disabledProgressHubJavaScriptBytes: 507159,
@@ -31,8 +34,8 @@ export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = 
     fileCount: 174,
   },
   'hvp-public-beta': {
-    totalOutputBytes: 9332178,
-    clientJavaScriptBytes: 2164407,
+    totalOutputBytes: 9611093,
+    clientJavaScriptBytes: 2290649,
     initialHomeJavaScriptBytes: 507158,
     disabledPracticeHubJavaScriptBytes: 507158,
     disabledProgressHubJavaScriptBytes: 507158,
@@ -46,8 +49,8 @@ export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = 
     fileCount: 174,
   },
   'tissue-foundations-preview': {
-    totalOutputBytes: 9332178,
-    clientJavaScriptBytes: 2164407,
+    totalOutputBytes: 9611093,
+    clientJavaScriptBytes: 2290649,
     initialHomeJavaScriptBytes: 507158,
     disabledPracticeHubJavaScriptBytes: 507158,
     disabledProgressHubJavaScriptBytes: 507158,
@@ -61,8 +64,8 @@ export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = 
     fileCount: 174,
   },
   'hvp-tissue-preview': {
-    totalOutputBytes: 9332178,
-    clientJavaScriptBytes: 2164407,
+    totalOutputBytes: 9611093,
+    clientJavaScriptBytes: 2290649,
     initialHomeJavaScriptBytes: 507157,
     disabledPracticeHubJavaScriptBytes: 507157,
     disabledProgressHubJavaScriptBytes: 507157,
@@ -76,8 +79,8 @@ export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = 
     fileCount: 174,
   },
   'neuro-anatomy-preview': {
-    totalOutputBytes: 9332178,
-    clientJavaScriptBytes: 2164407,
+    totalOutputBytes: 9611093,
+    clientJavaScriptBytes: 2290649,
     initialHomeJavaScriptBytes: 507155,
     disabledPracticeHubJavaScriptBytes: 507155,
     disabledProgressHubJavaScriptBytes: 507155,
@@ -91,8 +94,8 @@ export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = 
     fileCount: 174,
   },
   'environmental-vision-preview': {
-    totalOutputBytes: 9332178,
-    clientJavaScriptBytes: 2164407,
+    totalOutputBytes: 9611093,
+    clientJavaScriptBytes: 2290649,
     initialHomeJavaScriptBytes: 507158,
     disabledPracticeHubJavaScriptBytes: 507158,
     disabledProgressHubJavaScriptBytes: 507158,
@@ -106,8 +109,8 @@ export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = 
     fileCount: 174,
   },
   'autonomic-pharmacology-preview': {
-    totalOutputBytes: 9332178,
-    clientJavaScriptBytes: 2164407,
+    totalOutputBytes: 9611093,
+    clientJavaScriptBytes: 2290649,
     initialHomeJavaScriptBytes: 509145,
     disabledPracticeHubJavaScriptBytes: 509145,
     disabledProgressHubJavaScriptBytes: 509145,
@@ -121,8 +124,8 @@ export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = 
     fileCount: 183,
   },
   'systemic-pathology-preview': {
-    totalOutputBytes: 9332178,
-    clientJavaScriptBytes: 2164407,
+    totalOutputBytes: 9611093,
+    clientJavaScriptBytes: 2290649,
     initialHomeJavaScriptBytes: 511112,
     disabledPracticeHubJavaScriptBytes: 511112,
     disabledProgressHubJavaScriptBytes: 511112,
@@ -136,8 +139,8 @@ export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = 
     fileCount: 192,
   },
   'full-curated-preview': {
-    totalOutputBytes: 9332178,
-    clientJavaScriptBytes: 2164407,
+    totalOutputBytes: 9611093,
+    clientJavaScriptBytes: 2290649,
     initialHomeJavaScriptBytes: 511105,
     disabledPracticeHubJavaScriptBytes: 511105,
     disabledProgressHubJavaScriptBytes: 511105,
@@ -151,8 +154,8 @@ export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = 
     fileCount: 192,
   },
   'full-curated-public-beta': {
-    totalOutputBytes: 9332178,
-    clientJavaScriptBytes: 2164407,
+    totalOutputBytes: 9611093,
+    clientJavaScriptBytes: 2290649,
     initialHomeJavaScriptBytes: 529208,
     disabledPracticeHubJavaScriptBytes: 529208,
     disabledProgressHubJavaScriptBytes: 529208,
@@ -173,8 +176,8 @@ export const RELEASE_BUDGETS: Record<ReleaseProfileId, ReleaseBudget> = Object.f
   Object.entries(RELEASE_BASELINES).map(([profile, baseline]) => [
     profile,
     {
-    totalOutputBytes: 9332178,
-    clientJavaScriptBytes: 2164407,
+    totalOutputBytes: 9611093,
+    clientJavaScriptBytes: 2290649,
       initialHomeJavaScriptBytes: withHeadroom(baseline.initialHomeJavaScriptBytes),
       disabledPracticeHubJavaScriptBytes: withHeadroom(
         baseline.disabledPracticeHubJavaScriptBytes,

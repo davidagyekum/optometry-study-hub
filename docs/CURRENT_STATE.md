@@ -343,3 +343,7 @@ PR #26 removes every learner-facing path that could create or restart a legacy q
 Learner status copy is now neutral and compact: **Course-aligned practice**, **Built from the supplied course materials**, and **Progress is stored on this device**. Internal question and objective statuses remain draft. StoreV2, the rollback key, curated histories, previous attempts/results, question history, all canonical bank hashes and the disabled Aqueous pilot are unchanged.
 
 The mobile header now grows to its wrapped two-row height at phone widths, keeping Home, Practice and Progress fully visible.
+
+## Notes V3 Batch 1
+
+Environmental Vision and Autonomic Pharmacology now resolve manually authored self-teaching Notes V3 before the preserved Notes V2 catalog. Their eight stable section IDs, reading-progress records, figures and source scope remain unchanged. The restricted renderer supports explicit Must/Should/Useful focus tiers, rich explanations, cause-and-effect chains, memory hooks, exam traps, worked examples, active recall, one-minute summaries and definition lists without executing raw HTML. Malformed or absent authored content fails safely to Notes V2. The assessment banks, 680 curated questions, 400 frozen legacy questions, StoreV2, attempt/result/history identities, feature flags and Aqueous pilot are unchanged. See `docs/NOTES_V3_BATCH1.md`.

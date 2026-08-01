@@ -2,6 +2,7 @@
 @import "./pilot.css";
 @import "./practice.css";
 @import "./progress.css";
+@import "./notes-v3.css";
 
 :root {
   --navy: #061b33;

@@ -46,3 +46,32 @@ All eight modules now present curated practice as the recommended learner path. 
 - npm run check passed: 184 test files and 979 tests, all question validators and blueprints, and production build. Lint retains four known image warnings; git diff --check passed.
 - Release verification is run after committing the final source so the clean-tree release identity can be recorded.
 
+
+## Notes V3 Batch 1 — Environmental Vision and Autonomic Pharmacology
+
+- Branch: `codex/notes-v3-environmental-pharmacology`
+- Base main: `ec534496a038ea72f0eae01363eef8f60415c75e`
+- Scope: authored self-teaching Notes V3 and safe Notes V2 fallback only
+- Deployment: none
+
+### Content and compatibility
+
+- Preserved the reviewed Environmental Vision manuscript byte-for-byte at SHA-256 `067cd76956aa1d71ee07630db409eed2e76a47d943bc2961fe2fd24bf843a074`.
+- Preserved the reviewed Autonomic Pharmacology manuscript byte-for-byte at SHA-256 `60750407cc64ffb1c41aac6c9279bd3fe6f9f9751ff67d5f9ed2af42ce25fee6`.
+- Added a route-lazy authored Notes V3 catalog that loads only the requested module, resolves before the untouched Notes V2 catalog and falls back to Notes V2 when authored content is missing or malformed.
+- Preserved all eight stable section IDs and device-local reading progress.
+- Added safe typed teaching blocks, responsive tables, textual priority labels, accessible native active-recall reveals and inert raw-HTML handling.
+- No production Notes V3 file imports an assessment bank or answer-key field.
+- No question content, canonical identity, StoreV2 contract, attempt, result, question history, feature flag or deployment profile changed.
+
+### Validation
+
+- Bundled Node 24.14.0 `npm ci`: passed after stopping an old local preview process that held dependency locks.
+- Focused Notes V3 tests: 2 files, 8 tests passed.
+- Full Vitest suite: 186 files, 988 tests passed.
+- Focused lint and TypeScript checking: passed; the four accepted legacy image warnings remain outside the new renderer files.
+- `npm run check`: passed with 186 test files and 988 tests, all eight validators and blueprints, canonical bank checksums and the production build. Four accepted legacy image warnings remain.
+- Chrome QA passed at 390x844, 768x1024, 1024x768 and 1440x900 for both study routes: 8 sections, 8 figures, 8 focus maps, 8 recall controls and 19 responsive tables; no document overflow or console errors.
+- Chrome interaction checks passed for keyboard recall reveal, figure dialog focus, Escape close, focus restoration and back/forward navigation.
+- Qualification and course-correction callouts render without raw Markdown markers.
+- Source-bound `npm run release:verify` is run from the clean implementation commit and recorded in the draft PR because its identity is commit-bound.
