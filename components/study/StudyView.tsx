@@ -50,7 +50,7 @@ export function StudyView({
   const allSections = content
     ? [
         ...content.sections,
-        ...(notesResolution.kind === 'v2' ? notesResolution.content.legacySupplementalSections ?? [] : []),
+        ...(content.legacySupplementalSections ?? []),
       ]
     : [];
   const progress = content
@@ -220,7 +220,7 @@ export function StudyView({
               </button>
             </article>
           ))}
-          {notesResolution.kind === 'v2' && notesResolution.content.legacySupplementalSections?.length ? (
+          {content?.legacySupplementalSections?.length ? (
             <section className="legacy-supplemental-group" aria-labelledby="legacy-supplemental-title">
               <div className="notes-supplemental-heading">
                 <p className="eyebrow">Preserved reading history</p>
@@ -230,11 +230,11 @@ export function StudyView({
                   The current curated assessment does not cover them.
                 </p>
               </div>
-              {notesResolution.content.legacySupplementalSections.map((item, index) => (
+              {content.legacySupplementalSections.map((item, index) => (
                 <NotesV2Section
                   key={item.id}
                   section={item}
-                  index={notesResolution.content.sections.length + index}
+                  index={content.sections.length + index}
                   read={read.includes(item.id)}
                   supplemental
                   onToggle={() => onToggle(item.id)}

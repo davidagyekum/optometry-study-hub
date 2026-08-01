@@ -298,3 +298,17 @@ The generic audit verified initial/server answer isolation, the Pharmacology pra
 
 The first clean source-bound full public-beta build measured 9,322,516 total output bytes, 2,161,281 client JavaScript bytes, 529,208 initial-route bytes and 192 files. The release budget retains approximately ten percent headroom and treats build duration as observational.
 The completed eight-module platform also remeasured the disabled profile at 9,322,532 total bytes and 2,161,289 client JavaScript bytes. Those maxima are used as the conservative cross-profile baseline for total/client output; route-specific and answer-closure budgets remain independently measured and unchanged.
+
+## Notes V3 Batch 4 route-lazy remeasurement
+
+The clean Batch 4 disabled-profile artifact measured 10,597,119 total output
+bytes, 2,773,323 client JavaScript bytes, 632,719 bytes for its largest asset
+and 216 files. The two new canonical manuscripts remain independent
+route-lazy chunks. They did not enter the initial, server or assessment-route
+closures.
+
+The existing total-output ceiling still retained sufficient bounded headroom.
+Only the crossed global client-JavaScript baseline and its standard
+ten-per-cent ceiling were remeasured: 2,773,323 bytes measured and 3,050,656
+bytes allowed. Initial, Practice, Progress, controlled-assessment, analytics
+and combined-closure ceilings remain unchanged.

@@ -1,5 +1,5 @@
 import type { Figure } from '@/lib/legacy/types';
-import type { StudyModuleContentV2, StudySource } from '@/content/notes-v2/types';
+import type { StudyModuleContentV2, StudySectionV2, StudySource } from '@/content/notes-v2/types';
 
 export type NotesPriority = 'must' | 'should' | 'useful';
 
@@ -41,6 +41,7 @@ export type StudyModuleContentV3 = {
   description: string;
   learningObjectives: string[];
   sections: StudySectionV3[];
+  legacySupplementalSections?: StudySectionV2[];
   sources: StudySource[];
 };
 
