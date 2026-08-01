@@ -14,11 +14,18 @@ import { studyModuleContentV3Schema } from '@/content/notes-v3/schema';
 const expectedSections = {
   'environmental-vision': ['env-optics', 'env-task', 'env-ergonomics', 'env-hazards', 'env-protection', 'env-lighting'],
   'autonomic-pharmacology': ['pharm-adrenergic', 'pharm-cholinergic'],
+  'tissue-foundations': ['tissue-nervous', 'tissue-connective', 'tissue-epithelium'],
+  'ocular-adnexa': ['landmarks', 'muscles', 'tarsus-glands', 'lower-lid-blood', 'lacrimal-gland', 'tears'],
 } as const;
 
 describe('authored Notes V3 catalog', () => {
-  it('resolves the two authored modules before Notes V2 with stable section IDs', async () => {
-    expect(Object.keys(expectedSections).filter(hasAuthoredNotesV3)).toEqual(['environmental-vision', 'autonomic-pharmacology']);
+  it('resolves the four authored modules before Notes V2 with stable section IDs', async () => {
+    expect(Object.keys(expectedSections).filter(hasAuthoredNotesV3)).toEqual([
+      'environmental-vision',
+      'autonomic-pharmacology',
+      'tissue-foundations',
+      'ocular-adnexa',
+    ]);
 
     for (const [moduleId, sectionIds] of Object.entries(expectedSections)) {
       const studyModule = moduleMap.get(moduleId);
@@ -96,6 +103,8 @@ describe('authored Notes V3 catalog', () => {
     expect(hashes).toEqual({
       'autonomic-pharmacology.md': '60750407cc64ffb1c41aac6c9279bd3fe6f9f9751ff67d5f9ed2af42ce25fee6',
       'environmental-vision.md': '067cd76956aa1d71ee07630db409eed2e76a47d943bc2961fe2fd24bf843a074',
+      'ocular-adnexa.md': '7e81766be4986edbdd601962b12c9f8c7552111aca1414b0a4ba33e049b30cfc',
+      'tissue-foundations.md': 'd5e6401d89cb6ae6d618f7ec04c9092cab82c1257f4fc39d55b48680e4029152',
     });
 
     const attributes = readFileSync(join(process.cwd(), '.gitattributes'), 'utf8');
@@ -103,7 +112,7 @@ describe('authored Notes V3 catalog', () => {
       'content/notes-v3/sources/*.md text eol=lf whitespace=-trailing-space',
     );
 
-    const productionFiles = ['catalog.ts', 'compiler.ts', 'schema.ts', 'types.ts', 'modules/environmental-vision.ts', 'modules/autonomic-pharmacology.ts']
+    const productionFiles = ['catalog.ts', 'compiler.ts', 'schema.ts', 'types.ts', 'modules/environmental-vision.ts', 'modules/autonomic-pharmacology.ts', 'modules/tissue-foundations.ts', 'modules/ocular-adnexa.ts']
       .map((file) => readFileSync(join(process.cwd(), 'content', 'notes-v3', file), 'utf8'))
       .join('\n');
     expect(productionFiles).not.toMatch(/question-bank|CandidateBank|correctOptionId|correctAnswer|answerRationale/);

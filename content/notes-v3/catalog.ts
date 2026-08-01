@@ -3,10 +3,21 @@ import { studyModuleContentV3Schema } from '@/content/notes-v3/schema';
 import type { NotesResolution, StudyModuleContentV3 } from '@/content/notes-v3/types';
 import type { Module } from '@/lib/legacy/types';
 
-const authoredModuleIds = new Set(['environmental-vision', 'autonomic-pharmacology']);
+type AuthoredNotesLoader = () => Promise<StudyModuleContentV3>;
+
+const authoredNotesLoaders = {
+  'environmental-vision': async () =>
+    (await import('@/content/notes-v3/modules/environmental-vision')).environmentalVisionNotesV3,
+  'autonomic-pharmacology': async () =>
+    (await import('@/content/notes-v3/modules/autonomic-pharmacology')).autonomicPharmacologyNotesV3,
+  'tissue-foundations': async () =>
+    (await import('@/content/notes-v3/modules/tissue-foundations')).tissueFoundationsNotesV3,
+  'ocular-adnexa': async () =>
+    (await import('@/content/notes-v3/modules/ocular-adnexa')).ocularAdnexaNotesV3,
+} satisfies Record<string, AuthoredNotesLoader>;
 
 export function hasAuthoredNotesV3(moduleId: string): boolean {
-  return authoredModuleIds.has(moduleId);
+  return Object.hasOwn(authoredNotesLoaders, moduleId);
 }
 
 export function resolveNotes(
@@ -37,23 +48,22 @@ export function resolveNotes(
   return resolveNotesV2(module);
 }
 
-export async function loadNotes(module: Module): Promise<NotesResolution> {
+export async function loadNotes(
+  module: Module,
+  loader: AuthoredNotesLoader | undefined = authoredNotesLoaders[
+    module.id as keyof typeof authoredNotesLoaders
+  ],
+): Promise<NotesResolution> {
+  if (!loader) return resolveNotesV2(module);
+
   try {
-    if (module.id === 'environmental-vision') {
-      const { environmentalVisionNotesV3 } = await import('@/content/notes-v3/modules/environmental-vision');
-      return resolveNotes(module, environmentalVisionNotesV3);
-    }
-    if (module.id === 'autonomic-pharmacology') {
-      const { autonomicPharmacologyNotesV3 } = await import('@/content/notes-v3/modules/autonomic-pharmacology');
-      return resolveNotes(module, autonomicPharmacologyNotesV3);
-    }
+    return resolveNotes(module, await loader());
   } catch {
     const fallback = resolveNotesV2(module);
     return fallback.kind === 'v2'
       ? { kind: 'v2', content: fallback.content, reason: 'Authored notes could not be loaded. The structured Notes V2 version is shown instead.' }
       : fallback;
   }
-  return resolveNotesV2(module);
 }
 
 export function notesReadingPercentage(
