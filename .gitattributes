@@ -5,4 +5,4 @@ content-packages/**/QUESTION_BANK.json -text
 content-packages/**/assets/*.svg -text
 
 # Reviewed Notes V3 manuscripts preserve Markdown hard-break spaces byte-for-byte.
-content/notes-v3/sources/*.md whitespace=-trailing-space
+content/notes-v3/sources/*.md text eol=lf whitespace=-trailing-space
