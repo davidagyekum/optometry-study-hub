@@ -73,15 +73,75 @@ describe('AssessmentPilotSession', () => {
     expect(props.onToggleFlag).toHaveBeenCalled();
     fireEvent.click(screen.getByRole('button', { name: 'Save and exit' }));
     expect(props.go).toHaveBeenCalledWith('pilot', 'aqueous-vitreous');
-    fireEvent.click(screen.getByRole('button', { name: 'Submit' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Review & submit' }));
     expect(screen.getByText(/Incomplete drafts will be treated as unanswered/i)).toBeInTheDocument();
+  });
+
+  it('keeps a final answer in the immediate submission review and shows a clear final action', () => {
+    matchMedia(false);
+    const { registry, attempt } = pilotFixture();
+    const questionId = attempt.orderedQuestionIds.find(
+      (id) => registry.get(id)?.format === 'single_best_answer',
+    );
+    if (!questionId) throw new Error('Expected a single-best-answer pilot question.');
+    const question = registry.get(questionId);
+    if (!question || question.format !== 'single_best_answer') {
+      throw new Error('Expected a single-best-answer pilot question.');
+    }
+    const optionId = question.options[0].id;
+    const finalAttempt = {
+      ...attempt,
+      orderedQuestionIds: [
+        ...attempt.orderedQuestionIds.filter((id) => id !== questionId),
+        questionId,
+      ],
+      currentIndex: attempt.orderedQuestionIds.length - 1,
+    };
+    const updatedAttempt = {
+      ...finalAttempt,
+      draftResponses: {
+        ...finalAttempt.draftResponses,
+        [questionId]: { format: 'single_best_answer' as const, optionId },
+      },
+      responses: {
+        ...finalAttempt.responses,
+        [questionId]: { format: 'single_best_answer' as const, optionId },
+      },
+    };
+    const onUpdateDraft = vi.fn(() => sessionSuccess(updatedAttempt));
+    const onSubmit = vi.fn(() => sessionSuccess(makeResult(updatedAttempt)));
+
+    renderSession({
+      attemptSelection: {
+        candidates: [finalAttempt],
+        compatibleAttempt: finalAttempt,
+        issues: [],
+      },
+      onSubmit,
+      onUpdateDraft,
+      registry,
+    });
+
+    expect(screen.queryByRole('button', { name: 'Next' })).not.toBeInTheDocument();
+    const reviewButton = screen.getByRole('button', { name: 'Review & submit' });
+    expect(reviewButton).toHaveClass('pilot-submit-button');
+    fireEvent.click(screen.getByRole('radio', { name: question.options[0].text }));
+    fireEvent.click(reviewButton);
+
+    const summary = screen.getByRole('region', { name: 'Review before submission' });
+    expect(summary).toHaveTextContent(/Answered\s*1/);
+    expect(summary).toHaveTextContent(
+      new RegExp(`Unanswered\\s*${finalAttempt.orderedQuestionIds.length - 1}`),
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'Submit pilot' }));
+    expect(onSubmit).toHaveBeenCalledWith(finalAttempt.id);
   });
 
   it('focuses submission review, supports keyboard activation, and restores Submit focus', async () => {
     matchMedia(false);
     const user = userEvent.setup();
     renderSession();
-    const submit = screen.getByRole('button', { name: 'Submit' });
+    const submit = screen.getByRole('button', { name: 'Review & submit' });
     submit.focus();
     await user.keyboard('{Enter}');
     const heading = screen.getByRole('heading', { name: 'Review before submission' });
@@ -106,7 +166,7 @@ describe('AssessmentPilotSession', () => {
     matchMedia(false);
     const failure = sessionFailure(sessionIssue('INVALID_STORE', 'Storage refused the update.'));
     renderSession({ onSubmit: vi.fn(() => failure) });
-    fireEvent.click(screen.getByRole('button', { name: 'Submit' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Review & submit' }));
     fireEvent.click(screen.getByRole('button', { name: 'Submit pilot' }));
     const alert = screen.getByRole('alert');
     expect(alert).toHaveTextContent('Storage refused the update.');
