@@ -430,6 +430,10 @@
 }
 
 .pilot-question-actions .text-button { margin-right: auto; }
+.pilot-submit-button {
+  min-width: 170px;
+  font-weight: 800;
+}
 .submission-summary {
   margin-top: 24px;
   padding: 24px;
@@ -683,6 +687,11 @@
   .ordering-controls button { flex: 1; }
   .pilot-question-actions { display: grid; grid-template-columns: 1fr 1fr; }
   .pilot-question-actions .text-button { margin: 0; }
+  .pilot-question-actions > button { width: 100%; }
+  .pilot-submit-button {
+    grid-column: 1 / -1;
+    min-width: 0;
+  }
   .submission-summary dl { grid-template-columns: 1fr 1fr; }
   .submission-summary dl div:nth-child(2) { border-right: 0; }
   .submission-summary dl div:nth-child(-n+2) { border-bottom: 1px solid #b5d9d7; }

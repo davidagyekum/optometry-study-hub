@@ -89,6 +89,11 @@ export function ControlledAssessmentSession({
   onSubmit,
   experience,
 }: ControlledAssessmentSessionProps) {
+  const selectedAttempt = attemptSelection.compatibleAttempt;
+  const [optimisticAttempt, setOptimisticAttempt] = useState<{
+    source: AssessmentAttemptSnapshot;
+    value: AssessmentAttemptSnapshot;
+  }>();
   const [validation, setValidation] = useState<ScopedValidation>();
   const [controllerIssues, setControllerIssues] = useState<SessionIssue[]>([]);
   const [recoveryIssues, setRecoveryIssues] = useState<SessionIssue[]>([]);
@@ -96,7 +101,9 @@ export function ControlledAssessmentSession({
   const headingRef = useRef<HTMLHeadingElement>(null);
   const submitButtonRef = useRef<HTMLButtonElement>(null);
 
-  const attempt = attemptSelection.compatibleAttempt;
+  const attempt = optimisticAttempt && optimisticAttempt.source === selectedAttempt
+    ? optimisticAttempt.value
+    : selectedAttempt;
   const currentIndex = attempt?.currentIndex;
 
   useEffect(() => {
@@ -196,9 +203,13 @@ export function ControlledAssessmentSession({
 
   const captureQuestionAction = (
     originQuestionId: string,
-    result: SessionResult<unknown>,
+    result: SessionResult<AssessmentAttemptSnapshot>,
   ) => {
     if (result.ok) {
+      setOptimisticAttempt({
+        source: selectedAttempt ?? result.value,
+        value: result.value,
+      });
       setValidation((current) => (
         current?.questionId === originQuestionId ? undefined : current
       ));
@@ -210,6 +221,19 @@ export function ControlledAssessmentSession({
       ? { questionId: originQuestionId, issues: partitioned.rendererIssues }
       : undefined);
     setControllerIssues(partitioned.sessionIssues);
+  };
+  const captureAttemptAction = (
+    result: SessionResult<AssessmentAttemptSnapshot>,
+    clearValidation = false,
+  ) => {
+    setControllerIssues(result.ok ? [] : result.issues);
+    if (result.ok) {
+      setOptimisticAttempt({
+        source: selectedAttempt ?? result.value,
+        value: result.value,
+      });
+      if (clearValidation) setValidation(undefined);
+    }
   };
   const captureController = (result: SessionResult<unknown>, clearValidation = false) => {
     setControllerIssues(result.ok ? [] : result.issues);
@@ -235,7 +259,7 @@ export function ControlledAssessmentSession({
       <div className="pilot-session-grid">
         <QuestionNavigator
           attempt={attempt}
-          onNavigate={(index) => captureController(onMove(attempt, index), true)}
+          onNavigate={(index) => captureAttemptAction(onMove(attempt, index), true)}
         />
         <section className="pilot-question-card">
           <div className="pilot-question-meta">
@@ -243,7 +267,7 @@ export function ControlledAssessmentSession({
             <span>{formatLabel(question.format)}</span>
             <button
               className={attempt.flags.includes(questionId) ? 'flag active' : 'flag'}
-              onClick={() => captureController(onToggleFlag(attempt, questionId))}
+              onClick={() => captureAttemptAction(onToggleFlag(attempt, questionId))}
               type="button"
             >
               {attempt.flags.includes(questionId) ? 'Unflag question' : 'Flag question'}
@@ -285,7 +309,7 @@ export function ControlledAssessmentSession({
             <button
               className="secondary"
               disabled={attempt.currentIndex === 0}
-              onClick={() => captureController(
+              onClick={() => captureAttemptAction(
                 onMove(attempt, attempt.currentIndex - 1),
                 true,
               )}
@@ -293,17 +317,30 @@ export function ControlledAssessmentSession({
             >
               Previous
             </button>
-            <button
-              className="secondary"
-              disabled={attempt.currentIndex === attempt.orderedQuestionIds.length - 1}
-              onClick={() => captureController(
-                onMove(attempt, attempt.currentIndex + 1),
-                true,
-              )}
-              type="button"
-            >
-              Next
-            </button>
+            {attempt.currentIndex < attempt.orderedQuestionIds.length - 1 ? (
+              <button
+                className="secondary"
+                onClick={() => captureAttemptAction(
+                  onMove(attempt, attempt.currentIndex + 1),
+                  true,
+                )}
+                type="button"
+              >
+                Next
+              </button>
+            ) : (
+              <button
+                className="primary coral pilot-submit-button"
+                onClick={() => {
+                  setControllerIssues([]);
+                  setReviewingSubmission(true);
+                }}
+                ref={submitButtonRef}
+                type="button"
+              >
+                Review &amp; submit
+              </button>
+            )}
             <button
               className="text-button"
               onClick={() => go(experience.landingView, experience.landingResourceId)}
@@ -311,17 +348,19 @@ export function ControlledAssessmentSession({
             >
               Save and exit
             </button>
-            <button
-              className="primary"
-              onClick={() => {
-                setControllerIssues([]);
-                setReviewingSubmission(true);
-              }}
-              ref={submitButtonRef}
-              type="button"
-            >
-              Submit
-            </button>
+            {attempt.currentIndex < attempt.orderedQuestionIds.length - 1 ? (
+              <button
+                className="primary coral pilot-submit-button"
+                onClick={() => {
+                  setControllerIssues([]);
+                  setReviewingSubmission(true);
+                }}
+                ref={submitButtonRef}
+                type="button"
+              >
+                Review &amp; submit
+              </button>
+            ) : null}
           </div>
           {reviewingSubmission ? (
             <SubmissionSummary
