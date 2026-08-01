@@ -98,6 +98,11 @@ describe('authored Notes V3 catalog', () => {
       'environmental-vision.md': '067cd76956aa1d71ee07630db409eed2e76a47d943bc2961fe2fd24bf843a074',
     });
 
+    const attributes = readFileSync(join(process.cwd(), '.gitattributes'), 'utf8');
+    expect(attributes).toContain(
+      'content/notes-v3/sources/*.md text eol=lf whitespace=-trailing-space',
+    );
+
     const productionFiles = ['catalog.ts', 'compiler.ts', 'schema.ts', 'types.ts', 'modules/environmental-vision.ts', 'modules/autonomic-pharmacology.ts']
       .map((file) => readFileSync(join(process.cwd(), 'content', 'notes-v3', file), 'utf8'))
       .join('\n');
