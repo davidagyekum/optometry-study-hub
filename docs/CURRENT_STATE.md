@@ -353,3 +353,23 @@ Tissue Foundations and Ocular Adnexa now join the authored Notes V3 catalog with
 ## Notes V3 Batch 3
 
 Aqueous and Vitreous and Blood Supply now join the authored Notes V3 catalog with all 12 stable reading IDs intact. Their 14,890 words retain labelled course qualifications, mechanism sequences, comparison tables, focus maps, one-minute summaries, 89 active-recall prompt/answer pairs and existing cleared figures. Each of the six authored manuscripts remains in a separate answer-free route chunk; rejected loads and malformed candidates still return Notes V2 without touching storage. StoreV2, both storage keys, 680 curated questions, 400 legacy questions, assessment history, feature defaults and deployment profiles remain unchanged. See `docs/NOTES_V3_BATCH3.md`.
+
+## Notes V3 Batch 4
+
+Human Visual Perception and Systemic Pathology now complete the eight-module
+authored Notes V3 catalog. HVP retains four stable primary IDs and 55
+active-recall pairs. Systemic uses five current primary IDs and 113 recall
+pairs while preserving the exact Notes V2 path-lymph and path-respiratory
+sections as clearly labelled legacy supplemental reading.
+
+The strict V3 schema validates IDs and source ownership across primary and
+supplemental collections. Invalid authored or supplemental content falls back
+as one unit to Notes V2. All seven Systemic IDs contribute to reading progress,
+and unknown historical IDs remain stored but ignored. The endocrine lesson
+discloses its reviewed source-package boundary and reuses the answer-neutral
+endocrine-axis figure.
+
+All eight Notes V3 manuscripts remain in independent answer-free lazy chunks.
+The 680 curated questions, 400 frozen legacy questions, canonical hashes,
+StoreV2, rollback key, attempts, results, question history and feature defaults
+remain unchanged. See docs/NOTES_V3_BATCH4.md.

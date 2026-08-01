@@ -70,18 +70,9 @@ attempts, results, question history and assessment flags remain unchanged.
 
 ## Progress ledger
 
-Complete:
+This checkpoint was merged as PR #31 at
+7be49e2fcdff331d59a6cebf1c61e9912553604d. Batch 4 completes the remaining
+Human Visual Perception and Systemic Pathology primary modules; see
+docs/NOTES_V3_BATCH4.md.
 
-- Environmental Vision
-- Autonomic Pharmacology
-- Tissue Foundations
-- Ocular Adnexa
-- Aqueous and Vitreous
-- Blood Supply
-
-Remaining:
-
-- Human Visual Perception
-- Systemic Pathology
-
-This content PR performs no deployment.
+This content PR performed no deployment.

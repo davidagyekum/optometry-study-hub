@@ -151,9 +151,9 @@ describe('Notes V3 Batch 3 content', () => {
       expect(malformed.kind).toBe('v2');
     }
 
-    const unauthored = moduleMap.get('human-visual-perception');
-    if (!unauthored) throw new Error('Human Visual Perception module missing');
-    expect((await loadNotes(unauthored)).kind).toBe('v2');
+    const newlyAuthored = moduleMap.get('human-visual-perception');
+    if (!newlyAuthored) throw new Error('Human Visual Perception module missing');
+    expect((await loadNotes(newlyAuthored)).kind).toBe('v3');
   });
 
   it('preserves exact manuscript and canonical assessment identities', () => {

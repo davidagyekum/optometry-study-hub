@@ -18,6 +18,10 @@ const authoredNotesLoaders = {
     (await import('@/content/notes-v3/modules/aqueous-vitreous')).aqueousVitreousNotesV3,
   'blood-supply': async () =>
     (await import('@/content/notes-v3/modules/blood-supply')).bloodSupplyNotesV3,
+  'human-visual-perception': async () =>
+    (await import('@/content/notes-v3/modules/human-visual-perception')).humanVisualPerceptionNotesV3,
+  'systemic-pathology': async () =>
+    (await import('@/content/notes-v3/modules/systemic-pathology')).systemicPathologyNotesV3,
 } satisfies Record<string, AuthoredNotesLoader>;
 
 export function hasAuthoredNotesV3(moduleId: string): boolean {
@@ -54,7 +58,7 @@ export function resolveNotes(
 
 export async function loadNotes(
   module: Module,
-  loader: AuthoredNotesLoader | undefined = authoredNotesLoaders[
+  loader: AuthoredNotesLoader | null | undefined = authoredNotesLoaders[
     module.id as keyof typeof authoredNotesLoaders
   ],
 ): Promise<NotesResolution> {
@@ -71,12 +75,12 @@ export async function loadNotes(
 }
 
 export function notesReadingPercentage(
-  content: Pick<StudyModuleContentV3, 'sections'> | { sections: Array<{ id: string }>; legacySupplementalSections?: Array<{ id: string }> },
+  content: { sections: Array<{ id: string }>; legacySupplementalSections?: Array<{ id: string }> },
   read: readonly string[],
 ): number {
   const ids = [
     ...content.sections,
-    ...('legacySupplementalSections' in content ? content.legacySupplementalSections ?? [] : []),
+    ...(content.legacySupplementalSections ?? []),
   ].map((section) => section.id);
   const completed = ids.filter((id) => read.includes(id)).length;
   return ids.length === 0 ? 0 : Math.round((completed / ids.length) * 100);

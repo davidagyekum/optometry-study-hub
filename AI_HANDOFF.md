@@ -116,3 +116,27 @@ All eight modules now present curated practice as the recommended learner path. 
 
 - Focused tests cover exact manuscript hashes, section/source structure, all 89 recall pairs, content fidelity, fallbacks, lazy imports, progress compatibility, safe rendering, native reveal controls and figure-dialog keyboard recovery.
 - Exact final test totals, source-bound release identity, bundle evidence and the browser QA matrix are recorded in the draft PR after the clean implementation commit is validated.
+
+## Notes V3 Batch 4 — Human Visual Perception and Systemic Pathology
+
+- Branch: codex/notes-v3-hvp-systemic-pathology
+- Base main: 7be49e2fcdff331d59a6cebf1c61e9912553604d
+- Scope: two canonical Notes V3 manuscripts, V2 supplemental compatibility, two answer-free dynamic adapters, tests and documentation
+- Deployment: none
+
+### Content and compatibility
+
+- Human Visual Perception manuscript: 11,660 words, 88,138 bytes, SHA-256 5c5361cba83a5db98024e444ebb47e0bb3e0de8f44d7b7f6ee057580c903f278.
+- Systemic Pathology manuscript: 19,111 words, 158,881 bytes, SHA-256 5613703dc57e41d388c80e2b7d97d14d356b7e49127c14f27cbffe95283ca2a6.
+- Preserved four HVP and five Systemic primary IDs, plus exact Notes V2 path-lymph and path-respiratory supplemental sections and all seven completion identities.
+- Added strict cross-collection duplicate/source validation. Malformed primary or supplemental authored candidates fail as a whole to Notes V2.
+- Reused the established answer-neutral endocrine-axis figure and disclosed the missing direct endocrine-deck boundary.
+- Completed all eight primary modules in separate route-lazy, answer-free Notes V3 adapters.
+- Preserved 680 curated questions, 400 frozen legacy questions, eight assessment hashes, StoreV2, rollback identity, attempts, results, question history, flags and release profiles.
+
+### Validation
+
+- Focused Batch 4 and Notes V3 regression suite: 4 files, 21 tests passed.
+- Node 24 TypeScript checking passed.
+- Lint passed with the four accepted legacy image warnings.
+- Exact final full-suite totals, source-bound release identity, route-chunk evidence and browser QA matrix are recorded in the draft PR after validation from the clean implementation commit.

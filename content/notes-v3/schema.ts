@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { studySectionV2Schema } from '@/content/notes-v2/schema';
 
 const nonEmpty = z.string().trim().min(1);
 
@@ -69,6 +70,7 @@ export const studyModuleContentV3Schema = z.object({
     figure: figureSchema.optional(),
     sourceIds: z.array(nonEmpty).min(1),
   }).strict()).min(1),
+  legacySupplementalSections: z.array(studySectionV2Schema).min(1).optional(),
   sources: z.array(z.object({
     id: nonEmpty,
     title: nonEmpty,
@@ -78,14 +80,68 @@ export const studyModuleContentV3Schema = z.object({
 }).strict().superRefine((content, context) => {
   const sourceIds = new Set(content.sources.map((source) => source.id));
   const sectionIds = new Set<string>();
-  for (const section of content.sections) {
+
+  for (const [sectionIndex, section] of content.sections.entries()) {
     if (sectionIds.has(section.id)) {
-      context.addIssue({ code: 'custom', path: ['sections'], message: `Duplicate section ID: ${section.id}` });
+      context.addIssue({
+        code: 'custom',
+        path: ['sections', sectionIndex, 'id'],
+        message: 'Duplicate section ID: ' + section.id,
+      });
     }
     sectionIds.add(section.id);
     for (const sourceId of section.sourceIds) {
       if (!sourceIds.has(sourceId)) {
-        context.addIssue({ code: 'custom', path: ['sections', section.id, 'sourceIds'], message: `Unknown source ID: ${sourceId}` });
+        context.addIssue({
+          code: 'custom',
+          path: ['sections', sectionIndex, 'sourceIds'],
+          message: 'Unknown source ID: ' + sourceId,
+        });
+      }
+    }
+  }
+
+  for (const [sectionIndex, section] of (content.legacySupplementalSections ?? []).entries()) {
+    const path = ['legacySupplementalSections', sectionIndex] as const;
+    if (sectionIds.has(section.id)) {
+      context.addIssue({
+        code: 'custom',
+        path: [...path, 'id'],
+        message: 'Duplicate section ID: ' + section.id,
+      });
+    }
+    sectionIds.add(section.id);
+    for (const sourceId of section.sourceIds) {
+      if (!sourceIds.has(sourceId)) {
+        context.addIssue({
+          code: 'custom',
+          path: [...path, 'sourceIds'],
+          message: 'Unknown source ID: ' + sourceId,
+        });
+      }
+    }
+    for (const [blockIndex, block] of section.blocks.entries()) {
+      if (block.type === 'source-note') {
+        for (const sourceId of block.sourceIds) {
+          if (!sourceIds.has(sourceId)) {
+            context.addIssue({
+              code: 'custom',
+              path: [...path, 'blocks', blockIndex, 'sourceIds'],
+              message: 'Unknown source ID: ' + sourceId,
+            });
+          }
+        }
+      }
+      if (block.type === 'comparison-table') {
+        for (const [rowIndex, row] of block.rows.entries()) {
+          if (row.length !== block.columns.length) {
+            context.addIssue({
+              code: 'custom',
+              path: [...path, 'blocks', blockIndex, 'rows', rowIndex],
+              message: 'Comparison-table rows must match the column count.',
+            });
+          }
+        }
       }
     }
   }
