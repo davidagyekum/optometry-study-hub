@@ -96,3 +96,23 @@ All eight modules now present curated practice as the recommended learner path. 
 
 - Focused Notes V3 tests cover exact manuscript hashes, structure, source ownership, recall/summary completeness, fallback, lazy imports, reading percentages, safe rendering, completion controls and figure-dialog keyboard behavior.
 - The exact final test totals, release manifest identity, bundle evidence and Chrome matrix are recorded in the draft PR after the clean implementation commit is validated.
+## Notes V3 Batch 3 — Aqueous/Vitreous and Blood Supply
+
+- Branch: `codex/notes-v3-aqueous-blood-supply`
+- Base main: `5f994c717f32fb9171c4b045db31654e73eeb206`
+- Scope: two canonical Notes V3 manuscripts, two answer-free dynamic adapters, tests and documentation
+- Deployment: none
+
+### Content and compatibility
+
+- Aqueous/Vitreous manuscript: 7,730 words, 58,227 bytes, SHA-256 `4bf0b843da02d34c50c53bf67f8022ca66589a699171272725c3208d8f4e7120`.
+- Blood Supply manuscript: 7,160 words, 56,006 bytes, SHA-256 `6ce9debccc5dc85305ae8782549974daf5261d2483722fd31848498698f01074`.
+- Preserved all 12 stable section IDs, existing figures, course qualifications, source boundaries and device-local reading completion.
+- Extended the typed loader registry without importing audit documents, curated banks or answer-key fields into production Notes V3.
+- Missing entries, thrown route loaders and malformed authored candidates return Notes V2 without a storage migration.
+- All 680 curated questions, 400 frozen legacy questions, eight canonical bank hashes, StoreV2, rollback identity, attempts, results, question history and feature flags remain unchanged.
+
+### Validation
+
+- Focused tests cover exact manuscript hashes, section/source structure, all 89 recall pairs, content fidelity, fallbacks, lazy imports, progress compatibility, safe rendering, native reveal controls and figure-dialog keyboard recovery.
+- Exact final test totals, source-bound release identity, bundle evidence and the browser QA matrix are recorded in the draft PR after the clean implementation commit is validated.

@@ -14,6 +14,10 @@ const authoredNotesLoaders = {
     (await import('@/content/notes-v3/modules/tissue-foundations')).tissueFoundationsNotesV3,
   'ocular-adnexa': async () =>
     (await import('@/content/notes-v3/modules/ocular-adnexa')).ocularAdnexaNotesV3,
+  'aqueous-vitreous': async () =>
+    (await import('@/content/notes-v3/modules/aqueous-vitreous')).aqueousVitreousNotesV3,
+  'blood-supply': async () =>
+    (await import('@/content/notes-v3/modules/blood-supply')).bloodSupplyNotesV3,
 } satisfies Record<string, AuthoredNotesLoader>;
 
 export function hasAuthoredNotesV3(moduleId: string): boolean {
