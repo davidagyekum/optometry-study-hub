@@ -104,7 +104,7 @@ Module reset removes assessment attempts and results for that module. Course res
 
 ## Privacy
 
-Pilot answers, flags, drafts, and results are private to the current browser storage. There are no learner accounts, analytics, server database, leaderboard, or cross-device synchronization. Clearing browser data or using the relevant confirmed reset removes the corresponding local record.
+Pilot answers, flags, drafts, and results are private to the current browser storage. There are no learner accounts, learner-data server database, leaderboard, or cross-device synchronization. Separately consented aggregate traffic analytics never receives answers, scores, question IDs, attempt IDs or browser-local assessment records. Clearing browser data or using the relevant confirmed reset removes the corresponding local record.
 
 ## What remains legacy
 

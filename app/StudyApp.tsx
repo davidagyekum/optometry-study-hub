@@ -6,6 +6,7 @@ import { HomeView } from '@/components/home/HomeView';
 import { LegacyArchive } from '@/components/legacy/LegacyArchive';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { SiteHeader } from '@/components/layout/SiteHeader';
+import { AnalyticsProvider } from '@/components/analytics/AnalyticsProvider';
 import { PracticeHub } from '@/components/practice/PracticeHub';
 import { ModuleProgressView } from '@/components/progress/ModuleProgressView';
 import { ProgressHub } from '@/components/progress/ProgressHub';
@@ -31,7 +32,7 @@ import {
 } from '@/lib/assessment/curated/resolveExperience';
 import { controlledExperienceKind } from '@/lib/assessment/routing/controlledExperience';
 import type { CourseSummary } from '@/lib/legacy/types';
-import type { ClientView } from '@/lib/navigation/clientRoute';
+import type { ClientRoute, ClientView } from '@/lib/navigation/clientRoute';
 import { documentTitleForRoute } from '@/lib/navigation/documentIdentity';
 import { legacyRecommendations } from '@/lib/progress/recommendations';
 import {
@@ -53,21 +54,23 @@ const AssessmentPilotRouter = lazy(() => (
 function AppFrame({
   children,
   go,
-  view,
+  route,
 }: {
   children: ReactNode;
   go: GoToRoute;
-  view: ClientView;
+  route: ClientRoute;
 }) {
   return (
-    <div className="shell">
+    <AnalyticsProvider route={route}>
+      <div className="shell">
       <a className="skip-link" href="#main-content">Skip to main content</a>
-      <SiteHeader go={go} view={view} />
+      <SiteHeader go={go} view={route.view} />
       <main className="app-main" id="main-content" tabIndex={-1}>
         {children}
       </main>
       <SiteFooter go={go} />
-    </div>
+      </div>
+    </AnalyticsProvider>
   );
 }
 
@@ -157,7 +160,7 @@ export default function StudyApp() {
 
   if (route.view === 'course' && !activeCourse) {
     return (
-      <AppFrame go={go} view={route.view}>
+      <AppFrame go={go} route={route}>
         <div className="empty">
           <h1>Course not found</h1>
           <button onClick={() => go('home')} type="button">Return home</button>
@@ -168,7 +171,7 @@ export default function StudyApp() {
 
   if (route.view === 'not-found') {
     return (
-      <AppFrame go={go} view={route.view}>
+      <AppFrame go={go} route={route}>
         <div className="empty">
           <h1>Page not found</h1>
           <p>The requested study route does not exist.</p>
@@ -188,7 +191,7 @@ export default function StudyApp() {
     && !['home', 'course'].includes(route.view)
   ) {
     return (
-      <AppFrame go={go} view={route.view}>
+      <AppFrame go={go} route={route}>
         <div className="empty">
           <h1>Module not found</h1>
           <button onClick={() => go('home')} type="button">Return home</button>
@@ -198,7 +201,7 @@ export default function StudyApp() {
   }
 
   return (
-    <AppFrame go={go} view={route.view}>
+    <AppFrame go={go} route={route}>
       {route.view === 'home' ? (
         <HomeView
           store={store}
