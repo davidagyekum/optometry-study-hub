@@ -73,7 +73,7 @@ The validated version-2 store preserves:
 - up to 20 recent submitted legacy results per module;
 - assessment maps for pilot attempts, grading-aware results, and unchanged question history, isolated from legacy score history.
 
-On first V2 load, valid V1 `read`, `active`, and `results` fields migrate exactly to the new key. The V1 record is retained for rollback until the learner explicitly uses the global reset, which writes valid empty records to both generations. Initial hydration does not rewrite valid or malformed stored bytes, while later learner actions still save. Failed learner-originated saves retain dirty state so a later persistence call can retry. Malformed V1 or V2 data, unavailable browser storage, and throwing accessors do not crash the application or delete the original raw record. There is no account, backend database, analytics feed, or cross-device sync.
+On first V2 load, valid V1 `read`, `active`, and `results` fields migrate exactly to the new key. The V1 record is retained for rollback until the learner explicitly uses the global reset, which writes valid empty records to both generations. Initial hydration does not rewrite valid or malformed stored bytes, while later learner actions still save. Failed learner-originated saves retain dirty state so a later persistence call can retry. Malformed V1 or V2 data, unavailable browser storage, and throwing accessors do not crash the application or delete the original raw record. There is no account, backend database, learner-data feed, or cross-device sync. Separately consented GA4 traffic analytics never reads or sends StoreV2, legacy storage, answers, scores, question IDs, attempt IDs, or learner progress.
 
 ## Strengths
 

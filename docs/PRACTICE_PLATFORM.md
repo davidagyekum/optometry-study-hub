@@ -133,8 +133,7 @@ attempts or correctness.
 
 ## Privacy and compatibility
 
-Everything remains in the current browser. There are no accounts, analytics,
-backend, leaderboard, or synchronization. The key remains
+Answers, scores, attempts, history and mastery remain in the current browser. There are no accounts, learner-data backend, leaderboard, or synchronization. Separately consented aggregate traffic analytics never receives assessment responses or learner records. The key remains
 `optometry-study-hub:v2`; valid V1 rollback data, legacy reading progress,
 legacy active quizzes, legacy result history, Latest/Best selectors, PR 9
 attempts/results, and Aqueous attempts/results remain compatible.

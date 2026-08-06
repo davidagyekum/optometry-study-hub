@@ -24,6 +24,8 @@ import {
 } from '@/lib/assessment/session/errors';
 import type { SessionResult } from '@/lib/assessment/session/types';
 import type { GoToRoute } from '@/hooks/useClientRoute';
+import type { PracticeAnalyticsMetadata } from '@/lib/analytics/config';
+import { trackPracticeEvent } from '@/lib/analytics/googleAnalytics';
 import { useCuratedPractice } from '@/hooks/useCuratedPractice';
 import {
   finalizeAssessmentStore,
@@ -38,6 +40,19 @@ import type {
   AssessmentResultSnapshot,
   StoreV2,
 } from '@/lib/storage/schemas';
+
+function practiceAnalyticsMetadata(
+  snapshot: AssessmentAttemptSnapshot | AssessmentResultSnapshot,
+): PracticeAnalyticsMetadata | undefined {
+  const selection = snapshot.practiceSelection;
+  if (!selection) return undefined;
+  return {
+    moduleId: snapshot.moduleId,
+    practiceProfile: selection.profileId,
+    practiceMode: selection.strategy,
+    questionCount: snapshot.orderedQuestionIds.length,
+  };
+}
 
 export function useCuratedPracticeController({
   definition,
@@ -116,7 +131,11 @@ export function useCuratedPracticeController({
         ? sessionSuccess({ store: inserted.value, value: created.value })
         : inserted;
     });
-    if (result.ok) go('assessment', result.value.id);
+    if (result.ok) {
+      const metadata = practiceAnalyticsMetadata(result.value);
+      if (metadata) trackPracticeEvent('practice_start', metadata);
+      go('assessment', result.value.id);
+    }
     return result;
   };
 
@@ -163,6 +182,7 @@ export function useCuratedPracticeController({
       go('assessment', selection.compatibleAttempt.id);
       return sessionSuccess(selection.compatibleAttempt);
     }
+    let createdAttemptId: string | undefined;
     const result = transact((latest) => {
       const reselected = selectActiveCuratedAttempt(definition, latest, registry);
       if (reselected.issues.length) return sessionFailure(reselected.issues);
@@ -171,12 +191,19 @@ export function useCuratedPracticeController({
       }
       const created = definition.createAttempt(request, latest, registry);
       if (!created.ok) return created;
+      createdAttemptId = created.value.id;
       const inserted = putActiveAssessmentAttempt(latest, created.value.id, created.value);
       return inserted.ok
         ? sessionSuccess({ store: inserted.value, value: created.value })
         : inserted;
     });
-    if (result.ok) go('assessment', result.value.id);
+    if (result.ok) {
+      if (result.value.id === createdAttemptId) {
+        const metadata = practiceAnalyticsMetadata(result.value);
+        if (metadata) trackPracticeEvent('practice_start', metadata);
+      }
+      go('assessment', result.value.id);
+    }
     return result;
   };
 
@@ -242,7 +269,11 @@ export function useCuratedPracticeController({
         ? sessionSuccess({ store: stored.value, value: finalized.value.result })
         : stored;
     });
-    if (result.ok) go('assessment-result', result.value.id);
+    if (result.ok) {
+      const metadata = practiceAnalyticsMetadata(result.value);
+      if (metadata) trackPracticeEvent('practice_submit', metadata);
+      go('assessment-result', result.value.id);
+    }
     return result;
   };
 

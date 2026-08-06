@@ -1,0 +1,14 @@
+.analytics-consent { position: fixed; z-index: 900; right: clamp(12px, 3vw, 36px); bottom: clamp(12px, 3vw, 32px); width: min(620px, calc(100vw - 24px)); padding: 20px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px; align-items: center; color: white; background: #092743; border: 1px solid rgba(255,255,255,.25); box-shadow: 0 18px 50px rgba(3,20,38,.3); }
+.analytics-consent strong { display: block; margin-bottom: 5px; }
+.analytics-consent p { margin: 0; color: #d4e0e9; font-size: 13px; line-height: 1.55; }
+.analytics-consent-actions { display: grid; gap: 8px; min-width: 156px; }
+.analytics-consent .text-button { color: white; }
+.analytics-dialog-backdrop { position: fixed; z-index: 950; inset: 0; display: grid; place-items: center; padding: 18px; background: rgba(2,17,32,.72); }
+.analytics-dialog { position: relative; width: min(650px, 100%); max-height: calc(100vh - 36px); overflow: auto; padding: clamp(26px, 5vw, 48px); background: white; box-shadow: 0 24px 80px rgba(0,0,0,.3); }
+.analytics-dialog h2 { margin: 4px 40px 18px 0; font: 400 clamp(32px, 5vw, 48px)/1.05 var(--serif); }
+.analytics-dialog p { color: var(--muted); line-height: 1.65; }
+.analytics-dialog .dialog-close { position: absolute; top: 16px; right: 16px; width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 50%; background: white; color: var(--ink); font-size: 28px; line-height: 1; }
+.analytics-dialog-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.analytics-consent-state { padding: 10px 12px; background: var(--teal-soft); color: var(--ink) !important; }
+.privacy-analytics-button { color: inherit; }
+@media (max-width: 700px) { .analytics-consent { grid-template-columns: 1fr; padding: 18px; } .analytics-consent-actions { grid-template-columns: 1fr 1fr; min-width: 0; } .analytics-consent-actions .text-button { grid-column: 1 / -1; grid-row: 2; min-height: 42px; } .analytics-consent-actions button, .analytics-dialog-actions button { min-height: 48px; } .analytics-dialog-actions { display: grid; grid-template-columns: 1fr; } }

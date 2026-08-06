@@ -96,7 +96,7 @@ The site is hosted through OpenAI Sites using the project information in `.opena
 
 ## Privacy
 
-Student reading progress, curated answers, flags, assessment history, and retained previous quiz history remain in browser local storage. There are no student names, accounts, analytics, leaderboards, or cross-device synchronization. Clearing browser data or using the confirmed global reset removes the saved study state from both supported storage generations.
+Student reading progress, curated answers, flags, assessment history, and retained previous quiz history remain in browser local storage. There are no student names, accounts, leaderboards, or cross-device synchronization. Separately consented Google Analytics records only anonymous traffic and allowlisted learning-stage events; it never receives answers, scores, question IDs, attempt IDs, or browser-local study records. Students can decline or revoke analytics from **Privacy & analytics** in the footer. See [docs/ANALYTICS.md](docs/ANALYTICS.md). Clearing browser data or using the confirmed global reset removes saved study state; analytics consent is a separate browser preference.
 
 ## Current limitations
 

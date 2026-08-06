@@ -140,3 +140,15 @@ All eight modules now present curated practice as the recommended learner path. 
 - Node 24 TypeScript checking passed.
 - Lint passed with the four accepted legacy image warnings.
 - Exact final full-suite totals, source-bound release identity, route-chunk evidence and browser QA matrix are recorded in the draft PR after validation from the clean implementation commit.
+## Privacy-preserving Google Analytics 4
+
+- Branch: codex/ga4-privacy-analytics
+- Base main: 3d92faa8965a46d463419cb9cfae573dd80fbd28
+- GA4 property: Optometry Study Hub; measurement ID G-PDTF3KS7SZ.
+- Explicit opt-in is required before the Google script, cookie or analytics queue loads. Consent is isolated under optometry-study-hub:analytics-consent:v1.
+- Google Signals, user-provided data and advertising personalization are disabled; event and user-data retention are 14 months.
+- Manual client-route page views and allowlisted study_module_open, practice_start and practice_submit events exclude answers, scores, question IDs, attempt IDs and learner storage.
+- Added a keyboard-accessible consent banner, persistent footer privacy control, revocation and cookie cleanup.
+- StoreV2, legacy storage, learner progress, question banks, feature flags and assessment identities are unchanged.
+- Focused analytics validation: 4 files, 15 tests passed; Node 24 TypeScript checking passed.
+- Final full-suite, build, release verification, Chrome QA, PR, merge and deployment evidence are recorded after the reviewed release commit is produced.
