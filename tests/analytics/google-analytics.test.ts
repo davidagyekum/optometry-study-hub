@@ -2,10 +2,15 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ANALYTICS_CONSENT_KEY, GA_MEASUREMENT_ID, GA_SCRIPT_ID } from '@/lib/analytics/config';
 
-type DataLayer = Array<[string, unknown, Record<string, unknown>?]>;
+type Command = [string, unknown, Record<string, unknown>?];
+type DataLayer = IArguments[];
 
 function layer(): DataLayer {
   return ((window as unknown as { dataLayer?: DataLayer }).dataLayer ?? []);
+}
+
+function commands(): Command[] {
+  return layer().map((entry) => Array.from(entry) as Command);
 }
 
 async function analytics() {
@@ -39,8 +44,9 @@ describe('consent-gated Google Analytics', () => {
     expect(document.querySelectorAll(`#${GA_SCRIPT_ID}`)).toHaveLength(1);
     expect((document.getElementById(GA_SCRIPT_ID) as HTMLScriptElement).src)
       .toContain(GA_MEASUREMENT_ID);
-    expect(layer().filter(([command]) => command === 'config')).toHaveLength(1);
-    expect(layer().find(([command]) => command === 'config')?.[2]).toMatchObject({
+    expect(layer().every((entry) => !Array.isArray(entry))).toBe(true);
+    expect(commands().filter(([command]) => command === 'config')).toHaveLength(1);
+    expect(commands().find(([command]) => command === 'config')?.[2]).toMatchObject({
       send_page_view: false,
       allow_google_signals: false,
       allow_ad_personalization_signals: false,
@@ -68,7 +74,7 @@ describe('consent-gated Google Analytics', () => {
       questionCount: 10,
     })).toBe(true);
 
-    const events = layer().filter(([command]) => command === 'event');
+    const events = commands().filter(([command]) => command === 'event');
     expect(events.map(([, name]) => name)).toEqual([
       'page_view', 'study_module_open', 'practice_start', 'practice_submit',
     ]);
@@ -91,7 +97,7 @@ describe('consent-gated Google Analytics', () => {
     expect(trackPracticeEvent('practice_start', {
       moduleId: 'ocular-adnexa', practiceProfile: 'quick', practiceMode: 'mixed', questionCount: 0,
     })).toBe(false);
-    expect(layer().filter(([command]) => command === 'event')).toHaveLength(0);
+    expect(commands().filter(([command]) => command === 'event')).toHaveLength(0);
   });
 
   it('revokes collection, removes the script and clears GA cookies', async () => {
