@@ -10,7 +10,7 @@ type GtagArguments = [command: string, target: string | Date, parameters?: Recor
 
 declare global {
   interface Window {
-    dataLayer?: GtagArguments[];
+    dataLayer?: IArguments[];
     gtag?: (...args: GtagArguments) => void;
     [key: `ga-disable-${string}`]: boolean | undefined;
   }
@@ -32,9 +32,12 @@ function hasConsent(): boolean {
 
 function installGtagQueue(): void {
   window.dataLayer ??= [];
-  window.gtag ??= (...args: GtagArguments) => {
-    window.dataLayer?.push(args);
-  };
+  // Google Tag's command protocol requires the function's Arguments object.
+  // A plain array looks similar in tests but is not processed as a gtag command.
+  window.gtag ??= function gtag(): void {
+    // eslint-disable-next-line prefer-rest-params
+    window.dataLayer?.push(arguments);
+  } as (...args: GtagArguments) => void;
 }
 
 function configure(): void {
