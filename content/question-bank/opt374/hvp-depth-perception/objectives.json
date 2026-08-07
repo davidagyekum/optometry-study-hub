@@ -1,0 +1,201 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "depth-define-depth",
+    "courseId": "human-visual-perception",
+    "moduleId": "hvp-depth-perception",
+    "sectionId": "depth-foundations",
+    "statement": "Define depth, absolute depth and relative depth.",
+    "targetBloomLevels": [
+      "remember",
+      "understand"
+    ],
+    "tags": [
+      "hvp-depth-perception",
+      "depth-foundations"
+    ],
+    "sourceIds": [
+      "hvp-depth-perception-lecture"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "depth-importance",
+    "courseId": "human-visual-perception",
+    "moduleId": "hvp-depth-perception",
+    "sectionId": "depth-foundations",
+    "statement": "Explain everyday risk and opportunity functions of depth perception.",
+    "targetBloomLevels": [
+      "understand"
+    ],
+    "tags": [
+      "hvp-depth-perception",
+      "depth-foundations"
+    ],
+    "sourceIds": [
+      "hvp-depth-perception-lecture"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "depth-monocular-binocular",
+    "courseId": "human-visual-perception",
+    "moduleId": "hvp-depth-perception",
+    "sectionId": "depth-overview",
+    "statement": "Differentiate monocular from binocular depth judgments and distance ranges.",
+    "targetBloomLevels": [
+      "understand",
+      "analyze"
+    ],
+    "tags": [
+      "hvp-depth-perception",
+      "depth-overview"
+    ],
+    "sourceIds": [
+      "hvp-depth-perception-lecture"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "depth-monocular-cues",
+    "courseId": "human-visual-perception",
+    "moduleId": "hvp-depth-perception",
+    "sectionId": "monocular-cues",
+    "statement": "Identify and apply relative size, texture, occlusion, perspective, shadow, clarity, motion parallax and height cues.",
+    "targetBloomLevels": [
+      "remember",
+      "apply",
+      "analyze"
+    ],
+    "tags": [
+      "hvp-depth-perception",
+      "monocular-cues"
+    ],
+    "sourceIds": [
+      "hvp-depth-perception-lecture"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "depth-illusions",
+    "courseId": "human-visual-perception",
+    "moduleId": "hvp-depth-perception",
+    "sectionId": "depth-illusions",
+    "statement": "Interpret Ebbinghaus, Ponzo and Moon illusions using depth/size-constancy logic.",
+    "targetBloomLevels": [
+      "understand",
+      "analyze"
+    ],
+    "tags": [
+      "hvp-depth-perception",
+      "depth-illusions"
+    ],
+    "sourceIds": [
+      "hvp-depth-perception-lecture"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "depth-convergence",
+    "courseId": "human-visual-perception",
+    "moduleId": "hvp-depth-perception",
+    "sectionId": "binocular-cues",
+    "statement": "Explain convergence and oculomotor cue logic.",
+    "targetBloomLevels": [
+      "understand",
+      "apply"
+    ],
+    "tags": [
+      "hvp-depth-perception",
+      "binocular-cues"
+    ],
+    "sourceIds": [
+      "hvp-depth-perception-lecture"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "depth-disparity-panum",
+    "courseId": "human-visual-perception",
+    "moduleId": "hvp-depth-perception",
+    "sectionId": "retinal-disparity-panum",
+    "statement": "Explain retinal disparity, Panum’s fusional space, crossed/uncrossed disparity and physiologic diplopia.",
+    "targetBloomLevels": [
+      "understand",
+      "analyze"
+    ],
+    "tags": [
+      "hvp-depth-perception",
+      "retinal-disparity-panum"
+    ],
+    "sourceIds": [
+      "hvp-depth-perception-lecture"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "depth-stereopsis",
+    "courseId": "human-visual-perception",
+    "moduleId": "hvp-depth-perception",
+    "sectionId": "stereopsis",
+    "statement": "Explain stereopsis and binocular overlap as sources of solid 3-D vision.",
+    "targetBloomLevels": [
+      "understand"
+    ],
+    "tags": [
+      "hvp-depth-perception",
+      "stereopsis"
+    ],
+    "sourceIds": [
+      "hvp-depth-perception-lecture"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "depth-stereotests",
+    "courseId": "human-visual-perception",
+    "moduleId": "hvp-depth-perception",
+    "sectionId": "clinical-stereopsis-testing",
+    "statement": "Compare near and distance stereopsis tests and interpret stereoacuity thresholds.",
+    "targetBloomLevels": [
+      "understand",
+      "evaluate"
+    ],
+    "tags": [
+      "hvp-depth-perception",
+      "clinical-stereopsis-testing"
+    ],
+    "sourceIds": [
+      "hvp-depth-perception-lecture"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "depth-practical",
+    "courseId": "human-visual-perception",
+    "moduleId": "hvp-depth-perception",
+    "sectionId": "practical-lab",
+    "statement": "Evaluate Randot/PASS/telebinocular lab tasks, monocular cue cheating, +4.00 D blur and chromostereopsis prompts.",
+    "targetBloomLevels": [
+      "apply",
+      "evaluate"
+    ],
+    "tags": [
+      "hvp-depth-perception",
+      "practical-lab"
+    ],
+    "sourceIds": [
+      "hvp-depth-perception-lecture"
+    ],
+    "reviewStatus": "draft"
+  }
+]

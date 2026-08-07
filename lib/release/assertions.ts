@@ -519,6 +519,7 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
       'committed-feature-defaults',
       envExample.includes('NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT=false')
         && envExample.includes('NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE=false')
+        && envExample.includes('NEXT_PUBLIC_ENABLE_HVP_DEPTH_COLOUR_EXPANSION=false')
         && envExample.includes(
           'NEXT_PUBLIC_ENABLE_TISSUE_FOUNDATIONS_CURATED_PRACTICE=false',
         )

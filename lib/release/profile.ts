@@ -7,6 +7,7 @@ import {
 export const RELEASE_FLAG_NAMES = {
   assessmentPilot: 'NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT',
   hvpCuratedPractice: 'NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE',
+  hvpDepthColourExpansion: 'NEXT_PUBLIC_ENABLE_HVP_DEPTH_COLOUR_EXPANSION',
   tissueFoundationsCuratedPractice:
     'NEXT_PUBLIC_ENABLE_TISSUE_FOUNDATIONS_CURATED_PRACTICE',
   ocularAdnexaCuratedPractice:
@@ -268,6 +269,7 @@ export function environmentForReleaseProfile(
     ...base,
     [RELEASE_FLAG_NAMES.assessmentPilot]: String(flags.assessmentPilot),
     [RELEASE_FLAG_NAMES.hvpCuratedPractice]: String(flags.hvpCuratedPractice),
+    [RELEASE_FLAG_NAMES.hvpDepthColourExpansion]: 'false',
     [RELEASE_FLAG_NAMES.tissueFoundationsCuratedPractice]:
       String(flags.tissueFoundationsCuratedPractice),
     [RELEASE_FLAG_NAMES.ocularAdnexaCuratedPractice]:

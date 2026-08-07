@@ -91,6 +91,7 @@ describe('release profiles', () => {
     const example = readFileSync('.env.example', 'utf8');
     expect(example).toContain('NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT=false');
     expect(example).toContain('NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE=false');
+    expect(example).toContain('NEXT_PUBLIC_ENABLE_HVP_DEPTH_COLOUR_EXPANSION=false');
     expect(example).toContain(
       'NEXT_PUBLIC_ENABLE_TISSUE_FOUNDATIONS_CURATED_PRACTICE=false',
     );

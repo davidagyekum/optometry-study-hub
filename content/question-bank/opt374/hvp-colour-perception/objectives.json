@@ -1,0 +1,200 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "colour-definition",
+    "courseId": "human-visual-perception",
+    "moduleId": "hvp-colour-perception",
+    "sectionId": "colour-foundations",
+    "statement": "Define colour vision as wavelength discrimination independent of intensity.",
+    "targetBloomLevels": [
+      "remember",
+      "understand"
+    ],
+    "tags": [
+      "hvp-colour-perception",
+      "colour-foundations"
+    ],
+    "sourceIds": [
+      "hvp-colour-perception-lecture"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "colour-perceptual-code",
+    "courseId": "human-visual-perception",
+    "moduleId": "hvp-colour-perception",
+    "sectionId": "colour-foundations",
+    "statement": "Explain colour as a psychological/neural perceptual code.",
+    "targetBloomLevels": [
+      "understand",
+      "analyze"
+    ],
+    "tags": [
+      "hvp-colour-perception",
+      "colour-foundations"
+    ],
+    "sourceIds": [
+      "hvp-colour-perception-lecture"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "colour-spectrum-cones",
+    "courseId": "human-visual-perception",
+    "moduleId": "hvp-colour-perception",
+    "sectionId": "visible-spectrum-cones",
+    "statement": "Relate visible wavelengths to S, M and L cone coding.",
+    "targetBloomLevels": [
+      "remember",
+      "understand"
+    ],
+    "tags": [
+      "hvp-colour-perception",
+      "visible-spectrum-cones"
+    ],
+    "sourceIds": [
+      "hvp-colour-perception-lecture"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "colour-importance",
+    "courseId": "human-visual-perception",
+    "moduleId": "hvp-colour-perception",
+    "sectionId": "importance-of-colour",
+    "statement": "Explain survival and perceptual functions of colour.",
+    "targetBloomLevels": [
+      "understand"
+    ],
+    "tags": [
+      "hvp-colour-perception",
+      "importance-of-colour"
+    ],
+    "sourceIds": [
+      "hvp-colour-perception-lecture"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "colour-attributes",
+    "courseId": "human-visual-perception",
+    "moduleId": "hvp-colour-perception",
+    "sectionId": "colour-attributes",
+    "statement": "Distinguish hue, saturation and brightness.",
+    "targetBloomLevels": [
+      "remember",
+      "apply"
+    ],
+    "tags": [
+      "hvp-colour-perception",
+      "colour-attributes"
+    ],
+    "sourceIds": [
+      "hvp-colour-perception-lecture"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "colour-constancy",
+    "courseId": "human-visual-perception",
+    "moduleId": "hvp-colour-perception",
+    "sectionId": "colour-constancy",
+    "statement": "Explain colour constancy and restricted-wavelength failure.",
+    "targetBloomLevels": [
+      "understand",
+      "analyze"
+    ],
+    "tags": [
+      "hvp-colour-perception",
+      "colour-constancy"
+    ],
+    "sourceIds": [
+      "hvp-colour-perception-lecture"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "colour-trichromatic",
+    "courseId": "human-visual-perception",
+    "moduleId": "hvp-colour-perception",
+    "sectionId": "trichromatic-theory",
+    "statement": "Explain trichromatic theory at the cone/photoreceptor level.",
+    "targetBloomLevels": [
+      "understand"
+    ],
+    "tags": [
+      "hvp-colour-perception",
+      "trichromatic-theory"
+    ],
+    "sourceIds": [
+      "hvp-colour-perception-lecture"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "colour-opponent",
+    "courseId": "human-visual-perception",
+    "moduleId": "hvp-colour-perception",
+    "sectionId": "opponent-process-theory",
+    "statement": "Explain opponent-process theory, opponent channels and afterimages.",
+    "targetBloomLevels": [
+      "understand",
+      "analyze"
+    ],
+    "tags": [
+      "hvp-colour-perception",
+      "opponent-process-theory"
+    ],
+    "sourceIds": [
+      "hvp-colour-perception-lecture"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "colour-zone-model",
+    "courseId": "human-visual-perception",
+    "moduleId": "hvp-colour-perception",
+    "sectionId": "zone-model",
+    "statement": "Compare trichromatic and opponent-process theories using the zone model.",
+    "targetBloomLevels": [
+      "analyze",
+      "evaluate"
+    ],
+    "tags": [
+      "hvp-colour-perception",
+      "zone-model"
+    ],
+    "sourceIds": [
+      "hvp-colour-perception-lecture"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "colour-clinical",
+    "courseId": "human-visual-perception",
+    "moduleId": "hvp-colour-perception",
+    "sectionId": "clinical-considerations",
+    "statement": "Recognize blue-cone vulnerability, SWAP and source limits for clinical testing protocols.",
+    "targetBloomLevels": [
+      "remember",
+      "evaluate"
+    ],
+    "tags": [
+      "hvp-colour-perception",
+      "clinical-considerations"
+    ],
+    "sourceIds": [
+      "hvp-colour-perception-lecture"
+    ],
+    "reviewStatus": "draft"
+  }
+]

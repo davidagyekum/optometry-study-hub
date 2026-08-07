@@ -1,0 +1,49 @@
+{
+  "generatedAt": "2026-08-07T02:11:20Z",
+  "result": "PASS",
+  "errors": [],
+  "warnings": [],
+  "totals": {
+    "questions": 160,
+    "objectives": 20,
+    "assetsSvg": 8
+  },
+  "formatDistribution": {
+    "depth": {
+      "single_best_answer": 25,
+      "true_false": 8,
+      "multiple_response": 10,
+      "ordering": 7,
+      "matching": 8,
+      "extended_matching": 7,
+      "image_hotspot": 5,
+      "image_label": 4,
+      "short_answer": 4,
+      "open_response": 2
+    },
+    "colour": {
+      "single_best_answer": 25,
+      "true_false": 8,
+      "multiple_response": 10,
+      "ordering": 7,
+      "matching": 8,
+      "extended_matching": 7,
+      "image_hotspot": 5,
+      "image_label": 4,
+      "short_answer": 4,
+      "open_response": 2
+    },
+    "combined": {
+      "single_best_answer": 50,
+      "true_false": 16,
+      "multiple_response": 20,
+      "ordering": 14,
+      "matching": 16,
+      "extended_matching": 14,
+      "image_hotspot": 10,
+      "image_label": 8,
+      "short_answer": 8,
+      "open_response": 4
+    }
+  }
+}

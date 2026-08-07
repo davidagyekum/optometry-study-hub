@@ -1,0 +1,50 @@
+{
+  "id": "hvp-depth-perception-extension-v1",
+  "bankId": "hvp-depth-perception-extension",
+  "courseId": "human-visual-perception",
+  "moduleId": "hvp-depth-perception",
+  "totalQuestions": 80,
+  "sectionTargets": {
+    "depth-foundations": 5,
+    "depth-overview": 6,
+    "monocular-cues": 20,
+    "depth-illusions": 8,
+    "binocular-cues": 5,
+    "retinal-disparity-panum": 10,
+    "stereopsis": 1,
+    "clinical-stereopsis-testing": 16,
+    "practical-lab": 9
+  },
+  "formatTargets": {
+    "single_best_answer": 25,
+    "true_false": 8,
+    "multiple_response": 10,
+    "ordering": 7,
+    "matching": 8,
+    "extended_matching": 7,
+    "image_hotspot": 5,
+    "image_label": 4,
+    "short_answer": 4,
+    "open_response": 2
+  },
+  "bloomTargets": {
+    "understand": 28,
+    "apply": 30,
+    "remember": 7,
+    "analyze": 13,
+    "evaluate": 2
+  },
+  "difficultyTargets": {
+    "foundation": 20,
+    "intermediate": 56,
+    "advanced": 4
+  },
+  "stimulusTargets": {
+    "text": 39,
+    "comparison": 25,
+    "pathway": 7,
+    "diagram": 9
+  },
+  "minimumHigherOrderShare": 0.5625,
+  "minimumQuestionsPerObjective": 1
+}

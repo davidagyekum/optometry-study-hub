@@ -20,6 +20,10 @@ const authoredNotesLoaders = {
     (await import('@/content/notes-v3/modules/blood-supply')).bloodSupplyNotesV3,
   'human-visual-perception': async () =>
     (await import('@/content/notes-v3/modules/human-visual-perception')).humanVisualPerceptionNotesV3,
+  'hvp-depth-perception': async () =>
+    (await import('@/content/notes-v3/modules/hvp-depth-perception')).hvpDepthPerceptionNotesV3,
+  'hvp-colour-perception': async () =>
+    (await import('@/content/notes-v3/modules/hvp-colour-perception')).hvpColourPerceptionNotesV3,
   'systemic-pathology': async () =>
     (await import('@/content/notes-v3/modules/systemic-pathology')).systemicPathologyNotesV3,
   'schematic-eye-refractive-states': async () =>

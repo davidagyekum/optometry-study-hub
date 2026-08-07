@@ -5,7 +5,10 @@ import type {
   CuratedProgressModule,
   CuratedProgressPanelProps,
 } from '@/lib/assessment/curated/types';
-import type { Opt370PracticeExperience } from '@/lib/assessment/opt370/createPracticeExperience';
+import type {
+  CoursePracticeExperience,
+  Opt370PracticeExperience,
+} from '@/lib/assessment/opt370/createPracticeExperience';
 import {
   calculateCuratedMasteryProgress,
   type CuratedMasteryEngineConfig,
@@ -17,8 +20,8 @@ import {
 import type { CuratedMasterySummary } from '@/lib/progress/types';
 import type { StoreV2 } from '@/lib/storage/schemas';
 
-export function createOpt370ProgressModule(
-  experience: Opt370PracticeExperience,
+export function createCourseProgressModule(
+  experience: CoursePracticeExperience,
 ): CuratedProgressModule {
   const engineConfig: CuratedMasteryEngineConfig = {
     bank: experience.bank,
@@ -53,7 +56,7 @@ export function createOpt370ProgressModule(
 
   function getContribution(store: StoreV2): CuratedProgressContribution {
     const result = calculate(store);
-    if (!result.ok) throw new Error('OPT370_PROGRESS_CONTRIBUTION_UNAVAILABLE');
+    if (!result.ok) throw new Error('CURATED_PROGRESS_CONTRIBUTION_UNAVAILABLE');
     const recommendation = curatedRecommendation(
       experience.definition.summary,
       signals(result.summary),
@@ -101,4 +104,10 @@ export function createOpt370ProgressModule(
   }
 
   return { ProgressPanel, getContribution };
+}
+
+export function createOpt370ProgressModule(
+  experience: Opt370PracticeExperience,
+): CuratedProgressModule {
+  return createCourseProgressModule(experience);
 }
