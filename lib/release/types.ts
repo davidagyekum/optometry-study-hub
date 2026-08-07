@@ -19,6 +19,7 @@ export type ReleaseProfileId = z.infer<typeof releaseProfileIdSchema>;
 export const releaseFlagsSchema = z.strictObject({
   assessmentPilot: z.boolean(),
   hvpCuratedPractice: z.boolean(),
+  hvpDepthColourExpansion: z.boolean(),
   tissueFoundationsCuratedPractice: z.boolean(),
   ocularAdnexaCuratedPractice: z.boolean(),
   aqueousVitreousCuratedPractice: z.boolean(),
@@ -111,7 +112,20 @@ export const releaseManifestSchema = z.strictObject({
     opt370DraftQuestions: z.literal(400),
     opt370DraftObjectives: z.literal(66),
     opt370DraftModules: z.literal(5),
-    courseAlignedQuestionRecords: z.literal(1080),
+    hvpDepthColourDraftQuestions: z.literal(160),
+    hvpDepthColourDraftObjectives: z.literal(20),
+    hvpDepthColourDraftModules: z.literal(2),
+    hvpDepthColourDraftSections: z.literal(18),
+    hvpDepthColourSvgDiagrams: z.literal(8),
+    hvpDepthColourChecksums: z.strictObject({
+      depth: z.literal(
+        'bc2043867b438330d71d31ab732b54e8b4c5950eee4133fed3b56fc347024194',
+      ),
+      colour: z.literal(
+        'd9a3011c77cd9cdcfcefff3dab9b24daf9296966397b00c389d32a9a151f0351',
+      ),
+    }),
+    courseAlignedQuestionRecords: z.literal(1240),
     opt370Checksums: z.strictObject({
       schematicEyeRefractiveStates: z.literal(
         '602b831f1206dedac93785041c13e8165370a19701ddf401908eb86503efc46a',
@@ -204,9 +218,11 @@ export const releaseManifestSchema = z.strictObject({
       systemicPathologyObjectives: reviewCountsSchema,
       opt370Questions: reviewCountsSchema,
       opt370Objectives: reviewCountsSchema,
+      hvpDepthColourQuestions: reviewCountsSchema,
+      hvpDepthColourObjectives: reviewCountsSchema,
     }),
     academicStatus: z.literal(
-      'Established curated and OPT 370 course-aligned questions remain draft educational practice; not lecturer-approved examination items.',
+      'Established curated, OPT 370 and HVP Depth + Colour course-aligned questions remain draft educational practice; not lecturer-approved examination items.',
     ),
   }),
   assessment: z.strictObject({

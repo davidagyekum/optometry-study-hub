@@ -7,6 +7,8 @@ import { modules } from '@/content/legacy/moduleCatalog';
 import { aqueousVitreousCandidateBank } from '@/content/question-bank/opt376/aqueous-vitreous/bank';
 import { aqueousVitreousPilotBank } from '@/content/question-bank/opt376/aqueous-vitreous/pilotSubset';
 import { humanVisualPerceptionCandidateBank } from '@/content/question-bank/opt374/human-visual-perception/bank';
+import { hvpDepthPerceptionExtensionQuestionBank } from '@/content/question-bank/opt374/hvp-depth-perception/bank';
+import { hvpColourPerceptionExtensionQuestionBank } from '@/content/question-bank/opt374/hvp-colour-perception/bank';
 import { tissueFoundationsCandidateBank } from '@/content/question-bank/opt376/tissue-foundations/bank';
 import { ocularAdnexaCandidateBank } from '@/content/question-bank/opt376/ocular-adnexa/bank';
 import { bloodSupplyCandidateBank } from '@/content/question-bank/opt376/blood-supply/bank';
@@ -27,6 +29,16 @@ import type { ReleaseAssertion } from '@/lib/release/types';
 
 export const EXPECTED_HVP_CHECKSUM =
   '029dc39ff103a836445a86bb352513b231e51d266d4b2fade3f00527d00ef89a';
+
+export const EXPECTED_HVP_DEPTH_COLOUR_CHECKSUMS = {
+  depth: 'bc2043867b438330d71d31ab732b54e8b4c5950eee4133fed3b56fc347024194',
+  colour: 'd9a3011c77cd9cdcfcefff3dab9b24daf9296966397b00c389d32a9a151f0351',
+} as const;
+
+export const HVP_DEPTH_COLOUR_BANKS = [
+  hvpDepthPerceptionExtensionQuestionBank,
+  hvpColourPerceptionExtensionQuestionBank,
+] as const;
 
 export const EXPECTED_TISSUE_CHECKSUM =
   '500454bab37a5846ed46efd442149c105cbaf6ea5c9dd270ba3605170a2d9c08';
@@ -102,6 +114,23 @@ export function hvpChecksum(): string {
       'content/question-bank/opt374/human-visual-perception/bank.json',
     ))
     .digest('hex');
+}
+
+export function hvpDepthColourChecksums(): Record<
+  keyof typeof EXPECTED_HVP_DEPTH_COLOUR_CHECKSUMS,
+  string
+> {
+  const checksum = (path: string) => createHash('sha256')
+    .update(readFileSync(path))
+    .digest('hex');
+  return {
+    depth: checksum(
+      'content/question-bank/opt374/hvp-depth-perception/bank.json',
+    ),
+    colour: checksum(
+      'content/question-bank/opt374/hvp-colour-perception/bank.json',
+    ),
+  };
 }
 
 export function tissueChecksum(): string {
@@ -188,7 +217,7 @@ export function trackedEnabledReleaseEnvironmentFiles(): string[] {
     cwd: process.cwd(),
     encoding: 'utf8',
   }).split(/\r?\n/).filter(Boolean);
-  return files.filter((file) => /NEXT_PUBLIC_ENABLE_(?:ASSESSMENT_PILOT|HVP_CURATED_PRACTICE|TISSUE_FOUNDATIONS_CURATED_PRACTICE|OCULAR_ADNEXA_CURATED_PRACTICE|AQUEOUS_VITREOUS_CURATED_PRACTICE|BLOOD_SUPPLY_CURATED_PRACTICE|ENVIRONMENTAL_VISION_CURATED_PRACTICE|AUTONOMIC_PHARMACOLOGY_CURATED_PRACTICE|SYSTEMIC_PATHOLOGY_CURATED_PRACTICE|OPT370_SCHEMATIC_EYE_REFRACTIVE_STATES|OPT370_MULTIFOCAL_FOUNDATIONS|OPT370_PROGRESSIVE_ADDITION_LENSES|OPT370_PD_AND_DISPENSING|OPT370_SPECIAL_LENSES)=true/.test(
+  return files.filter((file) => /NEXT_PUBLIC_ENABLE_(?:ASSESSMENT_PILOT|HVP_CURATED_PRACTICE|HVP_DEPTH_COLOUR_EXPANSION|TISSUE_FOUNDATIONS_CURATED_PRACTICE|OCULAR_ADNEXA_CURATED_PRACTICE|AQUEOUS_VITREOUS_CURATED_PRACTICE|BLOOD_SUPPLY_CURATED_PRACTICE|ENVIRONMENTAL_VISION_CURATED_PRACTICE|AUTONOMIC_PHARMACOLOGY_CURATED_PRACTICE|SYSTEMIC_PATHOLOGY_CURATED_PRACTICE|OPT370_SCHEMATIC_EYE_REFRACTIVE_STATES|OPT370_MULTIFOCAL_FOUNDATIONS|OPT370_PROGRESSIVE_ADDITION_LENSES|OPT370_PD_AND_DISPENSING|OPT370_SPECIAL_LENSES)=true/.test(
     readFileSync(file, 'utf8'),
   ));
 }
@@ -224,6 +253,20 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
     (total, bank) => total + bank.objectives.length,
     0,
   );
+  const hvpDepthColourQuestions = HVP_DEPTH_COLOUR_BANKS.flatMap(
+    (bank) => [...bank.questions],
+  );
+  const hvpDepthColourObjectives = HVP_DEPTH_COLOUR_BANKS.flatMap(
+    (bank) => [...bank.objectives],
+  );
+  const hvpDepthColourSectionCount = new Set(
+    hvpDepthColourQuestions.map((question) => question.sectionId),
+  ).size;
+  const hvpDepthColourSvgCount = new Set(hvpDepthColourQuestions.flatMap(
+    (question) => ('image' in question && question.image.src.endsWith('.svg')
+      ? [question.image.src]
+      : []),
+  )).size;
   const hvpSvgCount = new Set(humanVisualPerceptionCandidateBank.questions.flatMap(
     (question) => ('image' in question && question.image.src.endsWith('.svg')
       ? [question.image.src]
@@ -301,9 +344,29 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
       `${opt370QuestionCount} draft questions; ${opt370ObjectiveCount} objectives; ${OPT370_BANKS.length} modules`,
     ),
     assertion(
+      'hvp-depth-colour-draft-content',
+      HVP_DEPTH_COLOUR_BANKS.length === 2
+        && hvpDepthColourQuestions.length === 160
+        && hvpDepthColourObjectives.length === 20
+        && hvpDepthColourSectionCount === 18,
+      `${hvpDepthColourQuestions.length} draft questions; ${hvpDepthColourObjectives.length} draft objectives; ${HVP_DEPTH_COLOUR_BANKS.length} modules; ${hvpDepthColourSectionCount} sections`,
+    ),
+    assertion(
+      'hvp-depth-colour-svg-assets',
+      hvpDepthColourSvgCount === 8,
+      `${hvpDepthColourSvgCount} unique SVG assessment figures`,
+    ),
+    assertion(
+      'hvp-depth-colour-checksums',
+      JSON.stringify(hvpDepthColourChecksums())
+        === JSON.stringify(EXPECTED_HVP_DEPTH_COLOUR_CHECKSUMS),
+      'Both HVP Depth + Colour canonical bank SHA-256 values match.',
+    ),
+    assertion(
       'course-aligned-question-records',
-      curatedQuestionCount + opt370QuestionCount === 1080,
-      `${curatedQuestionCount} established curated + ${opt370QuestionCount} OPT 370 draft = ${curatedQuestionCount + opt370QuestionCount}`,
+      curatedQuestionCount + opt370QuestionCount
+        + hvpDepthColourQuestions.length === 1240,
+      `${curatedQuestionCount} established curated + ${opt370QuestionCount} OPT 370 draft + ${hvpDepthColourQuestions.length} HVP gated draft = ${curatedQuestionCount + opt370QuestionCount + hvpDepthColourQuestions.length}`,
     ),
     assertion(
       'opt370-checksums',
@@ -487,8 +550,12 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
         && OPT370_BANKS.every((bank) => (
           bank.questions.every((question) => question.reviewStatus === 'draft')
           && bank.objectives.every((objective) => objective.reviewStatus === 'draft')
+        ))
+        && HVP_DEPTH_COLOUR_BANKS.every((bank) => (
+          bank.questions.every((question) => question.reviewStatus === 'draft')
+          && bank.objectives.every((objective) => objective.reviewStatus === 'draft')
         )),
-      'All established curated and OPT 370 questions and objectives remain draft.',
+      'All established curated, OPT 370 and HVP Depth + Colour questions and objectives remain draft.',
     ),
     assertion(
       'storage-identity',

@@ -23,7 +23,7 @@ function identity(
   return {
     schemaVersion: 1,
     profile: 'hvp-public-beta',
-    flags: { assessmentPilot: false, hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false },
+    flags: { assessmentPilot: false, hvpCuratedPractice: true, hvpDepthColourExpansion: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false },
     commitSha: git.commitSha,
     treeSha: git.treeSha,
     dirty: false,
@@ -71,7 +71,7 @@ describe('release manifest', () => {
     expect(releaseManifestSchema.parse(manifest)).toEqual(manifest);
     expect(manifest.flags).toEqual({
       assessmentPilot: false,
-      hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false,
+      hvpCuratedPractice: true, hvpDepthColourExpansion: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false,
     });
     expect(manifest.build.identity.commitSha).toBe(git.commitSha);
     expect(manifest.build.identity.treeSha).toBe(git.treeSha);
@@ -85,17 +85,28 @@ describe('release manifest', () => {
       opt370DraftQuestions: 400,
       opt370DraftObjectives: 66,
       opt370DraftModules: 5,
-      courseAlignedQuestionRecords: 1080,
+      hvpDepthColourDraftQuestions: 160,
+      hvpDepthColourDraftObjectives: 20,
+      hvpDepthColourDraftModules: 2,
+      hvpDepthColourDraftSections: 18,
+      hvpDepthColourSvgDiagrams: 8,
+      courseAlignedQuestionRecords: 1240,
     });
     expect(manifest.content.reviewStatuses.opt370Questions).toMatchObject({ draft: 400 });
     expect(manifest.content.reviewStatuses.opt370Objectives).toMatchObject({ draft: 66 });
+    expect(manifest.content.reviewStatuses.hvpDepthColourQuestions)
+      .toMatchObject({ draft: 160 });
+    expect(manifest.content.reviewStatuses.hvpDepthColourObjectives)
+      .toMatchObject({ draft: 20 });
     expect(Object.values(manifest.content.opt370Checksums)).toHaveLength(5);
+    expect(Object.values(manifest.content.hvpDepthColourChecksums)).toHaveLength(2);
     expect(manifest.content.academicStatus).toMatch(/not lecturer-approved/i);
     expect(() => assertManifestHasNoSensitivePaths(manifest)).not.toThrow();
     const report = renderReleaseReport(manifest);
     expect(report).toContain('Aqueous pilot: disabled');
     expect(report).toContain('exact output fingerprint');
-    expect(report).toContain('1080 course-aligned question records');
+    expect(report).toContain('1240 course-aligned question records');
+    expect(report).toContain('160 gated HVP Depth + Colour draft questions');
   });
 
   it('keeps deterministic identity stable across timestamps and runtimes', () => {
@@ -139,14 +150,14 @@ describe('release manifest', () => {
       'build profile',
       audit({
         profile: 'disabled',
-        flags: { assessmentPilot: false, hvpCuratedPractice: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false },
+        flags: { assessmentPilot: false, hvpCuratedPractice: false, hvpDepthColourExpansion: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false },
         outputDirectory: 'tmp/release/builds/disabled',
       }),
       /build identity/i,
     ],
     [
       'feature flags',
-      audit({ flags: { assessmentPilot: false, hvpCuratedPractice: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false } }),
+      audit({ flags: { assessmentPilot: false, hvpCuratedPractice: false, hvpDepthColourExpansion: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false } }),
       /flags/i,
     ],
     ['build commit', audit({ commitSha: '3'.repeat(40) }), /Git identity/i],

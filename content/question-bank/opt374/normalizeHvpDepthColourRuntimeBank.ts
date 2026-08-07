@@ -32,7 +32,7 @@ const sourceSupportedDistractors: Readonly<Record<string, { id: string; text: st
   'hvp-colour-em-001': { id: 'colour-constancy', text: 'colour constancy' },
   'hvp-colour-em-002': { id: 'wavelength-discrimination', text: 'wavelength discrimination' },
   'hvp-colour-em-005': { id: 'colour-constancy', text: 'colour constancy' },
-  'hvp-colour-em-006': { id: 'not-lecture-content', text: 'not lecture content' },
+  'hvp-colour-em-006': { id: 'source-contradicted', text: 'contradicted by the source' },
   'hvp-colour-em-007': { id: 'light-intensity', text: 'light intensity' },
 };
 

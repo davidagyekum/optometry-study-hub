@@ -104,12 +104,29 @@ type FactoryOptions = {
   summary: CuratedExperienceSummary;
   bank: QuestionBank;
   fullSectionTargets: Readonly<Record<string, number>>;
+  fullSectionFormatTargets?: Readonly<
+    Record<string, Readonly<Record<string, number>>>
+  >;
   courseId: string;
   courseLabel: string;
   enforceFullFormatTargets?: boolean;
   enforceSectionAndDifficultyTargets?: boolean;
   enforceHigherOrderTargets?: boolean;
+  enforceConstrainedShortProfiles?: boolean;
+  enforceFullObjectiveCoverage?: boolean;
   fullContractDescription?: string;
+};
+
+const FULL_AUTOMATIC_FORMAT_TARGETS: Readonly<Record<string, number>> = {
+  single_best_answer: 19,
+  true_false: 4,
+  multiple_response: 6,
+  matching: 5,
+  extended_matching: 4,
+  ordering: 4,
+  image_hotspot: 3,
+  image_label: 2,
+  short_answer: 3,
 };
 
 function scaledTargets(
@@ -151,11 +168,14 @@ export function createCoursePracticeExperience({
   summary,
   bank,
   fullSectionTargets,
+  fullSectionFormatTargets,
   courseId,
   courseLabel,
   enforceFullFormatTargets = true,
   enforceSectionAndDifficultyTargets = true,
   enforceHigherOrderTargets = true,
+  enforceConstrainedShortProfiles = false,
+  enforceFullObjectiveCoverage = false,
   fullContractDescription = 'Full practice uses 50 questions with section, format, difficulty, Bloom, objective and family constraints.',
 }: FactoryOptions): CoursePracticeExperience {
   const sectionIds = Object.keys(config.sectionLabels);
@@ -186,6 +206,7 @@ export function createCoursePracticeExperience({
     allowedReviewStatuses: ['draft'],
     defaultMode: 'study',
     gradingPolicy: GRADING_POLICY,
+    enforcePartialProfileTargets: enforceConstrainedShortProfiles,
     eligibleFormats: AUTOMATIC_FORMATS,
     resultMode: 'automatic',
     sectionIds,
@@ -218,25 +239,16 @@ export function createCoursePracticeExperience({
           ? { sectionTargets: { ...fullSectionTargets } }
           : {}),
         ...(enforceFullFormatTargets
-          ? {
-            formatTargets: {
-              single_best_answer: 19,
-              true_false: 4,
-              multiple_response: 6,
-              matching: 5,
-              extended_matching: 4,
-              ordering: 4,
-              image_hotspot: 3,
-              image_label: 2,
-              short_answer: 3,
-            },
-          }
+          ? { formatTargets: { ...FULL_AUTOMATIC_FORMAT_TARGETS } }
           : {}),
         ...(enforceSectionAndDifficultyTargets
           ? { difficultyTargets: { ...config.fullDifficultyTargets } }
           : {}),
         higherOrderMinimum: enforceHigherOrderTargets ? 28 : 0,
         higherOrderMaximum: 50,
+        ...(enforceFullObjectiveCoverage
+          ? { requiredObjectiveIds: bank.objectives.map((objective) => objective.id) }
+          : {}),
         recommended: true,
       },
       {
@@ -261,6 +273,7 @@ export function createCoursePracticeExperience({
     allowedReviewStatuses: ['draft'],
     defaultMode: 'study',
     gradingPolicy: GRADING_POLICY,
+    enforcePartialProfileTargets: enforceConstrainedShortProfiles,
     eligibleFormats: ['open_response'],
     resultMode: 'manual-only',
     sectionIds,
@@ -376,6 +389,9 @@ export function createCoursePracticeExperience({
         selection,
         history: store.assessment.questionHistory,
         sectionFormatAvailability,
+        sectionFormatTargets: profile?.id === 'full'
+          ? fullSectionFormatTargets
+          : undefined,
       });
       if (!assembly.ok) return assemblyFailure(assembly.issues);
       questionIds = assembly.value.questionIds;

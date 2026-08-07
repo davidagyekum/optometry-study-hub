@@ -63,7 +63,7 @@ function metadata(
   return {
     schemaVersion: 1,
     profile: 'hvp-public-beta',
-    flags: { assessmentPilot: false, hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false },
+    flags: { assessmentPilot: false, hvpCuratedPractice: true, hvpDepthColourExpansion: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false },
     commitSha: git.commitSha,
     treeSha: git.treeSha,
     dirty: false,
@@ -233,7 +233,7 @@ describe('release build identity', () => {
     [
       'wrong feature flags',
       'hvp-public-beta' as const,
-      metadata({ flags: { assessmentPilot: false, hvpCuratedPractice: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false } }),
+      metadata({ flags: { assessmentPilot: false, hvpCuratedPractice: false, hvpDepthColourExpansion: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false } }),
       git,
       'a'.repeat(64),
       /flags/i,
@@ -241,7 +241,7 @@ describe('release build identity', () => {
     [
       'Aqueous enabled',
       'hvp-public-beta' as const,
-      metadata({ flags: { assessmentPilot: true, hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false } }),
+      metadata({ flags: { assessmentPilot: true, hvpCuratedPractice: true, hvpDepthColourExpansion: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false } }),
       git,
       'a'.repeat(64),
       /Aqueous/i,
@@ -249,7 +249,7 @@ describe('release build identity', () => {
     [
       'Aqueous curated practice enabled in the HVP profile',
       'hvp-public-beta' as const,
-      metadata({ flags: { assessmentPilot: false, hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false,
+      metadata({ flags: { assessmentPilot: false, hvpCuratedPractice: true, hvpDepthColourExpansion: false, tissueFoundationsCuratedPractice: false,
         ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: true, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false } }),
       git,
       'a'.repeat(64),
@@ -321,7 +321,7 @@ describe('release build identity', () => {
       releaseOutputDirectory('hvp-public-beta'),
       metadata({
         profile: 'disabled',
-        flags: { assessmentPilot: false, hvpCuratedPractice: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false },
+        flags: { assessmentPilot: false, hvpCuratedPractice: false, hvpDepthColourExpansion: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false },
         outputDirectory: 'tmp/release/builds/disabled',
       }),
       git,

@@ -32,6 +32,36 @@ const EXPECTED_FORMATS = {
   open_response: 2,
 };
 
+const FULL_FORMAT_TARGETS = {
+  single_best_answer: 19,
+  true_false: 4,
+  multiple_response: 6,
+  matching: 5,
+  extended_matching: 4,
+  ordering: 4,
+  image_hotspot: 3,
+  image_label: 2,
+  short_answer: 3,
+};
+
+const FULL_DIFFICULTY_TARGETS = {
+  foundation: 13,
+  intermediate: 36,
+  advanced: 1,
+};
+
+const HIGHER_ORDER_LEVELS = new Set(['apply', 'analyze', 'evaluate', 'create']);
+
+const RUNTIME_DISTRACTORS = {
+  'hvp-depth-em-006': { id: 'binocular-far', text: 'binocular far' },
+  'hvp-depth-em-007': { id: 'chromostereopsis', text: 'chromostereopsis prompt' },
+  'hvp-colour-em-001': { id: 'colour-constancy', text: 'colour constancy' },
+  'hvp-colour-em-002': { id: 'wavelength-discrimination', text: 'wavelength discrimination' },
+  'hvp-colour-em-005': { id: 'colour-constancy', text: 'colour constancy' },
+  'hvp-colour-em-006': { id: 'source-contradicted', text: 'contradicted by the source' },
+  'hvp-colour-em-007': { id: 'light-intensity', text: 'light intensity' },
+} as const;
+
 const fixtures: Array<{
   moduleId: HvpDepthColourModuleId;
   bank: QuestionBank;
@@ -185,40 +215,125 @@ describe('HVP Depth + Colour draft extension', () => {
     }
   });
 
-  it('assembles deterministic quick, standard, full and written sessions for both modules', () => {
+  it('adds seven distinct runtime distractors and resolves the colour EM-006 ambiguity', () => {
+    for (const { bank } of fixtures) {
+      for (const question of bank.questions) {
+        const expected = RUNTIME_DISTRACTORS[
+          question.id as keyof typeof RUNTIME_DISTRACTORS
+        ];
+        if (!expected) continue;
+        if (question.format !== 'extended_matching') {
+          throw new Error(question.id + ' must remain extended matching.');
+        }
+        expect(question.options).toContainEqual(expected);
+        expect(new Set(question.options.map((option) => option.id)).size)
+          .toBe(question.options.length);
+        expect(Object.values(question.correctAnswers)).not.toContain(expected.id);
+      }
+    }
+
+    const question = hvpColourPerceptionExtensionQuestionBank.questions.find(
+      (candidate) => candidate.id === 'hvp-colour-em-006',
+    );
+    if (!question || question.format !== 'extended_matching') {
+      throw new Error('Missing normalized hvp-colour-em-006.');
+    }
+    expect(question.options.map((option) => option.id)).toEqual([
+      'source-supported',
+      'intro-only',
+      'needs-source',
+      'source-contradicted',
+    ]);
+    expect(question.options.map((option) => option.text)).not.toContain(
+      'not lecture content',
+    );
+    expect(question.correctAnswers).toEqual({
+      'case-1': 'source-supported',
+      'case-2': 'intro-only',
+      'case-3': 'needs-source',
+    });
+  });
+
+  it('enforces deterministic Quick, Standard and Full contracts for both modules', () => {
+    const countQuestions = (
+      questions: QuestionBank['questions'],
+      field: 'sectionId' | 'format' | 'difficulty',
+    ) => questions.reduce<Record<string, number>>((result, question) => ({
+      ...result,
+      [question[field]]: (result[question[field]] ?? 0) + 1,
+    }), {});
+    const positiveTargets = (targets: Readonly<Record<string, number>>) => (
+      Object.fromEntries(Object.entries(targets).filter(([, count]) => count > 0))
+    );
+
     for (const { moduleId, bank, experience } of fixtures) {
       const registry = experience.registryBuilder();
       if (!registry.ok) throw new Error(JSON.stringify(registry.issues));
+
       for (const [profileId, count] of [
         ['quick', 10],
         ['standard', 25],
         ['full', 50],
-        ['written', 2],
       ] as const) {
+        const profile = experience.automaticBlueprint.profiles.find(
+          (candidate) => candidate.id === profileId,
+        );
+        if (!profile) throw new Error(moduleId + '/' + profileId + ' profile missing.');
         const request = {
           profileId,
           requestedCount: count,
-          seed: `${moduleId}-${profileId}`,
+          seed: moduleId + '-' + profileId,
         };
         const first = experience.definition.createAttempt(
           request, createEmptyStoreV2(), registry.value,
         );
         if (!first.ok) {
-          throw new Error(`${moduleId}/${profileId}: ${JSON.stringify(first.issues)}`);
+          throw new Error(moduleId + '/' + profileId + ': ' + JSON.stringify(first.issues));
         }
         const compatible = experience.definition.validateAttempt(first.value, registry.value);
         if (!compatible.ok) {
           throw new Error(moduleId + '/' + profileId + ' resume: ' + JSON.stringify(compatible.issues));
         }
-        expect(first.value.orderedQuestionIds).toHaveLength(count);
-        expect(new Set(first.value.orderedQuestionIds).size).toBe(count);
-        const selected = first.value.orderedQuestionIds.map((id) =>
-          bank.questions.find((question) => question.id === id),
+
+        const selected = first.value.orderedQuestionIds.map((id) => {
+          const question = bank.questions.find((candidate) => candidate.id === id);
+          if (!question) throw new Error('Missing selected question ' + id);
+          return question;
+        });
+        expect(selected).toHaveLength(count);
+        expect(new Set(selected.map((question) => question.id)).size).toBe(count);
+        expect(selected.every((question) => question.format !== 'open_response'))
+          .toBe(true);
+        expect(countQuestions(selected, 'sectionId')).toEqual(
+          positiveTargets(profile.sectionTargets ?? {}),
         );
-        expect(selected.every(Boolean)).toBe(true);
-        expect(selected.every((question) => profileId === 'written'
-          ? question?.format === 'open_response'
-          : question?.format !== 'open_response')).toBe(true);
+        const higherOrderCount = selected.filter(
+          (question) => HIGHER_ORDER_LEVELS.has(question.bloomLevel),
+        ).length;
+        expect(higherOrderCount).toBeGreaterThanOrEqual(profile.higherOrderMinimum);
+        const familyCounts = selected.reduce<Record<string, number>>(
+          (result, question) => ({
+            ...result,
+            [question.familyId]: (result[question.familyId] ?? 0) + 1,
+          }),
+          {},
+        );
+        expect(Math.max(...Object.values(familyCounts))).toBeLessThanOrEqual(
+          experience.automaticBlueprint.maximumFamilyRepetition,
+        );
+
+        if (profileId === 'full') {
+          expect(countQuestions(selected, 'format')).toEqual(FULL_FORMAT_TARGETS);
+          expect(countQuestions(selected, 'difficulty')).toEqual(
+            FULL_DIFFICULTY_TARGETS,
+          );
+          expect(new Set(selected.map((question) => question.objectiveId))).toEqual(
+            new Set(bank.objectives.map((objective) => objective.id)),
+          );
+          expect(profile.requiredObjectiveIds).toEqual(
+            bank.objectives.map((objective) => objective.id),
+          );
+        }
 
         const second = experience.definition.createAttempt(
           request, createEmptyStoreV2(), registry.value,
@@ -228,4 +343,53 @@ describe('HVP Depth + Colour draft extension', () => {
       }
     }
   }, 30_000);
+
+  it('retains Custom, Targeted and Written behavior for both modules', () => {
+    for (const { moduleId, bank, experience } of fixtures) {
+      const registry = experience.registryBuilder();
+      if (!registry.ok) throw new Error(JSON.stringify(registry.issues));
+      const requests = [
+        {
+          profileId: 'custom',
+          strategy: 'custom' as const,
+          requestedCount: 12,
+          seed: moduleId + '-custom',
+        },
+        {
+          profileId: 'targeted',
+          strategy: 'unseen' as const,
+          requestedCount: 10,
+          seed: moduleId + '-targeted',
+        },
+        {
+          profileId: 'written',
+          requestedCount: 2,
+          seed: moduleId + '-written',
+        },
+      ] as const;
+
+      for (const request of requests) {
+        const attempt = experience.definition.createAttempt(
+          request, createEmptyStoreV2(), registry.value,
+        );
+        if (!attempt.ok) {
+          throw new Error(moduleId + '/' + request.profileId + ': ' + JSON.stringify(attempt.issues));
+        }
+        const compatible = experience.definition.validateAttempt(
+          attempt.value,
+          registry.value,
+        );
+        if (!compatible.ok) {
+          throw new Error(moduleId + '/' + request.profileId + ' resume: ' + JSON.stringify(compatible.issues));
+        }
+        const selected = attempt.value.orderedQuestionIds.map((id) =>
+          bank.questions.find((question) => question.id === id),
+        );
+        expect(selected.every(Boolean)).toBe(true);
+        expect(selected.every((question) => request.profileId === 'written'
+          ? question?.format === 'open_response'
+          : question?.format !== 'open_response')).toBe(true);
+      }
+    }
+  });
 });

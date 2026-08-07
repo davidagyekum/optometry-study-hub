@@ -28,6 +28,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
   disabled: {
     assessmentPilot: false,
     hvpCuratedPractice: false,
+    hvpDepthColourExpansion: false,
     tissueFoundationsCuratedPractice: false,
     ocularAdnexaCuratedPractice: false,
     aqueousVitreousCuratedPractice: false,
@@ -39,6 +40,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
   'hvp-public-beta': {
     assessmentPilot: false,
     hvpCuratedPractice: true,
+    hvpDepthColourExpansion: false,
     tissueFoundationsCuratedPractice: false,
     ocularAdnexaCuratedPractice: false,
     aqueousVitreousCuratedPractice: false,
@@ -50,6 +52,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
   'tissue-foundations-preview': {
     assessmentPilot: false,
     hvpCuratedPractice: false,
+    hvpDepthColourExpansion: false,
     tissueFoundationsCuratedPractice: true,
     ocularAdnexaCuratedPractice: false,
     aqueousVitreousCuratedPractice: false,
@@ -61,6 +64,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
   'hvp-tissue-preview': {
     assessmentPilot: false,
     hvpCuratedPractice: true,
+    hvpDepthColourExpansion: false,
     tissueFoundationsCuratedPractice: true,
     ocularAdnexaCuratedPractice: false,
     aqueousVitreousCuratedPractice: false,
@@ -72,6 +76,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
   'neuro-anatomy-preview': {
     assessmentPilot: false,
     hvpCuratedPractice: false,
+    hvpDepthColourExpansion: false,
     tissueFoundationsCuratedPractice: true,
     ocularAdnexaCuratedPractice: true,
     aqueousVitreousCuratedPractice: true,
@@ -83,6 +88,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
   'environmental-vision-preview': {
     assessmentPilot: false,
     hvpCuratedPractice: false,
+    hvpDepthColourExpansion: false,
     tissueFoundationsCuratedPractice: false,
     ocularAdnexaCuratedPractice: false,
     aqueousVitreousCuratedPractice: false,
@@ -94,6 +100,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
   'autonomic-pharmacology-preview': {
     assessmentPilot: false,
     hvpCuratedPractice: false,
+    hvpDepthColourExpansion: false,
     tissueFoundationsCuratedPractice: false,
     ocularAdnexaCuratedPractice: false,
     aqueousVitreousCuratedPractice: false,
@@ -105,6 +112,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
   'systemic-pathology-preview': {
     assessmentPilot: false,
     hvpCuratedPractice: false,
+    hvpDepthColourExpansion: false,
     tissueFoundationsCuratedPractice: false,
     ocularAdnexaCuratedPractice: false,
     aqueousVitreousCuratedPractice: false,
@@ -116,6 +124,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
   'full-curated-preview': {
     assessmentPilot: false,
     hvpCuratedPractice: true,
+    hvpDepthColourExpansion: false,
     tissueFoundationsCuratedPractice: true,
     ocularAdnexaCuratedPractice: true,
     aqueousVitreousCuratedPractice: true,
@@ -127,6 +136,7 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
   'full-curated-public-beta': {
     assessmentPilot: false,
     hvpCuratedPractice: true,
+    hvpDepthColourExpansion: false,
     tissueFoundationsCuratedPractice: true,
     ocularAdnexaCuratedPractice: true,
     aqueousVitreousCuratedPractice: true,
@@ -194,6 +204,10 @@ export function releaseFlagsFromEnvironment(
       RELEASE_FLAG_NAMES.hvpCuratedPractice,
       environment[RELEASE_FLAG_NAMES.hvpCuratedPractice],
     ),
+    hvpDepthColourExpansion: parseReleaseFlag(
+      RELEASE_FLAG_NAMES.hvpDepthColourExpansion,
+      environment[RELEASE_FLAG_NAMES.hvpDepthColourExpansion],
+    ),
     tissueFoundationsCuratedPractice: parseReleaseFlag(
       RELEASE_FLAG_NAMES.tissueFoundationsCuratedPractice,
       environment[RELEASE_FLAG_NAMES.tissueFoundationsCuratedPractice],
@@ -238,6 +252,7 @@ export function assertReleaseProfile(
   if (
     flags.assessmentPilot !== expected.assessmentPilot
     || flags.hvpCuratedPractice !== expected.hvpCuratedPractice
+    || flags.hvpDepthColourExpansion !== expected.hvpDepthColourExpansion
     || flags.tissueFoundationsCuratedPractice
       !== expected.tissueFoundationsCuratedPractice
     || flags.ocularAdnexaCuratedPractice
@@ -269,7 +284,7 @@ export function environmentForReleaseProfile(
     ...base,
     [RELEASE_FLAG_NAMES.assessmentPilot]: String(flags.assessmentPilot),
     [RELEASE_FLAG_NAMES.hvpCuratedPractice]: String(flags.hvpCuratedPractice),
-    [RELEASE_FLAG_NAMES.hvpDepthColourExpansion]: 'false',
+    [RELEASE_FLAG_NAMES.hvpDepthColourExpansion]: String(flags.hvpDepthColourExpansion),
     [RELEASE_FLAG_NAMES.tissueFoundationsCuratedPractice]:
       String(flags.tissueFoundationsCuratedPractice),
     [RELEASE_FLAG_NAMES.ocularAdnexaCuratedPractice]:

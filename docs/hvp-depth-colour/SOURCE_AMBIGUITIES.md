@@ -27,3 +27,9 @@ The deck explicitly says no universally accepted explanation exists. Do not writ
 
 ## 8. Clinical-test approval
 All question banks are draft. Do not label them lecturer-approved, clinically validated or exam-authorized until review is completed.
+## Runtime compatibility decisions
+- The two raw bank JSON files remain byte-for-byte unchanged. Runtime normalization expands objective Bloom targets only when linked authored questions require the missing level.
+- Package image percentages are converted to normalized 0-1 coordinates, and hotspot interaction labels become neutral Region markers so the prompt cannot reveal the answer.
+- Seven three-option extended-matching items receive one deterministic, source-grounded unused distractor because the site schema requires four options. For hvp-colour-em-006, the added option is source-contradicted, which is mutually exclusive from the authored needs-source answer.
+- One repeated matching choice is deduplicated and marked reusable.
+- Full 50 uses verified section-format matrices so exact section, format and difficulty totals, higher-order coverage, all ten objectives and the family cap can be solved deterministically without an unbounded runtime search.
