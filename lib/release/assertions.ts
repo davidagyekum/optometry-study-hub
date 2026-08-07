@@ -13,6 +13,11 @@ import { bloodSupplyCandidateBank } from '@/content/question-bank/opt376/blood-s
 import { environmentalVisionCandidateBank } from '@/content/question-bank/opt508/environmental-vision/bank';
 import { autonomicPharmacologyCandidateBank } from '@/content/question-bank/pharmacology/autonomic-pharmacology/bank';
 import { systemicPathologyCandidateBank } from '@/content/question-bank/systemic-pathology/systemic-pathology/bank';
+import { multifocalFoundationsQuestionBank } from '@/content/question-bank/opt370/multifocal-foundations/bank';
+import { pdAndDispensingQuestionBank } from '@/content/question-bank/opt370/pd-and-dispensing/bank';
+import { progressiveAdditionLensesQuestionBank } from '@/content/question-bank/opt370/progressive-addition-lenses/bank';
+import { schematicEyeRefractiveStatesQuestionBank } from '@/content/question-bank/opt370/schematic-eye-refractive-states/bank';
+import { specialLensesQuestionBank } from '@/content/question-bank/opt370/special-lenses/bank';
 import { QUESTION_FORMATS, REVIEW_STATUSES } from '@/lib/assessment/constants';
 import { AQUEOUS_PILOT_QUESTION_IDS } from '@/lib/assessment/pilot/blueprint';
 import { questionsFor } from '@/lib/legacy/questionGenerator';
@@ -43,6 +48,27 @@ export const EXPECTED_AUTONOMIC_PHARMACOLOGY_CHECKSUM =
 
 export const EXPECTED_SYSTEMIC_PATHOLOGY_CHECKSUM =
   '06ed91a7323147e8eb9ce1fe6d4813209d986d0b4e4664d55136a012d544b379';
+
+export const EXPECTED_OPT370_CHECKSUMS = {
+  schematicEyeRefractiveStates:
+    '602b831f1206dedac93785041c13e8165370a19701ddf401908eb86503efc46a',
+  multifocalFoundations:
+    '69ab5ea52c27977d78618c36f50aad1a5e46ccfdfcb1aca1082283bb4b3dee56',
+  progressiveAdditionLenses:
+    'd9c5cc2df7a59275a0a397f90e052638727ce453f4a4e8a676b1dc4f54057906',
+  pdAndDispensing:
+    'a9d29778d94101a883de9214f4a33b6883e9dd23951b150b3ddceb61f778e3e4',
+  specialLenses:
+    '15c09a647968ab5a341992e194041ae955e5de40ef9439b086630c918249fc5a',
+} as const;
+
+export const OPT370_BANKS = [
+  schematicEyeRefractiveStatesQuestionBank,
+  multifocalFoundationsQuestionBank,
+  progressiveAdditionLensesQuestionBank,
+  pdAndDispensingQuestionBank,
+  specialLensesQuestionBank,
+] as const;
 
 export const EXPECTED_AQUEOUS_PILOT_HASHES: Record<string, string> = {
   'aqueous-flow-sba-001': 'fd062b040d1f52b25797007ba5e0c2abbbacb98d4c8903c0c988ea566fd8b0f4',
@@ -134,6 +160,29 @@ export function aqueousVitreousChecksum(): string {
     .digest('hex');
 }
 
+export function opt370Checksums(): Record<keyof typeof EXPECTED_OPT370_CHECKSUMS, string> {
+  const checksum = (path: string) => createHash('sha256')
+    .update(readFileSync(path))
+    .digest('hex');
+  return {
+    schematicEyeRefractiveStates: checksum(
+      'content/question-bank/opt370/schematic-eye-refractive-states/bank.json',
+    ),
+    multifocalFoundations: checksum(
+      'content/question-bank/opt370/multifocal-foundations/bank.json',
+    ),
+    progressiveAdditionLenses: checksum(
+      'content/question-bank/opt370/progressive-addition-lenses/bank.json',
+    ),
+    pdAndDispensing: checksum(
+      'content/question-bank/opt370/pd-and-dispensing/bank.json',
+    ),
+    specialLenses: checksum(
+      'content/question-bank/opt370/special-lenses/bank.json',
+    ),
+  };
+}
+
 export function trackedEnabledReleaseEnvironmentFiles(): string[] {
   const files = execFileSync('git', ['ls-files', '--', '.env*', '*.env'], {
     cwd: process.cwd(),
@@ -167,6 +216,14 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
     autonomicPharmacologyCandidateBank,
     systemicPathologyCandidateBank,
   ].reduce((total, bank) => total + bank.questions.length, 0);
+  const opt370QuestionCount = OPT370_BANKS.reduce(
+    (total, bank) => total + bank.questions.length,
+    0,
+  );
+  const opt370ObjectiveCount = OPT370_BANKS.reduce(
+    (total, bank) => total + bank.objectives.length,
+    0,
+  );
   const hvpSvgCount = new Set(humanVisualPerceptionCandidateBank.questions.flatMap(
     (question) => ('image' in question && question.image.src.endsWith('.svg')
       ? [question.image.src]
@@ -230,7 +287,29 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
           .every((module) => questionsFor(module).length === 0),
       `${legacyQuestionCount} total; ${modules.map((module) => questionsFor(module).length).join(', ')} by module`,
     ),
-    assertion('curated-questions', curatedQuestionCount === 680, String(curatedQuestionCount) + ' curated questions across eight modules'),
+    assertion(
+      'curated-questions',
+      curatedQuestionCount === 680,
+      `${curatedQuestionCount} established curated questions across eight modules`,
+    ),
+    assertion(
+      'opt370-draft-content',
+      OPT370_BANKS.length === 5
+        && OPT370_BANKS.every((bank) => bank.questions.length === 80)
+        && opt370QuestionCount === 400
+        && opt370ObjectiveCount === 66,
+      `${opt370QuestionCount} draft questions; ${opt370ObjectiveCount} objectives; ${OPT370_BANKS.length} modules`,
+    ),
+    assertion(
+      'course-aligned-question-records',
+      curatedQuestionCount + opt370QuestionCount === 1080,
+      `${curatedQuestionCount} established curated + ${opt370QuestionCount} OPT 370 draft = ${curatedQuestionCount + opt370QuestionCount}`,
+    ),
+    assertion(
+      'opt370-checksums',
+      JSON.stringify(opt370Checksums()) === JSON.stringify(EXPECTED_OPT370_CHECKSUMS),
+      'All five OPT 370 canonical bank SHA-256 values match.',
+    ),
     assertion(
       'aqueous-content',
       aqueousVitreousCandidateBank.questions.length === 80
@@ -404,8 +483,12 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
         )
         && systemicPathologyCandidateBank.objectives.every(
           (objective) => objective.reviewStatus === 'draft',
-        ),
-      'All curated questions and objectives remain draft.',
+        )
+        && OPT370_BANKS.every((bank) => (
+          bank.questions.every((question) => question.reviewStatus === 'draft')
+          && bank.objectives.every((objective) => objective.reviewStatus === 'draft')
+        )),
+      'All established curated and OPT 370 questions and objectives remain draft.',
     ),
     assertion(
       'storage-identity',

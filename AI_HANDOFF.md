@@ -225,3 +225,11 @@ No silent correction was made for the OPT 370/OPT 358 course-code conflict, conf
 - Release profiles and committed-default guardrails: passed.
 - Browser QA: course plus five study routes and five practice routes loaded; four responsive viewports (360x800, 768x1024, 1280x800, 1440x900) had no horizontal overflow. Desktop and phone screenshots were inspected. The only console noise was Vinext dev-mode rejection of local \`file://\` Geist font URLs; production builds were unaffected.
 - Clean-commit release verification and final Git identities are recorded in the draft PR because the release verifier intentionally rejects a dirty working tree.
+
+### OPT 370 release-contract clarification
+
+- The machine-readable release contract intentionally keeps `curatedQuestions: 680` scoped to the eight established curated banks through `curatedQuestionsScope: established-eight-bank-release`.
+- It now separately attests 400 OPT 370 draft questions, 66 objectives, five modules, all five canonical bank checksums and draft-only review-status counts.
+- `courseAlignedQuestionRecords: 1080` is explicitly 680 established curated plus 400 OPT 370 draft; the 400 frozen legacy questions remain compatibility-only and are reported separately.
+- No OPT 370 release-profile matrix was added. Dedicated integration tests verify all five exact-string flags and all-enabled behavior, while the existing release verifier proves route-lazy bundle isolation and default-false tracked environments.
+- This clarification changes release evidence only: no bank JSON, question ID, feature flag, route, storage identity, learner record or UI behavior changed.

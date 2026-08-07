@@ -5,7 +5,9 @@ import {
   collectReleaseAssertions,
   EXPECTED_AQUEOUS_PILOT_HASHES,
   EXPECTED_HVP_CHECKSUM,
+  EXPECTED_OPT370_CHECKSUMS,
   hvpChecksum,
+  opt370Checksums,
   trackedEnabledReleaseEnvironmentFiles,
 } from '@/lib/release/assertions';
 import { LEGACY_STORAGE_KEY, STORAGE_KEY } from '@/lib/storage/keys';
@@ -21,6 +23,7 @@ describe('release content and storage contracts', () => {
   it('preserves HVP and Aqueous semantic identities', () => {
     expect(hvpChecksum()).toBe(EXPECTED_HVP_CHECKSUM);
     expect(aqueousPilotHashes()).toEqual(EXPECTED_AQUEOUS_PILOT_HASHES);
+    expect(opt370Checksums()).toEqual(EXPECTED_OPT370_CHECKSUMS);
   });
 
   it('rejects tracked production enablement', () => {

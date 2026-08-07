@@ -107,6 +107,28 @@ export const releaseManifestSchema = z.strictObject({
     studySections: z.literal(72),
     legacyQuestions: z.literal(400),
     curatedQuestions: z.literal(680),
+    curatedQuestionsScope: z.literal('established-eight-bank-release'),
+    opt370DraftQuestions: z.literal(400),
+    opt370DraftObjectives: z.literal(66),
+    opt370DraftModules: z.literal(5),
+    courseAlignedQuestionRecords: z.literal(1080),
+    opt370Checksums: z.strictObject({
+      schematicEyeRefractiveStates: z.literal(
+        '602b831f1206dedac93785041c13e8165370a19701ddf401908eb86503efc46a',
+      ),
+      multifocalFoundations: z.literal(
+        '69ab5ea52c27977d78618c36f50aad1a5e46ccfdfcb1aca1082283bb4b3dee56',
+      ),
+      progressiveAdditionLenses: z.literal(
+        'd9c5cc2df7a59275a0a397f90e052638727ce453f4a4e8a676b1dc4f54057906',
+      ),
+      pdAndDispensing: z.literal(
+        'a9d29778d94101a883de9214f4a33b6883e9dd23951b150b3ddceb61f778e3e4',
+      ),
+      specialLenses: z.literal(
+        '15c09a647968ab5a341992e194041ae955e5de40ef9439b086630c918249fc5a',
+      ),
+    }),
     aqueousQuestions: z.literal(80),
     aqueousObjectives: z.literal(13),
     aqueousSources: z.literal(8),
@@ -180,9 +202,11 @@ export const releaseManifestSchema = z.strictObject({
       autonomicPharmacologyObjectives: reviewCountsSchema,
       systemicPathologyQuestions: reviewCountsSchema,
       systemicPathologyObjectives: reviewCountsSchema,
+      opt370Questions: reviewCountsSchema,
+      opt370Objectives: reviewCountsSchema,
     }),
     academicStatus: z.literal(
-      'Curated draft educational practice; not lecturer-approved examination items.',
+      'Established curated and OPT 370 course-aligned questions remain draft educational practice; not lecturer-approved examination items.',
     ),
   }),
   assessment: z.strictObject({

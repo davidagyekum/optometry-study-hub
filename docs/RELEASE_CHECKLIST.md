@@ -3,11 +3,11 @@
 ## Source and content
 
 - [ ] Exact clean merged `main` commit and tree recorded.
-- [ ] 680 curated questions and 400 legacy questions verified.
-- [ ] All eight canonical bank hashes and all draft statuses verified.
+- [ ] 680 established curated questions, 400 OPT 370 draft questions and 400 frozen legacy compatibility questions verified.
+- [ ] All eight established canonical bank hashes, five OPT 370 bank hashes and all draft statuses verified.
 - [ ] Original Aqueous 36-object and nine-pilot identities preserved.
 - [ ] StoreV2, rollback key, legacy scores and question history unchanged.
-- [ ] `.env.example` keeps every controlled-experience flag false.
+- [ ] `.env.example` keeps every controlled-experience flag false, including all five OPT 370 flags.
 
 ## Build and audit
 
@@ -31,7 +31,7 @@
 
 ## Production
 
-- [ ] All five courses, eight notes routes and eight curated routes work.
+- [ ] All six course pages and 13 study routes work; the eight established curated routes work and the five OPT 370 practice routes remain default-disabled unless separately reviewed.
 - [ ] Curated practice is primary; legacy archive/history remains available.
 - [ ] Aqueous engineering pilot is unavailable.
 - [ ] Written Practice is `Not scored`.
