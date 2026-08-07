@@ -110,6 +110,16 @@ export type Opt370ModuleId = keyof typeof OPT370_MODULE_CONFIGS;
 export type Opt370ModuleConfig = (typeof OPT370_MODULE_CONFIGS)[Opt370ModuleId];
 
 export function isOpt370ExperienceEnabled(moduleId: Opt370ModuleId): boolean {
-  const config = OPT370_MODULE_CONFIGS[moduleId];
-  return process.env[config.flagName] === 'true';
+  switch (moduleId) {
+    case 'schematic-eye-refractive-states':
+      return process.env.NEXT_PUBLIC_ENABLE_OPT370_SCHEMATIC_EYE_REFRACTIVE_STATES === 'true';
+    case 'multifocal-foundations':
+      return process.env.NEXT_PUBLIC_ENABLE_OPT370_MULTIFOCAL_FOUNDATIONS === 'true';
+    case 'progressive-addition-lenses':
+      return process.env.NEXT_PUBLIC_ENABLE_OPT370_PROGRESSIVE_ADDITION_LENSES === 'true';
+    case 'pd-and-dispensing':
+      return process.env.NEXT_PUBLIC_ENABLE_OPT370_PD_AND_DISPENSING === 'true';
+    case 'special-lenses':
+      return process.env.NEXT_PUBLIC_ENABLE_OPT370_SPECIAL_LENSES === 'true';
+  }
 }
