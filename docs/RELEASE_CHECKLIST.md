@@ -1,10 +1,10 @@
-# Full-curated release checklist
+# All-course-content production release checklist
 
 ## Source and content
 
 - [ ] Exact clean merged `main` commit and tree recorded.
-- [ ] 680 established curated questions, 400 OPT 370 draft questions and 400 frozen legacy compatibility questions verified.
-- [ ] All eight established canonical bank hashes, five OPT 370 bank hashes and all draft statuses verified.
+- [ ] 680 established curated questions, 400 OPT 370 draft questions, 160 HVP Depth + Colour draft questions and 400 frozen legacy compatibility questions verified.
+- [ ] All eight established canonical bank hashes, five OPT 370 bank hashes, three HVP bank hashes and all draft statuses verified.
 - [ ] Original Aqueous 36-object and nine-pilot identities preserved.
 - [ ] StoreV2, rollback key, legacy scores and question history unchanged.
 - [ ] `.env.example` keeps every controlled-experience flag false, including all five OPT 370 flags.
@@ -12,13 +12,13 @@
 ## Build and audit
 
 - [ ] `npm ci`, `npm run check` and `npm run release:verify` pass.
-- [ ] Every preview profile and both full profiles build and audit.
-- [ ] `full-curated-public-beta` enables all eight curated modules and disables the engineering pilot.
+- [ ] Every historical profile and the all-content production profile build and audit.
+- [ ] `all-course-content-public` enables exactly eight established curated, five OPT 370 and two HVP extension experiences, while disabling the engineering pilot.
 - [ ] Initial/server closures contain no answer identity.
 - [ ] Each module keeps distinct lazy practice and progress closures; shared chunks count once.
 - [ ] Release metadata binds exact commit, tree, flags, output directory and fingerprint.
 - [ ] Manifest SHA-256 and deterministic identity recorded.
-- [ ] Chrome matrix passes with zero new console errors and no overflow.
+- [ ] Browser matrix at 360x800, 768x1024, 1280x800 and 1440x900 passes with zero new console errors, broken images or overflow.
 
 ## Publish
 
@@ -31,7 +31,7 @@
 
 ## Production
 
-- [ ] All six course pages and 13 study routes work; the eight established curated routes work and the five OPT 370 practice routes remain default-disabled unless separately reviewed.
+- [ ] All six course pages and 15 study routes work; all 15 intended controlled experiences are visible; HVP lists three modules and Dispensing Optics II lists five.
 - [ ] Curated practice is primary; legacy archive/history remains available.
 - [ ] Aqueous engineering pilot is unavailable.
 - [ ] Written Practice is `Not scored`.

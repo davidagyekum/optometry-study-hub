@@ -12,13 +12,15 @@ Use the same reviewed release commit and rebuild it with:
 ```text
 NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT=false
 NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE=false
+NEXT_PUBLIC_ENABLE_HVP_DEPTH_COLOUR_EXPANSION=false
+# Keep every established curated and OPT 370 release flag false
 ```
 
 Run the disabled release build and audit, generate evidence for that exact
 clean commit, save a new Sites version, and deploy it only with rollback
 authorization.
 
-This hides HVP curated practice without deleting StoreV2 attempts, results, or
+This hides every controlled practice experience without deleting StoreV2 attempts, results, or
 question history. It preserves all legacy data and requires no storage
 migration, so a later reviewed build can re-enable HVP and recover compatible
 device-local records.
@@ -26,8 +28,7 @@ device-local records.
 ## Level 2: code rollback
 
 Republish the exact previously recorded production source commit and Sites
-version. Before release, the known baseline was Sites version 3 at commit
-`18ba5aebdef82402e26c1937d4e2bb1638a7a116`.
+version. For the August 2026 all-content release, the recorded rollback candidate is Sites version 10 at commit `051790b10e865db126094ee47c3e9ece1247abeb`. Always use the exact version and deployment IDs captured immediately before the production change, and restore its recorded environment matrix before redeploying it.
 
 - Do not clear browser storage or delete StoreV2.
 - Do not run database rollback procedures; the application has no database.

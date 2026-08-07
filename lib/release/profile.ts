@@ -22,6 +22,16 @@ export const RELEASE_FLAG_NAMES = {
     'NEXT_PUBLIC_ENABLE_AUTONOMIC_PHARMACOLOGY_CURATED_PRACTICE',
   systemicPathologyCuratedPractice:
     'NEXT_PUBLIC_ENABLE_SYSTEMIC_PATHOLOGY_CURATED_PRACTICE',
+  opt370SchematicEyeRefractiveStates:
+    'NEXT_PUBLIC_ENABLE_OPT370_SCHEMATIC_EYE_REFRACTIVE_STATES',
+  opt370MultifocalFoundations:
+    'NEXT_PUBLIC_ENABLE_OPT370_MULTIFOCAL_FOUNDATIONS',
+  opt370ProgressiveAdditionLenses:
+    'NEXT_PUBLIC_ENABLE_OPT370_PROGRESSIVE_ADDITION_LENSES',
+  opt370PdAndDispensing:
+    'NEXT_PUBLIC_ENABLE_OPT370_PD_AND_DISPENSING',
+  opt370SpecialLenses:
+    'NEXT_PUBLIC_ENABLE_OPT370_SPECIAL_LENSES',
 } as const;
 
 export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
@@ -36,6 +46,11 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     environmentalVisionCuratedPractice: false,
     autonomicPharmacologyCuratedPractice: false,
     systemicPathologyCuratedPractice: false,
+    opt370SchematicEyeRefractiveStates: false,
+    opt370MultifocalFoundations: false,
+    opt370ProgressiveAdditionLenses: false,
+    opt370PdAndDispensing: false,
+    opt370SpecialLenses: false,
   },
   'hvp-public-beta': {
     assessmentPilot: false,
@@ -48,6 +63,11 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     environmentalVisionCuratedPractice: false,
     autonomicPharmacologyCuratedPractice: false,
     systemicPathologyCuratedPractice: false,
+    opt370SchematicEyeRefractiveStates: false,
+    opt370MultifocalFoundations: false,
+    opt370ProgressiveAdditionLenses: false,
+    opt370PdAndDispensing: false,
+    opt370SpecialLenses: false,
   },
   'tissue-foundations-preview': {
     assessmentPilot: false,
@@ -60,6 +80,11 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     environmentalVisionCuratedPractice: false,
     autonomicPharmacologyCuratedPractice: false,
     systemicPathologyCuratedPractice: false,
+    opt370SchematicEyeRefractiveStates: false,
+    opt370MultifocalFoundations: false,
+    opt370ProgressiveAdditionLenses: false,
+    opt370PdAndDispensing: false,
+    opt370SpecialLenses: false,
   },
   'hvp-tissue-preview': {
     assessmentPilot: false,
@@ -72,6 +97,11 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     environmentalVisionCuratedPractice: false,
     autonomicPharmacologyCuratedPractice: false,
     systemicPathologyCuratedPractice: false,
+    opt370SchematicEyeRefractiveStates: false,
+    opt370MultifocalFoundations: false,
+    opt370ProgressiveAdditionLenses: false,
+    opt370PdAndDispensing: false,
+    opt370SpecialLenses: false,
   },
   'neuro-anatomy-preview': {
     assessmentPilot: false,
@@ -84,6 +114,11 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     environmentalVisionCuratedPractice: false,
     autonomicPharmacologyCuratedPractice: false,
     systemicPathologyCuratedPractice: false,
+    opt370SchematicEyeRefractiveStates: false,
+    opt370MultifocalFoundations: false,
+    opt370ProgressiveAdditionLenses: false,
+    opt370PdAndDispensing: false,
+    opt370SpecialLenses: false,
   },
   'environmental-vision-preview': {
     assessmentPilot: false,
@@ -96,6 +131,11 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     environmentalVisionCuratedPractice: true,
     autonomicPharmacologyCuratedPractice: false,
     systemicPathologyCuratedPractice: false,
+    opt370SchematicEyeRefractiveStates: false,
+    opt370MultifocalFoundations: false,
+    opt370ProgressiveAdditionLenses: false,
+    opt370PdAndDispensing: false,
+    opt370SpecialLenses: false,
   },
   'autonomic-pharmacology-preview': {
     assessmentPilot: false,
@@ -108,6 +148,11 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     environmentalVisionCuratedPractice: false,
     autonomicPharmacologyCuratedPractice: true,
     systemicPathologyCuratedPractice: false,
+    opt370SchematicEyeRefractiveStates: false,
+    opt370MultifocalFoundations: false,
+    opt370ProgressiveAdditionLenses: false,
+    opt370PdAndDispensing: false,
+    opt370SpecialLenses: false,
   },
   'systemic-pathology-preview': {
     assessmentPilot: false,
@@ -120,6 +165,11 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     environmentalVisionCuratedPractice: false,
     autonomicPharmacologyCuratedPractice: false,
     systemicPathologyCuratedPractice: true,
+    opt370SchematicEyeRefractiveStates: false,
+    opt370MultifocalFoundations: false,
+    opt370ProgressiveAdditionLenses: false,
+    opt370PdAndDispensing: false,
+    opt370SpecialLenses: false,
   },
   'full-curated-preview': {
     assessmentPilot: false,
@@ -132,6 +182,11 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     environmentalVisionCuratedPractice: true,
     autonomicPharmacologyCuratedPractice: true,
     systemicPathologyCuratedPractice: true,
+    opt370SchematicEyeRefractiveStates: false,
+    opt370MultifocalFoundations: false,
+    opt370ProgressiveAdditionLenses: false,
+    opt370PdAndDispensing: false,
+    opt370SpecialLenses: false,
   },
   'full-curated-public-beta': {
     assessmentPilot: false,
@@ -144,11 +199,37 @@ export const RELEASE_PROFILES: Record<ReleaseProfileId, ReleaseFlags> = {
     environmentalVisionCuratedPractice: true,
     autonomicPharmacologyCuratedPractice: true,
     systemicPathologyCuratedPractice: true,
+    opt370SchematicEyeRefractiveStates: false,
+    opt370MultifocalFoundations: false,
+    opt370ProgressiveAdditionLenses: false,
+    opt370PdAndDispensing: false,
+    opt370SpecialLenses: false,
+  },
+  'all-course-content-public': {
+    assessmentPilot: false,
+    hvpCuratedPractice: true,
+    hvpDepthColourExpansion: true,
+    tissueFoundationsCuratedPractice: true,
+    ocularAdnexaCuratedPractice: true,
+    aqueousVitreousCuratedPractice: true,
+    bloodSupplyCuratedPractice: true,
+    environmentalVisionCuratedPractice: true,
+    autonomicPharmacologyCuratedPractice: true,
+    systemicPathologyCuratedPractice: true,
+    opt370SchematicEyeRefractiveStates: true,
+    opt370MultifocalFoundations: true,
+    opt370ProgressiveAdditionLenses: true,
+    opt370PdAndDispensing: true,
+    opt370SpecialLenses: true,
   },
 };
 
 export const PUBLISHABLE_RELEASE_PROFILES: ReadonlySet<ReleaseProfileId> =
-  new Set<ReleaseProfileId>(['hvp-public-beta', 'full-curated-public-beta']);
+  new Set<ReleaseProfileId>([
+    'hvp-public-beta',
+    'full-curated-public-beta',
+    'all-course-content-public',
+  ]);
 
 export function isPublishableReleaseProfile(
   profile: ReleaseProfileId,
@@ -236,6 +317,26 @@ export function releaseFlagsFromEnvironment(
       RELEASE_FLAG_NAMES.systemicPathologyCuratedPractice,
       environment[RELEASE_FLAG_NAMES.systemicPathologyCuratedPractice],
     ),
+    opt370SchematicEyeRefractiveStates: parseReleaseFlag(
+      RELEASE_FLAG_NAMES.opt370SchematicEyeRefractiveStates,
+      environment[RELEASE_FLAG_NAMES.opt370SchematicEyeRefractiveStates],
+    ),
+    opt370MultifocalFoundations: parseReleaseFlag(
+      RELEASE_FLAG_NAMES.opt370MultifocalFoundations,
+      environment[RELEASE_FLAG_NAMES.opt370MultifocalFoundations],
+    ),
+    opt370ProgressiveAdditionLenses: parseReleaseFlag(
+      RELEASE_FLAG_NAMES.opt370ProgressiveAdditionLenses,
+      environment[RELEASE_FLAG_NAMES.opt370ProgressiveAdditionLenses],
+    ),
+    opt370PdAndDispensing: parseReleaseFlag(
+      RELEASE_FLAG_NAMES.opt370PdAndDispensing,
+      environment[RELEASE_FLAG_NAMES.opt370PdAndDispensing],
+    ),
+    opt370SpecialLenses: parseReleaseFlag(
+      RELEASE_FLAG_NAMES.opt370SpecialLenses,
+      environment[RELEASE_FLAG_NAMES.opt370SpecialLenses],
+    ),
   };
 }
 
@@ -249,25 +350,9 @@ export function assertReleaseProfile(
     );
   }
   const expected = RELEASE_PROFILES[profile];
-  if (
-    flags.assessmentPilot !== expected.assessmentPilot
-    || flags.hvpCuratedPractice !== expected.hvpCuratedPractice
-    || flags.hvpDepthColourExpansion !== expected.hvpDepthColourExpansion
-    || flags.tissueFoundationsCuratedPractice
-      !== expected.tissueFoundationsCuratedPractice
-    || flags.ocularAdnexaCuratedPractice
-      !== expected.ocularAdnexaCuratedPractice
-    || flags.aqueousVitreousCuratedPractice
-      !== expected.aqueousVitreousCuratedPractice
-    || flags.bloodSupplyCuratedPractice
-      !== expected.bloodSupplyCuratedPractice
-    || flags.environmentalVisionCuratedPractice
-      !== expected.environmentalVisionCuratedPractice
-    || flags.autonomicPharmacologyCuratedPractice
-      !== expected.autonomicPharmacologyCuratedPractice
-    || flags.systemicPathologyCuratedPractice
-      !== expected.systemicPathologyCuratedPractice
-  ) {
+  if (Object.entries(expected).some(([key, value]) => (
+    flags[key as keyof ReleaseFlags] !== value
+  ))) {
     throw new ReleaseProfileError(
       `Release profile ${profile} does not match its required feature flags.`,
     );
@@ -299,6 +384,16 @@ export function environmentForReleaseProfile(
       String(flags.autonomicPharmacologyCuratedPractice),
     [RELEASE_FLAG_NAMES.systemicPathologyCuratedPractice]:
       String(flags.systemicPathologyCuratedPractice),
+    [RELEASE_FLAG_NAMES.opt370SchematicEyeRefractiveStates]:
+      String(flags.opt370SchematicEyeRefractiveStates),
+    [RELEASE_FLAG_NAMES.opt370MultifocalFoundations]:
+      String(flags.opt370MultifocalFoundations),
+    [RELEASE_FLAG_NAMES.opt370ProgressiveAdditionLenses]:
+      String(flags.opt370ProgressiveAdditionLenses),
+    [RELEASE_FLAG_NAMES.opt370PdAndDispensing]:
+      String(flags.opt370PdAndDispensing),
+    [RELEASE_FLAG_NAMES.opt370SpecialLenses]:
+      String(flags.opt370SpecialLenses),
     OPTOMETRY_RELEASE_PROFILE: profile,
   };
 }

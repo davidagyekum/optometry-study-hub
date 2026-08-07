@@ -293,22 +293,9 @@ export function validateBuildIdentity(
     );
   }
   const expectedFlags = RELEASE_PROFILES[profile];
-  if (
-    metadata.flags.assessmentPilot !== expectedFlags.assessmentPilot
-    || metadata.flags.hvpCuratedPractice !== expectedFlags.hvpCuratedPractice
-    || metadata.flags.tissueFoundationsCuratedPractice
-      !== expectedFlags.tissueFoundationsCuratedPractice
-    || metadata.flags.ocularAdnexaCuratedPractice
-      !== expectedFlags.ocularAdnexaCuratedPractice
-    || metadata.flags.aqueousVitreousCuratedPractice
-      !== expectedFlags.aqueousVitreousCuratedPractice
-    || metadata.flags.bloodSupplyCuratedPractice
-      !== expectedFlags.bloodSupplyCuratedPractice
-    || metadata.flags.environmentalVisionCuratedPractice
-      !== expectedFlags.environmentalVisionCuratedPractice
-    || metadata.flags.autonomicPharmacologyCuratedPractice
-      !== expectedFlags.autonomicPharmacologyCuratedPractice
-  ) {
+  if (Object.entries(expectedFlags).some(([key, value]) => (
+    metadata.flags[key as keyof typeof expectedFlags] !== value
+  ))) {
     throw new Error(`Release build metadata flags do not match profile ${profile}.`);
   }
   if (metadata.commitSha !== currentGit.commitSha) {

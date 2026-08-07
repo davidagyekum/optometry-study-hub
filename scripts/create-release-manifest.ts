@@ -19,7 +19,7 @@ import {
 const profileArgument = process.argv.find((argument) => argument.startsWith('--profile='))
   ?.slice('--profile='.length);
 const profile = assertPublishableReleaseProfile(
-  parseReleaseProfile(profileArgument ?? 'full-curated-public-beta'),
+  parseReleaseProfile(profileArgument ?? 'all-course-content-public'),
 );
 const audit = auditReleaseBundle(profile);
 const manifest = createReleaseManifest({ profile, audit });
