@@ -12,6 +12,7 @@ export const RELEASE_PROFILE_IDS = [
   'systemic-pathology-preview',
   'full-curated-preview',
   'full-curated-public-beta',
+  'all-course-content-public',
 ] as const;
 export const releaseProfileIdSchema = z.enum(RELEASE_PROFILE_IDS);
 export type ReleaseProfileId = z.infer<typeof releaseProfileIdSchema>;
@@ -27,6 +28,11 @@ export const releaseFlagsSchema = z.strictObject({
   environmentalVisionCuratedPractice: z.boolean(),
   autonomicPharmacologyCuratedPractice: z.boolean(),
   systemicPathologyCuratedPractice: z.boolean(),
+  opt370SchematicEyeRefractiveStates: z.boolean(),
+  opt370MultifocalFoundations: z.boolean(),
+  opt370ProgressiveAdditionLenses: z.boolean(),
+  opt370PdAndDispensing: z.boolean(),
+  opt370SpecialLenses: z.boolean(),
 });
 export type ReleaseFlags = z.infer<typeof releaseFlagsSchema>;
 
@@ -67,7 +73,7 @@ export const releaseBuildMetadataSchema = z.strictObject({
   buildDurationMs: z.number().finite().nonnegative(),
   outputFingerprint: z.string().regex(/^[0-9a-f]{64}$/),
   outputDirectory: z.string().regex(
-    /^tmp\/release\/builds\/(disabled|hvp-public-beta|tissue-foundations-preview|hvp-tissue-preview|neuro-anatomy-preview|environmental-vision-preview|autonomic-pharmacology-preview|systemic-pathology-preview|full-curated-preview|full-curated-public-beta)$/,
+    /^tmp\/release\/builds\/(disabled|hvp-public-beta|tissue-foundations-preview|hvp-tissue-preview|neuro-anatomy-preview|environmental-vision-preview|autonomic-pharmacology-preview|systemic-pathology-preview|full-curated-preview|full-curated-public-beta|all-course-content-public)$/,
   ),
 });
 export type ReleaseBuildMetadata = z.infer<typeof releaseBuildMetadataSchema>;
@@ -104,8 +110,8 @@ export const releaseManifestSchema = z.strictObject({
   }),
   content: z.strictObject({
     courses: z.literal(6),
-    modules: z.literal(13),
-    studySections: z.literal(72),
+    modules: z.union([z.literal(13), z.literal(15)]),
+    studySections: z.union([z.literal(72), z.literal(90)]),
     legacyQuestions: z.literal(400),
     curatedQuestions: z.literal(680),
     curatedQuestionsScope: z.literal('established-eight-bank-release'),

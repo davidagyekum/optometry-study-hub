@@ -17,7 +17,10 @@ export type ReleaseBudget = Omit<ReleaseBuildMetrics, 'buildDurationMs' | 'fileC
  * on the clean OPT 370 implementation checkpoint after adding five route-lazy
  * authored manuscripts, five 80-question banks, and their supplied SVG assets.
  * The disabled profile measured 12,661,168 total bytes and 3,677,297 client-JS
- * bytes. Controlled-practice isolation remains independently constrained below.
+ * bytes. The all-content production profile was then measured at 13,210,819 total
+ * bytes and 3,907,478 client-JS bytes on the clean all-content implementation before budget calibration; each profile
+ * receives ten-per-cent headroom over its measured baseline. Controlled-practice
+ * isolation remains independently constrained below.
  */
 export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = {
   disabled: {
@@ -155,6 +158,21 @@ export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = 
     buildDurationMs: 8243,
     fileCount: 260,
   },
+  'all-course-content-public': {
+    totalOutputBytes: 13210819,
+    clientJavaScriptBytes: 3907478,
+    initialHomeJavaScriptBytes: 593769,
+    disabledPracticeHubJavaScriptBytes: 593769,
+    disabledProgressHubJavaScriptBytes: 593769,
+    hvpEnabledPracticeHubJavaScriptBytes: 943338,
+    hvpEnabledProgressHubJavaScriptBytes: 943338,
+    incrementalControlledHvpJavaScriptBytes: 430434,
+    incrementalHvpAnalyticsJavaScriptBytes: 349569,
+    combinedIncrementalHvpJavaScriptBytes: 452705,
+    largestAssetBytes: 639752,
+    buildDurationMs: 14359,
+    fileCount: 280,
+  },
   'full-curated-public-beta': {
     totalOutputBytes: 12661168,
     clientJavaScriptBytes: 3677297,
@@ -174,16 +192,12 @@ export const RELEASE_BASELINES: Record<ReleaseProfileId, ReleaseBuildMetrics> = 
 
 const withHeadroom = (value: number) => Math.ceil(value * 1.1);
 
-// OPT 370 clean-build maxima receive the standard ten-per-cent headroom.
-const GLOBAL_TOTAL_OUTPUT_BUDGET = 13_927_285;
-const GLOBAL_CLIENT_JAVASCRIPT_BUDGET = 4_045_027;
-
 export const RELEASE_BUDGETS: Record<ReleaseProfileId, ReleaseBudget> = Object.fromEntries(
   Object.entries(RELEASE_BASELINES).map(([profile, baseline]) => [
     profile,
     {
-      totalOutputBytes: GLOBAL_TOTAL_OUTPUT_BUDGET,
-      clientJavaScriptBytes: GLOBAL_CLIENT_JAVASCRIPT_BUDGET,
+      totalOutputBytes: withHeadroom(baseline.totalOutputBytes),
+      clientJavaScriptBytes: withHeadroom(baseline.clientJavaScriptBytes),
       initialHomeJavaScriptBytes: withHeadroom(baseline.initialHomeJavaScriptBytes),
       disabledPracticeHubJavaScriptBytes: withHeadroom(
         baseline.disabledPracticeHubJavaScriptBytes,

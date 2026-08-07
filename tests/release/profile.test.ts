@@ -11,8 +11,16 @@ import {
   RELEASE_PROFILES,
 } from '@/lib/release/profile';
 
+const OPT370_DISABLED = {
+  opt370SchematicEyeRefractiveStates: false,
+  opt370MultifocalFoundations: false,
+  opt370ProgressiveAdditionLenses: false,
+  opt370PdAndDispensing: false,
+  opt370SpecialLenses: false,
+} as const;
+
 describe('release profiles', () => {
-  it('parses only the ten declared profiles', () => {
+  it('parses only the eleven declared profiles', () => {
     expect(parseReleaseProfile('disabled')).toBe('disabled');
     expect(parseReleaseProfile('hvp-public-beta')).toBe('hvp-public-beta');
     expect(parseReleaseProfile('tissue-foundations-preview'))
@@ -30,6 +38,8 @@ describe('release profiles', () => {
       .toBe('full-curated-preview');
     expect(parseReleaseProfile('full-curated-public-beta'))
       .toBe('full-curated-public-beta');
+    expect(parseReleaseProfile('all-course-content-public'))
+      .toBe('all-course-content-public');
     expect(() => parseReleaseProfile('production')).toThrow(/unknown release profile/i);
   });
 
@@ -43,10 +53,12 @@ describe('release profiles', () => {
 
   it('rejects Aqueous exposure and mismatched profile flags', () => {
     expect(() => assertReleaseProfile('hvp-public-beta', {
+      ...OPT370_DISABLED,
       assessmentPilot: true,
       hvpCuratedPractice: true, hvpDepthColourExpansion: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false,
     })).toThrow(/Aqueous/i);
     expect(() => assertReleaseProfile('disabled', {
+      ...OPT370_DISABLED,
       assessmentPilot: false,
       hvpCuratedPractice: true, hvpDepthColourExpansion: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false,
     })).toThrow(/does not match/i);
@@ -68,17 +80,70 @@ describe('release profiles', () => {
       'systemic-pathology-preview',
       'full-curated-preview',
       'full-curated-public-beta',
+      'all-course-content-public',
     ] as const) {
       const environment = environmentForReleaseProfile(profile, { NODE_ENV: 'test' });
       expect(releaseFlagsFromEnvironment(environment)).toEqual(RELEASE_PROFILES[profile]);
-      expect(RELEASE_PROFILES[profile].hvpDepthColourExpansion).toBe(false);
+      const allContent = profile === 'all-course-content-public';
+      expect(RELEASE_PROFILES[profile].hvpDepthColourExpansion).toBe(allContent);
+      expect(RELEASE_PROFILES[profile].opt370SchematicEyeRefractiveStates).toBe(allContent);
+      expect(RELEASE_PROFILES[profile].opt370MultifocalFoundations).toBe(allContent);
+      expect(RELEASE_PROFILES[profile].opt370ProgressiveAdditionLenses).toBe(allContent);
+      expect(RELEASE_PROFILES[profile].opt370PdAndDispensing).toBe(allContent);
+      expect(RELEASE_PROFILES[profile].opt370SpecialLenses).toBe(allContent);
       expect(environment.OPTOMETRY_RELEASE_PROFILE).toBe(profile);
+    }
+  });
+
+  it('preserves every historical profile flag matrix exactly', () => {
+    const expectedEnabledFlags = {
+      disabled: [],
+      'hvp-public-beta': ['hvpCuratedPractice'],
+      'tissue-foundations-preview': ['tissueFoundationsCuratedPractice'],
+      'hvp-tissue-preview': ['hvpCuratedPractice', 'tissueFoundationsCuratedPractice'],
+      'neuro-anatomy-preview': [
+        'tissueFoundationsCuratedPractice',
+        'ocularAdnexaCuratedPractice',
+        'aqueousVitreousCuratedPractice',
+        'bloodSupplyCuratedPractice',
+      ],
+      'environmental-vision-preview': ['environmentalVisionCuratedPractice'],
+      'autonomic-pharmacology-preview': ['autonomicPharmacologyCuratedPractice'],
+      'systemic-pathology-preview': ['systemicPathologyCuratedPractice'],
+      'full-curated-preview': [
+        'hvpCuratedPractice',
+        'tissueFoundationsCuratedPractice',
+        'ocularAdnexaCuratedPractice',
+        'aqueousVitreousCuratedPractice',
+        'bloodSupplyCuratedPractice',
+        'environmentalVisionCuratedPractice',
+        'autonomicPharmacologyCuratedPractice',
+        'systemicPathologyCuratedPractice',
+      ],
+      'full-curated-public-beta': [
+        'hvpCuratedPractice',
+        'tissueFoundationsCuratedPractice',
+        'ocularAdnexaCuratedPractice',
+        'aqueousVitreousCuratedPractice',
+        'bloodSupplyCuratedPractice',
+        'environmentalVisionCuratedPractice',
+        'autonomicPharmacologyCuratedPractice',
+        'systemicPathologyCuratedPractice',
+      ],
+    } as const;
+
+    for (const [profile, expected] of Object.entries(expectedEnabledFlags)) {
+      const enabled = Object.entries(
+        RELEASE_PROFILES[profile as keyof typeof expectedEnabledFlags],
+      ).filter(([, value]) => value).map(([key]) => key);
+      expect(enabled).toEqual(expected);
     }
   });
 
   it('marks the Neuro Anatomy profile as preview-only', () => {
     expect(isPublishableReleaseProfile('hvp-public-beta')).toBe(true);
     expect(isPublishableReleaseProfile('full-curated-public-beta')).toBe(true);
+    expect(isPublishableReleaseProfile('all-course-content-public')).toBe(true);
     expect(isPublishableReleaseProfile('neuro-anatomy-preview')).toBe(false);
     expect(isPublishableReleaseProfile('environmental-vision-preview')).toBe(false);
     expect(isPublishableReleaseProfile('autonomic-pharmacology-preview')).toBe(false);
@@ -88,6 +153,8 @@ describe('release profiles', () => {
       .toBe('hvp-public-beta');
     expect(assertPublishableReleaseProfile('full-curated-public-beta'))
       .toBe('full-curated-public-beta');
+    expect(assertPublishableReleaseProfile('all-course-content-public'))
+      .toBe('all-course-content-public');
     expect(() => assertPublishableReleaseProfile('neuro-anatomy-preview'))
       .toThrow(/preview-only/i);
   });

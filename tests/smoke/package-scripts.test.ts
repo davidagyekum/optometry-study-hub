@@ -26,7 +26,7 @@ describe("package scripts", () => {
       start: "vinext start",
       lint: expect.any(String),
       typecheck: "tsc --noEmit",
-      test: "vitest run",
+      test: "vitest run --maxWorkers=2",
       "questions:validate": "tsx scripts/validate-question-bank.ts",
       "questions:report": "tsx scripts/report-question-bank.ts",
       "questions:blueprint": "tsx scripts/report-question-blueprint.ts",
@@ -75,6 +75,13 @@ describe("package scripts", () => {
         'tsx scripts/run-release-build.ts --profile=full-curated-preview',
       'release:build:full-curated-public':
         'tsx scripts/run-release-build.ts --profile=full-curated-public-beta',
+      'release:build:all-course-content-public':
+        'tsx scripts/run-release-build.ts --profile=all-course-content-public',
+      'release:test:all-course-content':
+        'tsx scripts/run-all-content-profile-tests.ts',
+      'test:hvp-depth-colour':
+        'vitest run tests/assessment/hvp-depth-colour-integration.test.ts',
+      'test:opt370': 'vitest run tests/assessment/opt370-integration.test.ts',
       "release:build:neuro":
         "tsx scripts/run-release-build.ts --profile=neuro-anatomy-preview",
       check: "npm run lint && npm run typecheck && npm run test && npm run questions:validate && npm run questions:blueprint && npm run questions:validate:hvp && npm run questions:blueprint:hvp && npm run questions:validate:tissue && npm run questions:blueprint:tissue && npm run questions:validate:ocular -- --strict && npm run questions:blueprint:ocular && npm run questions:validate:blood -- --strict && npm run questions:blueprint:blood && npm run questions:validate:environmental-vision -- --strict && npm run questions:blueprint:environmental-vision && npm run questions:validate:autonomic-pharmacology -- --strict && npm run questions:blueprint:autonomic-pharmacology && npm run questions:validate:systemic-pathology -- --strict && npm run questions:blueprint:systemic-pathology && npm run build",

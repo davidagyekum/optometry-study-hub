@@ -125,6 +125,12 @@ describe('generic curated release-audit registry', () => {
       (definition) => definition.enabledInProfile('full-curated-public-beta'),
     )).toHaveLength(8);
   });
+  it('enables all eight established curated experiences in the all-content profile', () => {
+    expect(curatedReleaseAuditRegistry.filter(
+      (definition) => definition.enabledInProfile('all-course-content-public'),
+    )).toHaveLength(8);
+  });
+
   it('analyzes two lazy boundaries and counts shared chunks once', () => {
     const closures = analyzeReleaseClosures(manifest, definitions);
     expect(Object.keys(closures.experiences)).toEqual(['first', 'second']);

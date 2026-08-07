@@ -38,14 +38,25 @@ function graph(entry: string): string[] {
 }
 
 describe('generic curated-practice import isolation', () => {
-  it('keeps answer-bearing HVP and Aqueous banks outside the ordinary app graph', () => {
+  it('keeps every answer-bearing curated bank outside the ordinary app graph', () => {
     const files = graph('app/StudyApp.tsx');
     expect(files.some((file) => file.includes(
-      '/content/question-bank/opt374/human-visual-perception/',
+      '/content/question-bank/opt374/human-visual-perception/bank',
     ))).toBe(false);
     expect(files.some((file) => file.includes(
       '/content/question-bank/opt376/aqueous-vitreous/bank',
     ))).toBe(false);
+    for (const bankPath of [
+      '/content/question-bank/opt374/hvp-depth-perception/bank',
+      '/content/question-bank/opt374/hvp-colour-perception/bank',
+      '/content/question-bank/opt370/schematic-eye-refractive-states/bank',
+      '/content/question-bank/opt370/multifocal-foundations/bank',
+      '/content/question-bank/opt370/progressive-addition-lenses/bank',
+      '/content/question-bank/opt370/pd-and-dispensing/bank',
+      '/content/question-bank/opt370/special-lenses/bank',
+    ]) {
+      expect(files.some((file) => file.includes(bankPath))).toBe(false);
+    }
   });
 
   it('keeps the test fixture and Aqueous pilot out of the production registry', () => {

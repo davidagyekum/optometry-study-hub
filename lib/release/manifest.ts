@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import hosting from '@/.openai/hosting.json';
 import { courses } from '@/content/legacy/courseCatalog';
 import { modules } from '@/content/legacy/moduleCatalog';
+import { hvpDepthColourModules } from '@/content/legacy/hvpDepthColourModules';
 import { aqueousVitreousCandidateBank } from '@/content/question-bank/opt376/aqueous-vitreous/bank';
 import { humanVisualPerceptionCandidateBank } from '@/content/question-bank/opt374/human-visual-perception/bank';
 import { hvpDepthPerceptionExtensionQuestionBank } from '@/content/question-bank/opt374/hvp-depth-perception/bank';
@@ -38,6 +39,7 @@ import {
 import { RELEASE_PROFILES } from '@/lib/release/profile';
 import {
   releaseManifestSchema,
+  type ReleaseFlags,
   type ReleaseManifest,
   type ReleaseProfileId,
 } from '@/lib/release/types';
@@ -71,49 +73,10 @@ export type CreateReleaseManifestOptions = {
   git?: ReleaseGitIdentity;
 };
 
-function sameFlags(
-  left: {
-    assessmentPilot: boolean;
-    hvpCuratedPractice: boolean;
-    hvpDepthColourExpansion: boolean;
-    tissueFoundationsCuratedPractice: boolean;
-    ocularAdnexaCuratedPractice: boolean;
-    aqueousVitreousCuratedPractice: boolean;
-    bloodSupplyCuratedPractice: boolean;
-    environmentalVisionCuratedPractice: boolean;
-    autonomicPharmacologyCuratedPractice: boolean;
-    systemicPathologyCuratedPractice: boolean;
-  },
-  right: {
-    assessmentPilot: boolean;
-    hvpCuratedPractice: boolean;
-    hvpDepthColourExpansion: boolean;
-    tissueFoundationsCuratedPractice: boolean;
-    ocularAdnexaCuratedPractice: boolean;
-    aqueousVitreousCuratedPractice: boolean;
-    bloodSupplyCuratedPractice: boolean;
-    environmentalVisionCuratedPractice: boolean;
-    autonomicPharmacologyCuratedPractice: boolean;
-    systemicPathologyCuratedPractice: boolean;
-  },
-): boolean {
-  return left.assessmentPilot === right.assessmentPilot
-    && left.hvpCuratedPractice === right.hvpCuratedPractice
-    && left.hvpDepthColourExpansion === right.hvpDepthColourExpansion
-    && left.tissueFoundationsCuratedPractice
-      === right.tissueFoundationsCuratedPractice
-    && left.ocularAdnexaCuratedPractice
-      === right.ocularAdnexaCuratedPractice
-    && left.aqueousVitreousCuratedPractice
-      === right.aqueousVitreousCuratedPractice
-    && left.bloodSupplyCuratedPractice
-      === right.bloodSupplyCuratedPractice
-    && left.environmentalVisionCuratedPractice
-      === right.environmentalVisionCuratedPractice
-    && left.autonomicPharmacologyCuratedPractice
-      === right.autonomicPharmacologyCuratedPractice
-    && left.systemicPathologyCuratedPractice
-      === right.systemicPathologyCuratedPractice;
+function sameFlags(left: ReleaseFlags, right: ReleaseFlags): boolean {
+  return Object.entries(right).every(([key, value]) => (
+    left[key as keyof ReleaseFlags] === value
+  ));
 }
 
 export function createReleaseManifest(
@@ -150,7 +113,22 @@ export function createReleaseManifest(
   }
 
   const assertions = assertReleaseAssertions();
-  const sectionCount = modules.reduce((total, module) => total + module.sections.length, 0);
+  const baseModules = modules.filter((module) => (
+    !hvpDepthColourModules.some((extension) => extension.id === module.id)
+  ));
+  const baseSectionCount = baseModules.reduce(
+    (total, module) => total + module.sections.length,
+    0,
+  );
+  const releasedModules = identity.flags.hvpDepthColourExpansion
+    ? [...baseModules, ...hvpDepthColourModules]
+    : baseModules;
+  const releasedSectionCount = identity.flags.hvpDepthColourExpansion
+    ? baseSectionCount + hvpDepthColourModules.reduce(
+      (total, module) => total + module.sections.length,
+      0,
+    )
+    : baseSectionCount;
   const legacyQuestionCount = modules.reduce(
     (total, module) => total + module.facts.length,
     0,
@@ -210,8 +188,8 @@ export function createReleaseManifest(
     },
     content: {
       courses: courses.length,
-      modules: modules.length,
-      studySections: sectionCount,
+      modules: releasedModules.length,
+      studySections: releasedSectionCount,
       legacyQuestions: legacyQuestionCount,
       curatedQuestions: establishedCuratedQuestionCount,
       curatedQuestionsScope: 'established-eight-bank-release',
@@ -426,6 +404,11 @@ export function renderReleaseReport(
 - Environmental Vision curated practice: ${manifest.flags.environmentalVisionCuratedPractice ? 'enabled' : 'disabled'}
 - Autonomic Pharmacology curated practice: ${manifest.flags.autonomicPharmacologyCuratedPractice ? 'enabled' : 'disabled'}
 - Systemic Pathology curated practice: ${manifest.flags.systemicPathologyCuratedPractice ? 'enabled' : 'disabled'}
+- OPT 370 Schematic Eye and Refractive States: ${manifest.flags.opt370SchematicEyeRefractiveStates ? 'enabled' : 'disabled'}
+- OPT 370 Multifocal Foundations: ${manifest.flags.opt370MultifocalFoundations ? 'enabled' : 'disabled'}
+- OPT 370 Progressive Addition Lenses: ${manifest.flags.opt370ProgressiveAdditionLenses ? 'enabled' : 'disabled'}
+- OPT 370 PD and Dispensing: ${manifest.flags.opt370PdAndDispensing ? 'enabled' : 'disabled'}
+- OPT 370 Special Lenses: ${manifest.flags.opt370SpecialLenses ? 'enabled' : 'disabled'}
 - Storage: \`${manifest.storage.key}\` with rollback key \`${manifest.storage.rollbackKey}\`
 - HVP bank SHA-256: \`${manifest.content.hvpChecksum}\`
 - Ocular Adnexa bank SHA-256: \`${manifest.content.ocularAdnexaChecksum}\`

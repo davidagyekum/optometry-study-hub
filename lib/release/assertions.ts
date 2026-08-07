@@ -231,6 +231,9 @@ export function aqueousPilotHashes(): Record<string, string> {
 
 export function collectReleaseAssertions(): ReleaseAssertion[] {
   const sectionCount = modules.reduce((total, module) => total + module.sections.length, 0);
+  const expansionEnabled = process.env.NEXT_PUBLIC_ENABLE_HVP_DEPTH_COLOUR_EXPANSION === 'true';
+  const expectedModuleCount = expansionEnabled ? 15 : 13;
+  const expectedSectionCount = expansionEnabled ? 90 : 72;
   const legacyQuestionCount = modules.reduce(
     (total, module) => total + questionsFor(module).length,
     0,
@@ -318,8 +321,8 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
 
   return [
     assertion('courses', courses.length === 6, `${courses.length} courses`),
-    assertion('modules', modules.length === 13, `${modules.length} modules`),
-    assertion('study-sections', sectionCount === 72, `${sectionCount} study sections`),
+    assertion('modules', modules.length === expectedModuleCount, `${modules.length} modules`),
+    assertion('study-sections', sectionCount === expectedSectionCount, `${sectionCount} study sections`),
     assertion(
       'legacy-questions',
       legacyQuestionCount === 400

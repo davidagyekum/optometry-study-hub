@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { aqueousVitreousCandidateBank } from '@/content/question-bank/opt376/aqueous-vitreous/bank';
+import { RELEASE_PROFILES } from '@/lib/release/profile';
 import type { ReleaseProfileId } from '@/lib/release/types';
 
 type BankQuestion = {
@@ -270,9 +271,7 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
       ...environmentalVisionMarkers().answers,
     ],
     enabledInProfile: (profile: ReleaseProfileId) => (
-      profile === 'hvp-public-beta' || profile === 'hvp-tissue-preview'
-      || profile === 'full-curated-preview'
-      || profile === 'full-curated-public-beta'
+      RELEASE_PROFILES[profile].hvpCuratedPractice
     ),
   }),
   Object.freeze({
@@ -305,11 +304,7 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
       ...environmentalVisionMarkers().answers,
     ],
     enabledInProfile: (profile: ReleaseProfileId) => (
-      profile === 'tissue-foundations-preview'
-      || profile === 'hvp-tissue-preview'
-      || profile === 'neuro-anatomy-preview'
-      || profile === 'full-curated-preview'
-      || profile === 'full-curated-public-beta'
+      RELEASE_PROFILES[profile].tissueFoundationsCuratedPractice
     ),
   }),
   Object.freeze({
@@ -339,9 +334,7 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
       ...environmentalVisionMarkers().answers,
     ],
     enabledInProfile: (profile: ReleaseProfileId) => (
-      profile === 'neuro-anatomy-preview'
-      || profile === 'full-curated-preview'
-      || profile === 'full-curated-public-beta'
+      RELEASE_PROFILES[profile].ocularAdnexaCuratedPractice
     ),
   }),
   Object.freeze({
@@ -370,9 +363,7 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
       ...environmentalVisionMarkers().answers,
     ],
     enabledInProfile: (profile: ReleaseProfileId) => (
-      profile === 'neuro-anatomy-preview'
-      || profile === 'full-curated-preview'
-      || profile === 'full-curated-public-beta'
+      RELEASE_PROFILES[profile].aqueousVitreousCuratedPractice
     ),
   }),
   Object.freeze({
@@ -402,9 +393,7 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
       ...environmentalVisionMarkers().answers,
     ],
     enabledInProfile: (profile: ReleaseProfileId) => (
-      profile === 'neuro-anatomy-preview'
-      || profile === 'full-curated-preview'
-      || profile === 'full-curated-public-beta'
+      RELEASE_PROFILES[profile].bloodSupplyCuratedPractice
     ),
   }),
   Object.freeze({
@@ -434,9 +423,7 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
       ...environmentalVisionMarkers().answers,
     ],
     enabledInProfile: (profile: ReleaseProfileId) => (
-      profile === 'autonomic-pharmacology-preview'
-      || profile === 'full-curated-preview'
-      || profile === 'full-curated-public-beta'
+      RELEASE_PROFILES[profile].autonomicPharmacologyCuratedPractice
     ),
   }),
   Object.freeze({
@@ -466,9 +453,7 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
       ...autonomicPharmacologyMarkers().answers,
     ],
     enabledInProfile: (profile: ReleaseProfileId) => (
-      profile === 'systemic-pathology-preview'
-      || profile === 'full-curated-preview'
-      || profile === 'full-curated-public-beta'
+      RELEASE_PROFILES[profile].systemicPathologyCuratedPractice
     ),
   }),
   Object.freeze({
@@ -498,9 +483,7 @@ export const curatedReleaseAuditRegistry: readonly CuratedReleaseAuditDefinition
       ...bloodSupplyMarkers().answers,
     ],
     enabledInProfile: (profile: ReleaseProfileId) => (
-      profile === 'environmental-vision-preview'
-      || profile === 'full-curated-preview'
-      || profile === 'full-curated-public-beta'
+      RELEASE_PROFILES[profile].environmentalVisionCuratedPractice
     ),
   }),
 ]);

@@ -28,6 +28,9 @@ const npmCommand = npmExecPath
 const npmArgs = (...args: string[]) => npmExecPath ? [npmExecPath, ...args] : args;
 const commands: Command[] = [
   { label: 'Release profile validation', command: npmCommand, args: npmArgs('run', 'release:profile') },
+  { label: 'All-content profile UI smoke', command: npmCommand, args: npmArgs('run', 'release:test:all-course-content') },
+  { label: 'Focused HVP Depth and Colour tests', command: npmCommand, args: npmArgs('run', 'test:hvp-depth-colour') },
+  { label: 'Focused OPT 370 tests', command: npmCommand, args: npmArgs('run', 'test:opt370') },
   { label: 'Quality gate', command: npmCommand, args: npmArgs('run', 'check') },
   { label: 'Aqueous strict validation', command: npmCommand, args: npmArgs('run', 'questions:validate', '--', '--strict') },
   { label: 'Aqueous report', command: npmCommand, args: npmArgs('run', 'questions:report') },
@@ -58,6 +61,8 @@ const commands: Command[] = [
   { label: 'Full curated preview bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=full-curated-preview') },
   { label: 'Full curated public-beta build', command: npmCommand, args: npmArgs('run', 'release:build:full-curated-public') },
   { label: 'Full curated public-beta bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=full-curated-public-beta') },
+  { label: 'All course content public build', command: npmCommand, args: npmArgs('run', 'release:build:all-course-content-public') },
+  { label: 'All course content public bundle audit', command: npmCommand, args: npmArgs('run', 'release:audit', '--', '--profile=all-course-content-public') },
   { label: 'Release manifest', command: npmCommand, args: npmArgs('run', 'release:manifest') },
   { label: 'Whitespace validation', command: 'git', args: ['diff', '--check'] },
 ];
@@ -77,7 +82,7 @@ const manifest = releaseManifestSchema.parse(JSON.parse(readFileSync(
   resolve('tmp', 'release', 'release-manifest.json'),
   'utf8',
 )));
-const metadata = readReleaseBuildMetadata('full-curated-public-beta');
+const metadata = readReleaseBuildMetadata('all-course-content-public');
 const finalGit = releaseGitIdentity();
 assertCleanReleaseTree(finalGit);
 if (
@@ -86,22 +91,7 @@ if (
   || manifest.git.commitSha !== metadata.commitSha
   || manifest.git.treeSha !== metadata.treeSha
   || manifest.releaseProfile !== metadata.profile
-  || manifest.flags.assessmentPilot !== metadata.flags.assessmentPilot
-  || manifest.flags.hvpCuratedPractice !== metadata.flags.hvpCuratedPractice
-  || manifest.flags.tissueFoundationsCuratedPractice
-    !== metadata.flags.tissueFoundationsCuratedPractice
-  || manifest.flags.ocularAdnexaCuratedPractice
-    !== metadata.flags.ocularAdnexaCuratedPractice
-  || manifest.flags.aqueousVitreousCuratedPractice
-    !== metadata.flags.aqueousVitreousCuratedPractice
-  || manifest.flags.bloodSupplyCuratedPractice
-    !== metadata.flags.bloodSupplyCuratedPractice
-  || manifest.flags.environmentalVisionCuratedPractice
-    !== metadata.flags.environmentalVisionCuratedPractice
-  || manifest.flags.autonomicPharmacologyCuratedPractice
-    !== metadata.flags.autonomicPharmacologyCuratedPractice
-  || manifest.flags.systemicPathologyCuratedPractice
-    !== metadata.flags.systemicPathologyCuratedPractice
+  || JSON.stringify(manifest.flags) !== JSON.stringify(metadata.flags)
   || manifest.build.outputFingerprint !== metadata.outputFingerprint
   || manifest.build.identity.outputFingerprint !== metadata.outputFingerprint
 ) {
