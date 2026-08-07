@@ -337,6 +337,7 @@ footer { min-height: 90px; background: var(--navy); color: #b8c9d8; display: fle
   .module-body > p { min-height: 0; }
   .privacy-panel { margin: 0 16px 70px; padding: 28px; display: grid; }
   .module-hero { grid-template-columns: 1fr; padding-bottom: 45px; }
+  .module-hero .study-breadcrumb { padding-right: 110px; }
   .round-progress { width: 96px; height: 96px; position: absolute; right: 20px; top: 26px; }
   .study-layout { display: block; padding: 28px 14px 70px; }
   .study-layout > aside { position: static; margin-bottom: 28px; }

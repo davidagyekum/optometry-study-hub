@@ -129,7 +129,7 @@ describe('hard curated learner-path cutover', () => {
   });
 
   it('uses neutral course-aligned runtime status without changing internal review claims', () => {
-    const summaries = curatedExperienceSummaries();
+    const summaries = curatedExperienceSummaries().filter((summary) => summary.enabled);
     expect(summaries).toHaveLength(8);
     summaries.forEach((summary) => {
       expect(summary.releaseStatus.title).toBe('Course-aligned practice');

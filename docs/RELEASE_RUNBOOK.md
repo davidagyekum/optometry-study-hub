@@ -4,13 +4,13 @@ This runbook prepares and publishes the reviewed eight-module curated release to
 
 ## Required profile
 
-`full-curated-public-beta` is the only full publishable profile. It enables curated practice for Human Visual Perception, Tissue Foundations, Ocular Adnexa, Aqueous/Vitreous, Blood Supply, Environmental Vision, Autonomic Pharmacology and Systemic Pathology. `NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT` remains false. Every committed flag in `.env.example` remains false.
+`full-curated-public-beta` is the only full publishable profile. It enables curated practice for Human Visual Perception, Tissue Foundations, Ocular Adnexa, Aqueous/Vitreous, Blood Supply, Environmental Vision, Autonomic Pharmacology and Systemic Pathology. `NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT` remains false. The five OPT 370 practice flags are outside this established-bank profile and remain false. Every committed flag in `.env.example` remains false.
 
 ## Pre-publish
 
 - Use an exact clean merged `main` checkout with Node.js 22.13.0 or newer.
 - Run `npm ci`, `npm run check` and `npm run release:verify`.
-- Require 680 curated questions, 400 frozen legacy questions, eight modules and five courses.
+- Require 680 established curated questions, 400 OPT 370 draft questions, 400 frozen legacy compatibility questions, 13 modules and six courses. The machine-readable manifest records 1,080 course-aligned question records as 680 established curated plus 400 OPT 370 draft.
 - Require every recorded canonical bank checksum, the original 36 Aqueous objects, the nine pilot identities and draft status for every question and objective.
 - Review `tmp/release/build-metadata/full-curated-public-beta.json`, `tmp/release/audits/full-curated-public-beta.json`, `tmp/release/release-manifest.json`, its SHA-256 file and the release report.
 - Require metadata, audit and manifest to agree on commit, tree, profile, flags, output directory, fingerprint, runtime and clean-tree status.
@@ -30,7 +30,7 @@ This runbook prepares and publishes the reviewed eight-module curated release to
 
 ## Post-publish
 
-Use the browser QA matrix for all five course pages and eight modules. Verify Notes V2, curated Quick/Standard/Full/Custom/targeted/Written entry points, autosave and resume, result review, global progress, legacy archive/history, direct-route refresh, device-local persistence, keyboard and modal focus, reduced motion, mobile overflow, response headers and static images. The Aqueous engineering pilot must remain unavailable, Written Practice must remain `Not scored`, and pre-practice routes must expose no answer content.
+Use the browser QA matrix for all six course pages and 13 study modules. Verify Notes V2/V3, the eight established curated Quick/Standard/Full/Custom/targeted/Written entry points, the five default-disabled OPT 370 practice entries, autosave and resume, result review, global progress, legacy archive/history, direct-route refresh, device-local persistence, keyboard and modal focus, reduced motion, mobile overflow, response headers and static images. The Aqueous engineering pilot must remain unavailable, Written Practice must remain `Not scored`, and pre-practice routes must expose no answer content.
 
 ## Rollback
 

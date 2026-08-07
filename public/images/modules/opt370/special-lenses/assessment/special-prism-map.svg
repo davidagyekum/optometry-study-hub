@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="Fresnel and slab-off reference map">
+<rect width="1200" height="675" fill="#FFFCF2"/>
+<rect x="0" y="0" width="1200" height="84" fill="#795B12"/>
+<text x="52" y="55" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="white">Fresnel and slab-off reference map</text>
+<text x="52" y="120" font-family="Arial" font-size="18" fill="#795B12">Neutral assessment artwork - markers correspond to answer regions.</text>
+<path d="M130 180 L430 180 L430 520 L130 520 Z" fill="#F5E9BE" stroke="#795B12" stroke-width="7"/>
+<path d="M130 180 L250 350 L130 520 Z" fill="white" stroke="#795B12" stroke-width="5"/>
+<line x1="260" y1="195" x2="260" y2="505" stroke="#795B12" stroke-width="3"/>
+<line x1="282" y1="195" x2="282" y2="505" stroke="#795B12" stroke-width="3"/>
+<line x1="304" y1="195" x2="304" y2="505" stroke="#795B12" stroke-width="3"/>
+<line x1="326" y1="195" x2="326" y2="505" stroke="#795B12" stroke-width="3"/>
+<line x1="348" y1="195" x2="348" y2="505" stroke="#795B12" stroke-width="3"/>
+<line x1="370" y1="195" x2="370" y2="505" stroke="#795B12" stroke-width="3"/>
+<line x1="392" y1="195" x2="392" y2="505" stroke="#795B12" stroke-width="3"/>
+<line x1="414" y1="195" x2="414" y2="505" stroke="#795B12" stroke-width="3"/>
+<path d="M600 150 Q800 100 980 160 L950 570 Q800 620 630 570 Z" fill="#F5E9BE" stroke="#795B12" stroke-width="8"/>
+<line x1="630" y1="405" x2="950" y2="405" stroke="#B33030" stroke-width="7"/>
+<circle cx="800" cy="255" r="11" fill="#333"/><circle cx="800" cy="500" r="11" fill="#333"/>
+<circle cx="180" cy="320" r="18" fill="#795B12" stroke="white" stroke-width="4"/><text x="180" y="327" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">A</text>
+<circle cx="384" cy="320" r="18" fill="#795B12" stroke="white" stroke-width="4"/><text x="384" y="327" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">B</text>
+<circle cx="828" cy="192" r="18" fill="#795B12" stroke="white" stroke-width="4"/><text x="828" y="199" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">C</text>
+<circle cx="864" cy="364" r="18" fill="#795B12" stroke="white" stroke-width="4"/><text x="864" y="371" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">D</text>
+<circle cx="828" cy="489" r="18" fill="#795B12" stroke="white" stroke-width="4"/><text x="828" y="496" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">E</text>
+</svg>

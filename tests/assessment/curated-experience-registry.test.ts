@@ -18,8 +18,8 @@ import {
 
 describe('curated-experience registry', () => {
   it('contains safe discovery metadata for every production adapter', () => {
-    expect(curatedExperienceRegistry).toHaveLength(8);
-    expect(curatedExperienceSummaries()).toEqual([
+    expect(curatedExperienceRegistry).toHaveLength(13);
+    expect(curatedExperienceSummaries()).toEqual(expect.arrayContaining([
       expect.objectContaining({
         experienceId: 'human-visual-perception',
         courseId: 'human-visual-perception',
@@ -107,7 +107,7 @@ describe('curated-experience registry', () => {
         ],
         enabled: false,
       }),
-    ]);
+    ]));
   });
 
   it.each([
@@ -176,7 +176,7 @@ describe('curated-experience registry', () => {
     expect(summaryForModule('dummy-module', [dummyCuratedSummary])).toEqual(
       dummyCuratedSummary,
     );
-    expect(curatedExperienceRegistry).toHaveLength(8);
+    expect(curatedExperienceRegistry).toHaveLength(13);
   });
 
   it('does not invoke answer-bearing loaders during registry discovery', () => {

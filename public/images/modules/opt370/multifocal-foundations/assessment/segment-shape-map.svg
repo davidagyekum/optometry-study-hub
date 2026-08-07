@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="Bifocal segment shapes">
+<rect width="1200" height="675" fill="#FFF9F7"/>
+<rect x="0" y="0" width="1200" height="84" fill="#8C3B2A"/>
+<text x="52" y="55" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="white">Bifocal segment shapes</text>
+<text x="52" y="120" font-family="Arial" font-size="18" fill="#8C3B2A">Neutral assessment artwork - markers correspond to answer regions.</text>
+<ellipse cx="140" cy="355" rx="95" ry="175" fill="#F8DED7" stroke="#8C3B2A" stroke-width="5"/>
+<ellipse cx="370" cy="355" rx="95" ry="175" fill="#F8DED7" stroke="#8C3B2A" stroke-width="5"/>
+<ellipse cx="600" cy="355" rx="95" ry="175" fill="#F8DED7" stroke="#8C3B2A" stroke-width="5"/>
+<ellipse cx="830" cy="355" rx="95" ry="175" fill="#F8DED7" stroke="#8C3B2A" stroke-width="5"/>
+<ellipse cx="1060" cy="355" rx="95" ry="175" fill="#F8DED7" stroke="#8C3B2A" stroke-width="5"/>
+<circle cx="140" cy="420" r="58" fill="white" stroke="#8C3B2A" stroke-width="5"/>
+<path d="M310 395 L430 395 L420 490 Q370 520 320 490 Z" fill="white" stroke="#8C3B2A" stroke-width="5"/>
+<path d="M510 380 L690 380 L680 520 L520 520 Z" fill="white" stroke="#8C3B2A" stroke-width="5"/>
+<path d="M770 390 Q830 510 890 390 L880 505 Q830 535 780 505 Z" fill="white" stroke="#8C3B2A" stroke-width="5"/>
+<path d="M1000 410 Q1060 375 1120 410 L1110 480 Q1060 505 1010 480 Z" fill="white" stroke="#8C3B2A" stroke-width="5"/>
+<circle cx="144" cy="330" r="18" fill="#8C3B2A" stroke="white" stroke-width="4"/><text x="144" y="337" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">A</text>
+<circle cx="372" cy="330" r="18" fill="#8C3B2A" stroke="white" stroke-width="4"/><text x="372" y="337" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">B</text>
+<circle cx="600" cy="330" r="18" fill="#8C3B2A" stroke="white" stroke-width="4"/><text x="600" y="337" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">C</text>
+<circle cx="827" cy="330" r="18" fill="#8C3B2A" stroke="white" stroke-width="4"/><text x="827" y="337" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">D</text>
+<circle cx="1056" cy="330" r="18" fill="#8C3B2A" stroke="white" stroke-width="4"/><text x="1056" y="337" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">E</text>
+</svg>

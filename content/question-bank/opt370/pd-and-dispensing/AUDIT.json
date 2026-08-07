@@ -1,0 +1,65 @@
+{
+  "moduleId": "pd-and-dispensing",
+  "questions": 80,
+  "objectives": 14,
+  "counts": {
+    "sections": {
+      "final-dispensing": 7,
+      "near-pd": 15,
+      "pd-concepts": 13,
+      "pd-prism": 9,
+      "pd-rule-methods": 11,
+      "pupillometer": 14,
+      "quality-mistakes": 11
+    },
+    "formats": {
+      "extended_matching": 7,
+      "image_hotspot": 5,
+      "image_label": 4,
+      "matching": 9,
+      "multiple_response": 10,
+      "open_response": 2,
+      "ordering": 7,
+      "short_answer": 4,
+      "single_best_answer": 26,
+      "true_false": 6
+    },
+    "bloom": {
+      "analyze": 7,
+      "apply": 34,
+      "create": 1,
+      "evaluate": 3,
+      "remember": 11,
+      "understand": 24
+    },
+    "difficulty": {
+      "advanced": 10,
+      "foundation": 26,
+      "intermediate": 44
+    },
+    "stimulus": {
+      "clinical_vignette": 7,
+      "comparison": 26,
+      "diagram": 9,
+      "error_analysis": 4,
+      "pathway": 7,
+      "text": 27
+    }
+  },
+  "objectiveCoverage": {
+    "pd-and-dispensing-final-dispensing-apply": 5,
+    "pd-and-dispensing-final-dispensing-explain": 2,
+    "pd-and-dispensing-near-pd-apply": 13,
+    "pd-and-dispensing-near-pd-explain": 2,
+    "pd-and-dispensing-pd-concepts-apply": 4,
+    "pd-and-dispensing-pd-concepts-explain": 9,
+    "pd-and-dispensing-pd-prism-apply": 6,
+    "pd-and-dispensing-pd-prism-explain": 3,
+    "pd-and-dispensing-pd-rule-methods-apply": 5,
+    "pd-and-dispensing-pd-rule-methods-explain": 6,
+    "pd-and-dispensing-pupillometer-apply": 7,
+    "pd-and-dispensing-pupillometer-explain": 7,
+    "pd-and-dispensing-quality-mistakes-apply": 5,
+    "pd-and-dispensing-quality-mistakes-explain": 6
+  }
+}

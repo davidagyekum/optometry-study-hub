@@ -312,3 +312,36 @@ Only the crossed global client-JavaScript baseline and its standard
 ten-per-cent ceiling were remeasured: 2,773,323 bytes measured and 3,050,656
 bytes allowed. Initial, Practice, Progress, controlled-assessment, analytics
 and combined-closure ceilings remain unchanged.
+
+## OPT 370 Dispensing Optics II route-lazy remeasurement
+
+The clean OPT 370 implementation checkpoint `890d0f7` was measured with the
+bundled Node 24 runtime after adding five default-disabled, route-lazy Notes V3
+manuscripts, five 80-question banks and the supplied SVG assets. Every release
+profile was rebuilt from the same source tree:
+
+| Profile | Total bytes | Client JS | Initial JS | Files | Duration |
+|---|---:|---:|---:|---:|---:|
+| Disabled | 12,661,168 | 3,677,297 | 577,251 | 260 | 8,551 ms |
+| HVP public beta | 12,661,166 | 3,677,296 | 577,250 | 260 | 8,105 ms |
+| Tissue preview | 12,661,166 | 3,677,296 | 577,250 | 260 | 8,006 ms |
+| HVP + Tissue preview | 12,661,164 | 3,677,295 | 577,249 | 260 | 7,935 ms |
+| Neuro Anatomy preview | 12,661,160 | 3,677,293 | 577,247 | 260 | 7,944 ms |
+| Environmental Vision preview | 12,661,166 | 3,677,296 | 577,250 | 260 | 8,204 ms |
+| Autonomic Pharmacology preview | 12,661,166 | 3,677,296 | 577,250 | 260 | 7,911 ms |
+| Systemic Pathology preview | 12,661,166 | 3,677,296 | 577,250 | 260 | 8,085 ms |
+| Full curated preview | 12,661,152 | 3,677,289 | 577,243 | 260 | 8,243 ms |
+| Full curated public beta | 12,661,152 | 3,677,289 | 577,243 | 260 | 8,072 ms |
+
+The conservative cross-profile baseline uses the disabled maxima of 12,661,168
+total bytes and 3,677,297 client-JavaScript bytes. Their standard ten-per-cent
+ceilings are 13,927,285 and 4,045,027 bytes. Route-specific measurements are
+stored per profile in `lib/release/budgets.ts`. Across the sweep, controlled
+practice was 428,710 bytes, analytics was 347,845 bytes, the combined
+increment was 450,981 bytes and the largest emitted asset was 634,445 bytes.
+
+The increase is the expected emitted output for the five independent authored
+notes and answer-bearing assessment closures. The registry audit still proves
+that OPT 370 answers remain absent from initial, server and unrelated course
+closures; no isolation assertion was waived. Build duration remains
+observational.

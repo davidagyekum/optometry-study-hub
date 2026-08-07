@@ -1,6 +1,6 @@
 # Optometry Study Hub
 
-Optometry Study Hub is a responsive, lecture-based study website for optometry students. It combines structured notes, attributed instructional figures, and device-local practice quizzes across five course areas.
+Optometry Study Hub is a responsive, lecture-based study website for optometry students. It combines structured notes, attributed instructional figures, and device-local practice quizzes across six course areas.
 
 Live site: https://opt-376-eye-anatomy-review.davorion7.chatgpt.site
 
@@ -11,8 +11,9 @@ Live site: https://opt-376-eye-anatomy-review.davorion7.chatgpt.site
 - **Neuro Anatomy & Ocular Anatomy** — tissue foundations, ocular adnexa, aqueous and vitreous anatomy, and ocular blood supply.
 - **Ocular Pharmacology** — adrenergic and cholinergic foundations relevant to eye care.
 - **Systemic Pathology** — breast, cardiovascular, gastrointestinal, lymphoid, renal, and respiratory pathology.
+- **Dispensing Optics II** — schematic-eye optics, multifocal and progressive lenses, PD measurement, and specialised lenses.
 
-The current application contains five courses, eight modules, 39 study sections, and 680 active curated questions across ten supported formats. Previous legacy attempts and results are retained only as read-only compatibility data. All curated questions remain internally draft.
+The current application contains six courses, 13 modules, 72 study sections, 680 established curated questions, and 400 additional OPT 370 draft questions across ten supported formats. Previous legacy attempts and results are retained only as read-only compatibility data. All OPT 370 questions and objectives remain internally draft and disabled by default.
 
 ## Architecture today
 
@@ -62,6 +63,11 @@ NEXT_PUBLIC_ENABLE_BLOOD_SUPPLY_CURATED_PRACTICE=true
 NEXT_PUBLIC_ENABLE_ENVIRONMENTAL_VISION_CURATED_PRACTICE=true
 NEXT_PUBLIC_ENABLE_AUTONOMIC_PHARMACOLOGY_CURATED_PRACTICE=true
 NEXT_PUBLIC_ENABLE_SYSTEMIC_PATHOLOGY_CURATED_PRACTICE=true
+NEXT_PUBLIC_ENABLE_OPT370_SCHEMATIC_EYE_REFRACTIVE_STATES=true
+NEXT_PUBLIC_ENABLE_OPT370_MULTIFOCAL_FOUNDATIONS=true
+NEXT_PUBLIC_ENABLE_OPT370_PROGRESSIVE_ADDITION_LENSES=true
+NEXT_PUBLIC_ENABLE_OPT370_PD_AND_DISPENSING=true
+NEXT_PUBLIC_ENABLE_OPT370_SPECIAL_LENSES=true
 ```
 
 Only the exact string `true` enables an experience. These flags control client exposure, not security, and all candidate questions remain draft rather than academically approved. Every committed feature default remains false.
@@ -101,7 +107,8 @@ Student reading progress, curated answers, flags, assessment history, and retain
 ## Current limitations
 
 - The frozen 400-question generator is retained only for compatibility with previous attempts and results; it cannot start a new learner session.
-- The 680 active curated questions retain internal draft review status pending genuine independent expert review.
+- The 680 established curated questions and 400 OPT 370 draft questions retain internal draft review status pending genuine independent expert review.
+- OPT 370 practice is controlled by five exact-string feature flags, all committed false.
 - The 36-question Aqueous and Vitreous candidate bank and its nine-format pilot subset remain draft, disabled by default, and are not approved production assessments.
 - Navigation is client-managed rather than split into dedicated App Router routes.
 - Course notes, figures, and future production questions require ongoing academic and licensing review.

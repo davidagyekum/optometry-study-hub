@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="Spectacle magnification variables">
+<rect width="1200" height="675" fill="#FFFCF2"/>
+<rect x="0" y="0" width="1200" height="84" fill="#795B12"/>
+<text x="52" y="55" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="white">Spectacle magnification variables</text>
+<text x="52" y="120" font-family="Arial" font-size="18" fill="#795B12">Neutral assessment artwork - markers correspond to answer regions.</text>
+<path d="M260 170 Q170 335 260 500" fill="none" stroke="#795B12" stroke-width="12"/>
+<path d="M420 170 Q500 335 420 500" fill="none" stroke="#795B12" stroke-width="12"/>
+<line x1="260" y1="335" x2="420" y2="335" stroke="#333" stroke-width="5"/>
+<line x1="430" y1="335" x2="760" y2="335" stroke="#B33030" stroke-width="5"/><path d="M430 335 l20 -12 v24 z M760 335 l-20 -12 v24 z" fill="#B33030"/>
+<ellipse cx="860" cy="335" rx="130" ry="175" fill="#F5E9BE" stroke="#795B12" stroke-width="8"/><circle cx="800" cy="335" r="20" fill="#333"/>
+<circle cx="312" cy="330" r="18" fill="#795B12" stroke="white" stroke-width="4"/><text x="312" y="337" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">A</text>
+<circle cx="450" cy="337" r="18" fill="#795B12" stroke="white" stroke-width="4"/><text x="450" y="344" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">B</text>
+<circle cx="576" cy="330" r="18" fill="#795B12" stroke="white" stroke-width="4"/><text x="576" y="337" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">C</text>
+<circle cx="732" cy="334" r="18" fill="#795B12" stroke="white" stroke-width="4"/><text x="732" y="341" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">D</text>
+<circle cx="971" cy="330" r="18" fill="#795B12" stroke="white" stroke-width="4"/><text x="971" y="337" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">E</text>
+</svg>

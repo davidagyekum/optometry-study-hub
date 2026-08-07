@@ -22,6 +22,8 @@ import {
   EXPECTED_ENVIRONMENTAL_VISION_CHECKSUM,
   EXPECTED_AUTONOMIC_PHARMACOLOGY_CHECKSUM,
   EXPECTED_SYSTEMIC_PATHOLOGY_CHECKSUM,
+  EXPECTED_OPT370_CHECKSUMS,
+  OPT370_BANKS,
   reviewStatusCounts,
 } from '@/lib/release/assertions';
 import type { BundleAuditResult } from '@/lib/release/bundleAudit';
@@ -147,6 +149,18 @@ export function createReleaseManifest(
     (total, module) => total + module.facts.length,
     0,
   );
+  const establishedCuratedQuestionCount = [
+    aqueousVitreousCandidateBank,
+    humanVisualPerceptionCandidateBank,
+    tissueFoundationsCandidateBank,
+    ocularAdnexaCandidateBank,
+    bloodSupplyCandidateBank,
+    environmentalVisionCandidateBank,
+    autonomicPharmacologyCandidateBank,
+    systemicPathologyCandidateBank,
+  ].reduce((total, bank) => total + bank.questions.length, 0);
+  const opt370Questions = OPT370_BANKS.flatMap((bank) => [...bank.questions]);
+  const opt370Objectives = OPT370_BANKS.flatMap((bank) => [...bank.objectives]);
   const manifest = {
     schemaVersion: 1,
     releaseProfile: options.profile,
@@ -173,16 +187,14 @@ export function createReleaseManifest(
       modules: modules.length,
       studySections: sectionCount,
       legacyQuestions: legacyQuestionCount,
-      curatedQuestions: [
-        aqueousVitreousCandidateBank,
-        humanVisualPerceptionCandidateBank,
-        tissueFoundationsCandidateBank,
-        ocularAdnexaCandidateBank,
-        bloodSupplyCandidateBank,
-        environmentalVisionCandidateBank,
-        autonomicPharmacologyCandidateBank,
-        systemicPathologyCandidateBank,
-      ].reduce((total, bank) => total + bank.questions.length, 0),
+      curatedQuestions: establishedCuratedQuestionCount,
+      curatedQuestionsScope: 'established-eight-bank-release',
+      opt370DraftQuestions: opt370Questions.length,
+      opt370DraftObjectives: opt370Objectives.length,
+      opt370DraftModules: OPT370_BANKS.length,
+      courseAlignedQuestionRecords:
+        establishedCuratedQuestionCount + opt370Questions.length,
+      opt370Checksums: EXPECTED_OPT370_CHECKSUMS,
       aqueousQuestions: aqueousVitreousCandidateBank.questions.length,
       aqueousObjectives: aqueousVitreousCandidateBank.objectives.length,
       aqueousSources: aqueousVitreousCandidateBank.sources.length,
@@ -290,9 +302,11 @@ export function createReleaseManifest(
         systemicPathologyObjectives: reviewStatusCounts(
           systemicPathologyCandidateBank.objectives,
         ),
+        opt370Questions: reviewStatusCounts(opt370Questions),
+        opt370Objectives: reviewStatusCounts(opt370Objectives),
       },
       academicStatus:
-        'Curated draft educational practice; not lecturer-approved examination items.',
+        'Established curated and OPT 370 course-aligned questions remain draft educational practice; not lecturer-approved examination items.',
     },
     assessment: {
       supportedFormats: [...QUESTION_FORMATS],
@@ -381,6 +395,7 @@ export function renderReleaseReport(
 - Aqueous and Vitreous bank SHA-256: \`${manifest.content.aqueousChecksum}\`
 - Blood Supply bank SHA-256: \`${manifest.content.bloodSupplyChecksum}\`
 - Environmental Vision bank SHA-256: \`${manifest.content.environmentalVisionChecksum}\`
+- OPT 370 bank SHA-256 values: ${Object.values(manifest.content.opt370Checksums).join(', ')}
 - Academic status: ${manifest.content.academicStatus}
 
 ## Content identity
@@ -388,8 +403,10 @@ export function renderReleaseReport(
 - ${manifest.content.courses} courses
 - ${manifest.content.modules} modules
 - ${manifest.content.studySections} study sections
-- ${manifest.content.legacyQuestions} legacy questions
-- ${manifest.content.curatedQuestions} curated questions across eight modules
+- ${manifest.content.legacyQuestions} frozen legacy compatibility questions
+- ${manifest.content.curatedQuestions} established curated questions across eight modules
+- ${manifest.content.opt370DraftQuestions} OPT 370 draft questions, ${manifest.content.opt370DraftObjectives} objectives, and ${manifest.content.opt370DraftModules} modules
+- ${manifest.content.courseAlignedQuestionRecords} course-aligned question records (${manifest.content.curatedQuestions} established curated + ${manifest.content.opt370DraftQuestions} OPT 370 draft)
 - ${manifest.content.aqueousQuestions} Aqueous questions and ${manifest.content.aqueousObjectives} objectives
 - ${manifest.content.bloodSupplyQuestions} Blood Supply questions, ${manifest.content.bloodSupplyObjectives} objectives, ${manifest.content.bloodSupplySources} sources and ${manifest.content.bloodSupplySvgDiagrams} SVG diagrams
 - ${manifest.content.environmentalVisionQuestions} Environmental Vision questions, ${manifest.content.environmentalVisionObjectives} objectives, ${manifest.content.environmentalVisionSources} sources and ${manifest.content.environmentalVisionSvgDiagrams} SVG diagrams

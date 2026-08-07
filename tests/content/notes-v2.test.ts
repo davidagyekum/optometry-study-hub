@@ -40,11 +40,16 @@ const expectedSections: Record<string, string[]> = {
   'blood-supply': ['arterial-origins', 'ciliary', 'retinal', 'barriers', 'microcirculation', 'clinical-blood'],
   'autonomic-pharmacology': ['pharm-adrenergic', 'pharm-cholinergic'],
   'systemic-pathology': ['path-breast', 'path-cardio', 'path-endocrine', 'path-gi', 'path-renal'],
+  'schematic-eye-refractive-states': ['vergence-paraxial', 'schematic-models', 'emmetropia', 'myopia', 'hyperopia', 'far-point-axial'],
+  'multifocal-foundations': ['presbyopia-add', 'construction-types', 'segment-designs', 'nvp-prism', 'jump-tca', 'bifocal-fitting', 'trifocals'],
+  'progressive-addition-lenses': ['pal-principles', 'pal-designs', 'reference-markings', 'patient-frame', 'measure-order', 'verification-delivery', 'pal-troubleshooting'],
+  'pd-and-dispensing': ['quality-mistakes', 'pd-concepts', 'pd-rule-methods', 'pupillometer', 'near-pd', 'pd-prism', 'final-dispensing'],
+  'special-lenses': ['lenticular-aspheric', 'aniseikonia', 'spectacle-magnification', 'safety-filters', 'fresnel-prism', 'slab-off'],
 };
 
 describe('Notes V2 content contract', () => {
-  it('validates all eight modules with the exact stable reading anchors', () => {
-    expect(notesV2Catalog.size).toBe(8);
+  it('validates all thirteen modules with the exact stable reading anchors', () => {
+    expect(notesV2Catalog.size).toBe(13);
     for (const legacyModule of modules) {
       const content = notesV2Catalog.get(legacyModule.id);
       expect(content, legacyModule.id).toBeDefined();

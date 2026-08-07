@@ -97,10 +97,14 @@ describe('review campaign end-to-end workflow', () => {
 
 describe('current repository invariants remain outside review tooling', () => {
   it('preserves course, module, section, legacy-question, candidate, objective, and pilot counts', () => {
-    expect(courses).toHaveLength(5);
-    expect(modules).toHaveLength(8);
-    expect(modules.reduce((sum, module) => sum + module.sections.length, 0)).toBe(39);
-    expect(modules.every((module) => module.facts.length === 50)).toBe(true);
+    expect(courses).toHaveLength(6);
+    expect(modules).toHaveLength(13);
+    expect(modules.reduce((sum, module) => sum + module.sections.length, 0)).toBe(72);
+    expect(modules.filter((module) => module.facts.length > 0)).toHaveLength(8);
+    expect(modules.filter((module) => module.facts.length > 0)
+      .every((module) => module.facts.length === 50)).toBe(true);
+    expect(modules.filter((module) => module.courseId === 'dispensing-optics-ii')
+      .every((module) => module.facts.length === 0)).toBe(true);
     expect(modules.reduce((sum, module) => sum + module.facts.length, 0)).toBe(400);
     expect(aqueousVitreousCandidateBank.questions).toHaveLength(80);
     expect(aqueousVitreousCandidateBank.questions.length - aqueousVitreousPilotBank.questions.length).toBe(71);

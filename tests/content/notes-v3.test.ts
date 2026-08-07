@@ -20,10 +20,15 @@ const expectedSections = {
   'blood-supply': ['arterial-origins', 'ciliary', 'retinal', 'barriers', 'microcirculation', 'clinical-blood'],
   'human-visual-perception': ['hvp-foundations', 'hvp-retina', 'hvp-lgn', 'hvp-extrastriate'],
   'systemic-pathology': ['path-breast', 'path-cardio', 'path-endocrine', 'path-gi', 'path-renal'],
+  'schematic-eye-refractive-states': ['vergence-paraxial', 'schematic-models', 'emmetropia', 'myopia', 'hyperopia', 'far-point-axial'],
+  'multifocal-foundations': ['presbyopia-add', 'construction-types', 'segment-designs', 'nvp-prism', 'jump-tca', 'bifocal-fitting', 'trifocals'],
+  'progressive-addition-lenses': ['pal-principles', 'pal-designs', 'reference-markings', 'patient-frame', 'measure-order', 'verification-delivery', 'pal-troubleshooting'],
+  'pd-and-dispensing': ['quality-mistakes', 'pd-concepts', 'pd-rule-methods', 'pupillometer', 'near-pd', 'pd-prism', 'final-dispensing'],
+  'special-lenses': ['lenticular-aspheric', 'aniseikonia', 'spectacle-magnification', 'safety-filters', 'fresnel-prism', 'slab-off'],
 } as const;
 
 describe('authored Notes V3 catalog', () => {
-  it('resolves all eight authored modules before Notes V2 with stable section IDs', async () => {
+  it('resolves all thirteen authored modules before Notes V2 with stable section IDs', async () => {
     expect(Object.keys(expectedSections).filter(hasAuthoredNotesV3)).toEqual([
       'environmental-vision',
       'autonomic-pharmacology',
@@ -33,6 +38,11 @@ describe('authored Notes V3 catalog', () => {
       'blood-supply',
       'human-visual-perception',
       'systemic-pathology',
+      'schematic-eye-refractive-states',
+      'multifocal-foundations',
+      'progressive-addition-lenses',
+      'pd-and-dispensing',
+      'special-lenses',
     ]);
 
     for (const [moduleId, sectionIds] of Object.entries(expectedSections)) {
@@ -69,7 +79,17 @@ describe('authored Notes V3 catalog', () => {
   });
 
   it('contains the required teaching blocks, focus tiers, recall and source-scoped corrections', async () => {
-    const contents = await Promise.all(Object.keys(expectedSections).map(async (moduleId) => {
+    const establishedRichNotesModuleIds = [
+      'environmental-vision',
+      'autonomic-pharmacology',
+      'tissue-foundations',
+      'ocular-adnexa',
+      'aqueous-vitreous',
+      'blood-supply',
+      'human-visual-perception',
+      'systemic-pathology',
+    ];
+    const contents = await Promise.all(establishedRichNotesModuleIds.map(async (moduleId) => {
       const studyModule = moduleMap.get(moduleId);
       if (!studyModule) throw new Error(`Missing module: ${moduleId}`);
       const resolution = await loadNotes(studyModule);
@@ -117,6 +137,11 @@ describe('authored Notes V3 catalog', () => {
       'blood-supply.md': '6ce9debccc5dc85305ae8782549974daf5261d2483722fd31848498698f01074',
       'human-visual-perception.md': '5c5361cba83a5db98024e444ebb47e0bb3e0de8f44d7b7f6ee057580c903f278',
       'systemic-pathology.md': '5613703dc57e41d388c80e2b7d97d14d356b7e49127c14f27cbffe95283ca2a6',
+      'schematic-eye-refractive-states.md': '2a4973ee65637552a6ea17924940a10104d1f2b5495b1f8f56a2178a4e29a59e',
+      'multifocal-foundations.md': '7040a230f39539561d0fdeb100a1389d1918ca379631d197fdf9d9c588f462f6',
+      'progressive-addition-lenses.md': '9be3c5d4ad9704f1acd5955230587fc0e95c20ed90fad2fdd41f91fa3b0281e2',
+      'pd-and-dispensing.md': '14ebfb0d0b9e94c11a341b6c039f679a79c22552ab0b523d9c8d8e7854edf809',
+      'special-lenses.md': '76dbfda8121e9dcf64d6f55dd32661d9b502e29ac8c766120f5b00cb4b8e4d97',
     });
 
     const attributes = readFileSync(join(process.cwd(), '.gitattributes'), 'utf8');
@@ -124,7 +149,7 @@ describe('authored Notes V3 catalog', () => {
       'content/notes-v3/sources/*.md text eol=lf whitespace=-trailing-space',
     );
 
-    const productionFiles = ['catalog.ts', 'compiler.ts', 'schema.ts', 'types.ts', 'modules/environmental-vision.ts', 'modules/autonomic-pharmacology.ts', 'modules/tissue-foundations.ts', 'modules/ocular-adnexa.ts', 'modules/aqueous-vitreous.ts', 'modules/blood-supply.ts', 'modules/human-visual-perception.ts', 'modules/systemic-pathology.ts']
+    const productionFiles = ['catalog.ts', 'compiler.ts', 'schema.ts', 'types.ts', 'modules/environmental-vision.ts', 'modules/autonomic-pharmacology.ts', 'modules/tissue-foundations.ts', 'modules/ocular-adnexa.ts', 'modules/aqueous-vitreous.ts', 'modules/blood-supply.ts', 'modules/human-visual-perception.ts', 'modules/systemic-pathology.ts', 'modules/schematic-eye-refractive-states.ts', 'modules/multifocal-foundations.ts', 'modules/progressive-addition-lenses.ts', 'modules/pd-and-dispensing.ts', 'modules/special-lenses.ts']
       .map((file) => readFileSync(join(process.cwd(), 'content', 'notes-v3', file), 'utf8'))
       .join('\n');
     expect(productionFiles).not.toMatch(/question-bank|CandidateBank|correctOptionId|correctAnswer|answerRationale/);

@@ -36,7 +36,9 @@ export function CourseView({
           <span>{course.code}</span>
           <h1>{course.title}</h1>
           <p>{course.description}</p>
-          <p className="lecturer-line"><b>Lecturer/source:</b> {course.lecturers.join(' · ')}</p>
+          {course.lecturers.length ? (
+            <p className="lecturer-line"><b>Lecturer/source:</b> {course.lecturers.join(' · ')}</p>
+          ) : null}
         </div>
         <div className="round-progress"><strong>{completion.percentage}%</strong><span>reviewed</span></div>
       </section>

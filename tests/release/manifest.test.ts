@@ -79,11 +79,23 @@ describe('release manifest', () => {
       manifest.build.outputFingerprint,
     );
     expect(manifest.hosting).toMatchObject({ d1: null, r2: null });
+    expect(manifest.content).toMatchObject({
+      curatedQuestions: 680,
+      curatedQuestionsScope: 'established-eight-bank-release',
+      opt370DraftQuestions: 400,
+      opt370DraftObjectives: 66,
+      opt370DraftModules: 5,
+      courseAlignedQuestionRecords: 1080,
+    });
+    expect(manifest.content.reviewStatuses.opt370Questions).toMatchObject({ draft: 400 });
+    expect(manifest.content.reviewStatuses.opt370Objectives).toMatchObject({ draft: 66 });
+    expect(Object.values(manifest.content.opt370Checksums)).toHaveLength(5);
     expect(manifest.content.academicStatus).toMatch(/not lecturer-approved/i);
     expect(() => assertManifestHasNoSensitivePaths(manifest)).not.toThrow();
     const report = renderReleaseReport(manifest);
     expect(report).toContain('Aqueous pilot: disabled');
     expect(report).toContain('exact output fingerprint');
+    expect(report).toContain('1080 course-aligned question records');
   });
 
   it('keeps deterministic identity stable across timestamps and runtimes', () => {

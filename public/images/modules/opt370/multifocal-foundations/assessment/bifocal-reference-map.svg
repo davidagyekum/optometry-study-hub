@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="Bifocal reference points">
+<rect width="1200" height="675" fill="#FFF9F7"/>
+<rect x="0" y="0" width="1200" height="84" fill="#8C3B2A"/>
+<text x="52" y="55" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="white">Bifocal reference points</text>
+<text x="52" y="120" font-family="Arial" font-size="18" fill="#8C3B2A">Neutral assessment artwork - markers correspond to answer regions.</text>
+<path d="M360 160 Q600 105 840 160 L810 575 Q600 635 390 575 Z" fill="#F8DED7" stroke="#8C3B2A" stroke-width="8"/>
+<path d="M405 405 L795 405 L770 565 Q600 610 430 565 Z" fill="#FFFFFF" stroke="#8C3B2A" stroke-width="6"/>
+<circle cx="600" cy="245" r="9" fill="#333"/>
+<circle cx="600" cy="500" r="9" fill="#333"/>
+<circle cx="660" cy="450" r="9" fill="#B33030"/>
+<line x1="600" y1="245" x2="660" y2="450" stroke="#B33030" stroke-dasharray="8 8" stroke-width="4"/>
+<circle cx="600" cy="165" r="18" fill="#8C3B2A" stroke="white" stroke-width="4"/><text x="600" y="172" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">A</text>
+<circle cx="600" cy="361" r="18" fill="#8C3B2A" stroke="white" stroke-width="4"/><text x="600" y="368" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">B</text>
+<circle cx="612" cy="472" r="18" fill="#8C3B2A" stroke="white" stroke-width="4"/><text x="612" y="479" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">C</text>
+<circle cx="732" cy="418" r="18" fill="#8C3B2A" stroke="white" stroke-width="4"/><text x="732" y="425" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">D</text>
+<circle cx="600" cy="469" r="18" fill="#8C3B2A" stroke="white" stroke-width="4"/><text x="600" y="476" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">E</text>
+</svg>

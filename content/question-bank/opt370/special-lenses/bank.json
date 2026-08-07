@@ -1,0 +1,5393 @@
+{
+  "schemaVersion": 1,
+  "id": "special-lenses-candidate",
+  "title": "OPT 370 Special Ophthalmic Lenses candidate bank",
+  "courseIds": [
+    "dispensing-optics-ii"
+  ],
+  "objectives": [
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-lenticular-aspheric-explain",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "lenticular-aspheric",
+      "statement": "Explain the core terminology, relationships and course-source principles for lenticular and aspheric lenses.",
+      "targetBloomLevels": [
+        "remember",
+        "understand"
+      ],
+      "tags": [
+        "special-lenses",
+        "lenticular-aspheric"
+      ],
+      "sourceIds": [
+        "opt370-special-lenses"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-lenticular-aspheric-apply",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "lenticular-aspheric",
+      "statement": "Apply and analyse lenticular and aspheric lenses in calculations, diagrams, fitting decisions or error analysis.",
+      "targetBloomLevels": [
+        "apply",
+        "analyze",
+        "evaluate"
+      ],
+      "tags": [
+        "special-lenses",
+        "lenticular-aspheric"
+      ],
+      "sourceIds": [
+        "opt370-special-lenses"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-aniseikonia-explain",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "aniseikonia",
+      "statement": "Explain the core terminology, relationships and course-source principles for aniseikonia and iseikonic lenses.",
+      "targetBloomLevels": [
+        "remember",
+        "understand"
+      ],
+      "tags": [
+        "special-lenses",
+        "aniseikonia"
+      ],
+      "sourceIds": [
+        "opt370-special-lenses"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-aniseikonia-apply",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "aniseikonia",
+      "statement": "Apply and analyse aniseikonia and iseikonic lenses in calculations, diagrams, fitting decisions or error analysis.",
+      "targetBloomLevels": [
+        "apply",
+        "analyze",
+        "evaluate"
+      ],
+      "tags": [
+        "special-lenses",
+        "aniseikonia"
+      ],
+      "sourceIds": [
+        "opt370-special-lenses"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-spectacle-magnification-explain",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "spectacle-magnification",
+      "statement": "Explain the core terminology, relationships and course-source principles for spectacle magnification.",
+      "targetBloomLevels": [
+        "remember",
+        "understand"
+      ],
+      "tags": [
+        "special-lenses",
+        "spectacle-magnification"
+      ],
+      "sourceIds": [
+        "opt370-special-lenses"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-spectacle-magnification-apply",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "spectacle-magnification",
+      "statement": "Apply and analyse spectacle magnification in calculations, diagrams, fitting decisions or error analysis.",
+      "targetBloomLevels": [
+        "apply",
+        "analyze",
+        "evaluate"
+      ],
+      "tags": [
+        "special-lenses",
+        "spectacle-magnification"
+      ],
+      "sourceIds": [
+        "opt370-special-lenses"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-safety-filters-explain",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "safety-filters",
+      "statement": "Explain the core terminology, relationships and course-source principles for safety lenses, filters and coatings.",
+      "targetBloomLevels": [
+        "remember",
+        "understand"
+      ],
+      "tags": [
+        "special-lenses",
+        "safety-filters"
+      ],
+      "sourceIds": [
+        "opt370-special-lenses"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-safety-filters-apply",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "safety-filters",
+      "statement": "Apply and analyse safety lenses, filters and coatings in calculations, diagrams, fitting decisions or error analysis.",
+      "targetBloomLevels": [
+        "apply",
+        "analyze",
+        "evaluate"
+      ],
+      "tags": [
+        "special-lenses",
+        "safety-filters"
+      ],
+      "sourceIds": [
+        "opt370-special-lenses"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-fresnel-prism-explain",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "fresnel-prism",
+      "statement": "Explain the core terminology, relationships and course-source principles for fresnel prism fitting.",
+      "targetBloomLevels": [
+        "remember",
+        "understand"
+      ],
+      "tags": [
+        "special-lenses",
+        "fresnel-prism"
+      ],
+      "sourceIds": [
+        "opt370-special-lenses"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-fresnel-prism-apply",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "fresnel-prism",
+      "statement": "Apply and analyse fresnel prism fitting in calculations, diagrams, fitting decisions or error analysis.",
+      "targetBloomLevels": [
+        "apply",
+        "analyze",
+        "evaluate"
+      ],
+      "tags": [
+        "special-lenses",
+        "fresnel-prism"
+      ],
+      "sourceIds": [
+        "opt370-special-lenses"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-slab-off-explain",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "slab-off",
+      "statement": "Explain the core terminology, relationships and course-source principles for bicentric grinding and slab-off.",
+      "targetBloomLevels": [
+        "remember",
+        "understand"
+      ],
+      "tags": [
+        "special-lenses",
+        "slab-off"
+      ],
+      "sourceIds": [
+        "opt370-special-lenses"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-slab-off-apply",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "slab-off",
+      "statement": "Apply and analyse bicentric grinding and slab-off in calculations, diagrams, fitting decisions or error analysis.",
+      "targetBloomLevels": [
+        "apply",
+        "analyze",
+        "evaluate"
+      ],
+      "tags": [
+        "special-lenses",
+        "slab-off"
+      ],
+      "sourceIds": [
+        "opt370-special-lenses"
+      ],
+      "reviewStatus": "draft"
+    }
+  ],
+  "questions": [
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-001",
+      "familyId": "special-lenses-lenticular-lens-recognition",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "lenticular-aspheric",
+      "objectiveId": "special-lenses-lenticular-aspheric-explain",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "Which term best matches this course definition: A high-power lens with the prescription concentrated in a small central optical zone.",
+      "explanation": "Lenticular lens: A high-power lens with the prescription concentrated in a small central optical zone. The surrounding carrier reduces total weight and thickness.",
+      "noteAnchor": "lenticular-aspheric",
+      "misconceptionTags": [
+        "lenticular-lens-term-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 45,
+      "options": [
+        {
+          "id": "lenticular-lens",
+          "text": "Lenticular lens",
+          "rationale": "This is the course term defined by the stem."
+        },
+        {
+          "id": "carrier",
+          "text": "Lenticular carrier",
+          "rationale": "Lenticular carrier instead refers to low- or zero-power supporting region around the central lenticular portion.",
+          "misconceptionTag": "lenticular-lens-term-confusion"
+        },
+        {
+          "id": "antimetropia",
+          "text": "Antimetropia",
+          "rationale": "Antimetropia instead refers to anisometropia with opposite lens signs in the two eyes.",
+          "misconceptionTag": "lenticular-lens-term-confusion"
+        },
+        {
+          "id": "spectacle-magnification",
+          "text": "Spectacle magnification",
+          "rationale": "Spectacle magnification instead refers to combined image-size effect of lens shape and vertex power.",
+          "misconceptionTag": "lenticular-lens-term-confusion"
+        }
+      ],
+      "correctOptionId": "lenticular-lens"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-002",
+      "familyId": "special-lenses-carrier-recognition",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "lenticular-aspheric",
+      "objectiveId": "special-lenses-lenticular-aspheric-explain",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "Which term best matches this course definition: Low- or zero-power supporting region around the central lenticular portion.",
+      "explanation": "Lenticular carrier: Low- or zero-power supporting region around the central lenticular portion. It allows the high-power centre to be mounted in a normal frame.",
+      "noteAnchor": "lenticular-aspheric",
+      "misconceptionTags": [
+        "carrier-term-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 45,
+      "options": [
+        {
+          "id": "aspheric",
+          "text": "Aspheric lens",
+          "rationale": "Aspheric lens instead refers to a lens whose surface curvature changes progressively away from the centre.",
+          "misconceptionTag": "carrier-term-confusion"
+        },
+        {
+          "id": "afocal-size-lens",
+          "text": "Afocal size lens",
+          "rationale": "Afocal size lens instead refers to miniature telescope-like element that changes image size without net focus.",
+          "misconceptionTag": "carrier-term-confusion"
+        },
+        {
+          "id": "mag-percent",
+          "text": "Magnification percentage",
+          "rationale": "Magnification percentage instead refers to (SM - 1) x 100.",
+          "misconceptionTag": "carrier-term-confusion"
+        },
+        {
+          "id": "carrier",
+          "text": "Lenticular carrier",
+          "rationale": "This is the course term defined by the stem."
+        }
+      ],
+      "correctOptionId": "carrier"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-003",
+      "familyId": "special-lenses-plus-lenticular-recognition",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "lenticular-aspheric",
+      "objectiveId": "special-lenses-lenticular-aspheric-explain",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "Which term best matches this course definition: Lenticular form used for extreme hyperopia or aphakia in the source.",
+      "explanation": "Plus lenticular: Lenticular form used for extreme hyperopia or aphakia in the source. It reduces the mass of a full-aperture high-plus lens.",
+      "noteAnchor": "lenticular-aspheric",
+      "misconceptionTags": [
+        "plus-lenticular-term-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 45,
+      "options": [
+        {
+          "id": "power-factor",
+          "text": "Power factor",
+          "rationale": "Power factor instead refers to magnification component P = (1 - dFv)^-1.",
+          "misconceptionTag": "plus-lenticular-term-confusion"
+        },
+        {
+          "id": "thermal-toughening",
+          "text": "Thermal toughening",
+          "rationale": "Thermal toughening instead refers to heating and rapidly cooling glass to create a more impact-resistant stress pattern.",
+          "misconceptionTag": "plus-lenticular-term-confusion"
+        },
+        {
+          "id": "plus-lenticular",
+          "text": "Plus lenticular",
+          "rationale": "This is the course term defined by the stem."
+        },
+        {
+          "id": "aniseikonia",
+          "text": "Aniseikonia",
+          "rationale": "Aniseikonia instead refers to unequal perceived image size between the eyes that disrupts binocular comfort.",
+          "misconceptionTag": "plus-lenticular-term-confusion"
+        }
+      ],
+      "correctOptionId": "plus-lenticular"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-004",
+      "familyId": "special-lenses-minus-lenticular-recognition",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "lenticular-aspheric",
+      "objectiveId": "special-lenses-lenticular-aspheric-explain",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "Which term best matches this course definition: Lenticular form used for very high myopia.",
+      "explanation": "Minus lenticular: Lenticular form used for very high myopia. It limits the deeply concave high-power area.",
+      "noteAnchor": "lenticular-aspheric",
+      "misconceptionTags": [
+        "minus-lenticular-term-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 45,
+      "options": [
+        {
+          "id": "anti-reflection",
+          "text": "Anti-reflection coating",
+          "rationale": "Anti-reflection coating instead refers to coating that reduces surface reflection and improves transmission/cosmesis.",
+          "misconceptionTag": "minus-lenticular-term-confusion"
+        },
+        {
+          "id": "minus-lenticular",
+          "text": "Minus lenticular",
+          "rationale": "This is the course term defined by the stem."
+        },
+        {
+          "id": "spherical-equivalent",
+          "text": "Spherical equivalent",
+          "rationale": "Spherical equivalent instead refers to sphere plus half the cylinder.",
+          "misconceptionTag": "minus-lenticular-term-confusion"
+        },
+        {
+          "id": "contact-lens-aniseikonia",
+          "text": "Contact-lens approach",
+          "rationale": "Contact-lens approach instead refers to use of a lens near the cornea to reduce spectacle magnification differences in refractive anisometropia.",
+          "misconceptionTag": "minus-lenticular-term-confusion"
+        }
+      ],
+      "correctOptionId": "minus-lenticular"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-005",
+      "familyId": "special-lenses-aspheric-recognition",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "lenticular-aspheric",
+      "objectiveId": "special-lenses-lenticular-aspheric-explain",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "Which term best matches this course definition: A lens whose surface curvature changes progressively away from the centre.",
+      "explanation": "Aspheric lens: A lens whose surface curvature changes progressively away from the centre. It can flatten a high-plus design and improve form.",
+      "noteAnchor": "lenticular-aspheric",
+      "misconceptionTags": [
+        "aspheric-term-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 45,
+      "options": [
+        {
+          "id": "aspheric",
+          "text": "Aspheric lens",
+          "rationale": "This is the course term defined by the stem."
+        },
+        {
+          "id": "shape-factor",
+          "text": "Shape factor",
+          "rationale": "Shape factor instead refers to magnification component S = [1 - (t/n)F1]^-1.",
+          "misconceptionTag": "aspheric-term-confusion"
+        },
+        {
+          "id": "chemical-toughening",
+          "text": "Chemical toughening",
+          "rationale": "Chemical toughening instead refers to ion-exchange treatment in a hot potassium salt bath.",
+          "misconceptionTag": "aspheric-term-confusion"
+        },
+        {
+          "id": "fresnel-base",
+          "text": "Fresnel base orientation",
+          "rationale": "Fresnel base orientation instead refers to placement of the marked base toward the prescribed base direction.",
+          "misconceptionTag": "aspheric-term-confusion"
+        }
+      ],
+      "correctOptionId": "aspheric"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-006",
+      "familyId": "special-lenses-anisometropia-recognition",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "aniseikonia",
+      "objectiveId": "special-lenses-aniseikonia-explain",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "Which term best matches this course definition: A significant interocular difference in refractive error.",
+      "explanation": "Anisometropia: A significant interocular difference in refractive error. It raises suspicion for spectacle magnification differences.",
+      "noteAnchor": "aniseikonia",
+      "misconceptionTags": [
+        "anisometropia-term-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 45,
+      "options": [
+        {
+          "id": "safety-lens",
+          "text": "Safety lens",
+          "rationale": "Safety lens instead refers to lens made or treated to reduce injury from breakage or impact.",
+          "misconceptionTag": "anisometropia-term-confusion"
+        },
+        {
+          "id": "photochromic",
+          "text": "Photochromic lens",
+          "rationale": "Photochromic lens instead refers to lens material/treatment that changes darkness with incident light conditions.",
+          "misconceptionTag": "anisometropia-term-confusion"
+        },
+        {
+          "id": "bicentric-grinding",
+          "text": "Bicentric grinding",
+          "rationale": "Bicentric grinding instead refers to surfacing two optical centres on one lens to manage vertical imbalance.",
+          "misconceptionTag": "anisometropia-term-confusion"
+        },
+        {
+          "id": "anisometropia",
+          "text": "Anisometropia",
+          "rationale": "This is the course term defined by the stem."
+        }
+      ],
+      "correctOptionId": "anisometropia"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-007",
+      "familyId": "special-lenses-antimetropia-recognition",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "aniseikonia",
+      "objectiveId": "special-lenses-aniseikonia-explain",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "Which term best matches this course definition: Anisometropia with opposite lens signs in the two eyes.",
+      "explanation": "Antimetropia: Anisometropia with opposite lens signs in the two eyes. Example: one eye plus and the other minus.",
+      "noteAnchor": "aniseikonia",
+      "misconceptionTags": [
+        "antimetropia-term-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 45,
+      "options": [
+        {
+          "id": "fresnel-adhesion",
+          "text": "Fresnel water adhesion",
+          "rationale": "Fresnel water adhesion instead refers to application of the smooth surface to a wet inside lens surface.",
+          "misconceptionTag": "antimetropia-term-confusion"
+        },
+        {
+          "id": "vertical-meridian",
+          "text": "Power in the 90-degree meridian",
+          "rationale": "Power in the 90-degree meridian instead refers to lens power relevant to vertical decentration at near.",
+          "misconceptionTag": "antimetropia-term-confusion"
+        },
+        {
+          "id": "antimetropia",
+          "text": "Antimetropia",
+          "rationale": "This is the course term defined by the stem."
+        },
+        {
+          "id": "filter-lens",
+          "text": "Filter lens",
+          "rationale": "Filter lens instead refers to lens that controls selected radiation through absorption, reflection or both.",
+          "misconceptionTag": "antimetropia-term-confusion"
+        }
+      ],
+      "correctOptionId": "antimetropia"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-008",
+      "familyId": "special-lenses-aniseikonia-recognition",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "aniseikonia",
+      "objectiveId": "special-lenses-aniseikonia-explain",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "Which term best matches this course definition: Unequal perceived image size between the eyes that disrupts binocular comfort.",
+      "explanation": "Aniseikonia: Unequal perceived image size between the eyes that disrupts binocular comfort. Symptoms require useful binocular vision and are patient-specific.",
+      "noteAnchor": "aniseikonia",
+      "misconceptionTags": [
+        "aniseikonia-term-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 45,
+      "options": [
+        {
+          "id": "plus-lenticular",
+          "text": "Plus lenticular",
+          "rationale": "Plus lenticular instead refers to lenticular form used for extreme hyperopia or aphakia in the source.",
+          "misconceptionTag": "aniseikonia-term-confusion"
+        },
+        {
+          "id": "aniseikonia",
+          "text": "Aniseikonia",
+          "rationale": "This is the course term defined by the stem."
+        },
+        {
+          "id": "fresnel-prism",
+          "text": "Fresnel prism",
+          "rationale": "Fresnel prism instead refers to thin grooved prism sheet attached to a spectacle lens.",
+          "misconceptionTag": "aniseikonia-term-confusion"
+        },
+        {
+          "id": "conventional-slab",
+          "text": "Conventional slab-off",
+          "rationale": "Conventional slab-off instead refers to base-up effect in the reading portion, applied to the most minus or least plus lens.",
+          "misconceptionTag": "aniseikonia-term-confusion"
+        }
+      ],
+      "correctOptionId": "aniseikonia"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-009",
+      "familyId": "special-lenses-iseikonic-lens-recognition",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "aniseikonia",
+      "objectiveId": "special-lenses-aniseikonia-explain",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Which term best matches this course definition: A lens designed to alter retinal image size while preserving the refractive correction.",
+      "explanation": "Iseikonic/size lens: A lens designed to alter retinal image size while preserving the refractive correction. It can reduce interocular magnification difference.",
+      "noteAnchor": "aniseikonia",
+      "misconceptionTags": [
+        "iseikonic-lens-term-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 45,
+      "options": [
+        {
+          "id": "iseikonic-lens",
+          "text": "Iseikonic/size lens",
+          "rationale": "This is the course term defined by the stem."
+        },
+        {
+          "id": "vertical-imbalance",
+          "text": "Vertical imbalance",
+          "rationale": "Vertical imbalance instead refers to difference in vertical prism between the eyes at the near visual level.",
+          "misconceptionTag": "iseikonic-lens-term-confusion"
+        },
+        {
+          "id": "lenticular-lens",
+          "text": "Lenticular lens",
+          "rationale": "Lenticular lens instead refers to a high-power lens with the prescription concentrated in a small central optical zone.",
+          "misconceptionTag": "iseikonic-lens-term-confusion"
+        },
+        {
+          "id": "anisometropia",
+          "text": "Anisometropia",
+          "rationale": "Anisometropia instead refers to a significant interocular difference in refractive error.",
+          "misconceptionTag": "iseikonic-lens-term-confusion"
+        }
+      ],
+      "correctOptionId": "iseikonic-lens"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-010",
+      "familyId": "special-lenses-afocal-size-lens-recognition",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "aniseikonia",
+      "objectiveId": "special-lenses-aniseikonia-explain",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Which term best matches this course definition: Miniature telescope-like element that changes image size without net focus.",
+      "explanation": "Afocal size lens: Miniature telescope-like element that changes image size without net focus. Small percentage elements can be stacked in the lecture demonstration.",
+      "noteAnchor": "aniseikonia",
+      "misconceptionTags": [
+        "afocal-size-lens-term-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 45,
+      "options": [
+        {
+          "id": "reverse-slab",
+          "text": "Reverse slab-off",
+          "rationale": "Reverse slab-off instead refers to base-down effect in the reading portion, applied to the least minus or most plus lens.",
+          "misconceptionTag": "afocal-size-lens-term-confusion"
+        },
+        {
+          "id": "minus-lenticular",
+          "text": "Minus lenticular",
+          "rationale": "Minus lenticular instead refers to lenticular form used for very high myopia.",
+          "misconceptionTag": "afocal-size-lens-term-confusion"
+        },
+        {
+          "id": "iseikonic-lens",
+          "text": "Iseikonic/size lens",
+          "rationale": "Iseikonic/size lens instead refers to a lens designed to alter retinal image size while preserving the refractive correction.",
+          "misconceptionTag": "afocal-size-lens-term-confusion"
+        },
+        {
+          "id": "afocal-size-lens",
+          "text": "Afocal size lens",
+          "rationale": "This is the course term defined by the stem."
+        }
+      ],
+      "correctOptionId": "afocal-size-lens"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-011",
+      "familyId": "special-lenses-spherical-equivalent-recognition",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "aniseikonia",
+      "objectiveId": "special-lenses-aniseikonia-explain",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Which term best matches this course definition: Sphere plus half the cylinder.",
+      "explanation": "Spherical equivalent: Sphere plus half the cylinder. It simplifies comparison of astigmatic prescriptions.",
+      "noteAnchor": "aniseikonia",
+      "misconceptionTags": [
+        "spherical-equivalent-term-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 45,
+      "options": [
+        {
+          "id": "antimetropia",
+          "text": "Antimetropia",
+          "rationale": "Antimetropia instead refers to anisometropia with opposite lens signs in the two eyes.",
+          "misconceptionTag": "spherical-equivalent-term-confusion"
+        },
+        {
+          "id": "power-factor",
+          "text": "Power factor",
+          "rationale": "Power factor instead refers to magnification component P = (1 - dFv)^-1.",
+          "misconceptionTag": "spherical-equivalent-term-confusion"
+        },
+        {
+          "id": "spherical-equivalent",
+          "text": "Spherical equivalent",
+          "rationale": "This is the course term defined by the stem."
+        },
+        {
+          "id": "carrier",
+          "text": "Lenticular carrier",
+          "rationale": "Lenticular carrier instead refers to low- or zero-power supporting region around the central lenticular portion.",
+          "misconceptionTag": "spherical-equivalent-term-confusion"
+        }
+      ],
+      "correctOptionId": "spherical-equivalent"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-012",
+      "familyId": "special-lenses-spectacle-magnification-recognition",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "spectacle-magnification",
+      "objectiveId": "special-lenses-spectacle-magnification-explain",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Which term best matches this course definition: Combined image-size effect of lens shape and vertex power.",
+      "explanation": "Spectacle magnification: Combined image-size effect of lens shape and vertex power. SM equals shape factor times power factor.",
+      "noteAnchor": "spectacle-magnification",
+      "misconceptionTags": [
+        "spectacle-magnification-term-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 45,
+      "options": [
+        {
+          "id": "contact-lens-aniseikonia",
+          "text": "Contact-lens approach",
+          "rationale": "Contact-lens approach instead refers to use of a lens near the cornea to reduce spectacle magnification differences in refractive anisometropia.",
+          "misconceptionTag": "spectacle-magnification-term-confusion"
+        },
+        {
+          "id": "spectacle-magnification",
+          "text": "Spectacle magnification",
+          "rationale": "This is the course term defined by the stem."
+        },
+        {
+          "id": "aspheric",
+          "text": "Aspheric lens",
+          "rationale": "Aspheric lens instead refers to a lens whose surface curvature changes progressively away from the centre.",
+          "misconceptionTag": "spectacle-magnification-term-confusion"
+        },
+        {
+          "id": "afocal-size-lens",
+          "text": "Afocal size lens",
+          "rationale": "Afocal size lens instead refers to miniature telescope-like element that changes image size without net focus.",
+          "misconceptionTag": "spectacle-magnification-term-confusion"
+        }
+      ],
+      "correctOptionId": "spectacle-magnification"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-013",
+      "familyId": "special-lenses-power-factor-recognition",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "spectacle-magnification",
+      "objectiveId": "special-lenses-spectacle-magnification-explain",
+      "format": "single_best_answer",
+      "stimulusType": "comparison",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which term best matches this course definition: Magnification component P = (1 - dFv)^-1.",
+      "explanation": "Power factor: Magnification component P = (1 - dFv)^-1. It depends on vertex distance and back vertex power.",
+      "noteAnchor": "spectacle-magnification",
+      "misconceptionTags": [
+        "power-factor-term-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 45,
+      "options": [
+        {
+          "id": "power-factor",
+          "text": "Power factor",
+          "rationale": "This is the course term defined by the stem."
+        },
+        {
+          "id": "aniseikonia",
+          "text": "Aniseikonia",
+          "rationale": "Aniseikonia instead refers to unequal perceived image size between the eyes that disrupts binocular comfort.",
+          "misconceptionTag": "power-factor-term-confusion"
+        },
+        {
+          "id": "shape-factor",
+          "text": "Shape factor",
+          "rationale": "Shape factor instead refers to magnification component S = [1 - (t/n)F1]^-1.",
+          "misconceptionTag": "power-factor-term-confusion"
+        },
+        {
+          "id": "chemical-toughening",
+          "text": "Chemical toughening",
+          "rationale": "Chemical toughening instead refers to ion-exchange treatment in a hot potassium salt bath.",
+          "misconceptionTag": "power-factor-term-confusion"
+        }
+      ],
+      "correctOptionId": "power-factor"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-014",
+      "familyId": "special-lenses-shape-factor-recognition",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "spectacle-magnification",
+      "objectiveId": "special-lenses-spectacle-magnification-explain",
+      "format": "single_best_answer",
+      "stimulusType": "comparison",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which term best matches this course definition: Magnification component S = [1 - (t/n)F1]^-1.",
+      "explanation": "Shape factor: Magnification component S = [1 - (t/n)F1]^-1. It depends on thickness, index and front curve.",
+      "noteAnchor": "spectacle-magnification",
+      "misconceptionTags": [
+        "shape-factor-term-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 45,
+      "options": [
+        {
+          "id": "spherical-equivalent",
+          "text": "Spherical equivalent",
+          "rationale": "Spherical equivalent instead refers to sphere plus half the cylinder.",
+          "misconceptionTag": "shape-factor-term-confusion"
+        },
+        {
+          "id": "safety-lens",
+          "text": "Safety lens",
+          "rationale": "Safety lens instead refers to lens made or treated to reduce injury from breakage or impact.",
+          "misconceptionTag": "shape-factor-term-confusion"
+        },
+        {
+          "id": "photochromic",
+          "text": "Photochromic lens",
+          "rationale": "Photochromic lens instead refers to lens material/treatment that changes darkness with incident light conditions.",
+          "misconceptionTag": "shape-factor-term-confusion"
+        },
+        {
+          "id": "shape-factor",
+          "text": "Shape factor",
+          "rationale": "This is the course term defined by the stem."
+        }
+      ],
+      "correctOptionId": "shape-factor"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-015",
+      "familyId": "special-lenses-mag-percent-recognition",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "spectacle-magnification",
+      "objectiveId": "special-lenses-spectacle-magnification-apply",
+      "format": "single_best_answer",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Which term best matches this course definition: (SM - 1) x 100.",
+      "explanation": "Magnification percentage: (SM - 1) x 100. SM 1.1085 corresponds to 10.85%.",
+      "noteAnchor": "spectacle-magnification",
+      "misconceptionTags": [
+        "mag-percent-term-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 45,
+      "options": [
+        {
+          "id": "filter-lens",
+          "text": "Filter lens",
+          "rationale": "Filter lens instead refers to lens that controls selected radiation through absorption, reflection or both.",
+          "misconceptionTag": "mag-percent-term-confusion"
+        },
+        {
+          "id": "fresnel-adhesion",
+          "text": "Fresnel water adhesion",
+          "rationale": "Fresnel water adhesion instead refers to application of the smooth surface to a wet inside lens surface.",
+          "misconceptionTag": "mag-percent-term-confusion"
+        },
+        {
+          "id": "mag-percent",
+          "text": "Magnification percentage",
+          "rationale": "This is the course term defined by the stem."
+        },
+        {
+          "id": "shape-factor",
+          "text": "Shape factor",
+          "rationale": "Shape factor instead refers to magnification component S = [1 - (t/n)F1]^-1.",
+          "misconceptionTag": "mag-percent-term-confusion"
+        }
+      ],
+      "correctOptionId": "mag-percent"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-016",
+      "familyId": "special-lenses-contact-lens-aniseikonia-recognition",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "aniseikonia",
+      "objectiveId": "special-lenses-aniseikonia-apply",
+      "format": "single_best_answer",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Which term best matches this course definition: Use of a lens near the cornea to reduce spectacle magnification differences in refractive anisometropia.",
+      "explanation": "Contact-lens approach: Use of a lens near the cornea to reduce spectacle magnification differences in refractive anisometropia. The source presents it as preferred when not contraindicated.",
+      "noteAnchor": "aniseikonia",
+      "misconceptionTags": [
+        "contact-lens-aniseikonia-term-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 45,
+      "options": [
+        {
+          "id": "conventional-slab",
+          "text": "Conventional slab-off",
+          "rationale": "Conventional slab-off instead refers to base-up effect in the reading portion, applied to the most minus or least plus lens.",
+          "misconceptionTag": "contact-lens-aniseikonia-term-confusion"
+        },
+        {
+          "id": "contact-lens-aniseikonia",
+          "text": "Contact-lens approach",
+          "rationale": "This is the course term defined by the stem."
+        },
+        {
+          "id": "thermal-toughening",
+          "text": "Thermal toughening",
+          "rationale": "Thermal toughening instead refers to heating and rapidly cooling glass to create a more impact-resistant stress pattern.",
+          "misconceptionTag": "contact-lens-aniseikonia-term-confusion"
+        },
+        {
+          "id": "fresnel-prism",
+          "text": "Fresnel prism",
+          "rationale": "Fresnel prism instead refers to thin grooved prism sheet attached to a spectacle lens.",
+          "misconceptionTag": "contact-lens-aniseikonia-term-confusion"
+        }
+      ],
+      "correctOptionId": "contact-lens-aniseikonia"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-017",
+      "familyId": "special-lenses-safety-lens-recognition",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "safety-filters",
+      "objectiveId": "special-lenses-safety-filters-apply",
+      "format": "single_best_answer",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Which term best matches this course definition: Lens made or treated to reduce injury from breakage or impact.",
+      "explanation": "Safety lens: Lens made or treated to reduce injury from breakage or impact. Protection must be matched to the hazard and current standard.",
+      "noteAnchor": "safety-filters",
+      "misconceptionTags": [
+        "safety-lens-term-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 45,
+      "options": [
+        {
+          "id": "safety-lens",
+          "text": "Safety lens",
+          "rationale": "This is the course term defined by the stem."
+        },
+        {
+          "id": "anti-reflection",
+          "text": "Anti-reflection coating",
+          "rationale": "Anti-reflection coating instead refers to coating that reduces surface reflection and improves transmission/cosmesis.",
+          "misconceptionTag": "safety-lens-term-confusion"
+        },
+        {
+          "id": "vertical-imbalance",
+          "text": "Vertical imbalance",
+          "rationale": "Vertical imbalance instead refers to difference in vertical prism between the eyes at the near visual level.",
+          "misconceptionTag": "safety-lens-term-confusion"
+        },
+        {
+          "id": "lenticular-lens",
+          "text": "Lenticular lens",
+          "rationale": "Lenticular lens instead refers to a high-power lens with the prescription concentrated in a small central optical zone.",
+          "misconceptionTag": "safety-lens-term-confusion"
+        }
+      ],
+      "correctOptionId": "safety-lens"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-018",
+      "familyId": "special-lenses-thermal-toughening-recognition",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "safety-filters",
+      "objectiveId": "special-lenses-safety-filters-apply",
+      "format": "single_best_answer",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Which term best matches this course definition: Heating and rapidly cooling glass to create a more impact-resistant stress pattern.",
+      "explanation": "Thermal toughening: Heating and rapidly cooling glass to create a more impact-resistant stress pattern. The source notes a minimum glass thickness and less dangerous fragmentation.",
+      "noteAnchor": "safety-filters",
+      "misconceptionTags": [
+        "thermal-toughening-term-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 45,
+      "options": [
+        {
+          "id": "fresnel-base",
+          "text": "Fresnel base orientation",
+          "rationale": "Fresnel base orientation instead refers to placement of the marked base toward the prescribed base direction.",
+          "misconceptionTag": "thermal-toughening-term-confusion"
+        },
+        {
+          "id": "reverse-slab",
+          "text": "Reverse slab-off",
+          "rationale": "Reverse slab-off instead refers to base-down effect in the reading portion, applied to the least minus or most plus lens.",
+          "misconceptionTag": "thermal-toughening-term-confusion"
+        },
+        {
+          "id": "minus-lenticular",
+          "text": "Minus lenticular",
+          "rationale": "Minus lenticular instead refers to lenticular form used for very high myopia.",
+          "misconceptionTag": "thermal-toughening-term-confusion"
+        },
+        {
+          "id": "thermal-toughening",
+          "text": "Thermal toughening",
+          "rationale": "This is the course term defined by the stem."
+        }
+      ],
+      "correctOptionId": "thermal-toughening"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-019",
+      "familyId": "special-lenses-aniseikonia-calculation-1",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "aniseikonia",
+      "objectiveId": "special-lenses-aniseikonia-apply",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "apply",
+      "difficulty": "foundation",
+      "stem": "What is the spherical equivalent of +2.50/+0.50 x 090?",
+      "explanation": "Spherical equivalent is S + C/2.",
+      "noteAnchor": "aniseikonia",
+      "misconceptionTags": [
+        "aniseikonia-calculation-error"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 75,
+      "options": [
+        {
+          "id": "option-2",
+          "text": "+3.00 D",
+          "rationale": "This adds the whole cylinder.",
+          "misconceptionTag": "aniseikonia-calculation-error"
+        },
+        {
+          "id": "option-3",
+          "text": "+2.50 D",
+          "rationale": "This ignores the cylinder.",
+          "misconceptionTag": "aniseikonia-calculation-error"
+        },
+        {
+          "id": "option-4",
+          "text": "+0.25 D",
+          "rationale": "This is half the cylinder only.",
+          "misconceptionTag": "aniseikonia-calculation-error"
+        },
+        {
+          "id": "option-1",
+          "text": "+2.75 D",
+          "rationale": "SE = sphere + half cylinder = 2.50 + 0.25."
+        }
+      ],
+      "correctOptionId": "option-1"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-020",
+      "familyId": "special-lenses-spectacle-magnification-calculation-2",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "spectacle-magnification",
+      "objectiveId": "special-lenses-spectacle-magnification-apply",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "A lens has shape factor 1.042 and power factor 1.0638. What is its approximate spectacle magnification?",
+      "explanation": "SM = S x P.",
+      "noteAnchor": "spectacle-magnification",
+      "misconceptionTags": [
+        "spectacle-magnification-calculation-error"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 75,
+      "options": [
+        {
+          "id": "option-3",
+          "text": "0.9782",
+          "rationale": "This is not the product.",
+          "misconceptionTag": "spectacle-magnification-calculation-error"
+        },
+        {
+          "id": "option-4",
+          "text": "10.85",
+          "rationale": "That confuses factor with percentage.",
+          "misconceptionTag": "spectacle-magnification-calculation-error"
+        },
+        {
+          "id": "option-1",
+          "text": "1.1085",
+          "rationale": "1.042 x 1.0638 is about 1.1085."
+        },
+        {
+          "id": "option-2",
+          "text": "2.1058",
+          "rationale": "The factors are multiplied, not added.",
+          "misconceptionTag": "spectacle-magnification-calculation-error"
+        }
+      ],
+      "correctOptionId": "option-1"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-021",
+      "familyId": "special-lenses-spectacle-magnification-calculation-3",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "spectacle-magnification",
+      "objectiveId": "special-lenses-spectacle-magnification-apply",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "If spectacle magnification SM is 1.1085, what is magnification percentage?",
+      "explanation": "Percentage change is the excess above 1 multiplied by 100.",
+      "noteAnchor": "spectacle-magnification",
+      "misconceptionTags": [
+        "spectacle-magnification-calculation-error"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 75,
+      "options": [
+        {
+          "id": "option-4",
+          "text": "0.1085%",
+          "rationale": "This fails to convert the decimal fraction to percent.",
+          "misconceptionTag": "spectacle-magnification-calculation-error"
+        },
+        {
+          "id": "option-1",
+          "text": "10.85%",
+          "rationale": "(1.1085 - 1) x 100 = 10.85%."
+        },
+        {
+          "id": "option-2",
+          "text": "110.85%",
+          "rationale": "This omits subtracting 1.",
+          "misconceptionTag": "spectacle-magnification-calculation-error"
+        },
+        {
+          "id": "option-3",
+          "text": "1.085%",
+          "rationale": "This divides by ten.",
+          "misconceptionTag": "spectacle-magnification-calculation-error"
+        }
+      ],
+      "correctOptionId": "option-1"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-022",
+      "familyId": "special-lenses-spectacle-magnification-calculation-4",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "spectacle-magnification",
+      "objectiveId": "special-lenses-spectacle-magnification-apply",
+      "format": "single_best_answer",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "intermediate",
+      "stem": "A +4.00 D lens is moved farther from the eye while other variables stay constant. What happens to its power-factor magnification?",
+      "explanation": "The source states that moving a plus lens away increases magnification.",
+      "noteAnchor": "spectacle-magnification",
+      "misconceptionTags": [
+        "spectacle-magnification-calculation-error"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 75,
+      "options": [
+        {
+          "id": "option-1",
+          "text": "It increases",
+          "rationale": "For a plus lens, larger positive dFv increases P = 1/(1-dFv)."
+        },
+        {
+          "id": "option-2",
+          "text": "It decreases",
+          "rationale": "That would be the opposite trend for this plus-lens factor.",
+          "misconceptionTag": "spectacle-magnification-calculation-error"
+        },
+        {
+          "id": "option-3",
+          "text": "It becomes exactly zero",
+          "rationale": "Power factor remains finite for practical positions.",
+          "misconceptionTag": "spectacle-magnification-calculation-error"
+        },
+        {
+          "id": "option-4",
+          "text": "It is independent of vertex distance",
+          "rationale": "Vertex distance is explicit in the formula.",
+          "misconceptionTag": "spectacle-magnification-calculation-error"
+        }
+      ],
+      "correctOptionId": "option-1"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-023",
+      "familyId": "special-lenses-fresnel-prism-calculation-5",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "fresnel-prism",
+      "objectiveId": "special-lenses-fresnel-prism-apply",
+      "format": "single_best_answer",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "foundation",
+      "stem": "Where should the base of a base-out Fresnel prism be placed on the inside of the lens?",
+      "explanation": "The source places base-out prism toward the frame arm/temple.",
+      "noteAnchor": "fresnel-prism",
+      "misconceptionTags": [
+        "fresnel-prism-calculation-error"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 75,
+      "options": [
+        {
+          "id": "option-2",
+          "text": "Toward the nose",
+          "rationale": "That would be base in.",
+          "misconceptionTag": "fresnel-prism-calculation-error"
+        },
+        {
+          "id": "option-3",
+          "text": "Toward the top rim",
+          "rationale": "That would be base up.",
+          "misconceptionTag": "fresnel-prism-calculation-error"
+        },
+        {
+          "id": "option-4",
+          "text": "Toward the bottom rim",
+          "rationale": "That would be base down.",
+          "misconceptionTag": "fresnel-prism-calculation-error"
+        },
+        {
+          "id": "option-1",
+          "text": "Toward the temple",
+          "rationale": "Base out is temporal."
+        }
+      ],
+      "correctOptionId": "option-1"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-024",
+      "familyId": "special-lenses-slab-off-calculation-6",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "slab-off",
+      "objectiveId": "special-lenses-slab-off-apply",
+      "format": "single_best_answer",
+      "stimulusType": "clinical_vignette",
+      "bloomLevel": "apply",
+      "difficulty": "advanced",
+      "stem": "At 8 mm below the OC, OD +1.00 D gives 0.8 prism dioptre BU and OS -2.50 D gives 2.0 prism dioptres BD. What is the vertical imbalance?",
+      "explanation": "BU in one eye and BD in the other separate the images further, so magnitudes add.",
+      "noteAnchor": "slab-off",
+      "misconceptionTags": [
+        "slab-off-calculation-error"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 75,
+      "options": [
+        {
+          "id": "option-3",
+          "text": "0.8 prism dioptre",
+          "rationale": "This ignores the left lens.",
+          "misconceptionTag": "slab-off-calculation-error"
+        },
+        {
+          "id": "option-4",
+          "text": "2.0 prism dioptres",
+          "rationale": "This ignores the right lens.",
+          "misconceptionTag": "slab-off-calculation-error"
+        },
+        {
+          "id": "option-1",
+          "text": "2.8 prism dioptres",
+          "rationale": "Opposite base directions compound."
+        },
+        {
+          "id": "option-2",
+          "text": "1.2 prism dioptres",
+          "rationale": "Subtraction is used when both prisms have the same base direction.",
+          "misconceptionTag": "slab-off-calculation-error"
+        }
+      ],
+      "correctOptionId": "option-1"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-025",
+      "familyId": "special-lenses-slab-off-calculation-7",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "slab-off",
+      "objectiveId": "special-lenses-slab-off-explain",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "Which lens receives conventional slab-off?",
+      "explanation": "The source mnemonic is conventional BU on most minus/least plus.",
+      "noteAnchor": "slab-off",
+      "misconceptionTags": [
+        "slab-off-calculation-error"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 75,
+      "options": [
+        {
+          "id": "option-4",
+          "text": "Only a plano lens",
+          "rationale": "The decision follows the imbalance and powers.",
+          "misconceptionTag": "slab-off-calculation-error"
+        },
+        {
+          "id": "option-1",
+          "text": "The most minus or least plus lens",
+          "rationale": "Conventional slab creates base up in that reading portion."
+        },
+        {
+          "id": "option-2",
+          "text": "The least minus or most plus lens",
+          "rationale": "That is the reverse slab-off rule.",
+          "misconceptionTag": "slab-off-calculation-error"
+        },
+        {
+          "id": "option-3",
+          "text": "Both lenses equally in every case",
+          "rationale": "The source applies the process to one lens.",
+          "misconceptionTag": "slab-off-calculation-error"
+        }
+      ],
+      "correctOptionId": "option-1"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-single-best-answer-026",
+      "familyId": "special-lenses-safety-filters-calculation-8",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "safety-filters",
+      "objectiveId": "special-lenses-safety-filters-apply",
+      "format": "single_best_answer",
+      "stimulusType": "error_analysis",
+      "bloomLevel": "evaluate",
+      "difficulty": "advanced",
+      "stem": "A slide prints a thermal-toughening temperature as “7000C.” How should Codex treat it?",
+      "explanation": "The process is course content; the printed temperature requires clarification.",
+      "noteAnchor": "safety-filters",
+      "misconceptionTags": [
+        "safety-filters-calculation-error"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 75,
+      "options": [
+        {
+          "id": "option-1",
+          "text": "Flag it as a source typo/ambiguity and avoid asserting a corrected value without verification",
+          "rationale": "The package must not silently normalise unsupported source content."
+        },
+        {
+          "id": "option-2",
+          "text": "Publish 7000 degrees Celsius as a verified requirement",
+          "rationale": "The value is implausible and unverified.",
+          "misconceptionTag": "safety-filters-calculation-error"
+        },
+        {
+          "id": "option-3",
+          "text": "Replace it silently with a guessed number",
+          "rationale": "Silent correction breaks source fidelity.",
+          "misconceptionTag": "safety-filters-calculation-error"
+        },
+        {
+          "id": "option-4",
+          "text": "Remove the entire safety topic",
+          "rationale": "The process can still be taught while the number is flagged.",
+          "misconceptionTag": "safety-filters-calculation-error"
+        }
+      ],
+      "correctOptionId": "option-1"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-true-false-027",
+      "familyId": "special-lenses-chemical-toughening-truth",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "safety-filters",
+      "objectiveId": "special-lenses-safety-filters-explain",
+      "format": "true_false",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "True or false: Chemical toughening is ion-exchange treatment in a hot potassium salt bath.",
+      "explanation": "True. Chemical toughening: Ion-exchange treatment in a hot potassium salt bath.",
+      "noteAnchor": "safety-filters",
+      "misconceptionTags": [
+        "chemical-toughening-definition-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 35,
+      "correctAnswer": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-true-false-028",
+      "familyId": "special-lenses-filter-lens-truth",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "safety-filters",
+      "objectiveId": "special-lenses-safety-filters-explain",
+      "format": "true_false",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "True or false: Filter lens is a significant interocular difference in refractive error.",
+      "explanation": "False. That description belongs to Anisometropia; Filter lens is lens that controls selected radiation through absorption, reflection or both.",
+      "noteAnchor": "safety-filters",
+      "misconceptionTags": [
+        "filter-lens-definition-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 35,
+      "correctAnswer": false
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-true-false-029",
+      "familyId": "special-lenses-anti-reflection-truth",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "safety-filters",
+      "objectiveId": "special-lenses-safety-filters-explain",
+      "format": "true_false",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "True or false: Anti-reflection coating is coating that reduces surface reflection and improves transmission/cosmesis.",
+      "explanation": "True. Anti-reflection coating: Coating that reduces surface reflection and improves transmission/cosmesis.",
+      "noteAnchor": "safety-filters",
+      "misconceptionTags": [
+        "anti-reflection-definition-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 35,
+      "correctAnswer": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-true-false-030",
+      "familyId": "special-lenses-photochromic-truth",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "safety-filters",
+      "objectiveId": "special-lenses-safety-filters-explain",
+      "format": "true_false",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "True or false: Photochromic lens is unequal perceived image size between the eyes that disrupts binocular comfort.",
+      "explanation": "False. That description belongs to Aniseikonia; Photochromic lens is lens material/treatment that changes darkness with incident light conditions.",
+      "noteAnchor": "safety-filters",
+      "misconceptionTags": [
+        "photochromic-definition-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 35,
+      "correctAnswer": false
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-true-false-031",
+      "familyId": "special-lenses-fresnel-prism-truth",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "fresnel-prism",
+      "objectiveId": "special-lenses-fresnel-prism-explain",
+      "format": "true_false",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "True or false: Fresnel prism is thin grooved prism sheet attached to a spectacle lens.",
+      "explanation": "True. Fresnel prism: Thin grooved prism sheet attached to a spectacle lens.",
+      "noteAnchor": "fresnel-prism",
+      "misconceptionTags": [
+        "fresnel-prism-definition-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 35,
+      "correctAnswer": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-true-false-032",
+      "familyId": "special-lenses-fresnel-base-truth",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "fresnel-prism",
+      "objectiveId": "special-lenses-fresnel-prism-explain",
+      "format": "true_false",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "True or false: Fresnel base orientation is miniature telescope-like element that changes image size without net focus.",
+      "explanation": "False. That description belongs to Afocal size lens; Fresnel base orientation is placement of the marked base toward the prescribed base direction.",
+      "noteAnchor": "fresnel-prism",
+      "misconceptionTags": [
+        "fresnel-base-definition-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 35,
+      "correctAnswer": false
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-multiple-response-033",
+      "familyId": "special-lenses-aniseikonia-multi-1",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "aniseikonia",
+      "objectiveId": "special-lenses-aniseikonia-explain",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Select the factors that the source says influence spectacle magnification.",
+      "explanation": "Magnification depends on lens power, position and shape/material factors.",
+      "noteAnchor": "aniseikonia",
+      "misconceptionTags": [
+        "aniseikonia-feature-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 85,
+      "options": [
+        {
+          "id": "correct-1",
+          "text": "Dioptric power",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "correct-2",
+          "text": "Vertex distance",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "correct-3",
+          "text": "Base curve",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "correct-4",
+          "text": "Centre thickness",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "correct-5",
+          "text": "Refractive index",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "distractor-1",
+          "text": "Frame colour",
+          "rationale": "This statement conflicts with the supplied course material.",
+          "misconceptionTag": "aniseikonia-feature-confusion"
+        },
+        {
+          "id": "distractor-extra",
+          "text": "Dioptric power is never relevant to this topic",
+          "rationale": "The absolute wording incorrectly rejects a course-supported feature.",
+          "misconceptionTag": "aniseikonia-feature-confusion"
+        }
+      ],
+      "correctOptionIds": [
+        "correct-1",
+        "correct-2",
+        "correct-3",
+        "correct-4",
+        "correct-5"
+      ],
+      "minimumSelections": 5,
+      "maximumSelections": 5
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-multiple-response-034",
+      "familyId": "special-lenses-aniseikonia-multi-2",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "aniseikonia",
+      "objectiveId": "special-lenses-aniseikonia-explain",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Select the findings that increase suspicion of symptomatic aniseikonia.",
+      "explanation": "Symptoms depend on binocular fusion and individual tolerance.",
+      "noteAnchor": "aniseikonia",
+      "misconceptionTags": [
+        "aniseikonia-feature-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 85,
+      "options": [
+        {
+          "id": "correct-2",
+          "text": "Useful correctable vision in both eyes",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "correct-3",
+          "text": "Headache, spatial distortion or reading difficulty",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "distractor-1",
+          "text": "Poor vision in one eye that prevents fusion always guarantees symptoms",
+          "rationale": "This statement conflicts with the supplied course material.",
+          "misconceptionTag": "aniseikonia-feature-confusion"
+        },
+        {
+          "id": "distractor-extra",
+          "text": "Large anisometropic prescription is never relevant to this topic",
+          "rationale": "The absolute wording incorrectly rejects a course-supported feature.",
+          "misconceptionTag": "aniseikonia-feature-confusion"
+        },
+        {
+          "id": "correct-1",
+          "text": "Large anisometropic prescription",
+          "rationale": "This statement is consistent with the supplied course material."
+        }
+      ],
+      "correctOptionIds": [
+        "correct-2",
+        "correct-3",
+        "correct-1"
+      ],
+      "minimumSelections": 3,
+      "maximumSelections": 3
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-multiple-response-035",
+      "familyId": "special-lenses-safety-filters-multi-3",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "safety-filters",
+      "objectiveId": "special-lenses-safety-filters-explain",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Select the distinct functions correctly paired with a lens feature.",
+      "explanation": "Protection, filtering, reflection control and photochromism are different functions.",
+      "noteAnchor": "safety-filters",
+      "misconceptionTags": [
+        "safety-filters-feature-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 85,
+      "options": [
+        {
+          "id": "correct-3",
+          "text": "Anti-reflection coating reduces surface reflections",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "correct-4",
+          "text": "Photochromic material changes darkness with light",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "distractor-1",
+          "text": "AR coating alone guarantees industrial impact protection",
+          "rationale": "This statement conflicts with the supplied course material.",
+          "misconceptionTag": "safety-filters-feature-confusion"
+        },
+        {
+          "id": "distractor-extra",
+          "text": "Safety treatment reduces injury risk from breakage is never relevant to this topic",
+          "rationale": "The absolute wording incorrectly rejects a course-supported feature.",
+          "misconceptionTag": "safety-filters-feature-confusion"
+        },
+        {
+          "id": "correct-1",
+          "text": "Safety treatment reduces injury risk from breakage",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "correct-2",
+          "text": "Filter lens attenuates selected radiation",
+          "rationale": "This statement is consistent with the supplied course material."
+        }
+      ],
+      "correctOptionIds": [
+        "correct-3",
+        "correct-4",
+        "correct-1",
+        "correct-2"
+      ],
+      "minimumSelections": 4,
+      "maximumSelections": 4
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-multiple-response-036",
+      "familyId": "special-lenses-fresnel-prism-multi-4",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "fresnel-prism",
+      "objectiveId": "special-lenses-fresnel-prism-explain",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Select the correct Fresnel fitting steps.",
+      "explanation": "The source uses water adhesion with the smooth side against the lens.",
+      "noteAnchor": "fresnel-prism",
+      "misconceptionTags": [
+        "fresnel-prism-feature-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 85,
+      "options": [
+        {
+          "id": "correct-4",
+          "text": "Press the smooth prism side onto the water and remove bubbles",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "distractor-1",
+          "text": "Bond the ridged side permanently with opaque glue",
+          "rationale": "This statement conflicts with the supplied course material.",
+          "misconceptionTag": "fresnel-prism-feature-confusion"
+        },
+        {
+          "id": "distractor-extra",
+          "text": "Trace on the rough side is never relevant to this topic",
+          "rationale": "The absolute wording incorrectly rejects a course-supported feature.",
+          "misconceptionTag": "fresnel-prism-feature-confusion"
+        },
+        {
+          "id": "correct-1",
+          "text": "Trace on the rough side",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "correct-2",
+          "text": "Cut carefully to the lens shape",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "correct-3",
+          "text": "Wet the inside lens surface",
+          "rationale": "This statement is consistent with the supplied course material."
+        }
+      ],
+      "correctOptionIds": [
+        "correct-4",
+        "correct-1",
+        "correct-2",
+        "correct-3"
+      ],
+      "minimumSelections": 4,
+      "maximumSelections": 4
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-multiple-response-037",
+      "familyId": "special-lenses-slab-off-multi-5",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "slab-off",
+      "objectiveId": "special-lenses-slab-off-explain",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Select the correct slab-off rules from the source.",
+      "explanation": "Use power in the 90-degree meridian and the appropriate base/lens rule.",
+      "noteAnchor": "slab-off",
+      "misconceptionTags": [
+        "slab-off-feature-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 85,
+      "options": [
+        {
+          "id": "distractor-1",
+          "text": "Vertical imbalance is calculated from horizontal-meridian power only",
+          "rationale": "This statement conflicts with the supplied course material.",
+          "misconceptionTag": "slab-off-feature-confusion"
+        },
+        {
+          "id": "distractor-extra",
+          "text": "Conventional slab-off produces base up is never relevant to this topic",
+          "rationale": "The absolute wording incorrectly rejects a course-supported feature.",
+          "misconceptionTag": "slab-off-feature-confusion"
+        },
+        {
+          "id": "correct-1",
+          "text": "Conventional slab-off produces base up",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "correct-2",
+          "text": "Conventional is placed on the most minus or least plus lens",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "correct-3",
+          "text": "Reverse slab-off produces base down",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "correct-4",
+          "text": "Reverse is placed on the least minus or most plus lens",
+          "rationale": "This statement is consistent with the supplied course material."
+        }
+      ],
+      "correctOptionIds": [
+        "correct-1",
+        "correct-2",
+        "correct-3",
+        "correct-4"
+      ],
+      "minimumSelections": 4,
+      "maximumSelections": 4
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-multiple-response-038",
+      "familyId": "special-lenses-aniseikonia-multi-1",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "aniseikonia",
+      "objectiveId": "special-lenses-aniseikonia-apply",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "For a second independent version, select the factors that the source says influence spectacle magnification.",
+      "explanation": "Magnification depends on lens power, position and shape/material factors.",
+      "noteAnchor": "aniseikonia",
+      "misconceptionTags": [
+        "aniseikonia-feature-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 85,
+      "options": [
+        {
+          "id": "distractor-1",
+          "text": "Frame colour",
+          "rationale": "This statement conflicts with the supplied course material.",
+          "misconceptionTag": "aniseikonia-feature-confusion"
+        },
+        {
+          "id": "distractor-extra",
+          "text": "Dioptric power is never relevant to this topic",
+          "rationale": "The absolute wording incorrectly rejects a course-supported feature.",
+          "misconceptionTag": "aniseikonia-feature-confusion"
+        },
+        {
+          "id": "correct-1",
+          "text": "Dioptric power",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "correct-2",
+          "text": "Vertex distance",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "correct-3",
+          "text": "Base curve",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "correct-4",
+          "text": "Centre thickness",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "correct-5",
+          "text": "Refractive index",
+          "rationale": "This statement is consistent with the supplied course material."
+        }
+      ],
+      "correctOptionIds": [
+        "correct-1",
+        "correct-2",
+        "correct-3",
+        "correct-4",
+        "correct-5"
+      ],
+      "minimumSelections": 5,
+      "maximumSelections": 5
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-multiple-response-039",
+      "familyId": "special-lenses-aniseikonia-multi-2",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "aniseikonia",
+      "objectiveId": "special-lenses-aniseikonia-apply",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "For a second independent version, select the findings that increase suspicion of symptomatic aniseikonia.",
+      "explanation": "Symptoms depend on binocular fusion and individual tolerance.",
+      "noteAnchor": "aniseikonia",
+      "misconceptionTags": [
+        "aniseikonia-feature-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 85,
+      "options": [
+        {
+          "id": "correct-2",
+          "text": "Useful correctable vision in both eyes",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "correct-3",
+          "text": "Headache, spatial distortion or reading difficulty",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "distractor-1",
+          "text": "Poor vision in one eye that prevents fusion always guarantees symptoms",
+          "rationale": "This statement conflicts with the supplied course material.",
+          "misconceptionTag": "aniseikonia-feature-confusion"
+        },
+        {
+          "id": "distractor-extra",
+          "text": "Large anisometropic prescription is never relevant to this topic",
+          "rationale": "The absolute wording incorrectly rejects a course-supported feature.",
+          "misconceptionTag": "aniseikonia-feature-confusion"
+        },
+        {
+          "id": "correct-1",
+          "text": "Large anisometropic prescription",
+          "rationale": "This statement is consistent with the supplied course material."
+        }
+      ],
+      "correctOptionIds": [
+        "correct-2",
+        "correct-3",
+        "correct-1"
+      ],
+      "minimumSelections": 3,
+      "maximumSelections": 3
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-multiple-response-040",
+      "familyId": "special-lenses-safety-filters-multi-3",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "safety-filters",
+      "objectiveId": "special-lenses-safety-filters-apply",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "For a second independent version, select the distinct functions correctly paired with a lens feature.",
+      "explanation": "Protection, filtering, reflection control and photochromism are different functions.",
+      "noteAnchor": "safety-filters",
+      "misconceptionTags": [
+        "safety-filters-feature-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 85,
+      "options": [
+        {
+          "id": "correct-2",
+          "text": "Filter lens attenuates selected radiation",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "correct-3",
+          "text": "Anti-reflection coating reduces surface reflections",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "correct-4",
+          "text": "Photochromic material changes darkness with light",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "distractor-1",
+          "text": "AR coating alone guarantees industrial impact protection",
+          "rationale": "This statement conflicts with the supplied course material.",
+          "misconceptionTag": "safety-filters-feature-confusion"
+        },
+        {
+          "id": "distractor-extra",
+          "text": "Safety treatment reduces injury risk from breakage is never relevant to this topic",
+          "rationale": "The absolute wording incorrectly rejects a course-supported feature.",
+          "misconceptionTag": "safety-filters-feature-confusion"
+        },
+        {
+          "id": "correct-1",
+          "text": "Safety treatment reduces injury risk from breakage",
+          "rationale": "This statement is consistent with the supplied course material."
+        }
+      ],
+      "correctOptionIds": [
+        "correct-2",
+        "correct-3",
+        "correct-4",
+        "correct-1"
+      ],
+      "minimumSelections": 4,
+      "maximumSelections": 4
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-multiple-response-041",
+      "familyId": "special-lenses-fresnel-prism-multi-4",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "fresnel-prism",
+      "objectiveId": "special-lenses-fresnel-prism-apply",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "For a second independent version, select the correct Fresnel fitting steps.",
+      "explanation": "The source uses water adhesion with the smooth side against the lens.",
+      "noteAnchor": "fresnel-prism",
+      "misconceptionTags": [
+        "fresnel-prism-feature-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 85,
+      "options": [
+        {
+          "id": "correct-3",
+          "text": "Wet the inside lens surface",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "correct-4",
+          "text": "Press the smooth prism side onto the water and remove bubbles",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "distractor-1",
+          "text": "Bond the ridged side permanently with opaque glue",
+          "rationale": "This statement conflicts with the supplied course material.",
+          "misconceptionTag": "fresnel-prism-feature-confusion"
+        },
+        {
+          "id": "distractor-extra",
+          "text": "Trace on the rough side is never relevant to this topic",
+          "rationale": "The absolute wording incorrectly rejects a course-supported feature.",
+          "misconceptionTag": "fresnel-prism-feature-confusion"
+        },
+        {
+          "id": "correct-1",
+          "text": "Trace on the rough side",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "correct-2",
+          "text": "Cut carefully to the lens shape",
+          "rationale": "This statement is consistent with the supplied course material."
+        }
+      ],
+      "correctOptionIds": [
+        "correct-3",
+        "correct-4",
+        "correct-1",
+        "correct-2"
+      ],
+      "minimumSelections": 4,
+      "maximumSelections": 4
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-multiple-response-042",
+      "familyId": "special-lenses-slab-off-multi-5",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "slab-off",
+      "objectiveId": "special-lenses-slab-off-apply",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "For a second independent version, select the correct slab-off rules from the source.",
+      "explanation": "Use power in the 90-degree meridian and the appropriate base/lens rule.",
+      "noteAnchor": "slab-off",
+      "misconceptionTags": [
+        "slab-off-feature-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 85,
+      "options": [
+        {
+          "id": "correct-4",
+          "text": "Reverse is placed on the least minus or most plus lens",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "distractor-1",
+          "text": "Vertical imbalance is calculated from horizontal-meridian power only",
+          "rationale": "This statement conflicts with the supplied course material.",
+          "misconceptionTag": "slab-off-feature-confusion"
+        },
+        {
+          "id": "distractor-extra",
+          "text": "Conventional slab-off produces base up is never relevant to this topic",
+          "rationale": "The absolute wording incorrectly rejects a course-supported feature.",
+          "misconceptionTag": "slab-off-feature-confusion"
+        },
+        {
+          "id": "correct-1",
+          "text": "Conventional slab-off produces base up",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "correct-2",
+          "text": "Conventional is placed on the most minus or least plus lens",
+          "rationale": "This statement is consistent with the supplied course material."
+        },
+        {
+          "id": "correct-3",
+          "text": "Reverse slab-off produces base down",
+          "rationale": "This statement is consistent with the supplied course material."
+        }
+      ],
+      "correctOptionIds": [
+        "correct-4",
+        "correct-1",
+        "correct-2",
+        "correct-3"
+      ],
+      "minimumSelections": 4,
+      "maximumSelections": 4
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-ordering-043",
+      "familyId": "special-lenses-spectacle-magnification-sequence-1",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "spectacle-magnification",
+      "objectiveId": "special-lenses-spectacle-magnification-apply",
+      "format": "ordering",
+      "stimulusType": "pathway",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Arrange the spectacle-magnification calculation.",
+      "explanation": "Shape and power effects combine multiplicatively.",
+      "noteAnchor": "spectacle-magnification",
+      "misconceptionTags": [
+        "spectacle-magnification-sequence-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 90,
+      "items": [
+        {
+          "id": "step-2",
+          "text": "Calculate power factor P",
+          "rationale": "Step 2 in the correct course sequence."
+        },
+        {
+          "id": "step-3",
+          "text": "Multiply to obtain SM = S x P",
+          "rationale": "Step 3 in the correct course sequence."
+        },
+        {
+          "id": "step-4",
+          "text": "Convert to percent with (SM - 1) x 100",
+          "rationale": "Step 4 in the correct course sequence."
+        },
+        {
+          "id": "step-1",
+          "text": "Calculate shape factor S",
+          "rationale": "Step 1 in the correct course sequence."
+        }
+      ],
+      "correctOrder": [
+        "step-1",
+        "step-2",
+        "step-3",
+        "step-4"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-ordering-044",
+      "familyId": "special-lenses-aniseikonia-sequence-2",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "aniseikonia",
+      "objectiveId": "special-lenses-aniseikonia-apply",
+      "format": "ordering",
+      "stimulusType": "pathway",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Arrange a practical aniseikonia investigation.",
+      "explanation": "Prescription suspicion must be combined with symptoms and binocular function.",
+      "noteAnchor": "aniseikonia",
+      "misconceptionTags": [
+        "aniseikonia-sequence-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 90,
+      "items": [
+        {
+          "id": "step-3",
+          "text": "Confirm useful vision and binocular potential",
+          "rationale": "Step 3 in the correct course sequence."
+        },
+        {
+          "id": "step-4",
+          "text": "Measure/estimate image-size difference and choose a correction strategy",
+          "rationale": "Step 4 in the correct course sequence."
+        },
+        {
+          "id": "step-1",
+          "text": "Review interocular prescription difference and spherical equivalents",
+          "rationale": "Step 1 in the correct course sequence."
+        },
+        {
+          "id": "step-2",
+          "text": "Ask about binocular symptoms and previous spectacles",
+          "rationale": "Step 2 in the correct course sequence."
+        }
+      ],
+      "correctOrder": [
+        "step-1",
+        "step-2",
+        "step-3",
+        "step-4"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-ordering-045",
+      "familyId": "special-lenses-fresnel-prism-sequence-3",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "fresnel-prism",
+      "objectiveId": "special-lenses-fresnel-prism-apply",
+      "format": "ordering",
+      "stimulusType": "pathway",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Arrange the Fresnel fitting procedure.",
+      "explanation": "Orientation must be confirmed before the sheet is cut and attached.",
+      "noteAnchor": "fresnel-prism",
+      "misconceptionTags": [
+        "fresnel-prism-sequence-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 90,
+      "items": [
+        {
+          "id": "step-4",
+          "text": "Apply smooth side, remove bubbles and verify",
+          "rationale": "Step 4 in the correct course sequence."
+        },
+        {
+          "id": "step-1",
+          "text": "Confirm eye, power and base direction",
+          "rationale": "Step 1 in the correct course sequence."
+        },
+        {
+          "id": "step-2",
+          "text": "Trace and cut the prism",
+          "rationale": "Step 2 in the correct course sequence."
+        },
+        {
+          "id": "step-3",
+          "text": "Wet the inside lens surface",
+          "rationale": "Step 3 in the correct course sequence."
+        }
+      ],
+      "correctOrder": [
+        "step-1",
+        "step-2",
+        "step-3",
+        "step-4"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-ordering-046",
+      "familyId": "special-lenses-fresnel-prism-sequence-4",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "fresnel-prism",
+      "objectiveId": "special-lenses-fresnel-prism-apply",
+      "format": "ordering",
+      "stimulusType": "pathway",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Arrange Fresnel-prism cleaning and reapplication.",
+      "explanation": "Gentle removal and cleaning preserve the grooved sheet.",
+      "noteAnchor": "fresnel-prism",
+      "misconceptionTags": [
+        "fresnel-prism-sequence-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 90,
+      "items": [
+        {
+          "id": "step-1",
+          "text": "Lift an edge carefully to remove the sheet",
+          "rationale": "Step 1 in the correct course sequence."
+        },
+        {
+          "id": "step-2",
+          "text": "Wash with warm water and soap",
+          "rationale": "Step 2 in the correct course sequence."
+        },
+        {
+          "id": "step-3",
+          "text": "Rinse and inspect the grooves",
+          "rationale": "Step 3 in the correct course sequence."
+        },
+        {
+          "id": "step-4",
+          "text": "Reapply to a wet clean lens with the smooth side down",
+          "rationale": "Step 4 in the correct course sequence."
+        }
+      ],
+      "correctOrder": [
+        "step-1",
+        "step-2",
+        "step-3",
+        "step-4"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-ordering-047",
+      "familyId": "special-lenses-slab-off-sequence-5",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "slab-off",
+      "objectiveId": "special-lenses-slab-off-apply",
+      "format": "ordering",
+      "stimulusType": "pathway",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Arrange the vertical-imbalance calculation.",
+      "explanation": "Meridional power and base direction determine the binocular imbalance.",
+      "noteAnchor": "slab-off",
+      "misconceptionTags": [
+        "slab-off-sequence-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 90,
+      "items": [
+        {
+          "id": "step-2",
+          "text": "Measure NVP drop in centimetres",
+          "rationale": "Step 2 in the correct course sequence."
+        },
+        {
+          "id": "step-3",
+          "text": "Apply Prentice to each eye and assign base",
+          "rationale": "Step 3 in the correct course sequence."
+        },
+        {
+          "id": "step-4",
+          "text": "Add opposite bases or subtract same bases",
+          "rationale": "Step 4 in the correct course sequence."
+        },
+        {
+          "id": "step-1",
+          "text": "Find power in each 90-degree meridian",
+          "rationale": "Step 1 in the correct course sequence."
+        }
+      ],
+      "correctOrder": [
+        "step-1",
+        "step-2",
+        "step-3",
+        "step-4"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-ordering-048",
+      "familyId": "special-lenses-slab-off-sequence-6",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "slab-off",
+      "objectiveId": "special-lenses-slab-off-apply",
+      "format": "ordering",
+      "stimulusType": "pathway",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Arrange the decision for conventional slab-off.",
+      "explanation": "Conventional slab adds base up on the lens with greatest base-down tendency.",
+      "noteAnchor": "slab-off",
+      "misconceptionTags": [
+        "slab-off-sequence-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 90,
+      "items": [
+        {
+          "id": "step-3",
+          "text": "Specify base-up slab in the reading portion",
+          "rationale": "Step 3 in the correct course sequence."
+        },
+        {
+          "id": "step-4",
+          "text": "Verify the finished prism and slab line",
+          "rationale": "Step 4 in the correct course sequence."
+        },
+        {
+          "id": "step-1",
+          "text": "Calculate excess vertical prism",
+          "rationale": "Step 1 in the correct course sequence."
+        },
+        {
+          "id": "step-2",
+          "text": "Identify the most minus or least plus lens",
+          "rationale": "Step 2 in the correct course sequence."
+        }
+      ],
+      "correctOrder": [
+        "step-1",
+        "step-2",
+        "step-3",
+        "step-4"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-ordering-049",
+      "familyId": "special-lenses-safety-filters-sequence-7",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "safety-filters",
+      "objectiveId": "special-lenses-safety-filters-apply",
+      "format": "ordering",
+      "stimulusType": "pathway",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Arrange a hazard-based protective-lens decision.",
+      "explanation": "A lecture list does not replace current hazard-specific standards.",
+      "noteAnchor": "safety-filters",
+      "misconceptionTags": [
+        "safety-filters-sequence-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 90,
+      "items": [
+        {
+          "id": "step-4",
+          "text": "Fit, inspect and educate the wearer",
+          "rationale": "Step 4 in the correct course sequence."
+        },
+        {
+          "id": "step-1",
+          "text": "Identify the mechanical or radiation hazard",
+          "rationale": "Step 1 in the correct course sequence."
+        },
+        {
+          "id": "step-2",
+          "text": "Consult the current applicable standard",
+          "rationale": "Step 2 in the correct course sequence."
+        },
+        {
+          "id": "step-3",
+          "text": "Select verified protector/filter performance",
+          "rationale": "Step 3 in the correct course sequence."
+        }
+      ],
+      "correctOrder": [
+        "step-1",
+        "step-2",
+        "step-3",
+        "step-4"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-matching-050",
+      "familyId": "special-lenses-concept-match-1",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "lenticular-aspheric",
+      "objectiveId": "special-lenses-lenticular-aspheric-explain",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Match each course term to its best definition.",
+      "explanation": "Each term has a distinct definition in the supplied course material.",
+      "noteAnchor": "lenticular-aspheric",
+      "misconceptionTags": [
+        "lenticular-aspheric-matching-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 95,
+      "prompts": [
+        {
+          "id": "lenticular-lens",
+          "text": "Lenticular lens"
+        },
+        {
+          "id": "carrier",
+          "text": "Lenticular carrier"
+        },
+        {
+          "id": "plus-lenticular",
+          "text": "Plus lenticular"
+        },
+        {
+          "id": "minus-lenticular",
+          "text": "Minus lenticular"
+        }
+      ],
+      "choices": [
+        {
+          "id": "definition-lenticular-lens",
+          "text": "A high-power lens with the prescription concentrated in a small central optical zone.",
+          "rationale": "This defines Lenticular lens."
+        },
+        {
+          "id": "definition-carrier",
+          "text": "Low- or zero-power supporting region around the central lenticular portion.",
+          "rationale": "This defines Lenticular carrier."
+        },
+        {
+          "id": "definition-plus-lenticular",
+          "text": "Lenticular form used for extreme hyperopia or aphakia in the source.",
+          "rationale": "This defines Plus lenticular."
+        },
+        {
+          "id": "definition-minus-lenticular",
+          "text": "Lenticular form used for very high myopia.",
+          "rationale": "This defines Minus lenticular."
+        },
+        {
+          "id": "definition-aniseikonia",
+          "text": "Unequal perceived image size between the eyes that disrupts binocular comfort.",
+          "rationale": "This defines Aniseikonia, which is not a prompt in this set."
+        }
+      ],
+      "correctMatches": {
+        "lenticular-lens": "definition-lenticular-lens",
+        "carrier": "definition-carrier",
+        "plus-lenticular": "definition-plus-lenticular",
+        "minus-lenticular": "definition-minus-lenticular"
+      },
+      "reuseChoices": false
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-matching-051",
+      "familyId": "special-lenses-concept-match-2",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "lenticular-aspheric",
+      "objectiveId": "special-lenses-lenticular-aspheric-explain",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Match each course term to its best definition.",
+      "explanation": "Each term has a distinct definition in the supplied course material.",
+      "noteAnchor": "lenticular-aspheric",
+      "misconceptionTags": [
+        "lenticular-aspheric-matching-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 95,
+      "prompts": [
+        {
+          "id": "minus-lenticular",
+          "text": "Minus lenticular"
+        },
+        {
+          "id": "aspheric",
+          "text": "Aspheric lens"
+        },
+        {
+          "id": "anisometropia",
+          "text": "Anisometropia"
+        },
+        {
+          "id": "antimetropia",
+          "text": "Antimetropia"
+        }
+      ],
+      "choices": [
+        {
+          "id": "definition-aspheric",
+          "text": "A lens whose surface curvature changes progressively away from the centre.",
+          "rationale": "This defines Aspheric lens."
+        },
+        {
+          "id": "definition-anisometropia",
+          "text": "A significant interocular difference in refractive error.",
+          "rationale": "This defines Anisometropia."
+        },
+        {
+          "id": "definition-antimetropia",
+          "text": "Anisometropia with opposite lens signs in the two eyes.",
+          "rationale": "This defines Antimetropia."
+        },
+        {
+          "id": "definition-spherical-equivalent",
+          "text": "Sphere plus half the cylinder.",
+          "rationale": "This defines Spherical equivalent, which is not a prompt in this set."
+        },
+        {
+          "id": "definition-minus-lenticular",
+          "text": "Lenticular form used for very high myopia.",
+          "rationale": "This defines Minus lenticular."
+        }
+      ],
+      "correctMatches": {
+        "minus-lenticular": "definition-minus-lenticular",
+        "aspheric": "definition-aspheric",
+        "anisometropia": "definition-anisometropia",
+        "antimetropia": "definition-antimetropia"
+      },
+      "reuseChoices": false
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-matching-052",
+      "familyId": "special-lenses-concept-match-3",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "aniseikonia",
+      "objectiveId": "special-lenses-aniseikonia-explain",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Match each course term to its best definition.",
+      "explanation": "Each term has a distinct definition in the supplied course material.",
+      "noteAnchor": "aniseikonia",
+      "misconceptionTags": [
+        "aniseikonia-matching-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 95,
+      "prompts": [
+        {
+          "id": "antimetropia",
+          "text": "Antimetropia"
+        },
+        {
+          "id": "aniseikonia",
+          "text": "Aniseikonia"
+        },
+        {
+          "id": "iseikonic-lens",
+          "text": "Iseikonic/size lens"
+        },
+        {
+          "id": "afocal-size-lens",
+          "text": "Afocal size lens"
+        }
+      ],
+      "choices": [
+        {
+          "id": "definition-iseikonic-lens",
+          "text": "A lens designed to alter retinal image size while preserving the refractive correction.",
+          "rationale": "This defines Iseikonic/size lens."
+        },
+        {
+          "id": "definition-afocal-size-lens",
+          "text": "Miniature telescope-like element that changes image size without net focus.",
+          "rationale": "This defines Afocal size lens."
+        },
+        {
+          "id": "definition-shape-factor",
+          "text": "Magnification component S = [1 - (t/n)F1]^-1.",
+          "rationale": "This defines Shape factor, which is not a prompt in this set."
+        },
+        {
+          "id": "definition-antimetropia",
+          "text": "Anisometropia with opposite lens signs in the two eyes.",
+          "rationale": "This defines Antimetropia."
+        },
+        {
+          "id": "definition-aniseikonia",
+          "text": "Unequal perceived image size between the eyes that disrupts binocular comfort.",
+          "rationale": "This defines Aniseikonia."
+        }
+      ],
+      "correctMatches": {
+        "antimetropia": "definition-antimetropia",
+        "aniseikonia": "definition-aniseikonia",
+        "iseikonic-lens": "definition-iseikonic-lens",
+        "afocal-size-lens": "definition-afocal-size-lens"
+      },
+      "reuseChoices": false
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-matching-053",
+      "familyId": "special-lenses-concept-match-4",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "aniseikonia",
+      "objectiveId": "special-lenses-aniseikonia-explain",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Match each course term to its best definition.",
+      "explanation": "Each term has a distinct definition in the supplied course material.",
+      "noteAnchor": "aniseikonia",
+      "misconceptionTags": [
+        "aniseikonia-matching-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 95,
+      "prompts": [
+        {
+          "id": "afocal-size-lens",
+          "text": "Afocal size lens"
+        },
+        {
+          "id": "spherical-equivalent",
+          "text": "Spherical equivalent"
+        },
+        {
+          "id": "spectacle-magnification",
+          "text": "Spectacle magnification"
+        },
+        {
+          "id": "power-factor",
+          "text": "Power factor"
+        }
+      ],
+      "choices": [
+        {
+          "id": "definition-power-factor",
+          "text": "Magnification component P = (1 - dFv)^-1.",
+          "rationale": "This defines Power factor."
+        },
+        {
+          "id": "definition-safety-lens",
+          "text": "Lens made or treated to reduce injury from breakage or impact.",
+          "rationale": "This defines Safety lens, which is not a prompt in this set."
+        },
+        {
+          "id": "definition-afocal-size-lens",
+          "text": "Miniature telescope-like element that changes image size without net focus.",
+          "rationale": "This defines Afocal size lens."
+        },
+        {
+          "id": "definition-spherical-equivalent",
+          "text": "Sphere plus half the cylinder.",
+          "rationale": "This defines Spherical equivalent."
+        },
+        {
+          "id": "definition-spectacle-magnification",
+          "text": "Combined image-size effect of lens shape and vertex power.",
+          "rationale": "This defines Spectacle magnification."
+        }
+      ],
+      "correctMatches": {
+        "afocal-size-lens": "definition-afocal-size-lens",
+        "spherical-equivalent": "definition-spherical-equivalent",
+        "spectacle-magnification": "definition-spectacle-magnification",
+        "power-factor": "definition-power-factor"
+      },
+      "reuseChoices": false
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-matching-054",
+      "familyId": "special-lenses-concept-match-5",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "spectacle-magnification",
+      "objectiveId": "special-lenses-spectacle-magnification-explain",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Match each course term to its best definition.",
+      "explanation": "Each term has a distinct definition in the supplied course material.",
+      "noteAnchor": "spectacle-magnification",
+      "misconceptionTags": [
+        "spectacle-magnification-matching-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 95,
+      "prompts": [
+        {
+          "id": "power-factor",
+          "text": "Power factor"
+        },
+        {
+          "id": "shape-factor",
+          "text": "Shape factor"
+        },
+        {
+          "id": "mag-percent",
+          "text": "Magnification percentage"
+        },
+        {
+          "id": "contact-lens-aniseikonia",
+          "text": "Contact-lens approach"
+        }
+      ],
+      "choices": [
+        {
+          "id": "definition-filter-lens",
+          "text": "Lens that controls selected radiation through absorption, reflection or both.",
+          "rationale": "This defines Filter lens, which is not a prompt in this set."
+        },
+        {
+          "id": "definition-power-factor",
+          "text": "Magnification component P = (1 - dFv)^-1.",
+          "rationale": "This defines Power factor."
+        },
+        {
+          "id": "definition-shape-factor",
+          "text": "Magnification component S = [1 - (t/n)F1]^-1.",
+          "rationale": "This defines Shape factor."
+        },
+        {
+          "id": "definition-mag-percent",
+          "text": "(SM - 1) x 100.",
+          "rationale": "This defines Magnification percentage."
+        },
+        {
+          "id": "definition-contact-lens-aniseikonia",
+          "text": "Use of a lens near the cornea to reduce spectacle magnification differences in refractive anisometropia.",
+          "rationale": "This defines Contact-lens approach."
+        }
+      ],
+      "correctMatches": {
+        "power-factor": "definition-power-factor",
+        "shape-factor": "definition-shape-factor",
+        "mag-percent": "definition-mag-percent",
+        "contact-lens-aniseikonia": "definition-contact-lens-aniseikonia"
+      },
+      "reuseChoices": false
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-matching-055",
+      "familyId": "special-lenses-concept-match-6",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "aniseikonia",
+      "objectiveId": "special-lenses-aniseikonia-apply",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Match each course term to its best definition.",
+      "explanation": "Each term has a distinct definition in the supplied course material.",
+      "noteAnchor": "aniseikonia",
+      "misconceptionTags": [
+        "aniseikonia-matching-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 95,
+      "prompts": [
+        {
+          "id": "contact-lens-aniseikonia",
+          "text": "Contact-lens approach"
+        },
+        {
+          "id": "safety-lens",
+          "text": "Safety lens"
+        },
+        {
+          "id": "thermal-toughening",
+          "text": "Thermal toughening"
+        },
+        {
+          "id": "chemical-toughening",
+          "text": "Chemical toughening"
+        }
+      ],
+      "choices": [
+        {
+          "id": "definition-contact-lens-aniseikonia",
+          "text": "Use of a lens near the cornea to reduce spectacle magnification differences in refractive anisometropia.",
+          "rationale": "This defines Contact-lens approach."
+        },
+        {
+          "id": "definition-safety-lens",
+          "text": "Lens made or treated to reduce injury from breakage or impact.",
+          "rationale": "This defines Safety lens."
+        },
+        {
+          "id": "definition-thermal-toughening",
+          "text": "Heating and rapidly cooling glass to create a more impact-resistant stress pattern.",
+          "rationale": "This defines Thermal toughening."
+        },
+        {
+          "id": "definition-chemical-toughening",
+          "text": "Ion-exchange treatment in a hot potassium salt bath.",
+          "rationale": "This defines Chemical toughening."
+        },
+        {
+          "id": "definition-fresnel-prism",
+          "text": "Thin grooved prism sheet attached to a spectacle lens.",
+          "rationale": "This defines Fresnel prism, which is not a prompt in this set."
+        }
+      ],
+      "correctMatches": {
+        "contact-lens-aniseikonia": "definition-contact-lens-aniseikonia",
+        "safety-lens": "definition-safety-lens",
+        "thermal-toughening": "definition-thermal-toughening",
+        "chemical-toughening": "definition-chemical-toughening"
+      },
+      "reuseChoices": false
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-matching-056",
+      "familyId": "special-lenses-concept-match-7",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "safety-filters",
+      "objectiveId": "special-lenses-safety-filters-apply",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Match each course term to its best definition.",
+      "explanation": "Each term has a distinct definition in the supplied course material.",
+      "noteAnchor": "safety-filters",
+      "misconceptionTags": [
+        "safety-filters-matching-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 95,
+      "prompts": [
+        {
+          "id": "chemical-toughening",
+          "text": "Chemical toughening"
+        },
+        {
+          "id": "filter-lens",
+          "text": "Filter lens"
+        },
+        {
+          "id": "anti-reflection",
+          "text": "Anti-reflection coating"
+        },
+        {
+          "id": "photochromic",
+          "text": "Photochromic lens"
+        }
+      ],
+      "choices": [
+        {
+          "id": "definition-filter-lens",
+          "text": "Lens that controls selected radiation through absorption, reflection or both.",
+          "rationale": "This defines Filter lens."
+        },
+        {
+          "id": "definition-anti-reflection",
+          "text": "Coating that reduces surface reflection and improves transmission/cosmesis.",
+          "rationale": "This defines Anti-reflection coating."
+        },
+        {
+          "id": "definition-photochromic",
+          "text": "Lens material/treatment that changes darkness with incident light conditions.",
+          "rationale": "This defines Photochromic lens."
+        },
+        {
+          "id": "definition-vertical-imbalance",
+          "text": "Difference in vertical prism between the eyes at the near visual level.",
+          "rationale": "This defines Vertical imbalance, which is not a prompt in this set."
+        },
+        {
+          "id": "definition-chemical-toughening",
+          "text": "Ion-exchange treatment in a hot potassium salt bath.",
+          "rationale": "This defines Chemical toughening."
+        }
+      ],
+      "correctMatches": {
+        "chemical-toughening": "definition-chemical-toughening",
+        "filter-lens": "definition-filter-lens",
+        "anti-reflection": "definition-anti-reflection",
+        "photochromic": "definition-photochromic"
+      },
+      "reuseChoices": false
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-matching-057",
+      "familyId": "special-lenses-concept-match-8",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "safety-filters",
+      "objectiveId": "special-lenses-safety-filters-apply",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Match each course term to its best definition.",
+      "explanation": "Each term has a distinct definition in the supplied course material.",
+      "noteAnchor": "safety-filters",
+      "misconceptionTags": [
+        "safety-filters-matching-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 95,
+      "prompts": [
+        {
+          "id": "photochromic",
+          "text": "Photochromic lens"
+        },
+        {
+          "id": "fresnel-prism",
+          "text": "Fresnel prism"
+        },
+        {
+          "id": "fresnel-base",
+          "text": "Fresnel base orientation"
+        },
+        {
+          "id": "fresnel-adhesion",
+          "text": "Fresnel water adhesion"
+        }
+      ],
+      "choices": [
+        {
+          "id": "definition-fresnel-base",
+          "text": "Placement of the marked base toward the prescribed base direction.",
+          "rationale": "This defines Fresnel base orientation."
+        },
+        {
+          "id": "definition-fresnel-adhesion",
+          "text": "Application of the smooth surface to a wet inside lens surface.",
+          "rationale": "This defines Fresnel water adhesion."
+        },
+        {
+          "id": "definition-reverse-slab",
+          "text": "Base-down effect in the reading portion, applied to the least minus or most plus lens.",
+          "rationale": "This defines Reverse slab-off, which is not a prompt in this set."
+        },
+        {
+          "id": "definition-photochromic",
+          "text": "Lens material/treatment that changes darkness with incident light conditions.",
+          "rationale": "This defines Photochromic lens."
+        },
+        {
+          "id": "definition-fresnel-prism",
+          "text": "Thin grooved prism sheet attached to a spectacle lens.",
+          "rationale": "This defines Fresnel prism."
+        }
+      ],
+      "correctMatches": {
+        "photochromic": "definition-photochromic",
+        "fresnel-prism": "definition-fresnel-prism",
+        "fresnel-base": "definition-fresnel-base",
+        "fresnel-adhesion": "definition-fresnel-adhesion"
+      },
+      "reuseChoices": false
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-matching-058",
+      "familyId": "special-lenses-concept-match-9",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "fresnel-prism",
+      "objectiveId": "special-lenses-fresnel-prism-apply",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Match each course term to its best definition.",
+      "explanation": "Each term has a distinct definition in the supplied course material.",
+      "noteAnchor": "fresnel-prism",
+      "misconceptionTags": [
+        "fresnel-prism-matching-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 95,
+      "prompts": [
+        {
+          "id": "fresnel-adhesion",
+          "text": "Fresnel water adhesion"
+        },
+        {
+          "id": "vertical-imbalance",
+          "text": "Vertical imbalance"
+        },
+        {
+          "id": "bicentric-grinding",
+          "text": "Bicentric grinding"
+        },
+        {
+          "id": "conventional-slab",
+          "text": "Conventional slab-off"
+        }
+      ],
+      "choices": [
+        {
+          "id": "definition-conventional-slab",
+          "text": "Base-up effect in the reading portion, applied to the most minus or least plus lens.",
+          "rationale": "This defines Conventional slab-off."
+        },
+        {
+          "id": "definition-carrier",
+          "text": "Low- or zero-power supporting region around the central lenticular portion.",
+          "rationale": "This defines Lenticular carrier, which is not a prompt in this set."
+        },
+        {
+          "id": "definition-fresnel-adhesion",
+          "text": "Application of the smooth surface to a wet inside lens surface.",
+          "rationale": "This defines Fresnel water adhesion."
+        },
+        {
+          "id": "definition-vertical-imbalance",
+          "text": "Difference in vertical prism between the eyes at the near visual level.",
+          "rationale": "This defines Vertical imbalance."
+        },
+        {
+          "id": "definition-bicentric-grinding",
+          "text": "Surfacing two optical centres on one lens to manage vertical imbalance.",
+          "rationale": "This defines Bicentric grinding."
+        }
+      ],
+      "correctMatches": {
+        "fresnel-adhesion": "definition-fresnel-adhesion",
+        "vertical-imbalance": "definition-vertical-imbalance",
+        "bicentric-grinding": "definition-bicentric-grinding",
+        "conventional-slab": "definition-conventional-slab"
+      },
+      "reuseChoices": false
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-extended-matching-059",
+      "familyId": "special-lenses-lenticular-aspheric-extended-1",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "lenticular-aspheric",
+      "objectiveId": "special-lenses-lenticular-aspheric-apply",
+      "format": "extended_matching",
+      "stimulusType": "clinical_vignette",
+      "bloomLevel": "analyze",
+      "difficulty": "advanced",
+      "stem": "Match each lens feature to its function.",
+      "explanation": "Lenticular and aspheric designs solve different form problems.",
+      "noteAnchor": "lenticular-aspheric",
+      "misconceptionTags": [
+        "lenticular-aspheric-case-localization"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 120,
+      "options": [
+        {
+          "id": "choice-1",
+          "text": "Central high-power optical zone",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        },
+        {
+          "id": "choice-2",
+          "text": "Support region",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        },
+        {
+          "id": "choice-3",
+          "text": "Progressively changing surface curvature",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        },
+        {
+          "id": "choice-4",
+          "text": "Full-width bifocal segment",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        }
+      ],
+      "stems": [
+        {
+          "id": "case-1",
+          "text": "Lenticular bowl/aperture"
+        },
+        {
+          "id": "case-2",
+          "text": "Carrier"
+        },
+        {
+          "id": "case-3",
+          "text": "Aspheric surface"
+        }
+      ],
+      "correctAnswers": {
+        "case-1": "choice-1",
+        "case-2": "choice-2",
+        "case-3": "choice-3"
+      },
+      "reuseOptions": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-extended-matching-060",
+      "familyId": "special-lenses-aniseikonia-extended-2",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "aniseikonia",
+      "objectiveId": "special-lenses-aniseikonia-apply",
+      "format": "extended_matching",
+      "stimulusType": "error_analysis",
+      "bloomLevel": "analyze",
+      "difficulty": "advanced",
+      "stem": "Match each term to the prescription/image condition.",
+      "explanation": "Refractive difference, opposite signs and perceived size inequality are distinct concepts.",
+      "noteAnchor": "aniseikonia",
+      "misconceptionTags": [
+        "aniseikonia-case-localization"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 120,
+      "options": [
+        {
+          "id": "choice-1",
+          "text": "Anisometropia",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        },
+        {
+          "id": "choice-2",
+          "text": "Antimetropia",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        },
+        {
+          "id": "choice-3",
+          "text": "Aniseikonia",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        },
+        {
+          "id": "choice-4",
+          "text": "Emmetropia",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        }
+      ],
+      "stems": [
+        {
+          "id": "case-1",
+          "text": "Large difference in refractive error between eyes"
+        },
+        {
+          "id": "case-2",
+          "text": "Opposite plus/minus signs between eyes"
+        },
+        {
+          "id": "case-3",
+          "text": "Unequal perceived image size"
+        }
+      ],
+      "correctAnswers": {
+        "case-1": "choice-1",
+        "case-2": "choice-2",
+        "case-3": "choice-3"
+      },
+      "reuseOptions": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-extended-matching-061",
+      "familyId": "special-lenses-spectacle-magnification-extended-3",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "spectacle-magnification",
+      "objectiveId": "special-lenses-spectacle-magnification-apply",
+      "format": "extended_matching",
+      "stimulusType": "clinical_vignette",
+      "bloomLevel": "analyze",
+      "difficulty": "advanced",
+      "stem": "Match each formula to its quantity.",
+      "explanation": "The lecture separates power and shape contributions.",
+      "noteAnchor": "spectacle-magnification",
+      "misconceptionTags": [
+        "spectacle-magnification-case-localization"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 120,
+      "options": [
+        {
+          "id": "choice-1",
+          "text": "P = (1-dFv)^-1",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        },
+        {
+          "id": "choice-2",
+          "text": "S = [1-(t/n)F1]^-1",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        },
+        {
+          "id": "choice-3",
+          "text": "SM = S x P",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        },
+        {
+          "id": "choice-4",
+          "text": "Mag% = (SM-1)x100",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        }
+      ],
+      "stems": [
+        {
+          "id": "case-1",
+          "text": "Power factor"
+        },
+        {
+          "id": "case-2",
+          "text": "Shape factor"
+        },
+        {
+          "id": "case-3",
+          "text": "Total spectacle magnification"
+        },
+        {
+          "id": "case-4",
+          "text": "Percentage magnification"
+        }
+      ],
+      "correctAnswers": {
+        "case-1": "choice-1",
+        "case-2": "choice-2",
+        "case-3": "choice-3",
+        "case-4": "choice-4"
+      },
+      "reuseOptions": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-extended-matching-062",
+      "familyId": "special-lenses-safety-filters-extended-4",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "safety-filters",
+      "objectiveId": "special-lenses-safety-filters-apply",
+      "format": "extended_matching",
+      "stimulusType": "error_analysis",
+      "bloomLevel": "analyze",
+      "difficulty": "advanced",
+      "stem": "Match each lens feature to its principal purpose.",
+      "explanation": "These features are not interchangeable.",
+      "noteAnchor": "safety-filters",
+      "misconceptionTags": [
+        "safety-filters-case-localization"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 120,
+      "options": [
+        {
+          "id": "choice-1",
+          "text": "Impact/breakage risk reduction",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        },
+        {
+          "id": "choice-2",
+          "text": "Selected-radiation attenuation",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        },
+        {
+          "id": "choice-3",
+          "text": "Surface-reflection reduction",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        },
+        {
+          "id": "choice-4",
+          "text": "Light-dependent darkening",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        }
+      ],
+      "stems": [
+        {
+          "id": "case-1",
+          "text": "Safety lens treatment"
+        },
+        {
+          "id": "case-2",
+          "text": "Filter lens"
+        },
+        {
+          "id": "case-3",
+          "text": "Anti-reflection coating"
+        },
+        {
+          "id": "case-4",
+          "text": "Photochromic lens"
+        }
+      ],
+      "correctAnswers": {
+        "case-1": "choice-1",
+        "case-2": "choice-2",
+        "case-3": "choice-3",
+        "case-4": "choice-4"
+      },
+      "reuseOptions": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-extended-matching-063",
+      "familyId": "special-lenses-fresnel-prism-extended-5",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "fresnel-prism",
+      "objectiveId": "special-lenses-fresnel-prism-apply",
+      "format": "extended_matching",
+      "stimulusType": "clinical_vignette",
+      "bloomLevel": "analyze",
+      "difficulty": "advanced",
+      "stem": "Match each prescribed base to its position on the inside of the lens.",
+      "explanation": "The marked base points in the prescribed base direction.",
+      "noteAnchor": "fresnel-prism",
+      "misconceptionTags": [
+        "fresnel-prism-case-localization"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 120,
+      "options": [
+        {
+          "id": "choice-1",
+          "text": "Temporal",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        },
+        {
+          "id": "choice-2",
+          "text": "Nasal",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        },
+        {
+          "id": "choice-3",
+          "text": "Superior",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        },
+        {
+          "id": "choice-4",
+          "text": "Inferior",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        }
+      ],
+      "stems": [
+        {
+          "id": "case-1",
+          "text": "Base out"
+        },
+        {
+          "id": "case-2",
+          "text": "Base in"
+        },
+        {
+          "id": "case-3",
+          "text": "Base up"
+        },
+        {
+          "id": "case-4",
+          "text": "Base down"
+        }
+      ],
+      "correctAnswers": {
+        "case-1": "choice-1",
+        "case-2": "choice-2",
+        "case-3": "choice-3",
+        "case-4": "choice-4"
+      },
+      "reuseOptions": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-extended-matching-064",
+      "familyId": "special-lenses-slab-off-extended-6",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "slab-off",
+      "objectiveId": "special-lenses-slab-off-apply",
+      "format": "extended_matching",
+      "stimulusType": "error_analysis",
+      "bloomLevel": "evaluate",
+      "difficulty": "advanced",
+      "stem": "Match each vertical-prism pattern to the combination rule.",
+      "explanation": "Opposite bases compound binocular separation; same bases partly cancel as an imbalance.",
+      "noteAnchor": "slab-off",
+      "misconceptionTags": [
+        "slab-off-case-localization"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 120,
+      "options": [
+        {
+          "id": "choice-1",
+          "text": "Add magnitudes",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        },
+        {
+          "id": "choice-2",
+          "text": "Subtract magnitudes",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        },
+        {
+          "id": "choice-3",
+          "text": "No imbalance",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        },
+        {
+          "id": "choice-4",
+          "text": "Cannot be calculated",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        }
+      ],
+      "stems": [
+        {
+          "id": "case-1",
+          "text": "OD base up and OS base down"
+        },
+        {
+          "id": "case-2",
+          "text": "OD base down and OS base down"
+        },
+        {
+          "id": "case-3",
+          "text": "Equal magnitudes and same base in both eyes"
+        }
+      ],
+      "correctAnswers": {
+        "case-1": "choice-1",
+        "case-2": "choice-2",
+        "case-3": "choice-3"
+      },
+      "reuseOptions": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-extended-matching-065",
+      "familyId": "special-lenses-slab-off-extended-7",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "slab-off",
+      "objectiveId": "special-lenses-slab-off-apply",
+      "format": "extended_matching",
+      "stimulusType": "clinical_vignette",
+      "bloomLevel": "evaluate",
+      "difficulty": "advanced",
+      "stem": "Match each slab type to its lens and base.",
+      "explanation": "The source gives these paired rules.",
+      "noteAnchor": "slab-off",
+      "misconceptionTags": [
+        "slab-off-case-localization"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 120,
+      "options": [
+        {
+          "id": "choice-1",
+          "text": "BU on most minus/least plus",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        },
+        {
+          "id": "choice-2",
+          "text": "BD on least minus/most plus",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        },
+        {
+          "id": "choice-3",
+          "text": "BU on both lenses",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        },
+        {
+          "id": "choice-4",
+          "text": "BD on most minus",
+          "rationale": "Use the stem evidence to decide whether this option is the best match."
+        }
+      ],
+      "stems": [
+        {
+          "id": "case-1",
+          "text": "Conventional slab-off"
+        },
+        {
+          "id": "case-2",
+          "text": "Reverse slab-off"
+        }
+      ],
+      "correctAnswers": {
+        "case-1": "choice-1",
+        "case-2": "choice-2"
+      },
+      "reuseOptions": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-image-hotspot-066",
+      "familyId": "special-lenses-magnification-map-front-curve-hotspot",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "lenticular-aspheric",
+      "objectiveId": "special-lenses-lenticular-aspheric-apply",
+      "format": "image_hotspot",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Select marker A, which identifies the front surface or base curve in this course diagram.",
+      "explanation": "Marker A identifies the front surface or base curve.",
+      "noteAnchor": "lenticular-aspheric",
+      "misconceptionTags": [
+        "lenticular-aspheric-diagram-localization"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 55,
+      "image": {
+        "src": "/images/modules/opt370/special-lenses/assessment/magnification-map.svg",
+        "alt": "Side-view spectacle lens and eye diagram showing front curve, centre thickness, back vertex power, vertex distance and eye.",
+        "width": 1200,
+        "height": 675
+      },
+      "regions": [
+        {
+          "id": "front-curve",
+          "label": "Front surface or base curve",
+          "interactionLabel": "Marker A: Front surface or base curve",
+          "marker": "A",
+          "x": 0.2,
+          "y": 0.2,
+          "width": 0.12,
+          "height": 0.58
+        },
+        {
+          "id": "centre-thickness",
+          "label": "Centre thickness",
+          "interactionLabel": "Marker B: Centre thickness",
+          "marker": "B",
+          "x": 0.31,
+          "y": 0.36,
+          "width": 0.13,
+          "height": 0.28
+        },
+        {
+          "id": "back-vertex-power",
+          "label": "Back vertex power reference",
+          "interactionLabel": "Marker C: Back vertex power reference",
+          "marker": "C",
+          "x": 0.42,
+          "y": 0.2,
+          "width": 0.12,
+          "height": 0.58
+        },
+        {
+          "id": "vertex-distance",
+          "label": "Vertex distance",
+          "interactionLabel": "Marker D: Vertex distance",
+          "marker": "D",
+          "x": 0.5,
+          "y": 0.43,
+          "width": 0.22,
+          "height": 0.13
+        },
+        {
+          "id": "eye",
+          "label": "Eye or entrance-pupil plane",
+          "interactionLabel": "Marker E: Eye or entrance-pupil plane",
+          "marker": "E",
+          "x": 0.72,
+          "y": 0.24,
+          "width": 0.18,
+          "height": 0.5
+        }
+      ],
+      "correctRegionIds": [
+        "front-curve"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-image-hotspot-067",
+      "familyId": "special-lenses-magnification-map-centre-thickness-hotspot",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "aniseikonia",
+      "objectiveId": "special-lenses-aniseikonia-apply",
+      "format": "image_hotspot",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Select marker B, which identifies the centre thickness in this course diagram.",
+      "explanation": "Marker B identifies the centre thickness.",
+      "noteAnchor": "aniseikonia",
+      "misconceptionTags": [
+        "aniseikonia-diagram-localization"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 55,
+      "image": {
+        "src": "/images/modules/opt370/special-lenses/assessment/magnification-map.svg",
+        "alt": "Side-view spectacle lens and eye diagram showing front curve, centre thickness, back vertex power, vertex distance and eye.",
+        "width": 1200,
+        "height": 675
+      },
+      "regions": [
+        {
+          "id": "front-curve",
+          "label": "Front surface or base curve",
+          "interactionLabel": "Marker A: Front surface or base curve",
+          "marker": "A",
+          "x": 0.2,
+          "y": 0.2,
+          "width": 0.12,
+          "height": 0.58
+        },
+        {
+          "id": "centre-thickness",
+          "label": "Centre thickness",
+          "interactionLabel": "Marker B: Centre thickness",
+          "marker": "B",
+          "x": 0.31,
+          "y": 0.36,
+          "width": 0.13,
+          "height": 0.28
+        },
+        {
+          "id": "back-vertex-power",
+          "label": "Back vertex power reference",
+          "interactionLabel": "Marker C: Back vertex power reference",
+          "marker": "C",
+          "x": 0.42,
+          "y": 0.2,
+          "width": 0.12,
+          "height": 0.58
+        },
+        {
+          "id": "vertex-distance",
+          "label": "Vertex distance",
+          "interactionLabel": "Marker D: Vertex distance",
+          "marker": "D",
+          "x": 0.5,
+          "y": 0.43,
+          "width": 0.22,
+          "height": 0.13
+        },
+        {
+          "id": "eye",
+          "label": "Eye or entrance-pupil plane",
+          "interactionLabel": "Marker E: Eye or entrance-pupil plane",
+          "marker": "E",
+          "x": 0.72,
+          "y": 0.24,
+          "width": 0.18,
+          "height": 0.5
+        }
+      ],
+      "correctRegionIds": [
+        "centre-thickness"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-image-hotspot-068",
+      "familyId": "special-lenses-magnification-map-back-vertex-power-hotspot",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "spectacle-magnification",
+      "objectiveId": "special-lenses-spectacle-magnification-apply",
+      "format": "image_hotspot",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Select marker C, which identifies the back vertex power reference in this course diagram.",
+      "explanation": "Marker C identifies the back vertex power reference.",
+      "noteAnchor": "spectacle-magnification",
+      "misconceptionTags": [
+        "spectacle-magnification-diagram-localization"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 55,
+      "image": {
+        "src": "/images/modules/opt370/special-lenses/assessment/magnification-map.svg",
+        "alt": "Side-view spectacle lens and eye diagram showing front curve, centre thickness, back vertex power, vertex distance and eye.",
+        "width": 1200,
+        "height": 675
+      },
+      "regions": [
+        {
+          "id": "front-curve",
+          "label": "Front surface or base curve",
+          "interactionLabel": "Marker A: Front surface or base curve",
+          "marker": "A",
+          "x": 0.2,
+          "y": 0.2,
+          "width": 0.12,
+          "height": 0.58
+        },
+        {
+          "id": "centre-thickness",
+          "label": "Centre thickness",
+          "interactionLabel": "Marker B: Centre thickness",
+          "marker": "B",
+          "x": 0.31,
+          "y": 0.36,
+          "width": 0.13,
+          "height": 0.28
+        },
+        {
+          "id": "back-vertex-power",
+          "label": "Back vertex power reference",
+          "interactionLabel": "Marker C: Back vertex power reference",
+          "marker": "C",
+          "x": 0.42,
+          "y": 0.2,
+          "width": 0.12,
+          "height": 0.58
+        },
+        {
+          "id": "vertex-distance",
+          "label": "Vertex distance",
+          "interactionLabel": "Marker D: Vertex distance",
+          "marker": "D",
+          "x": 0.5,
+          "y": 0.43,
+          "width": 0.22,
+          "height": 0.13
+        },
+        {
+          "id": "eye",
+          "label": "Eye or entrance-pupil plane",
+          "interactionLabel": "Marker E: Eye or entrance-pupil plane",
+          "marker": "E",
+          "x": 0.72,
+          "y": 0.24,
+          "width": 0.18,
+          "height": 0.5
+        }
+      ],
+      "correctRegionIds": [
+        "back-vertex-power"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-image-hotspot-069",
+      "familyId": "special-lenses-magnification-map-vertex-distance-hotspot",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "safety-filters",
+      "objectiveId": "special-lenses-safety-filters-apply",
+      "format": "image_hotspot",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Select marker D, which identifies the vertex distance in this course diagram.",
+      "explanation": "Marker D identifies the vertex distance.",
+      "noteAnchor": "safety-filters",
+      "misconceptionTags": [
+        "safety-filters-diagram-localization"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 55,
+      "image": {
+        "src": "/images/modules/opt370/special-lenses/assessment/magnification-map.svg",
+        "alt": "Side-view spectacle lens and eye diagram showing front curve, centre thickness, back vertex power, vertex distance and eye.",
+        "width": 1200,
+        "height": 675
+      },
+      "regions": [
+        {
+          "id": "front-curve",
+          "label": "Front surface or base curve",
+          "interactionLabel": "Marker A: Front surface or base curve",
+          "marker": "A",
+          "x": 0.2,
+          "y": 0.2,
+          "width": 0.12,
+          "height": 0.58
+        },
+        {
+          "id": "centre-thickness",
+          "label": "Centre thickness",
+          "interactionLabel": "Marker B: Centre thickness",
+          "marker": "B",
+          "x": 0.31,
+          "y": 0.36,
+          "width": 0.13,
+          "height": 0.28
+        },
+        {
+          "id": "back-vertex-power",
+          "label": "Back vertex power reference",
+          "interactionLabel": "Marker C: Back vertex power reference",
+          "marker": "C",
+          "x": 0.42,
+          "y": 0.2,
+          "width": 0.12,
+          "height": 0.58
+        },
+        {
+          "id": "vertex-distance",
+          "label": "Vertex distance",
+          "interactionLabel": "Marker D: Vertex distance",
+          "marker": "D",
+          "x": 0.5,
+          "y": 0.43,
+          "width": 0.22,
+          "height": 0.13
+        },
+        {
+          "id": "eye",
+          "label": "Eye or entrance-pupil plane",
+          "interactionLabel": "Marker E: Eye or entrance-pupil plane",
+          "marker": "E",
+          "x": 0.72,
+          "y": 0.24,
+          "width": 0.18,
+          "height": 0.5
+        }
+      ],
+      "correctRegionIds": [
+        "vertex-distance"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-image-hotspot-070",
+      "familyId": "special-lenses-magnification-map-eye-hotspot",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "fresnel-prism",
+      "objectiveId": "special-lenses-fresnel-prism-apply",
+      "format": "image_hotspot",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Select marker E, which identifies the eye or entrance-pupil plane in this course diagram.",
+      "explanation": "Marker E identifies the eye or entrance-pupil plane.",
+      "noteAnchor": "fresnel-prism",
+      "misconceptionTags": [
+        "fresnel-prism-diagram-localization"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 55,
+      "image": {
+        "src": "/images/modules/opt370/special-lenses/assessment/magnification-map.svg",
+        "alt": "Side-view spectacle lens and eye diagram showing front curve, centre thickness, back vertex power, vertex distance and eye.",
+        "width": 1200,
+        "height": 675
+      },
+      "regions": [
+        {
+          "id": "front-curve",
+          "label": "Front surface or base curve",
+          "interactionLabel": "Marker A: Front surface or base curve",
+          "marker": "A",
+          "x": 0.2,
+          "y": 0.2,
+          "width": 0.12,
+          "height": 0.58
+        },
+        {
+          "id": "centre-thickness",
+          "label": "Centre thickness",
+          "interactionLabel": "Marker B: Centre thickness",
+          "marker": "B",
+          "x": 0.31,
+          "y": 0.36,
+          "width": 0.13,
+          "height": 0.28
+        },
+        {
+          "id": "back-vertex-power",
+          "label": "Back vertex power reference",
+          "interactionLabel": "Marker C: Back vertex power reference",
+          "marker": "C",
+          "x": 0.42,
+          "y": 0.2,
+          "width": 0.12,
+          "height": 0.58
+        },
+        {
+          "id": "vertex-distance",
+          "label": "Vertex distance",
+          "interactionLabel": "Marker D: Vertex distance",
+          "marker": "D",
+          "x": 0.5,
+          "y": 0.43,
+          "width": 0.22,
+          "height": 0.13
+        },
+        {
+          "id": "eye",
+          "label": "Eye or entrance-pupil plane",
+          "interactionLabel": "Marker E: Eye or entrance-pupil plane",
+          "marker": "E",
+          "x": 0.72,
+          "y": 0.24,
+          "width": 0.18,
+          "height": 0.5
+        }
+      ],
+      "correctRegionIds": [
+        "eye"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-image-label-071",
+      "familyId": "special-lenses-magnification-map-label-set-1",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "spectacle-magnification",
+      "objectiveId": "special-lenses-spectacle-magnification-apply",
+      "format": "image_label",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Assign the correct course label to each marked target on the diagram.",
+      "explanation": "The labels identify the reference structures shown by the diagram markers.",
+      "noteAnchor": "spectacle-magnification",
+      "misconceptionTags": [
+        "spectacle-magnification-label-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 105,
+      "image": {
+        "src": "/images/modules/opt370/special-lenses/assessment/magnification-map.svg",
+        "alt": "Side-view spectacle lens and eye diagram showing front curve, centre thickness, back vertex power, vertex distance and eye.",
+        "width": 1200,
+        "height": 675
+      },
+      "targets": [
+        {
+          "id": "target-1",
+          "label": "Target A",
+          "x": 0.26,
+          "y": 0.49
+        },
+        {
+          "id": "target-2",
+          "label": "Target B",
+          "x": 0.375,
+          "y": 0.5
+        },
+        {
+          "id": "target-3",
+          "label": "Target C",
+          "x": 0.48,
+          "y": 0.49
+        }
+      ],
+      "labels": [
+        {
+          "id": "label-1",
+          "text": "Front surface or base curve",
+          "rationale": "This label belongs at marker A."
+        },
+        {
+          "id": "label-2",
+          "text": "Centre thickness",
+          "rationale": "This label belongs at marker B."
+        },
+        {
+          "id": "label-3",
+          "text": "Back vertex power reference",
+          "rationale": "This label belongs at marker C."
+        },
+        {
+          "id": "label-distractor",
+          "text": "Vertex distance",
+          "rationale": "Vertex distance is shown elsewhere on the diagram."
+        }
+      ],
+      "correctLabels": {
+        "target-1": "label-1",
+        "target-2": "label-2",
+        "target-3": "label-3"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-image-label-072",
+      "familyId": "special-lenses-magnification-map-label-set-2",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "safety-filters",
+      "objectiveId": "special-lenses-safety-filters-apply",
+      "format": "image_label",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Assign the correct course label to each marked target on the diagram.",
+      "explanation": "The labels identify the reference structures shown by the diagram markers.",
+      "noteAnchor": "safety-filters",
+      "misconceptionTags": [
+        "safety-filters-label-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 105,
+      "image": {
+        "src": "/images/modules/opt370/special-lenses/assessment/magnification-map.svg",
+        "alt": "Side-view spectacle lens and eye diagram showing front curve, centre thickness, back vertex power, vertex distance and eye.",
+        "width": 1200,
+        "height": 675
+      },
+      "targets": [
+        {
+          "id": "target-1",
+          "label": "Target C",
+          "x": 0.48,
+          "y": 0.49
+        },
+        {
+          "id": "target-2",
+          "label": "Target D",
+          "x": 0.61,
+          "y": 0.495
+        },
+        {
+          "id": "target-3",
+          "label": "Target E",
+          "x": 0.8099999999999999,
+          "y": 0.49
+        }
+      ],
+      "labels": [
+        {
+          "id": "label-1",
+          "text": "Back vertex power reference",
+          "rationale": "This label belongs at marker C."
+        },
+        {
+          "id": "label-2",
+          "text": "Vertex distance",
+          "rationale": "This label belongs at marker D."
+        },
+        {
+          "id": "label-3",
+          "text": "Eye or entrance-pupil plane",
+          "rationale": "This label belongs at marker E."
+        },
+        {
+          "id": "label-distractor",
+          "text": "Front surface or base curve",
+          "rationale": "Front surface or base curve is shown elsewhere on the diagram."
+        }
+      ],
+      "correctLabels": {
+        "target-1": "label-1",
+        "target-2": "label-2",
+        "target-3": "label-3"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-image-label-073",
+      "familyId": "special-lenses-special-prism-map-label-set-3",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "fresnel-prism",
+      "objectiveId": "special-lenses-fresnel-prism-apply",
+      "format": "image_label",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Assign the correct course label to each marked target on the diagram.",
+      "explanation": "The labels identify the reference structures shown by the diagram markers.",
+      "noteAnchor": "fresnel-prism",
+      "misconceptionTags": [
+        "fresnel-prism-label-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 105,
+      "image": {
+        "src": "/images/modules/opt370/special-lenses/assessment/special-prism-map.svg",
+        "alt": "Composite optical diagram showing Fresnel prism base and grooves and a slab-off lens with distance optical centre, near optical centre and slab line.",
+        "width": 1200,
+        "height": 675
+      },
+      "targets": [
+        {
+          "id": "target-1",
+          "label": "Target A",
+          "x": 0.15000000000000002,
+          "y": 0.475
+        },
+        {
+          "id": "target-2",
+          "label": "Target B",
+          "x": 0.32,
+          "y": 0.475
+        },
+        {
+          "id": "target-3",
+          "label": "Target C",
+          "x": 0.6900000000000001,
+          "y": 0.285
+        }
+      ],
+      "labels": [
+        {
+          "id": "label-1",
+          "text": "Fresnel prism base",
+          "rationale": "This label belongs at marker A."
+        },
+        {
+          "id": "label-2",
+          "text": "Fresnel prism grooves",
+          "rationale": "This label belongs at marker B."
+        },
+        {
+          "id": "label-3",
+          "text": "Distance optical centre",
+          "rationale": "This label belongs at marker C."
+        },
+        {
+          "id": "label-distractor",
+          "text": "Slab-off line",
+          "rationale": "Slab-off line is shown elsewhere on the diagram."
+        }
+      ],
+      "correctLabels": {
+        "target-1": "label-1",
+        "target-2": "label-2",
+        "target-3": "label-3"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-image-label-074",
+      "familyId": "special-lenses-special-prism-map-label-set-4",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "slab-off",
+      "objectiveId": "special-lenses-slab-off-apply",
+      "format": "image_label",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Assign the correct course label to each marked target on the diagram.",
+      "explanation": "The labels identify the reference structures shown by the diagram markers.",
+      "noteAnchor": "slab-off",
+      "misconceptionTags": [
+        "slab-off-label-confusion"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 105,
+      "image": {
+        "src": "/images/modules/opt370/special-lenses/assessment/special-prism-map.svg",
+        "alt": "Composite optical diagram showing Fresnel prism base and grooves and a slab-off lens with distance optical centre, near optical centre and slab line.",
+        "width": 1200,
+        "height": 675
+      },
+      "targets": [
+        {
+          "id": "target-1",
+          "label": "Target C",
+          "x": 0.6900000000000001,
+          "y": 0.285
+        },
+        {
+          "id": "target-2",
+          "label": "Target D",
+          "x": 0.72,
+          "y": 0.54
+        },
+        {
+          "id": "target-3",
+          "label": "Target E",
+          "x": 0.6900000000000001,
+          "y": 0.725
+        }
+      ],
+      "labels": [
+        {
+          "id": "label-1",
+          "text": "Distance optical centre",
+          "rationale": "This label belongs at marker C."
+        },
+        {
+          "id": "label-2",
+          "text": "Slab-off line",
+          "rationale": "This label belongs at marker D."
+        },
+        {
+          "id": "label-3",
+          "text": "Near optical centre",
+          "rationale": "This label belongs at marker E."
+        },
+        {
+          "id": "label-distractor",
+          "text": "Fresnel prism base",
+          "rationale": "Fresnel prism base is shown elsewhere on the diagram."
+        }
+      ],
+      "correctLabels": {
+        "target-1": "label-1",
+        "target-2": "label-2",
+        "target-3": "label-3"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-short-answer-075",
+      "familyId": "special-lenses-aniseikonia-short-1",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "aniseikonia",
+      "objectiveId": "special-lenses-aniseikonia-explain",
+      "format": "short_answer",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "State the formula for spherical equivalent.",
+      "explanation": "Add half the cylinder to the sphere.",
+      "noteAnchor": "aniseikonia",
+      "misconceptionTags": [
+        "aniseikonia-recall-gap"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 55,
+      "acceptedAnswers": [
+        "sphere + cylinder/2",
+        "S + C/2"
+      ],
+      "normalization": {
+        "trim": true,
+        "caseInsensitive": true,
+        "collapseWhitespace": true,
+        "ignoreTerminalPunctuation": true
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-short-answer-076",
+      "familyId": "special-lenses-spectacle-magnification-short-2",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "spectacle-magnification",
+      "objectiveId": "special-lenses-spectacle-magnification-explain",
+      "format": "short_answer",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "State the formula for total spectacle magnification.",
+      "explanation": "Total magnification is the product of shape and power factors.",
+      "noteAnchor": "spectacle-magnification",
+      "misconceptionTags": [
+        "spectacle-magnification-recall-gap"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 55,
+      "acceptedAnswers": [
+        "SM = S x P",
+        "SM=S*P",
+        "shape factor x power factor"
+      ],
+      "normalization": {
+        "trim": true,
+        "caseInsensitive": true,
+        "collapseWhitespace": true,
+        "ignoreTerminalPunctuation": true
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-short-answer-077",
+      "familyId": "special-lenses-fresnel-prism-short-3",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "fresnel-prism",
+      "objectiveId": "special-lenses-fresnel-prism-explain",
+      "format": "short_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Which side of a Fresnel prism is placed against the wet spectacle lens?",
+      "explanation": "The rough/grooved side faces away from the lens.",
+      "noteAnchor": "fresnel-prism",
+      "misconceptionTags": [
+        "fresnel-prism-recall-gap"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 55,
+      "acceptedAnswers": [
+        "smooth side",
+        "the smooth side"
+      ],
+      "normalization": {
+        "trim": true,
+        "caseInsensitive": true,
+        "collapseWhitespace": true,
+        "ignoreTerminalPunctuation": true
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-short-answer-078",
+      "familyId": "special-lenses-slab-off-short-4",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "slab-off",
+      "objectiveId": "special-lenses-slab-off-explain",
+      "format": "short_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Which lens receives conventional slab-off?",
+      "explanation": "Conventional slab creates base up in that lens reading area.",
+      "noteAnchor": "slab-off",
+      "misconceptionTags": [
+        "slab-off-recall-gap"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 55,
+      "acceptedAnswers": [
+        "most minus or least plus lens",
+        "the most minus lens",
+        "the least plus lens"
+      ],
+      "normalization": {
+        "trim": true,
+        "caseInsensitive": true,
+        "collapseWhitespace": true,
+        "ignoreTerminalPunctuation": true
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-open-response-079",
+      "familyId": "special-lenses-spectacle-magnification-written-1",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "spectacle-magnification",
+      "objectiveId": "special-lenses-spectacle-magnification-apply",
+      "format": "open_response",
+      "stimulusType": "clinical_vignette",
+      "bloomLevel": "evaluate",
+      "difficulty": "advanced",
+      "stem": "Using the lecture formulas, analyse a +4.00 D lens with front curve +10.00 D, centre thickness 6 mm, index 1.50 and vertex distance 15 mm. Calculate shape factor, power factor, total spectacle magnification and percentage magnification, then explain how two design variables could reduce magnification.",
+      "explanation": "S = [1-(0.006/1.50)(10)]^-1 = 1.042. P = [1-(0.015)(4)]^-1 = 1.0638. SM = 1.1085, so magnification is 10.85%. Magnification could be reduced by moving the plus lens closer to the eye and/or using a flatter, thinner, higher-index form, subject to optical and manufacturing limits.",
+      "noteAnchor": "spectacle-magnification",
+      "misconceptionTags": [
+        "spectacle-magnification-written-reasoning-gap"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 600,
+      "sampleAnswer": "S = [1-(0.006/1.50)(10)]^-1 = 1.042. P = [1-(0.015)(4)]^-1 = 1.0638. SM = 1.1085, so magnification is 10.85%. Magnification could be reduced by moving the plus lens closer to the eye and/or using a flatter, thinner, higher-index form, subject to optical and manufacturing limits.",
+      "rubric": [
+        "Uses t = 0.006 m and d = 0.015 m",
+        "Calculates shape factor about 1.042",
+        "Calculates power factor about 1.0638",
+        "Calculates SM about 1.1085 and 10.85 percent",
+        "Explains valid reductions such as flatter front curve, less thickness, higher index or shorter plus-lens vertex distance"
+      ],
+      "autoGraded": false
+    },
+    {
+      "schemaVersion": 1,
+      "id": "special-lenses-open-response-080",
+      "familyId": "special-lenses-slab-off-written-2",
+      "courseId": "dispensing-optics-ii",
+      "moduleId": "special-lenses",
+      "sectionId": "slab-off",
+      "objectiveId": "special-lenses-slab-off-apply",
+      "format": "open_response",
+      "stimulusType": "clinical_vignette",
+      "bloomLevel": "create",
+      "difficulty": "advanced",
+      "stem": "For OD -3.75 DS and OS -2.75 DS at a near visual point 11 mm below the distance optical centres, calculate each prism and the vertical imbalance. Recommend a conventional or reverse slab strategy and discuss the source rounding issue.",
+      "explanation": "OD gives 1.1 x 3.75 = 4.125Δ BD, about 4.1Δ. OS gives 1.1 x 2.75 = 3.025Δ BD, about 3.0Δ. Same-base effects leave about 1.1Δ imbalance. The source applies reverse slab-off BD to OS, the least-minus lens, but lists 1.0Δ without explaining the rounding from 1.1Δ; that policy should be confirmed before ordering.",
+      "noteAnchor": "slab-off",
+      "misconceptionTags": [
+        "slab-off-written-reasoning-gap"
+      ],
+      "sources": [
+        {
+          "id": "opt370-special-lenses",
+          "title": "Special lenses",
+          "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content preparation",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 600,
+      "sampleAnswer": "OD gives 1.1 x 3.75 = 4.125Δ BD, about 4.1Δ. OS gives 1.1 x 2.75 = 3.025Δ BD, about 3.0Δ. Same-base effects leave about 1.1Δ imbalance. The source applies reverse slab-off BD to OS, the least-minus lens, but lists 1.0Δ without explaining the rounding from 1.1Δ; that policy should be confirmed before ordering.",
+      "rubric": [
+        "Calculates OD about 4.1 prism dioptres base down",
+        "Calculates OS about 3.0 prism dioptres base down",
+        "Subtracts same-base prisms to obtain about 1.1 prism dioptres imbalance",
+        "Selects reverse slab-off base down on the least-minus OS under the source rule",
+        "Notes that the slide orders 1.0 despite a 1.1 calculation and requests laboratory/lecturer rounding policy"
+      ],
+      "autoGraded": false
+    }
+  ],
+  "sources": [
+    {
+      "id": "opt370-special-lenses",
+      "title": "Special lenses",
+      "locator": "Slides 1-140: lenticular, iseikonic, safety/filter, Fresnel prism and slab-off lenses",
+      "kind": "lecture"
+    }
+  ]
+}

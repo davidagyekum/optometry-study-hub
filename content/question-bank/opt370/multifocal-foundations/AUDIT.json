@@ -1,0 +1,65 @@
+{
+  "moduleId": "multifocal-foundations",
+  "questions": 80,
+  "objectives": 14,
+  "counts": {
+    "sections": {
+      "bifocal-fitting": 12,
+      "construction-types": 13,
+      "jump-tca": 11,
+      "nvp-prism": 12,
+      "presbyopia-add": 8,
+      "segment-designs": 17,
+      "trifocals": 7
+    },
+    "formats": {
+      "extended_matching": 7,
+      "image_hotspot": 5,
+      "image_label": 4,
+      "matching": 9,
+      "multiple_response": 10,
+      "open_response": 2,
+      "ordering": 7,
+      "short_answer": 4,
+      "single_best_answer": 26,
+      "true_false": 6
+    },
+    "bloom": {
+      "analyze": 6,
+      "apply": 36,
+      "create": 1,
+      "evaluate": 3,
+      "remember": 10,
+      "understand": 24
+    },
+    "difficulty": {
+      "advanced": 11,
+      "foundation": 24,
+      "intermediate": 45
+    },
+    "stimulus": {
+      "clinical_vignette": 6,
+      "comparison": 26,
+      "diagram": 9,
+      "error_analysis": 4,
+      "pathway": 7,
+      "text": 28
+    }
+  },
+  "objectiveCoverage": {
+    "multifocal-foundations-bifocal-fitting-apply": 9,
+    "multifocal-foundations-bifocal-fitting-explain": 3,
+    "multifocal-foundations-construction-types-apply": 5,
+    "multifocal-foundations-construction-types-explain": 8,
+    "multifocal-foundations-jump-tca-apply": 8,
+    "multifocal-foundations-jump-tca-explain": 3,
+    "multifocal-foundations-nvp-prism-apply": 9,
+    "multifocal-foundations-nvp-prism-explain": 3,
+    "multifocal-foundations-presbyopia-add-apply": 3,
+    "multifocal-foundations-presbyopia-add-explain": 5,
+    "multifocal-foundations-segment-designs-apply": 7,
+    "multifocal-foundations-segment-designs-explain": 10,
+    "multifocal-foundations-trifocals-apply": 5,
+    "multifocal-foundations-trifocals-explain": 2
+  }
+}
