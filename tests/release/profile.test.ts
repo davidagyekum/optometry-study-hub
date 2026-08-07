@@ -44,11 +44,15 @@ describe('release profiles', () => {
   it('rejects Aqueous exposure and mismatched profile flags', () => {
     expect(() => assertReleaseProfile('hvp-public-beta', {
       assessmentPilot: true,
-      hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false,
+      hvpCuratedPractice: true, hvpDepthColourExpansion: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false,
     })).toThrow(/Aqueous/i);
     expect(() => assertReleaseProfile('disabled', {
       assessmentPilot: false,
-      hvpCuratedPractice: true, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false,
+      hvpCuratedPractice: true, hvpDepthColourExpansion: false, tissueFoundationsCuratedPractice: false, ocularAdnexaCuratedPractice: false, aqueousVitreousCuratedPractice: false, bloodSupplyCuratedPractice: false, environmentalVisionCuratedPractice: false, autonomicPharmacologyCuratedPractice: false, systemicPathologyCuratedPractice: false,
+    })).toThrow(/does not match/i);
+    expect(() => assertReleaseProfile('disabled', {
+      ...RELEASE_PROFILES.disabled,
+      hvpDepthColourExpansion: true,
     })).toThrow(/does not match/i);
   });
 
@@ -67,6 +71,7 @@ describe('release profiles', () => {
     ] as const) {
       const environment = environmentForReleaseProfile(profile, { NODE_ENV: 'test' });
       expect(releaseFlagsFromEnvironment(environment)).toEqual(RELEASE_PROFILES[profile]);
+      expect(RELEASE_PROFILES[profile].hvpDepthColourExpansion).toBe(false);
       expect(environment.OPTOMETRY_RELEASE_PROFILE).toBe(profile);
     }
   });
@@ -91,6 +96,7 @@ describe('release profiles', () => {
     const example = readFileSync('.env.example', 'utf8');
     expect(example).toContain('NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT=false');
     expect(example).toContain('NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE=false');
+    expect(example).toContain('NEXT_PUBLIC_ENABLE_HVP_DEPTH_COLOUR_EXPANSION=false');
     expect(example).toContain(
       'NEXT_PUBLIC_ENABLE_TISSUE_FOUNDATIONS_CURATED_PRACTICE=false',
     );

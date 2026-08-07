@@ -35,7 +35,6 @@ import type {
   QuestionBank,
   QuestionFormat,
 } from '@/lib/assessment/types';
-import type { Opt370ModuleConfig } from '@/lib/assessment/opt370/config';
 import type {
   AssessmentAttemptSnapshot,
   StoreV2,
@@ -78,7 +77,7 @@ const FORMAT_LABELS: Record<string, string> = {
   written: 'Written practice',
 };
 
-export type Opt370PracticeExperience = {
+export type CoursePracticeExperience = {
   definition: CuratedPracticeDefinition;
   automaticBlueprint: PracticeBlueprint;
   writtenBlueprint: PracticeBlueprint;
@@ -87,11 +86,47 @@ export type Opt370PracticeExperience = {
   sectionLabels: Readonly<Record<string, string>>;
 };
 
+export type Opt370PracticeExperience = CoursePracticeExperience;
+
+export type CoursePracticeModuleConfig = {
+  moduleId: string;
+  automaticBlueprintId: string;
+  writtenBlueprintId: string;
+  practiceFamilyId: string;
+  title: string;
+  shortTitle: string;
+  fullDifficultyTargets: Readonly<Record<Difficulty, number>>;
+  sectionLabels: Readonly<Record<string, string>>;
+};
+
 type FactoryOptions = {
-  config: Opt370ModuleConfig;
+  config: CoursePracticeModuleConfig;
   summary: CuratedExperienceSummary;
   bank: QuestionBank;
   fullSectionTargets: Readonly<Record<string, number>>;
+  fullSectionFormatTargets?: Readonly<
+    Record<string, Readonly<Record<string, number>>>
+  >;
+  courseId: string;
+  courseLabel: string;
+  enforceFullFormatTargets?: boolean;
+  enforceSectionAndDifficultyTargets?: boolean;
+  enforceHigherOrderTargets?: boolean;
+  enforceConstrainedShortProfiles?: boolean;
+  enforceFullObjectiveCoverage?: boolean;
+  fullContractDescription?: string;
+};
+
+const FULL_AUTOMATIC_FORMAT_TARGETS: Readonly<Record<string, number>> = {
+  single_best_answer: 19,
+  true_false: 4,
+  multiple_response: 6,
+  matching: 5,
+  extended_matching: 4,
+  ordering: 4,
+  image_hotspot: 3,
+  image_label: 2,
+  short_answer: 3,
 };
 
 function scaledTargets(
@@ -128,12 +163,21 @@ function assemblyFailure(
   )));
 }
 
-export function createOpt370PracticeExperience({
+export function createCoursePracticeExperience({
   config,
   summary,
   bank,
   fullSectionTargets,
-}: FactoryOptions): Opt370PracticeExperience {
+  fullSectionFormatTargets,
+  courseId,
+  courseLabel,
+  enforceFullFormatTargets = true,
+  enforceSectionAndDifficultyTargets = true,
+  enforceHigherOrderTargets = true,
+  enforceConstrainedShortProfiles = false,
+  enforceFullObjectiveCoverage = false,
+  fullContractDescription = 'Full practice uses 50 questions with section, format, difficulty, Bloom, objective and family constraints.',
+}: FactoryOptions): CoursePracticeExperience {
   const sectionIds = Object.keys(config.sectionLabels);
   const registryBuilder = () => buildQuestionRegistry({
     banks: [bank],
@@ -157,11 +201,12 @@ export function createOpt370PracticeExperience({
     schemaVersion: 1,
     id: config.automaticBlueprintId,
     practiceFamilyId: config.practiceFamilyId,
-    courseId: 'dispensing-optics-ii',
+    courseId,
     moduleId: config.moduleId,
     allowedReviewStatuses: ['draft'],
     defaultMode: 'study',
     gradingPolicy: GRADING_POLICY,
+    enforcePartialProfileTargets: enforceConstrainedShortProfiles,
     eligibleFormats: AUTOMATIC_FORMATS,
     resultMode: 'automatic',
     sectionIds,
@@ -170,37 +215,40 @@ export function createOpt370PracticeExperience({
         id: 'quick',
         label: 'Quick practice',
         count: 10,
-        sectionTargets: scaledTargets(fullSectionTargets, 10),
-        higherOrderMinimum: 5,
+        ...(enforceSectionAndDifficultyTargets
+          ? { sectionTargets: scaledTargets(fullSectionTargets, 10) }
+          : {}),
+        higherOrderMinimum: enforceHigherOrderTargets ? 5 : 0,
         higherOrderMaximum: 10,
       },
       {
         id: 'standard',
         label: 'Standard practice',
         count: 25,
-        sectionTargets: scaledTargets(fullSectionTargets, 25),
-        higherOrderMinimum: 14,
+        ...(enforceSectionAndDifficultyTargets
+          ? { sectionTargets: scaledTargets(fullSectionTargets, 25) }
+          : {}),
+        higherOrderMinimum: enforceHigherOrderTargets ? 14 : 0,
         higherOrderMaximum: 25,
       },
       {
         id: 'full',
         label: 'Full practice',
         count: 50,
-        sectionTargets: { ...fullSectionTargets },
-        formatTargets: {
-          single_best_answer: 19,
-          true_false: 4,
-          multiple_response: 6,
-          matching: 5,
-          extended_matching: 4,
-          ordering: 4,
-          image_hotspot: 3,
-          image_label: 2,
-          short_answer: 3,
-        },
-        difficultyTargets: { ...config.fullDifficultyTargets },
-        higherOrderMinimum: 28,
+        ...(enforceSectionAndDifficultyTargets
+          ? { sectionTargets: { ...fullSectionTargets } }
+          : {}),
+        ...(enforceFullFormatTargets
+          ? { formatTargets: { ...FULL_AUTOMATIC_FORMAT_TARGETS } }
+          : {}),
+        ...(enforceSectionAndDifficultyTargets
+          ? { difficultyTargets: { ...config.fullDifficultyTargets } }
+          : {}),
+        higherOrderMinimum: enforceHigherOrderTargets ? 28 : 0,
         higherOrderMaximum: 50,
+        ...(enforceFullObjectiveCoverage
+          ? { requiredObjectiveIds: bank.objectives.map((objective) => objective.id) }
+          : {}),
         recommended: true,
       },
       {
@@ -220,11 +268,12 @@ export function createOpt370PracticeExperience({
     schemaVersion: 1,
     id: config.writtenBlueprintId,
     practiceFamilyId: config.practiceFamilyId,
-    courseId: 'dispensing-optics-ii',
+    courseId,
     moduleId: config.moduleId,
     allowedReviewStatuses: ['draft'],
     defaultMode: 'study',
     gradingPolicy: GRADING_POLICY,
+    enforcePartialProfileTargets: enforceConstrainedShortProfiles,
     eligibleFormats: ['open_response'],
     resultMode: 'manual-only',
     sectionIds,
@@ -240,7 +289,7 @@ export function createOpt370PracticeExperience({
   });
   const compatibility = createCuratedCompatibility({
     experienceName: config.title + ' curated practice',
-    courseId: 'dispensing-optics-ii',
+    courseId,
     moduleId: config.moduleId,
     automaticBlueprint,
     writtenBlueprint,
@@ -340,6 +389,9 @@ export function createOpt370PracticeExperience({
         selection,
         history: store.assessment.questionHistory,
         sectionFormatAvailability,
+        sectionFormatTargets: profile?.id === 'full'
+          ? fullSectionFormatTargets
+          : undefined,
       });
       if (!assembly.ok) return assemblyFailure(assembly.issues);
       questionIds = assembly.value.questionIds;
@@ -351,7 +403,7 @@ export function createOpt370PracticeExperience({
       registry,
       questionIds,
       mode: blueprint.defaultMode,
-      courseId: 'dispensing-optics-ii',
+      courseId,
       moduleId: config.moduleId,
       blueprintId: blueprint.id,
       practiceSelection: selection,
@@ -387,9 +439,8 @@ export function createOpt370PracticeExperience({
       customMaximumCount: 50,
       landingHeading: 'Course-aligned practice',
       landingDescription:
-        'Build deterministic mixed-format practice from 80 OPT 370 draft questions; history remains on this device.',
-      fullContractDescription:
-        'Full practice uses 50 questions with section, format, difficulty, Bloom, objective and family constraints.',
+        `Build deterministic mixed-format practice from 80 ${courseLabel} draft questions; history remains on this device.`,
+      fullContractDescription,
       notesLabel: config.shortTitle + ' notes',
       statusComponent: Status,
     },
@@ -443,5 +494,15 @@ export function createOpt370PracticeExperience({
     registryBuilder,
     bank,
     sectionLabels: config.sectionLabels,
+  });
+}
+
+export function createOpt370PracticeExperience(
+  options: Omit<FactoryOptions, 'courseId' | 'courseLabel'>,
+): Opt370PracticeExperience {
+  return createCoursePracticeExperience({
+    ...options,
+    courseId: 'dispensing-optics-ii',
+    courseLabel: 'OPT 370',
   });
 }

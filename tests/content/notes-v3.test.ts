@@ -136,6 +136,8 @@ describe('authored Notes V3 catalog', () => {
       'aqueous-vitreous.md': '4bf0b843da02d34c50c53bf67f8022ca66589a699171272725c3208d8f4e7120',
       'blood-supply.md': '6ce9debccc5dc85305ae8782549974daf5261d2483722fd31848498698f01074',
       'human-visual-perception.md': '5c5361cba83a5db98024e444ebb47e0bb3e0de8f44d7b7f6ee057580c903f278',
+      'hvp-colour-perception.md': '89dd5dbc381e44aca9b99e6bd3fa8fc2ab8752fa5bb60b4367063cddf196305f',
+      'hvp-depth-perception.md': '75609d45e904d2895f3e99a00975fa4056eaeb30b4a2b08352ebaa1fb1c1f936',
       'systemic-pathology.md': '5613703dc57e41d388c80e2b7d97d14d356b7e49127c14f27cbffe95283ca2a6',
       'schematic-eye-refractive-states.md': '2a4973ee65637552a6ea17924940a10104d1f2b5495b1f8f56a2178a4e29a59e',
       'multifocal-foundations.md': '7040a230f39539561d0fdeb100a1389d1918ca379631d197fdf9d9c588f462f6',
@@ -149,7 +151,7 @@ describe('authored Notes V3 catalog', () => {
       'content/notes-v3/sources/*.md text eol=lf whitespace=-trailing-space',
     );
 
-    const productionFiles = ['catalog.ts', 'compiler.ts', 'schema.ts', 'types.ts', 'modules/environmental-vision.ts', 'modules/autonomic-pharmacology.ts', 'modules/tissue-foundations.ts', 'modules/ocular-adnexa.ts', 'modules/aqueous-vitreous.ts', 'modules/blood-supply.ts', 'modules/human-visual-perception.ts', 'modules/systemic-pathology.ts', 'modules/schematic-eye-refractive-states.ts', 'modules/multifocal-foundations.ts', 'modules/progressive-addition-lenses.ts', 'modules/pd-and-dispensing.ts', 'modules/special-lenses.ts']
+    const productionFiles = ['catalog.ts', 'compiler.ts', 'schema.ts', 'types.ts', 'modules/environmental-vision.ts', 'modules/autonomic-pharmacology.ts', 'modules/tissue-foundations.ts', 'modules/ocular-adnexa.ts', 'modules/aqueous-vitreous.ts', 'modules/blood-supply.ts', 'modules/human-visual-perception.ts', 'modules/hvp-depth-perception.ts', 'modules/hvp-colour-perception.ts', 'modules/systemic-pathology.ts', 'modules/schematic-eye-refractive-states.ts', 'modules/multifocal-foundations.ts', 'modules/progressive-addition-lenses.ts', 'modules/pd-and-dispensing.ts', 'modules/special-lenses.ts']
       .map((file) => readFileSync(join(process.cwd(), 'content', 'notes-v3', file), 'utf8'))
       .join('\n');
     expect(productionFiles).not.toMatch(/question-bank|CandidateBank|correctOptionId|correctAnswer|answerRationale/);

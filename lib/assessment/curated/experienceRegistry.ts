@@ -73,7 +73,12 @@ import {
   isOpt370ExperienceEnabled,
   type Opt370ModuleId,
 } from '@/lib/assessment/opt370/config';
-import type { Opt370PracticeExperience } from '@/lib/assessment/opt370/createPracticeExperience';
+import type { CoursePracticeExperience, Opt370PracticeExperience } from '@/lib/assessment/opt370/createPracticeExperience';
+import {
+  isHvpDepthColourExpansionEnabled,
+  type HvpDepthColourModuleId,
+} from '@/lib/assessment/hvp-depth-colour/config';
+import { hvpDepthColourSummaries } from '@/lib/assessment/hvp-depth-colour/summaries';
 import { opt370CuratedSummaries } from '@/lib/assessment/opt370/summaries';
 import {
   curatedExperienceSummarySchema,
@@ -445,6 +450,29 @@ export const systemicPathologyCuratedSummary: CuratedExperienceSummary =
       ],
     },
   });
+function createHvpDepthColourAdapter(
+  moduleId: HvpDepthColourModuleId,
+  loadExperience: () => Promise<CoursePracticeExperience>,
+): CuratedExperienceAdapter {
+  return {
+    summary: hvpDepthColourSummaries[moduleId],
+    isEnabled: isHvpDepthColourExpansionEnabled,
+    loadPracticeModule: async () => {
+      const [factory, experience] = await Promise.all([
+        import('@/components/assessment/curated/createCuratedPracticeModule'),
+        loadExperience(),
+      ]);
+      return factory.createCuratedPracticeModule(experience.definition);
+    },
+    loadProgressModule: async () => {
+      const [factory, experience] = await Promise.all([
+        import('@/lib/progress/createOpt370ProgressModule'),
+        loadExperience(),
+      ]);
+      return factory.createCourseProgressModule(experience);
+    },
+  };
+}
 function createOpt370Adapter(
   moduleId: Opt370ModuleId,
   loadExperience: () => Promise<Opt370PracticeExperience>,
@@ -620,6 +648,12 @@ export const curatedExperienceRegistry = createCuratedExperienceRegistry([
       return loadedModule.systemicPathologyProgressModule;
     },
   },
+  createHvpDepthColourAdapter('hvp-depth-perception', async () =>
+    (await import('@/lib/assessment/hvp-depth-colour/definitions')).hvpDepthPerceptionExperience,
+  ),
+  createHvpDepthColourAdapter('hvp-colour-perception', async () =>
+    (await import('@/lib/assessment/hvp-depth-colour/definitions')).hvpColourPerceptionExperience,
+  ),
   createOpt370Adapter('schematic-eye-refractive-states', async () =>
     (await import('@/lib/assessment/opt370/schematic-eye-refractive-states/definition')).schematicEyeRefractiveStatesExperience,
   ),

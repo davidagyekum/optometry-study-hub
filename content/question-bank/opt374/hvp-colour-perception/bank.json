@@ -1,0 +1,4460 @@
+{
+  "schemaVersion": 1,
+  "id": "hvp-colour-perception-extension",
+  "title": "Human Visual Perception: Colour Perception extension bank",
+  "courseIds": [
+    "human-visual-perception"
+  ],
+  "objectives": [
+    {
+      "schemaVersion": 1,
+      "id": "colour-definition",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-foundations",
+      "statement": "Define colour vision as wavelength discrimination independent of intensity.",
+      "targetBloomLevels": [
+        "remember",
+        "understand"
+      ],
+      "tags": [
+        "hvp-colour-perception",
+        "colour-foundations"
+      ],
+      "sourceIds": [
+        "hvp-colour-perception-lecture"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "colour-perceptual-code",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-foundations",
+      "statement": "Explain colour as a psychological/neural perceptual code.",
+      "targetBloomLevels": [
+        "understand",
+        "analyze"
+      ],
+      "tags": [
+        "hvp-colour-perception",
+        "colour-foundations"
+      ],
+      "sourceIds": [
+        "hvp-colour-perception-lecture"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "colour-spectrum-cones",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "visible-spectrum-cones",
+      "statement": "Relate visible wavelengths to S, M and L cone coding.",
+      "targetBloomLevels": [
+        "remember",
+        "understand"
+      ],
+      "tags": [
+        "hvp-colour-perception",
+        "visible-spectrum-cones"
+      ],
+      "sourceIds": [
+        "hvp-colour-perception-lecture"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "colour-importance",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "importance-of-colour",
+      "statement": "Explain survival and perceptual functions of colour.",
+      "targetBloomLevels": [
+        "understand"
+      ],
+      "tags": [
+        "hvp-colour-perception",
+        "importance-of-colour"
+      ],
+      "sourceIds": [
+        "hvp-colour-perception-lecture"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "colour-attributes",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-attributes",
+      "statement": "Distinguish hue, saturation and brightness.",
+      "targetBloomLevels": [
+        "remember",
+        "apply"
+      ],
+      "tags": [
+        "hvp-colour-perception",
+        "colour-attributes"
+      ],
+      "sourceIds": [
+        "hvp-colour-perception-lecture"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "colour-constancy",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-constancy",
+      "statement": "Explain colour constancy and restricted-wavelength failure.",
+      "targetBloomLevels": [
+        "understand",
+        "analyze"
+      ],
+      "tags": [
+        "hvp-colour-perception",
+        "colour-constancy"
+      ],
+      "sourceIds": [
+        "hvp-colour-perception-lecture"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "colour-trichromatic",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "trichromatic-theory",
+      "statement": "Explain trichromatic theory at the cone/photoreceptor level.",
+      "targetBloomLevels": [
+        "understand"
+      ],
+      "tags": [
+        "hvp-colour-perception",
+        "trichromatic-theory"
+      ],
+      "sourceIds": [
+        "hvp-colour-perception-lecture"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "colour-opponent",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "opponent-process-theory",
+      "statement": "Explain opponent-process theory, opponent channels and afterimages.",
+      "targetBloomLevels": [
+        "understand",
+        "analyze"
+      ],
+      "tags": [
+        "hvp-colour-perception",
+        "opponent-process-theory"
+      ],
+      "sourceIds": [
+        "hvp-colour-perception-lecture"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "colour-zone-model",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "zone-model",
+      "statement": "Compare trichromatic and opponent-process theories using the zone model.",
+      "targetBloomLevels": [
+        "analyze",
+        "evaluate"
+      ],
+      "tags": [
+        "hvp-colour-perception",
+        "zone-model"
+      ],
+      "sourceIds": [
+        "hvp-colour-perception-lecture"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "colour-clinical",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "clinical-considerations",
+      "statement": "Recognize blue-cone vulnerability, SWAP and source limits for clinical testing protocols.",
+      "targetBloomLevels": [
+        "remember",
+        "evaluate"
+      ],
+      "tags": [
+        "hvp-colour-perception",
+        "clinical-considerations"
+      ],
+      "sourceIds": [
+        "hvp-colour-perception-lecture"
+      ],
+      "reviewStatus": "draft"
+    }
+  ],
+  "questions": [
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-001",
+      "familyId": "colour-vision",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-foundations",
+      "objectiveId": "colour-definition",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Which statement best describes colour vision?",
+      "explanation": "The operational definition in the lecture centers on wavelength independent of intensity.",
+      "noteAnchor": "colour-foundations",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "colour-vision",
+          "text": "Discrimination of wavelength differences independent of light intensity.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "depth-from-binocular-dispari",
+          "text": "Depth from binocular disparity."
+        },
+        {
+          "id": "the-amount-of-grey-in-a-hue",
+          "text": "The amount of grey in a hue."
+        },
+        {
+          "id": "the-distance-between-pupils",
+          "text": "The distance between pupils."
+        }
+      ],
+      "correctOptionId": "colour-vision"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-002",
+      "familyId": "colour-as-illusion",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-foundations",
+      "objectiveId": "colour-perceptual-code",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Which statement best describes colour as illusion?",
+      "explanation": "The source distinguishes reflected wavelengths from perceived colour.",
+      "noteAnchor": "colour-foundations",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "colour-as-illusion",
+          "text": "Colour is a psychological/neural perceptual experience, not a physical substance in objects.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "wavelengths-do-not-exist",
+          "text": "Wavelengths do not exist."
+        },
+        {
+          "id": "objects-cannot-reflect-light",
+          "text": "Objects cannot reflect light."
+        },
+        {
+          "id": "the-ear-normally-senses-hue",
+          "text": "The ear normally senses hue."
+        }
+      ],
+      "correctOptionId": "colour-as-illusion"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-003",
+      "familyId": "visible-spectrum",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "visible-spectrum-cones",
+      "objectiveId": "colour-spectrum-cones",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Which statement best describes visible spectrum?",
+      "explanation": "The source states about 380-780 nm.",
+      "noteAnchor": "visible-spectrum-cones",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "visible-spectrum",
+          "text": "The lecture gives visible light as about 380 nm to 780 nm.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "40-to-80-seconds-of-arc",
+          "text": "40 to 80 seconds of arc."
+        },
+        {
+          "id": "1-5-m-to-infinity",
+          "text": "1.5 m to infinity."
+        },
+        {
+          "id": "50-mm-to-75-mm",
+          "text": "50 mm to 75 mm."
+        }
+      ],
+      "correctOptionId": "visible-spectrum"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-004",
+      "familyId": "s-cones",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "visible-spectrum-cones",
+      "objectiveId": "colour-spectrum-cones",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "apply",
+      "difficulty": "foundation",
+      "stem": "Which statement best describes S cones?",
+      "explanation": "S, M and L cone balance contributes to colour.",
+      "noteAnchor": "visible-spectrum-cones",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "s-cones",
+          "text": "Short-wavelength sensitive cones.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "long-wavelength-sensitive-co",
+          "text": "Long-wavelength sensitive cones."
+        },
+        {
+          "id": "brightness-only-channels",
+          "text": "Brightness-only channels."
+        },
+        {
+          "id": "depth-receptors",
+          "text": "Depth receptors."
+        }
+      ],
+      "correctOptionId": "s-cones"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-005",
+      "familyId": "m-cones",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "visible-spectrum-cones",
+      "objectiveId": "colour-spectrum-cones",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Which statement best describes M cones?",
+      "explanation": "M cones are one of the three cone classes.",
+      "noteAnchor": "visible-spectrum-cones",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "m-cones",
+          "text": "Medium-wavelength sensitive cones.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "only-black-white-coding",
+          "text": "Only black-white coding."
+        },
+        {
+          "id": "a-stereopsis-test",
+          "text": "A stereopsis test."
+        },
+        {
+          "id": "the-ciliary-muscle",
+          "text": "The ciliary muscle."
+        }
+      ],
+      "correctOptionId": "m-cones"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-006",
+      "familyId": "l-cones",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "visible-spectrum-cones",
+      "objectiveId": "colour-spectrum-cones",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Which statement best describes L cones?",
+      "explanation": "L cones contribute to long-wavelength coding.",
+      "noteAnchor": "visible-spectrum-cones",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "l-cones",
+          "text": "Long-wavelength sensitive cones.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "short-wavelength-only",
+          "text": "Short wavelength only."
+        },
+        {
+          "id": "an-aerial-perspective-cue",
+          "text": "An aerial perspective cue."
+        },
+        {
+          "id": "a-clinical-stereo-card",
+          "text": "A clinical stereo card."
+        }
+      ],
+      "correctOptionId": "l-cones"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-007",
+      "familyId": "main-purpose-of-colour-vision",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "importance-of-colour",
+      "objectiveId": "colour-importance",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Which statement best describes main purpose of colour vision?",
+      "explanation": "The lecture summarizes the main purpose as detection and discrimination.",
+      "noteAnchor": "importance-of-colour",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "main-purpose-of-colour-vision",
+          "text": "Detection and discrimination.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "accommodation-and-convergenc",
+          "text": "Accommodation and convergence."
+        },
+        {
+          "id": "bifocal-segment-height",
+          "text": "Bifocal segment height."
+        },
+        {
+          "id": "prism-neutralization",
+          "text": "Prism neutralization."
+        }
+      ],
+      "correctOptionId": "main-purpose-of-colour-vision"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-008",
+      "familyId": "hue",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-attributes",
+      "objectiveId": "colour-attributes",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "apply",
+      "difficulty": "foundation",
+      "stem": "Which statement best describes hue?",
+      "explanation": "Hue is mostly associated with wavelength.",
+      "noteAnchor": "colour-attributes",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "hue",
+          "text": "The wavelength-associated quality that distinguishes red, yellow, green or blue.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "purity-or-greyness-only",
+          "text": "Purity or greyness only."
+        },
+        {
+          "id": "lightness-or-darkness-only",
+          "text": "Lightness or darkness only."
+        },
+        {
+          "id": "binocular-disparity",
+          "text": "Binocular disparity."
+        }
+      ],
+      "correctOptionId": "hue"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-009",
+      "familyId": "saturation",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-attributes",
+      "objectiveId": "colour-attributes",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes saturation?",
+      "explanation": "Saturation distinguishes vivid from pale/faded colours.",
+      "noteAnchor": "colour-attributes",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "saturation",
+          "text": "The purity of a hue or amount of greyness mixed with it.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "distance-between-two-objects",
+          "text": "Distance between two objects."
+        },
+        {
+          "id": "amount-of-eye-convergence",
+          "text": "Amount of eye convergence."
+        },
+        {
+          "id": "only-the-object-s-location",
+          "text": "Only the object’s location."
+        }
+      ],
+      "correctOptionId": "saturation"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-010",
+      "familyId": "brightness",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-attributes",
+      "objectiveId": "colour-attributes",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes brightness?",
+      "explanation": "Brightness ranges from black to white.",
+      "noteAnchor": "colour-attributes",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "brightness",
+          "text": "Luminous intensity or lightness/darkness of a colour.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "hue-family-only",
+          "text": "Hue family only."
+        },
+        {
+          "id": "panum-s-space",
+          "text": "Panum’s space."
+        },
+        {
+          "id": "a-stereogram-separation",
+          "text": "A stereogram separation."
+        }
+      ],
+      "correctOptionId": "brightness"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-011",
+      "familyId": "colour-constancy",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-constancy",
+      "objectiveId": "colour-constancy",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes colour constancy?",
+      "explanation": "Adaptation supports colour constancy.",
+      "noteAnchor": "colour-constancy",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "colour-constancy",
+          "text": "Object colour tends to remain stable despite changes in illumination.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "object-distance-remains-stab",
+          "text": "Object distance remains stable."
+        },
+        {
+          "id": "two-retinal-images-are-fused",
+          "text": "Two retinal images are fused."
+        },
+        {
+          "id": "colour-tests-use-random-dots",
+          "text": "Colour tests use random dots."
+        }
+      ],
+      "correctOptionId": "colour-constancy"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-012",
+      "familyId": "restricted-wavelength-illumination",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-constancy",
+      "objectiveId": "colour-constancy",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes restricted-wavelength illumination?",
+      "explanation": "The lecture says constancy works under broadband illumination and can fail under restricted wavelengths.",
+      "noteAnchor": "colour-constancy",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "restricted-wavelength-illumination",
+          "text": "Lighting that can defeat colour constancy.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "broadband-natural-illuminati",
+          "text": "Broadband natural illumination only."
+        },
+        {
+          "id": "a-binocular-depth-cue",
+          "text": "A binocular depth cue."
+        },
+        {
+          "id": "a-cone-class",
+          "text": "A cone class."
+        }
+      ],
+      "correctOptionId": "restricted-wavelength-illumination"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-013",
+      "familyId": "trichromatic-theory",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "trichromatic-theory",
+      "objectiveId": "colour-trichromatic",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes trichromatic theory?",
+      "explanation": "The lecture links the theory to S, M and L cones and opsins.",
+      "noteAnchor": "trichromatic-theory",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "trichromatic-theory",
+          "text": "Colour begins with three cone classes and their relative activity.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "colour-begins-with-panum-s-s",
+          "text": "Colour begins with Panum’s space."
+        },
+        {
+          "id": "colour-requires-no-receptors",
+          "text": "Colour requires no receptors."
+        },
+        {
+          "id": "only-one-cone-explains-all-h",
+          "text": "Only one cone explains all hues."
+        }
+      ],
+      "correctOptionId": "trichromatic-theory"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-014",
+      "familyId": "opsins",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "trichromatic-theory",
+      "objectiveId": "colour-trichromatic",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes opsins?",
+      "explanation": "The lecture names opsins in the trichromatic discussion.",
+      "noteAnchor": "trichromatic-theory",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "opsins",
+          "text": "Light-sensitive chemicals in cones.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "near-stereotest-targets",
+          "text": "Near stereotest targets."
+        },
+        {
+          "id": "depth-illusion-names",
+          "text": "Depth illusion names."
+        },
+        {
+          "id": "frame-fitting-marks",
+          "text": "Frame fitting marks."
+        }
+      ],
+      "correctOptionId": "opsins"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-015",
+      "familyId": "opponent-process-theory",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "opponent-process-theory",
+      "objectiveId": "colour-opponent",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes opponent-process theory?",
+      "explanation": "Opponent pairs explain non-blending and afterimages.",
+      "noteAnchor": "opponent-process-theory",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "opponent-process-theory",
+          "text": "Colour is processed in opposing pairs such as red-green and blue-yellow.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "all-colours-blend-into-reddi",
+          "text": "All colours blend into reddish-green."
+        },
+        {
+          "id": "depth-depends-only-on-one-ey",
+          "text": "Depth depends only on one eye."
+        },
+        {
+          "id": "there-are-no-afterimages",
+          "text": "There are no afterimages."
+        }
+      ],
+      "correctOptionId": "opponent-process-theory"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-016",
+      "familyId": "complementary-afterimage",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "opponent-process-theory",
+      "objectiveId": "colour-opponent",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes complementary afterimage?",
+      "explanation": "The lecture uses red/green and blue/yellow afterimages.",
+      "noteAnchor": "opponent-process-theory",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "complementary-afterimage",
+          "text": "A reversed colour percept after prolonged fixation on a colour.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "a-fused-stereogram",
+          "text": "A fused stereogram."
+        },
+        {
+          "id": "an-occlusion-cue",
+          "text": "An occlusion cue."
+        },
+        {
+          "id": "a-pd-measurement",
+          "text": "A PD measurement."
+        }
+      ],
+      "correctOptionId": "complementary-afterimage"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-017",
+      "familyId": "red-green-channel",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "opponent-process-theory",
+      "objectiveId": "colour-opponent",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes red-green channel?",
+      "explanation": "The source gives red/green as L-M.",
+      "noteAnchor": "opponent-process-theory",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "red-green-channel",
+          "text": "Opponent channel represented in the lecture as L-M.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "l-m-s-only",
+          "text": "L+M+S only."
+        },
+        {
+          "id": "s-versus-l-m-only",
+          "text": "S versus L+M only."
+        },
+        {
+          "id": "distance-pd-minus-near-pd",
+          "text": "Distance PD minus near PD."
+        }
+      ],
+      "correctOptionId": "red-green-channel"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-018",
+      "familyId": "blue-yellow-channel",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "opponent-process-theory",
+      "objectiveId": "colour-opponent",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes blue-yellow channel?",
+      "explanation": "The lecture describes the blue-yellow pathway with S-cone input opposed by L/M input.",
+      "noteAnchor": "opponent-process-theory",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "blue-yellow-channel",
+          "text": "Opponent channel represented as S opposed to L+M / L+M-S.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "l-m-only",
+          "text": "L-M only."
+        },
+        {
+          "id": "texture-gradient",
+          "text": "Texture gradient."
+        },
+        {
+          "id": "physiologic-diplopia",
+          "text": "Physiologic diplopia."
+        }
+      ],
+      "correctOptionId": "blue-yellow-channel"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-019",
+      "familyId": "black-white-channel",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "opponent-process-theory",
+      "objectiveId": "colour-opponent",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes black-white channel?",
+      "explanation": "The lecture names black-white as an intensity channel.",
+      "noteAnchor": "opponent-process-theory",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "black-white-channel",
+          "text": "Achromatic intensity channel represented as L+M+S.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "retinal-disparity",
+          "text": "Retinal disparity."
+        },
+        {
+          "id": "relative-size",
+          "text": "Relative size."
+        },
+        {
+          "id": "hue-only",
+          "text": "Hue only."
+        }
+      ],
+      "correctOptionId": "black-white-channel"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-020",
+      "familyId": "yellow-without-yellow-cone",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "opponent-process-theory",
+      "objectiveId": "colour-opponent",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes yellow without yellow cone?",
+      "explanation": "The source explicitly explains yellow without a yellow cone.",
+      "noteAnchor": "opponent-process-theory",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "yellow-without-yellow-cone",
+          "text": "Yellow can arise from combined L and M activity through opponent coding.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "a-separate-yellow-cone-is-al",
+          "text": "A separate yellow cone is always required."
+        },
+        {
+          "id": "only-rods-produce-yellow",
+          "text": "Only rods produce yellow."
+        },
+        {
+          "id": "stereopsis-creates-yellow",
+          "text": "Stereopsis creates yellow."
+        }
+      ],
+      "correctOptionId": "yellow-without-yellow-cone"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-021",
+      "familyId": "zone-model",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "zone-model",
+      "objectiveId": "colour-zone-model",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes zone model?",
+      "explanation": "The lecture says both theories are needed at different levels.",
+      "noteAnchor": "zone-model",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "zone-model",
+          "text": "A combined model: trichromatic cone coding followed by opponent processing.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "a-model-that-rejects-cones",
+          "text": "A model that rejects cones."
+        },
+        {
+          "id": "a-depth-only-model",
+          "text": "A depth-only model."
+        },
+        {
+          "id": "a-pd-measurement-model",
+          "text": "A PD measurement model."
+        }
+      ],
+      "correctOptionId": "zone-model"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-022",
+      "familyId": "early-opponent-processing",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "zone-model",
+      "objectiveId": "colour-zone-model",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes early opponent processing?",
+      "explanation": "The summary says opponent processing occurs very early.",
+      "noteAnchor": "zone-model",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "early-opponent-processing",
+          "text": "Opponent processing occurs very early in the visual system.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "only-after-language-naming",
+          "text": "Only after language naming."
+        },
+        {
+          "id": "only-in-the-lens",
+          "text": "Only in the lens."
+        },
+        {
+          "id": "never-in-primates",
+          "text": "Never in primates."
+        }
+      ],
+      "correctOptionId": "early-opponent-processing"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-023",
+      "familyId": "blue-cone-vulnerability",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "clinical-considerations",
+      "objectiveId": "colour-clinical",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes blue-cone vulnerability?",
+      "explanation": "This is the specific clinical point highlighted.",
+      "noteAnchor": "clinical-considerations",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "blue-cone-vulnerability",
+          "text": "Blue cones are more vulnerable than the others.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "red-cones-are-immune-to-dise",
+          "text": "Red cones are immune to disease."
+        },
+        {
+          "id": "rods-determine-all-hues",
+          "text": "Rods determine all hues."
+        },
+        {
+          "id": "cones-do-not-capture-light",
+          "text": "Cones do not capture light."
+        }
+      ],
+      "correctOptionId": "blue-cone-vulnerability"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-024",
+      "familyId": "swap",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "clinical-considerations",
+      "objectiveId": "colour-clinical",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes SWAP?",
+      "explanation": "The lecture expands SWAP in the clinical-consideration slide.",
+      "noteAnchor": "clinical-considerations",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "swap",
+          "text": "Short Wavelength Automated Perimetry.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "stereo-with-alternating-pris",
+          "text": "Stereo With Alternating Prisms."
+        },
+        {
+          "id": "single-wavelength-aerial-per",
+          "text": "Single Wavelength Aerial Perspective."
+        },
+        {
+          "id": "standard-white-arc-perimetry",
+          "text": "Standard White Arc Perimetry."
+        }
+      ],
+      "correctOptionId": "swap"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sba-025",
+      "familyId": "colour-test-source-limit",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "clinical-considerations",
+      "objectiveId": "colour-clinical",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes colour-test source limit?",
+      "explanation": "The package must not invent detailed protocols from a list of names.",
+      "noteAnchor": "clinical-considerations",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "colour-test-source-limit",
+          "text": "Ishihara, D-15, City, HRR and FM-100 are named, but detailed protocols are not supplied.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "the-deck-gives-full-scoring",
+          "text": "The deck gives full scoring tables."
+        },
+        {
+          "id": "the-tests-are-stereopsis-tes",
+          "text": "The tests are stereopsis tests."
+        },
+        {
+          "id": "they-replace-trichromatic-th",
+          "text": "They replace trichromatic theory."
+        }
+      ],
+      "correctOptionId": "colour-test-source-limit"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-tf-001",
+      "familyId": "colour-vision-is-wavelength-discriminati",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-foundations",
+      "objectiveId": "colour-definition",
+      "format": "true_false",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "Colour vision is wavelength discrimination independent of intensity.",
+      "explanation": "This is the operational definition.",
+      "noteAnchor": "colour-foundations",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "correctAnswer": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-tf-002",
+      "familyId": "the-lecture-treats-colour-as-a-subjectiv",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-foundations",
+      "objectiveId": "colour-perceptual-code",
+      "format": "true_false",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "The lecture treats colour as a subjective psychological phenomenon.",
+      "explanation": "Colour is described as a perceptual/neural construction.",
+      "noteAnchor": "colour-foundations",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "correctAnswer": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-tf-003",
+      "familyId": "hue-saturation-and-brightness-are-the-t",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-attributes",
+      "objectiveId": "colour-attributes",
+      "format": "true_false",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "Hue, saturation and brightness are the three dimensions used to specify colour.",
+      "explanation": "The lecture lists these three.",
+      "noteAnchor": "colour-attributes",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "correctAnswer": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-tf-004",
+      "familyId": "hue-and-colour-are-perfectly-interchange",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-attributes",
+      "objectiveId": "colour-attributes",
+      "format": "true_false",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Hue and colour are perfectly interchangeable terms.",
+      "explanation": "The lecture says colour is broader than hue.",
+      "noteAnchor": "colour-attributes",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "correctAnswer": false
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-tf-005",
+      "familyId": "colour-constancy-can-be-defeated-by-rest",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-constancy",
+      "objectiveId": "colour-constancy",
+      "format": "true_false",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Colour constancy can be defeated by restricted-wavelength illumination.",
+      "explanation": "The lecture states this explicitly.",
+      "noteAnchor": "colour-constancy",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "correctAnswer": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-tf-006",
+      "familyId": "trichromatic-theory-explains-complementa",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "trichromatic-theory",
+      "objectiveId": "colour-trichromatic",
+      "format": "true_false",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Trichromatic theory explains complementary afterimages completely on its own.",
+      "explanation": "The lecture uses afterimages to motivate opponent theory.",
+      "noteAnchor": "trichromatic-theory",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "correctAnswer": false
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-tf-007",
+      "familyId": "the-zone-model-combines-trichromatic-and",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "zone-model",
+      "objectiveId": "colour-zone-model",
+      "format": "true_false",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "The zone model combines trichromatic and opponent-process theories.",
+      "explanation": "The lecture says both theories are needed.",
+      "noteAnchor": "zone-model",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "correctAnswer": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-tf-008",
+      "familyId": "the-uploaded-colour-deck-gives-full-ishi",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "clinical-considerations",
+      "objectiveId": "colour-clinical",
+      "format": "true_false",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "The uploaded colour deck gives full Ishihara, D-15, HRR and FM-100 protocols.",
+      "explanation": "The tests are named but detailed protocols are not supplied.",
+      "noteAnchor": "clinical-considerations",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "correctAnswer": false
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-mr-001",
+      "familyId": "select-the-three-colour-dimensions",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-attributes",
+      "objectiveId": "colour-attributes",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Select the three colour dimensions.",
+      "explanation": "The lecture lists hue, saturation and brightness.",
+      "noteAnchor": "colour-attributes",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "hue",
+          "text": "Hue"
+        },
+        {
+          "id": "saturation",
+          "text": "Saturation"
+        },
+        {
+          "id": "brightness",
+          "text": "Brightness"
+        },
+        {
+          "id": "disparity",
+          "text": "Retinal disparity"
+        }
+      ],
+      "correctOptionIds": [
+        "hue",
+        "saturation",
+        "brightness"
+      ],
+      "minimumSelections": 3,
+      "maximumSelections": 3
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-mr-002",
+      "familyId": "select-values-of-colour-perception-in-the-lec",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "importance-of-colour",
+      "objectiveId": "colour-importance",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Select values of colour perception in the lecture.",
+      "explanation": "Colour supports detection and discrimination.",
+      "noteAnchor": "importance-of-colour",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "food",
+          "text": "Identifying food"
+        },
+        {
+          "id": "predator",
+          "text": "Detecting predators/prey"
+        },
+        {
+          "id": "signals",
+          "text": "Recognizing organism signals"
+        },
+        {
+          "id": "borders",
+          "text": "Detecting borders"
+        },
+        {
+          "id": "panum",
+          "text": "Fusing disparities"
+        }
+      ],
+      "correctOptionIds": [
+        "food",
+        "predator",
+        "signals",
+        "borders"
+      ],
+      "minimumSelections": 4,
+      "maximumSelections": 4
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-mr-003",
+      "familyId": "select-trichromatic-theory-facts",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "trichromatic-theory",
+      "objectiveId": "colour-trichromatic",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Select trichromatic theory facts.",
+      "explanation": "Afterimages motivate opponent processing.",
+      "noteAnchor": "trichromatic-theory",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "three-cones",
+          "text": "Three cone classes"
+        },
+        {
+          "id": "opsins",
+          "text": "Light-sensitive opsins"
+        },
+        {
+          "id": "balance",
+          "text": "Balance of S/M/L activity determines colour"
+        },
+        {
+          "id": "afterimages",
+          "text": "Fully explains afterimages alone"
+        }
+      ],
+      "correctOptionIds": [
+        "three-cones",
+        "opsins",
+        "balance"
+      ],
+      "minimumSelections": 3,
+      "maximumSelections": 3
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-mr-004",
+      "familyId": "select-opponent-pairs",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "opponent-process-theory",
+      "objectiveId": "colour-opponent",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Select opponent pairs.",
+      "explanation": "The lecture names these three channels.",
+      "noteAnchor": "opponent-process-theory",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "red-green",
+          "text": "Red-green"
+        },
+        {
+          "id": "blue-yellow",
+          "text": "Blue-yellow"
+        },
+        {
+          "id": "black-white",
+          "text": "Black-white"
+        },
+        {
+          "id": "red-yellow",
+          "text": "Red-yellow"
+        }
+      ],
+      "correctOptionIds": [
+        "red-green",
+        "blue-yellow",
+        "black-white"
+      ],
+      "minimumSelections": 3,
+      "maximumSelections": 3
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-mr-005",
+      "familyId": "select-simplified-channel-expressions",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "opponent-process-theory",
+      "objectiveId": "colour-opponent",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "intermediate",
+      "stem": "Select simplified channel expressions.",
+      "explanation": "These equations are from the lecture.",
+      "noteAnchor": "opponent-process-theory",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "l-m",
+          "text": "Red/green: L-M"
+        },
+        {
+          "id": "lm-s",
+          "text": "Yellow/blue: L+M-S"
+        },
+        {
+          "id": "lms",
+          "text": "White/black: L+M+S"
+        },
+        {
+          "id": "s-m",
+          "text": "Brightness: S-M only"
+        }
+      ],
+      "correctOptionIds": [
+        "l-m",
+        "lm-s",
+        "lms"
+      ],
+      "minimumSelections": 3,
+      "maximumSelections": 3
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-mr-006",
+      "familyId": "select-colour-constancy-facts",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-constancy",
+      "objectiveId": "colour-constancy",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "intermediate",
+      "stem": "Select colour constancy facts.",
+      "explanation": "Constancy is aided by adaptation and limited by restricted light.",
+      "noteAnchor": "colour-constancy",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "stable",
+          "text": "Object colour tends to remain stable"
+        },
+        {
+          "id": "adaptation",
+          "text": "Adaptation helps"
+        },
+        {
+          "id": "restricted",
+          "text": "Restricted wavelength illumination can defeat it"
+        },
+        {
+          "id": "binocular",
+          "text": "Requires binocular disparity"
+        }
+      ],
+      "correctOptionIds": [
+        "stable",
+        "adaptation",
+        "restricted"
+      ],
+      "minimumSelections": 3,
+      "maximumSelections": 3
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-mr-007",
+      "familyId": "select-accurate-physical-perceptual-distincti",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-foundations",
+      "objectiveId": "colour-perceptual-code",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "intermediate",
+      "stem": "Select accurate physical/perceptual distinctions.",
+      "explanation": "The lecture distinguishes physical wavelengths from perceived colour.",
+      "noteAnchor": "colour-foundations",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "reflect",
+          "text": "Objects reflect visible-spectrum light"
+        },
+        {
+          "id": "psychological",
+          "text": "Colour is psychological/perceptual"
+        },
+        {
+          "id": "wavelength",
+          "text": "Perception changes with wavelength"
+        },
+        {
+          "id": "substance",
+          "text": "Colour is a physical substance in objects"
+        }
+      ],
+      "correctOptionIds": [
+        "reflect",
+        "psychological",
+        "wavelength"
+      ],
+      "minimumSelections": 3,
+      "maximumSelections": 3
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-mr-008",
+      "familyId": "select-zone-model-levels",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "zone-model",
+      "objectiveId": "colour-zone-model",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "intermediate",
+      "stem": "Select zone-model levels.",
+      "explanation": "The zone model spans receptor and post-receptor levels.",
+      "noteAnchor": "zone-model",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "cones",
+          "text": "Cone photoreceptors"
+        },
+        {
+          "id": "interconnections",
+          "text": "Retinal interconnections"
+        },
+        {
+          "id": "ganglion",
+          "text": "Ganglion/thalamic opponent responses"
+        },
+        {
+          "id": "cortex",
+          "text": "Visual cortex colour experience"
+        },
+        {
+          "id": "cornea",
+          "text": "Corneal refraction only"
+        }
+      ],
+      "correctOptionIds": [
+        "cones",
+        "interconnections",
+        "ganglion",
+        "cortex"
+      ],
+      "minimumSelections": 4,
+      "maximumSelections": 4
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-mr-009",
+      "familyId": "select-clinical-points-supported-by-the-deck",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "clinical-considerations",
+      "objectiveId": "colour-clinical",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "intermediate",
+      "stem": "Select clinical points supported by the deck.",
+      "explanation": "The detailed protocol is not supplied.",
+      "noteAnchor": "clinical-considerations",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "blue",
+          "text": "Blue cones are more vulnerable"
+        },
+        {
+          "id": "swap",
+          "text": "SWAP means Short Wavelength Automated Perimetry"
+        },
+        {
+          "id": "glaucoma",
+          "text": "Visual field analyzers important in glaucoma are mentioned"
+        },
+        {
+          "id": "protocol",
+          "text": "Full Ishihara scoring protocol supplied"
+        }
+      ],
+      "correctOptionIds": [
+        "blue",
+        "swap",
+        "glaucoma"
+      ],
+      "minimumSelections": 3,
+      "maximumSelections": 3
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-mr-010",
+      "familyId": "select-colour-tests-named-in-objectives",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "clinical-considerations",
+      "objectiveId": "colour-clinical",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "intermediate",
+      "stem": "Select colour tests named in objectives.",
+      "explanation": "Randot belongs to stereopsis, not the colour objective.",
+      "noteAnchor": "clinical-considerations",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "ishihara",
+          "text": "Ishihara"
+        },
+        {
+          "id": "d15",
+          "text": "D-15"
+        },
+        {
+          "id": "city",
+          "text": "City University"
+        },
+        {
+          "id": "hrr",
+          "text": "HRR"
+        },
+        {
+          "id": "fm100",
+          "text": "FM-100"
+        },
+        {
+          "id": "randot",
+          "text": "Randot"
+        }
+      ],
+      "correctOptionIds": [
+        "ishihara",
+        "d15",
+        "city",
+        "hrr",
+        "fm100"
+      ],
+      "minimumSelections": 5,
+      "maximumSelections": 5
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-order-001",
+      "familyId": "order-wavelength-to-colour-coding",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "visible-spectrum-cones",
+      "objectiveId": "colour-spectrum-cones",
+      "format": "ordering",
+      "stimulusType": "pathway",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Order wavelength-to-colour coding.",
+      "explanation": "The sequence follows the lecture's causal or procedural flow.",
+      "noteAnchor": "visible-spectrum-cones",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "items": [
+        {
+          "id": "light",
+          "text": "Visible wavelengths enter eye"
+        },
+        {
+          "id": "cones",
+          "text": "Cones capture light"
+        },
+        {
+          "id": "signals",
+          "text": "Signals travel through visual pathways"
+        },
+        {
+          "id": "code",
+          "text": "Brain assigns perceptual colour code"
+        }
+      ],
+      "correctOrder": [
+        "light",
+        "cones",
+        "signals",
+        "code"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-order-002",
+      "familyId": "order-zone-model-stages",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "zone-model",
+      "objectiveId": "colour-zone-model",
+      "format": "ordering",
+      "stimulusType": "pathway",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Order zone model stages.",
+      "explanation": "The sequence follows the lecture's causal or procedural flow.",
+      "noteAnchor": "zone-model",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "items": [
+        {
+          "id": "cones",
+          "text": "S/M/L cone responses"
+        },
+        {
+          "id": "retina",
+          "text": "Retinal interconnections recombine signals"
+        },
+        {
+          "id": "opponent",
+          "text": "Opponent channels operate"
+        },
+        {
+          "id": "cortex",
+          "text": "Colour experience occurs"
+        }
+      ],
+      "correctOrder": [
+        "cones",
+        "retina",
+        "opponent",
+        "cortex"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-order-003",
+      "familyId": "order-colour-constancy-logic",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-constancy",
+      "objectiveId": "colour-constancy",
+      "format": "ordering",
+      "stimulusType": "pathway",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Order colour constancy logic.",
+      "explanation": "The sequence follows the lecture's causal or procedural flow.",
+      "noteAnchor": "colour-constancy",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "items": [
+        {
+          "id": "object",
+          "text": "Object reflects changed spectrum"
+        },
+        {
+          "id": "input",
+          "text": "Eye receives changed input"
+        },
+        {
+          "id": "adapt",
+          "text": "Adaptation compensates"
+        },
+        {
+          "id": "stable",
+          "text": "Colour appears stable"
+        }
+      ],
+      "correctOrder": [
+        "object",
+        "input",
+        "adapt",
+        "stable"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-order-004",
+      "familyId": "order-afterimage-logic",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "opponent-process-theory",
+      "objectiveId": "colour-opponent",
+      "format": "ordering",
+      "stimulusType": "pathway",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Order afterimage logic.",
+      "explanation": "The sequence follows the lecture's causal or procedural flow.",
+      "noteAnchor": "opponent-process-theory",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "items": [
+        {
+          "id": "fixate",
+          "text": "Fixate on colour patch"
+        },
+        {
+          "id": "adapt",
+          "text": "Opponent mechanisms adapt"
+        },
+        {
+          "id": "blank",
+          "text": "Look at blank field"
+        },
+        {
+          "id": "reverse",
+          "text": "Complementary colour appears"
+        }
+      ],
+      "correctOrder": [
+        "fixate",
+        "adapt",
+        "blank",
+        "reverse"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-order-005",
+      "familyId": "order-desaturation-interpretation",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-attributes",
+      "objectiveId": "colour-attributes",
+      "format": "ordering",
+      "stimulusType": "pathway",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Order desaturation interpretation.",
+      "explanation": "The sequence follows the lecture's causal or procedural flow.",
+      "noteAnchor": "colour-attributes",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "items": [
+        {
+          "id": "hue",
+          "text": "Hue is present"
+        },
+        {
+          "id": "grey",
+          "text": "Grey is mixed in"
+        },
+        {
+          "id": "pure",
+          "text": "Hue is less pure"
+        },
+        {
+          "id": "pale",
+          "text": "Colour looks pale/faded"
+        }
+      ],
+      "correctOrder": [
+        "hue",
+        "grey",
+        "pure",
+        "pale"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-order-006",
+      "familyId": "order-yellow-without-yellow-cone-logic",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "opponent-process-theory",
+      "objectiveId": "colour-opponent",
+      "format": "ordering",
+      "stimulusType": "pathway",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Order yellow without yellow cone logic.",
+      "explanation": "The sequence follows the lecture's causal or procedural flow.",
+      "noteAnchor": "opponent-process-theory",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "items": [
+        {
+          "id": "lm",
+          "text": "L and M cones stimulated"
+        },
+        {
+          "id": "sum",
+          "text": "L+M signal sums"
+        },
+        {
+          "id": "oppose",
+          "text": "Blue side is opposed"
+        },
+        {
+          "id": "yellow",
+          "text": "Yellow is perceived"
+        }
+      ],
+      "correctOrder": [
+        "lm",
+        "sum",
+        "oppose",
+        "yellow"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-order-007",
+      "familyId": "order-safe-handling-of-clinical-test-gap",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "clinical-considerations",
+      "objectiveId": "colour-clinical",
+      "format": "ordering",
+      "stimulusType": "pathway",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Order safe handling of clinical-test gap.",
+      "explanation": "The sequence follows the lecture's causal or procedural flow.",
+      "noteAnchor": "clinical-considerations",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "items": [
+        {
+          "id": "notice",
+          "text": "Notice tests are named"
+        },
+        {
+          "id": "verify",
+          "text": "Check whether protocols exist in deck"
+        },
+        {
+          "id": "limit",
+          "text": "Write only introductory source-supported items"
+        },
+        {
+          "id": "flag",
+          "text": "Flag need for another source"
+        }
+      ],
+      "correctOrder": [
+        "notice",
+        "verify",
+        "limit",
+        "flag"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-match-001",
+      "familyId": "match-colour-attribute-to-meaning",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-attributes",
+      "objectiveId": "colour-attributes",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Match colour attribute to meaning.",
+      "explanation": "Each pair matches the lecture terminology.",
+      "noteAnchor": "colour-attributes",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "prompts": [
+        {
+          "id": "hue",
+          "text": "hue"
+        },
+        {
+          "id": "saturation",
+          "text": "saturation"
+        },
+        {
+          "id": "brightness",
+          "text": "brightness"
+        },
+        {
+          "id": "colour",
+          "text": "colour"
+        }
+      ],
+      "choices": [
+        {
+          "id": "wavelength-associated-quality",
+          "text": "wavelength-associated quality"
+        },
+        {
+          "id": "purity-or-greyness",
+          "text": "purity or greyness"
+        },
+        {
+          "id": "lightness-or-darkness",
+          "text": "lightness or darkness"
+        },
+        {
+          "id": "broader-perceptual-term",
+          "text": "broader perceptual term"
+        }
+      ],
+      "correctMatches": {
+        "hue": "wavelength-associated-quality",
+        "saturation": "purity-or-greyness",
+        "brightness": "lightness-or-darkness",
+        "colour": "broader-perceptual-term"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-match-002",
+      "familyId": "match-opponent-channel",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "opponent-process-theory",
+      "objectiveId": "colour-opponent",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Match opponent channel.",
+      "explanation": "Each pair matches the lecture terminology.",
+      "noteAnchor": "opponent-process-theory",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "prompts": [
+        {
+          "id": "red-green",
+          "text": "red green"
+        },
+        {
+          "id": "blue-yellow",
+          "text": "blue yellow"
+        },
+        {
+          "id": "black-white",
+          "text": "black white"
+        },
+        {
+          "id": "afterimage",
+          "text": "afterimage"
+        }
+      ],
+      "choices": [
+        {
+          "id": "chromatic-opponent-pair",
+          "text": "chromatic opponent pair"
+        },
+        {
+          "id": "chromatic-opponent-pair",
+          "text": "chromatic opponent pair"
+        },
+        {
+          "id": "achromatic-intensity-pair",
+          "text": "achromatic intensity pair"
+        },
+        {
+          "id": "complementary-reversal",
+          "text": "complementary reversal"
+        }
+      ],
+      "correctMatches": {
+        "red-green": "chromatic-opponent-pair",
+        "blue-yellow": "chromatic-opponent-pair",
+        "black-white": "achromatic-intensity-pair",
+        "afterimage": "complementary-reversal"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-match-003",
+      "familyId": "match-cone-class",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "trichromatic-theory",
+      "objectiveId": "colour-trichromatic",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Match cone class.",
+      "explanation": "Each pair matches the lecture terminology.",
+      "noteAnchor": "trichromatic-theory",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "prompts": [
+        {
+          "id": "s-cone",
+          "text": "s cone"
+        },
+        {
+          "id": "m-cone",
+          "text": "m cone"
+        },
+        {
+          "id": "l-cone",
+          "text": "l cone"
+        }
+      ],
+      "choices": [
+        {
+          "id": "short-wavelength-sensitive",
+          "text": "short-wavelength sensitive"
+        },
+        {
+          "id": "medium-wavelength-sensitive",
+          "text": "medium-wavelength sensitive"
+        },
+        {
+          "id": "long-wavelength-sensitive",
+          "text": "long-wavelength sensitive"
+        }
+      ],
+      "correctMatches": {
+        "s-cone": "short-wavelength-sensitive",
+        "m-cone": "medium-wavelength-sensitive",
+        "l-cone": "long-wavelength-sensitive"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-match-004",
+      "familyId": "match-theory-to-level",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "zone-model",
+      "objectiveId": "colour-zone-model",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Match theory to level.",
+      "explanation": "Each pair matches the lecture terminology.",
+      "noteAnchor": "zone-model",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "prompts": [
+        {
+          "id": "trichromatic",
+          "text": "trichromatic"
+        },
+        {
+          "id": "opponent-process",
+          "text": "opponent process"
+        },
+        {
+          "id": "zone-model",
+          "text": "zone model"
+        }
+      ],
+      "choices": [
+        {
+          "id": "photoreceptor-colour-matching",
+          "text": "photoreceptor colour matching"
+        },
+        {
+          "id": "post-receptoral-channels",
+          "text": "post-receptoral channels"
+        },
+        {
+          "id": "combined-account",
+          "text": "combined account"
+        }
+      ],
+      "correctMatches": {
+        "trichromatic": "photoreceptor-colour-matching",
+        "opponent-process": "post-receptoral-channels",
+        "zone-model": "combined-account"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-match-005",
+      "familyId": "match-lighting-term",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-constancy",
+      "objectiveId": "colour-constancy",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Match lighting term.",
+      "explanation": "Each pair matches the lecture terminology.",
+      "noteAnchor": "colour-constancy",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "prompts": [
+        {
+          "id": "broadband",
+          "text": "broadband"
+        },
+        {
+          "id": "restricted",
+          "text": "restricted"
+        },
+        {
+          "id": "supermarket",
+          "text": "supermarket"
+        }
+      ],
+      "choices": [
+        {
+          "id": "constancy-can-work",
+          "text": "constancy can work"
+        },
+        {
+          "id": "constancy-can-be-defeated",
+          "text": "constancy can be defeated"
+        },
+        {
+          "id": "may-make-meat-look-fresher",
+          "text": "may make meat look fresher"
+        }
+      ],
+      "correctMatches": {
+        "broadband": "constancy-can-work",
+        "restricted": "constancy-can-be-defeated",
+        "supermarket": "may-make-meat-look-fresher"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-match-006",
+      "familyId": "match-function",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "importance-of-colour",
+      "objectiveId": "colour-importance",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Match function.",
+      "explanation": "Each pair matches the lecture terminology.",
+      "noteAnchor": "importance-of-colour",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "prompts": [
+        {
+          "id": "food",
+          "text": "food"
+        },
+        {
+          "id": "signals",
+          "text": "signals"
+        },
+        {
+          "id": "aesthetics",
+          "text": "aesthetics"
+        },
+        {
+          "id": "borders",
+          "text": "borders"
+        }
+      ],
+      "choices": [
+        {
+          "id": "identify-edible-ripe-items",
+          "text": "identify edible/ripe items"
+        },
+        {
+          "id": "recognize-organism-signals",
+          "text": "recognize organism signals"
+        },
+        {
+          "id": "beautification",
+          "text": "beautification"
+        },
+        {
+          "id": "object-boundary-detection",
+          "text": "object boundary detection"
+        }
+      ],
+      "correctMatches": {
+        "food": "identify-edible-ripe-items",
+        "signals": "recognize-organism-signals",
+        "aesthetics": "beautification",
+        "borders": "object-boundary-detection"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-match-007",
+      "familyId": "match-clinical-term",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "clinical-considerations",
+      "objectiveId": "colour-clinical",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Match clinical term.",
+      "explanation": "Each pair matches the lecture terminology.",
+      "noteAnchor": "clinical-considerations",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "prompts": [
+        {
+          "id": "swap",
+          "text": "swap"
+        },
+        {
+          "id": "blue-cones",
+          "text": "blue cones"
+        },
+        {
+          "id": "ishihara",
+          "text": "ishihara"
+        },
+        {
+          "id": "tints",
+          "text": "tints"
+        }
+      ],
+      "choices": [
+        {
+          "id": "short-wavelength-automated-perimetry",
+          "text": "Short Wavelength Automated Perimetry"
+        },
+        {
+          "id": "more-vulnerable",
+          "text": "more vulnerable"
+        },
+        {
+          "id": "named-but-protocol-not-detailed",
+          "text": "named but protocol not detailed"
+        },
+        {
+          "id": "objective-mentions-detail-limited",
+          "text": "objective mentions, detail limited"
+        }
+      ],
+      "correctMatches": {
+        "swap": "short-wavelength-automated-perimetry",
+        "blue-cones": "more-vulnerable",
+        "ishihara": "named-but-protocol-not-detailed",
+        "tints": "objective-mentions-detail-limited"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-match-008",
+      "familyId": "match-concept",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-foundations",
+      "objectiveId": "colour-perceptual-code",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Match concept.",
+      "explanation": "Each pair matches the lecture terminology.",
+      "noteAnchor": "colour-foundations",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "prompts": [
+        {
+          "id": "colour",
+          "text": "colour"
+        },
+        {
+          "id": "wavelength",
+          "text": "wavelength"
+        },
+        {
+          "id": "object",
+          "text": "object"
+        },
+        {
+          "id": "nervous-system",
+          "text": "nervous system"
+        }
+      ],
+      "choices": [
+        {
+          "id": "psychological-phenomenon",
+          "text": "psychological phenomenon"
+        },
+        {
+          "id": "physical-stimulus-dimension",
+          "text": "physical stimulus dimension"
+        },
+        {
+          "id": "reflects-visible-light",
+          "text": "reflects visible light"
+        },
+        {
+          "id": "adds-perceptual-code",
+          "text": "adds perceptual code"
+        }
+      ],
+      "correctMatches": {
+        "colour": "psychological-phenomenon",
+        "wavelength": "physical-stimulus-dimension",
+        "object": "reflects-visible-light",
+        "nervous-system": "adds-perceptual-code"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-em-001",
+      "familyId": "choose-the-colour-dimension",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-attributes",
+      "objectiveId": "colour-attributes",
+      "format": "extended_matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "intermediate",
+      "stem": "Choose the colour dimension.",
+      "explanation": "Choose the best source-supported option.",
+      "noteAnchor": "colour-attributes",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "hue",
+          "text": "hue"
+        },
+        {
+          "id": "saturation",
+          "text": "saturation"
+        },
+        {
+          "id": "brightness",
+          "text": "brightness"
+        }
+      ],
+      "stems": [
+        {
+          "id": "case-1",
+          "text": "red vs green"
+        },
+        {
+          "id": "case-2",
+          "text": "vivid vs faded blue"
+        },
+        {
+          "id": "case-3",
+          "text": "bread vs burnt toast"
+        }
+      ],
+      "correctAnswers": {
+        "case-1": "hue",
+        "case-2": "saturation",
+        "case-3": "brightness"
+      },
+      "reuseOptions": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-em-002",
+      "familyId": "choose-the-colour-constancy-term",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-constancy",
+      "objectiveId": "colour-constancy",
+      "format": "extended_matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "intermediate",
+      "stem": "Choose the colour constancy term.",
+      "explanation": "Choose the best source-supported option.",
+      "noteAnchor": "colour-constancy",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "adaptation",
+          "text": "adaptation"
+        },
+        {
+          "id": "broadband",
+          "text": "broadband"
+        },
+        {
+          "id": "restricted-wavelength",
+          "text": "restricted wavelength"
+        }
+      ],
+      "stems": [
+        {
+          "id": "case-1",
+          "text": "stable object colour after lighting change"
+        },
+        {
+          "id": "case-2",
+          "text": "condition where constancy works best"
+        },
+        {
+          "id": "case-3",
+          "text": "supermarket lighting effect"
+        }
+      ],
+      "correctAnswers": {
+        "case-1": "adaptation",
+        "case-2": "broadband",
+        "case-3": "restricted-wavelength"
+      },
+      "reuseOptions": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-em-003",
+      "familyId": "choose-receptor-level-term",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "trichromatic-theory",
+      "objectiveId": "colour-trichromatic",
+      "format": "extended_matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "intermediate",
+      "stem": "Choose receptor-level term.",
+      "explanation": "Choose the best source-supported option.",
+      "noteAnchor": "trichromatic-theory",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "s-cone",
+          "text": "s cone"
+        },
+        {
+          "id": "m-cone",
+          "text": "m cone"
+        },
+        {
+          "id": "l-cone",
+          "text": "l cone"
+        },
+        {
+          "id": "opsin",
+          "text": "opsin"
+        },
+        {
+          "id": "trichromacy",
+          "text": "trichromacy"
+        }
+      ],
+      "stems": [
+        {
+          "id": "case-1",
+          "text": "short-wavelength receptor"
+        },
+        {
+          "id": "case-2",
+          "text": "light-sensitive chemical"
+        },
+        {
+          "id": "case-3",
+          "text": "three-cone account"
+        }
+      ],
+      "correctAnswers": {
+        "case-1": "s-cone",
+        "case-2": "opsin",
+        "case-3": "trichromacy"
+      },
+      "reuseOptions": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-em-004",
+      "familyId": "choose-opponent-concept",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "opponent-process-theory",
+      "objectiveId": "colour-opponent",
+      "format": "extended_matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "intermediate",
+      "stem": "Choose opponent concept.",
+      "explanation": "Choose the best source-supported option.",
+      "noteAnchor": "opponent-process-theory",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "red-green",
+          "text": "red green"
+        },
+        {
+          "id": "blue-yellow",
+          "text": "blue yellow"
+        },
+        {
+          "id": "black-white",
+          "text": "black white"
+        },
+        {
+          "id": "afterimage",
+          "text": "afterimage"
+        }
+      ],
+      "stems": [
+        {
+          "id": "case-1",
+          "text": "no reddish-green at one place"
+        },
+        {
+          "id": "case-2",
+          "text": "blue/yellow opposition"
+        },
+        {
+          "id": "case-3",
+          "text": "red fixation yields greenish reversal"
+        }
+      ],
+      "correctAnswers": {
+        "case-1": "red-green",
+        "case-2": "blue-yellow",
+        "case-3": "afterimage"
+      },
+      "reuseOptions": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-em-005",
+      "familyId": "choose-theory",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "zone-model",
+      "objectiveId": "colour-zone-model",
+      "format": "extended_matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "intermediate",
+      "stem": "Choose theory.",
+      "explanation": "Choose the best source-supported option.",
+      "noteAnchor": "zone-model",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "trichromatic",
+          "text": "trichromatic"
+        },
+        {
+          "id": "opponent-process",
+          "text": "opponent process"
+        },
+        {
+          "id": "zone-model",
+          "text": "zone model"
+        }
+      ],
+      "stems": [
+        {
+          "id": "case-1",
+          "text": "cone-level colour matching"
+        },
+        {
+          "id": "case-2",
+          "text": "afterimages and non-blending pairs"
+        },
+        {
+          "id": "case-3",
+          "text": "combined account"
+        }
+      ],
+      "correctAnswers": {
+        "case-1": "trichromatic",
+        "case-2": "opponent-process",
+        "case-3": "zone-model"
+      },
+      "reuseOptions": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-em-006",
+      "familyId": "choose-content-decision",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "clinical-considerations",
+      "objectiveId": "colour-clinical",
+      "format": "extended_matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "advanced",
+      "stem": "Choose content decision.",
+      "explanation": "Choose the best source-supported option.",
+      "noteAnchor": "clinical-considerations",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "source-supported",
+          "text": "source supported"
+        },
+        {
+          "id": "intro-only",
+          "text": "intro only"
+        },
+        {
+          "id": "needs-source",
+          "text": "needs source"
+        }
+      ],
+      "stems": [
+        {
+          "id": "case-1",
+          "text": "blue cones more vulnerable"
+        },
+        {
+          "id": "case-2",
+          "text": "which tests are named in objectives"
+        },
+        {
+          "id": "case-3",
+          "text": "full HRR scoring table"
+        }
+      ],
+      "correctAnswers": {
+        "case-1": "source-supported",
+        "case-2": "intro-only",
+        "case-3": "needs-source"
+      },
+      "reuseOptions": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-em-007",
+      "familyId": "choose-classification",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-foundations",
+      "objectiveId": "colour-perceptual-code",
+      "format": "extended_matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "advanced",
+      "stem": "Choose classification.",
+      "explanation": "Choose the best source-supported option.",
+      "noteAnchor": "colour-foundations",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "physical-stimulus",
+          "text": "physical stimulus"
+        },
+        {
+          "id": "perceptual-code",
+          "text": "perceptual code"
+        },
+        {
+          "id": "psychological-experience",
+          "text": "psychological experience"
+        }
+      ],
+      "stems": [
+        {
+          "id": "case-1",
+          "text": "wavelength reflected from object"
+        },
+        {
+          "id": "case-2",
+          "text": "brain assigns red/blue code"
+        },
+        {
+          "id": "case-3",
+          "text": "subjective colour"
+        }
+      ],
+      "correctAnswers": {
+        "case-1": "physical-stimulus",
+        "case-2": "perceptual-code",
+        "case-3": "psychological-experience"
+      },
+      "reuseOptions": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-hotspot-001",
+      "familyId": "select-hue",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-attributes",
+      "objectiveId": "colour-attributes",
+      "format": "image_hotspot",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Select hue.",
+      "explanation": "The selected region corresponds to the diagrammed source concept.",
+      "noteAnchor": "colour-attributes",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "image": {
+        "src": "/images/courses/visual-perception/assessment/hvp-colour-dimensions.svg",
+        "alt": "Select hue.",
+        "width": 800,
+        "height": 450
+      },
+      "regions": [
+        {
+          "id": "hue",
+          "label": "hue circle",
+          "interactionLabel": "hue circle",
+          "marker": "A",
+          "x": 15,
+          "y": 35,
+          "width": 22,
+          "height": 32
+        },
+        {
+          "id": "saturation",
+          "label": "saturation blocks",
+          "interactionLabel": "saturation blocks",
+          "marker": "B",
+          "x": 42,
+          "y": 34,
+          "width": 30,
+          "height": 34
+        },
+        {
+          "id": "brightness",
+          "label": "brightness bar",
+          "interactionLabel": "brightness bar",
+          "marker": "C",
+          "x": 79,
+          "y": 33,
+          "width": 14,
+          "height": 36
+        }
+      ],
+      "correctRegionIds": [
+        "hue"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-hotspot-002",
+      "familyId": "select-saturation",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-attributes",
+      "objectiveId": "colour-attributes",
+      "format": "image_hotspot",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Select saturation.",
+      "explanation": "The selected region corresponds to the diagrammed source concept.",
+      "noteAnchor": "colour-attributes",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "image": {
+        "src": "/images/courses/visual-perception/assessment/hvp-colour-dimensions.svg",
+        "alt": "Select saturation.",
+        "width": 800,
+        "height": 450
+      },
+      "regions": [
+        {
+          "id": "hue",
+          "label": "hue circle",
+          "interactionLabel": "hue circle",
+          "marker": "A",
+          "x": 15,
+          "y": 35,
+          "width": 22,
+          "height": 32
+        },
+        {
+          "id": "saturation",
+          "label": "saturation blocks",
+          "interactionLabel": "saturation blocks",
+          "marker": "B",
+          "x": 42,
+          "y": 34,
+          "width": 30,
+          "height": 34
+        },
+        {
+          "id": "brightness",
+          "label": "brightness bar",
+          "interactionLabel": "brightness bar",
+          "marker": "C",
+          "x": 79,
+          "y": 33,
+          "width": 14,
+          "height": 36
+        }
+      ],
+      "correctRegionIds": [
+        "saturation"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-hotspot-003",
+      "familyId": "select-red-green-channel",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "opponent-process-theory",
+      "objectiveId": "colour-opponent",
+      "format": "image_hotspot",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Select red-green channel.",
+      "explanation": "The selected region corresponds to the diagrammed source concept.",
+      "noteAnchor": "opponent-process-theory",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "image": {
+        "src": "/images/courses/visual-perception/assessment/hvp-opponent-channels.svg",
+        "alt": "Select red-green channel.",
+        "width": 800,
+        "height": 450
+      },
+      "regions": [
+        {
+          "id": "red-green",
+          "label": "red-green",
+          "interactionLabel": "red-green",
+          "marker": "A",
+          "x": 55,
+          "y": 28,
+          "width": 34,
+          "height": 15
+        },
+        {
+          "id": "blue-yellow",
+          "label": "blue-yellow",
+          "interactionLabel": "blue-yellow",
+          "marker": "B",
+          "x": 55,
+          "y": 49,
+          "width": 34,
+          "height": 15
+        },
+        {
+          "id": "black-white",
+          "label": "black-white",
+          "interactionLabel": "black-white",
+          "marker": "C",
+          "x": 55,
+          "y": 70,
+          "width": 34,
+          "height": 15
+        }
+      ],
+      "correctRegionIds": [
+        "red-green"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-hotspot-004",
+      "familyId": "select-restricted-wavelength-panel",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-constancy",
+      "objectiveId": "colour-constancy",
+      "format": "image_hotspot",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Select restricted-wavelength panel.",
+      "explanation": "The selected region corresponds to the diagrammed source concept.",
+      "noteAnchor": "colour-constancy",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "image": {
+        "src": "/images/courses/visual-perception/assessment/hvp-colour-constancy.svg",
+        "alt": "Select restricted-wavelength panel.",
+        "width": 800,
+        "height": 450
+      },
+      "regions": [
+        {
+          "id": "broadband",
+          "label": "broadband",
+          "interactionLabel": "broadband",
+          "marker": "A",
+          "x": 10,
+          "y": 30,
+          "width": 37,
+          "height": 50
+        },
+        {
+          "id": "restricted",
+          "label": "restricted",
+          "interactionLabel": "restricted",
+          "marker": "B",
+          "x": 53,
+          "y": 30,
+          "width": 37,
+          "height": 50
+        }
+      ],
+      "correctRegionIds": [
+        "restricted"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-hotspot-005",
+      "familyId": "select-opponent-coding-stage",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "zone-model",
+      "objectiveId": "colour-zone-model",
+      "format": "image_hotspot",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Select opponent-coding stage.",
+      "explanation": "The selected region corresponds to the diagrammed source concept.",
+      "noteAnchor": "zone-model",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "image": {
+        "src": "/images/courses/visual-perception/assessment/hvp-colour-zone-model.svg",
+        "alt": "Select opponent-coding stage.",
+        "width": 800,
+        "height": 450
+      },
+      "regions": [
+        {
+          "id": "cones",
+          "label": "cones",
+          "interactionLabel": "cones",
+          "marker": "A",
+          "x": 8,
+          "y": 34,
+          "width": 24,
+          "height": 25
+        },
+        {
+          "id": "opponent",
+          "label": "opponent",
+          "interactionLabel": "opponent",
+          "marker": "B",
+          "x": 39,
+          "y": 34,
+          "width": 24,
+          "height": 25
+        },
+        {
+          "id": "cortex",
+          "label": "cortex",
+          "interactionLabel": "cortex",
+          "marker": "C",
+          "x": 69,
+          "y": 34,
+          "width": 24,
+          "height": 25
+        }
+      ],
+      "correctRegionIds": [
+        "opponent"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-label-001",
+      "familyId": "label-colour-dimensions",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-attributes",
+      "objectiveId": "colour-attributes",
+      "format": "image_label",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Label colour dimensions.",
+      "explanation": "Labels should match the diagram regions.",
+      "noteAnchor": "colour-attributes",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "image": {
+        "src": "/images/courses/visual-perception/assessment/hvp-colour-dimensions.svg",
+        "alt": "Label colour dimensions.",
+        "width": 800,
+        "height": 450
+      },
+      "targets": [
+        {
+          "id": "hue",
+          "label": "Hue",
+          "x": 23,
+          "y": 50
+        },
+        {
+          "id": "sat",
+          "label": "Saturation",
+          "x": 56,
+          "y": 51
+        },
+        {
+          "id": "bright",
+          "label": "Brightness",
+          "x": 86,
+          "y": 51
+        }
+      ],
+      "labels": [
+        {
+          "id": "hue",
+          "text": "Hue"
+        },
+        {
+          "id": "saturation",
+          "text": "Saturation"
+        },
+        {
+          "id": "brightness",
+          "text": "Brightness"
+        }
+      ],
+      "correctLabels": {
+        "hue": "hue",
+        "sat": "saturation",
+        "bright": "brightness"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-label-002",
+      "familyId": "label-opponent-channels",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "opponent-process-theory",
+      "objectiveId": "colour-opponent",
+      "format": "image_label",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Label opponent channels.",
+      "explanation": "Labels should match the diagram regions.",
+      "noteAnchor": "opponent-process-theory",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "image": {
+        "src": "/images/courses/visual-perception/assessment/hvp-opponent-channels.svg",
+        "alt": "Label opponent channels.",
+        "width": 800,
+        "height": 450
+      },
+      "targets": [
+        {
+          "id": "rg",
+          "label": "Red-green channel",
+          "x": 70,
+          "y": 35
+        },
+        {
+          "id": "by",
+          "label": "Blue-yellow channel",
+          "x": 70,
+          "y": 56
+        },
+        {
+          "id": "bw",
+          "label": "Black-white channel",
+          "x": 70,
+          "y": 77
+        }
+      ],
+      "labels": [
+        {
+          "id": "red-green-channel",
+          "text": "Red-green channel"
+        },
+        {
+          "id": "blue-yellow-channel",
+          "text": "Blue-yellow channel"
+        },
+        {
+          "id": "black-white-channel",
+          "text": "Black-white channel"
+        }
+      ],
+      "correctLabels": {
+        "rg": "red-green-channel",
+        "by": "blue-yellow-channel",
+        "bw": "black-white-channel"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-label-003",
+      "familyId": "label-illumination-panels",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-constancy",
+      "objectiveId": "colour-constancy",
+      "format": "image_label",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Label illumination panels.",
+      "explanation": "Labels should match the diagram regions.",
+      "noteAnchor": "colour-constancy",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "image": {
+        "src": "/images/courses/visual-perception/assessment/hvp-colour-constancy.svg",
+        "alt": "Label illumination panels.",
+        "width": 800,
+        "height": 450
+      },
+      "targets": [
+        {
+          "id": "broad",
+          "label": "Broadband illumination",
+          "x": 27,
+          "y": 50
+        },
+        {
+          "id": "rest",
+          "label": "Restricted wavelength",
+          "x": 72,
+          "y": 50
+        }
+      ],
+      "labels": [
+        {
+          "id": "broadband-illumination",
+          "text": "Broadband illumination"
+        },
+        {
+          "id": "restricted-wavelength",
+          "text": "Restricted wavelength"
+        }
+      ],
+      "correctLabels": {
+        "broad": "broadband-illumination",
+        "rest": "restricted-wavelength"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-label-004",
+      "familyId": "label-zone-model-stages",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "zone-model",
+      "objectiveId": "colour-zone-model",
+      "format": "image_label",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Label zone model stages.",
+      "explanation": "Labels should match the diagram regions.",
+      "noteAnchor": "zone-model",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "image": {
+        "src": "/images/courses/visual-perception/assessment/hvp-colour-zone-model.svg",
+        "alt": "Label zone model stages.",
+        "width": 800,
+        "height": 450
+      },
+      "targets": [
+        {
+          "id": "cones",
+          "label": "Photoreceptor trichromacy",
+          "x": 21,
+          "y": 47
+        },
+        {
+          "id": "opp",
+          "label": "Opponent coding",
+          "x": 51,
+          "y": 47
+        },
+        {
+          "id": "cortex",
+          "label": "Visual cortex",
+          "x": 81,
+          "y": 47
+        }
+      ],
+      "labels": [
+        {
+          "id": "photoreceptor-trichromacy",
+          "text": "Photoreceptor trichromacy"
+        },
+        {
+          "id": "opponent-coding",
+          "text": "Opponent coding"
+        },
+        {
+          "id": "visual-cortex",
+          "text": "Visual cortex"
+        }
+      ],
+      "correctLabels": {
+        "cones": "photoreceptor-trichromacy",
+        "opp": "opponent-coding",
+        "cortex": "visual-cortex"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sa-001",
+      "familyId": "what-colour-attribute-is-mostly-associated-wi",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-attributes",
+      "objectiveId": "colour-attributes",
+      "format": "short_answer",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "What colour attribute is mostly associated with wavelength?",
+      "explanation": "Accepted answer: hue.",
+      "noteAnchor": "colour-attributes",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "acceptedAnswers": [
+        "hue"
+      ],
+      "normalization": {
+        "trim": true,
+        "caseInsensitive": true,
+        "collapseWhitespace": true,
+        "ignoreTerminalPunctuation": true
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sa-002",
+      "familyId": "what-colour-attribute-describes-purity-or-gre",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-attributes",
+      "objectiveId": "colour-attributes",
+      "format": "short_answer",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "What colour attribute describes purity or greyness?",
+      "explanation": "Accepted answer: saturation.",
+      "noteAnchor": "colour-attributes",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "acceptedAnswers": [
+        "saturation"
+      ],
+      "normalization": {
+        "trim": true,
+        "caseInsensitive": true,
+        "collapseWhitespace": true,
+        "ignoreTerminalPunctuation": true
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sa-003",
+      "familyId": "what-complementary-afterimage-follows-prolong",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "opponent-process-theory",
+      "objectiveId": "colour-opponent",
+      "format": "short_answer",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "What complementary afterimage follows prolonged red fixation in the lecture example?",
+      "explanation": "Accepted answer: green.",
+      "noteAnchor": "opponent-process-theory",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "acceptedAnswers": [
+        "green"
+      ],
+      "normalization": {
+        "trim": true,
+        "caseInsensitive": true,
+        "collapseWhitespace": true,
+        "ignoreTerminalPunctuation": true
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-sa-004",
+      "familyId": "what-does-swap-stand-for",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "clinical-considerations",
+      "objectiveId": "colour-clinical",
+      "format": "short_answer",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "What does SWAP stand for?",
+      "explanation": "Accepted answer: short wavelength automated perimetry.",
+      "noteAnchor": "clinical-considerations",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "acceptedAnswers": [
+        "short wavelength automated perimetry"
+      ],
+      "normalization": {
+        "trim": true,
+        "caseInsensitive": true,
+        "collapseWhitespace": true,
+        "ignoreTerminalPunctuation": true
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-open-001",
+      "familyId": "a-student-asks-whether-trichromatic-theory-or",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "zone-model",
+      "objectiveId": "colour-zone-model",
+      "format": "open_response",
+      "stimulusType": "text",
+      "bloomLevel": "evaluate",
+      "difficulty": "advanced",
+      "stem": "A student asks whether trichromatic theory or opponent-process theory is correct. Answer using the lecture.",
+      "explanation": "Manual review should credit source-grounded reasoning.",
+      "noteAnchor": "zone-model",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "rubric": [
+        "States both are needed.",
+        "Links trichromacy to cones/photoreceptors.",
+        "Links opponent theory to post-receptor channels/afterimages.",
+        "Mentions zone model."
+      ],
+      "sampleAnswer": "Both are needed: trichromacy explains cone coding and opponent theory explains neural channels and afterimages; the zone model combines them.",
+      "autoGraded": false
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-colour-open-002",
+      "familyId": "explain-objects-have-no-colour-without-deny",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-colour-perception",
+      "sectionId": "colour-foundations",
+      "objectiveId": "colour-perceptual-code",
+      "format": "open_response",
+      "stimulusType": "text",
+      "bloomLevel": "evaluate",
+      "difficulty": "advanced",
+      "stem": "Explain 'objects have no colour' without denying wavelengths.",
+      "explanation": "Manual review should credit source-grounded reasoning.",
+      "noteAnchor": "colour-foundations",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-colour-perception-lecture",
+          "title": "5.1- Colour Perception",
+          "locator": "44 slides: wavelength discrimination, colour attributes, colour constancy, trichromatic theory, opponent theory and zone model",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "rubric": [
+        "Objects reflect wavelengths.",
+        "Colour is a psychological/neural experience.",
+        "Perception depends on reflected light and visual system.",
+        "Avoids denying physical light."
+      ],
+      "sampleAnswer": "Objects reflect wavelengths, but the colour experience is generated by the visual system.",
+      "autoGraded": false
+    }
+  ],
+  "sources": [
+    {
+      "id": "hvp-colour-perception-lecture",
+      "title": "5.1- Colour Perception",
+      "locator": "44 slides: definitions, visible spectrum, colour attributes, colour constancy, trichromatic/opponent/zone theories and clinical notes",
+      "kind": "lecture"
+    }
+  ],
+  "generatedAt": "2026-08-07T02:11:20Z"
+}

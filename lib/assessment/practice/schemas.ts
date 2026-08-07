@@ -49,6 +49,7 @@ export const practiceBlueprintSchema = z.strictObject({
   allowedReviewStatuses: z.array(reviewStatusSchema).min(1),
   defaultMode: z.enum(['study', 'exam', 'mastery']),
   gradingPolicy: gradingPolicyReferenceSchema,
+  enforcePartialProfileTargets: z.boolean().default(false),
   eligibleFormats: z.array(questionFormatSchema).min(1),
   resultMode: z.enum(['automatic', 'manual-only']),
   profiles: z.array(practiceProfileSchema).min(1),

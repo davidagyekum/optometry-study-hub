@@ -1,0 +1,4453 @@
+{
+  "schemaVersion": 1,
+  "id": "hvp-depth-perception-extension",
+  "title": "OPT 374 Human Visual Perception: Depth Perception extension bank",
+  "courseIds": [
+    "human-visual-perception"
+  ],
+  "objectives": [
+    {
+      "schemaVersion": 1,
+      "id": "depth-define-depth",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "depth-foundations",
+      "statement": "Define depth, absolute depth and relative depth.",
+      "targetBloomLevels": [
+        "remember",
+        "understand"
+      ],
+      "tags": [
+        "hvp-depth-perception",
+        "depth-foundations"
+      ],
+      "sourceIds": [
+        "hvp-depth-perception-lecture"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "depth-importance",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "depth-foundations",
+      "statement": "Explain everyday risk and opportunity functions of depth perception.",
+      "targetBloomLevels": [
+        "understand"
+      ],
+      "tags": [
+        "hvp-depth-perception",
+        "depth-foundations"
+      ],
+      "sourceIds": [
+        "hvp-depth-perception-lecture"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "depth-monocular-binocular",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "depth-overview",
+      "statement": "Differentiate monocular from binocular depth judgments and distance ranges.",
+      "targetBloomLevels": [
+        "understand",
+        "analyze"
+      ],
+      "tags": [
+        "hvp-depth-perception",
+        "depth-overview"
+      ],
+      "sourceIds": [
+        "hvp-depth-perception-lecture"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "depth-monocular-cues",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "monocular-cues",
+      "statement": "Identify and apply relative size, texture, occlusion, perspective, shadow, clarity, motion parallax and height cues.",
+      "targetBloomLevels": [
+        "remember",
+        "apply",
+        "analyze"
+      ],
+      "tags": [
+        "hvp-depth-perception",
+        "monocular-cues"
+      ],
+      "sourceIds": [
+        "hvp-depth-perception-lecture"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "depth-illusions",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "depth-illusions",
+      "statement": "Interpret Ebbinghaus, Ponzo and Moon illusions using depth/size-constancy logic.",
+      "targetBloomLevels": [
+        "understand",
+        "analyze"
+      ],
+      "tags": [
+        "hvp-depth-perception",
+        "depth-illusions"
+      ],
+      "sourceIds": [
+        "hvp-depth-perception-lecture"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "depth-convergence",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "binocular-cues",
+      "statement": "Explain convergence and oculomotor cue logic.",
+      "targetBloomLevels": [
+        "understand",
+        "apply"
+      ],
+      "tags": [
+        "hvp-depth-perception",
+        "binocular-cues"
+      ],
+      "sourceIds": [
+        "hvp-depth-perception-lecture"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "depth-disparity-panum",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "retinal-disparity-panum",
+      "statement": "Explain retinal disparity, Panum’s fusional space, crossed/uncrossed disparity and physiologic diplopia.",
+      "targetBloomLevels": [
+        "understand",
+        "analyze"
+      ],
+      "tags": [
+        "hvp-depth-perception",
+        "retinal-disparity-panum"
+      ],
+      "sourceIds": [
+        "hvp-depth-perception-lecture"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "depth-stereopsis",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "stereopsis",
+      "statement": "Explain stereopsis and binocular overlap as sources of solid 3-D vision.",
+      "targetBloomLevels": [
+        "understand"
+      ],
+      "tags": [
+        "hvp-depth-perception",
+        "stereopsis"
+      ],
+      "sourceIds": [
+        "hvp-depth-perception-lecture"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "depth-stereotests",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "clinical-stereopsis-testing",
+      "statement": "Compare near and distance stereopsis tests and interpret stereoacuity thresholds.",
+      "targetBloomLevels": [
+        "understand",
+        "evaluate"
+      ],
+      "tags": [
+        "hvp-depth-perception",
+        "clinical-stereopsis-testing"
+      ],
+      "sourceIds": [
+        "hvp-depth-perception-lecture"
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "depth-practical",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "practical-lab",
+      "statement": "Evaluate Randot/PASS/telebinocular lab tasks, monocular cue cheating, +4.00 D blur and chromostereopsis prompts.",
+      "targetBloomLevels": [
+        "apply",
+        "evaluate"
+      ],
+      "tags": [
+        "hvp-depth-perception",
+        "practical-lab"
+      ],
+      "sourceIds": [
+        "hvp-depth-perception-lecture"
+      ],
+      "reviewStatus": "draft"
+    }
+  ],
+  "questions": [
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-001",
+      "familyId": "absolute-depth",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "depth-foundations",
+      "objectiveId": "depth-define-depth",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Which statement best describes absolute depth?",
+      "explanation": "Absolute depth asks how far the object is from the observer.",
+      "noteAnchor": "depth-foundations",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "absolute-depth",
+          "text": "The distance from the observer to an object.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "the-distance-between-two-wav",
+          "text": "The distance between two wavelengths."
+        },
+        {
+          "id": "the-amount-of-convergence-in",
+          "text": "The amount of convergence in a lens."
+        },
+        {
+          "id": "the-greyness-mixed-with-a-hu",
+          "text": "The greyness mixed with a hue."
+        }
+      ],
+      "correctOptionId": "absolute-depth"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-002",
+      "familyId": "relative-depth",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "depth-foundations",
+      "objectiveId": "depth-define-depth",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Which statement best describes relative depth?",
+      "explanation": "Relative depth compares distances within or between objects.",
+      "noteAnchor": "depth-foundations",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "relative-depth",
+          "text": "The distance between objects or between parts of one object.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "the-only-type-of-binocular-d",
+          "text": "The only type of binocular depth."
+        },
+        {
+          "id": "the-visible-spectrum-range",
+          "text": "The visible spectrum range."
+        },
+        {
+          "id": "the-brightness-of-an-object",
+          "text": "The brightness of an object."
+        }
+      ],
+      "correctOptionId": "relative-depth"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-003",
+      "familyId": "risk-avoidance",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "depth-foundations",
+      "objectiveId": "depth-importance",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Which statement best describes risk avoidance?",
+      "explanation": "The lecture uses driving and stairs as risk-avoidance examples.",
+      "noteAnchor": "depth-foundations",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "risk-avoidance",
+          "text": "Using depth to avoid collisions, missteps or unsafe movement.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "using-colour-to-identify-hue",
+          "text": "Using colour to identify hue."
+        },
+        {
+          "id": "using-panum-s-space-to-name",
+          "text": "Using Panum’s space to name wavelengths."
+        },
+        {
+          "id": "using-prism-to-neutralize-po",
+          "text": "Using prism to neutralize power."
+        }
+      ],
+      "correctOptionId": "risk-avoidance"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-004",
+      "familyId": "monocular-depth-perception",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "depth-overview",
+      "objectiveId": "depth-monocular-binocular",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "apply",
+      "difficulty": "foundation",
+      "stem": "Which statement best describes monocular depth perception?",
+      "explanation": "Monocular cues allow depth judgment even with one eye.",
+      "noteAnchor": "depth-overview",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "monocular-depth-perception",
+          "text": "Depth judgment possible with one eye.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "depth-requiring-two-eyes-onl",
+          "text": "Depth requiring two eyes only."
+        },
+        {
+          "id": "colour-afterimage-perception",
+          "text": "Colour afterimage perception."
+        },
+        {
+          "id": "the-distance-between-lens-op",
+          "text": "The distance between lens optical centres."
+        }
+      ],
+      "correctOptionId": "monocular-depth-perception"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-005",
+      "familyId": "binocular-depth-perception",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "depth-overview",
+      "objectiveId": "depth-monocular-binocular",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Which statement best describes binocular depth perception?",
+      "explanation": "Binocular depth depends on both eyes.",
+      "noteAnchor": "depth-overview",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "binocular-depth-perception",
+          "text": "Depth judgment requiring both eyes working together.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "depth-based-only-on-texture",
+          "text": "Depth based only on texture."
+        },
+        {
+          "id": "colour-coding-by-cones",
+          "text": "Colour coding by cones."
+        },
+        {
+          "id": "brightness-judgments-under-r",
+          "text": "Brightness judgments under restricted light."
+        }
+      ],
+      "correctOptionId": "binocular-depth-perception"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-006",
+      "familyId": "stereopsis",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "depth-overview",
+      "objectiveId": "depth-monocular-binocular",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Which statement best describes stereopsis?",
+      "explanation": "Stereopsis is the highest benefit of binocular vision in the lecture.",
+      "noteAnchor": "depth-overview",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "stereopsis",
+          "text": "Solid or 3-D depth from combining the two eyes’ inputs.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "aerial-perspective-from-haze",
+          "text": "Aerial perspective from haze."
+        },
+        {
+          "id": "purity-of-a-hue",
+          "text": "Purity of a hue."
+        },
+        {
+          "id": "brightness-coding",
+          "text": "Brightness coding."
+        }
+      ],
+      "correctOptionId": "stereopsis"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-007",
+      "familyId": "relative-size",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "monocular-cues",
+      "objectiveId": "depth-monocular-cues",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Which statement best describes relative size?",
+      "explanation": "Relative size is a monocular cue.",
+      "noteAnchor": "monocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "relative-size",
+          "text": "Larger images of familiar equal-size objects are perceived as closer.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "objects-blur-when-far-away",
+          "text": "Objects blur when far away."
+        },
+        {
+          "id": "light-comes-from-above",
+          "text": "Light comes from above."
+        },
+        {
+          "id": "the-eyes-converge-more-for-n",
+          "text": "The eyes converge more for near objects."
+        }
+      ],
+      "correctOptionId": "relative-size"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-008",
+      "familyId": "texture-gradient",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "monocular-cues",
+      "objectiveId": "depth-monocular-cues",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "apply",
+      "difficulty": "foundation",
+      "stem": "Which statement best describes texture gradient?",
+      "explanation": "Texture becomes smoother with distance.",
+      "noteAnchor": "monocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "texture-gradient",
+          "text": "Detailed textures look closer while smoother textures look farther.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "two-eyes-produce-disparity",
+          "text": "Two eyes produce disparity."
+        },
+        {
+          "id": "the-moon-appears-larger-on-t",
+          "text": "The moon appears larger on the horizon."
+        },
+        {
+          "id": "blue-cones-are-vulnerable",
+          "text": "Blue cones are vulnerable."
+        }
+      ],
+      "correctOptionId": "texture-gradient"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-009",
+      "familyId": "occlusion",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "monocular-cues",
+      "objectiveId": "depth-monocular-cues",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes occlusion?",
+      "explanation": "Interposition/overlap/occlusion tells which object is in front.",
+      "noteAnchor": "monocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "occlusion",
+          "text": "An object covering another is perceived as closer.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "a-target-seen-in-two-retinal",
+          "text": "A target seen in two retinal images."
+        },
+        {
+          "id": "a-hue-with-less-grey",
+          "text": "A hue with less grey."
+        },
+        {
+          "id": "a-near-pd-calculation",
+          "text": "A near PD calculation."
+        }
+      ],
+      "correctOptionId": "occlusion"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-010",
+      "familyId": "linear-perspective",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "monocular-cues",
+      "objectiveId": "depth-monocular-cues",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes linear perspective?",
+      "explanation": "Railway tracks are the lecture example.",
+      "noteAnchor": "monocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "linear-perspective",
+          "text": "Parallel lines appear to converge with distance.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "nearby-objects-move-faster-d",
+          "text": "Nearby objects move faster during motion."
+        },
+        {
+          "id": "small-disparities-are-fused",
+          "text": "Small disparities are fused."
+        },
+        {
+          "id": "s-cones-oppose-l-and-m-cones",
+          "text": "S cones oppose L and M cones."
+        }
+      ],
+      "correctOptionId": "linear-perspective"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-011",
+      "familyId": "light-and-shadow",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "monocular-cues",
+      "objectiveId": "depth-monocular-cues",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes light and shadow?",
+      "explanation": "The source notes that light is perceived as coming from above.",
+      "noteAnchor": "monocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "light-and-shadow",
+          "text": "Shading and cast shadows help infer depth.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "a-weak-colour-vision-test-pr",
+          "text": "A weak colour-vision test protocol."
+        },
+        {
+          "id": "a-binocular-field-overlap-on",
+          "text": "A binocular field overlap only."
+        },
+        {
+          "id": "a-cone-photopigment-class",
+          "text": "A cone photopigment class."
+        }
+      ],
+      "correctOptionId": "light-and-shadow"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-012",
+      "familyId": "aerial-perspective",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "monocular-cues",
+      "objectiveId": "depth-monocular-cues",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes aerial perspective?",
+      "explanation": "Atmospheric haze reduces clarity of far objects.",
+      "noteAnchor": "monocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "aerial-perspective",
+          "text": "Clearer objects seem closer; blurred/bluish distant objects seem farther.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "objects-at-the-horopter-are",
+          "text": "Objects at the horopter are doubled."
+        },
+        {
+          "id": "bifocal-jump-is-zero",
+          "text": "Bifocal jump is zero."
+        },
+        {
+          "id": "hue-equals-saturation",
+          "text": "Hue equals saturation."
+        }
+      ],
+      "correctOptionId": "aerial-perspective"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-013",
+      "familyId": "motion-parallax",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "monocular-cues",
+      "objectiveId": "depth-monocular-cues",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes motion parallax?",
+      "explanation": "Motion parallax is described as a kinetic monocular cue.",
+      "noteAnchor": "monocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "motion-parallax",
+          "text": "Relative apparent motion of objects during observer or object movement.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "a-red-green-afterimage",
+          "text": "A red-green afterimage."
+        },
+        {
+          "id": "a-fused-stereogram-threshold",
+          "text": "A fused stereogram threshold."
+        },
+        {
+          "id": "the-main-definition-of-satur",
+          "text": "The main definition of saturation."
+        }
+      ],
+      "correctOptionId": "motion-parallax"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-014",
+      "familyId": "height-in-the-horizon",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "monocular-cues",
+      "objectiveId": "depth-monocular-cues",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes height in the horizon?",
+      "explanation": "The lecture lists height in the horizon as another monocular cue.",
+      "noteAnchor": "monocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "height-in-the-horizon",
+          "text": "Lower-field objects may be perceived as closer relative to the horizon.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "greater-convergence-means-fa",
+          "text": "Greater convergence means farther distance."
+        },
+        {
+          "id": "an-object-is-coloured-physic",
+          "text": "An object is coloured physically."
+        },
+        {
+          "id": "a-d-15-colour-test-protocol",
+          "text": "A D-15 colour test protocol."
+        }
+      ],
+      "correctOptionId": "height-in-the-horizon"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-015",
+      "familyId": "ebbinghaus-illusion",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "depth-illusions",
+      "objectiveId": "depth-illusions",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes Ebbinghaus illusion?",
+      "explanation": "The lecture also calls it Titchener circles.",
+      "noteAnchor": "depth-illusions",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "ebbinghaus-illusion",
+          "text": "A context-based relative-size illusion using surrounding circles.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "a-distance-stereotest",
+          "text": "A distance stereotest."
+        },
+        {
+          "id": "a-colour-constancy-calculati",
+          "text": "A colour constancy calculation."
+        },
+        {
+          "id": "a-retinal-ganglion-channel",
+          "text": "A retinal ganglion channel."
+        }
+      ],
+      "correctOptionId": "ebbinghaus-illusion"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-016",
+      "familyId": "ponzo-illusion",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "depth-illusions",
+      "objectiveId": "depth-illusions",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes Ponzo illusion?",
+      "explanation": "The upper line appears larger in a converging-line context.",
+      "noteAnchor": "depth-illusions",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "ponzo-illusion",
+          "text": "An illusion where linear perspective makes one equal line appear larger.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "a-blur-cue-from-accommodatio",
+          "text": "A blur cue from accommodation."
+        },
+        {
+          "id": "a-blue-cone-clinical-test",
+          "text": "A blue-cone clinical test."
+        },
+        {
+          "id": "a-stereopsis-booklet-only",
+          "text": "A stereopsis booklet only."
+        }
+      ],
+      "correctOptionId": "ponzo-illusion"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-017",
+      "familyId": "moon-illusion",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "depth-illusions",
+      "objectiveId": "depth-illusions",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes Moon illusion?",
+      "explanation": "The lecture gives relative size and apparent distance as popular explanations.",
+      "noteAnchor": "depth-illusions",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "moon-illusion",
+          "text": "The horizon moon may appear larger; no universal explanation is accepted.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "it-is-fully-settled-as-conve",
+          "text": "It is fully settled as convergence only."
+        },
+        {
+          "id": "it-is-a-colour-afterimage",
+          "text": "It is a colour afterimage."
+        },
+        {
+          "id": "it-is-caused-by-pd-error",
+          "text": "It is caused by PD error."
+        }
+      ],
+      "correctOptionId": "moon-illusion"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-018",
+      "familyId": "convergence",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "binocular-cues",
+      "objectiveId": "depth-convergence",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes convergence?",
+      "explanation": "Greater convergence cues nearness.",
+      "noteAnchor": "binocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "convergence",
+          "text": "Near objects require greater inward eye turn.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "far-objects-require-maximum",
+          "text": "Far objects require maximum convergence."
+        },
+        {
+          "id": "it-is-independent-of-eye-mus",
+          "text": "It is independent of eye muscles."
+        },
+        {
+          "id": "it-is-the-same-as-saturation",
+          "text": "It is the same as saturation."
+        }
+      ],
+      "correctOptionId": "convergence"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-019",
+      "familyId": "retinal-disparity",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "retinal-disparity-panum",
+      "objectiveId": "depth-disparity-panum",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes retinal disparity?",
+      "explanation": "Two eyes see slightly different views.",
+      "noteAnchor": "retinal-disparity-panum",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "retinal-disparity",
+          "text": "Difference in relative positions of images on the two retinas.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "greyness-in-a-hue",
+          "text": "Greyness in a hue."
+        },
+        {
+          "id": "visible-wavelength-range",
+          "text": "Visible wavelength range."
+        },
+        {
+          "id": "a-single-eye-texture-cue",
+          "text": "A single-eye texture cue."
+        }
+      ],
+      "correctOptionId": "retinal-disparity"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-020",
+      "familyId": "panum-s-fusional-space",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "retinal-disparity-panum",
+      "objectiveId": "depth-disparity-panum",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes Panum’s fusional space?",
+      "explanation": "Inside Panum’s space, disparity supports stereopsis without diplopia.",
+      "noteAnchor": "retinal-disparity-panum",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "panum-s-fusional-space",
+          "text": "Range where small disparities can be fused into one depth percept.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "a-colour-test-scoring-table",
+          "text": "A colour test scoring table."
+        },
+        {
+          "id": "a-retinal-pigment-name",
+          "text": "A retinal pigment name."
+        },
+        {
+          "id": "a-type-of-moon-illusion",
+          "text": "A type of moon illusion."
+        }
+      ],
+      "correctOptionId": "panum-s-fusional-space"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-021",
+      "familyId": "physiologic-diplopia",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "retinal-disparity-panum",
+      "objectiveId": "depth-disparity-panum",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes physiologic diplopia?",
+      "explanation": "Large disparity can produce physiologic diplopia.",
+      "noteAnchor": "retinal-disparity-panum",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "physiologic-diplopia",
+          "text": "Double vision from disparity outside Panum’s space that can cue depth.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "the-primary-colour-theory",
+          "text": "The primary colour theory."
+        },
+        {
+          "id": "a-near-pd-rule",
+          "text": "A near PD rule."
+        },
+        {
+          "id": "the-main-purpose-of-hue",
+          "text": "The main purpose of hue."
+        }
+      ],
+      "correctOptionId": "physiologic-diplopia"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-022",
+      "familyId": "binocular-overlap",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "stereopsis",
+      "objectiveId": "depth-stereopsis",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes binocular overlap?",
+      "explanation": "Overlap allows comparison of two slightly different images.",
+      "noteAnchor": "stereopsis",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "binocular-overlap",
+          "text": "The two eyes normally view the same region of visual space.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "the-eye-sees-only-one-monocu",
+          "text": "The eye sees only one monocular margin."
+        },
+        {
+          "id": "the-two-eyes-have-identical",
+          "text": "The two eyes have identical positions."
+        },
+        {
+          "id": "the-colour-test-has-no-spect",
+          "text": "The colour test has no spectacles."
+        }
+      ],
+      "correctOptionId": "binocular-overlap"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-023",
+      "familyId": "stereofly-response",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "clinical-stereopsis-testing",
+      "objectiveId": "depth-stereotests",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes Stereofly response?",
+      "explanation": "The source uses this to illustrate near stereopsis.",
+      "noteAnchor": "clinical-stereopsis-testing",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "stereofly-response",
+          "text": "A child seeing the fly in depth may try to grab above the page.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "a-child-must-name-colours-on",
+          "text": "A child must name colours only."
+        },
+        {
+          "id": "a-child-should-close-one-eye",
+          "text": "A child should close one eye."
+        },
+        {
+          "id": "the-fly-measures-hue",
+          "text": "The fly measures hue."
+        }
+      ],
+      "correctOptionId": "stereofly-response"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-024",
+      "familyId": "stereoacuity-threshold",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "clinical-stereopsis-testing",
+      "objectiveId": "depth-stereotests",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes stereoacuity threshold?",
+      "explanation": "Stereoacuity is measured in seconds of arc.",
+      "noteAnchor": "clinical-stereopsis-testing",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "stereoacuity-threshold",
+          "text": "The smallest stereogram separation still seen in depth.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "the-largest-fly-image-on-the",
+          "text": "The largest fly image on the page."
+        },
+        {
+          "id": "the-highest-brightness-level",
+          "text": "The highest brightness level."
+        },
+        {
+          "id": "the-distance-pd-of-the-patie",
+          "text": "The distance PD of the patient."
+        }
+      ],
+      "correctOptionId": "stereoacuity-threshold"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sba-025",
+      "familyId": "4-00-d-practical",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "practical-lab",
+      "objectiveId": "depth-practical",
+      "format": "single_best_answer",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Which statement best describes +4.00 D practical?",
+      "explanation": "The practical compares normal results with monocular blur/degradation.",
+      "noteAnchor": "practical-lab",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "4-00-d-practical",
+          "text": "Repeating stereotesting through +4.00 D before one eye tests the effect of blur/degraded input.",
+          "rationale": "Correct."
+        },
+        {
+          "id": "it-measures-colour-constancy",
+          "text": "It measures colour constancy."
+        },
+        {
+          "id": "it-proves-monocular-stereops",
+          "text": "It proves monocular stereopsis."
+        },
+        {
+          "id": "it-replaces-the-need-for-cor",
+          "text": "It replaces the need for correction."
+        }
+      ],
+      "correctOptionId": "4-00-d-practical"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-tf-001",
+      "familyId": "relative-depth-compares-distances-betwee",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "depth-foundations",
+      "objectiveId": "depth-define-depth",
+      "format": "true_false",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "Relative depth compares distances between objects or parts of objects.",
+      "explanation": "Relative depth is a between-object or within-object distance judgment.",
+      "noteAnchor": "depth-foundations",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "correctAnswer": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-tf-002",
+      "familyId": "the-lecture-says-depth-perception-is-sol",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "depth-overview",
+      "objectiveId": "depth-monocular-binocular",
+      "format": "true_false",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "The lecture says depth perception is solely binocular.",
+      "explanation": "The lecture explicitly teaches monocular and binocular depth cues.",
+      "noteAnchor": "depth-overview",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "correctAnswer": false
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-tf-003",
+      "familyId": "motion-parallax-is-a-kinetic-monocular-c",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "monocular-cues",
+      "objectiveId": "depth-monocular-cues",
+      "format": "true_false",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "Motion parallax is a kinetic monocular cue.",
+      "explanation": "The lecture describes relative apparent motion as a kinetic monocular cue.",
+      "noteAnchor": "monocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "correctAnswer": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-tf-004",
+      "familyId": "aerial-perspective-uses-clarity-and-atmo",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "monocular-cues",
+      "objectiveId": "depth-monocular-cues",
+      "format": "true_false",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Aerial perspective uses clarity and atmospheric blur.",
+      "explanation": "Clearer objects are perceived as closer; blurred objects as farther.",
+      "noteAnchor": "monocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "correctAnswer": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-tf-005",
+      "familyId": "the-moon-illusion-has-one-universally-ac",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "depth-illusions",
+      "objectiveId": "depth-illusions",
+      "format": "true_false",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "The Moon illusion has one universally accepted explanation in the lecture.",
+      "explanation": "The lecture says no universally accepted explanation exists.",
+      "noteAnchor": "depth-illusions",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "correctAnswer": false
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-tf-006",
+      "familyId": "small-disparities-within-panum-s-space-c",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "retinal-disparity-panum",
+      "objectiveId": "depth-disparity-panum",
+      "format": "true_false",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Small disparities within Panum’s space can be fused and produce stereopsis.",
+      "explanation": "The lecture identifies this as the basis of stereopsis.",
+      "noteAnchor": "retinal-disparity-panum",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "correctAnswer": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-tf-007",
+      "familyId": "most-clinical-stereopsis-tests-discussed",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "clinical-stereopsis-testing",
+      "objectiveId": "depth-stereotests",
+      "format": "true_false",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Most clinical stereopsis tests discussed are near tests.",
+      "explanation": "The lecture says most commercially available tests are near.",
+      "noteAnchor": "clinical-stereopsis-testing",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "correctAnswer": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-tf-008",
+      "familyId": "trying-a-stereotest-with-one-eye-can-rev",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "practical-lab",
+      "objectiveId": "depth-practical",
+      "format": "true_false",
+      "stimulusType": "text",
+      "bloomLevel": "understand",
+      "difficulty": "foundation",
+      "stem": "Trying a stereotest with one eye can reveal monocular cue cheating.",
+      "explanation": "The practical asks students to try one-eye testing and identify which test is easiest to cheat on.",
+      "noteAnchor": "practical-lab",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "correctAnswer": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-mr-001",
+      "familyId": "select-monocular-cues-named-in-the-lecture",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "monocular-cues",
+      "objectiveId": "depth-monocular-cues",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Select monocular cues named in the lecture.",
+      "explanation": "Retinal disparity is binocular.",
+      "noteAnchor": "monocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "relative-size",
+          "text": "Relative size"
+        },
+        {
+          "id": "texture-gradient",
+          "text": "Texture gradient"
+        },
+        {
+          "id": "motion-parallax",
+          "text": "Motion parallax"
+        },
+        {
+          "id": "retinal-disparity",
+          "text": "Retinal disparity"
+        }
+      ],
+      "correctOptionIds": [
+        "relative-size",
+        "texture-gradient",
+        "motion-parallax"
+      ],
+      "minimumSelections": 3,
+      "maximumSelections": 3
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-mr-002",
+      "familyId": "select-source-consistent-statements-about-cue",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "depth-overview",
+      "objectiveId": "depth-monocular-binocular",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Select source-consistent statements about cue range.",
+      "explanation": "The lecture balances monocular and binocular cue roles.",
+      "noteAnchor": "depth-overview",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "binocular-near",
+          "text": "Binocular cues are most useful close-up/intermediate"
+        },
+        {
+          "id": "monocular-far",
+          "text": "Monocular cues are available at far distances"
+        },
+        {
+          "id": "binocular-fine",
+          "text": "Binocular cues support fine depth"
+        },
+        {
+          "id": "binocular-only",
+          "text": "All depth is binocular"
+        }
+      ],
+      "correctOptionIds": [
+        "binocular-near",
+        "monocular-far",
+        "binocular-fine"
+      ],
+      "minimumSelections": 3,
+      "maximumSelections": 3
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-mr-003",
+      "familyId": "select-illusions-explicitly-named",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "depth-illusions",
+      "objectiveId": "depth-illusions",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Select illusions explicitly named.",
+      "explanation": "Only the first three are named.",
+      "noteAnchor": "depth-illusions",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "ebbinghaus",
+          "text": "Ebbinghaus/Titchener circles"
+        },
+        {
+          "id": "ponzo",
+          "text": "Ponzo"
+        },
+        {
+          "id": "moon",
+          "text": "Moon illusion"
+        },
+        {
+          "id": "checker",
+          "text": "Checker shadow illusion"
+        }
+      ],
+      "correctOptionIds": [
+        "ebbinghaus",
+        "ponzo",
+        "moon"
+      ],
+      "minimumSelections": 3,
+      "maximumSelections": 3
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-mr-004",
+      "familyId": "select-convergence-facts",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "binocular-cues",
+      "objectiveId": "depth-convergence",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "understand",
+      "difficulty": "intermediate",
+      "stem": "Select convergence facts.",
+      "explanation": "Convergence is near and oculomotor.",
+      "noteAnchor": "binocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "near-inward",
+          "text": "Near objects require inward turn"
+        },
+        {
+          "id": "greater-near",
+          "text": "Greater convergence cues nearness"
+        },
+        {
+          "id": "oculomotor",
+          "text": "It is described as oculomotor/muscle information"
+        },
+        {
+          "id": "far-max",
+          "text": "It is strongest for mountains"
+        }
+      ],
+      "correctOptionIds": [
+        "near-inward",
+        "greater-near",
+        "oculomotor"
+      ],
+      "minimumSelections": 3,
+      "maximumSelections": 3
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-mr-005",
+      "familyId": "select-panum-disparity-facts",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "retinal-disparity-panum",
+      "objectiveId": "depth-disparity-panum",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "intermediate",
+      "stem": "Select Panum/disparity facts.",
+      "explanation": "Panum's space allows fused small disparities.",
+      "noteAnchor": "retinal-disparity-panum",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "small-fused",
+          "text": "Small disparity can be fused"
+        },
+        {
+          "id": "large-diplopia",
+          "text": "Large disparity can produce physiologic diplopia"
+        },
+        {
+          "id": "one-eye",
+          "text": "It works with one eye only"
+        },
+        {
+          "id": "wavelength",
+          "text": "It codes hue"
+        }
+      ],
+      "correctOptionIds": [
+        "small-fused",
+        "large-diplopia"
+      ],
+      "minimumSelections": 2,
+      "maximumSelections": 2
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-mr-006",
+      "familyId": "select-near-stereotests-mentioned",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "clinical-stereopsis-testing",
+      "objectiveId": "depth-stereotests",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "intermediate",
+      "stem": "Select near stereotests mentioned.",
+      "explanation": "Howard-Dolman is presented as distance testing.",
+      "noteAnchor": "clinical-stereopsis-testing",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "randot",
+          "text": "Randot"
+        },
+        {
+          "id": "stereofly",
+          "text": "Stereofly"
+        },
+        {
+          "id": "pass",
+          "text": "PASS/Stereosmile"
+        },
+        {
+          "id": "howard",
+          "text": "Howard-Dolman"
+        }
+      ],
+      "correctOptionIds": [
+        "randot",
+        "stereofly",
+        "pass"
+      ],
+      "minimumSelections": 3,
+      "maximumSelections": 3
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-mr-007",
+      "familyId": "select-distance-stereopsis-examples",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "clinical-stereopsis-testing",
+      "objectiveId": "depth-stereotests",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "intermediate",
+      "stem": "Select distance stereopsis examples.",
+      "explanation": "The lecture lists these distance tests.",
+      "noteAnchor": "clinical-stereopsis-testing",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "randot-distance",
+          "text": "Randot distance stereotest"
+        },
+        {
+          "id": "howard-dolman",
+          "text": "Howard-Dolman peg test"
+        },
+        {
+          "id": "projector",
+          "text": "Projector/vectographic slides"
+        },
+        {
+          "id": "pass",
+          "text": "PASS near cards"
+        }
+      ],
+      "correctOptionIds": [
+        "randot-distance",
+        "howard-dolman",
+        "projector"
+      ],
+      "minimumSelections": 3,
+      "maximumSelections": 3
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-mr-008",
+      "familyId": "select-stereogram-construction-facts",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "clinical-stereopsis-testing",
+      "objectiveId": "depth-stereotests",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "intermediate",
+      "stem": "Select stereogram construction facts.",
+      "explanation": "Stereograms require binocular fusion.",
+      "noteAnchor": "clinical-stereopsis-testing",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "two-copies",
+          "text": "Uses paired copies of a target"
+        },
+        {
+          "id": "varied-separation",
+          "text": "Uses different separations"
+        },
+        {
+          "id": "threshold",
+          "text": "Smallest separation seen in depth is threshold"
+        },
+        {
+          "id": "one-eye",
+          "text": "Designed for one-eye performance"
+        }
+      ],
+      "correctOptionIds": [
+        "two-copies",
+        "varied-separation",
+        "threshold"
+      ],
+      "minimumSelections": 3,
+      "maximumSelections": 3
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-mr-009",
+      "familyId": "select-practical-tasks",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "practical-lab",
+      "objectiveId": "depth-practical",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "intermediate",
+      "stem": "Select practical tasks.",
+      "explanation": "These are in the depth lab/practical.",
+      "noteAnchor": "practical-lab",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "one-eye",
+          "text": "Try with one eye"
+        },
+        {
+          "id": "plus-four",
+          "text": "Repeat through +4.00 D before one eye"
+        },
+        {
+          "id": "pass",
+          "text": "Practice PASS"
+        },
+        {
+          "id": "telebinocular",
+          "text": "Practice telebinocular"
+        },
+        {
+          "id": "ishihara",
+          "text": "Score Ishihara plates"
+        }
+      ],
+      "correctOptionIds": [
+        "one-eye",
+        "plus-four",
+        "pass",
+        "telebinocular"
+      ],
+      "minimumSelections": 4,
+      "maximumSelections": 4
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-mr-010",
+      "familyId": "select-source-supported-application-prompts",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "practical-lab",
+      "objectiveId": "depth-practical",
+      "format": "multiple_response",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "intermediate",
+      "stem": "Select source-supported application prompts.",
+      "explanation": "These are listed as read-about or application items.",
+      "noteAnchor": "practical-lab",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "stereo-sue",
+          "text": "Stereo Sue"
+        },
+        {
+          "id": "3d-movies",
+          "text": "3D movies/glasses"
+        },
+        {
+          "id": "ames",
+          "text": "Ames room"
+        },
+        {
+          "id": "chromostereopsis",
+          "text": "Chromostereopsis"
+        },
+        {
+          "id": "fm100",
+          "text": "FM-100 scoring"
+        }
+      ],
+      "correctOptionIds": [
+        "stereo-sue",
+        "3d-movies",
+        "ames",
+        "chromostereopsis"
+      ],
+      "minimumSelections": 4,
+      "maximumSelections": 4
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-order-001",
+      "familyId": "order-stereogram-threshold-logic",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "clinical-stereopsis-testing",
+      "objectiveId": "depth-stereotests",
+      "format": "ordering",
+      "stimulusType": "pathway",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Order stereogram threshold logic.",
+      "explanation": "The sequence follows the lecture's causal or procedural flow.",
+      "noteAnchor": "clinical-stereopsis-testing",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "items": [
+        {
+          "id": "pair",
+          "text": "Present paired copies"
+        },
+        {
+          "id": "fuse",
+          "text": "Patient fuses the pair"
+        },
+        {
+          "id": "reduce",
+          "text": "Reduce separation across levels"
+        },
+        {
+          "id": "threshold",
+          "text": "Record smallest separation seen in depth"
+        }
+      ],
+      "correctOrder": [
+        "pair",
+        "fuse",
+        "reduce",
+        "threshold"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-order-002",
+      "familyId": "order-disparity-outcomes",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "retinal-disparity-panum",
+      "objectiveId": "depth-disparity-panum",
+      "format": "ordering",
+      "stimulusType": "pathway",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Order disparity outcomes.",
+      "explanation": "The sequence follows the lecture's causal or procedural flow.",
+      "noteAnchor": "retinal-disparity-panum",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "items": [
+        {
+          "id": "horopter",
+          "text": "Object lies on/near horopter"
+        },
+        {
+          "id": "small",
+          "text": "Small disparity falls inside Panum's space"
+        },
+        {
+          "id": "stereo",
+          "text": "Single 3-D percept occurs"
+        },
+        {
+          "id": "large",
+          "text": "Large disparity outside space gives diplopia"
+        }
+      ],
+      "correctOrder": [
+        "horopter",
+        "small",
+        "stereo",
+        "large"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-order-003",
+      "familyId": "order-convergence-cue-logic",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "binocular-cues",
+      "objectiveId": "depth-convergence",
+      "format": "ordering",
+      "stimulusType": "pathway",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Order convergence cue logic.",
+      "explanation": "The sequence follows the lecture's causal or procedural flow.",
+      "noteAnchor": "binocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "items": [
+        {
+          "id": "near",
+          "text": "Object is near"
+        },
+        {
+          "id": "turn",
+          "text": "Eyes turn inward more"
+        },
+        {
+          "id": "sense",
+          "text": "Muscular/oculomotor signal is sensed"
+        },
+        {
+          "id": "judge",
+          "text": "Object is judged closer"
+        }
+      ],
+      "correctOrder": [
+        "near",
+        "turn",
+        "sense",
+        "judge"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-order-004",
+      "familyId": "order-ponzo-interpretation",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "depth-illusions",
+      "objectiveId": "depth-illusions",
+      "format": "ordering",
+      "stimulusType": "pathway",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Order Ponzo interpretation.",
+      "explanation": "The sequence follows the lecture's causal or procedural flow.",
+      "noteAnchor": "depth-illusions",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "items": [
+        {
+          "id": "context",
+          "text": "Converging lines imply depth"
+        },
+        {
+          "id": "far",
+          "text": "Upper line is interpreted as farther"
+        },
+        {
+          "id": "retinal",
+          "text": "Large image despite apparent distance"
+        },
+        {
+          "id": "larger",
+          "text": "Line appears larger"
+        }
+      ],
+      "correctOrder": [
+        "context",
+        "far",
+        "retinal",
+        "larger"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-order-005",
+      "familyId": "order-motion-parallax-interpretation",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "monocular-cues",
+      "objectiveId": "depth-monocular-cues",
+      "format": "ordering",
+      "stimulusType": "pathway",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Order motion parallax interpretation.",
+      "explanation": "The sequence follows the lecture's causal or procedural flow.",
+      "noteAnchor": "monocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "items": [
+        {
+          "id": "move",
+          "text": "Observer moves"
+        },
+        {
+          "id": "apparent",
+          "text": "Objects show relative apparent motion"
+        },
+        {
+          "id": "nearfast",
+          "text": "Near objects pass quickly"
+        },
+        {
+          "id": "depth",
+          "text": "Depth is inferred"
+        }
+      ],
+      "correctOrder": [
+        "move",
+        "apparent",
+        "nearfast",
+        "depth"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-order-006",
+      "familyId": "order-pass-pass-logic",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "clinical-stereopsis-testing",
+      "objectiveId": "depth-stereotests",
+      "format": "ordering",
+      "stimulusType": "pathway",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Order PASS pass logic.",
+      "explanation": "The sequence follows the lecture's causal or procedural flow.",
+      "noteAnchor": "clinical-stereopsis-testing",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "items": [
+        {
+          "id": "pair",
+          "text": "Pair card with blank"
+        },
+        {
+          "id": "force",
+          "text": "Use forced choice"
+        },
+        {
+          "id": "score",
+          "text": "Require 4/4 or 4/5 correct"
+        },
+        {
+          "id": "pass",
+          "text": "Pass stereo level"
+        }
+      ],
+      "correctOrder": [
+        "pair",
+        "force",
+        "score",
+        "pass"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-order-007",
+      "familyId": "order-randot-practical-workflow",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "practical-lab",
+      "objectiveId": "depth-practical",
+      "format": "ordering",
+      "stimulusType": "pathway",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Order Randot practical workflow.",
+      "explanation": "The sequence follows the lecture's causal or procedural flow.",
+      "noteAnchor": "practical-lab",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "items": [
+        {
+          "id": "correction",
+          "text": "Wear best correction"
+        },
+        {
+          "id": "baseline",
+          "text": "Measure baseline stereoacuity"
+        },
+        {
+          "id": "oneeye",
+          "text": "Try with one eye"
+        },
+        {
+          "id": "plus",
+          "text": "Repeat with +4.00 D before one eye"
+        }
+      ],
+      "correctOrder": [
+        "correction",
+        "baseline",
+        "oneeye",
+        "plus"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-match-001",
+      "familyId": "match-monocular-cue-to-description",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "monocular-cues",
+      "objectiveId": "depth-monocular-cues",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Match monocular cue to description.",
+      "explanation": "Each pair matches the lecture terminology.",
+      "noteAnchor": "monocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "prompts": [
+        {
+          "id": "relative-size",
+          "text": "relative size"
+        },
+        {
+          "id": "texture-gradient",
+          "text": "texture gradient"
+        },
+        {
+          "id": "occlusion",
+          "text": "occlusion"
+        },
+        {
+          "id": "aerial-perspective",
+          "text": "aerial perspective"
+        }
+      ],
+      "choices": [
+        {
+          "id": "larger-familiar-image-appears-closer",
+          "text": "larger familiar image appears closer"
+        },
+        {
+          "id": "far-textures-appear-smoother",
+          "text": "far textures appear smoother"
+        },
+        {
+          "id": "front-object-blocks-back-object",
+          "text": "front object blocks back object"
+        },
+        {
+          "id": "far-objects-appear-blurred-or-bluish",
+          "text": "far objects appear blurred or bluish"
+        }
+      ],
+      "correctMatches": {
+        "relative-size": "larger-familiar-image-appears-closer",
+        "texture-gradient": "far-textures-appear-smoother",
+        "occlusion": "front-object-blocks-back-object",
+        "aerial-perspective": "far-objects-appear-blurred-or-bluish"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-match-002",
+      "familyId": "match-illusion-to-explanation",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "depth-illusions",
+      "objectiveId": "depth-illusions",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Match illusion to explanation.",
+      "explanation": "Each pair matches the lecture terminology.",
+      "noteAnchor": "depth-illusions",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "prompts": [
+        {
+          "id": "ebbinghaus",
+          "text": "ebbinghaus"
+        },
+        {
+          "id": "ponzo",
+          "text": "ponzo"
+        },
+        {
+          "id": "moon",
+          "text": "moon"
+        },
+        {
+          "id": "titchener",
+          "text": "titchener"
+        }
+      ],
+      "choices": [
+        {
+          "id": "relative-size-context",
+          "text": "relative size context"
+        },
+        {
+          "id": "linear-perspective",
+          "text": "linear perspective"
+        },
+        {
+          "id": "relative-size-or-apparent-distance-hypotheses",
+          "text": "relative size or apparent distance hypotheses"
+        },
+        {
+          "id": "another-name-for-ebbinghaus-circles",
+          "text": "another name for Ebbinghaus circles"
+        }
+      ],
+      "correctMatches": {
+        "ebbinghaus": "relative-size-context",
+        "ponzo": "linear-perspective",
+        "moon": "relative-size-or-apparent-distance-hypotheses",
+        "titchener": "another-name-for-ebbinghaus-circles"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-match-003",
+      "familyId": "match-binocular-term-to-meaning",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "binocular-cues",
+      "objectiveId": "depth-convergence",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Match binocular term to meaning.",
+      "explanation": "Each pair matches the lecture terminology.",
+      "noteAnchor": "binocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "prompts": [
+        {
+          "id": "convergence",
+          "text": "convergence"
+        },
+        {
+          "id": "retinal-disparity",
+          "text": "retinal disparity"
+        },
+        {
+          "id": "stereopsis",
+          "text": "stereopsis"
+        },
+        {
+          "id": "physiologic-diplopia",
+          "text": "physiologic diplopia"
+        }
+      ],
+      "choices": [
+        {
+          "id": "inward-eye-turning",
+          "text": "inward eye turning"
+        },
+        {
+          "id": "difference-between-two-retinal-images",
+          "text": "difference between two retinal images"
+        },
+        {
+          "id": "solid-3-d-vision",
+          "text": "solid 3-D vision"
+        },
+        {
+          "id": "double-vision-cueing-depth",
+          "text": "double vision cueing depth"
+        }
+      ],
+      "correctMatches": {
+        "convergence": "inward-eye-turning",
+        "retinal-disparity": "difference-between-two-retinal-images",
+        "stereopsis": "solid-3-d-vision",
+        "physiologic-diplopia": "double-vision-cueing-depth"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-match-004",
+      "familyId": "match-stereotest-to-context",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "clinical-stereopsis-testing",
+      "objectiveId": "depth-stereotests",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Match stereotest to context.",
+      "explanation": "Each pair matches the lecture terminology.",
+      "noteAnchor": "clinical-stereopsis-testing",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "prompts": [
+        {
+          "id": "randot",
+          "text": "randot"
+        },
+        {
+          "id": "pass",
+          "text": "pass"
+        },
+        {
+          "id": "howard-dolman",
+          "text": "howard dolman"
+        },
+        {
+          "id": "frisby",
+          "text": "frisby"
+        }
+      ],
+      "choices": [
+        {
+          "id": "near-book-stereotest",
+          "text": "near book stereotest"
+        },
+        {
+          "id": "preschool-forced-choice-cards",
+          "text": "preschool forced-choice cards"
+        },
+        {
+          "id": "distance-peg-test",
+          "text": "distance peg test"
+        },
+        {
+          "id": "test-named-for-reading-task",
+          "text": "test named for reading task"
+        }
+      ],
+      "correctMatches": {
+        "randot": "near-book-stereotest",
+        "pass": "preschool-forced-choice-cards",
+        "howard-dolman": "distance-peg-test",
+        "frisby": "test-named-for-reading-task"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-match-005",
+      "familyId": "match-stereogram-concept",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "clinical-stereopsis-testing",
+      "objectiveId": "depth-stereotests",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Match stereogram concept.",
+      "explanation": "Each pair matches the lecture terminology.",
+      "noteAnchor": "clinical-stereopsis-testing",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "prompts": [
+        {
+          "id": "fusional-convergence",
+          "text": "fusional convergence"
+        },
+        {
+          "id": "fusional-divergence",
+          "text": "fusional divergence"
+        },
+        {
+          "id": "threshold",
+          "text": "threshold"
+        },
+        {
+          "id": "seconds-of-arc",
+          "text": "seconds of arc"
+        }
+      ],
+      "choices": [
+        {
+          "id": "part-appears-closer-or-raised",
+          "text": "part appears closer or raised"
+        },
+        {
+          "id": "part-appears-farther",
+          "text": "part appears farther"
+        },
+        {
+          "id": "smallest-separation-seen-in-depth",
+          "text": "smallest separation seen in depth"
+        },
+        {
+          "id": "stereoacuity-unit",
+          "text": "stereoacuity unit"
+        }
+      ],
+      "correctMatches": {
+        "fusional-convergence": "part-appears-closer-or-raised",
+        "fusional-divergence": "part-appears-farther",
+        "threshold": "smallest-separation-seen-in-depth",
+        "seconds-of-arc": "stereoacuity-unit"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-match-006",
+      "familyId": "match-cue-to-example",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "monocular-cues",
+      "objectiveId": "depth-monocular-cues",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Match cue to example.",
+      "explanation": "Each pair matches the lecture terminology.",
+      "noteAnchor": "monocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "prompts": [
+        {
+          "id": "linear-perspective",
+          "text": "linear perspective"
+        },
+        {
+          "id": "light-shadow",
+          "text": "light shadow"
+        },
+        {
+          "id": "motion-parallax",
+          "text": "motion parallax"
+        },
+        {
+          "id": "height-horizon",
+          "text": "height horizon"
+        }
+      ],
+      "choices": [
+        {
+          "id": "railway-tracks-converge",
+          "text": "railway tracks converge"
+        },
+        {
+          "id": "object-casts-a-shadow",
+          "text": "object casts a shadow"
+        },
+        {
+          "id": "near-objects-pass-quickly",
+          "text": "near objects pass quickly"
+        },
+        {
+          "id": "lower-field-appears-nearer",
+          "text": "lower field appears nearer"
+        }
+      ],
+      "correctMatches": {
+        "linear-perspective": "railway-tracks-converge",
+        "light-shadow": "object-casts-a-shadow",
+        "motion-parallax": "near-objects-pass-quickly",
+        "height-horizon": "lower-field-appears-nearer"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-match-007",
+      "familyId": "match-disparity-term",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "retinal-disparity-panum",
+      "objectiveId": "depth-disparity-panum",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Match disparity term.",
+      "explanation": "Each pair matches the lecture terminology.",
+      "noteAnchor": "retinal-disparity-panum",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "prompts": [
+        {
+          "id": "horopter",
+          "text": "horopter"
+        },
+        {
+          "id": "crossed",
+          "text": "crossed"
+        },
+        {
+          "id": "uncrossed",
+          "text": "uncrossed"
+        },
+        {
+          "id": "outside-panum",
+          "text": "outside panum"
+        }
+      ],
+      "choices": [
+        {
+          "id": "same-fixation-distance",
+          "text": "same fixation distance"
+        },
+        {
+          "id": "nearer-than-fixation",
+          "text": "nearer than fixation"
+        },
+        {
+          "id": "farther-than-fixation",
+          "text": "farther than fixation"
+        },
+        {
+          "id": "diplopia-likely",
+          "text": "diplopia likely"
+        }
+      ],
+      "correctMatches": {
+        "horopter": "same-fixation-distance",
+        "crossed": "nearer-than-fixation",
+        "uncrossed": "farther-than-fixation",
+        "outside-panum": "diplopia-likely"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-match-008",
+      "familyId": "match-practical-task-to-purpose",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "practical-lab",
+      "objectiveId": "depth-practical",
+      "format": "matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Match practical task to purpose.",
+      "explanation": "Each pair matches the lecture terminology.",
+      "noteAnchor": "practical-lab",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "prompts": [
+        {
+          "id": "one-eye",
+          "text": "one eye"
+        },
+        {
+          "id": "plus-four",
+          "text": "plus four"
+        },
+        {
+          "id": "telebinocular",
+          "text": "telebinocular"
+        },
+        {
+          "id": "chromostereopsis",
+          "text": "chromostereopsis"
+        }
+      ],
+      "choices": [
+        {
+          "id": "monocular-cue-cheating",
+          "text": "monocular cue cheating"
+        },
+        {
+          "id": "blur-degraded-input",
+          "text": "blur/degraded input"
+        },
+        {
+          "id": "suppression-checks",
+          "text": "suppression checks"
+        },
+        {
+          "id": "colour-linked-depth-prompt",
+          "text": "colour-linked depth prompt"
+        }
+      ],
+      "correctMatches": {
+        "one-eye": "monocular-cue-cheating",
+        "plus-four": "blur-degraded-input",
+        "telebinocular": "suppression-checks",
+        "chromostereopsis": "colour-linked-depth-prompt"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-em-001",
+      "familyId": "choose-the-best-monocular-cue",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "monocular-cues",
+      "objectiveId": "depth-monocular-cues",
+      "format": "extended_matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "intermediate",
+      "stem": "Choose the best monocular cue.",
+      "explanation": "Choose the best source-supported option.",
+      "noteAnchor": "monocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "relative-size",
+          "text": "relative size"
+        },
+        {
+          "id": "texture-gradient",
+          "text": "texture gradient"
+        },
+        {
+          "id": "occlusion",
+          "text": "occlusion"
+        },
+        {
+          "id": "linear-perspective",
+          "text": "linear perspective"
+        }
+      ],
+      "stems": [
+        {
+          "id": "case-1",
+          "text": "same-size bead appears smaller"
+        },
+        {
+          "id": "case-2",
+          "text": "floor pattern becomes smoother"
+        },
+        {
+          "id": "case-3",
+          "text": "tree hides part of a wall"
+        }
+      ],
+      "correctAnswers": {
+        "case-1": "relative-size",
+        "case-2": "texture-gradient",
+        "case-3": "occlusion"
+      },
+      "reuseOptions": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-em-002",
+      "familyId": "choose-the-best-binocular-concept",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "binocular-cues",
+      "objectiveId": "depth-convergence",
+      "format": "extended_matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "intermediate",
+      "stem": "Choose the best binocular concept.",
+      "explanation": "Choose the best source-supported option.",
+      "noteAnchor": "binocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "convergence",
+          "text": "convergence"
+        },
+        {
+          "id": "retinal-disparity",
+          "text": "retinal disparity"
+        },
+        {
+          "id": "panum-space",
+          "text": "panum space"
+        },
+        {
+          "id": "physiologic-diplopia",
+          "text": "physiologic diplopia"
+        }
+      ],
+      "stems": [
+        {
+          "id": "case-1",
+          "text": "eyes turn inward for near object"
+        },
+        {
+          "id": "case-2",
+          "text": "two eyes receive slightly different images"
+        },
+        {
+          "id": "case-3",
+          "text": "small disparities are fused"
+        }
+      ],
+      "correctAnswers": {
+        "case-1": "convergence",
+        "case-2": "retinal-disparity",
+        "case-3": "panum-space"
+      },
+      "reuseOptions": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-em-003",
+      "familyId": "choose-the-illusion",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "depth-illusions",
+      "objectiveId": "depth-illusions",
+      "format": "extended_matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "intermediate",
+      "stem": "Choose the illusion.",
+      "explanation": "Choose the best source-supported option.",
+      "noteAnchor": "depth-illusions",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "ebbinghaus",
+          "text": "ebbinghaus"
+        },
+        {
+          "id": "ponzo",
+          "text": "ponzo"
+        },
+        {
+          "id": "moon",
+          "text": "moon"
+        },
+        {
+          "id": "motion-parallax",
+          "text": "motion parallax"
+        }
+      ],
+      "stems": [
+        {
+          "id": "case-1",
+          "text": "central circles same size but look different"
+        },
+        {
+          "id": "case-2",
+          "text": "equal lines look different between converging rails"
+        },
+        {
+          "id": "case-3",
+          "text": "horizon moon appears large"
+        }
+      ],
+      "correctAnswers": {
+        "case-1": "ebbinghaus",
+        "case-2": "ponzo",
+        "case-3": "moon"
+      },
+      "reuseOptions": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-em-004",
+      "familyId": "choose-the-test",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "clinical-stereopsis-testing",
+      "objectiveId": "depth-stereotests",
+      "format": "extended_matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "intermediate",
+      "stem": "Choose the test.",
+      "explanation": "Choose the best source-supported option.",
+      "noteAnchor": "clinical-stereopsis-testing",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "randot",
+          "text": "randot"
+        },
+        {
+          "id": "pass",
+          "text": "pass"
+        },
+        {
+          "id": "howard-dolman",
+          "text": "howard dolman"
+        },
+        {
+          "id": "telebinocular",
+          "text": "telebinocular"
+        }
+      ],
+      "stems": [
+        {
+          "id": "case-1",
+          "text": "preschool smile forced choice"
+        },
+        {
+          "id": "case-2",
+          "text": "distance peg alignment"
+        },
+        {
+          "id": "case-3",
+          "text": "near book with fly/circles context"
+        }
+      ],
+      "correctAnswers": {
+        "case-1": "pass",
+        "case-2": "howard-dolman",
+        "case-3": "randot"
+      },
+      "reuseOptions": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-em-005",
+      "familyId": "choose-stereogram-outcome",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "clinical-stereopsis-testing",
+      "objectiveId": "depth-stereotests",
+      "format": "extended_matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "intermediate",
+      "stem": "Choose stereogram outcome.",
+      "explanation": "Choose the best source-supported option.",
+      "noteAnchor": "clinical-stereopsis-testing",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "raised-near",
+          "text": "raised near"
+        },
+        {
+          "id": "farther",
+          "text": "farther"
+        },
+        {
+          "id": "threshold",
+          "text": "threshold"
+        },
+        {
+          "id": "flat",
+          "text": "flat"
+        }
+      ],
+      "stems": [
+        {
+          "id": "case-1",
+          "text": "fusion by convergence raises part"
+        },
+        {
+          "id": "case-2",
+          "text": "fusion by divergence moves part back"
+        },
+        {
+          "id": "case-3",
+          "text": "smallest separation seen"
+        }
+      ],
+      "correctAnswers": {
+        "case-1": "raised-near",
+        "case-2": "farther",
+        "case-3": "threshold"
+      },
+      "reuseOptions": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-em-006",
+      "familyId": "choose-cue-range",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "depth-overview",
+      "objectiveId": "depth-monocular-binocular",
+      "format": "extended_matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "advanced",
+      "stem": "Choose cue range.",
+      "explanation": "Choose the best source-supported option.",
+      "noteAnchor": "depth-overview",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "monocular-far",
+          "text": "monocular far"
+        },
+        {
+          "id": "binocular-near",
+          "text": "binocular near"
+        },
+        {
+          "id": "not-supported",
+          "text": "not supported"
+        }
+      ],
+      "stems": [
+        {
+          "id": "case-1",
+          "text": "mountains judged by blur and haze"
+        },
+        {
+          "id": "case-2",
+          "text": "fine depth within arm's length"
+        }
+      ],
+      "correctAnswers": {
+        "case-1": "monocular-far",
+        "case-2": "binocular-near"
+      },
+      "reuseOptions": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-em-007",
+      "familyId": "choose-practical-interpretation",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "practical-lab",
+      "objectiveId": "depth-practical",
+      "format": "extended_matching",
+      "stimulusType": "comparison",
+      "bloomLevel": "analyze",
+      "difficulty": "advanced",
+      "stem": "Choose practical interpretation.",
+      "explanation": "Choose the best source-supported option.",
+      "noteAnchor": "practical-lab",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "options": [
+        {
+          "id": "monocular-cheating",
+          "text": "monocular cheating"
+        },
+        {
+          "id": "binocular-loss",
+          "text": "binocular loss"
+        },
+        {
+          "id": "suppression-check",
+          "text": "suppression check"
+        }
+      ],
+      "stems": [
+        {
+          "id": "case-1",
+          "text": "one-eye success on contour targets"
+        },
+        {
+          "id": "case-2",
+          "text": "random-dot target impossible with one eye"
+        },
+        {
+          "id": "case-3",
+          "text": "telebinocular asks checks"
+        }
+      ],
+      "correctAnswers": {
+        "case-1": "monocular-cheating",
+        "case-2": "binocular-loss",
+        "case-3": "suppression-check"
+      },
+      "reuseOptions": true
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-hotspot-001",
+      "familyId": "select-the-occlusion-region",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "monocular-cues",
+      "objectiveId": "depth-monocular-cues",
+      "format": "image_hotspot",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Select the occlusion region.",
+      "explanation": "The selected region corresponds to the diagrammed source concept.",
+      "noteAnchor": "monocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "image": {
+        "src": "/images/courses/visual-perception/assessment/hvp-depth-cues-scene.svg",
+        "alt": "Select the occlusion region.",
+        "width": 800,
+        "height": 450
+      },
+      "regions": [
+        {
+          "id": "occlusion",
+          "label": "overlapping rectangles",
+          "interactionLabel": "overlapping rectangles",
+          "marker": "A",
+          "x": 30,
+          "y": 50,
+          "width": 18,
+          "height": 27
+        },
+        {
+          "id": "far",
+          "label": "small far circle",
+          "interactionLabel": "small far circle",
+          "marker": "B",
+          "x": 70,
+          "y": 52,
+          "width": 8,
+          "height": 8
+        },
+        {
+          "id": "shadow",
+          "label": "shadow",
+          "interactionLabel": "shadow",
+          "marker": "C",
+          "x": 64,
+          "y": 75,
+          "width": 23,
+          "height": 10
+        }
+      ],
+      "correctRegionIds": [
+        "occlusion"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-hotspot-002",
+      "familyId": "select-the-farthest-relative-size-object",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "monocular-cues",
+      "objectiveId": "depth-monocular-cues",
+      "format": "image_hotspot",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Select the farthest relative-size object.",
+      "explanation": "The selected region corresponds to the diagrammed source concept.",
+      "noteAnchor": "monocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "image": {
+        "src": "/images/courses/visual-perception/assessment/hvp-depth-cues-scene.svg",
+        "alt": "Select the farthest relative-size object.",
+        "width": 800,
+        "height": 450
+      },
+      "regions": [
+        {
+          "id": "near",
+          "label": "large circle",
+          "interactionLabel": "large circle",
+          "marker": "A",
+          "x": 14,
+          "y": 65,
+          "width": 13,
+          "height": 18
+        },
+        {
+          "id": "middle",
+          "label": "middle circle",
+          "interactionLabel": "middle circle",
+          "marker": "B",
+          "x": 41,
+          "y": 62,
+          "width": 8,
+          "height": 11
+        },
+        {
+          "id": "far",
+          "label": "small circle",
+          "interactionLabel": "small circle",
+          "marker": "C",
+          "x": 70,
+          "y": 52,
+          "width": 8,
+          "height": 8
+        }
+      ],
+      "correctRegionIds": [
+        "far"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-hotspot-003",
+      "familyId": "select-panum-s-fusional-space",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "retinal-disparity-panum",
+      "objectiveId": "depth-disparity-panum",
+      "format": "image_hotspot",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Select Panum's fusional space.",
+      "explanation": "The selected region corresponds to the diagrammed source concept.",
+      "noteAnchor": "retinal-disparity-panum",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "image": {
+        "src": "/images/courses/visual-perception/assessment/hvp-panum-disparity.svg",
+        "alt": "Select Panum's fusional space.",
+        "width": 800,
+        "height": 450
+      },
+      "regions": [
+        {
+          "id": "panum",
+          "label": "blue oval",
+          "interactionLabel": "blue oval",
+          "marker": "A",
+          "x": 29,
+          "y": 36,
+          "width": 42,
+          "height": 40
+        },
+        {
+          "id": "horopter",
+          "label": "line",
+          "interactionLabel": "line",
+          "marker": "B",
+          "x": 26,
+          "y": 53,
+          "width": 48,
+          "height": 4
+        }
+      ],
+      "correctRegionIds": [
+        "panum"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-hotspot-004",
+      "familyId": "select-near-stereotests",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "clinical-stereopsis-testing",
+      "objectiveId": "depth-stereotests",
+      "format": "image_hotspot",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Select near stereotests.",
+      "explanation": "The selected region corresponds to the diagrammed source concept.",
+      "noteAnchor": "clinical-stereopsis-testing",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "image": {
+        "src": "/images/courses/visual-perception/assessment/hvp-stereotest-taxonomy.svg",
+        "alt": "Select near stereotests.",
+        "width": 800,
+        "height": 450
+      },
+      "regions": [
+        {
+          "id": "near",
+          "label": "near panel",
+          "interactionLabel": "near panel",
+          "marker": "A",
+          "x": 10,
+          "y": 30,
+          "width": 36,
+          "height": 25
+        },
+        {
+          "id": "distance",
+          "label": "distance panel",
+          "interactionLabel": "distance panel",
+          "marker": "B",
+          "x": 54,
+          "y": 30,
+          "width": 36,
+          "height": 25
+        }
+      ],
+      "correctRegionIds": [
+        "near"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-hotspot-005",
+      "familyId": "select-red-chromostereopsis-prompt-region",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "practical-lab",
+      "objectiveId": "depth-practical",
+      "format": "image_hotspot",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Select red chromostereopsis prompt region.",
+      "explanation": "The selected region corresponds to the diagrammed source concept.",
+      "noteAnchor": "practical-lab",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "image": {
+        "src": "/images/courses/visual-perception/assessment/hvp-chromostereopsis.svg",
+        "alt": "Select red chromostereopsis prompt region.",
+        "width": 800,
+        "height": 450
+      },
+      "regions": [
+        {
+          "id": "red",
+          "label": "red region",
+          "interactionLabel": "red region",
+          "marker": "A",
+          "x": 15,
+          "y": 36,
+          "width": 31,
+          "height": 34
+        },
+        {
+          "id": "blue",
+          "label": "blue region",
+          "interactionLabel": "blue region",
+          "marker": "B",
+          "x": 55,
+          "y": 40,
+          "width": 31,
+          "height": 34
+        }
+      ],
+      "correctRegionIds": [
+        "red"
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-label-001",
+      "familyId": "label-disparity-regions",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "retinal-disparity-panum",
+      "objectiveId": "depth-disparity-panum",
+      "format": "image_label",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Label disparity regions.",
+      "explanation": "Labels should match the diagram regions.",
+      "noteAnchor": "retinal-disparity-panum",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "image": {
+        "src": "/images/courses/visual-perception/assessment/hvp-panum-disparity.svg",
+        "alt": "Label disparity regions.",
+        "width": 800,
+        "height": 450
+      },
+      "targets": [
+        {
+          "id": "crossed",
+          "label": "Crossed disparity",
+          "x": 39,
+          "y": 43
+        },
+        {
+          "id": "horopter",
+          "label": "Horopter",
+          "x": 50,
+          "y": 54
+        },
+        {
+          "id": "uncrossed",
+          "label": "Uncrossed disparity",
+          "x": 62,
+          "y": 70
+        }
+      ],
+      "labels": [
+        {
+          "id": "crossed-disparity",
+          "text": "Crossed disparity"
+        },
+        {
+          "id": "horopter",
+          "text": "Horopter"
+        },
+        {
+          "id": "uncrossed-disparity",
+          "text": "Uncrossed disparity"
+        }
+      ],
+      "correctLabels": {
+        "crossed": "crossed-disparity",
+        "horopter": "horopter",
+        "uncrossed": "uncrossed-disparity"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-label-002",
+      "familyId": "label-monocular-cues",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "monocular-cues",
+      "objectiveId": "depth-monocular-cues",
+      "format": "image_label",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Label monocular cues.",
+      "explanation": "Labels should match the diagram regions.",
+      "noteAnchor": "monocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "image": {
+        "src": "/images/courses/visual-perception/assessment/hvp-depth-cues-scene.svg",
+        "alt": "Label monocular cues.",
+        "width": 800,
+        "height": 450
+      },
+      "targets": [
+        {
+          "id": "size",
+          "label": "Relative size",
+          "x": 21,
+          "y": 73
+        },
+        {
+          "id": "occ",
+          "label": "Occlusion",
+          "x": 42,
+          "y": 56
+        },
+        {
+          "id": "shadow",
+          "label": "Light/shadow",
+          "x": 72,
+          "y": 78
+        }
+      ],
+      "labels": [
+        {
+          "id": "relative-size",
+          "text": "Relative size"
+        },
+        {
+          "id": "occlusion",
+          "text": "Occlusion"
+        },
+        {
+          "id": "light-shadow",
+          "text": "Light/shadow"
+        }
+      ],
+      "correctLabels": {
+        "size": "relative-size",
+        "occ": "occlusion",
+        "shadow": "light-shadow"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-label-003",
+      "familyId": "label-test-categories",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "clinical-stereopsis-testing",
+      "objectiveId": "depth-stereotests",
+      "format": "image_label",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Label test categories.",
+      "explanation": "Labels should match the diagram regions.",
+      "noteAnchor": "clinical-stereopsis-testing",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "image": {
+        "src": "/images/courses/visual-perception/assessment/hvp-stereotest-taxonomy.svg",
+        "alt": "Label test categories.",
+        "width": 800,
+        "height": 450
+      },
+      "targets": [
+        {
+          "id": "near",
+          "label": "Near stereotests",
+          "x": 28,
+          "y": 42
+        },
+        {
+          "id": "distance",
+          "label": "Distance stereotests",
+          "x": 72,
+          "y": 42
+        }
+      ],
+      "labels": [
+        {
+          "id": "near-stereotests",
+          "text": "Near stereotests"
+        },
+        {
+          "id": "distance-stereotests",
+          "text": "Distance stereotests"
+        }
+      ],
+      "correctLabels": {
+        "near": "near-stereotests",
+        "distance": "distance-stereotests"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-label-004",
+      "familyId": "label-chromostereopsis-regions",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "practical-lab",
+      "objectiveId": "depth-practical",
+      "format": "image_label",
+      "stimulusType": "diagram",
+      "bloomLevel": "apply",
+      "difficulty": "intermediate",
+      "stem": "Label chromostereopsis regions.",
+      "explanation": "Labels should match the diagram regions.",
+      "noteAnchor": "practical-lab",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "image": {
+        "src": "/images/courses/visual-perception/assessment/hvp-chromostereopsis.svg",
+        "alt": "Label chromostereopsis regions.",
+        "width": 800,
+        "height": 450
+      },
+      "targets": [
+        {
+          "id": "red",
+          "label": "Red object",
+          "x": 31,
+          "y": 51
+        },
+        {
+          "id": "blue",
+          "label": "Blue object",
+          "x": 72,
+          "y": 56
+        }
+      ],
+      "labels": [
+        {
+          "id": "red-object",
+          "text": "Red object"
+        },
+        {
+          "id": "blue-object",
+          "text": "Blue object"
+        }
+      ],
+      "correctLabels": {
+        "red": "red-object",
+        "blue": "blue-object"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sa-001",
+      "familyId": "what-term-means-distance-from-observer-to-obj",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "depth-foundations",
+      "objectiveId": "depth-define-depth",
+      "format": "short_answer",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "What term means distance from observer to object?",
+      "explanation": "Accepted answer: absolute depth.",
+      "noteAnchor": "depth-foundations",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "acceptedAnswers": [
+        "absolute depth"
+      ],
+      "normalization": {
+        "trim": true,
+        "caseInsensitive": true,
+        "collapseWhitespace": true,
+        "ignoreTerminalPunctuation": true
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sa-002",
+      "familyId": "what-space-allows-small-disparities-to-fuse-w",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "retinal-disparity-panum",
+      "objectiveId": "depth-disparity-panum",
+      "format": "short_answer",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "What space allows small disparities to fuse without diplopia?",
+      "explanation": "Accepted answer: panum's fusional space.",
+      "noteAnchor": "retinal-disparity-panum",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "acceptedAnswers": [
+        "panum's fusional space",
+        "panum fusional space",
+        "panum space"
+      ],
+      "normalization": {
+        "trim": true,
+        "caseInsensitive": true,
+        "collapseWhitespace": true,
+        "ignoreTerminalPunctuation": true
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sa-003",
+      "familyId": "stereoacuity-is-recorded-in-what-angular-unit",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "clinical-stereopsis-testing",
+      "objectiveId": "depth-stereotests",
+      "format": "short_answer",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "Stereoacuity is recorded in what angular unit?",
+      "explanation": "Accepted answer: seconds of arc.",
+      "noteAnchor": "clinical-stereopsis-testing",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "acceptedAnswers": [
+        "seconds of arc",
+        "arc seconds",
+        "arcseconds"
+      ],
+      "normalization": {
+        "trim": true,
+        "caseInsensitive": true,
+        "collapseWhitespace": true,
+        "ignoreTerminalPunctuation": true
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-sa-004",
+      "familyId": "what-cue-describes-relative-apparent-motion-d",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "monocular-cues",
+      "objectiveId": "depth-monocular-cues",
+      "format": "short_answer",
+      "stimulusType": "text",
+      "bloomLevel": "remember",
+      "difficulty": "foundation",
+      "stem": "What cue describes relative apparent motion during observer movement?",
+      "explanation": "Accepted answer: motion parallax.",
+      "noteAnchor": "monocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "acceptedAnswers": [
+        "motion parallax"
+      ],
+      "normalization": {
+        "trim": true,
+        "caseInsensitive": true,
+        "collapseWhitespace": true,
+        "ignoreTerminalPunctuation": true
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-open-001",
+      "familyId": "explain-how-a-one-eyed-person-can-still-judge",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "monocular-cues",
+      "objectiveId": "depth-monocular-cues",
+      "format": "open_response",
+      "stimulusType": "text",
+      "bloomLevel": "evaluate",
+      "difficulty": "advanced",
+      "stem": "Explain how a one-eyed person can still judge depth, and what is missing compared with binocular vision.",
+      "explanation": "Manual review should credit source-grounded reasoning.",
+      "noteAnchor": "monocular-cues",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "rubric": [
+        "States monocular cues can support depth with one eye.",
+        "Names at least two monocular cues.",
+        "Explains stereopsis/fine near depth needs two eyes.",
+        "Avoids saying stereopsis occurs with one eye."
+      ],
+      "sampleAnswer": "Monocular cues such as size, occlusion and motion parallax support depth, but binocular stereopsis needs two eyes.",
+      "autoGraded": false
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hvp-depth-open-002",
+      "familyId": "explain-why-the-practical-asks-students-to-te",
+      "courseId": "human-visual-perception",
+      "moduleId": "hvp-depth-perception",
+      "sectionId": "clinical-stereopsis-testing",
+      "objectiveId": "depth-stereotests",
+      "format": "open_response",
+      "stimulusType": "text",
+      "bloomLevel": "evaluate",
+      "difficulty": "advanced",
+      "stem": "Explain why the practical asks students to test with one eye and through +4.00 D before one eye.",
+      "explanation": "Manual review should credit source-grounded reasoning.",
+      "noteAnchor": "clinical-stereopsis-testing",
+      "misconceptionTags": [],
+      "sources": [
+        {
+          "id": "hvp-depth-perception-lecture",
+          "title": "4. Depth Perception",
+          "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+          "kind": "lecture"
+        }
+      ],
+      "author": "Optometry Study Hub content expansion team",
+      "reviewStatus": "draft",
+      "version": 1,
+      "estimatedSeconds": 60,
+      "rubric": [
+        "Connects one-eye testing to monocular cue cheating.",
+        "Mentions global/random-dot tasks should fail without binocular input.",
+        "Explains +4.00 D degrades one eye and can reduce stereopsis.",
+        "Links findings to clinical interpretation."
+      ],
+      "sampleAnswer": "The exercise shows which tests contain monocular clues and how degraded monocular input affects stereoacuity.",
+      "autoGraded": false
+    }
+  ],
+  "sources": [
+    {
+      "id": "hvp-depth-perception-lecture",
+      "title": "4. Depth Perception",
+      "locator": "77 slides: absolute/relative depth, monocular cues, binocular cues, stereopsis, stereotests, lab tasks and chromostereopsis",
+      "kind": "lecture"
+    }
+  ],
+  "generatedAt": "2026-08-07T02:11:20Z"
+}

@@ -18,7 +18,7 @@ import {
 
 describe('curated-experience registry', () => {
   it('contains safe discovery metadata for every production adapter', () => {
-    expect(curatedExperienceRegistry).toHaveLength(13);
+    expect(curatedExperienceRegistry).toHaveLength(15);
     expect(curatedExperienceSummaries()).toEqual(expect.arrayContaining([
       expect.objectContaining({
         experienceId: 'human-visual-perception',
@@ -176,7 +176,7 @@ describe('curated-experience registry', () => {
     expect(summaryForModule('dummy-module', [dummyCuratedSummary])).toEqual(
       dummyCuratedSummary,
     );
-    expect(curatedExperienceRegistry).toHaveLength(13);
+    expect(curatedExperienceRegistry).toHaveLength(15);
   });
 
   it('does not invoke answer-bearing loaders during registry discovery', () => {

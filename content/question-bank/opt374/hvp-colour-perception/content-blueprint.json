@@ -1,0 +1,50 @@
+{
+  "id": "hvp-colour-perception-extension-v1",
+  "bankId": "hvp-colour-perception-extension",
+  "courseId": "human-visual-perception",
+  "moduleId": "hvp-colour-perception",
+  "totalQuestions": 80,
+  "sectionTargets": {
+    "colour-foundations": 8,
+    "visible-spectrum-cones": 5,
+    "importance-of-colour": 3,
+    "colour-attributes": 14,
+    "colour-constancy": 9,
+    "trichromatic-theory": 6,
+    "opponent-process-theory": 15,
+    "zone-model": 10,
+    "clinical-considerations": 10
+  },
+  "formatTargets": {
+    "single_best_answer": 25,
+    "true_false": 8,
+    "multiple_response": 10,
+    "ordering": 7,
+    "matching": 8,
+    "extended_matching": 7,
+    "image_hotspot": 5,
+    "image_label": 4,
+    "short_answer": 4,
+    "open_response": 2
+  },
+  "bloomTargets": {
+    "understand": 28,
+    "apply": 30,
+    "remember": 7,
+    "analyze": 13,
+    "evaluate": 2
+  },
+  "difficultyTargets": {
+    "foundation": 20,
+    "intermediate": 56,
+    "advanced": 4
+  },
+  "stimulusTargets": {
+    "text": 39,
+    "comparison": 25,
+    "pathway": 7,
+    "diagram": 9
+  },
+  "minimumHigherOrderShare": 0.5625,
+  "minimumQuestionsPerObjective": 2
+}

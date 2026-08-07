@@ -233,3 +233,34 @@ No silent correction was made for the OPT 370/OPT 358 course-code conflict, conf
 - `courseAlignedQuestionRecords: 1080` is explicitly 680 established curated plus 400 OPT 370 draft; the 400 frozen legacy questions remain compatibility-only and are reported separately.
 - No OPT 370 release-profile matrix was added. Dedicated integration tests verify all five exact-string flags and all-enabled behavior, while the existing release verifier proves route-lazy bundle isolation and default-false tracked environments.
 - This clarification changes release evidence only: no bank JSON, question ID, feature flag, route, storage identity, learner record or UI behavior changed.
+
+## HVP Depth + Colour draft extension
+
+- Branch: `codex/hvp-depth-colour-extension`
+- Base main: `9af012a9dfaec6eaa036667c82534ff4ddfd6f2d`
+- Pre-finalization head: `64144253e240194e6eca05feac76d24ad3bccd2f`
+- Scope: two default-disabled Human Visual Perception modules, 18 study sections, 160 draft questions, 20 objectives and eight SVG assessment figures.
+- Deployment: none.
+
+### Content, contracts and compatibility
+
+- Added `hvp-depth-perception` and `hvp-colour-perception` behind exact-string `NEXT_PUBLIC_ENABLE_HVP_DEPTH_COLOUR_EXPANSION`; every committed default and release profile remains `false`.
+- Preserved the existing 120-question HVP bank at SHA-256 `029dc39ff103a836445a86bb352513b231e51d266d4b2fade3f00527d00ef89a`, StoreV2, legacy migration/rollback identity, attempts, results and question history.
+- Preserved the two supplied draft banks byte-for-byte: Depth `bc2043867b438330d71d31ab732b54e8b4c5950eee4133fed3b56fc347024194`; Colour `d9a3011c77cd9cdcfcefff3dab9b24daf9296966397b00c389d32a9a151f0351`.
+- Source-deck SHA-256 values: Depth `d6e1ce2a7d8b9319bea30d5317510f6cb3602f9fa8cc4ae8b333fbc2a2ff341d`; Colour `3bc1ab17d8902fbc03e5d5a70d19c9f6279badea2c3f968dc39809cd7b9da0af`.
+- A deterministic runtime compatibility layer supplies the seven source-grounded missing distractors. The ambiguous Colour EM006 distractor is explicitly marked `source-contradicted`; raw JSON remains unchanged.
+- Full practice is exactly 50 questions: sections 6/6/6/6/6/5/5/5/5, formats 19 SBA/4 true-false/6 multiple-response/5 matching/4 extended-matching/4 ordering/3 hotspot/2 label/3 short-answer, difficulties 13 foundation/36 intermediate/1 advanced, at least 28 higher-order items, all ten objectives and no more than two questions per family. Quick 10 and Standard 25 enforce their section, higher-order and family constraints; Written 2 alone uses open response.
+- Release evidence now reports the 160 extension questions, 20 objectives, two modules, 18 sections, eight SVGs and both hashes separately. The established 680 curated questions and 400 OPT 370 draft questions remain unchanged; the aggregate course-aligned record count is 1,240 only when discussing committed content, while the default learner-visible count remains 1,080.
+- Source ambiguities remain explicit for academic review: course-code conflict, limited clinical-test coverage, the source typo in trichromatic terminology, the lecturer's 1.5 m wording, Panum spelling, absent formula detail and the Moon-illusion boundary.
+
+### Validation evidence
+
+- Supplied package audit: PASS; 160 questions, 20 objectives, eight SVGs, zero errors and zero warnings.
+- Focused HVP/OPT370/progress/storage/release regression: 50 files and 312 tests passed. Full suite: 198 files and 1,051 tests passed.
+- Bundled Node 24 TypeScript checking passed. Lint passed with only four accepted pre-existing `<img>` warnings.
+- Production builds passed with the HVP extension flag both disabled and enabled.
+- Browser QA passed for both notes routes, both practice landings, Quick 10, Standard 25, Full 50, Written 2 and Progress Hub. Full rendered all exact format quotas; all three hotspot and two label SVG items loaded with non-zero dimensions and useful alt text. Viewports 360x800, 768x1024, 1280x800 and 1440x900 had no horizontal overflow; loaded images were unbroken.
+- Disabled-state QA retained the 1,080 home count, one complete HVP review module, hidden Depth/Colour entries and explicit unavailable pages for direct practice routes. Enabled-state QA exposed 1,240 questions and all three HVP modules.
+- Browser console output contained only Vinext dev-mode rejection of local `file://` Geist font URLs; no application console error was observed.
+- GitHub Actions did not start because the account was locked by a billing issue (runner ID 0, zero steps). This infrastructure-only waiver does not replace local validation. Exact clean-commit release verification and final Git identities are recorded in PR #36 because a committed handoff cannot contain its own resulting commit SHA.
+- The unrelated untracked `dispensing/` directory in the original worktree was not staged, modified or deleted.

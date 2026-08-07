@@ -92,14 +92,22 @@ function transportCells(
   formatTargets: Counts,
   allowed: Set<string>,
   capacities: Readonly<Record<string, Readonly<Record<string, number>>>>,
+  accept: (cells: Cell[]) => boolean = () => true,
 ): Cell[] | undefined {
   const sections = Object.keys(sectionTargets);
   const formats = Object.keys(formatTargets);
   const remainingFormats = { ...formatTargets };
   const result: Cell[] = [];
+  let accepted: Cell[] | undefined;
   function assignSection(sectionIndex: number): boolean {
     if (sectionIndex === sections.length) {
-      return Object.values(remainingFormats).every((value) => value === 0);
+      if (!Object.values(remainingFormats).every((value) => value === 0)) {
+        return false;
+      }
+      const candidate = result.map((cell) => ({ ...cell }));
+      if (!accept(candidate)) return false;
+      accepted = candidate;
+      return true;
     }
     const sectionId = sections[sectionIndex];
     const target = sectionTargets[sectionId];
@@ -125,7 +133,42 @@ function transportCells(
     }
     return assignFormat(0, target);
   }
-  return assignSection(0) ? result : undefined;
+  return assignSection(0) ? accepted : undefined;
+}
+
+function prescribedTransportCells(
+  targets: Readonly<Record<string, Readonly<Record<string, number>>>>,
+  sectionTargets: Counts,
+  formatTargets: Counts,
+  capacities: Readonly<Record<string, Readonly<Record<string, number>>>>,
+): Cell[] | undefined {
+  const cells = Object.entries(targets).flatMap(([sectionId, formats]) => (
+    Object.entries(formats).flatMap(([format, quota]) => (
+      quota > 0
+        ? [{ sectionId, format: format as QuestionFormat, quota }]
+        : []
+    ))
+  ));
+  const actualSections = cells.reduce<Counts>((result, cell) => ({
+    ...result,
+    [cell.sectionId]: (result[cell.sectionId] ?? 0) + cell.quota,
+  }), {});
+  const actualFormats = cells.reduce<Counts>((result, cell) => ({
+    ...result,
+    [cell.format]: (result[cell.format] ?? 0) + cell.quota,
+  }), {});
+  const matches = (actual: Counts, expected: Counts) => (
+    Object.entries(expected).every(([id, count]) => actual[id] === count)
+    && Object.entries(actual).every(([id, count]) => expected[id] === count)
+  );
+  if (
+    !matches(actualSections, sectionTargets)
+    || !matches(actualFormats, formatTargets)
+    || cells.some(
+      (cell) => cell.quota > (capacities[cell.sectionId]?.[cell.format] ?? 0),
+    )
+  ) return undefined;
+  return cells;
 }
 
 function emptyDifficultyCounts(): DifficultyCounts {
@@ -610,6 +653,117 @@ function selectQuotaQuestions(
   return best;
 }
 
+function sectionConstrainedSelection(
+  candidates: AssessmentQuestion[],
+  sectionTargets: Counts,
+  random: () => number,
+  maximumFamilyRepetition: number,
+  minimumHigherOrder: number,
+  maximumHigherOrder: number,
+  history: Readonly<Record<string, QuestionHistoryRecord>>,
+): AssessmentQuestion[] | undefined {
+  const sections = Object.entries(sectionTargets);
+  const sectionCandidates = sections.map(([sectionId]) => shuffle(
+    candidates.filter((question) => question.sectionId === sectionId),
+    random,
+  ).sort((left, right) => (
+    Number(HIGHER_ORDER.has(right.bloomLevel))
+      - Number(HIGHER_ORDER.has(left.bloomLevel))
+    || Number(isCurrentHistory(left, history[left.id]))
+      - Number(isCurrentHistory(right, history[right.id]))
+  )));
+  const remainingHigherCapacity = Array.from(
+    { length: sections.length + 1 },
+    () => 0,
+  );
+  for (let index = sections.length - 1; index >= 0; index -= 1) {
+    const target = sections[index][1];
+    const higherAvailable = sectionCandidates[index].filter(
+      (question) => HIGHER_ORDER.has(question.bloomLevel),
+    ).length;
+    remainingHigherCapacity[index] = remainingHigherCapacity[index + 1]
+      + Math.min(target, higherAvailable);
+  }
+
+  const selected: AssessmentQuestion[] = [];
+  const familyCounts = new Map<string, number>();
+  let resolved: AssessmentQuestion[] | undefined;
+
+  function visitSection(sectionIndex: number, higherOrderCount: number): boolean {
+    if (higherOrderCount > maximumHigherOrder) return false;
+    if (
+      higherOrderCount + remainingHigherCapacity[sectionIndex]
+      < minimumHigherOrder
+    ) return false;
+    if (sectionIndex === sections.length) {
+      if (
+        higherOrderCount < minimumHigherOrder
+        || higherOrderCount > maximumHigherOrder
+      ) return false;
+      resolved = [...selected];
+      return true;
+    }
+
+    const target = sections[sectionIndex][1];
+    const pool = sectionCandidates[sectionIndex];
+    const chosen: AssessmentQuestion[] = [];
+
+    function choose(
+      candidateIndex: number,
+      remaining: number,
+      chosenHigherOrder: number,
+    ): boolean {
+      if (pool.length - candidateIndex < remaining) return false;
+      if (remaining === 0) {
+        chosen.forEach((question) => {
+          selected.push(question);
+          familyCounts.set(
+            question.familyId,
+            (familyCounts.get(question.familyId) ?? 0) + 1,
+          );
+        });
+        const accepted = visitSection(
+          sectionIndex + 1,
+          higherOrderCount + chosenHigherOrder,
+        );
+        chosen.forEach((question) => {
+          selected.pop();
+          const next = (familyCounts.get(question.familyId) ?? 1) - 1;
+          if (next === 0) familyCounts.delete(question.familyId);
+          else familyCounts.set(question.familyId, next);
+        });
+        return accepted;
+      }
+      for (
+        let index = candidateIndex;
+        index <= pool.length - remaining;
+        index += 1
+      ) {
+        const question = pool[index];
+        const chosenFromFamily = chosen.filter(
+          (candidate) => candidate.familyId === question.familyId,
+        ).length;
+        if (
+          (familyCounts.get(question.familyId) ?? 0) + chosenFromFamily
+          >= maximumFamilyRepetition
+        ) continue;
+        chosen.push(question);
+        if (choose(
+          index + 1,
+          remaining - 1,
+          chosenHigherOrder + Number(HIGHER_ORDER.has(question.bloomLevel)),
+        )) return true;
+        chosen.pop();
+      }
+      return false;
+    }
+
+    return choose(0, target, 0);
+  }
+
+  return visitSection(0, 0) ? resolved : undefined;
+}
+
 function simpleSelection(
   candidates: AssessmentQuestion[],
   selection: PracticeSelectionSnapshot,
@@ -645,12 +799,14 @@ export function assemblePractice({
   selection,
   history = {},
   sectionFormatAvailability,
+  sectionFormatTargets,
 }: {
   questions: readonly AssessmentQuestion[];
   blueprint: PracticeBlueprint;
   selection: PracticeSelectionSnapshot;
   history?: Readonly<Record<string, QuestionHistoryRecord>>;
   sectionFormatAvailability?: Readonly<Record<string, Readonly<Record<string, number>>>>;
+  sectionFormatTargets?: Readonly<Record<string, Readonly<Record<string, number>>>>;
 }): PracticeResult<PracticeAssembly> {
   const validated = validatePracticeSelection(selection, blueprint);
   if (!validated.ok) return validated;
@@ -686,36 +842,31 @@ export function assemblePractice({
         .filter(([, count]) => count > 0)
         .map(([format]) => `${sectionId}:${format}`),
     ));
-    const cells = transportCells(
-      profile.sectionTargets,
-      profile.formatTargets,
-      allowed,
-      sectionFormatAvailability,
-    );
-    if (!cells) {
-      return { ok: false, issues: [{ code: 'PRACTICE_UNSATISFIABLE_QUOTAS', message: 'Section and format targets cannot be combined.' }] };
-    }
-    const candidateCells = cells.map((cell) => strategy.value.filter(
-      (question) => question.sectionId === cell.sectionId && question.format === cell.format,
-    ));
-    if (candidateCells.some((cell, index) => cell.length < cells[index].quota)) {
-      return { ok: false, issues: [{ code: 'PRACTICE_UNSATISFIABLE_QUOTAS', message: 'The filtered pool cannot satisfy the profile section/format matrix.' }] };
-    }
     const difficultyTargets = {
       foundation: profile.difficultyTargets.foundation ?? 0,
       intermediate: profile.difficultyTargets.intermediate ?? 0,
       advanced: profile.difficultyTargets.advanced ?? 0,
     };
-    const allocation = findDifficultyAllocation(
-      cells,
-      candidateCells,
-      difficultyTargets,
-      profile.higherOrderMinimum,
-      profile.higherOrderMaximum ?? profile.count,
-    );
-    if (allocation) {
+    const selectCandidate = (candidate: Cell[]) => {
+      const candidateCells = candidate.map((cell) => strategy.value.filter(
+        (question) => (
+          question.sectionId === cell.sectionId
+          && question.format === cell.format
+        ),
+      ));
+      if (candidateCells.some(
+        (cell, index) => cell.length < candidate[index].quota,
+      )) return false;
+      const allocation = findDifficultyAllocation(
+        candidate,
+        candidateCells,
+        difficultyTargets,
+        profile.higherOrderMinimum,
+        profile.higherOrderMaximum ?? profile.count,
+      );
+      if (!allocation) return false;
       selected = selectQuotaQuestions(
-        cells,
+        candidate,
         candidateCells,
         allocation,
         random,
@@ -725,7 +876,48 @@ export function assemblePractice({
         profile.requiredObjectiveIds ?? [],
         history,
       );
+      return Boolean(selected);
+    };
+    let cells: Cell[] | undefined;
+    if (sectionFormatTargets) {
+      cells = prescribedTransportCells(
+        sectionFormatTargets,
+        profile.sectionTargets,
+        profile.formatTargets,
+        sectionFormatAvailability,
+      );
+      if (!cells || !selectCandidate(cells)) cells = undefined;
+    } else {
+      cells = transportCells(
+        profile.sectionTargets,
+        profile.formatTargets,
+        allowed,
+        sectionFormatAvailability,
+        selectCandidate,
+      );
     }
+    if (!cells) {
+      return {
+        ok: false,
+        issues: [{
+          code: 'PRACTICE_UNSATISFIABLE_QUOTAS',
+          message: 'No joint section, format, difficulty, higher-order, objective and family allocation is feasible.',
+        }],
+      };
+    }
+  } else if (
+    blueprint.enforcePartialProfileTargets
+    && profile?.sectionTargets
+  ) {
+    selected = sectionConstrainedSelection(
+      strategy.value,
+      profile.sectionTargets,
+      random,
+      blueprint.maximumFamilyRepetition,
+      profile.higherOrderMinimum,
+      profile.higherOrderMaximum ?? profile.count,
+      history,
+    );
   } else {
     selected = simpleSelection(
       strategy.value,

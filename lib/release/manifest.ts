@@ -5,6 +5,8 @@ import { courses } from '@/content/legacy/courseCatalog';
 import { modules } from '@/content/legacy/moduleCatalog';
 import { aqueousVitreousCandidateBank } from '@/content/question-bank/opt376/aqueous-vitreous/bank';
 import { humanVisualPerceptionCandidateBank } from '@/content/question-bank/opt374/human-visual-perception/bank';
+import { hvpDepthPerceptionExtensionQuestionBank } from '@/content/question-bank/opt374/hvp-depth-perception/bank';
+import { hvpColourPerceptionExtensionQuestionBank } from '@/content/question-bank/opt374/hvp-colour-perception/bank';
 import { tissueFoundationsCandidateBank } from '@/content/question-bank/opt376/tissue-foundations/bank';
 import { ocularAdnexaCandidateBank } from '@/content/question-bank/opt376/ocular-adnexa/bank';
 import { bloodSupplyCandidateBank } from '@/content/question-bank/opt376/blood-supply/bank';
@@ -15,6 +17,7 @@ import { QUESTION_FORMATS } from '@/lib/assessment/constants';
 import {
   assertReleaseAssertions,
   EXPECTED_HVP_CHECKSUM,
+  EXPECTED_HVP_DEPTH_COLOUR_CHECKSUMS,
   EXPECTED_TISSUE_CHECKSUM,
   EXPECTED_OCULAR_ADNEXA_CHECKSUM,
   EXPECTED_AQUEOUS_VITREOUS_CHECKSUM,
@@ -72,6 +75,7 @@ function sameFlags(
   left: {
     assessmentPilot: boolean;
     hvpCuratedPractice: boolean;
+    hvpDepthColourExpansion: boolean;
     tissueFoundationsCuratedPractice: boolean;
     ocularAdnexaCuratedPractice: boolean;
     aqueousVitreousCuratedPractice: boolean;
@@ -83,6 +87,7 @@ function sameFlags(
   right: {
     assessmentPilot: boolean;
     hvpCuratedPractice: boolean;
+    hvpDepthColourExpansion: boolean;
     tissueFoundationsCuratedPractice: boolean;
     ocularAdnexaCuratedPractice: boolean;
     aqueousVitreousCuratedPractice: boolean;
@@ -94,6 +99,7 @@ function sameFlags(
 ): boolean {
   return left.assessmentPilot === right.assessmentPilot
     && left.hvpCuratedPractice === right.hvpCuratedPractice
+    && left.hvpDepthColourExpansion === right.hvpDepthColourExpansion
     && left.tissueFoundationsCuratedPractice
       === right.tissueFoundationsCuratedPractice
     && left.ocularAdnexaCuratedPractice
@@ -161,6 +167,26 @@ export function createReleaseManifest(
   ].reduce((total, bank) => total + bank.questions.length, 0);
   const opt370Questions = OPT370_BANKS.flatMap((bank) => [...bank.questions]);
   const opt370Objectives = OPT370_BANKS.flatMap((bank) => [...bank.objectives]);
+  const hvpDepthColourBanks = [
+    hvpDepthPerceptionExtensionQuestionBank,
+    hvpColourPerceptionExtensionQuestionBank,
+  ] as const;
+  const hvpDepthColourQuestions = hvpDepthColourBanks.flatMap(
+    (bank) => [...bank.questions],
+  );
+  const hvpDepthColourObjectives = hvpDepthColourBanks.flatMap(
+    (bank) => [...bank.objectives],
+  );
+  const hvpDepthColourSections = new Set(
+    hvpDepthColourQuestions.map((question) => question.sectionId),
+  );
+  const hvpDepthColourSvgDiagrams = new Set(
+    hvpDepthColourQuestions.flatMap(
+      (question) => ('image' in question && question.image.src.endsWith('.svg')
+        ? [question.image.src]
+        : []),
+    ),
+  );
   const manifest = {
     schemaVersion: 1,
     releaseProfile: options.profile,
@@ -192,8 +218,16 @@ export function createReleaseManifest(
       opt370DraftQuestions: opt370Questions.length,
       opt370DraftObjectives: opt370Objectives.length,
       opt370DraftModules: OPT370_BANKS.length,
+      hvpDepthColourDraftQuestions: hvpDepthColourQuestions.length,
+      hvpDepthColourDraftObjectives: hvpDepthColourObjectives.length,
+      hvpDepthColourDraftModules: hvpDepthColourBanks.length,
+      hvpDepthColourDraftSections: hvpDepthColourSections.size,
+      hvpDepthColourSvgDiagrams: hvpDepthColourSvgDiagrams.size,
+      hvpDepthColourChecksums: EXPECTED_HVP_DEPTH_COLOUR_CHECKSUMS,
       courseAlignedQuestionRecords:
-        establishedCuratedQuestionCount + opt370Questions.length,
+        establishedCuratedQuestionCount
+        + opt370Questions.length
+        + hvpDepthColourQuestions.length,
       opt370Checksums: EXPECTED_OPT370_CHECKSUMS,
       aqueousQuestions: aqueousVitreousCandidateBank.questions.length,
       aqueousObjectives: aqueousVitreousCandidateBank.objectives.length,
@@ -304,9 +338,11 @@ export function createReleaseManifest(
         ),
         opt370Questions: reviewStatusCounts(opt370Questions),
         opt370Objectives: reviewStatusCounts(opt370Objectives),
+        hvpDepthColourQuestions: reviewStatusCounts(hvpDepthColourQuestions),
+        hvpDepthColourObjectives: reviewStatusCounts(hvpDepthColourObjectives),
       },
       academicStatus:
-        'Established curated and OPT 370 course-aligned questions remain draft educational practice; not lecturer-approved examination items.',
+        'Established curated, OPT 370 and HVP Depth + Colour course-aligned questions remain draft educational practice; not lecturer-approved examination items.',
     },
     assessment: {
       supportedFormats: [...QUESTION_FORMATS],
@@ -375,13 +411,14 @@ export function renderReleaseReport(
 - Tree: \`${manifest.git.treeSha}\`
 - Built: ${manifest.builtAt}
 - Build profile: \`${manifest.build.identity.profile}\`
-- Build flags: Aqueous pilot \`${manifest.build.identity.flags.assessmentPilot}\`, HVP \`${manifest.build.identity.flags.hvpCuratedPractice}\`, Tissue \`${manifest.build.identity.flags.tissueFoundationsCuratedPractice}\`, Ocular Adnexa \`${manifest.build.identity.flags.ocularAdnexaCuratedPractice}\`, Aqueous curated \`${manifest.build.identity.flags.aqueousVitreousCuratedPractice}\`, Blood Supply \`${manifest.build.identity.flags.bloodSupplyCuratedPractice}\`, Environmental Vision \`${manifest.build.identity.flags.environmentalVisionCuratedPractice}\`
+- Build flags: Aqueous pilot \`${manifest.build.identity.flags.assessmentPilot}\`, HVP \`${manifest.build.identity.flags.hvpCuratedPractice}\`, HVP Depth + Colour \`${manifest.build.identity.flags.hvpDepthColourExpansion}\`, Tissue \`${manifest.build.identity.flags.tissueFoundationsCuratedPractice}\`, Ocular Adnexa \`${manifest.build.identity.flags.ocularAdnexaCuratedPractice}\`, Aqueous curated \`${manifest.build.identity.flags.aqueousVitreousCuratedPractice}\`, Blood Supply \`${manifest.build.identity.flags.bloodSupplyCuratedPractice}\`, Environmental Vision \`${manifest.build.identity.flags.environmentalVisionCuratedPractice}\`
 - Build fingerprint: \`${manifest.build.identity.outputFingerprint}\`
 - Build runtime: Node \`${manifest.build.identity.nodeVersion}\`, npm \`${manifest.build.identity.npmVersion}\`
 - Manifest SHA-256: \`${manifestChecksum}\`
 - Sites project: \`${manifest.hosting.projectId}\`
 - Aqueous pilot: disabled
 - HVP curated practice: ${manifest.flags.hvpCuratedPractice ? 'enabled' : 'disabled'}
+- HVP Depth + Colour expansion: ${manifest.flags.hvpDepthColourExpansion ? 'enabled' : 'disabled'}
 - Tissue Foundations curated practice: ${manifest.flags.tissueFoundationsCuratedPractice ? 'enabled' : 'disabled'}
 - Ocular Adnexa curated practice: ${manifest.flags.ocularAdnexaCuratedPractice ? 'enabled' : 'disabled'}
 - Aqueous and Vitreous curated practice: ${manifest.flags.aqueousVitreousCuratedPractice ? 'enabled' : 'disabled'}
@@ -406,7 +443,9 @@ export function renderReleaseReport(
 - ${manifest.content.legacyQuestions} frozen legacy compatibility questions
 - ${manifest.content.curatedQuestions} established curated questions across eight modules
 - ${manifest.content.opt370DraftQuestions} OPT 370 draft questions, ${manifest.content.opt370DraftObjectives} objectives, and ${manifest.content.opt370DraftModules} modules
-- ${manifest.content.courseAlignedQuestionRecords} course-aligned question records (${manifest.content.curatedQuestions} established curated + ${manifest.content.opt370DraftQuestions} OPT 370 draft)
+- ${manifest.content.hvpDepthColourDraftQuestions} gated HVP Depth + Colour draft questions, ${manifest.content.hvpDepthColourDraftObjectives} objectives, ${manifest.content.hvpDepthColourDraftModules} modules, ${manifest.content.hvpDepthColourDraftSections} sections and ${manifest.content.hvpDepthColourSvgDiagrams} SVG figures
+- HVP Depth + Colour bank SHA-256 values: ${Object.values(manifest.content.hvpDepthColourChecksums).join(', ')}
+- ${manifest.content.courseAlignedQuestionRecords} course-aligned question records (${manifest.content.curatedQuestions} established curated + ${manifest.content.opt370DraftQuestions} OPT 370 draft + ${manifest.content.hvpDepthColourDraftQuestions} HVP gated draft)
 - ${manifest.content.aqueousQuestions} Aqueous questions and ${manifest.content.aqueousObjectives} objectives
 - ${manifest.content.bloodSupplyQuestions} Blood Supply questions, ${manifest.content.bloodSupplyObjectives} objectives, ${manifest.content.bloodSupplySources} sources and ${manifest.content.bloodSupplySvgDiagrams} SVG diagrams
 - ${manifest.content.environmentalVisionQuestions} Environmental Vision questions, ${manifest.content.environmentalVisionObjectives} objectives, ${manifest.content.environmentalVisionSources} sources and ${manifest.content.environmentalVisionSvgDiagrams} SVG diagrams

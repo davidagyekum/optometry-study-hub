@@ -1,3 +1,4 @@
+import { isHvpDepthColourExpansionEnabled } from '@/lib/assessment/hvp-depth-colour/config';
 import type { CourseSummary } from '@/lib/legacy/types';
 
 export const courses: CourseSummary[] = [
@@ -17,7 +18,12 @@ export const courses: CourseSummary[] = [
     title: 'Human Visual Perception',
     description: 'From sensation and retinal coding to the LGN, visual cortex and higher perceptual streams.',
     lecturers: ['Emmanuel Owusu, OD, MSc, M.Optom, PhD'],
-    moduleIds: ['human-visual-perception'],
+    moduleIds: [
+      'human-visual-perception',
+      ...(isHvpDepthColourExpansionEnabled()
+        ? ['hvp-depth-perception', 'hvp-colour-perception']
+        : []),
+    ],
     tone: 'blue',
     coverImage: { src: '/images/courses/visual-perception/foundations.webp', width: 1400, height: 788 },
   },

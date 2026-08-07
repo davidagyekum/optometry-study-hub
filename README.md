@@ -13,7 +13,7 @@ Live site: https://opt-376-eye-anatomy-review.davorion7.chatgpt.site
 - **Systemic Pathology** — breast, cardiovascular, gastrointestinal, lymphoid, renal, and respiratory pathology.
 - **Dispensing Optics II** — schematic-eye optics, multifocal and progressive lenses, PD measurement, and specialised lenses.
 
-The current application contains six courses, 13 modules, 72 study sections, 680 established curated questions, and 400 additional OPT 370 draft questions across ten supported formats. Previous legacy attempts and results are retained only as read-only compatibility data. All OPT 370 questions and objectives remain internally draft and disabled by default.
+The default-visible application contains six courses, 13 modules, 72 study sections, 680 established curated questions, and 400 additional OPT 370 draft questions across ten supported formats: 1,080 course-aligned records. The repository also contains a default-disabled HVP Depth + Colour extension with two modules, 18 sections, 160 draft questions, 20 objectives, and eight SVG figures, bringing the committed course-aligned total to 1,240. Previous legacy attempts and results are retained only as read-only compatibility data. All OPT 370 and HVP extension questions and objectives remain internally draft and disabled by default.
 
 ## Architecture today
 
@@ -56,6 +56,7 @@ To inspect the draft pilot locally, create an untracked `.env.local`:
 ```text
 NEXT_PUBLIC_ENABLE_ASSESSMENT_PILOT=true
 NEXT_PUBLIC_ENABLE_HVP_CURATED_PRACTICE=true
+NEXT_PUBLIC_ENABLE_HVP_DEPTH_COLOUR_EXPANSION=true
 NEXT_PUBLIC_ENABLE_TISSUE_FOUNDATIONS_CURATED_PRACTICE=true
 NEXT_PUBLIC_ENABLE_OCULAR_ADNEXA_CURATED_PRACTICE=true
 NEXT_PUBLIC_ENABLE_AQUEOUS_VITREOUS_CURATED_PRACTICE=true
@@ -107,8 +108,8 @@ Student reading progress, curated answers, flags, assessment history, and retain
 ## Current limitations
 
 - The frozen 400-question generator is retained only for compatibility with previous attempts and results; it cannot start a new learner session.
-- The 680 established curated questions and 400 OPT 370 draft questions retain internal draft review status pending genuine independent expert review.
-- OPT 370 practice is controlled by five exact-string feature flags, all committed false.
+- The 680 established curated questions, 400 OPT 370 draft questions, and 160 HVP Depth + Colour gated draft questions retain internal draft review status pending genuine independent expert review.
+- OPT 370 practice is controlled by five exact-string feature flags, and the HVP extension by NEXT_PUBLIC_ENABLE_HVP_DEPTH_COLOUR_EXPANSION; all are committed false.
 - The 36-question Aqueous and Vitreous candidate bank and its nine-format pilot subset remain draft, disabled by default, and are not approved production assessments.
 - Navigation is client-managed rather than split into dedicated App Router routes.
 - Course notes, figures, and future production questions require ongoing academic and licensing review.
@@ -214,3 +215,16 @@ practice. Five original answer-neutral SVG diagrams support image formats. The
 feature remains disabled by default, StoreV2 and legacy score identities are
 unchanged, and the existing Blood Supply notes and 50-question quiz remain
 available.
+## HVP Depth + Colour gated draft extension
+
+PR #36 adds hvp-depth-perception and hvp-colour-perception to the existing Human Visual Perception course behind the exact-string NEXT_PUBLIC_ENABLE_HVP_DEPTH_COLOUR_EXPANSION flag. Every committed default and release profile keeps the flag false. The extension contributes 18 gated study sections, 160 draft questions, 20 draft objectives, and eight SVG assessment figures without changing the existing 120-question HVP bank or its checksum.
+
+Full 50 practice enforces exact section, automatic-format and difficulty targets, at least 28 higher-order questions, all ten module objectives, a maximum family repetition of two, and no open responses. Quick 10 and Standard 25 retain exact section and higher-order constraints; Custom, Targeted and Written 2 remain available through the shared assessment and StoreV2 platform.
+
+Canonical raw bank SHA-256 values:
+
+- Depth Perception: bc2043867b438330d71d31ab732b54e8b4c5950eee4133fed3b56fc347024194
+- Colour Perception: d9a3011c77cd9cdcfcefff3dab9b24daf9296966397b00c389d32a9a151f0351
+- Existing HVP bank, preserved: 029dc39ff103a836445a86bb352513b231e51d266d4b2fade3f00527d00ef89a
+
+The Depth deck identifies OPT 374 while the Colour deck identifies OPT 372; the site keeps both within the existing HVP course pending maintainer/lecturer review. Clinical colour-test scoring, the approximate 1.5 m wording, Panum/Pannum spelling, stereogram calculations, and the Moon-illusion explanation remain explicitly source-limited. No deployment is part of PR #36.
