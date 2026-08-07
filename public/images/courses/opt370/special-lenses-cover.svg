@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="OPT 370 - Special Ophthalmic Lenses">
+<rect width="1200" height="675" fill="#FFFCF2"/>
+<rect x="0" y="0" width="1200" height="84" fill="#795B12"/>
+<text x="52" y="55" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="white">OPT 370 - Special Ophthalmic Lenses</text>
+<g transform="translate(75 145)"><rect width="1050" height="420" rx="36" fill="#F5E9BE" stroke="#795B12" stroke-width="7"/><text x="60" y="105" font-family="Arial" font-size="34" font-weight="700" fill="#795B12">MODULE 05</text><text x="60" y="185" font-family="Arial" font-size="46" font-weight="700" fill="#795B12">Special Lenses</text><text x="60" y="260" font-family="Arial" font-size="21" fill="#795B12"><tspan x="60" dy="0">Lenticular and aspheric designs, aniseikonia and</tspan><tspan x="60" dy="30">spectacle magnification, safety and filters, Fresnel</tspan></text><path d="M775 105 Q900 40 1000 140 L970 335 Q875 385 785 330 Z" fill="white" stroke="#795B12" stroke-width="7"/><line x1="800" y1="210" x2="970" y2="210" stroke="#795B12" stroke-width="5"/><circle cx="885" cy="210" r="18" fill="#795B12"/></g>
+</svg>

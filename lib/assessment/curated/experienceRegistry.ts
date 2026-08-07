@@ -70,6 +70,12 @@ import {
   isSystemicPathologyCuratedPracticeEnabled,
 } from '@/lib/assessment/systemic-pathology/config';
 import {
+  isOpt370ExperienceEnabled,
+  type Opt370ModuleId,
+} from '@/lib/assessment/opt370/config';
+import type { Opt370PracticeExperience } from '@/lib/assessment/opt370/createPracticeExperience';
+import { opt370CuratedSummaries } from '@/lib/assessment/opt370/summaries';
+import {
   curatedExperienceSummarySchema,
   type CuratedExperienceAdapter,
   type CuratedExperienceSummary,
@@ -439,6 +445,30 @@ export const systemicPathologyCuratedSummary: CuratedExperienceSummary =
       ],
     },
   });
+function createOpt370Adapter(
+  moduleId: Opt370ModuleId,
+  loadExperience: () => Promise<Opt370PracticeExperience>,
+): CuratedExperienceAdapter {
+  return {
+    summary: opt370CuratedSummaries[moduleId],
+    isEnabled: () => isOpt370ExperienceEnabled(moduleId),
+    loadPracticeModule: async () => {
+      const [factory, experience] = await Promise.all([
+        import('@/components/assessment/curated/createCuratedPracticeModule'),
+        loadExperience(),
+      ]);
+      return factory.createCuratedPracticeModule(experience.definition);
+    },
+    loadProgressModule: async () => {
+      const [factory, experience] = await Promise.all([
+        import('@/lib/progress/createOpt370ProgressModule'),
+        loadExperience(),
+      ]);
+      return factory.createOpt370ProgressModule(experience);
+    },
+  };
+}
+
 export const curatedExperienceRegistry = createCuratedExperienceRegistry([
   {
     summary: hvpCuratedSummary,
@@ -590,6 +620,21 @@ export const curatedExperienceRegistry = createCuratedExperienceRegistry([
       return loadedModule.systemicPathologyProgressModule;
     },
   },
+  createOpt370Adapter('schematic-eye-refractive-states', async () =>
+    (await import('@/lib/assessment/opt370/schematic-eye-refractive-states/definition')).schematicEyeRefractiveStatesExperience,
+  ),
+  createOpt370Adapter('multifocal-foundations', async () =>
+    (await import('@/lib/assessment/opt370/multifocal-foundations/definition')).multifocalFoundationsExperience,
+  ),
+  createOpt370Adapter('progressive-addition-lenses', async () =>
+    (await import('@/lib/assessment/opt370/progressive-addition-lenses/definition')).progressiveAdditionLensesExperience,
+  ),
+  createOpt370Adapter('pd-and-dispensing', async () =>
+    (await import('@/lib/assessment/opt370/pd-and-dispensing/definition')).pdAndDispensingExperience,
+  ),
+  createOpt370Adapter('special-lenses', async () =>
+    (await import('@/lib/assessment/opt370/special-lenses/definition')).specialLensesExperience,
+  ),
 ]);
 
 export function isCuratedExperienceEnabled(

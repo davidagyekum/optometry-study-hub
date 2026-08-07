@@ -7,15 +7,16 @@ import { questionsFor } from '@/lib/legacy/questionGenerator';
 
 describe('legacy content integrity', () => {
   it('preserves the course, module, section, and question totals', () => {
-    expect(courses).toHaveLength(5);
+    expect(courses).toHaveLength(6);
     expect(courses.map((course) => course.id)).toEqual([
       'environmental-vision',
       'human-visual-perception',
       'neuro-anatomy',
       'pharmacology',
       'systemic-pathology',
+      'dispensing-optics-ii',
     ]);
-    expect(modules).toHaveLength(8);
+    expect(modules).toHaveLength(13);
     expect(modules.map((module) => module.id)).toEqual([
       'environmental-vision',
       'human-visual-perception',
@@ -25,10 +26,18 @@ describe('legacy content integrity', () => {
       'ocular-adnexa',
       'aqueous-vitreous',
       'blood-supply',
+      'schematic-eye-refractive-states',
+      'multifocal-foundations',
+      'progressive-addition-lenses',
+      'pd-and-dispensing',
+      'special-lenses',
     ]);
-    expect(modules.reduce((sum, module) => sum + module.sections.length, 0)).toBe(39);
+    expect(modules.reduce((sum, module) => sum + module.sections.length, 0)).toBe(72);
     expect(modules.reduce((sum, module) => sum + questionsFor(module).length, 0)).toBe(400);
-    modules.forEach((module) => expect(questionsFor(module)).toHaveLength(50));
+    modules.filter((module) => module.facts.length > 0)
+      .forEach((module) => expect(questionsFor(module)).toHaveLength(50));
+    modules.filter((module) => module.courseId === 'dispensing-optics-ii')
+      .forEach((module) => expect(questionsFor(module)).toHaveLength(0));
   });
 
   it('keeps identifiers and references internally consistent', () => {

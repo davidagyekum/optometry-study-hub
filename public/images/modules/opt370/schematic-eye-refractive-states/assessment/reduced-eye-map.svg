@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="Reduced eye reference map">
+<rect width="1200" height="675" fill="#F7FBFD"/>
+<rect x="0" y="0" width="1200" height="84" fill="#0F3D5E"/>
+<text x="52" y="55" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="white">Reduced eye reference map</text>
+<text x="52" y="120" font-family="Arial" font-size="18" fill="#0F3D5E">Neutral assessment artwork - markers correspond to answer regions.</text>
+<ellipse cx="620" cy="370" rx="360" ry="220" fill="#D9EDF7" stroke="#0F3D5E" stroke-width="8"/>
+<path d="M330 205 Q250 370 330 535" fill="none" stroke="#0F3D5E" stroke-width="12"/>
+<line x1="330" y1="175" x2="330" y2="565" stroke="#0F3D5E" stroke-width="6"/>
+<line x1="210" y1="370" x2="950" y2="370" stroke="#0F3D5E" stroke-width="4"/>
+<line x1="880" y1="200" x2="880" y2="540" stroke="#0F3D5E" stroke-width="9"/>
+<path d="M215 285 L785 370 L215 455" fill="none" stroke="#333" stroke-width="4"/>
+<circle cx="785" cy="370" r="10" fill="#333"/>
+<circle cx="420" cy="370" r="10" fill="#0F3D5E"/>
+<circle cx="288" cy="337" r="18" fill="#0F3D5E" stroke="white" stroke-width="4"/><text x="288" y="344" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">A</text>
+<circle cx="450" cy="337" r="18" fill="#0F3D5E" stroke="white" stroke-width="4"/><text x="450" y="344" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">B</text>
+<circle cx="984" cy="337" r="18" fill="#0F3D5E" stroke="white" stroke-width="4"/><text x="984" y="344" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">C</text>
+<circle cx="576" cy="344" r="18" fill="#0F3D5E" stroke="white" stroke-width="4"/><text x="576" y="351" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">D</text>
+<circle cx="894" cy="337" r="18" fill="#0F3D5E" stroke="white" stroke-width="4"/><text x="894" y="344" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">E</text>
+</svg>

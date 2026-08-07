@@ -1,0 +1,65 @@
+{
+  "moduleId": "progressive-addition-lenses",
+  "questions": 80,
+  "objectives": 14,
+  "counts": {
+    "sections": {
+      "measure-order": 14,
+      "pal-designs": 8,
+      "pal-principles": 15,
+      "pal-troubleshooting": 10,
+      "patient-frame": 11,
+      "reference-markings": 15,
+      "verification-delivery": 7
+    },
+    "formats": {
+      "extended_matching": 7,
+      "image_hotspot": 5,
+      "image_label": 4,
+      "matching": 9,
+      "multiple_response": 10,
+      "open_response": 2,
+      "ordering": 7,
+      "short_answer": 4,
+      "single_best_answer": 26,
+      "true_false": 6
+    },
+    "bloom": {
+      "analyze": 7,
+      "apply": 33,
+      "create": 1,
+      "evaluate": 3,
+      "remember": 11,
+      "understand": 25
+    },
+    "difficulty": {
+      "advanced": 11,
+      "foundation": 24,
+      "intermediate": 45
+    },
+    "stimulus": {
+      "clinical_vignette": 11,
+      "comparison": 25,
+      "diagram": 10,
+      "error_analysis": 4,
+      "pathway": 7,
+      "text": 23
+    }
+  },
+  "objectiveCoverage": {
+    "progressive-addition-lenses-measure-order-apply": 12,
+    "progressive-addition-lenses-measure-order-explain": 2,
+    "progressive-addition-lenses-pal-designs-apply": 2,
+    "progressive-addition-lenses-pal-designs-explain": 6,
+    "progressive-addition-lenses-pal-principles-apply": 5,
+    "progressive-addition-lenses-pal-principles-explain": 10,
+    "progressive-addition-lenses-pal-troubleshooting-apply": 7,
+    "progressive-addition-lenses-pal-troubleshooting-explain": 3,
+    "progressive-addition-lenses-patient-frame-apply": 6,
+    "progressive-addition-lenses-patient-frame-explain": 5,
+    "progressive-addition-lenses-reference-markings-apply": 7,
+    "progressive-addition-lenses-reference-markings-explain": 8,
+    "progressive-addition-lenses-verification-delivery-apply": 5,
+    "progressive-addition-lenses-verification-delivery-explain": 2
+  }
+}

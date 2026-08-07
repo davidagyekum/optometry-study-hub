@@ -23,8 +23,8 @@ export function HomeView({
       <section className="hero">
         <div className="hero-copy">
           <span className="eyebrow">KNUST OPTOMETRY REVIEW</span>
-          <h1>Five courses.<br /><em>One focused study hub.</em></h1>
-          <p>Clear lecture-based notes, source figures and 680 course-aligned curated questions across visual science, anatomy, pharmacology and pathology.</p>
+          <h1>Six courses.<br /><em>One focused study hub.</em></h1>
+          <p>Clear lecture-based notes, source figures and 1,080 draft course-aligned questions across visual science, anatomy, dispensing, pharmacology and pathology.</p>
           <div className="hero-actions">
             <button className="primary" onClick={() => go('course', courses[0].id)}>Explore the courses</button>
             <span>{completion.completed}/{completion.total} sections reviewed</span>

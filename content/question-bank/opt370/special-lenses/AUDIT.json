@@ -1,0 +1,62 @@
+{
+  "moduleId": "special-lenses",
+  "questions": 80,
+  "objectives": 12,
+  "counts": {
+    "sections": {
+      "aniseikonia": 19,
+      "fresnel-prism": 12,
+      "lenticular-aspheric": 9,
+      "safety-filters": 15,
+      "slab-off": 11,
+      "spectacle-magnification": 14
+    },
+    "formats": {
+      "extended_matching": 7,
+      "image_hotspot": 5,
+      "image_label": 4,
+      "matching": 9,
+      "multiple_response": 10,
+      "open_response": 2,
+      "ordering": 7,
+      "short_answer": 4,
+      "single_best_answer": 26,
+      "true_false": 6
+    },
+    "bloom": {
+      "analyze": 6,
+      "apply": 34,
+      "create": 1,
+      "evaluate": 4,
+      "remember": 11,
+      "understand": 24
+    },
+    "difficulty": {
+      "advanced": 11,
+      "foundation": 25,
+      "intermediate": 44
+    },
+    "stimulus": {
+      "clinical_vignette": 7,
+      "comparison": 26,
+      "diagram": 10,
+      "error_analysis": 4,
+      "pathway": 7,
+      "text": 26
+    }
+  },
+  "objectiveCoverage": {
+    "special-lenses-aniseikonia-apply": 8,
+    "special-lenses-aniseikonia-explain": 11,
+    "special-lenses-fresnel-prism-apply": 8,
+    "special-lenses-fresnel-prism-explain": 4,
+    "special-lenses-lenticular-aspheric-apply": 2,
+    "special-lenses-lenticular-aspheric-explain": 7,
+    "special-lenses-safety-filters-apply": 10,
+    "special-lenses-safety-filters-explain": 5,
+    "special-lenses-slab-off-apply": 8,
+    "special-lenses-slab-off-explain": 3,
+    "special-lenses-spectacle-magnification-apply": 9,
+    "special-lenses-spectacle-magnification-explain": 5
+  }
+}

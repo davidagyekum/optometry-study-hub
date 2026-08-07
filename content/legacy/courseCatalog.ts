@@ -51,4 +51,24 @@ export const courses: CourseSummary[] = [
     tone: 'gold',
     coverImage: { src: '/images/courses/systemic-pathology/cardiovascular.webp', width: 1400, height: 802 },
   },
+  {
+    id: 'dispensing-optics-ii',
+    code: 'OPT 370',
+    title: 'Dispensing Optics II',
+    description: 'Schematic-eye optics, multifocals, progressive fitting, PD and specialised ophthalmic lenses.',
+    lecturers: [],
+    moduleIds: [
+      'schematic-eye-refractive-states',
+      'multifocal-foundations',
+      'progressive-addition-lenses',
+      'pd-and-dispensing',
+      'special-lenses',
+    ],
+    tone: 'blue',
+    coverImage: {
+      src: '/images/courses/opt370/dispensing-optics-ii-cover.svg',
+      width: 1200,
+      height: 675,
+    },
+  },
 ];

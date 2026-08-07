@@ -1,0 +1,77 @@
+import type { QuestionBlueprint } from '@/lib/assessment/blueprint/types';
+
+export const specialLensesContentBlueprint: QuestionBlueprint = {
+  id: 'special-lenses-candidate-v1',
+  bankId: 'special-lenses-candidate',
+  totalQuestions: 80,
+  sectionTargets: {
+    'aniseikonia': 19,
+    'fresnel-prism': 12,
+    'lenticular-aspheric': 9,
+    'safety-filters': 15,
+    'slab-off': 11,
+    'spectacle-magnification': 14,
+  },
+  formatTargets: {
+    'extended_matching': 7,
+    'image_hotspot': 5,
+    'image_label': 4,
+    'matching': 9,
+    'multiple_response': 10,
+    'open_response': 2,
+    'ordering': 7,
+    'short_answer': 4,
+    'single_best_answer': 26,
+    'true_false': 6,
+  },
+  bloomTargets: {
+    'analyze': 6,
+    'apply': 34,
+    'create': 1,
+    'evaluate': 4,
+    'remember': 11,
+    'understand': 24,
+  },
+  difficultyTargets: {
+    'advanced': 11,
+    'foundation': 25,
+    'intermediate': 44,
+  },
+  stimulusTargets: {
+    'table': 0,
+    'clinical_vignette': 7,
+    'comparison': 26,
+    'diagram': 10,
+    'error_analysis': 4,
+    'pathway': 7,
+    'text': 26,
+  },
+  minimumHigherOrderShare: 45 / 80,
+  minimumQuestionsPerObjective: 2,
+};
+
+export const specialLensesPracticeBlueprint = {
+  id: 'special-lenses-practice-50-v1',
+  bankId: 'special-lenses-candidate',
+  totalQuestions: 50,
+  sectionTargets: {
+    'aniseikonia': 12,
+    'fresnel-prism': 7,
+    'lenticular-aspheric': 6,
+    'safety-filters': 9,
+    'slab-off': 7,
+    'spectacle-magnification': 9,
+  },
+  formatTargets: {
+    'single_best_answer': 17,
+    'true_false': 4,
+    'multiple_response': 6,
+    'ordering': 4,
+    'matching': 5,
+    'extended_matching': 4,
+    'image_hotspot': 3,
+    'image_label': 2,
+    'short_answer': 3,
+    'open_response': 2,
+  },
+} as const;

@@ -35,7 +35,7 @@ describe('release feature-profile smoke', () => {
   });
 
   it.each([
-    ['/', 'Five courses.One focused study hub.'],
+    ['/', 'Six courses.One focused study hub.'],
     ['/practice', 'Practice Hub'],
     ['/progress', 'Progress Hub'],
     ['/course/human-visual-perception', 'Human Visual Perception'],

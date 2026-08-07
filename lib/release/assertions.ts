@@ -139,7 +139,7 @@ export function trackedEnabledReleaseEnvironmentFiles(): string[] {
     cwd: process.cwd(),
     encoding: 'utf8',
   }).split(/\r?\n/).filter(Boolean);
-  return files.filter((file) => /NEXT_PUBLIC_ENABLE_(?:ASSESSMENT_PILOT|HVP_CURATED_PRACTICE|TISSUE_FOUNDATIONS_CURATED_PRACTICE|OCULAR_ADNEXA_CURATED_PRACTICE|AQUEOUS_VITREOUS_CURATED_PRACTICE|BLOOD_SUPPLY_CURATED_PRACTICE|ENVIRONMENTAL_VISION_CURATED_PRACTICE|AUTONOMIC_PHARMACOLOGY_CURATED_PRACTICE|SYSTEMIC_PATHOLOGY_CURATED_PRACTICE)=true/.test(
+  return files.filter((file) => /NEXT_PUBLIC_ENABLE_(?:ASSESSMENT_PILOT|HVP_CURATED_PRACTICE|TISSUE_FOUNDATIONS_CURATED_PRACTICE|OCULAR_ADNEXA_CURATED_PRACTICE|AQUEOUS_VITREOUS_CURATED_PRACTICE|BLOOD_SUPPLY_CURATED_PRACTICE|ENVIRONMENTAL_VISION_CURATED_PRACTICE|AUTONOMIC_PHARMACOLOGY_CURATED_PRACTICE|SYSTEMIC_PATHOLOGY_CURATED_PRACTICE|OPT370_SCHEMATIC_EYE_REFRACTIVE_STATES|OPT370_MULTIFOCAL_FOUNDATIONS|OPT370_PROGRESSIVE_ADDITION_LENSES|OPT370_PD_AND_DISPENSING|OPT370_SPECIAL_LENSES)=true/.test(
     readFileSync(file, 'utf8'),
   ));
 }
@@ -217,13 +217,17 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
   const pilotHashes = aqueousPilotHashes();
 
   return [
-    assertion('courses', courses.length === 5, `${courses.length} courses`),
-    assertion('modules', modules.length === 8, `${modules.length} modules`),
-    assertion('study-sections', sectionCount === 39, `${sectionCount} study sections`),
+    assertion('courses', courses.length === 6, `${courses.length} courses`),
+    assertion('modules', modules.length === 13, `${modules.length} modules`),
+    assertion('study-sections', sectionCount === 72, `${sectionCount} study sections`),
     assertion(
       'legacy-questions',
       legacyQuestionCount === 400
-        && modules.every((module) => questionsFor(module).length === 50),
+        && modules.filter((module) => module.facts.length > 0).length === 8
+        && modules.filter((module) => module.facts.length > 0)
+          .every((module) => questionsFor(module).length === 50)
+        && modules.filter((module) => module.courseId === 'dispensing-optics-ii')
+          .every((module) => questionsFor(module).length === 0),
       `${legacyQuestionCount} total; ${modules.map((module) => questionsFor(module).length).join(', ')} by module`,
     ),
     assertion('curated-questions', curatedQuestionCount === 680, String(curatedQuestionCount) + ' curated questions across eight modules'),
@@ -452,6 +456,21 @@ export function collectReleaseAssertions(): ReleaseAssertion[] {
         )
         && envExample.includes(
           'NEXT_PUBLIC_ENABLE_SYSTEMIC_PATHOLOGY_CURATED_PRACTICE=false',
+        )
+        && envExample.includes(
+          'NEXT_PUBLIC_ENABLE_OPT370_SCHEMATIC_EYE_REFRACTIVE_STATES=false',
+        )
+        && envExample.includes(
+          'NEXT_PUBLIC_ENABLE_OPT370_MULTIFOCAL_FOUNDATIONS=false',
+        )
+        && envExample.includes(
+          'NEXT_PUBLIC_ENABLE_OPT370_PROGRESSIVE_ADDITION_LENSES=false',
+        )
+        && envExample.includes(
+          'NEXT_PUBLIC_ENABLE_OPT370_PD_AND_DISPENSING=false',
+        )
+        && envExample.includes(
+          'NEXT_PUBLIC_ENABLE_OPT370_SPECIAL_LENSES=false',
         )
         && !envExample.includes('=true'),
       'All committed feature defaults are false.',

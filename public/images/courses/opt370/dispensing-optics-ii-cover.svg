@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="OPT 370 - Dispensing Optics II">
+<rect width="1200" height="675" fill="#F7FBFD"/>
+<rect x="0" y="0" width="1200" height="84" fill="#0F3D5E"/>
+<text x="52" y="55" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="white">OPT 370 - Dispensing Optics II</text>
+<g transform="translate(70 140)"><rect x="0" y="0" width="1060" height="430" rx="34" fill="#F4F8FB" stroke="#0F3D5E" stroke-width="6"/><circle cx="220" cy="215" r="120" fill="#D9EDF7" stroke="#0F3D5E" stroke-width="8"/><path d="M100 215 Q220 70 340 215 Q220 360 100 215 Z" fill="white" stroke="#0F3D5E" stroke-width="8"/><circle cx="220" cy="215" r="42" fill="#0F3D5E"/><path d="M450 95 h470 v70 h-470 z M450 200 h360 v55 h-360 z M450 295 h420 v55 h-420 z" fill="#0F3D5E" opacity=".85"/><text x="450" y="388" font-family="Arial" font-size="24" fill="#0F3D5E"><tspan x="450" dy="0">Schematic eye • Multifocals • Progressive lenses</tspan><tspan x="450" dy="32">PD • Dispensing quality • Special lenses</tspan></text></g>
+</svg>

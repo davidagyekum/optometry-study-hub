@@ -102,9 +102,9 @@ export const releaseManifestSchema = z.strictObject({
     migrationAddedByRelease: z.literal(false),
   }),
   content: z.strictObject({
-    courses: z.literal(5),
-    modules: z.literal(8),
-    studySections: z.literal(39),
+    courses: z.literal(6),
+    modules: z.literal(13),
+    studySections: z.literal(72),
     legacyQuestions: z.literal(400),
     curatedQuestions: z.literal(680),
     aqueousQuestions: z.literal(80),

@@ -1,0 +1,62 @@
+{
+  "moduleId": "schematic-eye-refractive-states",
+  "questions": 80,
+  "objectives": 12,
+  "counts": {
+    "sections": {
+      "emmetropia": 11,
+      "far-point-axial": 13,
+      "hyperopia": 11,
+      "myopia": 13,
+      "schematic-models": 12,
+      "vergence-paraxial": 20
+    },
+    "formats": {
+      "extended_matching": 7,
+      "image_hotspot": 5,
+      "image_label": 4,
+      "matching": 9,
+      "multiple_response": 10,
+      "open_response": 2,
+      "ordering": 7,
+      "short_answer": 4,
+      "single_best_answer": 26,
+      "true_false": 6
+    },
+    "bloom": {
+      "analyze": 7,
+      "apply": 35,
+      "create": 1,
+      "evaluate": 3,
+      "remember": 10,
+      "understand": 24
+    },
+    "difficulty": {
+      "advanced": 13,
+      "foundation": 22,
+      "intermediate": 45
+    },
+    "stimulus": {
+      "clinical_vignette": 9,
+      "comparison": 25,
+      "diagram": 9,
+      "error_analysis": 3,
+      "pathway": 7,
+      "text": 27
+    }
+  },
+  "objectiveCoverage": {
+    "schematic-eye-refractive-states-emmetropia-apply": 7,
+    "schematic-eye-refractive-states-emmetropia-explain": 4,
+    "schematic-eye-refractive-states-far-point-axial-apply": 7,
+    "schematic-eye-refractive-states-far-point-axial-explain": 6,
+    "schematic-eye-refractive-states-hyperopia-apply": 9,
+    "schematic-eye-refractive-states-hyperopia-explain": 2,
+    "schematic-eye-refractive-states-myopia-apply": 10,
+    "schematic-eye-refractive-states-myopia-explain": 3,
+    "schematic-eye-refractive-states-schematic-models-apply": 5,
+    "schematic-eye-refractive-states-schematic-models-explain": 7,
+    "schematic-eye-refractive-states-vergence-paraxial-apply": 8,
+    "schematic-eye-refractive-states-vergence-paraxial-explain": 12
+  }
+}

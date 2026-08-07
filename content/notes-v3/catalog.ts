@@ -22,6 +22,16 @@ const authoredNotesLoaders = {
     (await import('@/content/notes-v3/modules/human-visual-perception')).humanVisualPerceptionNotesV3,
   'systemic-pathology': async () =>
     (await import('@/content/notes-v3/modules/systemic-pathology')).systemicPathologyNotesV3,
+  'schematic-eye-refractive-states': async () =>
+    (await import('@/content/notes-v3/modules/schematic-eye-refractive-states')).schematicEyeRefractiveStatesNotesV3,
+  'multifocal-foundations': async () =>
+    (await import('@/content/notes-v3/modules/multifocal-foundations')).multifocalFoundationsNotesV3,
+  'progressive-addition-lenses': async () =>
+    (await import('@/content/notes-v3/modules/progressive-addition-lenses')).progressiveAdditionLensesNotesV3,
+  'pd-and-dispensing': async () =>
+    (await import('@/content/notes-v3/modules/pd-and-dispensing')).pdAndDispensingNotesV3,
+  'special-lenses': async () =>
+    (await import('@/content/notes-v3/modules/special-lenses')).specialLensesNotesV3,
 } satisfies Record<string, AuthoredNotesLoader>;
 
 export function hasAuthoredNotesV3(moduleId: string): boolean {

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="PAL functional zones">
+<rect width="1200" height="675" fill="#F7FCFB"/>
+<rect x="0" y="0" width="1200" height="84" fill="#0F5D5E"/>
+<text x="52" y="55" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="white">PAL functional zones</text>
+<text x="52" y="120" font-family="Arial" font-size="18" fill="#0F5D5E">Neutral assessment artwork - markers correspond to answer regions.</text>
+<path d="M350 125 Q600 70 850 125 L810 590 Q600 650 390 590 Z" fill="#EFEFEF" stroke="#0F5D5E" stroke-width="8"/>
+<path d="M440 150 Q600 105 760 150 L710 295 Q600 330 490 295 Z" fill="#D8F0ED"/>
+<path d="M545 280 Q600 260 655 280 L630 475 Q600 500 570 475 Z" fill="white" stroke="#0F5D5E" stroke-width="4"/>
+<path d="M480 475 Q600 430 720 475 L700 565 Q600 605 500 565 Z" fill="#D8F0ED"/>
+<path d="M390 300 Q500 345 520 530 L400 565 Z" fill="#D7D7D7"/>
+<path d="M810 300 Q700 345 680 530 L800 565 Z" fill="#D7D7D7"/>
+<circle cx="600" cy="151" r="18" fill="#0F5D5E" stroke="white" stroke-width="4"/><text x="600" y="158" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">A</text>
+<circle cx="600" cy="330" r="18" fill="#0F5D5E" stroke="white" stroke-width="4"/><text x="600" y="337" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">B</text>
+<circle cx="600" cy="513" r="18" fill="#0F5D5E" stroke="white" stroke-width="4"/><text x="600" y="520" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">C</text>
+<circle cx="330" cy="371" r="18" fill="#0F5D5E" stroke="white" stroke-width="4"/><text x="330" y="378" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">D</text>
+<circle cx="870" cy="371" r="18" fill="#0F5D5E" stroke="white" stroke-width="4"/><text x="870" y="378" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">E</text>
+</svg>

@@ -22,9 +22,9 @@ describe('previous quiz compatibility archive', () => {
     );
 
     expect(screen.getByRole('heading', { name: 'Previous quiz history' })).toBeInTheDocument();
-    expect(screen.getAllByText('No previous quiz activity on this device.')).toHaveLength(8);
+    expect(screen.getAllByText('No previous quiz activity on this device.')).toHaveLength(moduleMap.size);
     expect(screen.queryByRole('button', { name: /Start legacy quiz/i })).not.toBeInTheDocument();
-    expect(screen.getAllByRole('button', { name: 'Practice this module' })).toHaveLength(8);
+    expect(screen.getAllByRole('button', { name: 'Practice this module' })).toHaveLength(moduleMap.size);
   });
 
   it('resumes only an existing attempt and keeps a module-scoped route', () => {

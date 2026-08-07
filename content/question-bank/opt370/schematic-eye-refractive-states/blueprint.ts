@@ -1,0 +1,77 @@
+import type { QuestionBlueprint } from '@/lib/assessment/blueprint/types';
+
+export const schematicEyeRefractiveStatesContentBlueprint: QuestionBlueprint = {
+  id: 'schematic-eye-refractive-states-candidate-v1',
+  bankId: 'schematic-eye-refractive-states-candidate',
+  totalQuestions: 80,
+  sectionTargets: {
+    'emmetropia': 11,
+    'far-point-axial': 13,
+    'hyperopia': 11,
+    'myopia': 13,
+    'schematic-models': 12,
+    'vergence-paraxial': 20,
+  },
+  formatTargets: {
+    'extended_matching': 7,
+    'image_hotspot': 5,
+    'image_label': 4,
+    'matching': 9,
+    'multiple_response': 10,
+    'open_response': 2,
+    'ordering': 7,
+    'short_answer': 4,
+    'single_best_answer': 26,
+    'true_false': 6,
+  },
+  bloomTargets: {
+    'analyze': 7,
+    'apply': 35,
+    'create': 1,
+    'evaluate': 3,
+    'remember': 10,
+    'understand': 24,
+  },
+  difficultyTargets: {
+    'advanced': 13,
+    'foundation': 22,
+    'intermediate': 45,
+  },
+  stimulusTargets: {
+    'table': 0,
+    'clinical_vignette': 9,
+    'comparison': 25,
+    'diagram': 9,
+    'error_analysis': 3,
+    'pathway': 7,
+    'text': 27,
+  },
+  minimumHigherOrderShare: 46 / 80,
+  minimumQuestionsPerObjective: 2,
+};
+
+export const schematicEyeRefractiveStatesPracticeBlueprint = {
+  id: 'schematic-eye-refractive-states-practice-50-v1',
+  bankId: 'schematic-eye-refractive-states-candidate',
+  totalQuestions: 50,
+  sectionTargets: {
+    'emmetropia': 7,
+    'far-point-axial': 8,
+    'hyperopia': 7,
+    'myopia': 8,
+    'schematic-models': 7,
+    'vergence-paraxial': 13,
+  },
+  formatTargets: {
+    'single_best_answer': 17,
+    'true_false': 4,
+    'multiple_response': 6,
+    'ordering': 4,
+    'matching': 5,
+    'extended_matching': 4,
+    'image_hotspot': 3,
+    'image_label': 2,
+    'short_answer': 3,
+    'open_response': 2,
+  },
+} as const;

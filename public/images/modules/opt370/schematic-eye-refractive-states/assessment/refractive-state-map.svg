@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="Refractive state comparison">
+<rect width="1200" height="675" fill="#F7FBFD"/>
+<rect x="0" y="0" width="1200" height="84" fill="#0F3D5E"/>
+<text x="52" y="55" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="white">Refractive state comparison</text>
+<text x="52" y="120" font-family="Arial" font-size="18" fill="#0F3D5E">Neutral assessment artwork - markers correspond to answer regions.</text>
+<ellipse cx="210" cy="330" rx="145" ry="105" fill="#D9EDF7" stroke="#0F3D5E" stroke-width="6"/>
+<line x1="325" y1="250" x2="325" y2="410" stroke="#0F3D5E" stroke-width="7"/>
+<path d="M60 270 L185 330 L60 390" fill="none" stroke="#333" stroke-width="4"/>
+<circle cx="185" cy="330" r="8" fill="#333"/>
+<text x="210" y="480" text-anchor="middle" font-family="Arial" font-size="20" font-weight="700" fill="#0F3D5E">MYOPIA</text>
+<ellipse cx="600" cy="330" rx="145" ry="105" fill="#D9EDF7" stroke="#0F3D5E" stroke-width="6"/>
+<line x1="715" y1="250" x2="715" y2="410" stroke="#0F3D5E" stroke-width="7"/>
+<path d="M450 270 L600 330 L450 390" fill="none" stroke="#333" stroke-width="4"/>
+<circle cx="600" cy="330" r="8" fill="#333"/>
+<text x="600" y="480" text-anchor="middle" font-family="Arial" font-size="20" font-weight="700" fill="#0F3D5E">EMMETROPIA</text>
+<ellipse cx="990" cy="330" rx="145" ry="105" fill="#D9EDF7" stroke="#0F3D5E" stroke-width="6"/>
+<line x1="1105" y1="250" x2="1105" y2="410" stroke="#0F3D5E" stroke-width="7"/>
+<path d="M840 270 L1040 330 L840 390" fill="none" stroke="#333" stroke-width="4"/>
+<circle cx="1040" cy="330" r="8" fill="#333"/>
+<text x="990" y="480" text-anchor="middle" font-family="Arial" font-size="20" font-weight="700" fill="#0F3D5E">HYPEROPIA</text>
+<path d="M120 560 q35 -60 70 0 q-35 60 -70 0" fill="none" stroke="#0F3D5E" stroke-width="7"/>
+<path d="M1010 560 q-35 -60 -70 0 q35 60 70 0" fill="none" stroke="#0F3D5E" stroke-width="7"/>
+<circle cx="240" cy="283" r="18" fill="#0F3D5E" stroke="white" stroke-width="4"/><text x="240" y="290" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">A</text>
+<circle cx="600" cy="283" r="18" fill="#0F3D5E" stroke="white" stroke-width="4"/><text x="600" y="290" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">B</text>
+<circle cx="959" cy="283" r="18" fill="#0F3D5E" stroke="white" stroke-width="4"/><text x="959" y="290" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">C</text>
+<circle cx="144" cy="499" r="18" fill="#0F3D5E" stroke="white" stroke-width="4"/><text x="144" y="506" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">D</text>
+<circle cx="1055" cy="499" r="18" fill="#0F3D5E" stroke="white" stroke-width="4"/><text x="1055" y="506" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="white">E</text>
+</svg>
