@@ -199,20 +199,34 @@ export function createCuratedCompatibility({
     const profile = automaticBlueprint.profiles.find(
       (candidate) => candidate.id === selection.profileId,
     );
-    if (profile?.sectionTargets) {
+    const enforcesExactQuotaTargets = Boolean(
+      profile?.sectionTargets
+      && profile.formatTargets
+      && profile.difficultyTargets,
+    );
+    // Short-profile quota targets remain advisory unless the assembler is
+    // explicitly configured to enforce partial-profile targets.
+    const enforcesConstrainedTargets = enforcesExactQuotaTargets || Boolean(
+      automaticBlueprint.enforcePartialProfileTargets && profile?.sectionTargets,
+    );
+    if (enforcesConstrainedTargets && profile?.sectionTargets) {
       issues.push(...expectedCounts(sections, profile.sectionTargets, 'Section'));
     }
-    if (profile?.formatTargets) {
+    if (enforcesExactQuotaTargets && profile?.formatTargets) {
       issues.push(...expectedCounts(formats, profile.formatTargets, 'Format'));
     }
-    if (profile?.difficultyTargets) {
+    if (enforcesExactQuotaTargets && profile?.difficultyTargets) {
       issues.push(...expectedCounts(
         difficulties,
         profile.difficultyTargets,
         'Difficulty',
       ));
     }
-    if (profile && higherOrderCount < profile.higherOrderMinimum) {
+    if (
+      enforcesConstrainedTargets
+      && profile
+      && higherOrderCount < profile.higherOrderMinimum
+    ) {
       issues.push(sessionIssue(
         'PILOT_QUESTION_SET_MISMATCH',
         `Profile "${profile.id}" requires at least ${profile.higherOrderMinimum} Apply-or-higher questions.`,
@@ -220,7 +234,8 @@ export function createCuratedCompatibility({
       ));
     }
     if (
-      profile?.higherOrderMaximum !== undefined
+      enforcesConstrainedTargets
+      && profile?.higherOrderMaximum !== undefined
       && higherOrderCount > profile.higherOrderMaximum
     ) {
       issues.push(sessionIssue(

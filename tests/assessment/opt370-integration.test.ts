@@ -248,4 +248,32 @@ describe('OPT 370 Dispensing Optics II integration', () => {
       }
     }
   }, 30_000);
+
+  it('resumes deterministic quick and standard sessions without enforcing advisory targets', () => {
+    for (const { moduleId, experience } of fixtures) {
+      const registry = experience.registryBuilder();
+      if (!registry.ok) throw new Error(JSON.stringify(registry.issues));
+      for (const [profileId, count] of [
+        ['quick', 10],
+        ['standard', 25],
+      ] as const) {
+        for (let seedIndex = 0; seedIndex < 20; seedIndex += 1) {
+          const attempt = experience.definition.createAttempt({
+            profileId,
+            requestedCount: count,
+            seed: `${moduleId}-${profileId}-resume-${seedIndex}`,
+          }, createEmptyStoreV2(), registry.value);
+          if (!attempt.ok) {
+            throw new Error(`${moduleId}/${profileId}: ${JSON.stringify(attempt.issues)}`);
+          }
+          const validation = experience.definition.validateAttempt(attempt.value, registry.value);
+          if (!validation.ok) {
+            throw new Error(
+              `${moduleId}/${profileId}/seed-${seedIndex}: ${JSON.stringify(validation.issues)}`,
+            );
+          }
+        }
+      }
+    }
+  }, 30_000);
 });
